@@ -17,18 +17,21 @@ using System.Threading.Tasks;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
     // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/Task.cs
-    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System.Threading.Tasks/Task.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading.Tasks/Task.cs
 
     // "X:\opensource\github\WootzJs\WootzJs.Runtime\Threading\Tasks\Task.cs"
     // X:\opensource\github\SaltarelleCompiler\Runtime\CoreLib\Threading\Tasks\Task.cs
     // http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.aspx
+
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.cs
 
     // Task<TResult> (aka. promise).
 
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
     internal partial class __Task
     {
-        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task.cs
 
         public override string ToString()
         {
@@ -136,14 +139,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         public bool IsCompleted { get; internal set; }
 
-        public static Task<TResult> FromResult<TResult>(TResult result)
-        {
-            var t = new __Task<TResult>();
-
-            t.InternalSetCompleteAndYield(result);
-
-            return t;
-        }
 
 
         #region Factory

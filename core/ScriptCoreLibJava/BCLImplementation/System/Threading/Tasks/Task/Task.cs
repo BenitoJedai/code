@@ -50,10 +50,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
         }
 
 
-        public static Task<TResult> FromResult<TResult>(TResult result)
-        {
-            return new __Task<TResult> { Result = result, IsCompleted = true };
-        }
+      
 
 
         public Task ContinueWith(Action<Task> continuationAction)
