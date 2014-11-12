@@ -49,5 +49,59 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
         //public static Task<TResult> Unwrap<TResult>(this Task<Task<TResult>> task);
+
+
+
+
+        [Script]
+        sealed class InternalTaskExtensionsScope
+        {
+            [Obsolete("Special hint for JavaScript runtime, until scope sharing is implemented..")]
+            public Action InternalTaskExtensionsScope_function;
+
+            public void f()
+            {
+                this.InternalTaskExtensionsScope_function();
+            }
+        }
+
+        [Obsolete("scope sharing, do we have it yet?")]
+        public static Task Run(Action action)
+        {
+            // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Extensions\TaskAsyncExtensions.cs
+            // X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\TaskExtensions.cs
+
+            //return Task.Factory.StartNew(action);
+
+
+
+            //// ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncVoidMethodBuilder+<>c__DisplayClass2`2.<AwaitUnsafeOnCompleted>b__1
+            //type$O_b44J8AxbTiq5EFPbq1SVA.nicABsAxbTiq5EFPbq1SVA = function ()
+            //{
+            //  var a = [this];
+            //  a[0].yield.hCAABiRtYD2yr4CzwPIbLw();
+            //};
+
+
+            var xx = new InternalTaskExtensionsScope { InternalTaskExtensionsScope_function = action };
+
+
+            var x = new __Task<object>();
+
+            x.InternalInitializeInlineWorker(
+                new Action(xx.f),
+                //action,
+                default(object),
+                default(CancellationToken),
+                default(TaskCreationOptions),
+                TaskScheduler.Default
+            );
+
+
+            x.Start();
+
+            return (Task<object>)x;
+        }
     }
 }

@@ -419,6 +419,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                   }
             );
 
+
+            // what are we to return?
             return TargetTypeIndex;
         }
         #endregion

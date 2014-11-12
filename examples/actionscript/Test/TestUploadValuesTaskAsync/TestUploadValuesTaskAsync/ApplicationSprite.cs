@@ -13,17 +13,21 @@ namespace TestUploadValuesTaskAsync
         public ApplicationSprite()
         {
             // X:\jsc.svn\examples\actionscript\Test\TestWebClient\TestWebClient\ApplicationSprite.cs
+            // X:\jsc.svn\examples\actionscript\Test\TestWorkerUploadValuesTaskAsync\TestWorkerUploadValuesTaskAsync\ApplicationSprite.cs
+            // X:\jsc.svn\examples\actionscript\Test\TestUploadValuesTaskAsync\TestUploadValuesTaskAsync\ApplicationSprite.cs
 
             var t = new TextField
             {
                 autoSize = TextFieldAutoSize.LEFT,
-                text = "...",
+                text = "click me",
 
                 multiline = true
             }.AttachTo(this);
 
             t.click += async delegate
             {
+                // can we do it on the worker?
+
                 var _06000010_username = "";
 
                 var w = new WebClient();

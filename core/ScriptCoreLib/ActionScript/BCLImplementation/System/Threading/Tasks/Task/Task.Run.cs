@@ -13,6 +13,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
     internal partial class __Task
     {
+        // X:\jsc.svn\examples\actionscript\async\Test\TestAsyncTaskRun\TestAsyncTaskRun\ApplicationSprite.cs
 
         public static Task<TResult> Run<TResult>(Func<Task<TResult>> function)
         {
@@ -23,7 +24,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             if (function.Target != null)
                 throw new NotImplementedException("for now AIR supports only static thread starts..");
 
-            // X:\jsc.svn\examples\actionscript\async\Test\TestAsyncTaskRun\TestAsyncTaskRun\ApplicationSprite.cs
 
             var s = new TaskCompletionSource<TResult>();
 

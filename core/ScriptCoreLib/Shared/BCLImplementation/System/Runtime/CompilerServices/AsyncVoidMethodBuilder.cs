@@ -8,7 +8,9 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 {
     // http://referencesource.microsoft.com/#mscorlib/system/runtime/compilerservices/AsyncMethodBuilder.cs
+    // https://github.com/mono/mono/tree/master/mcs/class/corlib/System.Runtime.CompilerServices/AsyncVoidMethodBuilder.cs
     // see: http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.asyncvoidmethodbuilder(v=vs.110).aspx
+
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.AsyncVoidMethodBuilder")]
     internal class __AsyncVoidMethodBuilder : __IAsyncMethodBuilder
     {
@@ -19,6 +21,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
         // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Runtime.CompilerServices/AsyncVoidMethodBuilder.cs
 
         // struct!
+
+        // X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
 
         public static __AsyncVoidMethodBuilder Create()
         {
@@ -71,6 +75,24 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 
 
 
+
+
+
+        public void AwaitOnCompleted<TAwaiter, TStateMachine>(
+                 ref  TAwaiter awaiter,
+                 ref  TStateMachine stateMachine
+            )
+        {
+            //Console.WriteLine("__AsyncTaskMethodBuilder AwaitOnCompleted");
+
+            // whats the difference?
+            AwaitUnsafeOnCompleted(
+                ref awaiter,
+                ref stateMachine
+            );
+        }
+
+
         // X:\jsc.svn\examples\actionscript\async\Test\TestTaskDelay\TestTaskDelay\ApplicationSprite.cs
         // ApplicationSprite____ctor_b__4_d__0__MoveNext_06000024.__forwardref_583b1500_06000032(this);
         // public static function __forwardref_583b1500_06000012(ref_arg1:*):void
@@ -91,18 +113,25 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
             var xstateMachine = (__IAsyncStateMachine)stateMachine;
             var zstateMachine = xstateMachine;
 
-            Action yield = () => zstateMachine.MoveNext();
 
             //var xawaiter = (__INotifyCompletion)(object)awaiter;
             var xawaiter = (__INotifyCompletion)awaiter;
 
-            xawaiter.OnCompleted(
-                delegate
-                {
-                    //Console.WriteLine("__AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted  xawaiter.OnCompleted");
 
-                    yield();
-                }
+
+            //Action yield = () => zstateMachine.MoveNext();
+            Action yield = zstateMachine.MoveNext;
+
+            xawaiter.OnCompleted(
+                yield
+
+                // X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
+                //delegate
+                //{
+                //    //Console.WriteLine("__AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted  xawaiter.OnCompleted");
+
+                //    yield();
+                //}
             );
         }
 
