@@ -29,6 +29,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Net
 
         public Task<byte[]> UploadValuesTaskAsync(Uri address, NameValueCollection data)
         {
+            // X:\jsc.svn\examples\actionscript\Test\TestWorkerUploadValuesTaskAsync\TestWorkerUploadValuesTaskAsync\ApplicationSprite.cs
+            // https://forums.adobe.com/thread/1189679
+
             var xx = new TaskCompletionSource<byte[]>();
 
             // X:\jsc.svn\examples\actionscript\Test\TestUploadValuesTaskAsync\TestUploadValuesTaskAsync\ApplicationSprite.cs
@@ -90,6 +93,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Net
                     var e = new __UploadValuesCompletedEventArgs { Error = new Exception("ioError") };
                     //if (UploadValuesCompleted != null)
                     //    UploadValuesCompleted(this, (UploadValuesCompletedEventArgs)(object)e);
+
+                    throw e.Error;
                 };
 
 
@@ -105,6 +110,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Net
 
                     //if (UploadValuesCompleted != null)
                     //    UploadValuesCompleted(this, (UploadValuesCompletedEventArgs)(object)e);
+
+                    throw e.Error;
                 };
 
             loader.load(request);

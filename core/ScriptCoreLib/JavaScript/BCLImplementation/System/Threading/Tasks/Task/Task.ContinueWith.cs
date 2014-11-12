@@ -16,6 +16,24 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
+
+    internal partial class __Task 
+    {
+        public Task ContinueWith(Action<Task> continuationAction)
+        {
+            InternalOnCompleted(
+                delegate
+                {
+                    continuationAction(this);
+                }
+            );
+
+            // ?
+            return this;
+        }
+
+    }
+
     internal partial class __Task<TResult> : __Task
     {
 

@@ -78,7 +78,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
              ref  TStateMachine stateMachine
 )
         {
-            Console.WriteLine("__AsyncTaskMethodBuilder AwaitOnCompleted");
+            //Console.WriteLine("__AsyncTaskMethodBuilder AwaitOnCompleted");
+
+            // whats the difference?
+            AwaitUnsafeOnCompleted(
+                ref awaiter,
+                ref stateMachine
+            );
         }
 
         public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(

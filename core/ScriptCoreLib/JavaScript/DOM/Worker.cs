@@ -135,8 +135,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             }
 
-            Console.WriteLine("GetScriptApplicationSourceForInlineWorker "
-                + new { value });
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141112
+
+            //Console.WriteLine("GetScriptApplicationSourceForInlineWorker "
+            //    + new { value });
 
             return value;
         }
@@ -312,7 +315,14 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             bool[] MethodTargetObjectDataIsProgress,
             object[] MethodTargetObjectData,
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141112
+            object[] MethodTargetObjectDataTypes,
+
             object MethodTargetTypeIndex,
+
+
+            // set by ?
               string MethodToken,
             string MethodType,
 
@@ -416,19 +426,24 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 var MethodTargetTypeSerializableMembers = FormatterServices.GetSerializableMembers(MethodTargetType);
 
-                #region MethodTargetObjectDataIsProgress
                 // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
 
                 for (int i = 0; i < MethodTargetTypeSerializableMembers.Length; i++)
                 {
                     var xMember = MethodTargetTypeSerializableMembers[i] as FieldInfo;
                     var xObjectData = MethodTargetObjectData[i];
+
+                    var xMethodTargetObjectDataTypeIndex = MethodTargetObjectDataTypes[i];
+
+
                     var xIsProgress = MethodTargetObjectDataIsProgress[i];
 
                     // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServer\ChromeTCPServer\Application.cs
                     // does our chrome tcp server get the damn path?
-                    Console.WriteLine(new { xMember, xObjectData, xIsProgress });
+                    Console.WriteLine(new { xMember, xMethodTargetObjectDataTypeIndex, xObjectData, xIsProgress });
 
+                    #region MethodTargetObjectDataIsProgress
+                    // cant we use xMethodTargetObjectDataType instead?
                     if (xIsProgress)
                     {
 
@@ -449,8 +464,28 @@ namespace ScriptCoreLib.JavaScript.DOM
                             }
                         );
                     }
+                    #endregion
+
+                    else
+                    {
+                        var xMethodTargetObjectDataType = default(Type);
+                        if (xMethodTargetObjectDataTypeIndex != null)
+                            xMethodTargetObjectDataType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[xMethodTargetObjectDataTypeIndex]));
+
+                        // now we know the type. should we review it?
+
+                        if (xMethodTargetObjectDataType != null)
+                        {
+                            var scope2copy = FormatterServices.GetUninitializedObject(xMethodTargetObjectDataType);
+
+                            //shall we copy the members too?
+                            //FormatterServices.PopulateObjectMembers(scope2copy, scope2TypeSerializableMembers, scope2ObjectData);
+
+                            MethodTargetObjectData[i] = scope2copy;
+
+                        }
+                    }
                 }
-                #endregion
 
                 FormatterServices.PopulateObjectMembers(
                     MethodTarget,
@@ -472,6 +507,9 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // tested at
                 // X:\jsc.svn\examples\javascript\WorkerInsideSecondaryApplication\WorkerInsideSecondaryApplication\Application.cs
 
+
+                // X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
+                // why?
                 throw new InvalidOperationException(
                     new { MethodToken } + " function is not available at " + new { Native.worker.location.href }
                 );
@@ -599,6 +637,10 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
                 else if (MethodType == typeof(FuncOfObjectToObject).Name)
                 {
+
+                    Console.WriteLine("worker Task Run function call");
+
+
                     #region FuncOfObjectToObject
                     // X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
                     // X:\jsc.svn\examples\javascript\async\test\TestTaskRun\TestTaskRun\Application.cs
@@ -812,8 +854,14 @@ namespace ScriptCoreLib.JavaScript.DOM
                             object MethodTargetObjectData0 = e_data.MethodTargetObjectData;
                             var MethodTargetObjectData = (object[])MethodTargetObjectData0;
 
+                            object MethodTargetObjectDataTypes0 = e_data.MethodTargetObjectDataTypes;
+                            var MethodTargetObjectDataTypes = (object[])MethodTargetObjectDataTypes0;
+
                             object MethodTargetTypeIndex = e_data.MethodTargetTypeIndex;
+
+                            // set by?
                             string MethodToken = e_data.MethodToken;
+
                             string MethodType = e_data.MethodType;
 
 
@@ -882,7 +930,12 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                                 MethodTargetObjectDataIsProgress,
                                 MethodTargetObjectData,
+                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141112
+                                MethodTargetObjectDataTypes,
+
                                 MethodTargetTypeIndex,
+
+                                // set by ?
                                 MethodToken,
                                 MethodType,
 

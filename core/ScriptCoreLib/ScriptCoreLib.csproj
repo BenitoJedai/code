@@ -86,6 +86,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodBase.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAny.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\AsyncTaskMethodBuilder.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />

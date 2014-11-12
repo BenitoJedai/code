@@ -33,6 +33,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             Delegate xfunction = function;
 
 
+
+            // whatif the delegate is Action?
+            Console.WriteLine("enter InternalInitializeInlineWorker");
+
             // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
             // what happened? also, as interface cannot handle ull yet
 
@@ -47,6 +51,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             #region MethodToken
 
+
+            // X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
 
 
             if (xfunction.Target != null)
@@ -78,6 +84,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             #region MethodTargetTypeIndex
             var MethodTargetTypeIndex = default(object);
+
+
+
+            // shall we get level2 types accross
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141112
+            var MethodTargetObjectDataTypes = default(object[]);
+
             var MethodTargetObjectData = default(object[]);
             var MethodTargetObjectDataProgress = default(__IProgress<object>[]);
             var MethodTargetObjectDataIsProgress = default(bool[]);
@@ -111,6 +124,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                     MethodTargetObjectData = FormatterServices.GetObjectData(xfunction.Target, MethodTargetSerializableMembers);
 
                     // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
+                    MethodTargetObjectDataTypes = new object[MethodTargetObjectData.Length];
                     MethodTargetObjectDataProgress = new __IProgress<object>[MethodTargetObjectData.Length];
                     MethodTargetObjectDataIsProgress = new bool[MethodTargetObjectData.Length];
 
@@ -132,7 +146,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                             //var isString = MemberType == typeof(string);
                             //var isInt32 = MemberType == typeof(int);
                             var IsNumber = Expando.Of(MemberValue).IsNumber;
+
+                            // are we to send typeIndex to the other side for member reconstruction?
                             var TypeIndex = __Type.GetTypeIndex(MemberName, MemberType);
+
+                            MethodTargetObjectDataTypes[i] = TypeIndex;
 
                             //0:4812ms __Task scope { MemberName = scope1, isString = false, isInt32 = false } view-source:40687
                             //0:4814ms __Task scope { MemberName = e, isString = false, isInt32 = false } 
@@ -175,34 +193,47 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                             {
                                 if (scope2 != null)
                                 {
-                                    Console.WriteLine("will inspect scope2 as " + new { MemberName });
+                                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141112
+                                    // x:\jsc.svn\examples\javascript\test\testhoptothreadpoolawaitable\testhoptothreadpoolawaitable\application.cs
+
 
                                     var scope2Type = scope2.GetType();
                                     var scope2TypeSerializableMembers = FormatterServices.GetSerializableMembers(scope2Type);
-                                    var scope2ObjectData = FormatterServices.GetObjectData(scope2, scope2TypeSerializableMembers);
 
-                                    // the hacky way. later we need to refactor this a lot.
-                                    for (int ii = 0; ii < scope2ObjectData.Length; ii++)
+                                    if (scope2TypeSerializableMembers.Length > 0)
                                     {
-                                        var scope2FieldName = scope2TypeSerializableMembers[ii].Name;
-                                        var scope2value = scope2ObjectData[ii];
-                                        if (scope2value != null)
+                                        // are there any members?
+                                        Console.WriteLine("will inspect scope2 as " + new { MemberName, scope2TypeSerializableMembers.Length });
+                                        var scope2ObjectData = FormatterServices.GetObjectData(scope2, scope2TypeSerializableMembers);
+
+                                        // the hacky way. later we need to refactor this a lot.
+                                        for (int ii = 0; ii < scope2ObjectData.Length; ii++)
                                         {
-                                            var scope2IsDelegate = scope2value is Delegate;
-                                            if (scope2IsDelegate)
+                                            var scope2FieldName = scope2TypeSerializableMembers[ii].Name;
+
+                                            Console.WriteLine("scope: " + MemberName + "." + scope2FieldName);
+
+
+                                            var scope2value = scope2ObjectData[ii];
+                                            if (scope2value != null)
                                             {
-                                                scope2ObjectData[ii] = null;
+                                                var scope2IsDelegate = scope2value is Delegate;
+                                                if (scope2IsDelegate)
+                                                {
+                                                    scope2ObjectData[ii] = null;
 
-                                                Console.WriteLine("scope2 delegate discarded " + new { MemberName, scope2FieldName });
+                                                    Console.WriteLine("scope2 delegate discarded " + new { MemberName, scope2FieldName });
 
+                                                }
                                             }
                                         }
-                                    }
 
-                                    // um. lets remove typeinfo?
-                                    var scope2copy = FormatterServices.GetUninitializedObject(scope2Type);
-                                    FormatterServices.PopulateObjectMembers(scope2copy, scope2TypeSerializableMembers, scope2ObjectData);
-                                    MethodTargetObjectData[i] = scope2copy;
+                                        // um. lets remove typeinfo? 
+                                        // why? to get defaults?
+                                        var scope2copy = FormatterServices.GetUninitializedObject(scope2Type);
+                                        FormatterServices.PopulateObjectMembers(scope2copy, scope2TypeSerializableMembers, scope2ObjectData);
+                                        MethodTargetObjectData[i] = scope2copy;
+                                    }
                                 }
                             }
 
@@ -210,7 +241,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                             Console.WriteLine(
                                 "Task scope " +
-                                new { MemberName, IsString, IsNumber, IsDelegate, IsProgress, TypeIndex }
+                                new
+                                {
+                                    MemberName,
+                                    IsString,
+                                    IsNumber,
+                                    IsDelegate,
+                                    IsProgress,
+
+                                    // will 
+                                    TypeIndex
+                                }
                             );
                         }
                     }
@@ -311,9 +352,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
                         MethodTargetObjectDataIsProgress,
+
                         MethodTargetObjectData,
+
+                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141112
+                        MethodTargetObjectDataTypes,
+
                         MethodTargetTypeIndex,
 
+                        // set by ?
                         MethodToken,
                         MethodType,
 
@@ -451,6 +498,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                                      var zResult = FormatterServices.GetUninitializedObject(ResultType);
                                      var zResultTypeSerializableMembers = FormatterServices.GetSerializableMembers(ResultType);
 
+
+                                     // available for flash too yet?
                                      FormatterServices.PopulateObjectMembers(
                                          zResult,
                                          zResultTypeSerializableMembers,
@@ -568,6 +617,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                         var w = new WebClient();
 
+
+                        // continue with?
                         w.DownloadStringCompleted +=
                             (sender, args) =>
                             {

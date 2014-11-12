@@ -36,6 +36,8 @@ namespace JVMCLRHopToThreadPool
         [STAThread]
         public static void Main(string[] args)
         {
+            // X:\jsc.svn\examples\actionscript\Test\TestUploadValuesTaskAsync\TestUploadValuesTaskAsync\ApplicationSprite.cs
+
             // jsc needs to see args to make Main into main for javac..
 
 
