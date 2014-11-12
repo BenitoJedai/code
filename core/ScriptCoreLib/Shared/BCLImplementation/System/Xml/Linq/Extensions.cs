@@ -6,7 +6,9 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Xml.Linq
 {
-	[Script(Implements = typeof(global::System.Xml.Linq.Extensions))]
+    // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/System/Xml/Linq/Extensions.cs
+
+    [Script(Implements = typeof(global::System.Xml.Linq.Extensions))]
 	internal static class __Extensions
 	{
         public static IEnumerable<XElement> Elements<T>(IEnumerable<T> source) where T : XContainer
