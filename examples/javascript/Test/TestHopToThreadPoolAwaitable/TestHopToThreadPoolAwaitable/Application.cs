@@ -43,6 +43,7 @@ namespace TestHopToThreadPoolAwaitable
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+#if x
             new IHTMLButton { "invoke" }.AttachToDocument().onclick += async delegate
             {
                 await this.WebMethod2(
@@ -97,6 +98,10 @@ namespace TestHopToThreadPoolAwaitable
                 // the ultimate scope sharing
                 // isnt this the same exact problem we already solved with client transport helper?
 
+                // xml api is missing over here!
+                // yet we have XElement sync on fields with the service?
+
+                // can we create sub tasks? and wait for them?
                 var sw = Stopwatch.StartNew();
 
                 await this.WebMethod2(
@@ -108,7 +113,23 @@ namespace TestHopToThreadPoolAwaitable
 
                 //  0:9585ms done! {{ ManagedThreadId = 10, ElapsedMilliseconds = 547 }}
             };
+            #endif
 
+
+            new IHTMLButton { "invoke HopToThreadPoolAwaitable" }.AttachToDocument().onclick += async delegate
+            {
+                var fromUI = "hello world" + new { Thread.CurrentThread.ManagedThreadId };
+
+                await default(HopToThreadPoolAwaitable);
+
+                var sw = Stopwatch.StartNew();
+
+                await this.WebMethod2(
+                       @"hi " + new { Thread.CurrentThread.ManagedThreadId, fromUI }
+                );
+
+                Console.WriteLine("done! " + new { Thread.CurrentThread.ManagedThreadId, sw.ElapsedMilliseconds });
+            };
         }
 
     }
