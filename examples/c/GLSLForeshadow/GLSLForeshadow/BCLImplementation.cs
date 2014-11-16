@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using ScriptCoreLib;
 
 namespace GLSLForeshadow
@@ -119,9 +120,41 @@ namespace GLSLForeshadow
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
+        //  implementation for System.Threading.Thread not found - Void .ctor(System.Threading.ThreadStart)
+
+        __ThreadStart __ThreadStart;
+
+        public __Thread(ThreadStart e)
+        {
+            Console.WriteLine("__Thread ");
+            __ThreadStart = (__ThreadStart)(object)e;
+        }
+
+        public void Start()
+        {
+            Console.WriteLine("__Thread Start");
+
+            process_h._beginthread(__ThreadStart._method, stack_size: 0, arglist: null);
+        }
+
         public static void Sleep(int p)
         {
             windows_h.Sleep(p);
+        }
+    }
+
+    // delegates for C ?
+    [Script(Implements = typeof(global::System.Threading.ThreadStart))]
+    internal class __ThreadStart
+    {
+        public IntPtr _method;
+
+        //implementation for System.Threading.ThreadStart not found - Void.ctor(System.Object, IntPtr)
+        public __ThreadStart(object target, IntPtr method)
+        {
+            Console.WriteLine("__ThreadStart ");
+
+            this._method = method;
         }
     }
 

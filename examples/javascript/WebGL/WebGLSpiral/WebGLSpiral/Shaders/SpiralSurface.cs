@@ -15,6 +15,9 @@ namespace WebGLSpiral.Shaders
 
     public class SpiralSurface
     {
+        // https://software.intel.com/en-us/articles/setting-up-native-opengl-es-on-android-platforms
+        // https://software.intel.com/en-us/android/articles/intel-for-android-developers-learning-series-11opengl-es-support-performance-and-features
+
         public float ucolor_1;
         public float ucolor_2;
 

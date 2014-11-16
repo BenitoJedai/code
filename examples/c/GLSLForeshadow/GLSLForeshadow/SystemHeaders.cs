@@ -33,14 +33,19 @@ namespace GLSLForeshadow
         //);
 
         // http://stackoverflow.com/questions/1719784/c-programming-forward-variable-argument-list
+        // http://www.digitalmars.com/rtl/process.html
+        // The operating system passes arg to func when execution begins. arg can be any 32-bit value cast to void *.
+        // http://www.tenouk.com/ModuleS.html
+        // http://msdn.microsoft.com/en-us/library/kdzttdcb.aspx
+        public static object _beginthread(IntPtr start_address, uint stack_size,
 
-        //public static object _beginthread(IntPtr start_address, uint stack_size, object arglist)
-        public static object _beginthread(global::System.Action start_address, uint stack_size, object arglist)
+            // Argument list to be passed to a new thread, or NULL.
+            object arglist)
         {
             return default(object);
         }
 
-
+        //int _getpid(void);
     }
 
 

@@ -26,7 +26,7 @@ namespace GLSLForeshadow
     }
 
 
-    
+
 
     [Script]
     public unsafe class NativeClass1
@@ -39,10 +39,18 @@ namespace GLSLForeshadow
 
 
 
-
+        // CIW[OpCodes.Newobj] =
         public static void TheOtherThread()
         {
-            Console.WriteLine("TheOtherThread");
+            // what about thread pool
+            // we have our own BCL with us, like we did with android.
+
+            new ColoredText { Color = ConsoleColor.Cyan, Text = "TheOtherThread" }.ToConsole();
+
+            //Console.WriteLine("TheOtherThread");
+
+            Thread.Sleep(500);
+            Console.WriteLine("TheOtherThread done");
         }
 
         [Script(NoDecoration = true)]
@@ -71,28 +79,35 @@ namespace GLSLForeshadow
             Console.Write('s');
             Console.Write('c');
 
-            // C : unable to emit pop at 'GLSLForeshadow.NativeClass1.main'#005d: C : unable to emit call at 'GLSLForeshadow.NativeClass1.main'#0058: C : failure at GLSLForeshadow.process_h._beginthread : type not supported: System.Action ; consider adding [ScriptAttribute]
-            process_h._beginthread(TheOtherThread, 0, null);
+            Console.WriteLine();
 
+            // http://stackoverflow.com/questions/331536/windows-threading-beginthread-vs-beginthreadex-vs-createthread-c
+            // C : unable to emit pop at 'GLSLForeshadow.NativeClass1.main'#005d: C : unable to emit call at 'GLSLForeshadow.NativeClass1.main'#0058: C : failure at GLSLForeshadow.process_h._beginthread : type not supported: System.Action ; consider adding [ScriptAttribute]
+            // _beginthreadex initializes Certain CRT (C Run-Time) internals that CreateThread API would not do.
+            // http://wayback.archive.org/web/20100801061740/http://www.microsoft.com/msj/0799/win32/win320799.aspx
+            // http://stackoverflow.com/questions/12603407/how-to-return-a-value-from-beginthread-thread
+
+            // didnt jsc include opcode.ldftn for c yet?
+            // no not yet?
+            //process_h._beginthread(TheOtherThread, 0, null);
+            // http://www.digitalmars.com/rtl/process.html
+            var x = new Thread(TheOtherThread);
+
+            x.Start();
+
+            //Error: Can't create directory '/svn/p/jsc/code/db/transactions/8330-1.txn': Permission  
+            //Error:  denied  
 
 
             Console.Beep(1200, duration: 2000);
             Console.Beep(1000, duration: 2000);
             Console.Beep(1200, duration: 2000);
 
+            Console.WriteLine("done");
 
             return 0;
         }
 
-        private static void JaggedArrayTest()
-        {
-
-            //var aa = new[] 
-            //{
-            //    new object[] { "7", "8", "9" },
-            //    new object[] { "1" },
-            //};
-        }
 
 
     }
