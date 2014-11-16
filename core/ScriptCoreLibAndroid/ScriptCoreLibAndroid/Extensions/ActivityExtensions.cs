@@ -1,8 +1,7 @@
-﻿extern alias globalandroid;
-using globalandroid::android.app;
-using globalandroid::android.content;
-using globalandroid::android.widget;
-using globalandroid::java.lang;
+﻿using android.app;
+using android.content;
+using android.widget;
+using java.lang;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,7 @@ namespace ScriptCoreLib.Android.Extensions
 {
     public static class ActivityExtensions
     {
-        class f : globalandroid::java.lang.Runnable
+        class f : java.lang.Runnable
         {
             public Action y;
 
@@ -21,6 +20,11 @@ namespace ScriptCoreLib.Android.Extensions
                 y();
             }
         }
+
+
+        // used by ?
+        // X:\jsc.svn\examples\javascript\android\CallSetContentView\CallSetContentView\ApplicationWebService.cs
+        // X:\jsc.svn\examples\javascript\android\AndroidPINForm\AndroidPINForm\ApplicationWebService.cs
 
         public static Activity runOnUiThread(this Activity c, Action<Activity> y)
         {

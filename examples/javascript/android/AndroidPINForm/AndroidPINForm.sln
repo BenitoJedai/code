@@ -8,8 +8,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidPINForm", "AndroidPI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibAndroid.Windows.Forms", "..\..\..\..\core\ScriptCoreLibAndroid.Windows.Forms\ScriptCoreLibAndroid.Windows.Forms\ScriptCoreLibAndroid.Windows.Forms.csproj", "{1E76DCF2-267C-460B-A43F-E94F71C2C769}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra", "..\..\..\..\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra.csproj", "{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Assets|Mixed Platforms = Assets|Mixed Platforms
+		Assets|x86 = Assets|x86
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
@@ -18,6 +23,11 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Assets|Any CPU.ActiveCfg = Release|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Assets|x86.ActiveCfg = Release|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Assets|x86.Build.0 = Release|x86
 		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -28,6 +38,11 @@ Global
 		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Release|x86.ActiveCfg = Release|x86
 		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Release|x86.Build.0 = Release|x86
+		{1E76DCF2-267C-460B-A43F-E94F71C2C769}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{1E76DCF2-267C-460B-A43F-E94F71C2C769}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{1E76DCF2-267C-460B-A43F-E94F71C2C769}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1E76DCF2-267C-460B-A43F-E94F71C2C769}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{1E76DCF2-267C-460B-A43F-E94F71C2C769}.Assets|x86.ActiveCfg = Release|Any CPU
 		{1E76DCF2-267C-460B-A43F-E94F71C2C769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1E76DCF2-267C-460B-A43F-E94F71C2C769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E76DCF2-267C-460B-A43F-E94F71C2C769}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -38,6 +53,21 @@ Global
 		{1E76DCF2-267C-460B-A43F-E94F71C2C769}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1E76DCF2-267C-460B-A43F-E94F71C2C769}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1E76DCF2-267C-460B-A43F-E94F71C2C769}.Release|x86.ActiveCfg = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Assets|Mixed Platforms.ActiveCfg = Assets|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Assets|Mixed Platforms.Build.0 = Assets|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Assets|x86.ActiveCfg = Assets|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
