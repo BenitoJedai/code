@@ -250,6 +250,7 @@ namespace WebGLSpiral
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141007
 
                 // when shall we teach jsc to do this correctly?
+                // appview
                 (Native.window as dynamic).WebGLSpiralElement = Native.document.registerElement("x-webglspiral",
                      (WebGLSpiralElement e) =>
                      {

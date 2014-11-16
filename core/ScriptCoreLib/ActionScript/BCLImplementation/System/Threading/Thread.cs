@@ -20,6 +20,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Threading.Thread))]
     public class __Thread
     {
+        // X:\jsc.svn\examples\c\Test\TestThreadStart\TestThreadStart\BCLImplementation.cs
+
         // http://bitsofinfo.wordpress.com/2008/09/22/threads-in-as3-flex-actionscript/
         // http://stackoverflow.com/questions/11902863/can-actionscript-workers-be-used-to-play-generate-sounds-in-a-separate-thread
 
@@ -38,6 +40,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         // tested by x:\jsc.svn\examples\javascript\Test\TestThreadStartAsWebWorker\TestThreadStartAsWebWorker\Application.cs
         public __Thread(ParameterizedThreadStart t)
         {
+            // what about scope objects?
+
             if (t.Target != null)
                 throw new NotImplementedException("for now AIR supports only static thread starts..");
 
