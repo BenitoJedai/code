@@ -48,18 +48,20 @@ namespace JVMCLRHopToThreadPool
                typeof(object).AssemblyQualifiedName
             );
 
- //           Implementation not found for type import :
- //type: System.Threading.Tasks.Task
- //           method: System.Threading.Tasks.Task Run(System.Action)
- //           Did you forget to add the[Script] attribute?
- //           Please double check the signature!
+            //           Implementation not found for type import :
+            //type: System.Threading.Tasks.Task
+            //           method: System.Threading.Tasks.Task Run(System.Action)
+            //           Did you forget to add the[Script] attribute?
+            //           Please double check the signature!
 
 
-                       new { }.With(
+            new { }.With(
                 async scope =>
                 {
-                    //{ ManagedThreadId = 1 }
-                    //{ ManagedThreadId = 3 }
+                    //java.lang.Object, rt
+                    //{{ ManagedThreadId = 1 }}
+                    //System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+                    //{{ ManagedThreadId = 8 }}
 
 
                     Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId });

@@ -10,5 +10,10 @@ namespace ScriptCoreLib.Android.Manifest
     internal sealed class ActivityAttribute : Attribute
     {
         // tested by ?
+
+        // see also
+        // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\IntentFilterAttribute.cs
+        // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\Manifest\ApplicationMetaDataAttribute.cs
+
     }
 }

@@ -18,8 +18,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
         // X:\jsc.svn\examples\c\Test\TestThreadStart\TestThreadStart\BCLImplementation.cs
 
         // what about hoping to UI thread on android?
+        // X:\jsc.svn\examples\java\hybrid\JVMCLRHopToThreadPool\JVMCLRHopToThreadPool\Program.cs
         // X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
-
+        // X:\jsc.svn\examples\javascript\android\CallSetContentView\CallSetContentView\ApplicationWebService.cs
+        // how can we hop back?
+        // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\Extensions\ActivityExtensions.cs
+        // X:\jsc.svn\examples\javascript\android\AndroidPINForm\AndroidPINForm\ApplicationWebService.cs
 
         public java.lang.Thread InternalValue;
 

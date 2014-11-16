@@ -301,11 +301,17 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\SynchronizationContext.cs">
       <Link>BCLImplementation\System\Threading\SynchronizationContext.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task.cs">
-      <Link>BCLImplementation\System\Threading\Tasks\Task.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs">
       <Link>BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task\Task.cs">
+      <Link>BCLImplementation\System\Threading\Tasks\Task\Task.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs">
+      <Link>BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs">
+      <Link>BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs">
       <Link>BCLImplementation\System\Threading\Thread.cs</Link>
@@ -989,6 +995,7 @@
     <Compile Include="BCLImplementation\System\Web\HttpRequest.cs" />
     <Compile Include="BCLImplementation\System\Web\Profile\DefaultProfile.cs" />
     <Compile Include="BCLImplementation\System\Web\Profile\ProfileBase.cs" />
+    <Compile Include="Extensions\ActivityExtensions.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="javax\microedition\khronos\egl\EGLConfig.cs" />
     <Compile Include="javax\microedition\khronos\opengles\GL10.cs" />

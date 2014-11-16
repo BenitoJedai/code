@@ -119,7 +119,6 @@
     <Compile Include="ActionScript\Extensions\DisplayObjectContainerExtensions.cs" />
     <Compile Include="ActionScript\Extensions\ExternalInterfaceExtensions.cs" />
     <Compile Include="Android\CoreAndroidWebServiceActivity.cs" />
-    <Compile Include="Android\Extensions\ActivityExtensions.cs" />
     <Compile Include="Android\Extensions\ContextExtensions.cs" />
     <Compile Include="Android\Extensions\ViewExtensions.cs" />
     <Compile Include="Android\IntentFilterAttribute.cs" />
