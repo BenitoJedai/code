@@ -21,13 +21,26 @@ namespace GLSLForeshadow
     [Script(IsNative = true, Header = "process.h", IsSystemHeader = true)]
     public static class process_h
     {
+        // int     ThreadNr;                    // Number of threads started 
+        // _beginthread( BounceProc, 0, &ThreadNr );
+        // void BounceProc( void *pMyID )
+        // http://msdn.microsoft.com/en-us/library/kdzttdcb(v=vs.120).aspx
 
-        public static double sin(double e)
+        //        uintptr_t _beginthread( // NATIVE CODE
+        //   void( __cdecl* start_address)( void* ),
+        //   unsigned stack_size,
+        //   void* arglist 
+        //);
+
+        // http://stackoverflow.com/questions/1719784/c-programming-forward-variable-argument-list
+
+        //public static object _beginthread(IntPtr start_address, uint stack_size, object arglist)
+        public static object _beginthread(global::System.Action start_address, uint stack_size, object arglist)
         {
-            return default(double);
+            return default(object);
         }
 
-  
+
     }
 
 

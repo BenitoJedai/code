@@ -37,6 +37,14 @@ namespace GLSLForeshadow
         //ERROR: Cannot determine the location of the VS Common Tools folder.
 
 
+
+
+
+        public static void TheOtherThread()
+        {
+            Console.WriteLine("TheOtherThread");
+        }
+
         [Script(NoDecoration = true)]
         public static int main()
         {
@@ -62,6 +70,11 @@ namespace GLSLForeshadow
             Console.Write('j');
             Console.Write('s');
             Console.Write('c');
+
+            // C : unable to emit pop at 'GLSLForeshadow.NativeClass1.main'#005d: C : unable to emit call at 'GLSLForeshadow.NativeClass1.main'#0058: C : failure at GLSLForeshadow.process_h._beginthread : type not supported: System.Action ; consider adding [ScriptAttribute]
+            process_h._beginthread(TheOtherThread, 0, null);
+
+
 
             Console.Beep(1200, duration: 2000);
             Console.Beep(1000, duration: 2000);
