@@ -161,26 +161,39 @@ namespace ScriptCoreLib.Shared.IO
 
         public MemoryStream ReadToMemoryStream()
         {
+            Console.WriteLine("enter ReadToMemoryStream");
             var target = new MemoryStream();
 
-            var ns = this.BaseStream as NetworkStream;
+            var xNetworkStream = this.BaseStream as NetworkStream;
+
 
             var flag = true;
             while (flag)
             {
+                Console.WriteLine("ReadToMemoryStream before Write " + new { this.InternalBufferCount, xNetworkStream });
                 target.Write(this.InternalBuffer, 0, this.InternalBufferCount);
+                Console.WriteLine("ReadToMemoryStream after Write " + new { this.InternalBufferCount, xNetworkStream });
 
-                if (ns != null)
+                if (xNetworkStream != null)
                 {
+                    // what are the timeouts to be?
+                    xNetworkStream.ReadTimeout = 100;
+
+
                     this.InternalBufferCount = -1;
 
-                    if (!ns.DataAvailable)
+                    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\Sockets\NetworkStream.cs
+
+
+                    // I/System.Console(17511): ReadToMemoryStream Write { InternalBufferCount = 179 }
+
+                    if (!xNetworkStream.DataAvailable)
                     {
-                        Thread.Sleep(300);
+                        Thread.Sleep(100);
                         // are we sure?
                     }
 
-                    if (ns.DataAvailable)
+                    if (xNetworkStream.DataAvailable)
                     {
                         this.InternalBufferCount = this.BaseStream.Read(this.InternalBuffer, 0, InternalBufferCapacity);
                     }
@@ -188,8 +201,10 @@ namespace ScriptCoreLib.Shared.IO
                 else
                     this.InternalBufferCount = this.BaseStream.Read(this.InternalBuffer, 0, InternalBufferCapacity);
 
+                Console.WriteLine("ReadToMemoryStream " + new { this.InternalBufferCount });
                 flag = (this.InternalBufferCount > 0);
             }
+            Console.WriteLine("exit ReadToMemoryStream");
             return target;
         }
 

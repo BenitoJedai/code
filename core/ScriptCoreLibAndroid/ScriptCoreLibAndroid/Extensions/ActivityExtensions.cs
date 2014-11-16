@@ -9,8 +9,10 @@ using System.Text;
 
 namespace ScriptCoreLib.Android.Extensions
 {
+    [Script]
     public static class ActivityExtensions
     {
+        [Script]
         class f : java.lang.Runnable
         {
             public Action y;

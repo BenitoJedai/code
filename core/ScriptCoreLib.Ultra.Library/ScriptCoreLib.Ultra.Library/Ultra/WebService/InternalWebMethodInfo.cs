@@ -6,6 +6,7 @@ using System.Collections;
 using System.Web;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Extensions;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.Ultra.WebService
 {
@@ -189,10 +190,55 @@ namespace ScriptCoreLib.Ultra.WebService
         }
 
 
+
+
+
+
+
+        //I/System.Console(13599): exit InternalURLDecode { ElapsedMilliseconds = 47, Value = /xml/WebMethod2 }
+        //D/dalvikvm(13599): GC_CONCURRENT freed 394K, 6% free 8155K/8672K, paused 9ms+3ms, total 37ms
+
+
+
+        static class __InternalURLDecode_lookup
+        {
+            // Caused by: java.lang.ArrayIndexOutOfBoundsException: length=255; index=255
+
+            public static string[] xToUpper = new string[0xff + 1];
+            public static string[] xToLower = new string[0xff + 1];
+            public static string[] xi = new string[0xff + 1];
+
+            static __InternalURLDecode_lookup()
+            {
+
+                for (int i = 0; i <= 255; i++)
+                {
+                    // X:\jsc.svn\examples\javascript\android\Test\TestAndroidCryptoKeyGenerate\TestAndroidCryptoKeyGenerate\ApplicationWebService.cs
+                    // on android we shall try both?
+
+                    xToUpper[i] = "%" + i.ToString("x2").ToUpper();
+                    xToLower[i] = "%" + i.ToString("x2").ToLower();
+                    xi[i] = new string((char)i, 1);
+
+                }
+            }
+        }
+
+
         // called by?
         public static string InternalURLDecode(string Value)
         {
+            // X:\jsc.internal.git\compiler\jsc.meta\jsc.meta\Library\Templates\Java\InternalAndroidWebServiceActivity.cs
+
+            // https://docs.oracle.com/javase/7/docs/api/java/net/URLDecoder.html
+
+            // is this a slow method?
+
+            // X:\jsc.svn\examples\javascript\android\forms\AndroidHopToActivityThread\AndroidHopToActivityThread\ApplicationWebService.cs
+
             // http://stackoverflow.com/questions/6753901/httputility-urldecode-turns-2b-into-space-but-i-need-it-to-be
+
+            var sw = Stopwatch.StartNew();
 
             Console.WriteLine("enter InternalURLDecode " + new { Value });
 
@@ -204,13 +250,14 @@ namespace ScriptCoreLib.Ultra.WebService
                 // X:\jsc.svn\examples\javascript\android\Test\TestAndroidCryptoKeyGenerate\TestAndroidCryptoKeyGenerate\ApplicationWebService.cs
                 // on android we shall try both?
 
-                var xToUpper = "%" + i.ToString("x2").ToUpper();
-                var xToLower = "%" + i.ToString("x2").ToLower();
+                //var xToUpper = "%" + i.ToString("x2").ToUpper();
+                //var xToLower = "%" + i.ToString("x2").ToLower();
 
-                Value = Value.Replace(xToUpper, new string((char)i, 1));
-                Value = Value.Replace(xToLower, new string((char)i, 1));
+                Value = Value.Replace(__InternalURLDecode_lookup.xToUpper[i], __InternalURLDecode_lookup.xi[i]);
+                Value = Value.Replace(__InternalURLDecode_lookup.xToLower[i], __InternalURLDecode_lookup.xi[i]);
             }
 
+            Console.WriteLine("exit InternalURLDecode " + new { sw.ElapsedMilliseconds, Value });
             return Value;
         }
 

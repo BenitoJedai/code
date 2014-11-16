@@ -12,6 +12,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Form))]
     internal class __Form : __ContainerControl
     {
+        // "Microsoft is not planning to open source the client side .NET stack, which means certain pieces like the Windows Presentation Foundation (WPF) and Windows Forms won't be going open source, Somasegar confirmed."
+        // http://tech.slashdot.org/story/14/11/15/1442201/new-trial-brings-skype-to-some-browsers
+
         // tested by
         // X:\jsc.svn\examples\javascript\forms\FormsConfiguredAtWebService\FormsConfiguredAtWebService\ApplicationWebService.cs
         // X:\jsc.svn\examples\java\android\forms\FormsMessageBox\FormsMessageBox\ApplicationActivity.cs
