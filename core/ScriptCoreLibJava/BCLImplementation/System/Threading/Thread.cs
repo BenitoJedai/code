@@ -8,11 +8,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
     // http://referencesource.microsoft.com/#mscorlib/system/threading/thread.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading/Thread.cs
 
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Threading\Thread.cs
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Thread.cs
 
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
+        // X:\jsc.svn\examples\c\Test\TestThreadStart\TestThreadStart\BCLImplementation.cs
+
+        // what about hoping to UI thread on android?
+        // X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
+
+
         public java.lang.Thread InternalValue;
 
         [Script]
