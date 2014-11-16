@@ -13,6 +13,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
     [Script(Implements = typeof(global::System.IO.Stream))]
     public abstract class __Stream : __MarshalByRefObject, IDisposable
     {
+        public virtual int ReadTimeout { get; set; }
+
+
         public abstract long Seek(long offset, SeekOrigin origin);
 
         public abstract void SetLength(long value);

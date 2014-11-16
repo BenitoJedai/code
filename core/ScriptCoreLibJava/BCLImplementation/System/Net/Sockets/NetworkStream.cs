@@ -21,14 +21,24 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
         public global::java.io.OutputStream InternalOutputStream;
         public global::java.io.InputStream InternalInputStream;
 
-        // public virtual int ReadTimeout { get; set; }
         //public override int ReadTimeout { get; set; }
+        public override int ReadTimeout { get; set; }
+
+
+        public __NetworkStream()
+        {
+            this.ReadTimeout = 8000;
+        }
+
 
         //[Obsolete("does not work for android? why?")]
         public virtual bool DataAvailable
         {
             get
             {
+                // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Shared\IO\SmartStreamReader.cs
+
+
                 //I/System.Console(10354): { DataAvailable = false, ElapsedMilliseconds = 8229 }
                 //I/System.Console(10354): { ss = 0, DataAvailable = true, ElapsedMilliseconds = 8231 }
 
@@ -45,7 +55,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
                 // 3g network lags upto 3000ms?
                 // I/System.Console(28055): { DataAvailable = false, ElapsedMilliseconds = 8151 }
 
-                while (w.ElapsedMilliseconds < 8000)
+                while (w.ElapsedMilliseconds < this.ReadTimeout)
                 {
                     var ss = this.Read(buffer, 0, 0);
                     if (InternalDataAvailable())
