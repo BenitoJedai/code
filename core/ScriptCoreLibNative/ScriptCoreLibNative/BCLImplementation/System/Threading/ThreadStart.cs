@@ -10,7 +10,7 @@ namespace ScriptCoreLibNative.BCLImplementation.System
     // X:\jsc.svn\examples\c\Test\TestAction\TestAction\Program.cs
 
 	// A native delegate is a static function pointer
-    [Script(IsNative = true, Implements = typeof(global::System.Threading.ThreadStart))]
+    [Script(Implements = typeof(global::System.Threading.ThreadStart))]
     internal delegate void __ThreadStart();
 
 

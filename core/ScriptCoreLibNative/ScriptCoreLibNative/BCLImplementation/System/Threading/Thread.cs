@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLibNative.SystemHeaders;
 using System.Threading;
+using ScriptCoreLibNative.BCLImplementation.System.Reflection;
 
 namespace ScriptCoreLibNative.BCLImplementation.System.Threading
 {
@@ -39,6 +40,12 @@ namespace ScriptCoreLibNative.BCLImplementation.System.Threading
             //var arglist = new object[] { parameter };
 
             //process_h._beginthread(__ParameterizedThreadStart._method, stack_size: 0, arglist: parameter);
+
+
+            var __MethodInfo = (__MethodInfo)(object)__ParameterizedThreadStart.Method;
+
+            process_h._beginthread(
+                __MethodInfo.MethodToken, stack_size: 0, arglist: parameter);
         }
 
 
@@ -54,7 +61,11 @@ namespace ScriptCoreLibNative.BCLImplementation.System.Threading
         {
             Console.WriteLine("__Thread Start");
 
-            //process_h._beginthread(__ThreadStart._method, stack_size: 0, arglist: null);
+
+            var __MethodInfo = (__MethodInfo)(object)__ThreadStart.Method;
+
+            process_h._beginthread(
+                __MethodInfo.MethodToken, stack_size: 0, arglist: null);
         }
 
         public static void Sleep(int p)

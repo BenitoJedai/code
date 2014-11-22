@@ -35,5 +35,6 @@ namespace ScriptCoreLibNative.BCLImplementation.System
             };
         }
 
+        //public object DynamicInvoke(params object[] args);
     }
 }
