@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFunc", "TestFunc\TestFunc.csproj", "{FF74857E-5502-48B1-8E07-BED91C4E5DE8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E} = {1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibNative", "..\..\..\..\core\ScriptCoreLibNative\ScriptCoreLibNative\ScriptCoreLibNative.csproj", "{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF74857E-5502-48B1-8E07-BED91C4E5DE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF74857E-5502-48B1-8E07-BED91C4E5DE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF74857E-5502-48B1-8E07-BED91C4E5DE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF74857E-5502-48B1-8E07-BED91C4E5DE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
