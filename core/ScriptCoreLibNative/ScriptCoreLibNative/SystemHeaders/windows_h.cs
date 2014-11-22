@@ -9,6 +9,12 @@ namespace ScriptCoreLibNative.SystemHeaders
 	[Script(IsNative = true, Header = "Windows.h", IsSystemHeader = true)]
 	public static class windows_h
 	{
+        // http://msdn.microsoft.com/library/windows/desktop/ms685086.aspx
+        public static void ResumeThread(object hThread) { }
+        public static void SuspendThread(object hThread) { }
+
+
+
 		[Flags]
 		public enum SoundFlags
 		{

@@ -12,6 +12,11 @@ namespace ScriptCoreLibNative.SystemHeaders
 	[Script(IsNative = true, Header = "stdio.h", IsSystemHeader = true)]
 	public static class stdio_h
 	{
+        // http://msdn.microsoft.com/en-us/library/9yky46tz.aspx
+        public static void fflush(object stream = null)
+        { 
+        }
+
 		public static int getchar()
 		{
 			return default(int);
