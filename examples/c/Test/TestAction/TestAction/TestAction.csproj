@@ -62,7 +62,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemHeaders.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
@@ -81,7 +80,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
-start /WAIT cmd /C call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
+start /WAIT cmd /K call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
 popd</PostBuildEvent>
   </PropertyGroup>
 </Project>

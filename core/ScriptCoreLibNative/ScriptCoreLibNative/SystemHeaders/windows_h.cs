@@ -52,34 +52,37 @@ namespace ScriptCoreLibNative.SystemHeaders
 
 
 
-		/// <summary>
-		/// http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/windowing/windowclasses/windowclassreference/windowclassstructures/wndclassex.asp
-		/// </summary>
-		[Script(PointerName = "PWNDCLASSEX", HasNoPrototype = true)]
-		public class WNDCLASSEX
-		{
-			public static uint TypeSize
-			{
-				[Script(OptimizedCode = "return sizeof(WNDCLASSEX);")]
-				get
-				{
-					return default(uint);
-				}
-			}
 
-			public uint cbSize = TypeSize;
-			public uint style;
-			public IntPtr lpfnWndProc;
-			public int cbClsExtra;
-			public int cbWndExtra;
-			public int hInstance;
-			public int hIcon;
-			public int hCursor;
-			public int hbrBackground;
-			public string lpszMenuName;
-			public string lpszClassName;
-			public int hIconSm;
-		};
+        // TestAction.exe.c(776) : error C2084: function 'unsigned int WNDCLASSEX_get_TypeSize(void)' already has a body
+
+        ///// <summary>
+        ///// http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/windowing/windowclasses/windowclassreference/windowclassstructures/wndclassex.asp
+        ///// </summary>
+        //[Script(PointerName = "PWNDCLASSEX", HasNoPrototype = true)]
+        //public class WNDCLASSEX
+        //{
+        //    public static uint TypeSize
+        //    {
+        //        [Script(OptimizedCode = "return sizeof(WNDCLASSEX);")]
+        //        get
+        //        {
+        //            return default(uint);
+        //        }
+        //    }
+
+        //    public uint cbSize = TypeSize;
+        //    public uint style;
+        //    public IntPtr lpfnWndProc;
+        //    public int cbClsExtra;
+        //    public int cbWndExtra;
+        //    public int hInstance;
+        //    public int hIcon;
+        //    public int hCursor;
+        //    public int hbrBackground;
+        //    public string lpszMenuName;
+        //    public string lpszClassName;
+        //    public int hIconSm;
+        //};
 
 		public const long WS_EX_APPWINDOW = 0x00040000L;
 
@@ -100,7 +103,7 @@ namespace ScriptCoreLibNative.SystemHeaders
 	object lpParam
 ) { return default(int); }
 
-		public static int RegisterClassEx(WNDCLASSEX lpwcx) { return default(int); }
+        //public static int RegisterClassEx(WNDCLASSEX lpwcx) { return default(int); }
 		public static int GetLastError() { return default(int); }
 
 		public static int GetModuleHandle(string lpModuleName) { return default(int); }

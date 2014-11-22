@@ -10,6 +10,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/delegate.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Delegate.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Delegate.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Delegate.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Delegate.cs
+    // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Delegate.cs
 
 	[Script(Implements = typeof(global::System.Delegate))]
 	internal abstract class __Delegate
