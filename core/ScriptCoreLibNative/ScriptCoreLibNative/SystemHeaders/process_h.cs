@@ -20,6 +20,8 @@ namespace ScriptCoreLibNative.SystemHeaders
     [Script(IsNative = true, Header = "process.h", IsSystemHeader = true)]
     public static class process_h
     {
+        // http://msdn.microsoft.com/en-us/magazine/cc163327.aspx
+        // http://msdn.microsoft.com/en-us/library/windows/desktop/ms682456(v=vs.85).aspx
         // X:\jsc.svn\examples\c\Test\TestThreadStart\TestThreadStart\Program.cs
 
         // int     ThreadNr;                    // Number of threads started 

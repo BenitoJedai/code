@@ -5,11 +5,14 @@ using System;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
-    // X:\opensource\github\WootzJs\WootzJs.Runtime\String.cs
     // http://referencesource.microsoft.com/#mscorlib/system/string.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/String.cs
-    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\String.cs
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\String.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\String.cs
+    // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\String.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\String.cs
+
+    // X:\opensource\github\WootzJs\WootzJs.Runtime\String.cs
     // haha. Purpose: Your favorite String class.
 
     [Script(

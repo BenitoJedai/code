@@ -28,6 +28,8 @@ namespace ScriptCoreLibNative.BCLImplementation.System.Text
             // anonymous type is generic and thats why it may not exactly know the type
 
             // jsc rewriter should bake generics
+
+            // what if we knew which opcode loaded the value an where?
             Append("?");
 
             return this;

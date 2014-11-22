@@ -9,9 +9,21 @@ using ScriptCoreLibNative.BCLImplementation.System.Reflection;
 
 namespace ScriptCoreLibNative.BCLImplementation.System.Threading
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/threading/thread.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading/Thread.cs
+
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Threading\Thread.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Thread.cs
+    // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Threading\Thread.cs
+
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
+        // http://stackoverflow.com/questions/796217/what-is-the-difference-between-a-thread-and-a-fiber
+
+        // http://msdn.microsoft.com/en-us/library/xcb2z8hs.aspx
+
         ThreadStart __ThreadStart;
         ParameterizedThreadStart __ParameterizedThreadStart;
 
@@ -51,26 +63,71 @@ namespace ScriptCoreLibNative.BCLImplementation.System.Threading
 
         public __Thread(ThreadStart e)
         {
-            Console.WriteLine("__Thread ");
+            //if (e.Target != null)
+            //{
+            //    //throw new NotImplementedException("for now ScriptCoreLibNative supports only static thread starts..");
+            //    Console.WriteLine("for now ScriptCoreLibNative supports only static thread starts..");
+
+            //    return;
+            //}
+            //Console.WriteLine("__Thread ");
             __ThreadStart = e;
         }
 
+        [Script]
+        class InternalThreadStartArguments
+        {
+            // in C we can pass the delegate object and call it
+            public ThreadStart __ThreadStart;
+        }
 
+        static void Start(InternalThreadStartArguments e)
+        {
+            //Console.WriteLine("__Thread Start");
+
+            e.__ThreadStart();
+        }
 
         public void Start()
         {
-            Console.WriteLine("__Thread Start");
+            // X:\jsc.svn\examples\c\Test\TestFunc\TestFunc\Program.cs
+
+            //Console.WriteLine("__Thread Start");
 
 
-            var __MethodInfo = (__MethodInfo)(object)__ThreadStart.Method;
+            Action<InternalThreadStartArguments> r = Start;
 
-            process_h._beginthread(
-                __MethodInfo.MethodToken, stack_size: 0, arglist: null);
+            var __MethodInfo = (__MethodInfo)(object)r.Method;
+
+            // If successful, _beginthread returns the thread ID number of the new thread. It returns -1 to indicate an error.
+
+            InternalHandle = process_h._beginthread(
+                __MethodInfo.MethodToken, stack_size: 0, arglist: new InternalThreadStartArguments { __ThreadStart = this.__ThreadStart });
         }
+
+        public object InternalHandle;
 
         public static void Sleep(int p)
         {
             windows_h.Sleep(p);
         }
+
+        public void Resume()
+        {
+
+            windows_h.ResumeThread(
+                InternalHandle
+            );
+        }
+
+
+        public void Suspend()
+        {
+
+            windows_h.SuspendThread(
+                InternalHandle
+            );
+        }
+
     }
 }
