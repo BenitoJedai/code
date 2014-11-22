@@ -26,8 +26,13 @@ namespace ScriptCoreLibNative.BCLImplementation.System.IO
 		{
 
 
-			// we are doing manual virtual calls.. feel the pain yet?
-			this.__Stream_Write = (k, buffer, offset, count) => ((__FileStream)k).__Write(buffer, offset, count);
+            // we are doing manual virtual calls.. feel the pain yet?
+            // tested by?
+            // wont work with roslyn yet. works with 2012
+            // X:\jsc.svn\examples\c\Test\TestAction\TestAction\Program.cs
+            this.__Stream_Write = (k, buffer, offset, count) => ((__FileStream)k).__Write(buffer, offset, count);
+
+
 			this.__Stream_Close = k => ((__FileStream)k).__Close();
 
 		}
