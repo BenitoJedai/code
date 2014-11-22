@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib;
+using ScriptCoreLibNative.SystemHeaders;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System
+namespace ScriptCoreLibNative.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/object.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Object.cs
@@ -12,24 +14,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Object.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Object.cs
 
-    [Script(Implements = typeof(object))]
+    [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
-        [Script(OptimizedCode = "return a === b;")]
-        public static bool ReferenceEquals(object a, object b)
-        {
-            return default(bool);
-        }
 
+        // X:\jsc.svn\examples\c\Test\TestFunc\TestFunc\Program.cs
+        // for C runtime we would need to manager the virtual slots manually?
         public new virtual string ToString()
         {
-            return default(string);
-        }
-
-        [Script(DefineAsStatic = true)]
-        new public Type GetType()
-        {
-            return __Type.GetTypeFromValue(this);
+            return "global::System.Object";
         }
     }
+
 }

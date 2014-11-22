@@ -6,6 +6,7 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibNative.BCLImplementation.System
 {
+    // used by?
 	[Script(IsNative = true, Implements = typeof(global::System.EventHandler))]
 	internal delegate void __EventHandler(object sender, EventArgs e);
 }
