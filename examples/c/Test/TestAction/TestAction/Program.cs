@@ -83,6 +83,9 @@ namespace TestAction
                 //Console.WriteLine("hello there");
             };
 
+            // threadpool!
+
+
             // type not supported: System.Reflection.MethodInfo ; consider adding [ScriptAttribute]
             //var yMethod = y.Method;
 
@@ -107,7 +110,9 @@ namespace TestAction
             {
                 Console.WriteLine("has y.Method");
 
-                if (((__MethodInfo)yy.Method).MethodToken == null)
+                var f = ((__MethodInfo)yy.Method).MethodToken == null;
+
+                if (f)
                 {
                     Console.WriteLine("y.Method.MethodToken is null?");
                 }
@@ -126,7 +131,17 @@ namespace TestAction
             //    (/* typecast */(void(*)(void*))start0)((void*)"goo");
 
             // TestAction.exe.obj : error LNK2019: unresolved external symbol ScriptCoreLibNative_BCLImplementation_System___ParameterizedThreadStart_Invoke referenced in function main
-            //y("goo");
+
+            //     return  (long long)(/* typecast */(long long(*)(void*))__that->__Stream_get_Length)((void*)__that);
+
+            var ptr = ((__MethodInfo)yy.Method).MethodToken;
+            var ya = (Action<object>)(object)ptr;
+
+
+
+            ya("goo invoke");
+
+            y("goo");
 
 
             //// you really should not use headphones with PC speakers
@@ -160,13 +175,20 @@ namespace TestAction
             //// no not yet?
             ////process_h._beginthread(TheOtherThread, 0, null);
             //// http://www.digitalmars.com/rtl/process.html
-            //var x = new Thread(TheOtherThread);
+            var x = new Thread(
+                arg0 =>
+                //delegate()
+                {
+                    Console.WriteLine("new thread");
+                    Console.WriteLine((string)arg0);
+                }
+            );
 
-            //x.Start();
+            x.Start("arg0");
 
 
 
-            //Console.Beep(1200, duration: 2000);
+            Console.Beep(1200, duration: 2000);
             //Console.Beep(1000, duration: 2000);
             //Console.Beep(1200, duration: 2000);
 
