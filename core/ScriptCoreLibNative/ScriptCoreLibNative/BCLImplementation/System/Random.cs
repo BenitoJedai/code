@@ -9,6 +9,7 @@ namespace ScriptCoreLibNative.BCLImplementation.System
 	[Script(Implements = typeof(global::System.Random))]
 	internal class __Random
 	{
+        // tested by?
 		public int Next(int minValue, int maxValue)
 		{
 			return 0;
