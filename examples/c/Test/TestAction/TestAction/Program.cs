@@ -141,7 +141,7 @@ namespace TestAction
 
             ya("goo invoke");
 
-            y("goo");
+            y("goo, delegate invoke now works?");
 
 
             //// you really should not use headphones with PC speakers

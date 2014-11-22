@@ -1364,7 +1364,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         [Script(DefineAsStatic = true)]
         public void requestPointerLock()
         {
-
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuTPS\WebGLYomotsuTPS\Application.cs
             // tested by X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\Application.cs
             __requestPointerLock(this);
         }
