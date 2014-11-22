@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using System.Threading;
 using System.IO;
+using ScriptCoreLibNative.BCLImplementation.System.Reflection;
 
 namespace TestAction
 {
@@ -67,13 +68,65 @@ namespace TestAction
 
             // jsc is not doing the right thing here is it.
 
-            Action y = delegate
+            // TestAction_NativeClass1_CS___9__CachedAnonymousMethodDelegate1 = ScriptCoreLibNative_BCLImplementation_System___ParameterizedThreadStart__ctor_6000031(__new_ScriptCoreLibNative_BCLImplementation_System___ParameterizedThreadStart(1), (void*)NULL, (void*)TestAction_NativeClass1__main_b__0);
+
+            //// instance ScriptCoreLibNative.BCLImplementation.System.__ParameterizedThreadStart..ctor
+            //LPScriptCoreLibNative_BCLImplementation_System___ParameterizedThreadStart ScriptCoreLibNative_BCLImplementation_System___ParameterizedThreadStart__ctor_6000031(LPScriptCoreLibNative_BCLImplementation_System___ParameterizedThreadStart __that, void* object, void* method)
+            //{
+            //}
+
+            ParameterizedThreadStart y = o =>
             {
 
-                Console.WriteLine("hello there");
+                Console.WriteLine("hello there:");
+                Console.WriteLine((string)o);
+                //Console.WriteLine("hello there");
             };
 
-            y();
+            // type not supported: System.Reflection.MethodInfo ; consider adding [ScriptAttribute]
+            //var yMethod = y.Method;
+
+            Console.WriteLine("y.Method");
+
+            Delegate yy = y;
+
+            // System.Reflection.MethodInfo for Boolean op_Equality(System.Reflection.MethodInfo, System.Reflection.MethodInfo) used at
+            // x:\jsc.svn\examples\c\test\testaction\testaction\bin\release\web\testaction.exe.c(257) : warning C4716: 'ScriptCoreLibNative_BCLImplementation_System___ParameterizedThreadStart__ctor_6000031' : must return a value
+            // // instance ScriptCoreLibNative.BCLImplementation.System.__ParameterizedThreadStart..ctor
+            //LPScriptCoreLibNative_BCLImplementation_System___ParameterizedThreadStart ScriptCoreLibNative_BCLImplementation_System___ParameterizedThreadStart__ctor_6000031(LPScriptCoreLibNative_BCLImplementation_System___ParameterizedThreadStart __that, void* object, void* method)
+            //{
+            //}
+
+            // TestAction.exe.c(265) : warning C4133: 'function' : incompatible types - from 'LPScriptCoreLibNative_BCLImplementation_System___ParameterizedThreadStart' to 'LPScriptCoreLibNative_BCLImplementation_System___MulticastDelegate'
+
+            if ((object)yy.Method == null)
+            {
+                Console.WriteLine("y.Method is null?");
+            }
+            else
+            {
+                Console.WriteLine("has y.Method");
+
+                if (((__MethodInfo)yy.Method).MethodToken == null)
+                {
+                    Console.WriteLine("y.Method.MethodToken is null?");
+                }
+                else
+                {
+                    Console.WriteLine("has y.Method.MethodToken");
+                }
+            }
+
+
+            //yy.Method
+
+            //Console.WriteLine(y.Method);
+
+            // void* start0;
+            //    (/* typecast */(void(*)(void*))start0)((void*)"goo");
+
+            // TestAction.exe.obj : error LNK2019: unresolved external symbol ScriptCoreLibNative_BCLImplementation_System___ParameterizedThreadStart_Invoke referenced in function main
+            //y("goo");
 
 
             //// you really should not use headphones with PC speakers
