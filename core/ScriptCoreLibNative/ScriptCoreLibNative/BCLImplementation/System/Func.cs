@@ -9,6 +9,8 @@ namespace ScriptCoreLibNative.BCLImplementation.System
     // currently jsc supports only singlecast static delegats
     // marked with isnative
 
+    // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Func.cs
+
     [Script(Implements = typeof(global::System.Func<>))]
     internal delegate T1 __Func<T1>();
 

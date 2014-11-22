@@ -23,7 +23,7 @@ namespace ScriptCoreLibNative.BCLImplementation.System
 
         public __Delegate(object e, global::System.IntPtr p)
         {
-            Console.WriteLine("__Delegate.ctor");
+            //Console.WriteLine("__Delegate.ctor");
 
             // X:\jsc.svn\examples\c\Test\TestAction\TestAction\Program.cs
 

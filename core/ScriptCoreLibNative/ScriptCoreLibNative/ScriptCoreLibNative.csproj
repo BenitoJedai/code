@@ -59,12 +59,15 @@
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
     <Compile Include="BCLImplementation\System\Action.cs" />
+    <Compile Include="BCLImplementation\System\Collections\Generic\EqualityComparer.cs" />
     <Compile Include="BCLImplementation\System\Collections\Generic\List.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
+    <Compile Include="BCLImplementation\System\Object.cs" />
     <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
     <Compile Include="BCLImplementation\System\Reflection\MethodInfo.cs" />
+    <Compile Include="BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Threading\ParameterizedThreadStart.cs" />
     <Compile Include="BCLImplementation\System\Threading\ThreadStart.cs" />
     <Compile Include="BCLImplementation\System\EventArgs.cs" />
