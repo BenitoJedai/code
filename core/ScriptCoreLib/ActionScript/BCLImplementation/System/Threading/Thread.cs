@@ -21,6 +21,20 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Threading.Thread))]
     public class __Thread
     {
+        public static Thread CurrentThread
+        {
+            get
+            {
+
+                return (Thread)(object)new __Thread { };
+            }
+        }
+
+
+        // X:\jsc.svn\examples\actionscript\Test\TestWorkerConsole\TestWorkerConsole\ApplicationSprite.cs
+        public int ManagedThreadId { get; set; }
+
+
         // X:\jsc.svn\examples\actionscript\air\AIRThreadedSound\AIRThreadedSound\ApplicationSprite.cs
         // X:\jsc.svn\examples\actionscript\air\AIRAudioWorker\AIRAudioWorker\ApplicationSprite.cs
         // X:\jsc.svn\examples\c\Test\TestThreadStart\TestThreadStart\BCLImplementation.cs
@@ -36,6 +50,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         // X:\jsc.svn\examples\actionscript\Test\TestThreadStartInternalWorkerInvoke\TestThreadStartInternalWorkerInvoke\ApplicationSprite.cs
         // X:\jsc.svn\examples\actionscript\Test\TestThreadStart\TestThreadStart\ApplicationSprite.cs
 
+        public __Thread()
+            : this(null)
+        {
+
+        }
+
         #region ParameterizedThreadStart
         public ParameterizedThreadStart InternalParameterizedThreadStart;
 
@@ -45,15 +65,20 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             // what about scope objects?
 
-            if (t.Target != null)
-                throw new NotImplementedException("for now AIR supports only static thread starts..");
+            if (t != null)
+            {
+                // unless jsc adds scope sharing intel!
 
-            // it seems we should support scope sharing
-            // yet we implemented it in Task.Run instead.
-            // do we need to move it around?
-            // check with java and actionscript
+                if (t.Target != null)
+                    throw new NotImplementedException("for now AIR supports only static thread starts..");
 
-            InternalParameterizedThreadStart = t;
+                // it seems we should support scope sharing
+                // yet we implemented it in Task.Run instead.
+                // do we need to move it around?
+                // check with java and actionscript
+
+                InternalParameterizedThreadStart = t;
+            }
         }
 
         public Action<Worker> InternalBeforeStart;
