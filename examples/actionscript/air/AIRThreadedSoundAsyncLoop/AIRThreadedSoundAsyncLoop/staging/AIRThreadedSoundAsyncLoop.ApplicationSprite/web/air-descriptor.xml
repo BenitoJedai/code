@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/13.0">
+  <!--
+  https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140301
+  -->
+  
+  <!--<id>FlashWorkerExperiment</id>-->
+
+  <id>com.abstractatech.AIRThreadedSoundAsyncLoop</id>
+  
+  <versionNumber>2</versionNumber>
+  <filename>AIRThreadedSoundAsyncLoop</filename>
+  <name>AIRThreadedSoundAsyncLoop</name>
+  <description>
+    <text xml:lang="en">AIRThreadedSoundAsyncLoop</text>
+  </description>
+  <copyright>AIRThreadedSoundAsyncLoop</copyright>
+  <initialWindow>
+    <title>AIRThreadedSoundAsyncLoop</title>
+    <content>
+      AIRThreadedSoundAsyncLoop.ApplicationSprite.swf
+    </content>
+
+    <!--<autoOrients>false</autoOrients>-->
+    <autoOrients>true</autoOrients>
+    
+    <renderMode>direct</renderMode>
+    <depthAndStencil>true</depthAndStencil>
+    <fullScreen>false</fullScreen>
+    <visible>true</visible>
+    <!--<aspectRatio>landscape</aspectRatio>-->
+    <aspectRatio>any</aspectRatio>
+
+  </initialWindow>
+
+
+
+
+  <!-- 
+  
+  http://help.adobe.com/en_US/air/build/WSfffb011ac560372f2fea1812938a6e463-8000.html#WSfffb011ac560372f2fea1812938a6e463-7ff6
+  
+  Note: The icons specified are not automatically added to the AIR package. The icon files must be included in their correct relative locations when the application is packaged.
+  
+  -->
+  <icon>
+
+
+
+  </icon>
+
+
+
+  <iPhone>
+    <InfoAdditions>
+      <![CDATA[
+        <key>UIDeviceFamily</key>
+        <array>
+            <string>1</string>
+            <string>2</string>
+        </array>
+    ]]>
+    </InfoAdditions>
+  </iPhone>
+  
+</application>
