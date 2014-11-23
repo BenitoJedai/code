@@ -38,6 +38,11 @@ namespace AIRAudioWorker
 
             mySound.sampleData += e =>
                 {
+                    // does it work on tab?
+                    // lets attatch the tab to find out.
+                    // cmd /K c:\util\android-sdk-windows\platform-tools\adb.exe logcat
+                    // works at 60fps
+
                     for (var c = 0; c < 8192; c++)
                     {
                         e.data.writeFloat(Math.Sin(((c + e.position) / Math.PI / 2)) * 0.25);
