@@ -12,6 +12,8 @@ namespace net.hires.debug
             // http://www.flare3d.com/support/index.php?topic=1101.0
             // "X:\jsc.svn\examples\actionscript\synergy\net.hires.debug\net.hires.debug\net.hires.debug.csproj"
             // was this dependency built?
+
+            // Error	5	The type or namespace name 'Stats' could not be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\examples\actionscript\synergy\net.hires.debug\net.hires.debug\ApplicationSprite.cs	15	31	net.hires.debug
             this.addChild(new Stats());
         }
 

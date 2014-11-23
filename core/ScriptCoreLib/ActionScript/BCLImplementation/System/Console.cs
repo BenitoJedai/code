@@ -10,6 +10,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Console))]
     internal static class __Console
     {
+        // this is sync api.
+        // Beep
+
+
         // C:\Windows\system32\Macromed\Flash\NPSWF64_15_0_0_189.dll
 
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Console.cs

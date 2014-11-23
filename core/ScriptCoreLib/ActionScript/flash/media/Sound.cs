@@ -7,6 +7,7 @@ using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.flash.utils;
 using System.Threading.Tasks;
 using ScriptCoreLib.ActionScript.flash.media;
+using ScriptCoreLib.ActionScript.BCLImplementation.System;
 
 
 namespace ScriptCoreLib.ActionScript.Extensions.flash.media
@@ -47,7 +48,7 @@ namespace ScriptCoreLib.ActionScript.flash.media
 
         internal static Dictionary<Sound, SoundTasks> InternalLookup = new Dictionary<Sound, SoundTasks>();
 
-
+        SoundChannel sc;
         bool listening_sampleData;
         TaskCompletionSource<SampleDataEvent> awaiting_sampleData;
         int awaiting_sampleData_i;
@@ -58,6 +59,7 @@ namespace ScriptCoreLib.ActionScript.flash.media
         {
             get
             {
+
                 //await sampleData { listening_sampleData = false, awaiting_sampleData_i = 0 }
                 //  at sampleData { awaiting_sampleData_i = 1, awaiting_sampleData = [object __TaskCompletionSource_1] }
                 //  at exit sampleData { awaiting_sampleData_i = 1, awaiting_sampleData =  }
@@ -66,7 +68,7 @@ namespace ScriptCoreLib.ActionScript.flash.media
                 //await sampleData { listening_sampleData = true, awaiting_sampleData_i = 1 }
                 //await sampleData exit { awaiting_sampleData = [object __TaskCompletionSource_1] }
 
-                Console.WriteLine("await sampleData " + new { listening_sampleData, awaiting_sampleData_i });
+                //Console.WriteLine("await sampleData " + new { listening_sampleData, awaiting_sampleData_i });
                 var x = new TaskCompletionSource<SampleDataEvent>();
                 // sampleData not fired the second time?
 
@@ -81,7 +83,7 @@ namespace ScriptCoreLib.ActionScript.flash.media
                         {
                             awaiting_sampleData_i++;
 
-                            Console.WriteLine("  at sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
+                            //Console.WriteLine("  at sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
 
 
                             if (awaiting_sampleData != null)
@@ -94,7 +96,7 @@ namespace ScriptCoreLib.ActionScript.flash.media
                                 xx.SetResult(e);
                             }
 
-                            Console.WriteLine("  at exit sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
+                            //Console.WriteLine("  at exit sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
                         };
 
                     //mySound.play();
@@ -112,10 +114,16 @@ namespace ScriptCoreLib.ActionScript.flash.media
 
                 if (later_play)
                 {
-                    that_Sound.play();
+                    //that_Sound.play();
+
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/2014
+                    // await for the next frame
+                    __Task.Delay(1).ContinueWith(
+                        delegate { sc = that_Sound.play(); }
+                    );
                 }
 
-                Console.WriteLine("await sampleData exit " + new { awaiting_sampleData });
+                //Console.WriteLine("await sampleData exit " + new { awaiting_sampleData });
                 return x.Task;
             }
         }

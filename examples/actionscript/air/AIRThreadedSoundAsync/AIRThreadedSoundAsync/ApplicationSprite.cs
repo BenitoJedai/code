@@ -104,18 +104,50 @@ namespace AIRThreadedSoundAsync
                 }
             };
 
+
+            var listening_sampleData = false;
+
             var x_init = default(Action);
 
             x_init = delegate
             {
                 Console.WriteLine("await sampleData " + new
                 {
-                    //listening_sampleData,
+                    listening_sampleData,
                     awaiting_sampleData_i
                 });
                 awaiting_sampleData = new TaskCompletionSource<SampleDataEvent>();
 
+                if (!listening_sampleData)
+                {
+                    listening_sampleData = true;
 
+                    //can we have only the event in another thread?
+                    mySound.sampleData += e =>
+                    {
+                        // bail to keep log small
+                        //if (awaiting_sampleData_i >= 2)
+                        //    return;
+
+                        Console.WriteLine("  at sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
+
+
+                        //y(e);
+
+                        // why does this work yet the async variant not?
+                        awaiting_sampleData.SetResult(e);
+
+                        Console.WriteLine("  at exit sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
+                    };
+
+
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/2014
+                    // await for the next frame
+                    Task.Delay(1).ContinueWith(
+                        delegate { mySound.play(); }
+                    );
+
+                }
 
                 Console.WriteLine("await sampleData exit " + new { awaiting_sampleData });
                 // ??
@@ -135,21 +167,25 @@ namespace AIRThreadedSoundAsync
 
             x_init();
 
-            //can we have only the event in another thread?
-            mySound.sampleData += e =>
-            {
-                Console.WriteLine("  at sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
+            ////can we have only the event in another thread?
+            //mySound.sampleData += e =>
+            //{
+            //    // bail to keep log small
+            //    if (awaiting_sampleData_i >= 2)
+            //        return;
+
+            //    Console.WriteLine("  at sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
 
 
-                //y(e);
+            //    //y(e);
 
-                // why does this work yet the async variant not?
-                awaiting_sampleData.SetResult(e);
+            //    // why does this work yet the async variant not?
+            //    awaiting_sampleData.SetResult(e);
 
-                Console.WriteLine("  at exit sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
-            };
+            //    Console.WriteLine("  at exit sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
+            //};
 
-            mySound.play();
+            //mySound.play();
 
 
             //11ms await sampleData { listening_sampleData = false, awaiting_sampleData_i = 0 }

@@ -35,6 +35,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Threading.Tasks
             //Console.WriteLine("enter __TaskCompletionSource.SetResult");
             this.InternalTask.InternalSetCompleteAndYield(result);
         }
+
+
+        public override string ToString()
+        {
+            // X:\jsc.svn\examples\actionscript\air\AIRThreadedSoundAsync\AIRThreadedSoundAsync\ApplicationSprite.cs
+
+            return "TaskCompletionSource " + this.InternalTask;
+
+        }
     }
 
 
