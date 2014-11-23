@@ -97,6 +97,8 @@ namespace TestFunc
             //    )
             //);
 
+            // X:\jsc.svn\examples\java\hybrid\Test\JVMCLRThreadPool\JVMCLRThreadPool\Program.cs
+
             //TaskScheduler.Current.
             var tt = new Thread(
                 delegate()

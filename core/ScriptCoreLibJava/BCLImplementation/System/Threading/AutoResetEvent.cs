@@ -6,6 +6,9 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/threading/AutoResetEvent.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading/AutoResetEvent.cs
+
     [Script(Implements = typeof(global::System.Threading.AutoResetEvent))]
     internal class __AutoResetEvent : __EventWaitHandle
     {
