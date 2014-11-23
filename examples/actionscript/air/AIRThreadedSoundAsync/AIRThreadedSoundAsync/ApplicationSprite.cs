@@ -57,6 +57,8 @@ namespace AIRThreadedSoundAsync
 
                 text = "..."
                 //}.AttachTo(__Thread.InternalPrimordialSprite);
+
+                // .AsConsole
             }.AttachToSprite();
 
             //new Thread(
