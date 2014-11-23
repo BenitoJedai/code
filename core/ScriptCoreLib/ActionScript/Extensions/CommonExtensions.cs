@@ -13,6 +13,8 @@ using ScriptCoreLib.ActionScript.flash.utils;
 using System.IO;
 using ScriptCoreLib.ActionScript.BCLImplementation.System.IO;
 using ScriptCoreLib.ActionScript.flash.net;
+using ScriptCoreLib.ActionScript.flash.text;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.ActionScript.Extensions
 {
@@ -308,6 +310,43 @@ namespace ScriptCoreLib.ActionScript.Extensions
                 i.AttachTo(c);
 
             return e;
+        }
+
+
+
+
+
+        public static TextField AsConsole(this TextField x)
+        {
+            var sw = Stopwatch.StartNew();
+
+            // X:\jsc.svn\examples\actionscript\air\AIRThreadedSoundAsync\AIRThreadedSoundAsync\ApplicationSprite.cs
+
+            var history = new List<string>();
+
+            var w = new __Console.__OutWriter
+            {
+                AtWriteLine = z =>
+                {
+                    history.Add(sw.ElapsedMilliseconds + "ms " + z);
+
+
+                    if (history.Count > 16)
+                        history.RemoveAt(0);
+
+
+                    // System.String for System.String Join(System.String, System.String[]) used at
+                    x.text = string.Join(
+                        //Environment.NewLine, 
+                        "\n",
+
+                        history.ToArray());
+                }
+            };
+
+            Console.SetOut(w);
+
+            return x;
         }
     }
 }

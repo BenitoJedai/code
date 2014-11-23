@@ -395,5 +395,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             return this.Substring(this.Length - value.Length) == value;
         }
+
+
+
+        // X:\jsc.svn\core\ScriptCoreLib\ActionScript\Extensions\CommonExtensions.cs
+        [Script(OptimizedCode = @"return a1.join(a0);")]
+        static public string Join(string a0, string[] a1)
+        {
+            // X:\jsc.svn\examples\java\test\JVMCLRStringJoin\JVMCLRStringJoin\Program.cs
+            return default(string);
+        }
     }
 }

@@ -54,12 +54,16 @@ namespace AIRThreadedSoundAsync
 
             var t = new TextField
             {
+                multiline = true,
+
+                autoSize = TextFieldAutoSize.LEFT,
+
 
                 text = "..."
                 //}.AttachTo(__Thread.InternalPrimordialSprite);
 
                 // .AsConsole
-            }.AttachToSprite();
+            }.AttachToSprite().AsConsole();
 
             //new Thread(
             //    // jsc, whats the scope sharing analysis for this new block
@@ -77,14 +81,16 @@ namespace AIRThreadedSoundAsync
             // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/media/Sound.html
             var mySound = new Sound();
 
-            var i = 0;
+            var awaiting_sampleData_i = 0;
 
-            var x = default(TaskCompletionSource<SampleDataEvent>);
+            var awaiting_sampleData = default(TaskCompletionSource<SampleDataEvent>);
 
             Action<SampleDataEvent> y = e =>
             {
-                i++;
-                t.text = new { i } + " sampleData";
+                awaiting_sampleData_i++;
+                ////t.text = new { i } + " sampleData";
+                Console.WriteLine(new { awaiting_sampleData_i } + " sampleData");
+
 
 
                 // can we have framerate as audio?
@@ -102,9 +108,18 @@ namespace AIRThreadedSoundAsync
 
             x_init = delegate
             {
-                x = new TaskCompletionSource<SampleDataEvent>();
+                Console.WriteLine("await sampleData " + new
+                {
+                    //listening_sampleData,
+                    awaiting_sampleData_i
+                });
+                awaiting_sampleData = new TaskCompletionSource<SampleDataEvent>();
 
-                x.Task.ContinueWith(
+
+
+                Console.WriteLine("await sampleData exit " + new { awaiting_sampleData });
+                // ??
+                awaiting_sampleData.Task.ContinueWith(
                     tt =>
                     {
                         y(tt.Result);
@@ -116,23 +131,81 @@ namespace AIRThreadedSoundAsync
 
 
 
-            // reusable TaskCompletionSource ?
+            //reusable TaskCompletionSource ?
 
             x_init();
 
-
-            // can we have only the event in another thread?
+            //can we have only the event in another thread?
             mySound.sampleData += e =>
             {
+                Console.WriteLine("  at sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
 
 
                 //y(e);
 
-                x.SetResult(e);
+                // why does this work yet the async variant not?
+                awaiting_sampleData.SetResult(e);
 
+                Console.WriteLine("  at exit sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
             };
 
             mySound.play();
+
+
+            //11ms await sampleData { listening_sampleData = false, awaiting_sampleData_i = 0 }
+            //16ms   at sampleData { awaiting_sampleData_i = 1, awaiting_sampleData = [object __TaskCompletionSource_1] }
+            //17ms   at exit sampleData { awaiting_sampleData_i = 1, awaiting_sampleData =  }
+            //17ms await sampleData exit { awaiting_sampleData =  }
+            //20ms frame1 enter
+            //25ms frame1 complete
+            //25ms await sampleData { listening_sampleData = true, awaiting_sampleData_i = 1 }
+            //26ms await sampleData exit { awaiting_sampleData = [object __TaskCompletionSource_1] }
+
+            //await sampleData { listening_sampleData = true, awaiting_sampleData_i = 1 }
+            //await exit sampleData 
+
+#if xx
+            new { }.With(
+                async scope =>
+                {
+                    //          sampleData { listening_sampleData = false, awaiting_sampleData_i = 0 }
+                    //sampleData { listening_sampleData = true, awaiting_sampleData_i = 1 }
+
+
+
+                    {
+                        var e = await mySound.async.sampleData;
+                        Console.WriteLine("frame1 enter");
+                        y(e);
+                    }
+                    Console.WriteLine("frame1 complete");
+                    {
+
+                        var e = await mySound.async.sampleData;
+                        Console.WriteLine("frame2 enter");
+                        y(e);
+                    }
+                    Console.WriteLine("frame2 complete");
+
+                    {
+
+                        var e = await mySound.async.sampleData;
+                        y(e);
+                    }
+                    Console.WriteLine("frame3 complete");
+
+                    {
+
+                        // await mySound.async.sampleData2
+                        //Console.WriteLine("await mySound.async.sampleData2");
+                        var e = await mySound.async.sampleData;
+                        y(e);
+                    }
+                }
+            );
+#endif
+
+
 
 
             // call play automatically after subscribing?
