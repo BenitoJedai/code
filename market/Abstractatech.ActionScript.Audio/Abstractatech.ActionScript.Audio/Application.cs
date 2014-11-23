@@ -23,6 +23,7 @@ namespace Abstractatech.ActionScript.Audio
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        // script: error JSC1000: No implementation found for this native method, please implement [System.IO.BinaryReader.ReadSingle()]
 
         public readonly ApplicationSprite sprite = new ApplicationSprite();
 
@@ -36,6 +37,9 @@ namespace Abstractatech.ActionScript.Audio
             // Initialize ApplicationSprite
             sprite.AttachSpriteToDocument();
 
+
+            // how did it work before?
+#if v
 
             #region visualize
             Action<bool, byte[], Action<double, double, Action<double>, IWindow>> visualize_and_getpadding = null;
@@ -52,6 +56,8 @@ namespace Abstractatech.ActionScript.Audio
 
                     for (int i = 0; i < floats.Length; i++)
                     {
+                        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\BinaryReader.cs
+                        // do we do floats?
                         floats[i] = r.ReadSingle();
                     }
 
@@ -66,7 +72,7 @@ namespace Abstractatech.ActionScript.Audio
                     var paddingmode_red_grace = 411;
 
 
-                    #region max
+            #region max
                     var min = 0.0;
                     var minset = false;
 
@@ -106,10 +112,10 @@ namespace Abstractatech.ActionScript.Audio
 
                     var absmax = max.Max(Math.Abs(min));
 
-                    #endregion
+            #endregion
 
 
-                    #region paddingmode_yellow
+            #region paddingmode_yellow
                     for (int ix = 0; ix < floats.Length; ix += 2)
                     {
                         //                                    arg[0] is typeof System.Single
@@ -156,11 +162,11 @@ namespace Abstractatech.ActionScript.Audio
                         }
 
                     }
-                    #endregion
+            #endregion
 
                     // count down while near zero, then wait for zero
 
-                    #region paddingmode_red
+            #region paddingmode_red
                     for (int ix = floats.Length - 1; ix >= 0; ix -= 2)
                     {
                         var l0 = floats[ix];
@@ -202,9 +208,9 @@ namespace Abstractatech.ActionScript.Audio
                         }
 
                     }
-                    #endregion
+            #endregion
 
-                 
+
 
 
                     var w = new IWindow();
@@ -238,7 +244,7 @@ namespace Abstractatech.ActionScript.Audio
                                 var xw = new StringBuilder().Append("M0,400 ");
 
 
-               
+
 
 
 
@@ -256,11 +262,11 @@ namespace Abstractatech.ActionScript.Audio
                                 var samplesperchannel = samples / 2;
 
 
-                     
 
-                  
 
-                                #region xw
+
+
+            #region xw
                                 for (int ix = 0; ix < floats.Length; ix += 2)
                                 {
                                     //                                    arg[0] is typeof System.Single
@@ -272,7 +278,7 @@ namespace Abstractatech.ActionScript.Audio
 
 
 
-                                   
+
 
 
 
@@ -292,9 +298,9 @@ namespace Abstractatech.ActionScript.Audio
 
                                     //Console.WriteLine("" + ReadFloat32(i));
                                 }
-                                #endregion
+            #endregion
 
-                                #region xw_loop2
+            #region xw_loop2
                                 var xw_loop2 = new StringBuilder();
 
                                 for (int ix = paddingsamples_yellow * 2; ix < floats.Length - paddingsamples_red * 2; ix += 2)
@@ -313,7 +319,7 @@ namespace Abstractatech.ActionScript.Audio
                                         xw_loop2.Append(" L" + ((2 * (samplesperchannel - paddingsamples_red - paddingsamples_yellow) * scalex) + ((ix + 1) * scalex)) + "," + iy);
 
                                 }
-                                #endregion
+            #endregion
 
 
                                 // A frame rate of 44,100 is 44,100 samples per SECOND, or 44.1 kHz.
@@ -384,12 +390,9 @@ namespace Abstractatech.ActionScript.Audio
 
 
 
-            page.PlayDiesel.onclick += delegate
-            {
-                sprite.PlayDiesel();
-            };
+      
 
-
+            #region f
             Func<IHTMLButton, Action<string, PlayAtAndAllowToStop>> f =
                 x =>
                      (base64, playat) =>
@@ -456,6 +459,7 @@ namespace Abstractatech.ActionScript.Audio
                              }
                          );
                      };
+            #endregion
 
 
             page.VisualizeDiesel.WhenClicked(
@@ -465,15 +469,42 @@ namespace Abstractatech.ActionScript.Audio
                 }
             );
 
+            page.VisualizeHelicopter.onclick += delegate
+            {
+                sprite.BytesForHelicopter(f(page.VisualizeHelicopter));
+            };
+
+            page.VisualizeJeep.onclick += delegate
+            {
+                sprite.BytesForJeep(f(page.VisualizeJeep));
+
+            };
+
+            page.VisualizeTone.onclick += delegate
+            {
+
+                sprite.BytesForTone(f(page.VisualizeTone));
+
+            };
+
+            page.VisualizeSandrun.onclick += delegate
+            {
+
+                sprite.BytesForSandrun(f(page.VisualizeSandrun));
+
+            };
+#endif
+
+            page.PlayDiesel.onclick += delegate
+            {
+                sprite.PlayDiesel();
+            };
+
             page.PlayHelicopter.onclick += delegate
             {
                 sprite.Playhelicopter1();
             };
 
-            page.VisualizeHelicopter.onclick += delegate
-            {
-                sprite.BytesForHelicopter(f(page.VisualizeHelicopter));
-            };
 
 
             page.PlayJeep.onclick += delegate
@@ -482,11 +513,7 @@ namespace Abstractatech.ActionScript.Audio
             };
 
 
-            page.VisualizeJeep.onclick += delegate
-            {
-                sprite.BytesForJeep(f(page.VisualizeJeep));
 
-            };
 
 
 
@@ -496,13 +523,6 @@ namespace Abstractatech.ActionScript.Audio
             };
 
 
-            page.VisualizeTone.onclick += delegate
-            {
-
-                sprite.BytesForTone(f(page.VisualizeTone));
-
-            };
-
 
 
             page.PlaySandrun.onclick += delegate
@@ -511,12 +531,7 @@ namespace Abstractatech.ActionScript.Audio
             };
 
 
-            page.VisualizeSandrun.onclick += delegate
-            {
 
-                sprite.BytesForSandrun(f(page.VisualizeSandrun));
-
-            };
         }
 
     }

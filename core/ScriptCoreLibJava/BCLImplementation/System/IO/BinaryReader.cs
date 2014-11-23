@@ -9,8 +9,10 @@ using ScriptCoreLib.Shared.BCLImplementation.System;
 namespace ScriptCoreLibJava.BCLImplementation.System.IO
 {
     // http://referencesource.microsoft.com/#mscorlib/system/io/binaryreader.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.IO/BinaryReader.cs
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\BinaryReader.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\BinaryReader.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\IO\BinaryReader.cs
 
 	[Script(Implements = typeof(global::System.IO.BinaryReader))]
 	internal class __BinaryReader : __IDisposable

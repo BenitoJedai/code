@@ -44,6 +44,9 @@
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="net.hires.debug">
+      <HintPath>..\packages\net.hires.debug.1.0.0.0\lib\net.hires.debug.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -129,6 +132,9 @@
     <EmbeddedResource Include="web\assets\Abstractatech.ActionScript.Audio\tone_sin_100hz.mp3" />
     <EmbeddedResource Include="web\assets\Abstractatech.ActionScript.Audio\jeepengine.mp3" />
     <EmbeddedResource Include="web\assets\Abstractatech.ActionScript.Audio\helicopter1.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

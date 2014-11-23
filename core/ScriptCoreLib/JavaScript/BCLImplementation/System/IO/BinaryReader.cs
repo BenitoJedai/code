@@ -8,12 +8,16 @@ using ScriptCoreLib.JavaScript.DOM;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
     // http://referencesource.microsoft.com/#mscorlib/system/io/binaryreader.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.IO/BinaryReader.cs
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\BinaryReader.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\BinaryReader.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\IO\BinaryReader.cs
 
     [Script(Implements = typeof(global::System.IO.BinaryReader))]
     internal class __BinaryReader
     {
+        // X:\jsc.svn\market\Abstractatech.ActionScript.Audio\Abstractatech.ActionScript.Audio\Application.cs
+
         private Stream m_stream;
 
         private byte[] m_buffer;
@@ -133,6 +137,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
         }
 
         public virtual double ReadDouble()
+        {
+            throw new NotSupportedException();
+        }
+
+        public virtual float ReadSingle()
         {
             throw new NotSupportedException();
         }
