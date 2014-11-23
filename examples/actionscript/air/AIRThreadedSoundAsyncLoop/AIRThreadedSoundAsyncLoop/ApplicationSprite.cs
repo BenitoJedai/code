@@ -14,15 +14,6 @@ namespace AIRThreadedSoundAsyncLoop
 {
     public sealed class ApplicationSprite : Sprite
     {
-        //      method: CompareTo
-        //      Object reference not set to an instance of an object.
-        // at System.Collections.Generic.Dictionary`2.Insert(TKey key, TValue value, Boolean add)
-        //at System.Collections.Generic.Dictionary`2.set_Item(TKey key, TValue value)
-        //at jsc.Script.CompilerBase.DIACache.GetVariableName(Type t, MethodBase m, LocalVariableInfo var, CompilerBase z) in x:\jsc.internal.git\compiler\jsc\Languages\CompilerBase.DIA.cs:line 264
-        //at jsc.Script.CompilerBase.<WriteVariableName>b__0(Type t, MethodBase m, LocalVariableInfo v) in x:\jsc.internal.git\compiler\jsc\Languages\CompilerBase.DIA.cs:line 289
-        //at jsc.Script.CompilerBase.<>c__DisplayClass5.<>c__DisplayClass8.<WriteVariableName>b__2(LocalVariableInfo vx) in x:\jsc.internal.git\compiler\jsc\Languages\CompilerBase.DIA.cs:line 303
-
-
         // X:\jsc.svn\examples\actionscript\air\AIRAudioWorker\AIRAudioWorker\ApplicationSprite.cs
 
         // would jsc be able to translate it into
@@ -82,7 +73,7 @@ namespace AIRThreadedSoundAsyncLoop
 
 
 
-            var t = new Thread(
+            var tt = new Thread(
                 async arg0 =>
             {
                 var s = new Sound();
@@ -105,7 +96,7 @@ namespace AIRThreadedSoundAsyncLoop
             }
             );
             
-            t.Start(null);
+            tt.Start(null);
 
 
 
