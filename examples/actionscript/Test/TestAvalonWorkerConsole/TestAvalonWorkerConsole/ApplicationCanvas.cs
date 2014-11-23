@@ -1,38 +1,37 @@
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared.Avalon.Extensions;
 using System;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Xml;
+using System.Xml.Linq;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using ScriptCoreLib.ActionScript.Extensions;
-using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.flash.text;
-using ScriptCoreLib.Extensions;
 
-namespace TestWorkerConsole
+namespace TestAvalonWorkerConsole
 {
-    public sealed class ApplicationSprite : Sprite
+    public class ApplicationCanvas : Canvas
     {
-        public ApplicationSprite()
+        public readonly Rectangle r = new Rectangle();
+
+        public ApplicationCanvas()
         {
-            //X:\jsc.svn\examples\actionscript\air\AIRThreadedSoundAsyncLoop\AIRThreadedSoundAsyncLoop\ApplicationSprite.cs
+            r.Opacity = 0.5;
 
-
-            var t = new TextField
-            {
-                multiline = true,
-
-                //backgroundColor = 0xff000000u,
-                //textColor = 0xffffffffu,
-
-                autoSize = TextFieldAutoSize.LEFT,
-
-                text = "..."
-
-                // X:\jsc.svn\examples\actionscript\Test\TestWorkerConsole\TestWorkerConsole\ApplicationSprite.cs
-            }.AttachToSprite().AsConsole();
+            r.Fill = Brushes.Red;
+            r.AttachTo(this);
+            r.MoveTo(8, 8);
+            this.SizeChanged += (s, e) => r.SizeTo(this.Width - 16.0, this.Height - 16.0);
 
             Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId });
 
-            t.click += async delegate
+
+            this.MouseLeftButtonUp += async delegate
             {
                 // X:\jsc.svn\examples\actionscript\Test\TestWorkerConsole\TestWorkerConsole\ApplicationSprite.cs
 
@@ -62,8 +61,6 @@ namespace TestWorkerConsole
 
                 Console.WriteLine("exit click " + new { x, Thread.CurrentThread.ManagedThreadId, sw.ElapsedMilliseconds });
             };
-
-
 
         }
 
