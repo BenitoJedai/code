@@ -72,7 +72,9 @@ namespace AIRThreadedSoundAsyncLoop
             new net.hires.debug.Stats().AttachToSprite();
 
 
-
+            // can we loose the arg0
+            // can we print to console from thread?
+            // can we share and sync scope variables?
             var tt = new Thread(
                 async arg0 =>
             {
@@ -83,6 +85,7 @@ namespace AIRThreadedSoundAsyncLoop
                 {
                     var e = await s.async.sampleData;
 
+                    // can we get the pitch from another device over lan?
                     // can we have framerate as audio?
                     for (var c = 0; c < 8192; c++)
                     {
