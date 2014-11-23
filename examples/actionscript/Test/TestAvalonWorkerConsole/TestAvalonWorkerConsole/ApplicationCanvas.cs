@@ -21,6 +21,8 @@ namespace TestAvalonWorkerConsole
 
         public ApplicationCanvas()
         {
+            // http://highfieldtales.wordpress.com/2011/06/01/renovating-a-collada-viewer-application-part-i/
+
             r.Opacity = 0.5;
 
             r.Fill = Brushes.Red;
@@ -30,6 +32,7 @@ namespace TestAvalonWorkerConsole
 
             Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId });
 
+            //r.Dispatcher.InvokeAsync(
 
             this.MouseLeftButtonUp += async delegate
             {
