@@ -50,6 +50,7 @@ namespace ScriptCoreLib.ActionScript.flash.media
 
         bool listening_sampleData;
         TaskCompletionSource<SampleDataEvent> awaiting_sampleData;
+        int awaiting_sampleData_i;
 
         [System.Obsolete("should jsc expose events as async tasks until C# chooses to allow that?")]
         // shall we add on prefix or not?
@@ -57,8 +58,20 @@ namespace ScriptCoreLib.ActionScript.flash.media
         {
             get
             {
-                var later_play = false;
+                //await sampleData { listening_sampleData = false, awaiting_sampleData_i = 0 }
+                //  at sampleData { awaiting_sampleData_i = 1, awaiting_sampleData = [object __TaskCompletionSource_1] }
+                //  at exit sampleData { awaiting_sampleData_i = 1, awaiting_sampleData =  }
+                //await sampleData exit { awaiting_sampleData =  }
+                //frame1 complete
+                //await sampleData { listening_sampleData = true, awaiting_sampleData_i = 1 }
+                //await sampleData exit { awaiting_sampleData = [object __TaskCompletionSource_1] }
 
+                Console.WriteLine("await sampleData " + new { listening_sampleData, awaiting_sampleData_i });
+                var x = new TaskCompletionSource<SampleDataEvent>();
+                // sampleData not fired the second time?
+
+                var later_play = false;
+                #region listening_sampleData
                 if (!listening_sampleData)
                 {
                     listening_sampleData = true;
@@ -66,25 +79,32 @@ namespace ScriptCoreLib.ActionScript.flash.media
                     that_Sound.sampleData +=
                         e =>
                         {
+                            awaiting_sampleData_i++;
+
+                            Console.WriteLine("  at sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
+
+
                             if (awaiting_sampleData != null)
                             {
+
                                 var xx = awaiting_sampleData;
                                 awaiting_sampleData = null;
 
                                 // allow awaiting_sampleData to be set again 
                                 xx.SetResult(e);
                             }
+
+                            Console.WriteLine("  at exit sampleData " + new { awaiting_sampleData_i, awaiting_sampleData });
                         };
 
                     //mySound.play();
                     later_play = true;
-
                 }
+                #endregion
 
 
                 // X:\jsc.svn\examples\actionscript\air\AIRThreadedSound\AIRThreadedSound\ApplicationSprite.cs
 
-                var x = new TaskCompletionSource<SampleDataEvent>();
 
 
                 // we support one awaiter at the same time for now
@@ -95,6 +115,7 @@ namespace ScriptCoreLib.ActionScript.flash.media
                     that_Sound.play();
                 }
 
+                Console.WriteLine("await sampleData exit " + new { awaiting_sampleData });
                 return x.Task;
             }
         }

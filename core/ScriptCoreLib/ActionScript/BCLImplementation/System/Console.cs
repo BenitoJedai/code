@@ -98,8 +98,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         }
 
         [Script]
-        class __OutWriter : TextWriter
+        public class __OutWriter : TextWriter
         {
+            public Action<string> AtWriteLine;
+
             static StringBuilder WriteLinePending = new StringBuilder();
 
 
@@ -116,6 +118,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
                     WriteLinePending = new StringBuilder();
 
                 var n = x + value;
+
+                // X:\jsc.svn\examples\actionscript\air\AIRThreadedSoundAsync\AIRThreadedSoundAsync\ApplicationSprite.cs
+                if (AtWriteLine != null)
+                    AtWriteLine(n);
 
                 trace(n);
             }
