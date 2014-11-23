@@ -12,6 +12,8 @@ namespace ScriptCoreLib.ActionScript.flash.media
     [Script(IsNative = true)]
     public class Sound : EventDispatcher
     {
+        // X:\jsc.svn\examples\actionscript\air\AIRAudioWorker\AIRAudioWorker\ApplicationSprite.cs
+
 		#region Properties
 		/// <summary>
 		/// [read-only] Returns the currently available number of bytes in this sound object.
