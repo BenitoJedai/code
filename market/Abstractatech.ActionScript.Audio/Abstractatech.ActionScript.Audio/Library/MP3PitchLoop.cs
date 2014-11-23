@@ -16,6 +16,8 @@ namespace Abstractatech.ActionScript.Audio
 {
     public class MP3PitchLoop
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\ThreadPool.cs
+
         //public const double MAGIC_DELAY = 2257.0; // LAME 3.98.2 + flash.media.Sound Delay
         //public double MAGIC_DELAY = 0; // LAME 3.98.2 + flash.media.Sound Delay
 
