@@ -276,6 +276,25 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return e;
         }
 
+
+        // 20141123
+        // we now know the stage
+        public static T AttachToSprite<T>(this T e) where T : DisplayObject
+        {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/2014
+            // X:\jsc.svn\examples\actionscript\air\AIRThreadedSoundAsync\AIRThreadedSoundAsync\ApplicationSprite.cs
+
+            e.AttachTo(
+                __Thread.InternalPrimordialSprite
+            );
+
+
+            //c.addChild(e);
+
+            return e;
+        }
+
+
         public static T AttachTo<T>(this T e, DisplayObjectContainer c) where T : DisplayObject
         {
             c.addChild(e);
