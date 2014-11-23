@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.flash.media;
 namespace ScriptCoreLib.ActionScript.Extensions.flash.media
 {
     [Script(Implements = typeof(Sound))]
-    internal static class __Sound
+    internal static partial class __Sound
     {
 		#region Implementation for methods marked with [Script(NotImplementedHere = true)]
 		#region complete

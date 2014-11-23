@@ -27,7 +27,16 @@ namespace AIRThreadedSound
 
         public ApplicationSprite()
         {
+            // GearVR native api available
+            // for AIR via http://www.adobe.com/devnet/air/articles/extending-air.html
 
+            // http://blog.aboutme.be/2011/12/14/udp-native-extension-for-air-mobile-now-with-android-support/
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140310
+            // http://16bit.signt.com/post/31487077697/extendable-as3-worker-class
+            // http://performancebydesign.blogspot.com/2011/11/measuring-thread-execution-state-using.html
+            // http://16bit.signt.com/post/31601682385/utilizing-multiple-worker-in-as3
+            // http://www.blixtsystems.com/2010/11/audio-mixing-on-air-for-android/
+            // http://coenraets.org/blog/2010/07/voicenotes-for-android-sample-app-using-flex-air-and-the-microphone-api/
 
 
             new Thread(
@@ -45,6 +54,7 @@ namespace AIRThreadedSound
                 // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/media/Sound.html
                 var mySound = new Sound();
 
+                    // would it make any sense to use the async workflow instead?
                 mySound.sampleData += e =>
                 {
                     // does it work on tab?
@@ -53,6 +63,7 @@ namespace AIRThreadedSound
                     // works at 60fps
                     // works!
                     // could we add the nuget packages at runtime?
+                    // /jsc the debugger view
 
                     for (var c = 0; c < 8192; c++)
                     {
@@ -63,6 +74,7 @@ namespace AIRThreadedSound
                         e.data.writeFloat(Math.Sin(((c + e.position) / Math.PI / 2)) * 0.1);
                     }
                 };
+
                 mySound.play();
 
             }
