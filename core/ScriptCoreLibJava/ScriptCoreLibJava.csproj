@@ -117,6 +117,8 @@
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\CryptoStream.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\CspParameters.cs" />
+    <Compile Include="BCLImplementation\System\Threading\RegisteredWaitHandle.cs" />
+    <Compile Include="BCLImplementation\System\Threading\ThreadPool.cs" />
     <Compile Include="BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs" />
     <Compile Include="BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
     <Compile Include="BCLImplementation\System\Threading\Tasks\Task\Task.cs" />
