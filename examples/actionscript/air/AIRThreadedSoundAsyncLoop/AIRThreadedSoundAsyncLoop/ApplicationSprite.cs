@@ -51,6 +51,8 @@ namespace AIRThreadedSoundAsyncLoop
                 autoSize = TextFieldAutoSize.LEFT,
 
                 text = "..."
+
+                // X:\jsc.svn\examples\actionscript\Test\TestWorkerConsole\TestWorkerConsole\ApplicationSprite.cs
             }.AttachToSprite().AsConsole();
 
             //new Thread(
@@ -78,6 +80,10 @@ namespace AIRThreadedSoundAsyncLoop
             var tt = new Thread(
                 async arg0 =>
             {
+                // jsc shall augment the scope so we can sync it between contexts
+
+
+
                 var s = new Sound();
                 //var sw = System.Diagnostics.Stopwatch.StartNew();
 
@@ -98,7 +104,7 @@ namespace AIRThreadedSoundAsyncLoop
                 }
             }
             );
-            
+
             tt.Start(null);
 
 

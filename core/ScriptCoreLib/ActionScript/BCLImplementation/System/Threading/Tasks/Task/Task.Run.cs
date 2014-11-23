@@ -18,8 +18,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         // X:\jsc.svn\examples\c\Test\TestThreadStart\TestThreadStart\BCLImplementation.cs
         // X:\jsc.svn\examples\actionscript\async\Test\TestAsyncTaskRun\TestAsyncTaskRun\ApplicationSprite.cs
 
-
-
+        // X:\jsc.svn\examples\actionscript\Test\TestWorkerConsole\TestWorkerConsole\ApplicationSprite.cs
+        //!! tell jsc we do ExpectScopeSharing so we would know how to sync scope fields
         public static Task<TResult> Run<TResult>(Func<Task<TResult>> function)
         {
             // what about nested workers?
@@ -54,17 +54,29 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
             // X:\jsc.svn\examples\actionscript\Test\TestThreadStartInternalWorkerInvoke\TestThreadStartInternalWorkerInvoke\ApplicationSprite.cs
 
+            #region fromWorkerConsole
+            var fromWorkerConsole = w.createMessageChannel(Worker.current);
+            w.setSharedProperty("fromWorkerConsole", fromWorkerConsole);
+            fromWorkerConsole.channelMessage += e =>
+            {
+                var data = (string)fromWorkerConsole.receive();
+
+                // X:\jsc.svn\examples\actionscript\Test\TestWorkerConsole\TestWorkerConsole\ApplicationSprite.cs
+                Console.WriteLine(data);
+            };
+            #endregion
+
+
+
+
             var fromWorker = w.createMessageChannel(Worker.current);
-
             w.setSharedProperty("fromWorker", fromWorker);
-
             fromWorker.channelMessage += e =>
             {
                 var data = (TResult)fromWorker.receive();
 
                 s.SetResult(data);
             };
-
 
             w.start();
 
@@ -80,6 +92,21 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
             if (magic != "Run(Func<Task<TResult>>)")
                 return false;
+
+            #region xfromWorkerConsole
+            // X:\jsc.svn\examples\actionscript\Test\TestWorkerConsole\TestWorkerConsole\ApplicationSprite.cs
+            var xfromWorkerConsole = (MessageChannel)Worker.current.getSharedProperty("fromWorkerConsole");
+
+            var w = new __Console.__OutWriter
+            {
+                AtWriteLine = z =>
+                {
+                    xfromWorkerConsole.send(z);
+                }
+            };
+
+            Console.SetOut(w);
+            #endregion
 
 
             var FunctionToken_TypeFullName = (string)Worker.current.getSharedProperty("FunctionToken_TypeFullName");
