@@ -25,7 +25,7 @@ namespace TestWorkerUploadValuesTaskAsync
                 text = "click me",
 
                 multiline = true
-            }.AttachTo(this);
+            }.AttachToSprite().AsConsole();
 
 
 
@@ -35,7 +35,7 @@ namespace TestWorkerUploadValuesTaskAsync
                 // can we do it on the worker?
                 // X:\jsc.svn\examples\java\hybrid\JVMCLRHopToThreadPool\JVMCLRHopToThreadPool\Program.cs
 
-                t.text = "clicked!";
+                Console.WriteLine("clicked!");
 
 
                 var xdata = await Task.Run(
@@ -43,10 +43,7 @@ namespace TestWorkerUploadValuesTaskAsync
                     async delegate
                 {
                     var _06000010_username = "";
-                    // wtf ths wont work in worker?
                     // http://stackoverflow.com/questions/13979805/adobe-air-worker-cant-load-file
-                    // wont work?
-                    // makes workers useless?
 
                     var w = new WebClient();
 
@@ -59,7 +56,7 @@ namespace TestWorkerUploadValuesTaskAsync
                                             { "_06000002_psw", ""},
 
                                    // the token keeps chaning!
-                                   { "WebMethodMetadataToken", "06000008"},
+                                   { "WebMethodMetadataToken", "06000009"},
                                             { "WebMethodMetadataName", "WebMethod2"}
                                         }
                         );
@@ -72,7 +69,9 @@ namespace TestWorkerUploadValuesTaskAsync
 
                 // 
                 //t.text = "UploadValuesCompleted " + new { Result.Length } + "\n\n" + data;
-                t.text = "UploadValuesCompleted " + new { xdata };
+                Console.WriteLine(
+                    "UploadValuesCompleted " + new { xdata }
+                    );
             };
 
         }

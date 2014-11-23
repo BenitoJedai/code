@@ -55,7 +55,10 @@ namespace Abstractatech.ActionScript.Audio
             {
                 text = "1.0",
                 width = 400
-            }.AttachTo(this);
+            }.AttachToSprite().MoveTo(128, 8);
+
+
+            new net.hires.debug.Stats().AttachToSprite();
 
             try
             {
@@ -173,6 +176,7 @@ namespace Abstractatech.ActionScript.Audio
                 };
 
 
+                #region f
                 Func<MP3PitchLoop, AnalyzeThenPlay> f =
                     x =>
                         yield =>
@@ -252,6 +256,8 @@ namespace Abstractatech.ActionScript.Audio
                                 }
                             );
                         };
+                #endregion
+
 
                 BytesForDiesel = f(loopdiesel2);
 
@@ -265,6 +271,13 @@ namespace Abstractatech.ActionScript.Audio
 
                 BytesForHelicopter = f(loophelicopter1);
 
+
+                o.click +=
+                    delegate
+                    {
+
+                        Playhelicopter1();
+                    };
 
 
                 PlayJeep = delegate
