@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.30324.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIRThreadedSoundAsyncLoop", "AIRThreadedSoundAsyncLoop\AIRThreadedSoundAsyncLoop.csproj", "{BEDD29A7-D2AD-4FC7-8300-7A867B34A94D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {6193012A-2B4F-4FB9-BC0A-42C3D75BF815}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net.hires.debug", "..\..\synergy\net.hires.debug\net.hires.debug\net.hires.debug.csproj", "{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BEDD29A7-D2AD-4FC7-8300-7A867B34A94D}.Debug|x86.ActiveCfg = Debug|x86
+		{BEDD29A7-D2AD-4FC7-8300-7A867B34A94D}.Debug|x86.Build.0 = Debug|x86
+		{BEDD29A7-D2AD-4FC7-8300-7A867B34A94D}.Release|x86.ActiveCfg = Release|x86
+		{BEDD29A7-D2AD-4FC7-8300-7A867B34A94D}.Release|x86.Build.0 = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|x86.ActiveCfg = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|x86.Build.0 = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|x86.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

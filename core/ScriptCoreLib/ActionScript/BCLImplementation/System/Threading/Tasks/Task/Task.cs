@@ -107,6 +107,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Threading.Tasks.Task<>))]
     internal partial class __Task<TResult> : __Task
     {
+        public override string ToString()
+        {
+            // X:\jsc.svn\examples\actionscript\air\AIRThreadedSoundAsync\AIRThreadedSoundAsync\ApplicationSprite.cs
+            return "Task " + new { InternalContinueWithCounter };
+        }
+
         public static implicit operator Task<TResult>(__Task<TResult> e)
         {
             return (Task<TResult>)(object)e;
@@ -137,8 +143,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         public TResult Result { get; set; }
 
 
+        int InternalContinueWithCounter;
         public Task ContinueWith(Action<Task<TResult>> continuationAction)
         {
+            InternalContinueWithCounter++;
             var x = new TaskCompletionSource<object>();
 
             if (this.IsCompleted)
@@ -156,6 +164,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
                         continuationAction(this);
                         x.SetResult(null);
+
                         x = null;
                     };
             }
