@@ -6,6 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript.Extensions
 {
 	[Script]
+    [Obsolete("what about C# dynamic?")]
 	public class DynamicContainer
 	{
 		public object Subject;

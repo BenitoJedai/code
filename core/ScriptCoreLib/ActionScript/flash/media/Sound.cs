@@ -134,6 +134,10 @@ namespace ScriptCoreLib.ActionScript.flash.media
     [Script(IsNative = true)]
     public class Sound : EventDispatcher
     {
+        // cymatics
+        // sound is a very important type. 
+        // with the correct speakers we should be aveble to levitate particles
+
         // jsc, are you already keeping track of what is being used and how?
 
         // X:\jsc.svn\examples\actionscript\air\AIRAudioWorker\AIRAudioWorker\ApplicationSprite.cs
