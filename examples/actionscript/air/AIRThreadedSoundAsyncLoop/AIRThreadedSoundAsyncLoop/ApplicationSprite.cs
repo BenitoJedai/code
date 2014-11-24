@@ -89,6 +89,8 @@ namespace AIRThreadedSoundAsyncLoop
 
                 while (true)
                 {
+                    // X:\jsc.svn\examples\actionscript\Test\TestWorkerSoundAssetLoop\TestWorkerSoundAssetLoop\ApplicationSprite.cs
+
                     var e = await s.async.sampleData;
 
                     // can we get the pitch from another device over lan?

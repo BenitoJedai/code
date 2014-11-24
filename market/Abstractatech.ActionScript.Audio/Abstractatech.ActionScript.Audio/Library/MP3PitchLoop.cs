@@ -21,8 +21,11 @@ namespace Abstractatech.ActionScript.Audio
         //public const double MAGIC_DELAY = 2257.0; // LAME 3.98.2 + flash.media.Sound Delay
         //public double MAGIC_DELAY = 0; // LAME 3.98.2 + flash.media.Sound Delay
 
-
-        public const int BLOCK_SIZE = 4096 / 2;
+        // used by?
+        // X:\jsc.svn\examples\actionscript\Test\TestWorkerSoundAssetLoop\TestWorkerSoundAssetLoop\ApplicationSprite.cs
+        //public const int BLOCK_SIZE = 4096 / 2;
+        public const int BLOCK_SIZE = 4096;
+        //public const int BLOCK_SIZE = 4096 * 4;
 
         // property costs us 4% of total time?
         //public double Rate { get; set; }
@@ -247,7 +250,13 @@ namespace Abstractatech.ActionScript.Audio
             }
             #endregion
 
+            // http://stackoverflow.com/questions/16733369/stuttering-playback-when-playing-a-stream-received-via-udp-socket
+            // https://forums.adobe.com/message/4187920#4187920
+            // https://forums.adobe.com/message/3932678#3932678
+            // https://forums.adobe.com/message/3260161#3260161
+            // http://stackoverflow.com/questions/4944351/flash-10-1-as3-applying-realtime-effects-to-microphone-stutter-problems
 
+            // shat causes audio stutter on android?
 
             // this costs us 58% of total time?
             Sound.sampleData +=

@@ -83,7 +83,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
         public Action<Worker> InternalBeforeStart;
 
-        public void Start(object e)
+        public void Start(object parameter)
         {
             // what about serviceworker?
 
@@ -96,10 +96,26 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
             __MethodInfo m = InternalParameterizedThreadStart.Method;
 
+
+
+            #region fromWorkerConsole
+            var fromWorkerConsole = w.createMessageChannel(Worker.current);
+            w.setSharedProperty("fromWorkerConsole", fromWorkerConsole);
+            fromWorkerConsole.channelMessage += e =>
+            {
+                var data = (string)fromWorkerConsole.receive();
+
+                // X:\jsc.svn\examples\actionscript\Test\TestWorkerConsole\TestWorkerConsole\ApplicationSprite.cs
+                Console.WriteLine(data);
+            };
+            #endregion
+
+
+
             w.setSharedProperty("FunctionToken_TypeFullName", m._Method.FunctionToken_TypeFullName);
             w.setSharedProperty("FunctionToken_MethodName", m._Method.FunctionToken_MethodName);
 
-            w.setSharedProperty("arg0", e);
+            w.setSharedProperty("arg0", parameter);
 
             if (InternalBeforeStart != null)
                 InternalBeforeStart(w);
@@ -116,6 +132,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         // like the android Context, a ref we desparatley need
         public static Sprite InternalPrimordialSprite;
 
+        // X:\jsc.svn\examples\actionscript\Test\TestWorkerThrow\TestWorkerThrow\ApplicationSprite.cs
+        // for workers
+        public static Sprite InternalWorkerSprite;
+
         [Obsolete("called by the compiler from Sprite ctor")]
         public static bool InternalWorkerInvoke(Sprite that)
         {
@@ -127,6 +147,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
                 return false;
             }
 
+            // X:\jsc.svn\examples\actionscript\Test\TestWorkerThrow\TestWorkerThrow\ApplicationSprite.cs
+            InternalWorkerSprite = that;
 
             if (__Task.InternalWorkerInvoke(that))
             {
@@ -135,6 +157,23 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
                 return true;
             }
+
+
+            #region xfromWorkerConsole
+            // X:\jsc.svn\examples\actionscript\Test\TestWorkerConsole\TestWorkerConsole\ApplicationSprite.cs
+            var xfromWorkerConsole = (MessageChannel)Worker.current.getSharedProperty("fromWorkerConsole");
+
+            var w = new __Console.__OutWriter
+            {
+                AtWriteLine = z =>
+                {
+                    xfromWorkerConsole.send(z);
+                }
+            };
+
+            Console.SetOut(w);
+            #endregion
+
 
 
             // X:\jsc.svn\examples\actionscript\Test\TestThreadStart\TestThreadStart\ApplicationSprite.cs
@@ -160,8 +199,24 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             //throw null;
 
 
+            try
+            {
 
-            mm.Invoke(null, new object[] { arg0 });
+                mm.Invoke(null, new object[] { arg0 });
+
+            }
+            catch (Exception err)
+            {
+                // lets report anything back to the app
+                // for now the best we can do is to print it to console in worker
+                // and hope the app is showing the console in textfield
+
+                //__Thread.InternalWorkerSprite.loaderInfo.uncaughtErrorEvents.uncaughtError +=
+                // does not seem to work yet?
+
+                Console.WriteLine("catch " + new { err });
+                // X:\jsc.svn\examples\actionscript\Test\TestWorkerThrow\TestWorkerThrow\ApplicationSprite.cs
+            }
 
 
             return true;
