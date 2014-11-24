@@ -12,6 +12,10 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Sprite : DisplayObjectContainer
     {
+        // http://labsdownload.adobe.com/pub/labs/flashruntimes/shared/air16_flashplayer16_releasenotes.pdf
+        // http://blogs.adobe.com/flashplayer/2014/09/stage3d-standard-profile.html#more-6487
+        // http://blogs.adobe.com/flashplayer/2014/11/adobe-air-and-android-5-0.html
+
         // ! this class has economic metrics to it.
 
         //We believe that the Runtime remains a great choice for developers who want a multi platform solution.  

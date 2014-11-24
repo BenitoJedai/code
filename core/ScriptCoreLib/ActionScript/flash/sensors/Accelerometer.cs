@@ -11,6 +11,8 @@ namespace ScriptCoreLib.ActionScript.flash.sensors
     [Script(IsNative = true)]
     public class Accelerometer : EventDispatcher
     {
+        // http://blog.yoz.sk/2010/12/geolocation-accelerometer-orientation/
+
         #region Methods
         /// <summary>
         /// The setRequestedUpdateInterval method is used to set the desired time interval for updates.
