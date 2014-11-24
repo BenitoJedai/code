@@ -77,8 +77,7 @@ namespace AIRThreadedSoundAsyncLoop
             // can we loose the arg0
             // can we print to console from thread?
             // can we share and sync scope variables?
-            var tt = new Thread(
-                async arg0 =>
+            var tt = new Thread(async arg0 =>
             {
                 // jsc shall augment the scope so we can sync it between contexts
 
