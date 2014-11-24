@@ -218,6 +218,12 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return (FontAsset)c.CreateType();
         }
 
+
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/201411
+        // X:\jsc.svn\examples\actionscript\air\AIRThreadedSoundAsyncLoop\AIRThreadedSoundAsyncLoop\ApplicationSprite.cs
+        // X:\jsc.svn\market\Abstractatech.ActionScript.Audio\Abstractatech.ActionScript.Audio\ApplicationSprite.cs
+        // X:\jsc.svn\examples\actionscript\Test\TestWorkerSoundAssetLoop\TestWorkerSoundAssetLoop\ApplicationSprite.cs
+
         public static SoundAsset ToSoundAsset(this Class c)
         {
             if (c == null) return null;
