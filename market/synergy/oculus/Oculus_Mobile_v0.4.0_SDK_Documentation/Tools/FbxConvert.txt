@@ -1,0 +1,670 @@
+
+=======================================
+        Oculus VR FBX Converter
+
+   A tool to convert FBX files into
+   geometry for rendering, collision
+    detection and gaze selection in
+      virtual reality experiences.
+=======================================
+
+
+INDEX
+=====
+
+1. OVERVIEW
+   1.1 COORDINATE SYSTEM
+   1.2 MATERIALS
+   1.3 ANIMATIONS
+   1.4 TAGS
+2. COMMAND-LINE INTERFACE
+   2.1 OPTIONS
+   2.2 BATCH EXECUTION
+   2.3 TROUBLESHOOTING
+3. OPTIMIZATION
+   3.1 REDUCING DRAW CALLS
+   3.2 REDUCING VERTICES
+   3.3 REDUCING OVERDRAW
+4. LICENSE
+5. RELEASE NOTES
+
+
+1. OVERVIEW
+===========
+
+The FBX converter reads one or more Autodesk FBX files and creates a file
+with models stored in JSON format accompanied with a binary file with raw
+data. The JSON file created by the FBX converter contains the following:
+
+- A render model. This model has a list of textures, a list of joints, a
+  list of tags, and a list of surfaces. Each surface has a material with
+  a type and references to the textures used. The material textures may
+  include a diffuse, specular, normal, emissive and reflection texture.
+  Each surface also has a set of indexed vertices. The vertices may
+  include the following attributes: position, normal, tangent, binormal,
+  color, uv0, uv1, joint weights, joint indices. Two sets of UVs are
+  supported, one set for a diffuse/normal/specular texture and a separate
+  set for an optional emissive texture.
+
+- A wall collision model. This model is used to prevent an avatar from
+  walking through walls. This is a list of polytopes where each polytope
+  is described by a set of planes. The polytopes are not necessarily
+  bounded or convex.
+
+- A ground collision model. This model determines the floor height of the
+  avatar. This model is also no more than a list of polytopes.
+
+- A ray trace model. This is a triangle soup with a Surface Area Heuristic
+  (SAH) optimized KD-tree for fast ray tracing. Meshes or triangles will
+  have to be annotated to allow interactive focus tracking or gaze selection.
+
+Textures for the render model can be embedded in an FBX file and will be
+extracted by the FBX converter. Embedded textures are extracted into a
+folder named <filename>.fbm/, which is a sub-folder of the folder where
+the FBX file <filename>.fbx is located. Instead of embedding textures, they
+can also simply be stored in the same folder as the FBX file. The following
+source texture formats are supported: BMP, TGA, PNG, JPG. For the best
+quality, a lossy compression format like JPG should be avoided.
+
+The JSON file with models and the binary file are stored in a temporary
+folder named <filename>_tmp/, which is a sub-folder of the folder where
+the FBX converter is launched, where <filename> is the output file name
+specified with the '-o' command-line option. The FBX converter will also
+create a <filename>_pack.bat batch file in the folder where the FBX
+converter is launched.
+
+This batch file is used to compress the render model textures to a platform
+specific compression format. A texture will be compressed to ETC2 (with or
+without alpha) for OpenGL ES mobile platforms and to S3TC (either DXT1/BC1
+or DXT5/BC3) for the PC. The batch file uses file time stamps to only
+compress textures for which there is not already a compressed version that
+is newer than the source texture. The '-clean' command-line option can be
+used to force recompression of all textures.
+
+The batch file will also copy the JSON model file, the binary file with
+raw data and the platform specific compressed textures into a folder
+named <filename>_tmp/pack/, which is a sub-folder of the aforementioned
+<filename>_tmp/ folder. 7-Zip is then used to zip up the 'pack' folder
+into a single package that can be loaded by the application. The '-pack'
+command-line option can be used to automatically execute the
+<filename>_pack.bat batch file from the FBX converter.
+
+
+1.1 COORDINATE SYSTEM
+=====================
+
+The Oculus SDK uses the same coordinates system as the default coordinate system
+in 3D Studio Max or Luxology Modo. This is a right handed coordinate system
+with:
+
++X = right
+-X = left
++Y = up
+-Y = down
++Z = backward
+-Z = forward
+
+The Oculus SDK uses the metric system for measurements, where one unit is
+equal to one meter. 3D Studio Max and Luxology Modo do not use any specific
+unit of measure, but one unit in either application maps to one unit in the
+Oculus SDK. However, when the data from Luxology Modo is saved to an FBX file
+all units are automatically multiplied by one hundred. In other words, the
+unit of measure in the FBX file ends up being centimeter. Therefore there
+is always a scale of 1/100 specified on the FBX converter command-line when
+converting FBX files from Luxology Modo: -scale 0.01
+
+The FBX converter supports several command-line options to transform the FBX
+geometry (translate, rotate, scale etc.). The transformations will be applied
+to the geometry in the order they are listed on the command-line.
+
+
+1.2 MATERIALS
+=============
+
+Each render model surface stored in the JSON models file has a material.
+Such a material has a type and references to the textures used. The
+material textures may include a diffuse, specular, normal, emissive and
+reflection texture. These textures are retrieved from the FBX file as:
+
+    'DiffuseColor'
+    'NormalMap'
+    'SpecularColor'
+    'EmissiveColor'
+    'ReflectionColor'
+
+Most modeling tools will map similarly named textures to the above textures
+in the FBX file. For instance, using Luxology Modo, the 'Emissive color'
+texture is mapped to the 'EmissiveColor' texture in the FBX file.
+
+During rendering the diffuse texture is multiplied with the emissive
+texture as follows:
+
+	color = DiffuseColor(uv0) * EmissiveColor(uv1) * 1.5
+
+Surface reflections look into a cube map (or environment map). The
+textures for the 6 cube map sides should be named:
+
+    <name>_right.<ext>
+    <name>_left.<ext>
+    <name>_up.<ext>
+    <name>_down.<ext>
+    <name>_backward.<ext>
+    <name>_forward.<ext>
+
+The reflection texture 'ReflectionColor' should be set to one of these
+6 textures used to create the cube map. The FBX converter automatically
+picks up the other 5 textures and combines all 6 textures into a cube map.
+The normal map that is used to calculate the surface reflection is expected
+to be in local (tangent) space. During rendering the color of reflection
+mapped materials is calculated as follows:
+
+    surfaceNormal = normalize( NormalMap(uv0).x * tangent +
+                               NormalMap(uv0).y * binormal +
+                               NormalMap(uv0).z * normal )
+    reflection = dot( eyeVector, surfaceNormal ) * 2.0 * surfaceNormal - eyeVector
+    color = DiffuseColor(uv0) * EmissiveColor(uv1) * 1.5 +
+            SpecularColor(uv0) * ReflectionColor(reflection)
+
+The material type is one of the following:
+
+    1. opaque
+    2. perforated
+    3. transparent
+    4. additive
+
+The first three material types are based on the alpha channel of the
+diffuse texture. The '-alpha' command-line option must be used to enable
+the 'perforated' and 'transparent' material types. Without the '-alpha'
+command-line option the alpha channel of the diffuse texture will be
+removed.
+
+The 'additive' material type cannot be derived from the textures.
+An additive texture is specified by appending '_additive' to the
+material name in the FBX file.
+
+
+1.3 ANIMATIONS
+==============
+
+There is currently not a full blown animation system, but having vertices
+weighted to joints is still very useful to programmatically move geometry,
+while rendering as few surfaces as possible. Think about things like the
+buttons and joystick on the arcade machines in VrArcade.
+
+An artist can setup the vertex weighting for skinning, but the FBX converter
+also has an option to rigidly bind the vertices of a FBX source mesh to a
+single joint. In this case the joint name will be the name of the FBX source
+mesh. The meshes that need to be rigidly skinned to a joint are specified
+using the '-skin' command-line option. There is currently a limit of 16 joints
+per FBX file.
+
+The FBX converter can also apply some very basic parametric animations to joints.
+These simple animations are specified using the '-anim' command-line option.
+The types of animation are 'rotate', 'sway' and 'bob'. One of these types is
+specified directly following the '-anim' command-line option. Several parameters
+that define the animation are specified after the type. For the 'rotate' and
+'sway' these parameters are 'pitch', 'yaw' and 'roll' in degrees per second.
+For the 'bob' the parameters are 'x', 'y' and 'z' in meters per second.
+Following these parameters, a time offset and scale can be specified. The
+time offset is typically use to animated multiple joints out of sync and
+the time scale can be used to speed up or slow down the animation. Last but
+not least, one or more joints are specified to which the animation should
+be applied.
+
+When a mesh is rigidly skinned to a joint using the '-skin' command-line option,
+the FBX converter stores the mesh node transform on the joint. This mesh node
+transform is used as the frame of reference (pivot and axes) for animations.
+
+
+1.4 TAGS
+========
+
+A tag is used to define a position and frame of reference in the world.
+A tag can, for instance, be used to to define a screen or a view position
+in a cinema. A tag can also be used to place objects in the world.
+
+The '-tag' command-line option is used to turn one or more FBX meshes from
+the render model into tags. The name of a tag will be the name of the mesh.
+The position and frame of reference are derived from the first triangle of
+the mesh and are stored in a 4x4 matrix. The position is the corner of the
+triangle that is most orthogonal. The edges that come out of this corner
+define the first two basis vectors of the frame of reference. These basis
+vectors are not normalized to maintain the dimensions of the frame. The
+third basis vector is the triangle normal vector.
+
+Multiple tags can be created by specifying multiple FBX mesh names after
+the '-tag' command-line option. The '-tag' command-line option does not
+remove the listed meshes from the render model. The '-remove' command-line
+option can be used to remove the meshes from the render model.
+
+
+2. COMMAND-LINE INTERFACE
+=========================
+
+The FBX converter is a command-line tool. To run the FBX converter open a
+Windows Command Prompt, which can be found in the Windows Start menu under
+"All Programs" -> "Accessories". A command prompt can also be opened by
+typing 'cmd' (without quotes) in the Windows Run prompt in the Start menu.
+Once a command prompt has been opened, it is recommended to launch the FBX
+converter from the folder where the source FBX files are located.
+
+The FBX converter comes with the following tools:
+
+FbxConvertx64.exe   (from Oculus VR)
+TimeStampx64.exe    (from Oculus VR)
+PVRTexTool/*        (version 3.4, from the PowerVR SDK version 3.3)
+7Zip/*              (version 9.20, from www.7-zip.org)
+
+The FbxConvert64.exe is the executable that is launched by the user. The
+other executables are directly or indirectly used by the FbxConvertx64.exe
+executable.
+
+
+2.1 OPTIONS
+===========
+
+The FBX converter supports the following command-line options:
+
+-o <output>                     : Specify the name for the .ovrscene file.
+                                  Specify this name without extension.
+-render <model.fbx>             : Specify model used for rendering.
+-collision <model.fbx|meshes>   : Specify model or meshes for wall collision.
+-ground <model.fbx|meshes>      : Specify model or meshes for floor collision.
+-raytrace <model.fbx|meshes>    : Specify model or meshes for focus tracking.
+
+-translate <x> <y> <z>          : Translate the models by x,y,z.
+-rotate <degrees>               : Rotate the models about the Y axis.
+-scale <factor>                 : Scale the models by the given factor.
+-swapXZ                         : Swap the X and Z axis.
+-flipU                          : Flip the U texture coordinate.
+-flipV                          : Flip the V texture coordinate.
+-stripModoNumbers               : Strip duplicate name numbers added by Modo.
+-sort <+|-><X|Y|Z|origin>       : Sort geometry along axis or from origin.
+-expand <dist>                  : Expand collision walls by this distance.
+                                  Defaults to 0.5
+
+-remove <mesh1> [<mesh2> ...]   : Remove these source meshes for rendering.
+-atlas <mesh1> [<mesh2> ...]    : Create texture atlas for these meshes.
+-discrete <mesh1> [<mesh2> ...] : Keep these meshes separate for rendering.
+-skin <mesh1> [<mesh2> ...]     : Skin these source meshes rigidly to a joint.
+-tag <mesh1> [<mesh2> ...]      : Turn 1st triangles of these meshes into tags.
+-attrib <attr1> [<attr2> ...]   : Only keep these attributes: [position,
+                                  normal, tangent, binormal, color, uv0, uv1,
+								  auto].
+
+-anim <rotate> <pitch> <yaw> <roll> <timeoffset> <timescale> <joint1> [<joint2> ...]
+-anim <sway> <pitch> <yaw> <roll> <timeoffset> <timescale> <joint1> [<joint2> ...]
+-anim <bob> <X> <Y> <Z> <timeoffset> <timescale> <joint1> [<joint2>...]
+                                : Apply parametric animation to joints.
+
+-ktx                            : Compress textures to KTX files (default).
+-pvr                            : Compress textures to PVR files.
+-dds                            : Compress textures to DDS files.
+-alpha                          : Keep texture alpha channels if present.
+-clean                          : Delete previously compressed textures.
+-include <file1> [<file2> ...]  : Include these files in the package.
+-pack                           : Automatically run <output>_pack.bat file.
+-zip <x>                        : 7-Zip compression level (0=none, 9=ultra).
+-fullText                       : Store binary data as text in JSON file.
+-noPush                         : Do not push to device in batch file.
+-noTest                         : Do not run a test scene from batch file.
+-cinema                         : Launch VrCinema instead of VrScene.
+-expo                           : Launch VrExpo insread of VrScene.
+
+The '-collision', '-ground' and '-raytrace' command-line options can either
+specify a separate FBX file, or they can specify a list of meshes from the
+FBX file specified with the '-render' command-line option. If the collision
+and ray-trace meshes are in the same FBX file as the to be rendered meshes
+but the collision and ray-trace surface should not be rendered, then these
+meshes can be removed for rendering using the '-remove' command-line option.
+
+Note that the '-collision', '-ground', '-raytrace', '-remove', '-atlas',
+'-discrete', '-skin' and '-tag' command-line options accept wild cards
+like '*' and '?'. For instance, to make all surfaces discrete use:
+'-discrete *'.
+
+
+2.2 BATCH EXECUTION
+===================
+
+Instead of typing all the command-line options on the command prompt, it is
+common practice to use a batch file to launch the FBX converter with a number
+of options. This allows for quick iteration on the assets while consistently
+using the same settings. The following is the contents of the batch file that
+was used to convert the FBX for the home theater:
+
+FbxConvertx64.exe -o home_theater -pack -stripModoNumbers -rotate 180 -scale 0.01 -translate 0.45 0 -3 -swapxz -flipv -sort origin -tag screen -render home_theater\home_theater.fbx -raytrace screen
+
+
+2.3 TROUBLESHOOTING
+===================
+
+The FBX converter prints several things on the screen such as configuration
+options and warnings and errors. Warnings (like missing textures etc.) are
+printed in yellow, and errors (like missing executables) are printed in red.
+
+
+3. OPTIMIZATION
+===============
+
+The FBX converter implements various command-line options that can be used
+to optimize the geometry for rendering.
+
+
+3.1 REDUCING DRAW CALLS
+=======================
+
+The FBX converter automatically merges FBX meshes that use the same material
+such that they will be rendered as a single surface. At some point it may
+become necessary to automatically break up surfaces for culling granularity.
+However, currently it is more important to reduce the number of draw calls
+due to significant driver overhead on mobile platforms. Source meshes that
+need to stay separate for some reason can be flagged using the '-discrete'
+command-line option of the FBX converter.
+
+To further reduce the number of draw calls, or to statically sort all geometry
+into a single surface, the FBX converter can also create one of more texture
+atlases using the '-atlas' option. This option takes a list of FBX source
+meshes that need to have their textures combined into an atlas. Multiple
+atlases can be created by specifying the '-atlas' command-line option
+multiple times with different mesh names. Textures that are placed in an
+atlas cannot be tiled (repeated) on a mesh and the texture coordinates
+of the source mesh need to all be in the [0, 1] range.
+
+
+3.2 REDUCING VERTICES
+=====================
+
+During conversion, the FBX converter displays the total number of triangles
+and the total number of vertices of the render geometry. The number of
+vertices is expected to be in the same ballpark as the number of triangles.
+Having over two times more vertices than triangles may have performance
+implications. The number of unique vertices can be reduced by removing
+vertex attributes that are not necessary for rendering. Unused vertex
+attributes are generally wasteful and removing them may increase
+rendering performance just by improving GPU vertex cache usage.
+
+An FBX file may store vertex attributes that are not used for rendering.
+For instance, vertex normals may be stored in the FBX file, but they will
+not be used for rendering unless there is some form of specular lighting.
+The FBX file may also store a second set of texture coordinates that are
+not used when there are no emissive textures. The '-attrib' command-line
+option of the FBX converter can be used to keep only those attributes that
+are necessary to correctly render the model. For instance, if the model
+only renders a diffuse texture with baked lighting then all unnecessary
+vertex attributes can be removed by using '-attrib position uv0'.
+
+The '-attrib' command-line option also accepts the 'auto' keyword. By using
+the 'auto' keyword the FBX converter will automatically determine which
+vertex attributes need to be kept based on the textures specified per
+surface material. The 'auto' keyword can be specified in combination with
+other vertex attributes. For instance: '-attrib auto color' will make sure
+that the color attribute will always be kept and the other vertex attributes
+will only be kept if they are needed to correctly render based on the
+specified textures. The following table shows how the FBX converter
+determines which attributes to keep when the 'auto' keyword is specified:
+
+    position:   always automatically kept
+    normal:     if 'NormalMap' or 'SpecularColor' texture is specified
+    tangent:    if 'NormalMap' texture is specified
+    binormal:   if 'NormalMap' texture is specified
+    uv0:        if 'DiffuseColor' or 'SpecularColor' texture is specified
+    uv1:        if 'EmissiveColor' texture is specified
+    color:      never automatically kept
+
+
+3.3 REDUCING OVERDRAW
+=====================
+
+To be able to render many triangles, it is important to minimize overdraw
+as much as possible. For scenes or models that do have overdraw, it is very
+important that the opaque geometry is rendered front-to-back to significantly
+reduce the number of shading operations. Scenes or models that will only be
+displayed from a single viewpoint, or a limited range of view points, can be
+statically sorted to guarantee front-to-back rendering on a per triangle basis.
+
+The FBX converter has a '-sort' command-line option to statically sort all
+the geometry. The '-sort' option first sorts all the vertices. Then it sorts
+all the triangles based on the smallest vertex index. Next to sorting all
+the triangles this also results in improved GPU vertex cache usage.
+
+The '-sort' option can sort all geometry along one of the coordinate axes
+or it can sort all geometry from the origin. Sorting along an axis is useful
+for diorama-like scenes. Sorting from the origin is useful for theater-like
+scenes with a full 360 view.
+
+Sorting along an axis is done by specifying + or - one of the coordinate
+axis (X, Y or Z). For instance, to sort all geometry front-to-back along
+the X axis use:
+
+	-sort +X
+
+Sorting from the origin can be done by specifying + or - origin. For instance,
+to sort all geometry front-to-back from the origin use:
+
+	-sort +origin
+
+For sorting from the origin to be effective, the origin of the FBX model
+or scene must be the point from which the model or scene will be viewed.
+Keep in mind that sorting from the origin happens after any translations
+have been applied to the FBX geometry using the '-translate' command-line
+option. In other words, when using the '-sort +origin' command-line option
+in combination with the '-translate' option, the scene will be sorted from
+the translated position instead of the original FBX origin.
+
+Scenes that can be viewed from multiple vantage points may need to be
+manually broken up into reasonably sized blocks of geometry that will
+be dynamically sorted front-to-back at run-time. If the meshes the scene
+is broken up into use the same material, then the '-discrete' command-line
+option can be used to keep the meshes separate for rendering.
+
+
+4. LICENSE
+==========
+
+
+Oculus VR Mobile SDK
+--------------------
+
+Copyright 2014 Oculus VR, LCC. All Rights reserved.
+
+Licensed under the Oculus VR SDK License Version 3.0 (the "License"); 
+you may not use the Oculus VR SDK except in compliance with the License, 
+which is provided at the time of installation or download, or which 
+otherwise accompanies this software in either electronic or hard copy form.
+
+You may obtain a copy of the License at
+
+http://www.oculusvr.com/licenses/LICENSE-3.0 
+
+Unless required by applicable law or agreed to in writing, the Oculus VR SDK 
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+
+Imagination Technologies PowerVR SDK 3.3
+----------------------------------------
+
+Imagination Technologies Limited (“Imagination”) provides the Software
+Development Kit subject to the terms of this Agreement. If you do not agree
+with any of these terms, then do not install or otherwise use the SDK.
+
+1. Definitions
+    “SDK” means all or any component of software in source or binary form,
+    tools, code examples, drivers, files, libraries, utilities, reference
+    manuals, documentation, or other materials, and including any related
+    updates or upgrades made available by Imagination under this Agreement
+    from time to time.
+
+2. Licence Grant
+    Subject to your compliance with the terms of this Agreement, Imagination
+    grants to you a non-exclusive, non-assignable licence to:(a) use the SDK
+    for the sole purpose of developing, profiling, or assisting in the
+    optimisation of internal, commercial, or non-commercial applications
+    (“Development License”);(b) distribute the SDK in source code, object
+    file, or compiled binary form as a component of your application,
+    provided that:
+    i.   you do not distribute the SDK on a stand alone basis;
+    ii.  you distribute such components under terms no less restrictive than
+         those in this Agreement;
+    iii. you comply with the attribution requirements set out in Appendix 1;
+    iv.  you are solely responsible for any update, support obligation or
+         other liability that may arise from such distribution;
+    v.   you do not make any statements that your application or its
+         performance are certified, guaranteed or otherwise endorsed by
+         Imagination (“Production License”)
+
+    (c) Use the SDK as expressly authorised by Imagination in writing, on the
+    payment and/or support terms set out in Appendix 2 (if applicable)
+    (“Custom License”).
+
+3. Restrictions
+    Other than as expressly permitted herein, you may not: (i) use the SDK
+    for any unauthorised purpose; (ii) modify, disassemble, decompile, reverse
+    engineer, revise or enhance the SDK, create derivative works or attempt
+    to discover the source code for any element of the SDK not already
+    provided in source code form; (iii) remove any proprietary or copyright
+    notices on or accompanying the SDK; or (iv) incorporate or combine the SDK,
+    with any open source software in such a way that would cause the SDK, or
+    any portion thereof, to be subject to all or part of the licence
+    obligations or other intellectual property related terms with respect to
+    such open source software.
+
+4. Ownership
+    Imagination retains all ownership of the SDK, including without limitation
+    all copyrights and other intellectual property rights therein.
+
+5. Warranty Disclaimer
+    THE SDK IS PROVIDED “AS IS”. Imagination HEREBY DISCLAIMS ALL EXPRESS OR
+    IMPLIED WARRANTIES AND CONDITIONS WITH REGARD TO THE SDK, INCLUDING ALL
+    WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE
+    AND NON-INFRINGEMENT.
+
+6. Limitation of Liability
+    IN NO EVENT WILL Imagination BE LIABLE TO YOU FOR ANY DAMAGES, CLAIMS OR
+    COSTS WHATSOEVER ARISING FROM THIS AGREEMENT AND/OR YOUR USE OF THE SDK
+    OR ANY COMPONENT THEREOF, INCLUDING WITHOUT LIMITATION ANY CONSEQUENTIAL,
+    INDIRECT, INCIDENTAL DAMAGES, OR ANY LOST PROFITS OR LOST SAVINGS, EVEN
+    IF Imagination HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH LOSS, DAMAGES,
+    CLAIMS OR COSTS OR FOR ANY CLAIM BY ANY THIRD PARTY. THE FOREGOING
+    LIMITATIONS AND EXCLUSIONS APPLY TO THE EXTENT PERMITTED BY APPLICABLE
+    LAW IN YOUR JURISDICTION.
+
+7. Third Party Materials
+    All third party materials found on this SDK, including without limitation,
+    artwork, graphics, game demos and patches, are the sole and exclusive
+    property of such third parties. Imagination makes no representations or
+    warranties about the accuracy, usability or validity of any third party
+    materials, and disclaims all liabilities in connection with such third
+    party materials.
+
+8. Term
+    This Agreement is effective until terminated. Imagination has the right to
+    terminate this Agreement immediately if you fail to comply with any term of
+    this Agreement. You may terminate this Agreement by destroying or returning
+    to Imagination all copies of the SDK in your possession.
+
+9. Governing Law
+    This Agreement is governed by and shall be construed in accordance with
+    English law and each party agrees to submit to the exclusive jurisdiction
+    of the courts of England.
+
+APPENDIX 1: ATTRIBUTION REQUIREMENTS
+    If source code is released as it is, the Copyright notice should be kept
+    in a visible position.
+
+    If object code is bundled with a product, all branding should be kept as
+    it was originally, and the following acknowledgement should be displayed
+    clearly in any associated documentation or other collateral in printed or
+    electronic form distributed with the product incorporating the SDK
+    component: “This product includes components of the PowerVR™ SDK from
+    Imagination Technologies Limited”
+
+    If source code is used to compile a product, the following acknowledgement
+    should be displayed clearly in any associated documentation or other
+    collateral in printed or electronic form distributed with the product
+    incorporating the SDK component: “This product includes components of the
+    PowerVR™ SDK from Imagination Technologies Limited”
+
+APPENDIX 2: FEES
+    LICENCE FEES: nil
+    ROYALTY FEES: nil
+    SUPPORT AND MAINTENANCE TERMS AND FEES: nil
+
+
+7-Zip version 9.20
+------------------
+
+7-Zip Copyright (C) 1999-2012 Igor Pavlov.
+
+Licenses for files are:
+
+1) 7z.dll: GNU LGPL + unRAR restriction
+2) All other files:  GNU LGPL
+
+The GNU LGPL + unRAR restriction means that you must follow both 
+GNU LGPL rules and unRAR restriction rules.
+
+Note: 
+You can use 7-Zip on any computer, including a computer in a commercial 
+organization. You don't need to register or pay for 7-Zip.
+
+You may obtain a copy of 7-Zip source code at http://www.7-zip.org or
+by sending a written request to opensource@oculusvr.com
+
+
+GNU LGPL information
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You can receive a copy of the GNU Lesser General Public License from 
+http://www.gnu.org/
+
+
+unRAR restriction
+
+The decompression engine for RAR archives was developed using source 
+code of unRAR program.
+All copyrights to original unRAR code are owned by Alexander Roshal.
+
+The license for original unRAR code has the following restriction:
+
+    The unRAR sources cannot be used to re-create the RAR compression
+    algorithm, which is proprietary. Distribution of modified unRAR
+    sources in separate form or as a part of other software is permitted,
+    provided that it is clearly stated in the documentation and source
+    comments that the code may not be used to develop a RAR (WinRAR)
+    compatible archiver.
+
+
+STB
+---
+
+Single-file public domain libraries for C/C++ by Sean T. Barrett (STB).
+
+   https://github.com/nothings/stb
+
+
+5. RELEASE NOTES
+================
+
+Version 1.1, September 2014
+---------------------------
+
+- added simple parametric joint animations
+
+
+Version 1.0, July 2014
+-----------------------
+
+- initial release
