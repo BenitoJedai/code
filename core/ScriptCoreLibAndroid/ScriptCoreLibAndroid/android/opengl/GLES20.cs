@@ -7,6 +7,8 @@ namespace android.opengl
     [Script(IsNative = true)]
     public class GLES20
     {
+        // tested by?
+
         // chicken and egg problem
 
         public const int GL_ACTIVE_ATTRIBUTE_MAX_LENGTH = 35722;

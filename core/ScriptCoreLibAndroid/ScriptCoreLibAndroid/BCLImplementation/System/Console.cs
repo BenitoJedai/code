@@ -15,6 +15,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     [Script(Implements = typeof(global::System.Console))]
     internal class __Console
     {
+        // https://codelab.wordpress.com/2014/11/03/how-to-use-standard-output-streams-for-logging-in-android-apps/
+
         public static ConsoleColor ForegroundColor { get; set; }
         public static ConsoleColor BackgroundColor { get; set; }
 

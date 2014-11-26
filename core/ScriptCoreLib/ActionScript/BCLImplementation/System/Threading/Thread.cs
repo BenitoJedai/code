@@ -21,6 +21,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Threading.Thread))]
     public class __Thread
     {
+        // "X:\jsc.svn\market\synergy\oculus\Oculus_Mobile_v0.4.0_SDK_Documentation\Technical Notes\Runtime_Threads.pdf"
+
         public static Thread CurrentThread
         {
             get

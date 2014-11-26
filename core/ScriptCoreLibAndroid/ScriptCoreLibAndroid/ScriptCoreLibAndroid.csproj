@@ -911,6 +911,7 @@
     <Compile Include="android\nfc\tech\NfcA.cs" />
     <Compile Include="android\nfc\tech\MifareClassic.cs" />
     <Compile Include="android\opengl\GLES20.cs" />
+    <Compile Include="android\opengl\GLES30.cs" />
     <Compile Include="android\opengl\GLSurfaceView.cs" />
     <Compile Include="android\os\BatteryManager.cs" />
     <Compile Include="android\os\Looper.cs" />
