@@ -17,6 +17,21 @@ namespace android.app
     [Script(IsNative = true)]
     public class Activity : ContextThemeWrapper
     {
+        // http://developer.android.com/reference/android/app/NativeActivity.html
+
+        // http://static.oculus.com/sdk-downloads/documents/Oculus_Mobile_v0.4.0_SDK_Documentation.zip
+        // http://static.oculus.com/sdk-downloads/documents/OculusMobile_SubmissionGuidelines.pdf
+        // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20141125
+
+        // You must structure your main activity as shown below. In particular, note that your main
+        //activity's intent filter should be sent to android.intent.category.INFO instead of the
+        //more common android.intent.category.LAUNCHER. This is to ensure that your app
+        //only appears in Oculus Home and can’t be launched from the phone's launcher. The only
+        //exception to this rule is if you are creating an app that can operate both with and without
+        //VR functionality. In that case, use the LAUNCHER category and replace vr_only with
+        //vr_dual in the com.samsung.android.vr.application.mode meta data tag
+
+
         // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\CoreAndroidWebServiceActivity.cs
         // X:\jsc.svn\examples\javascript\android\com.abstractatech.dcimgalleryapp\com.abstractatech.dcimgalleryapp\ApplicationWebService.cs
 
