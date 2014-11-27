@@ -109,6 +109,9 @@ namespace jsc.meta.Library
 
                       // Include = "Y:\\opensource\\github\\elastic-droid\\src\\**\\*.*"
                       let Include0 = None.Attribute("Include").Value
+
+                      // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20141127
+                      // what about *.java ?
                       let Wildcard = @"**\*.*"
                       let IsWildcard = Include0.EndsWith(Wildcard)
 
@@ -143,7 +146,11 @@ namespace jsc.meta.Library
                       // Directory In Project
                       let Directory = Path.GetDirectoryName(Link != null ? Link.Value : Include).Replace("\\", "/")
 
-                      let File = new FileInfo(Link != null ? Include : Path.Combine(ProjectFileName.Directory.FullName, Include))
+                      let File = new FileInfo(
+                          Link != null ? 
+                          Include : 
+                          Path.Combine(ProjectFileName.Directory.FullName, Include)
+                          )
 
                       select new ProjectFileInfo { File = File, NamespaceDirectory = Directory };
             #endregion
