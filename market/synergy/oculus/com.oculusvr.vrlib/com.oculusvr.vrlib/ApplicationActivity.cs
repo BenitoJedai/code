@@ -21,6 +21,7 @@ namespace com.oculusvr.vrlib.Activities
         // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20141127
 
 
+        // http://stackoverflow.com/questions/9821875/where-is-buildconfig-debug
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
