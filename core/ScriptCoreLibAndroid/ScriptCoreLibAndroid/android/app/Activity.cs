@@ -30,7 +30,7 @@ namespace android.app
         //exception to this rule is if you are creating an app that can operate both with and without
         //VR functionality. In that case, use the LAUNCHER category and replace vr_only with
         //vr_dual in the com.samsung.android.vr.application.mode meta data tag
-
+        // X:\jsc.svn\market\synergy\oculus\com.oculusvr.vrlib\com.oculusvr.vrlib\ApplicationActivity.cs
 
         // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\CoreAndroidWebServiceActivity.cs
         // X:\jsc.svn\examples\javascript\android\com.abstractatech.dcimgalleryapp\com.abstractatech.dcimgalleryapp\ApplicationWebService.cs
