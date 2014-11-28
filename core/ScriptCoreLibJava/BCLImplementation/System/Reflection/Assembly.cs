@@ -18,7 +18,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
 
     [Script(Implements = typeof(global::System.Reflection.Assembly))]
-    internal class __Assembly : ___Assembly, __IEvidenceFactory, __ICustomAttributeProvider, __ISerializable
+    public class __Assembly : ___Assembly, __IEvidenceFactory, __ICustomAttributeProvider, __ISerializable
     {
         public __Type InternalReference;
 

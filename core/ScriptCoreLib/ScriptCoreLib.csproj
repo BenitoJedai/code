@@ -380,6 +380,7 @@
     <Compile Include="Shared\BCLImplementation\System\Runtime\InteropServices\_Attribute.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\Serialization\StreamingContext.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Threading\WaitOrTimerCallback.cs" />
     <Compile Include="Shared\BCLImplementation\System\Threading\WaitCallback.cs" />
     <Compile Include="Shared\BCLImplementation\System\Threading\ParameterizedThreadStart.cs" />
     <Compile Include="Shared\BCLImplementation\System\Tuple.cs" />

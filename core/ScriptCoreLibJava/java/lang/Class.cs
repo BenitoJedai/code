@@ -371,6 +371,7 @@ namespace java.lang
             return null;
         }
 
+        // used by ?
         public TypeVariable<Class<T>>[] getTypeParameters()
         {
             return null;

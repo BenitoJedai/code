@@ -16,8 +16,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     // https://github.com/mono/mono/tree/master/mcs/class/corlib/System/Type.cs
 
     [Script(Implements = typeof(global::System.Type))]
-    internal class __Type : __MemberInfo
+    public class __Type : __MemberInfo
     {
+        // X:\jsc.svn\examples\java\hybrid\Test\JVMCLRTypeOfBool\JVMCLRTypeOfBool\Program.cs
+
         public virtual bool IsEnum
         {
             get
@@ -65,6 +67,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return __Type.Of(this.InternalTypeDescription.getInterfaces());
         }
 
+
+
+        // used by ?
         private static global::System.Type[] Of(java.lang.Class[] p)
         {
             var n = new global::System.Type[p.Length];
@@ -427,6 +432,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         private static bool InternalEquals(__Type e, __Type k)
         {
+            // X:\jsc.svn\examples\java\hybrid\Test\JVMCLRTypeOfBool\JVMCLRTypeOfBool\Program.cs
+
             #region null checks
             var oleft = (object)e;
             var oright = (object)k;
@@ -444,6 +451,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System
                     return false;
             }
             #endregion
+
+            // c# typeof is not using primitves, so upgrade for check
+            if (e.InternalTypeDescription == java.lang.Boolean.TYPE)
+                e = typeof(bool);
+            if (k.InternalTypeDescription == java.lang.Boolean.TYPE)
+                k = typeof(bool);
 
             // .net 4.0 seems to also add == operator. jsc should choose equals until then?
             if (k.InternalTypeDescription.isAssignableFrom(e.InternalTypeDescription))

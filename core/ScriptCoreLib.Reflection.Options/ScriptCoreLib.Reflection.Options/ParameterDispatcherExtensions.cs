@@ -7,74 +7,74 @@ using System.Reflection;
 
 namespace ScriptCoreLib.Reflection.Options
 {
-	public static class ParameterDispatcherExtensions
-	{
-		public static void AsParametersTo(this string[] args, params Action[] Handlers)
-		{
-			var a = new ParameterDispatcher();
+    public static class ParameterDispatcherExtensions
+    {
+        public static void AsParametersTo(this string[] args, params Action[] Handlers)
+        {
+            var a = new ParameterDispatcher();
 
-			foreach (var h in Handlers)
-			{
-				a.Add(h);
-			}
+            foreach (var h in Handlers)
+            {
+                a.Add(h);
+            }
 
-			args.AsParametersTo(a);
-		}
+            args.AsParametersTo(a);
+        }
 
 
-		public static void AsParametersTo(this string[] args, object e)
-		{
-			foreach (var k in args)
-			{
-				k.AsParameterTo(e);
-			}
-		}
+        public static void AsParametersTo(this string[] args, object e)
+        {
+            foreach (var k in args)
+            {
+                k.AsParameterTo(e);
+            }
+        }
 
-		internal static void AsParametersTo(this string[] args, ParameterDispatcher e)
-		{
-			if (args.Length > 0)
-			{
-				var OperationName = args[0];
+        internal static void AsParametersTo(this string[] args, ParameterDispatcher e)
+        {
+            if (args.Length > 0)
+            {
+                var OperationName = args[0];
 
-				if (args.Length > 1)
-				{
-					var x = new string[args.Length - 1];
-					Array.Copy(args, 1, x, 0, args.Length - 1);
-					args = x;
-				}
+                if (args.Length > 1)
+                {
+                    var x = new string[args.Length - 1];
+                    Array.Copy(args, 1, x, 0, args.Length - 1);
+                    args = x;
+                }
 
-				var Operation = e[OperationName];
+                var Operation = e[OperationName];
 
-				if (Operation == null)
-					Operation = e[null];
+                if (Operation == null)
+                    Operation = e[null];
 
-				object Arguments = null;
+                object Arguments = null;
 
-				if (Operation != null)
-					if (Operation.GetArguments != null)
-						Arguments = Operation.GetArguments();
+                if (Operation != null)
+                    if (Operation.GetArguments != null)
+                        Arguments = Operation.GetArguments();
 
-				if (Arguments != null)
-					args.AsParametersTo(Arguments);
+                if (Arguments != null)
+                    args.AsParametersTo(Arguments);
 
-				if (Operation != null)
-					if (Operation.Handler != null)
-						Operation.Handler(Operation);
-			}
-		}
+                if (Operation != null)
+                    if (Operation.Handler != null)
+                        Operation.Handler(Operation);
+            }
+        }
 
-		internal static void AsParameterTo(this string arg, object e)
-		{
-			if (!arg.StartsWith("/"))
-				return;
+        internal static void AsParameterTo(this string arg, object e)
+        {
+            if (!arg.StartsWith("/"))
+                return;
 
-			arg = arg.Substring(1);
+            arg = arg.Substring(1);
 
-			Trace("AsParameterTo: " + arg);
+            Trace("AsParameterTo: " + arg);
 
-			var t = e.GetType();
-			var i = arg.IndexOf(".");
-			var j = arg.IndexOf(":");
+            var t = e.GetType();
+            var i = arg.IndexOf(".");
+            var j = arg.IndexOf(":");
 
 
             var value = i < 0;
@@ -84,191 +84,208 @@ namespace ScriptCoreLib.Reflection.Options
 
 
             if (value)
-			{
+            {
 
-				if (j > 0)
-				{
-					var k = arg.Substring(0, j);
-					var v = arg.Substring(j + 1);
+                if (j > 0)
+                {
+                    var k = arg.Substring(0, j);
+                    var v = arg.Substring(j + 1);
 
-					var f = t.GetField(k);
+                    var f = t.GetField(k);
 
-					if (f != null)
-					{
-						v.AsParameterTo(e, f);
-					}
-				}
-			}
-			else
-			{
+                    if (f != null)
+                    {
+                        v.AsParameterTo(e, f);
+                    }
+                }
+            }
+            else
+            {
 
-				var k = arg.Substring(0, i);
-				var v = "/" + arg.Substring(i + 1);
+                var k = arg.Substring(0, i);
+                var v = "/" + arg.Substring(i + 1);
 
-				Trace("AsParameterTo: namespace " + k);
-
-
-				var f = t.GetField(k);
-
-				if (f != null)
-				{
-					SetField(e, v, f, false);
-				}
-				else
-				{
-					Trace("AsParameterTo: no field found for " + k);
-				}
-			}
-		}
-
-		private static void SetField(object e, string v, FieldInfo f, bool HasImplicitValue)
-		{
-			if (f.FieldType.IsArray)
-			{
-				var et = f.FieldType.GetElementType();
-
-				var x = default(object);
-
-				if (HasImplicitValue)
-				{
-					x = CreateInstanceFromString(et, v);
-				}
-				else
-				{
-					x = Activator.CreateInstance(et);
-				}
+                Trace("AsParameterTo: namespace " + k);
 
 
-				var a = (Array)f.GetValue(e);
+                var f = t.GetField(k);
+
+                if (f != null)
+                {
+                    SetField(e, v, f, false);
+                }
+                else
+                {
+                    Trace("AsParameterTo: no field found for " + k);
+                }
+            }
+        }
+
+        // called by ?
+        private static void SetField(object e, string v, FieldInfo f, bool HasImplicitValue)
+        {
+            if (f.FieldType.IsArray)
+            {
+                var et = f.FieldType.GetElementType();
+
+                var x = default(object);
+
+                if (HasImplicitValue)
+                {
+                    x = CreateInstanceFromString(et, v);
+                }
+                else
+                {
+                    x = Activator.CreateInstance(et);
+                }
 
 
-				if (a == null)
-				{
-					a = Array.CreateInstance(et, 1);
-				}
-				else
-				{
-					var n = Array.CreateInstance(et, a.Length + 1);
-					a.CopyTo(n, 0);
-					a = n;
-				}
-				a.SetValue(x, a.Length - 1);
-				f.SetValue(e, a);
+                var a = (Array)f.GetValue(e);
 
-				if (!HasImplicitValue)
-					v.AsParameterTo(x);
 
-			}
-			else if (f.FieldType.IsClass)
-			{
-				var x = f.GetValue(e);
+                if (a == null)
+                {
+                    a = Array.CreateInstance(et, 1);
+                }
+                else
+                {
+                    var n = Array.CreateInstance(et, a.Length + 1);
+                    a.CopyTo(n, 0);
+                    a = n;
+                }
+                a.SetValue(x, a.Length - 1);
+                f.SetValue(e, a);
 
-				if (HasImplicitValue)
-				{
-					x = CreateInstanceFromString(f.FieldType, v);
-					f.SetValue(e, x);
-				}
-				else if (x == null)
-				{
-					x = Activator.CreateInstance(f.FieldType);
-					f.SetValue(e, x);
-				}
+                if (!HasImplicitValue)
+                    v.AsParameterTo(x);
 
-				if (!HasImplicitValue)
-					v.AsParameterTo(x);
-			}
-			else
-			{
-				Trace("AsParameterTo: not a class " + f.FieldType.FullName);
-			}
-		}
+            }
+            else if (f.FieldType.IsClass)
+            {
+                var x = f.GetValue(e);
 
-		public static object CreateInstanceFromString(Type t, string arg0)
-		{
-			// is this the correct way for all supported platforms?
+                if (HasImplicitValue)
+                {
+                    x = CreateInstanceFromString(f.FieldType, v);
+                    f.SetValue(e, x);
+                }
+                else if (x == null)
+                {
+                    x = Activator.CreateInstance(f.FieldType);
+                    f.SetValue(e, x);
+                }
 
-			var m = t.GetMethods(BindingFlags.Static | BindingFlags.Public);
-			var ctor = default(MethodInfo);
+                if (!HasImplicitValue)
+                    v.AsParameterTo(x);
+            }
+            else
+            {
+                //                jsc.jvmi.Program.Main: AsParameterTo: TargetAndroidRuntime:True
+                //jsc.jvmi.Program.Main: AsParameterTo: not a class boolean
 
-			foreach (var item in m)
-			{
-				if (item.ReturnType.Equals(t))
-				{
-					var p = item.GetParameters();
+                Trace("AsParameterTo: not a class " + f.FieldType.FullName);
+            }
+        }
 
-					if (p.Length == 1)
-						if (p[0].ParameterType.Equals(typeof(string)))
-						{
-							ctor = item;
-							break;
-						}
-				}
-			}
+        public static object CreateInstanceFromString(Type t, string arg0)
+        {
+            // is this the correct way for all supported platforms?
 
-			var x = default(object);
+            var m = t.GetMethods(BindingFlags.Static | BindingFlags.Public);
+            var ctor = default(MethodInfo);
 
-			if (ctor != null)
-				x = ctor.Invoke(null, new object[] { arg0 });
+            foreach (var item in m)
+            {
+                if (item.ReturnType.Equals(t))
+                {
+                    var p = item.GetParameters();
 
-			return x;
-		}
+                    if (p.Length == 1)
+                        if (p[0].ParameterType.Equals(typeof(string)))
+                        {
+                            ctor = item;
+                            break;
+                        }
+                }
+            }
 
-		internal static void AsParameterTo(this string value, object e, FieldInfo f)
-		{
-			if (f.FieldType.Equals(typeof(string)))
-			{
-				f.SetValue(e, value);
-				return;
-			}
+            var x = default(object);
 
-			if (f.FieldType.Equals(typeof(int)))
-			{
-				f.SetValue(e, int.Parse(value));
-				return;
-			}
+            if (ctor != null)
+                x = ctor.Invoke(null, new object[] { arg0 });
 
-			if (f.FieldType.Equals(typeof(bool)))
-			{
-				f.SetValue(e, bool.Parse(value));
-				return;
-			}
+            return x;
+        }
 
-			if (f.FieldType.Equals(typeof(FileInfo)))
-			{
+        internal static void AsParameterTo(this string value, object e, FieldInfo f)
+        {
+            // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
+
+            if (f.FieldType.Equals(typeof(string)))
+            {
+                f.SetValue(e, value);
+                return;
+            }
+
+            if (f.FieldType.Equals(typeof(int)))
+            {
+                f.SetValue(e, int.Parse(value));
+                return;
+            }
+
+            var Tbool = typeof(bool);
+            //jsc.jvmi.Program.Main: AsParameterTo: { Name = AttachDebugger, value = True, Tbool = java.lang.Boolean, FieldType = boolean }
+            //jsc.jvmi.Program.Main: AsParameterTo: not a class boolean
+            // X:\jsc.svn\examples\java\Test\TestTypeOfBool\TestTypeOfBool\Class1.cs
+            Trace("AsParameterTo: " + new { f.Name, value, Tbool = Tbool.FullName, FieldType = f.FieldType.FullName });
+            // ?
+            if (f.FieldType.Equals(Tbool))
+            {
+                var xbool = bool.Parse(value);
+
+                Trace("AsParameterTo: " + new { f.Name, value, xbool });
+
+
+                f.SetValue(e, xbool);
+                return;
+            }
+
+            if (f.FieldType.Equals(typeof(FileInfo)))
+            {
                 // value = "TestVectorOfNumber.csproj\r\n"
 
-				f.SetValue(e, new FileInfo(value));
-				return;
-			}
+                f.SetValue(e, new FileInfo(value));
+                return;
+            }
 
-			if (f.FieldType.Equals(typeof(DirectoryInfo)))
-			{
-				f.SetValue(e, new DirectoryInfo(value));
-				return;
-			}
+            if (f.FieldType.Equals(typeof(DirectoryInfo)))
+            {
+                f.SetValue(e, new DirectoryInfo(value));
+                return;
+            }
 
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20120-1/20120817-uri
             Uri hack0;
-			if (f.FieldType.Equals(typeof(Uri)))
-			{
-				f.SetValue(e, new Uri(value));
-				return;
-			}
+            if (f.FieldType.Equals(typeof(Uri)))
+            {
+                f.SetValue(e, new Uri(value));
+                return;
+            }
 
 
 
-			SetField(e, value, f, true);
+            SetField(e, value, f, true);
 
-			//Trace("AsParameterTo: unknown data type " + f.FieldType.FullName);
-		}
+            //Trace("AsParameterTo: unknown data type " + f.FieldType.FullName);
+        }
 
         public static Action<string> AtTrace;
 
-		internal static void Trace(string e)
-		{
+        internal static void Trace(string e)
+        {
             if (AtTrace != null)
                 AtTrace(e);
-		}
-	}
+        }
+    }
 }
