@@ -28,6 +28,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
     [Script(Implements = typeof(global::System.Threading.ThreadPool))]
     internal class __ThreadPool
     {
+        //        0001 0200002b ScriptCoreLibJava::ScriptCoreLibJava.BCLImplementation.System.Threading.__RegisteredWaitHandle
+        //script: error JSC1000: Java : class import: no implementation for System.Threading.WaitOrTimerCallback at ScriptCoreLibJava.BCLImplementation.System.Threading.__ThreadPool
+
         // http://stackoverflow.com/questions/11381771/thread-sleep-vs-monitor-wait-vs-registeredwaithandle
         // http://www.java2s.com/Tutorial/CSharp/0420__Thread/QueuingataskforexecutionbyThreadPoolthreadswiththeRegisterWaitForSingleObjectmethod.htm
 

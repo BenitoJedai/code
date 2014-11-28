@@ -11,7 +11,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
     // http://referencesource.microsoft.com/#mscorlib/system/reflection/fieldinfo.cs
 
     [Script(Implements = typeof(FieldInfo))]
-    internal class __FieldInfo : __MemberInfo
+    public class __FieldInfo : __MemberInfo
     {
         public global::java.lang.reflect.Field InternalField;
 
