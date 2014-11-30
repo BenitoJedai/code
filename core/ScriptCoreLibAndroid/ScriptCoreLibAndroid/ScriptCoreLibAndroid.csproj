@@ -933,6 +933,7 @@
     <Compile Include="android\service\media\MediaBrowserService.cs" />
     <Compile Include="android\speech\tts\AndroidKeyStore.cs" />
     <Compile Include="android\telephony\TelephonyManager.cs" />
+    <Compile Include="android\test\ActivityTestCase.cs" />
     <Compile Include="android\text\TextWatcher.cs" />
     <Compile Include="android\text\method\TransformationMethod.cs" />
     <Compile Include="android\text\method\PasswordTransformationMethod.cs" />

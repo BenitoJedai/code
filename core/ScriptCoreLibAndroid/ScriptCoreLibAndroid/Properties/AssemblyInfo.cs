@@ -33,6 +33,7 @@ using ScriptCoreLib;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 // should the rewrite assemblies be versionless?
 
+// what about native?
 [assembly: ScriptTypeFilter(ScriptType.Java)]
 [assembly: Script(IsCoreLib = true)]
 

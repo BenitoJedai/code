@@ -15,6 +15,12 @@ namespace android.app
     [Script(IsNative = true)]
     public abstract class Service : ContextWrapper
     {
+        // https://developer.android.com/tools/sdk/ndk/index.html
+        // You cannot access features such as Services and Content Providers natively, 
+        // so if you want to use them or any other framework API, you can still write JNI code to do so.
+        // what if we want to do a service from native code?
+        // emit .dx code to do that?
+
         // http://developer.android.com/guide/components/services.html#Foreground
         // http://developer.android.com/guide/topics/manifest/service-element.html
 
