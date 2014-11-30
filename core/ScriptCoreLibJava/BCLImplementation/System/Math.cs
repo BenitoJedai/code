@@ -6,12 +6,16 @@ using ScriptCoreLib;
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/math.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Math.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Math.cs
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Math.cs
-
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Math.cs
+    // X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\LibOVR\Src\Kernel\OVR_Math.cpp
 
 	[Script(Implements = typeof(global::System.Math))]
 	internal class __Math
 	{
+        // "X:\opensource\android-ndk-r10c\sources\android\support\src\math_support.c"
 		// thanks Doug J Reichard! :)
 
 		public static int Sign(int a)

@@ -19,6 +19,8 @@ namespace ScriptCoreLib.GLSL
     [StructLayout(LayoutKind.Explicit)]
     public struct vec2
     {
+        // "X:\opensource\android-ndk-r10c\sources\android\ndk_helper\vecmath.h"
+
         // see also: http://glm.g-truc.net/code.html
 
         #region [0]

@@ -91,9 +91,28 @@
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
   </ItemGroup>
+
+
+
+
+
+
+
   <ItemGroup>
     <Content Include="X:\opensource\ovr_mobile_sdk_20141111\VRLib\src\**\*.*">
       <Link>opensource\ovr_mobile_sdk_20141111\VRLib\src\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
+  </ItemGroup>
+  
+  
+  
+  
+  
+  
+  
+  <ItemGroup>
+    <Content Include="X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\**\*.*">
+      <Link>opensource\ovr_mobile_sdk_20141111\VRLib\jni\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

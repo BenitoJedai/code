@@ -15,6 +15,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
     [Script(Implements = typeof(XElement))]
     internal class __XElement : __XContainer
     {
+        // "C:\Program Files (x86)\SketchUp\SketchUp 2014\Tools\RubyStdLib\rexml\element.rb"
+
 
         public __XName Name
         {

@@ -20,6 +20,11 @@ namespace ScriptCoreLibNative.BCLImplementation.System.Threading
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
+        // http://msdn.microsoft.com/en-us/library/windows/desktop/ms682664(v=vs.85).aspx
+        // http://msdn.microsoft.com/en-us/library/2s9wt68x.aspx
+        // __declspec(thread)
+        // X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\LibOVR\Src\Kernel\OVR_ThreadsWinAPI.cpp
+
         // http://stackoverflow.com/questions/796217/what-is-the-difference-between-a-thread-and-a-fiber
 
         // http://msdn.microsoft.com/en-us/library/xcb2z8hs.aspx
