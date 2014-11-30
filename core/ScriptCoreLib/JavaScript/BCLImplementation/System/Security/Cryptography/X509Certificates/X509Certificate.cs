@@ -23,6 +23,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
     [Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.X509Certificate))]
     internal class __X509Certificate
     {
+        // "C:\Program Files (x86)\SketchUp\SketchUp 2014\Tools\RubyStdLib\openssl\x509.rb"
+
         // Digital certificates provide no actual security for electronic commerce; it's a complete sham.”
         // http://jim.com/security/
 

@@ -18,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
+        // "C:\Program Files (x86)\SketchUp\SketchUp 2014\Tools\RubyStdLib\thread.rb"
         // X:\jsc.svn\examples\c\Test\TestThreadStart\TestThreadStart\BCLImplementation.cs
         // tested by x:\jsc.svn\examples\javascript\Test\TestThreadStartAsWebWorker\TestThreadStartAsWebWorker\Application.cs
 

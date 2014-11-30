@@ -13,6 +13,8 @@ namespace android.util
     [Script(IsNative = true)]
     public  class Log
     {
+        // "X:\opensource\android-ndk-r10c\platforms\android-21\arch-arm\usr\include\android\log.h"
+
         public static string getStackTraceString(java.lang.Throwable t)
         {
             return default(string);

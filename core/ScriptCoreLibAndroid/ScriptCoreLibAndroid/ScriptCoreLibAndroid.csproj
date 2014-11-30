@@ -864,9 +864,12 @@
     <Compile Include="android\appwidget\AppWidgetProvider.cs" />
     <Compile Include="android\appwidget\AppWidgetManager.cs" />
     <Compile Include="android\appwidget\AppWidgetHost.cs" />
+    <Compile Include="android\app\admin\DeviceAdminReceiver.cs" />
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
     <Compile Include="android\app\AlertDialog.cs" />
+    <Compile Include="android\app\job\JobScheduler.cs" />
+    <Compile Include="android\app\NativeActivity.cs" />
     <Compile Include="android\app\Dialog.cs" />
     <Compile Include="android\app\KeyguardManager.cs" />
     <Compile Include="android\app\WallpaperInfo.cs" />
@@ -878,6 +881,7 @@
     <Compile Include="android\content\ContentResolver.cs" />
     <Compile Include="android\content\DialogInterface.cs" />
     <Compile Include="android\content\IntentFilter.cs" />
+    <Compile Include="android\content\pm\LauncherApps.cs" />
     <Compile Include="android\content\pm\ResolveInfo.cs" />
     <Compile Include="android\content\pm\PackageManager.cs" />
     <Compile Include="android\content\pm\MacAuthenticatedInputStream.cs" />
@@ -926,6 +930,7 @@
     <Compile Include="android\provider\MediaStore.cs" />
     <Compile Include="android\R.cs" />
     <Compile Include="android\security\TextToSpeech.cs" />
+    <Compile Include="android\service\media\MediaBrowserService.cs" />
     <Compile Include="android\speech\tts\AndroidKeyStore.cs" />
     <Compile Include="android\telephony\TelephonyManager.cs" />
     <Compile Include="android\text\TextWatcher.cs" />
@@ -996,6 +1001,7 @@
     <Compile Include="BCLImplementation\System\Web\HttpRequest.cs" />
     <Compile Include="BCLImplementation\System\Web\Profile\DefaultProfile.cs" />
     <Compile Include="BCLImplementation\System\Web\Profile\ProfileBase.cs" />
+    <Compile Include="dalvik\system\DexClassLoader.cs" />
     <Compile Include="Extensions\ActivityExtensions.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="javax\microedition\khronos\egl\EGLConfig.cs" />
@@ -1011,6 +1017,11 @@
     </Compile>
   </ItemGroup>-->
   <ItemGroup>
+    <Folder Include="android\app\usage\" />
+    <Folder Include="android\bluetooth\" />
+    <Folder Include="android\hardware\camera2\" />
+    <Folder Include="android\media\browse\" />
+    <Folder Include="android\media\projection\" />
     <Folder Include="android\net\wifi\p2p\" />
     <Folder Include="BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
