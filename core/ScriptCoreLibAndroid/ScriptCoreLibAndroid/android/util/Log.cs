@@ -13,6 +13,8 @@ namespace android.util
     [Script(IsNative = true)]
     public  class Log
     {
+        // X:\jsc.svn\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\SystemHeaders\android\log.cs
+
         // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs
         // "X:\opensource\android-ndk-r10c\platforms\android-21\arch-arm\usr\include\android\log.h"
 

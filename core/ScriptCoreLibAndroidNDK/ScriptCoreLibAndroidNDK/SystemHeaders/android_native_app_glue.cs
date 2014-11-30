@@ -1,0 +1,148 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ScriptCoreLib;
+
+namespace ScriptCoreLibNative.SystemHeaders
+{
+    // "X:\opensource\android-ndk-r10c\sources\android\native_app_glue\android_native_app_glue.c"
+    // "X:\opensource\android-ndk-r10c\sources\android\native_app_glue\android_native_app_glue.h"
+
+
+    // LOCAL_STATIC_LIBRARIES := android_native_app_glue
+    [Script(IsNative = true, Header = "android_native_app_glue.h", IsSystemHeader = true)]
+    public static class android_native_app_glue
+    {
+        public enum android_app_cmd
+        {
+            /**
+             * Command from main thread: the AInputQueue has changed.  Upon processing
+             * this command, android_app->inputQueue will be updated to the new queue
+             * (or NULL).
+             */
+            APP_CMD_INPUT_CHANGED,
+
+            /**
+             * Command from main thread: a new ANativeWindow is ready for use.  Upon
+             * receiving this command, android_app->window will contain the new window
+             * surface.
+             */
+            APP_CMD_INIT_WINDOW,
+
+            /**
+             * Command from main thread: the existing ANativeWindow needs to be
+             * terminated.  Upon receiving this command, android_app->window still
+             * contains the existing window; after calling android_app_exec_cmd
+             * it will be set to NULL.
+             */
+            APP_CMD_TERM_WINDOW,
+
+            /**
+             * Command from main thread: the current ANativeWindow has been resized.
+             * Please redraw with its new size.
+             */
+            APP_CMD_WINDOW_RESIZED,
+
+            /**
+             * Command from main thread: the system needs that the current ANativeWindow
+             * be redrawn.  You should redraw the window before handing this to
+             * android_app_exec_cmd() in order to avoid transient drawing glitches.
+             */
+            APP_CMD_WINDOW_REDRAW_NEEDED,
+
+            /**
+             * Command from main thread: the content area of the window has changed,
+             * such as from the soft input window being shown or hidden.  You can
+             * find the new content rect in android_app::contentRect.
+             */
+            APP_CMD_CONTENT_RECT_CHANGED,
+
+            /**
+             * Command from main thread: the app's activity window has gained
+             * input focus.
+             */
+            APP_CMD_GAINED_FOCUS,
+
+            /**
+             * Command from main thread: the app's activity window has lost
+             * input focus.
+             */
+            APP_CMD_LOST_FOCUS,
+
+            /**
+             * Command from main thread: the current device configuration has changed.
+             */
+            APP_CMD_CONFIG_CHANGED,
+
+            /**
+             * Command from main thread: the system is running low on memory.
+             * Try to reduce your memory use.
+             */
+            APP_CMD_LOW_MEMORY,
+
+            /**
+             * Command from main thread: the app's activity has been started.
+             */
+            APP_CMD_START,
+
+            /**
+             * Command from main thread: the app's activity has been resumed.
+             */
+            APP_CMD_RESUME,
+
+            /**
+             * Command from main thread: the app should generate a new saved state
+             * for itself, to restore from later if needed.  If you have saved state,
+             * allocate it with malloc and place it in android_app.savedState with
+             * the size in android_app.savedStateSize.  The will be freed for you
+             * later.
+             */
+            APP_CMD_SAVE_STATE,
+
+            /**
+             * Command from main thread: the app's activity has been paused.
+             */
+            APP_CMD_PAUSE,
+
+            /**
+             * Command from main thread: the app's activity has been stopped.
+             */
+            APP_CMD_STOP,
+
+            /**
+             * Command from main thread: the app's activity is being destroyed,
+             * and waiting for the app thread to clean up and exit before proceeding.
+             */
+            APP_CMD_DESTROY,
+        };
+
+        [Script(IsNative = true)]
+        public delegate void android_app_onAppCmd(android_app app, android_app_cmd cmd);
+
+
+        //[Script(IsNative = true, ExternalTarget = "android_app")]
+        [Script(IsNative = true, PointerName = "android_app*")]
+        //[Script(PointerName = "PWNDCLASSEX", HasNoPrototype = true)]
+        public class android_app
+        {
+            public object userData;
+
+            //     void (*onAppCmd)(struct android_app* app, int32_t cmd);
+            public android_app_onAppCmd onAppCmd;
+        }
+
+
+        // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs
+        public static void app_dummy() { }
+
+
+        //X:/opensource/android-ndk-r10c/sources/android/native_app_glue/android_native_app_glue.h:343:13: note: previous declaration of 'android_main' was here
+        // extern void android_main(struct android_app* app);
+        //             ^
+        //jni/TestNDK.dll.c:12:6: error: conflicting types for 'android_main'
+        // void android_main(void* state)
+
+    }
+
+}
