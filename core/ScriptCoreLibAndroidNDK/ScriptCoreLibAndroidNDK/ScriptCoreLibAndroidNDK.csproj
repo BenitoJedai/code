@@ -59,10 +59,13 @@
     <Compile Include="SystemHeaders\android\native_activity.cs" />
     <Compile Include="SystemHeaders\android_native_app_glue.cs" />
     <Compile Include="SystemHeaders\android\log.cs" />
+    <Compile Include="SystemHeaders\jni.cs" />
     <Compile Include="SystemHeaders\dlfcn.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BCLImplementation\System\" />
+    <Folder Include="SystemHeaders\EGL\" />
+    <Folder Include="SystemHeaders\GLES\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

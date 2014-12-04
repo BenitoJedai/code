@@ -147,6 +147,12 @@ namespace ScriptCoreLibNative.SystemHeaders
             public android_app_onAppCmd onAppCmd;
         }
 
+        [Script(IsNative = true)]
+        public class android_poll_source
+        { 
+        
+        }
+
 
         [Script(IsNative = true)]
         //[Script(PointerName = "PWNDCLASSEX", HasNoPrototype = true)]
