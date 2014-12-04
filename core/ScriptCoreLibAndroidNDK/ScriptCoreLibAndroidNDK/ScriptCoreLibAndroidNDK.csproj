@@ -61,6 +61,7 @@
     <Compile Include="SystemHeaders\android\log.cs" />
     <Compile Include="SystemHeaders\jni.cs" />
     <Compile Include="SystemHeaders\dlfcn.cs" />
+    <Compile Include="SystemHeaders\sys\socket.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BCLImplementation\System\" />

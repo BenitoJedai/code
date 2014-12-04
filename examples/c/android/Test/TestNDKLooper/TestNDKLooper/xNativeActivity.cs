@@ -63,6 +63,19 @@ namespace TestNDKLooper
             state.userData = default(object);
             //state.
 
+            //state.activity.clazz
+
+            state.activity.callbacks.onPause = (e) =>
+            {
+
+                log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "state.activity.callbacks.onPause");
+            };
+
+            state.activity.callbacks.onResume = (e) =>
+            {
+                log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "state.activity.callbacks.onResume");
+            };
+
             // http://stackoverflow.com/questions/18316046/when-build-with-latest-android-ndk-nativeactivity-spams-to-log-on-touch-events
             // would we have to have callback shims if we want to keep the data?
             #region onInputEvent
