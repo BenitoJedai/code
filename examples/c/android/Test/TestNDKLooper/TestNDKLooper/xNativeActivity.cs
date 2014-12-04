@@ -64,6 +64,12 @@ namespace TestNDKLooper
             //state.
 
             // http://stackoverflow.com/questions/18316046/when-build-with-latest-android-ndk-nativeactivity-spams-to-log-on-touch-events
+            // would we have to have callback shims if we want to keep the data?
+            state.onInputEvent = (app, e) =>
+            {
+                log.__android_log_print(0, "xNativeActivity", "onInputEvent");
+            };
+
 
             // can we do events in C just yet?
             #region onAppCmd

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLibNative.SystemHeaders.android;
 
 namespace ScriptCoreLibNative.SystemHeaders
 {
@@ -130,6 +131,9 @@ namespace ScriptCoreLibNative.SystemHeaders
         [Script(IsNative = true)]
         public delegate void android_app_onAppCmd(android_app app, android_app_cmd cmd);
 
+        [Script(IsNative = true)]
+        public delegate void android_app_onInputEvent(android_app app, input.AInputEvent cmd);
+
 
         //[Script(IsNative = true, ExternalTarget = "android_app")]
 
@@ -145,6 +149,15 @@ namespace ScriptCoreLibNative.SystemHeaders
 
             //     void (*onAppCmd)(struct android_app* app, int32_t cmd);
             public android_app_onAppCmd onAppCmd;
+
+
+            // Fill this in with the function to process input events.  At this point
+            // the event has already been pre-dispatched, and it will be finished upon
+            // return.  Return 1 if you have handled the event, 0 for any default
+            // dispatching.
+            //int32_t (*onInputEvent)(struct android_app* app, AInputEvent* event);
+            public android_app_onInputEvent onInputEvent;
+
         }
 
 
