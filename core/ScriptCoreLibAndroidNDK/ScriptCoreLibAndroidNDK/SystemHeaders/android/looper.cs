@@ -36,11 +36,13 @@ namespace ScriptCoreLibNative.SystemHeaders.android
 
         // android_poll_source
         //public static int ALooper_pollAll(int timeoutMillis, ref int outFd, ref int outEvents, ref android_native_app_glue.android_poll_source outData)
-        
+
 
         // Error	2	Argument 4: cannot convert from 'ref ScriptCoreLibNative.SystemHeaders.android_native_app_glue.android_poll_source' to 'ref object'	X:\jsc.svn\examples\c\android\Test\TestNDKLooper\TestNDKLooper\xNativeActivity.cs	112	25	TestNDKLooper
 
         //public static int ALooper_pollAll(int timeoutMillis, ref int outFd, ref int outEvents, ref object outData)
+
+        // jsc now knows to cast to void** even if user code expects a type ref
         public static int ALooper_pollAll<TData>(int timeoutMillis, ref int outFd, ref int outEvents, ref TData outData)
         {
             return default(int);
