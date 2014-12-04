@@ -1,4 +1,4 @@
-/* prevalidated at 2014-11-30 11:40:23 AM */
+/* prevalidated at 2014-12-04 10:29:53 AM */
 
 #include <android_native_app_glue.h>
 #include <android/log.h>
@@ -15,6 +15,5 @@ typedef struct tag_TestNDK_xNativeActivity
 // instance TestNDK.xNativeActivity..ctor
 LPTestNDK_xNativeActivity TestNDK_xNativeActivity__ctor_6000002(LPTestNDK_xNativeActivity);
 
-
-void TestNDK_xNativeActivity__android_main_b__0(void*, int);
+void TestNDK_xNativeActivity__android_main_b__0(struct android_app*, int);
 

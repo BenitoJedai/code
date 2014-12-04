@@ -14,6 +14,16 @@ namespace ScriptCoreLibNative.SystemHeaders
     [Script(IsNative = true, Header = "android_native_app_glue.h", IsSystemHeader = true)]
     public static class android_native_app_glue
     {
+        // can the android app
+        // ask for NFC chip and pin in order to download or decrypt the payload frame
+        // application DRM
+        // this would also mean the system knows who has activated parts of the application
+        // for reactivation NFC is checked again
+        // a loyalty/security scheme
+        // if decrypted once, how to enforce time lock?
+
+
+
         public enum android_app_cmd
         {
             /**
@@ -122,10 +132,15 @@ namespace ScriptCoreLibNative.SystemHeaders
 
 
         //[Script(IsNative = true, ExternalTarget = "android_app")]
-        [Script(IsNative = true, PointerName = "android_app*")]
+
+        // jsc could figure out this for native types!
+        //[Script(IsNative = true, HasNoPrototype = true, PointerName = "android_app*")]
+        [Script(IsNative = true)]
         //[Script(PointerName = "PWNDCLASSEX", HasNoPrototype = true)]
         public class android_app
         {
+            // ANativeActivity
+
             public object userData;
 
             //     void (*onAppCmd)(struct android_app* app, int32_t cmd);
@@ -136,6 +151,16 @@ namespace ScriptCoreLibNative.SystemHeaders
         // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs
         public static void app_dummy() { }
 
+
+        // http://stackoverflow.com/questions/856636/effects-of-the-extern-keyword-on-c-functions
+        // Technically, every function in a library public header is 'extern', 
+        // however labeling them as such has very little to no benefit, depending on the compiler. 
+        // Most compilers can figure that out on their own. As you see, those functions are actually defined somewhere else.
+
+        [Obsolete("will jsc imply the extern keyword? look for [Script(NoDecoration = true)]")]
+        //extern static void android_main(android_native_app_glue.android_app state);//; { }
+        // actually. the user code cannot redefine the header. jsc wont be emitting the extern as that header file is part of the natives
+        static void android_main(android_native_app_glue.android_app state) { }
 
         //X:/opensource/android-ndk-r10c/sources/android/native_app_glue/android_native_app_glue.h:343:13: note: previous declaration of 'android_main' was here
         // extern void android_main(struct android_app* app);

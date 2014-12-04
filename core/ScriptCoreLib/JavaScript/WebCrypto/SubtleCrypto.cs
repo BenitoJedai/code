@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class SubtleCrypto
     {
+        // http://ceur-ws.org/Vol-1011/2.pdf
+
         // https://speakerdeck.com/ttaubert/keeping-secrets-with-javascript-an-introduction-to-the-webcrypto-api
         
         // http://research.microsoft.com/en-us/downloads/29f9385d-da4c-479a-b2ea-2a7bb335d727/default.aspx

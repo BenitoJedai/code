@@ -11,7 +11,7 @@ namespace android.app.job
     // http://developer.android.com/reference/android/app/job/JobScheduler.html
 
     [Script(IsNative = true)]
-    public class JobScheduler
+    public abstract class JobScheduler
     {
         // await for wifi?
 
