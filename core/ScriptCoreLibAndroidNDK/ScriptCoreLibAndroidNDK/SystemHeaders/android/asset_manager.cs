@@ -19,7 +19,11 @@ namespace ScriptCoreLibNative.SystemHeaders.android
 
         // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs
 
-        // AAssetManager
+        [Script(IsNative = true)]
+        public class AAssetManager
+        { 
+        
+        }
     }
 
 }

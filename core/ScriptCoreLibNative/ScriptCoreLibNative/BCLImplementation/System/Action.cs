@@ -23,4 +23,7 @@ namespace ScriptCoreLibNative.BCLImplementation.System
 	[Script(Implements = typeof(global::System.Action<,,,>))]
 	internal delegate void __Action<T1, T2, T3, T4>(T1 t1, T2 t2, T3 t3, T4 t4);
 
+
+    //[Script(IsNative = true))]
+    //internal delegate void __NativeAction<T1>(T1 t1);
 }

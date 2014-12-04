@@ -158,6 +158,10 @@ namespace ScriptCoreLibNative.SystemHeaders
             //int32_t (*onInputEvent)(struct android_app* app, AInputEvent* event);
             public android_app_onInputEvent onInputEvent;
 
+            public native_activity.ANativeActivity activity;
+
+            //ALooper looper;
+
         }
 
 

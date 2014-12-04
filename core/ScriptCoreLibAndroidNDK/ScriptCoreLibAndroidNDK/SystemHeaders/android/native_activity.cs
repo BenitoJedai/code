@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+//using ScriptCoreLibNative.BCLImplementation.System;
 
 namespace ScriptCoreLibNative.SystemHeaders.android
 {
@@ -21,8 +22,41 @@ namespace ScriptCoreLibNative.SystemHeaders.android
 
         // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs
 
+        [Script(IsNative = true)]
+        public delegate void ANativeActivityCallbacks_onResume(ANativeActivity activity);
 
-        //ANativeActivity 
+        [Script(IsNative = true)]
+        public delegate void ANativeActivityCallbacks_onPause(ANativeActivity activity);
+
+
+
+        [Script(IsNative = true)]
+        public class ANativeActivityCallbacks
+        {
+            // X:\jsc.svn\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\SystemHeaders\android\native_activity.cs
+
+            public ANativeActivityCallbacks_onResume onResume;
+            public ANativeActivityCallbacks_onPause onPause;
+        }
+
+        [Script(IsNative = true)]
+        public class ANativeActivity
+        {
+            public ANativeActivityCallbacks callbacks;
+
+            public jni.JavaVM vm;
+            public jni.JNIEnv env;
+
+            // typedef void*           jobject;
+            public object clazz;
+
+            //jobject clazz;
+            public string internalDataPath;
+            public string externalDataPath;
+
+            public asset_manager.AAssetManager assetManager;
+        }
+
         //    ANativeActivityCallbacks 
 
 
