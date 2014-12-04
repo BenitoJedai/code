@@ -51,7 +51,7 @@ namespace TestNDKLooper
             // http://supersegfault.com/three-ways-to-set-up-ndk-apps/
 
             // jsc is not printing the target name?
-            var loc0 = state;
+            //var loc0 = state;
 
             // roslyn confuses jsc?
 
@@ -65,38 +65,61 @@ namespace TestNDKLooper
 
             // http://stackoverflow.com/questions/18316046/when-build-with-latest-android-ndk-nativeactivity-spams-to-log-on-touch-events
             // would we have to have callback shims if we want to keep the data?
+            #region onInputEvent
             state.onInputEvent = (app, e) =>
             {
-                log.__android_log_print(0, "xNativeActivity", "onInputEvent");
+                log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "onInputEvent");
+
+                if (e.AInputEvent_getType() == input.AInputEventType.AINPUT_EVENT_TYPE_KEY)
+                {
+                    log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "onInputEvent AINPUT_EVENT_TYPE_KEY");
+                }
+
+                if (e.AInputEvent_getType() == input.AInputEventType.AINPUT_EVENT_TYPE_MOTION)
+                {
+                    // 12-04 22:34:32.488: I/xNativeActivity(7586): onInputEvent AINPUT_EVENT_TYPE_MOTION
+
+                    log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "onInputEvent AINPUT_EVENT_TYPE_MOTION");
+                }
+
+                // this wont help a bit
+                return 1;
+                //return 0;
             };
+            #endregion
+
+            log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "added onInputEvent");
 
 
             // can we do events in C just yet?
+            // what about async?
             #region onAppCmd
             state.onAppCmd = (app, cmd) =>
             {
                 // http://supersegfault.com/three-ways-to-set-up-ndk-apps/
                 // native callbacks wont like scope/instance pointers
 
-                log.__android_log_print(0, "xNativeActivity", "onAppCmd");
+                log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "onAppCmd");
 
                 // enum tostring for c available yet?
                 if (cmd == android_native_app_glue.android_app_cmd.APP_CMD_INIT_WINDOW)
                 {
-                    log.__android_log_print(0, "xNativeActivity", "APP_CMD_INIT_WINDOW");
+                    log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "APP_CMD_INIT_WINDOW");
                 }
 
                 if (cmd == android_native_app_glue.android_app_cmd.APP_CMD_GAINED_FOCUS)
                 {
-                    log.__android_log_print(0, "xNativeActivity", "APP_CMD_GAINED_FOCUS");
+                    log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "APP_CMD_GAINED_FOCUS");
                 }
 
                 if (cmd == android_native_app_glue.android_app_cmd.APP_CMD_LOST_FOCUS)
                 {
-                    log.__android_log_print(0, "xNativeActivity", "APP_CMD_GAINED_FOCUS");
+                    log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "APP_CMD_GAINED_FOCUS");
                 }
             };
             #endregion
+
+            log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "added onAppCmd");
 
             //state.onInputEvent = delegate { };
 
@@ -105,6 +128,8 @@ namespace TestNDKLooper
             var FD = 0;
             var events = 0;
             var source = default(android_native_app_glue.android_poll_source);
+
+            //log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "while");
 
             var ok = 1 == 1;
             while (ok)
@@ -120,23 +145,30 @@ namespace TestNDKLooper
 
                 // E/NativeActivity( 3001): channel '40bf2468 com.example.TestNDKLooper/android.app.NativeActivity (client)' ~ Failed to receive dispatch signal.  status=-11
 
+                // E/NativeActivity( 4825): channel '4094eb48 com.example.TestNDKLooper/android.app.NativeActivity (client)' ~ Failed to receive dispatch signal.  status=-11
+                // http://answers.unity3d.com/questions/519597/touch-stopped-working-works-in-remote.html
+                log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "ALooper_pollAll");
+
                 var ident = looper.ALooper_pollAll(
-                    500,
+                    3000,
                     ref FD,
+                    //null,
+
                     ref events,
                     ref source
                 );
 
                 if (ident >= 0)
                 {
-                    log.__android_log_print(0, "xNativeActivity", "ALooper_pollAll gave source?");
+                    //log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "ALooper_pollAll gave source?");
 
                     if (source != null)
                     {
-                        log.__android_log_print(0, "xNativeActivity", "ALooper_pollAll gave source? yes");
+                        //log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "ALooper_pollAll before process");
 
                         // (/* typecast */(void(*)(struct tag_struct android_app**, struct tag_struct android_poll_source**))android_poll_source3->process)((struct android_app*)state, (struct android_poll_source*)android_poll_source3);
                         source.process(state, source);
+                        //log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "ALooper_pollAll after process");
                     }
                 }
             }

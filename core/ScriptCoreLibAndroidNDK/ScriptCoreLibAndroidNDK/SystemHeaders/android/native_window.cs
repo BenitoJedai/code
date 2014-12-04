@@ -7,6 +7,7 @@ using ScriptCoreLib;
 namespace ScriptCoreLibNative.SystemHeaders.android
 {
     // "X:\opensource\android-ndk-r10c\platforms\android-9\arch-arm\usr\include\android\native_window.h"
+    // https://github.com/android/platform_frameworks_base/blob/master/core/jni/android_app_NativeActivity.cpp
 
     [Script(IsNative = true, Header = "android/native_window.h", IsSystemHeader = true)]
     public static class native_window

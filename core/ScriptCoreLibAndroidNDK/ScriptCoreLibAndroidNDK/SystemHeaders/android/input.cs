@@ -15,11 +15,32 @@ namespace ScriptCoreLibNative.SystemHeaders.android
 
         // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs
 
+        public enum AInputEventType
+        {
+            /* Indicates that the input event is a key event. */
+            AINPUT_EVENT_TYPE_KEY = 1,
+
+            /* Indicates that the input event is a motion event. */
+            AINPUT_EVENT_TYPE_MOTION = 2
+        };
+
+
+        /* Get the input event type. */
+        public static AInputEventType AInputEvent_getType(this AInputEvent @event) { return default(AInputEventType);}
+
         // AInputEvent
         [Script(IsNative = true)]
         public class AInputEvent
         {
+            // a named pointer without data fields?
+            // X:\jsc.svn\examples\c\android\Test\TestNDKLooper\TestNDKLooper\xNativeActivity.cs
         }
+
+          [Script(IsNative = true)]
+        public class AInputQueue
+        {
+        }
+        
     }
 
 }
