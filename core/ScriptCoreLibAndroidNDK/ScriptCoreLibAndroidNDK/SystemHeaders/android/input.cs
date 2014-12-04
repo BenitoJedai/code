@@ -16,6 +16,10 @@ namespace ScriptCoreLibNative.SystemHeaders.android
         // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs
 
         // AInputEvent
+        [Script(IsNative = true)]
+        public class AInputEvent
+        {
+        }
     }
 
 }
