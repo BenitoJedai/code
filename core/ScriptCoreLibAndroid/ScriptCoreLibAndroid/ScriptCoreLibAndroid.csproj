@@ -885,6 +885,7 @@
     <Compile Include="android\content\pm\ResolveInfo.cs" />
     <Compile Include="android\content\pm\PackageManager.cs" />
     <Compile Include="android\content\pm\MacAuthenticatedInputStream.cs" />
+    <Compile Include="android\content\res\Configuration.cs" />
     <Compile Include="android\content\SharedPreferences.cs" />
     <Compile Include="android\content\Intent.cs" />
     <Compile Include="android\content\res\AssetManager.cs" />
@@ -925,6 +926,7 @@
     <Compile Include="android\os\ServiceManager.cs" />
     <Compile Include="android\os\IBinder.cs" />
     <Compile Include="android\os\Parcelable.cs" />
+    <Compile Include="android\os\storage\StorageManager.cs" />
     <Compile Include="android\os\Vibrator.cs" />
     <Compile Include="android\provider\ContactsContract.cs" />
     <Compile Include="android\provider\MediaStore.cs" />
@@ -950,6 +952,7 @@
     <Compile Include="android\content\BroadcastReceiver.cs" />
     <Compile Include="android\content\Context.cs" />
     <Compile Include="android\os\Bundle.cs" />
+    <Compile Include="android\view\Surface.cs" />
     <Compile Include="android\view\SurfaceHolder.cs" />
     <Compile Include="android\view\InputEvent.cs" />
     <Compile Include="android\view\Gravity.cs" />

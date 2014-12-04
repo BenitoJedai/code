@@ -72,9 +72,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="tools\build.bat" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT cmd /C c:/util/jsc/bin/jsc.meta.exe $(TargetPath) -c</PostBuildEvent>
+    <PostBuildEvent>pushd ..\..\tools\
+start /WAIT cmd /C  build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
+popd
+
+::start /WAIT cmd /K c:/util/jsc/bin/jsc.meta.exe $(TargetPath) -c</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

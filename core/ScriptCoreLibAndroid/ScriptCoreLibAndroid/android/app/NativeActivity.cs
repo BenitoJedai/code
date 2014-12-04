@@ -19,6 +19,8 @@ namespace android.app
     [Script(IsNative = true)]
     public class NativeActivity : Activity
     {
+        // X:\jsc.svn\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\SystemHeaders\android\native_activity.cs
+
         // https://sourcex.wordpress.com/2013/11/12/art-runtime-for-kitkat-4-4-explained/
         // http://apcmag.com/android-runtime-how-it-works.htm
 

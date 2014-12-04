@@ -62,8 +62,11 @@ namespace TestNDK
 
             log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "enter TestNDK");
 
+            // state<T>.userData
             state.userData = default(object);
-            state.
+            //state.
+
+            // can we do events in C just yet?
             state.onAppCmd = (app, cmd) =>
             {
                 // native callbacks wont like scope/instance pointers

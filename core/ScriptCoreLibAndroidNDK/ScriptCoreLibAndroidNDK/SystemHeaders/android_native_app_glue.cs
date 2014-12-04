@@ -148,6 +148,19 @@ namespace ScriptCoreLibNative.SystemHeaders
         }
 
 
+        [Script(IsNative = true)]
+        //[Script(PointerName = "PWNDCLASSEX", HasNoPrototype = true)]
+        public class android_app<TuserData>
+        {
+            // ANativeActivity
+
+            // generic in C ? would it work?
+            public TuserData userData;
+
+            //     void (*onAppCmd)(struct android_app* app, int32_t cmd);
+            public android_app_onAppCmd onAppCmd;
+        }
+
         // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs
         public static void app_dummy() { }
 
