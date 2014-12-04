@@ -44,9 +44,22 @@
   <ItemGroup>
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemHeaders\android\bitmap.cs" />
+    <Compile Include="SystemHeaders\android\asset_manager.cs" />
+    <Compile Include="SystemHeaders\android\configuration.cs" />
+    <Compile Include="SystemHeaders\android\obb.cs" />
+    <Compile Include="SystemHeaders\android\storage_manager.cs" />
+    <Compile Include="SystemHeaders\android\native_window_jni.cs" />
+    <Compile Include="SystemHeaders\android\native_window.cs" />
+    <Compile Include="SystemHeaders\android\rect.cs" />
+    <Compile Include="SystemHeaders\android\sensor.cs" />
+    <Compile Include="SystemHeaders\android\keycodes.cs" />
+    <Compile Include="SystemHeaders\android\input.cs" />
+    <Compile Include="SystemHeaders\android\looper.cs" />
     <Compile Include="SystemHeaders\android\native_activity.cs" />
     <Compile Include="SystemHeaders\android_native_app_glue.cs" />
     <Compile Include="SystemHeaders\android\log.cs" />
+    <Compile Include="SystemHeaders\dlfcn.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BCLImplementation\System\" />

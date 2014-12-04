@@ -11,6 +11,8 @@ namespace android.view
     [Script(IsNative = true)]
     public class KeyEvent : InputEvent
     {
+        // X:\jsc.svn\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\SystemHeaders\android\keycodes.cs
+
         // http://developer.android.com/reference/android/view/KeyEvent.Callback.html
         [Script(IsNative = true)]
         public interface Callback

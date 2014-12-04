@@ -6,6 +6,8 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibNative.SystemHeaders.android
 {
+    // "X:\opensource\android-ndk-r10c\platforms\android-9\arch-arm\usr\include\android\log.h"
+
     [Script(IsNative = true, Header = "android/log.h", IsSystemHeader = true)]
     public static class log
     {
