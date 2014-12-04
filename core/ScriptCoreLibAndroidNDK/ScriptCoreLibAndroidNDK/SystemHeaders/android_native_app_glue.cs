@@ -132,7 +132,7 @@ namespace ScriptCoreLibNative.SystemHeaders
         public delegate void android_app_onAppCmd(android_app app, android_app_cmd cmd);
 
         [Script(IsNative = true)]
-        public delegate void android_app_onInputEvent(android_app app, input.AInputEvent cmd);
+        public delegate int android_app_onInputEvent(android_app app, input.AInputEvent cmd);
 
 
         //[Script(IsNative = true, ExternalTarget = "android_app")]
