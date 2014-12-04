@@ -19,6 +19,7 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Java.Extensions;
 
+// why is this here not in scriptCoreLib?
 namespace java.lang.reflect
 {
     [Script(IsNative = true)]
@@ -225,6 +226,9 @@ namespace ScriptCoreLib.Java
             return value;
         }
 
+        // can this be used from c gen?
+        // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20141204
+        // no it would need to live in the ScriptCoreLib.Ultra.Library to be visible
         public static bool SignatureEquals(this MethodInfo a, string MethodName, Type ReturnType, Type[] ParameterTypes)
         {
             return SignatureEquals(

@@ -9,6 +9,8 @@ namespace ScriptCoreLibNative.BCLImplementation.System
 	[Script(Implements = typeof(global::System.IntPtr))]
 	internal class __IntPtr
 	{
+        // http://www.symantec.com/content/en/us/enterprise/media/security_response/whitepapers/regin-analysis.pdf
+
 		public static int Size
 		{
 			[Script(OptimizedCode = "return sizeof(void*);")]

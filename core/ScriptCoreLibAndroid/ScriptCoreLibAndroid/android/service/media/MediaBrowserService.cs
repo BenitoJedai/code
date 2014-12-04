@@ -10,7 +10,7 @@ namespace android.service.media
     // https://developer.android.com/reference/android/service/media/MediaBrowserService.html
 
     [Script(IsNative = true)]
-    public class MediaBrowserService : android.app.Service
+    public abstract class MediaBrowserService : android.app.Service
     {
         // https://developer.android.com/about/versions/android-5.0.html
 

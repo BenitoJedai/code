@@ -36,7 +36,7 @@ namespace android.app
         // -t --target     : Target ID to set for the project.
         // "C:\util\apache-ant-1.9.2\bin\ant.bat" debug
         // "X:\opensource\android-ndk-r10c\samples\native-activity\bin\NativeActivity-debug.apk"
-        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install "X:\opensource\android-ndk-r10c\samples\native-activity\bin\NativeActivity-debug.apk"
+        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\bin\Debug\staging\bin\NativeActivity-debug.apk"
 
         // http://www.adobe.com/devnet/air/articles/ane-android-devices.html
         // http://visualgdb.com/tutorials/android/native-activity/

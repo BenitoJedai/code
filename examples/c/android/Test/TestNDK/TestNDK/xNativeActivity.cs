@@ -14,12 +14,20 @@ namespace TestNDK
 {
     public class xNativeActivity : ScriptCoreLibAndroidNDK.IAssemblyReferenceToken
     {
+        // <!-- This .apk has no Java code itself, so set hasCode to false. -->
+
+        // tested on android 2.4 galaxy s1
+        // I/xNativeActivity(17047): enter TestNDK
+        // I/xNativeActivity(17047): exit TestNDK
+
+        // cmd /K c:\util\android-sdk-windows\platform-tools\adb.exe logcat
+        // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\bin\Debug\staging
         // "C:\util\android-sdk-windows\tools\android.bat" update project -p . -s --target android-8
         // X:\opensource\android-ndk-r10c\ndk-build.cmd
         // "C:\util\apache-ant-1.9.2\bin\ant.bat" debug
         // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\bin\Debug\staging\bin\NativeActivity-debug.apk"
 
-
+        // ? rm failed for -f, Read-only file system
 
         //I/ActivityManager(  482): Start proc com.example.TestNDK for activity com.example.TestNDK/android.app.NativeActivity: pid=26265 uid=10093 gids={50093}
         //I/dalvikvm(26265): Enabling JNI app bug workarounds for target SDK version 9...
@@ -42,6 +50,7 @@ namespace TestNDK
         // void android_main(void* state)
         [Script(NoDecoration = true)]
         //static void android_main(object state)
+        // void android_main(struct android_app* state)
         static void android_main(android_native_app_glue.android_app state)
         {
             // jsc is not printing the target name?
@@ -54,6 +63,7 @@ namespace TestNDK
             log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "enter TestNDK");
 
             state.userData = default(object);
+            state.
             state.onAppCmd = (app, cmd) =>
             {
                 // native callbacks wont like scope/instance pointers
