@@ -147,10 +147,17 @@ namespace ScriptCoreLibNative.SystemHeaders
             public android_app_onAppCmd onAppCmd;
         }
 
+
+
+
+        [Script(IsNative = true)]
+        //void (*process)(struct android_app* app, struct android_poll_source* source);
+        public delegate void android_poll_source_process(android_app app, android_poll_source source);
+
         [Script(IsNative = true)]
         public class android_poll_source
-        { 
-        
+        {
+            public android_poll_source_process process;
         }
 
 
