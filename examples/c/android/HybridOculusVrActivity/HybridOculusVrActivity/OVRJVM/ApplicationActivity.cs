@@ -12,12 +12,12 @@ using ScriptCoreLib;
 // notice the different namespace
 namespace HybridOculusVrActivity.OVRJVM
 {
+    // X:\jsc.svn\examples\c\android\Test\TestHybridOVR\TestHybridOVR\OVRJVM\ApplicationActivity.cs
     // "X:\opensource\ovr_mobile_sdk_20141111\VrNative\VrTemplate\src\oculus\MainActivity.java"
 
     // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20141206
     public class ApplicationActivity : Activity, ScriptCoreLib.Android.IAssemblyReferenceToken
     {
-        // Failure [INSTALL_PARSE_FAILED_MANIFEST_MALFORMED]
 
         // wo dont yet have the cool dispatcher for arm
         // X:\jsc.svn\core\ScriptCoreLibJava.jni\web\bin\jnistb10\dispatch.c
