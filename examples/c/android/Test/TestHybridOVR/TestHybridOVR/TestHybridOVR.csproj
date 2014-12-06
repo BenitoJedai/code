@@ -46,8 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationActivity.cs" />
-    <Compile Include="xNativeActivity.cs" />
+    <Compile Include="OVRJVM\ApplicationActivity.cs" />
+    <Compile Include="OVRNDK\xNativeActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
