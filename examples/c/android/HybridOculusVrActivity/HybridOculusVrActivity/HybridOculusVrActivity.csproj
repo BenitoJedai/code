@@ -47,6 +47,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="HybridOculusVrActivity.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\HybridOculusVrActivity.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OVRJVM\ApplicationActivity.cs" />
@@ -61,6 +64,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="staging\import_vrlib.mk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\src\com\oculusvr\vrlib\BuildConfig.java">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\**\*.*">
@@ -80,16 +86,26 @@
     </None>
     <None Include="tools\build.bat" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="staging\src\" />
+    <Content Include="X:\opensource\ovr_mobile_sdk_20141111\VRLib\src\**\*.*">
+      <Link>staging\src\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
-start /WAIT cmd /C  build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
-popd
+      start /WAIT cmd /C  build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
+      popd
 
-::start /WAIT cmd /K c:/util/jsc/bin/jsc.meta.exe $(TargetPath) -c</PostBuildEvent>
+</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+      start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:false /TargetAndroidRuntime:true /IsScriptLibrary:true /IsScriptTypeFilterJava:true
+
+</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -13,13 +13,20 @@ using android.widget;
 // notice the different namespace
 namespace HybridOculusVrActivity.OVRJVM
 {
+    //X:\opensource\ovr_mobile_sdk_20141111\VRLib\src\com\oculusvr\vrlib\PassThroughCamera.java:49: error: cannot find symbol
+    //                if ( BuildConfig.DEBUG && ( appPtr != appPtr_ ) && ( appPtr != 0 ) )
+    //                     ^
+
     // X:\jsc.svn\examples\c\android\Test\TestHybridOVR\TestHybridOVR\OVRJVM\ApplicationActivity.cs
     // "X:\opensource\ovr_mobile_sdk_20141111\VrNative\VrTemplate\src\oculus\MainActivity.java"
     // "X:\opensource\ovr_mobile_sdk_20141111\VrNative\VrScene\src\com\oculusvr\vrscene\MainActivity.java"
 
     // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20141206
     public class ApplicationActivity : Activity, ScriptCoreLib.Android.IAssemblyReferenceToken
+    //public class ApplicationActivity : com.oculusvr.vrlib.VrActivity, ScriptCoreLib.Android.IAssemblyReferenceToken
     {
+        public com.oculusvr.vrlib.VrActivity ref0;
+
         //W/JniUtils(10537): enter ovr_GetGlobalClassReference
         //W/JniUtils(10537): com/oculusvr/vrlib/VrLib
         //W/JniUtils(10537): fail ovr_GetGlobalClassReference
@@ -56,9 +63,18 @@ namespace HybridOculusVrActivity.OVRJVM
 
         protected override void onCreate(android.os.Bundle value)
         {
+            base.onCreate(value);
+
+            //E/AndroidRuntime(13031): android.util.SuperNotCalledException: Activity {HybridOculusVrActivity.OVRJVM/HybridOculusVrActivity.OVRJVM.ApplicationActivity} did not call through to super.onCreate()
+            //E/AndroidRuntime(13031):        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2150)
+            //E/AndroidRuntime(13031):        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2233)
+            //E/AndroidRuntime(13031):        at android.app.ActivityThread.access$800(ActivityThread.java:135)
+            //E/AndroidRuntime(13031):        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1196)
+            //E/AndroidRuntime(13031):        at android.os.Handler.dispatchMessage(Handler.java:102)
+            //E/AndroidRuntime(13031):        at android.os.Looper.loop(Looper.java:136)
+            //E/AndroidRuntime(13031):        at android.app.ActivityThread.main(ActivityThread.java:5001)
 
             // why call the base?
-            base.onCreate(value);
 
             Console.WriteLine("enter  HybridOculusVrActivity.OVRJVM ApplicationActivity onCreate");
 
@@ -66,15 +82,18 @@ namespace HybridOculusVrActivity.OVRJVM
             tv.setText(stringFromJNI());
             setContentView(tv);
 
+            // if we do not set it we are going to crash.
+            //this.appPtr = 0;
 
-
-            //I/System.Console( 8778): enter  HybridOculusVrActivity.OVRJVM ApplicationActivity onCreate
-            //I/System.Console( 8778): stringFromJNI: from Java_TestHybridOVR_OVRJVM_ApplicationActivity_stringFromJNI
-
-
-            // can we get into the native world?
-            //Console.WriteLine("stringFromJNI: " + stringFromJNI());
+            //nativeResume(appPtr);
         }
+
+        protected override void onResume()
+        {
+            base.onResume();
+        }
+
+        //override on
 
 
         static ApplicationActivity()
