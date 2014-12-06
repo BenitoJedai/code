@@ -16,6 +16,9 @@ using HybridOculusVrActivity;
 
 namespace HybridOculusVrActivity.OVRNDK
 {
+    //[armeabi-v7a] SharedLibrary  : libHybridOculusVrActivity.so
+    // X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\3rdParty\turbojpeg.h
+    //X:/opensource/android-ndk-r10c/toolchains/arm-linux-androideabi-4.6/prebuilt/windows-x86_64/bin/../lib/gcc/arm-linux-androideabi/4.6/../../../../arm-linux-androideabi/bin/ld.exe: ./obj/local/armeabi-v7a/objs/HybridOculusVrActivity/VrCommon.o: in function OVR::WriteJpeg(char const*, unsigned char const*, int, int):jni/VrCommon.cpp:257: error: undefined reference to 'tjInitCompress'
 
     // OVR::VrAppInterface
     public partial class xNativeActivity : ScriptCoreLibAndroidNDK.IAssemblyReferenceToken

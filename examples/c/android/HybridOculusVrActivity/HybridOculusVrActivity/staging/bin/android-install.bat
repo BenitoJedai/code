@@ -4,5 +4,5 @@
 
 @echo off
 
-"C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "NativeActivity-debug.apk"
+"C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "ApplicationActivity-debug.apk"
 ::pause
