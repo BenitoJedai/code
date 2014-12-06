@@ -13,6 +13,9 @@ namespace java.net
     [Script(IsNative = true)]
     public sealed class NetworkInterface
     {
+        // X:\jsc.svn\examples\c\android\Test\TestHybridOVR\TestHybridOVR\OVRJVM\ApplicationActivity.cs
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\NetworkInformation\NetworkInterface.cs
+        // Added in API level 9
         [ScriptMethodThrows(typeof(SocketException))]
         public sbyte[] getHardwareAddress()
         {

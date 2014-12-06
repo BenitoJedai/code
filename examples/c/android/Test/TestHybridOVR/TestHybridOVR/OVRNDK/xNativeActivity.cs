@@ -18,8 +18,12 @@ namespace TestHybridOVR.OVRNDK
 {
 
     // OVR::VrAppInterface
-    public class xNativeActivity : ScriptCoreLibAndroidNDK.IAssemblyReferenceToken
+    public partial class xNativeActivity : ScriptCoreLibAndroidNDK.IAssemblyReferenceToken
     {
+        //jni/TestHybridOVR.dll.h:17:37: fatal error: android_native_app_glue.h: No such file or directory
+        // #include <android_native_app_glue.h>
+
+
         //[arm64-v8a] Compile        : TestHybridOVR <= TestHybridOVR.dll.c
         //In file included from jni/TestHybridOVR.dll.h:20:0,
         //                 from jni/TestHybridOVR.dll.c:2:
@@ -52,41 +56,7 @@ namespace TestHybridOVR.OVRNDK
 
         // jstring Java_TestHybridOVR_OVRJVM_ApplicationActivity_stringFromJNI(JNIEnv* env, jobject thiz)
         //  type not supported: ScriptCoreLibNative.SystemHeaders.JNIEnv& ; consider adding [ScriptAttribute]
-        [Script(NoDecoration = true)]
-        static jstring Java_TestHybridOVR_OVRJVM_ApplicationActivity_stringFromJNI(
-            ref JNIEnv env,
-            jobject thiz)
-        {
 
-            //jstring Java_TestHybridOVR_OVRJVM_ApplicationActivity_stringFromJNI(JNIEnv** env, jobject thiz)
-            //{
-            //    void* delegate0;
-
-            //    delegate0 = ((jstring(*)(JNIEnv**, char*))(*env)->NewStringUTF);
-            //    return  (jstring)NULL;
-            //}
-
-
-            //jni/TestHybridOVR.dll.c: In function 'Java_TestHybridOVR_OVRJVM_ApplicationActivity_stringFromJNI':
-            //jni/TestHybridOVR.dll.c:62:49: error: request for member 'NewStringUTF' in something not a structure or union
-            //     delegate0 = ((jstring(*)(JNIEnv*, char*))env->NewStringUTF);
-            //                                                 ^
-
-            // return (*env)->NewStringUTF(env, "Hello from JNI !  Compiled with ABI " ABI ".");
-
-            //jni/TestHybridOVR.dll.c: In function 'Java_TestHybridOVR_OVRJVM_ApplicationActivity_stringFromJNI':
-            //jni/TestHybridOVR.dll.c:61:37: warning: 'struct tag_JNIEnv' declared inside parameter list
-            //     delegate0 = ((jstring(*)(struct tag_JNIEnv***, char*))(*env)->NewStringUTF);
-            //                                     ^
-
-            // Opcode not implemented: ldind.ref at TestHybridOVR.OVRNDK.xNativeActivity.Java_TestHybridOVR_OVRJVM_ApplicationActivity_stringFromJNI
-            var n = env.NewStringUTF;
-
-            var v = n(ref env, "from Java_TestHybridOVR_OVRJVM_ApplicationActivity_stringFromJNI");
-
-            return v;
-            //return default(jstring);
-        }
 
         //<!-- This .apk has no Java code itself, so set hasCode to false. -->
         //   <application android:label="@string/app_name" android:hasCode="false">
