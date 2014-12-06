@@ -1,4 +1,5 @@
-﻿:: 20141204
+
+:: 20141204
 :: after ten years, we still need a bat file for a quick and dirty iteration
 :: how do we write one?
 
@@ -24,6 +25,10 @@ call "C:\util\android-sdk-windows\tools\android.bat" update project -p . -s --ta
 
 echo ndk-build
 call X:\opensource\android-ndk-r10c\ndk-build.cmd
+
+popd
+call c:\util\jsc\bin\jsc.exe %TargetFileName% -java
+pushd staging
 
 pause
 
