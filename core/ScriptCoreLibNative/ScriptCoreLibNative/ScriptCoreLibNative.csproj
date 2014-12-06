@@ -89,7 +89,7 @@
     <Compile Include="SystemHeaders\assert_h.cs" />
     <Compile Include="SystemHeaders\process_h.cs" />
     <Compile Include="SystemHeaders\crtdbg_h.cs" />
-    <Compile Include="SystemHeaders\math_h.cs" />
+    <Compile Include="SystemHeaders\math.cs" />
     <Compile Include="SystemHeaders\stdio_h.cs" />
     <Compile Include="SystemHeaders\stdlib_h.cs" />
     <Compile Include="SystemHeaders\string_h.cs" />

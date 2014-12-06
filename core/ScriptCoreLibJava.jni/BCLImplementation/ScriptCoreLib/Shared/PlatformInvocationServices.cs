@@ -67,6 +67,8 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
 
             public static string GetCodeSourceLocation()
             {
+                // X:\jsc.svn\examples\c\android\Test\TestHybridOVR\TestHybridOVR\ApplicationActivity.cs
+
                 if (ExportDirectory == null)
                 {
                     try

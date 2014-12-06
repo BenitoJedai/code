@@ -7,6 +7,18 @@ using ScriptCoreLibNative.SystemHeaders;
 
 namespace ScriptCoreLibNative.BCLImplementation.System
 {
+
+    // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Math.cs
+    // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\SystemHeaders\math.cs
+
+    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/math.cs
+    // http://referencesource.microsoft.com/#mscorlib/system/math.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Math.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Math.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Math.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Math.cs
+    // X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\LibOVR\Src\Kernel\OVR_Math.cpp
+
 	[Script(Implements = typeof(global::System.Math))]
 	internal class __Math
 	{
@@ -23,12 +35,13 @@ namespace ScriptCoreLibNative.BCLImplementation.System
 
 		public static double Sin(double e)
 		{
-			return math_h.sin(e);
+            // could jsc not inline this yet? its 2015 aleady!
+			return math.sin(e);
 		}
 
 		public static double Cos(double e)
 		{
-			return math_h.cos(e);
+			return math.cos(e);
 		}
 
 		public static short Abs(short e)
