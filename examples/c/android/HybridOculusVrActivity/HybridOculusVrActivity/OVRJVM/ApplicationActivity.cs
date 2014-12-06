@@ -15,10 +15,31 @@ namespace HybridOculusVrActivity.OVRJVM
 {
     // X:\jsc.svn\examples\c\android\Test\TestHybridOVR\TestHybridOVR\OVRJVM\ApplicationActivity.cs
     // "X:\opensource\ovr_mobile_sdk_20141111\VrNative\VrTemplate\src\oculus\MainActivity.java"
+    // "X:\opensource\ovr_mobile_sdk_20141111\VrNative\VrScene\src\com\oculusvr\vrscene\MainActivity.java"
 
     // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20141206
     public class ApplicationActivity : Activity, ScriptCoreLib.Android.IAssemblyReferenceToken
     {
+        //W/JniUtils(10537): enter ovr_GetGlobalClassReference
+        //W/JniUtils(10537): com/oculusvr/vrlib/VrLib
+        //W/JniUtils(10537): fail ovr_GetGlobalClassReference
+        //W/JniUtils(10537): FindClass( com/oculusvr/vrlib/VrLib ) failed
+
+        // jint JNI_OnLoad( JavaVM* vm, void* reserved )
+        // X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\App.cpp
+        // ovr_OnLoad( vm );
+        // X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\VrApi\VrApi.cpp
+        // X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\VrApi\JniUtils.cpp
+        // VrLibClass = ovr_GetGlobalClassReference( jni, "com/oculusvr/vrlib/VrLib" );
+
+        // i think it crashes because we do not have the things java source linked with us
+
+        //I/DEBUG   (  122):     #05  pc 000a46d0  /data/app-lib/HybridOculusVrActivity.OVRJVM-1/libHybridOculusVrActivity.so (ovr_GetGlobalClassReference(_JNIEnv*, char const*)+112)
+        //I/DEBUG   (  122):     #06  pc 00093364  /data/app-lib/HybridOculusVrActivity.OVRJVM-1/libHybridOculusVrActivity.so (ovr_OnLoad+100)
+        //I/DEBUG   (  122):     #07  pc 000b9004  /data/app-lib/HybridOculusVrActivity.OVRJVM-1/libHybridOculusVrActivity.so (JNI_OnLoad+48)
+        //I/DEBUG   (  122):     #08  pc 00050005  /system/lib/libdvm.so (dvmLoadNativeCode(char const*, Object*, char**)+468)
+
+
         // if we were to include AssetsLibrary,
         // how can we force non merge/ script ?
 
@@ -40,6 +61,7 @@ namespace HybridOculusVrActivity.OVRJVM
             base.onCreate(value);
 
             Console.WriteLine("enter  HybridOculusVrActivity.OVRJVM ApplicationActivity onCreate");
+
             var tv = new TextView(this);
             tv.setText(stringFromJNI());
             setContentView(tv);
@@ -57,11 +79,16 @@ namespace HybridOculusVrActivity.OVRJVM
 
         static ApplicationActivity()
         {
+            Console.WriteLine("enter  HybridOculusVrActivity.OVRJVM ApplicationActivity cctor");
+
             // LOCAL_MODULE    := HybridOculusVrActivity
             // X:\jsc.svn\examples\c\android\Test\HybridOculusVrActivity\HybridOculusVrActivity\staging\jni\Android.mk
 
             java.lang.System.loadLibrary("HybridOculusVrActivity");
         }
+
+        //appPtr = nativeSetAppInterface( this );       
+        //public static native long nativeSetAppInterface( VrActivity act );   
 
         [Script(IsPInvoke = true)]
         //private long find(string lib, string fname) { return default(long); }
