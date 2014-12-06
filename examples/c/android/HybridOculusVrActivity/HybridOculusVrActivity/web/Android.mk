@@ -172,6 +172,7 @@ LOCAL_SRC_FILES +=	3rdParty/minizip/ioapi.c \
 					3rdParty/minizip/unzip.c \
 					3rdParty/minizip/zip.c
 
+LOCAL_SRC_FILES += OvrApp.cpp
 LOCAL_SRC_FILES += HybridOculusVrActivity.dll.c
 
 
