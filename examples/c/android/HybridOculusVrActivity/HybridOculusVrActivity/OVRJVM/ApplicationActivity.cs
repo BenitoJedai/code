@@ -13,6 +13,8 @@ using android.widget;
 // notice the different namespace
 namespace HybridOculusVrActivity.OVRJVM
 {
+    // "X:\opensource\ovr_mobile_sdk_20141111\sdcard\oculus\tuscany.ovrscene"
+
     //X:\opensource\ovr_mobile_sdk_20141111\VRLib\src\com\oculusvr\vrlib\PassThroughCamera.java:49: error: cannot find symbol
     //                if ( BuildConfig.DEBUG && ( appPtr != appPtr_ ) && ( appPtr != 0 ) )
     //                     ^
@@ -25,6 +27,15 @@ namespace HybridOculusVrActivity.OVRJVM
     //public class ApplicationActivity : Activity, ScriptCoreLib.Android.IAssemblyReferenceToken
     public class ApplicationActivity : com.oculusvr.vrlib.VrActivity, ScriptCoreLib.Android.IAssemblyReferenceToken
     {
+        // Just as a side note, you can actually run the app on the Note 4 without having a VR Gear.
+        // Just change the manifest android:value="vr_only" to android:value="vr_dual" and the message will be gone. You still need to have a valid signature file nevertheless.
+
+        // https://forums.oculus.com/viewtopic.php?f=67&t=17244
+        // The way it is designed, you never see a VR image outside of the Gear headset, or a 2D image inside it. 
+        // When you launch a VR app it just tells you to put on the Gear and doesn't show anything on the screen.
+        // Home is a bit of an exception because it does have an out-of-VR store UI as well, but it won't install 
+        // on current firmware.
+
         //public com.oculusvr.vrlib.VrActivity ref0;
 
         //W/JniUtils(10537): enter ovr_GetGlobalClassReference
@@ -84,6 +95,8 @@ namespace HybridOculusVrActivity.OVRJVM
 
             // if we do not set it we are going to crash.
             //var appPtr = nativeSetAppInterface(ref0);
+
+            // https://forums.oculus.com/viewtopic.php?f=67&t=17790
             this.appPtr = nativeSetAppInterface(this);
 
             //nativeResume(appPtr);

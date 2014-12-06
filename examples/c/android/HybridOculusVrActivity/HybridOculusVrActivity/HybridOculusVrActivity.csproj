@@ -59,6 +59,7 @@
   <ItemGroup>
     <Content Include="staging\AndroidManifest.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="staging\cflags.mk">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
