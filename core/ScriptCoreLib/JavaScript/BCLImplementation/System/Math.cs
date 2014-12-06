@@ -4,8 +4,11 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    // FEATURE_CORECLR
+
     using DOM;
 
+    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/math.cs
     // http://referencesource.microsoft.com/#mscorlib/system/math.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Math.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Math.cs

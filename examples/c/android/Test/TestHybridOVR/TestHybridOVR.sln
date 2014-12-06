@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHybridOVR", "TestHybridOVR\TestHybridOVR.csproj", "{813C7DFD-C62A-4021-AB97-BFDE8404D4AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibAndroidNDK", "..\..\..\..\..\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK.csproj", "{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibAndroid", "..\..\..\..\..\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\ScriptCoreLibAndroid.csproj", "{1CE7D22F-52C8-4164-8955-CD89609E48A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibJava.jni", "..\..\..\..\..\core\ScriptCoreLibJava.jni\ScriptCoreLibJava.jni.csproj", "{1EC6ECE8-E7F9-4E24-8051-B28F08548723}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibNative", "..\..\..\..\..\core\ScriptCoreLibNative\ScriptCoreLibNative\ScriptCoreLibNative.csproj", "{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{813C7DFD-C62A-4021-AB97-BFDE8404D4AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{813C7DFD-C62A-4021-AB97-BFDE8404D4AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{813C7DFD-C62A-4021-AB97-BFDE8404D4AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{813C7DFD-C62A-4021-AB97-BFDE8404D4AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EC6ECE8-E7F9-4E24-8051-B28F08548723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EC6ECE8-E7F9-4E24-8051-B28F08548723}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EC6ECE8-E7F9-4E24-8051-B28F08548723}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EC6ECE8-E7F9-4E24-8051-B28F08548723}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

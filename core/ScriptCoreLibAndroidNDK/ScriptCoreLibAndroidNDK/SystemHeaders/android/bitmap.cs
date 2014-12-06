@@ -12,6 +12,9 @@ namespace ScriptCoreLibNative.SystemHeaders.android
     [Script(IsNative = true, Header = "android/bitmap.h", IsSystemHeader = true)]
     public static class bitmap
     {
+        // http://www.phonesdevelopers.com/1729225/
+        // Links: LOCAL_LDLIBS + =-ljnigraphics
+
         // http://mobilepearls.com/labs/native-android-api/
 
         // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs

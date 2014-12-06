@@ -7,6 +7,10 @@ using jni;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.InteropServices
 {
+    // https://github.com/mono/mono/blob/master/mono/metadata/remoting.c
+    // https://github.com/mono/mono/blob/master/mono/metadata/marshal.h
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Runtime.InteropServices/MarshalAsAttribute.cs
+
     [Script(Implements = typeof(global::System.Runtime.InteropServices.Marshal))]
     internal class __Marshal
     {

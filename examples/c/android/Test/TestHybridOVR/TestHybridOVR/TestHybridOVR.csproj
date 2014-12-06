@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}</ProjectGuid>
+    <ProjectGuid>{813C7DFD-C62A-4021-AB97-BFDE8404D4AE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLibAndroidNDK</RootNamespace>
-    <AssemblyName>ScriptCoreLibAndroidNDK</AssemblyName>
+    <RootNamespace>TestHybridOVR</RootNamespace>
+    <AssemblyName>TestHybridOVR</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,8 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScriptCoreLibA">
+    <Reference Include="ScriptCoreLibA, Version=4.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibAndroid">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,46 +46,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Math.cs">
-      <Link>BCLImplementation\System\Math.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibNative\ScriptCoreLibNative\SystemHeaders\math.cs">
-      <Link>SystemHeaders\math.cs</Link>
-    </Compile>
-    <Compile Include="IAssemblyReferenceToken.cs" />
+    <Compile Include="ApplicationActivity.cs" />
+    <Compile Include="xNativeActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemHeaders\android\bitmap.cs" />
-    <Compile Include="SystemHeaders\android\asset_manager.cs" />
-    <Compile Include="SystemHeaders\android\configuration.cs" />
-    <Compile Include="SystemHeaders\android\obb.cs" />
-    <Compile Include="SystemHeaders\android\storage_manager.cs" />
-    <Compile Include="SystemHeaders\android\native_window_jni.cs" />
-    <Compile Include="SystemHeaders\android\native_window.cs" />
-    <Compile Include="SystemHeaders\android\rect.cs" />
-    <Compile Include="SystemHeaders\android\sensor.cs" />
-    <Compile Include="SystemHeaders\android\keycodes.cs" />
-    <Compile Include="SystemHeaders\android\input.cs" />
-    <Compile Include="SystemHeaders\android\looper.cs" />
-    <Compile Include="SystemHeaders\android\native_activity.cs" />
-    <Compile Include="SystemHeaders\android_native_app_glue.cs" />
-    <Compile Include="SystemHeaders\android\log.cs" />
-    <Compile Include="SystemHeaders\EGL\eglplatform.cs" />
-    <Compile Include="SystemHeaders\EGL\egl.cs" />
-    <Compile Include="SystemHeaders\GLES2\gl2platform.cs" />
-    <Compile Include="SystemHeaders\GLES2\gl2ext.cs" />
-    <Compile Include="SystemHeaders\GLES2\gl2.cs" />
-    <Compile Include="SystemHeaders\jni.cs" />
-    <Compile Include="SystemHeaders\dlfcn.cs" />
-    <Compile Include="SystemHeaders\sys\socket.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SystemHeaders\GLES3\" />
-    <Folder Include="SystemHeaders\GLES\" />
+    <ProjectReference Include="..\..\..\..\..\..\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK.csproj">
+      <Project>{e9a0e839-8bec-4b5c-b967-2e55a2078a77}</Project>
+      <Name>ScriptCoreLibAndroidNDK</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="staging\AndroidManifest.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\jni\Android.mk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\jni\Application.mk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\res\values\strings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="staging\bin\android-install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="tools\build.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
+    <PostBuildEvent>pushd ..\..\tools\
+start /WAIT cmd /C  build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
+popd
+
+::start /WAIT cmd /K c:/util/jsc/bin/jsc.meta.exe $(TargetPath) -c</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
