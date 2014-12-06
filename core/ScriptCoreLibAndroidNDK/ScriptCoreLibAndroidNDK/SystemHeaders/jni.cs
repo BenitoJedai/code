@@ -31,7 +31,20 @@ namespace ScriptCoreLibNative.SystemHeaders
         // the name already is the pointer?
     }
 
-  
+
+    [Script(IsNative = true, PointerName = "jclass")]
+    public class jclass : jobject
+    {
+        // look we just defined an object?
+        // the name already is the pointer?
+    }
+
+
+    [Script(IsNative = true, PointerName = "jlong")]
+    public class jlong : jni_h
+    {
+        // long
+    }
 
     //typedef const struct JNINativeInterface* JNIEnv;
     [Script(IsNative = true, PointerName = "JNIEnv")]

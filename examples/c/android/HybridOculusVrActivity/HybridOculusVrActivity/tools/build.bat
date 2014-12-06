@@ -14,8 +14,11 @@ pushd ..\bin\%ConfigurationName%
 
 call c:\util\jsc\bin\jsc.exe %TargetFileName% -c
 
-copy "web\%TargetFileName%.*" ".\staging\jni\"
+::copy "web\%TargetFileName%.*" ".\staging\jni\"
 copy "web\*.mk" ".\staging\jni\"
+copy "web\*.cpp" ".\staging\jni\"
+copy "web\*.c" ".\staging\jni\"
+copy "web\*.h" ".\staging\jni\"
 
 
 pushd staging
