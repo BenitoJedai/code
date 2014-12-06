@@ -33,6 +33,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
 
             try
             {
+                // why wont it work for android api 8?
+                // X:\jsc.svn\examples\c\android\Test\TestHybridOVR\TestHybridOVR\OVRJVM\ApplicationActivity.cs
+
                 value = this.InternalValue.getHardwareAddress();
             }
             catch

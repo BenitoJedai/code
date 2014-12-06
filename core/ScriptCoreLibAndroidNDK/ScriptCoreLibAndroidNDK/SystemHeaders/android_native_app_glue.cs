@@ -15,6 +15,9 @@ namespace ScriptCoreLibNative.SystemHeaders
     [Script(IsNative = true, Header = "android_native_app_glue.h", IsSystemHeader = true)]
     public static class android_native_app_glue
     {
+        // LOCAL_STATIC_LIBRARIES := android_native_app_glue
+
+
         // can the android app
         // ask for NFC chip and pin in order to download or decrypt the payload frame
         // application DRM
