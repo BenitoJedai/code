@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibJava", "..\..\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{AA001BB6-74B1-46C8-84CF-2CD1A0C23A7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibJava.AppEngine", "..\..\..\..\core\ScriptCoreLibJava.AppEngine\ScriptCoreLibJava.AppEngine\ScriptCoreLibJava.AppEngine.csproj", "{B94A602D-0390-482F-B8E3-DE5CAC2AA108}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -153,13 +155,44 @@ Global
 		{5F295F12-F93F-4347-B417-AA89990652A3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5F295F12-F93F-4347-B417-AA89990652A3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5F295F12-F93F-4347-B417-AA89990652A3}.Release|x86.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Android|Any CPU.Build.0 = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Android|x86.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.AppEngine|Any CPU.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.AppEngine|Any CPU.Build.0 = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.AppEngine|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.AppEngine|Mixed Platforms.Build.0 = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.AppEngine|x86.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Assets|x86.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.PHP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.PHP|Mixed Platforms.Build.0 = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.PHP|x86.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {AA001BB6-74B1-46C8-84CF-2CD1A0C23A7F}
 		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {AA001BB6-74B1-46C8-84CF-2CD1A0C23A7F}
 		{5F295F12-F93F-4347-B417-AA89990652A3} = {AA001BB6-74B1-46C8-84CF-2CD1A0C23A7F}
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {AA001BB6-74B1-46C8-84CF-2CD1A0C23A7F}
+		{B94A602D-0390-482F-B8E3-DE5CAC2AA108} = {AA001BB6-74B1-46C8-84CF-2CD1A0C23A7F}
 	EndGlobalSection
 EndGlobal

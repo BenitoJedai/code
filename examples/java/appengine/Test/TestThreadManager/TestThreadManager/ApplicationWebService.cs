@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Threading;
 
 namespace TestThreadManager
 {
@@ -32,12 +33,59 @@ namespace TestThreadManager
         {
             // https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/ThreadManager#currentRequestThreadFactory()
 
-                // current version does not show it?
-            //com.google.appengine.api.ThreadManager
+            // X:\jsc.svn\core\ScriptCoreLibJava.AppEngine\ScriptCoreLibJava.AppEngine\com\google\appengine\api\ThreadManager.cs
+
+            // current version does not show it?
+            Console.WriteLine("before ThreadManager.createThreadForCurrentRequest " + new { Thread.CurrentThread.ManagedThreadId });
+            // before ThreadManager.createThreadForCurrentRequest { ManagedThreadId = 6 }
+
+
+            //before ThreadManager.createThreadForCurrentRequest { { ManagedThreadId = 14 } }
+            //at ThreadManager.createThreadForCurrentRequest { { ManagedThreadId = 17 } }
+            //after ThreadManager.createThreadForCurrentRequest { { ManagedThreadId = 14 } }
+
+            // X:\jsc.svn\core\ScriptCoreLibJava.AppEngine\ScriptCoreLibJava.AppEngine\Extensions\ThreadManagerExtensions.cs
+            // 
+
+            var t = com.google.appengine.api.ThreadManager.createThreadForCurrentRequest(new yy
+            {
+
+                y = delegate
+                {
+                    Console.WriteLine("at ThreadManager.createThreadForCurrentRequest " + new { Thread.CurrentThread.ManagedThreadId });
+
+                }
+            }
+            );
+
+            // before ThreadManager.createThreadForCurrentRequest {{ ManagedThreadId = 10 }}
+            //t.start();
+            t.start();
+
+            new Thread(
+                delegate ()
+            {
+                Console.WriteLine("at new Thread " + new { Thread.CurrentThread.ManagedThreadId });
+            }
+            ).Start();
+
+            Thread.Sleep(500);
+            Console.WriteLine("after ThreadManager.createThreadForCurrentRequest " + new { Thread.CurrentThread.ManagedThreadId });
 
             // Send it back to the caller.
             y(e);
         }
+
+        class yy : java.lang.Runnable
+        {
+            public Action y;
+
+            public void run()
+            {
+                y();
+            }
+        }
+
 
     }
 }

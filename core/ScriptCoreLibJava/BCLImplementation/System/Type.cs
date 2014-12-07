@@ -182,6 +182,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public ConstructorInfo GetConstructor(global::System.Type[] parameters)
         {
+            // not roslyn friendly?
+
             //            Type.GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_696_0_2, Length = 2, InternalTypeDescription = class __AnonymousTypes__TestS
             //Type.GetConstructor { parameter = TestSQLJoin.Data.Book1DealerContactRow, InternalTypeDescription = class TestSQLJoin.Data.Book1DealerContactRow }
             //Type.GetConstructor { parameter = TestSQLJoin.Data.Book1DealerRow, InternalTypeDescription = class TestSQLJoin.Data.Book1DealerRow }
