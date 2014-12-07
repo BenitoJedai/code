@@ -24,7 +24,8 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 {
     using opengl = GLES20;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using __gl = __WebGLRenderingContext;
+    using __gl = ScriptCoreLib.Android.WebGL.__WebGLRenderingContext;
+    using ScriptCoreLib.Android.WebGL;
 
     public class AndroidOpenGLESLesson1Activity : Activity
     {
@@ -43,7 +44,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
-            this.ToFullscreen();
+            //this.ToFullscreen();
 
             mGLSurfaceView = new GLSurfaceView(this);
 
@@ -57,7 +58,8 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
             setContentView(mGLSurfaceView);
 
-            this.ShowToast("http://my.jsc-solutions.net");
+            // can we show a toast from native app?
+            //this.ShowToast("http://my.jsc-solutions.net");
 
         }
 

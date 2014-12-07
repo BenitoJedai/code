@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using android.app;
 using android.content;
-using android.opengl;
+//using android.opengl;
 using android.provider;
 using android.webkit;
 using android.widget;
@@ -21,6 +21,8 @@ namespace AndroidVortexLesson1.Activities
     [Script]
     public class VortexActivity : Activity
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207
+
         // port from http://www.droidnova.com/android-3d-game-tutorial-part-i,312.html
 
         // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidVortexLesson1.Activities --activity VortexActivity  --target 2  --path Z:\jsc.svn\examples\java\android\AndroidVortexLesson1\AndroidVortexLesson1\staging
@@ -40,7 +42,7 @@ namespace AndroidVortexLesson1.Activities
         //3330A17632C000EC        device 
 
         [Script]
-        public partial class VortexRenderer : GLSurfaceView.Renderer
+        public partial class VortexRenderer : android.opengl.GLSurfaceView.Renderer
         {
 
             private float _red = 0.9f;
@@ -73,7 +75,7 @@ namespace AndroidVortexLesson1.Activities
         }
 
         [Script]
-        public partial class VortexView : GLSurfaceView
+        public partial class VortexView : android.opengl.GLSurfaceView
         {
             public VortexRenderer _renderer;
 

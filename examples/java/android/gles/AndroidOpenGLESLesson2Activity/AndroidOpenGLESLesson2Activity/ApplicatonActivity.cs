@@ -5,7 +5,7 @@ using System.Text;
 using android.app;
 using android.content;
 using android.content.pm;
-using android.opengl;
+//using android.opengl;
 using android.os;
 using android.provider;
 using android.view;
@@ -13,7 +13,7 @@ using android.webkit;
 using android.widget;
 using java.lang;
 using java.nio;
-using javax.microedition.khronos.egl;
+//using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
@@ -23,9 +23,10 @@ using ScriptCoreLib.JavaScript.WebGL;
 
 namespace AndroidOpenGLESLesson2Activity.Activities
 {
-    using opengl = GLES20;
+    using opengl = android.opengl.GLES20;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using __gl = __WebGLRenderingContext;
+    using __gl = ScriptCoreLib.Android.WebGL.__WebGLRenderingContext;
+    using android.opengl;
 
     public class AndroidOpenGLESLesson2Activity : Activity
     {
@@ -36,15 +37,15 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 
 
         /** Hold a reference to our GLSurfaceView */
-        private GLSurfaceView mGLSurfaceView;
+        private android.opengl.GLSurfaceView mGLSurfaceView;
 
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
-            this.ToFullscreen();
+            //this.ToFullscreen();
 
-            mGLSurfaceView = new GLSurfaceView(this);
+            mGLSurfaceView = new android.opengl.GLSurfaceView(this);
 
 
             // Request an OpenGL ES 2.0 compatible context.
@@ -56,7 +57,7 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 
             setContentView(mGLSurfaceView);
 
-            this.ShowToast("http://my.jsc-solutions.net!");
+            //this.ShowToast("http://my.jsc-solutions.net!");
         }
 
         #region pause
@@ -78,7 +79,7 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 
         #endregion
 
-        class LessonTwoRenderer : GLSurfaceView.Renderer
+        class LessonTwoRenderer : android.opengl.GLSurfaceView.Renderer
         {
             
             /**
@@ -156,7 +157,7 @@ namespace AndroidOpenGLESLesson2Activity.Activities
             private WebGLProgram mPointProgramHandle;
 
 
-            __WebGLRenderingContext __gl = new __WebGLRenderingContext();
+            __gl __gl = new __gl();
             ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl;
 
 
@@ -347,7 +348,7 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 
 
 
-            public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
+            public void onSurfaceCreated(GL10 glUnused, javax.microedition.khronos.egl.EGLConfig config)
             {
                 // Set the background clear color to black.
                 gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
