@@ -9,7 +9,7 @@ set swf=FlashFlare3DEmbedingColladaFile.ApplicationSprite.swf
 set apk=air.apk
 set xml=air-descriptor.xml
 
-call "X:\jsc.internal.git\keystore\asus\air15.com.abstractatech-package.and.sign.bat" %e% %swf% %apk% %xml%
+call "X:\jsc.internal.git\keystore\asus\air16.com.abstractatech-package.and.sign.bat" %e% %swf% %apk% %xml%
 
 
 

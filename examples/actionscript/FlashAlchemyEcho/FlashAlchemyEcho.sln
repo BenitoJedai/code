@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashAlchemyEcho", "FlashAlchemyEcho\FlashAlchemyEcho.csproj", "{C8198F57-1CE2-4C68-B012-0E438821EDC5}"
 EndProject
 Global

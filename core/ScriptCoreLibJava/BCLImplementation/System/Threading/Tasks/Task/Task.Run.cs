@@ -23,6 +23,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
         public static Task Run(Action y)
         {
+            // on appengine we need to do special thread creation it seems.
 
             new Thread(
                 delegate()

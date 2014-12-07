@@ -16,6 +16,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
+        // would this enable async queries?
+
+        // if we are to target appengine
+        // Create a thread factory by calling com.google.appengine.api.ThreadManager.currentRequestThreadFactory()
+        //call the factory's newRequestThread method, passing in the Runnable, newRequestThread(runnable)
+        // https://cloud.google.com/appengine/docs/java/
+
         // https://software.intel.com/en-us/blogs/2014/07/23/will-my-android-app-still-run-with-art-instead-of-dalvik
         // Watch the size of the ART unified Thread stack which should be about equal to the two Dalvik stacks (by default a 32 KB Java stack and a 1 MB native stack).
         // http://stackoverflow.com/questions/23739261/does-android-art-support-runtime-dynamic-class-loading-just-like-dalvik
