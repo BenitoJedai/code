@@ -13,7 +13,7 @@ using android.webkit;
 using android.widget;
 using java.lang;
 using java.nio;
-using javax.microedition.khronos.egl;
+//using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
@@ -25,7 +25,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
 {
     using opengl = GLES20;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using __gl = __WebGLRenderingContext;
+    using __gl = ScriptCoreLib.Android.WebGL.__WebGLRenderingContext;
 
     public class AndroidOpenGLESLesson3Activity : Activity
     {
@@ -41,7 +41,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
-            this.ToFullscreen();
+            //this.ToFullscreen();
 
             mGLSurfaceView = new GLSurfaceView(this);
 
@@ -154,7 +154,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
             /** This is a handle to our light point program. */
             private WebGLProgram mPointProgramHandle;
 
-            __WebGLRenderingContext __gl = new __WebGLRenderingContext();
+            __gl __gl = new __gl();
             ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl;
 
 
@@ -345,7 +345,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
             }
 
 
-            public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
+            public void onSurfaceCreated(GL10 glUnused, javax.microedition.khronos.egl.EGLConfig config)
             {
                 // Set the background clear color to black.
                 gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);

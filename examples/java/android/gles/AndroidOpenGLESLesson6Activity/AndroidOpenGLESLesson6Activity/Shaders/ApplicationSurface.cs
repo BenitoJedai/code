@@ -494,6 +494,8 @@ namespace AndroidOpenGLESLesson6Activity.Shaders
                  };
                  #endregion
 
+
+                 // cant we use knownAssets yet?
                  var stone_wall_public_domain = android.graphics.BitmapFactory.decodeStream(
                      openFileFromAssets("assets/AndroidOpenGLESLesson6Activity/stone_wall_public_domain.png")
                  );

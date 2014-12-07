@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Web Developer Express 11
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidOpenGLESLesson4Activity", "AndroidOpenGLESLesson4Activity\AndroidOpenGLESLesson4Activity.csproj", "{9D280B94-A86D-496D-940A-7C0C1C270590}"
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidOpenGLESLesson4Activity", "AndroidOpenGLESLesson4Activity\AndroidOpenGLESLesson4Activity.csproj", "{C1BD1283-62EF-4B47-A2AA-5ED74BBFA360}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9D280B94-A86D-496D-940A-7C0C1C270590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D280B94-A86D-496D-940A-7C0C1C270590}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D280B94-A86D-496D-940A-7C0C1C270590}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D280B94-A86D-496D-940A-7C0C1C270590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1BD1283-62EF-4B47-A2AA-5ED74BBFA360}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1BD1283-62EF-4B47-A2AA-5ED74BBFA360}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1BD1283-62EF-4B47-A2AA-5ED74BBFA360}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1BD1283-62EF-4B47-A2AA-5ED74BBFA360}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
