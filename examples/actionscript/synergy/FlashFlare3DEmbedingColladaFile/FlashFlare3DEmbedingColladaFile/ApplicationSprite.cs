@@ -1,6 +1,7 @@
 using flare.basic;
 using flare.core;
 using flare.loaders;
+// where is iterator defined??
 using Flare3DWaterShipComponent;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;

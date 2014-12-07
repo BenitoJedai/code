@@ -9,7 +9,7 @@ set swf=Flare3DWaterShips.ApplicationSprite.swf
 set apk=air.apk
 set xml=air-descriptor.xml
 
-"X:\jsc.internal.svn\keystore\asus\air13.com.abstractatech-package.and.sign.bat" %e% %swf% %apk% %xml%
+"X:\jsc.internal.git\keystore\asus\air16.com.abstractatech-package.and.sign.bat" %e% %swf% %apk% %xml%
 
 
 
