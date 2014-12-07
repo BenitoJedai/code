@@ -9,8 +9,10 @@ set swf=AIRStageWebViewExperiment.ApplicationSprite.swf
 set apk=air.apk
 set xml=air-descriptor.xml
 
+
+:: https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207
 echo build
-call "X:\jsc.internal.svn\keystore\asus\air13.com.abstractatech-package.and.sign.bat" %e% %swf% %apk% %xml%
+call "X:\jsc.internal.git\keystore\asus\air16.com.abstractatech-package.and.sign.bat" %e% %swf% %apk% %xml%
 
 
 

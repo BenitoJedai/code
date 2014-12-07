@@ -14,6 +14,8 @@ namespace AIRStageWebViewExperiment
     {
         // X:\jsc.svn\examples\actionscript\air\AIRServerSocketExperiment\AIRServerSocketExperiment\ApplicationSprite.cs
 
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207
+
         public ApplicationSprite()
         {
             // http://priyeshsheth.wordpress.com/2011/05/27/stagewebview-in-actionscirpt-3-flash-media-stagewebview/
@@ -59,6 +61,8 @@ namespace AIRStageWebViewExperiment
 
 
             webView.loadString(page.ToString(), "text/html");
+
+            //webView.
         }
 
     }
