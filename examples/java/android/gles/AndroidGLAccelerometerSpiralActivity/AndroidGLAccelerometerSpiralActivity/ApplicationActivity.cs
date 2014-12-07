@@ -37,7 +37,7 @@ namespace AndroidGLAccelerometerSpiralActivity.Activities
             base.onCreate(savedInstanceState);
 
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            this.ToFullscreen();
+            //this.ToFullscreen();
 
             var v = new RenderingContextView(this);
 
@@ -187,7 +187,7 @@ namespace AndroidGLAccelerometerSpiralActivity.Activities
 
 
             this.setContentView(v);
-            this.TryHideActionbar(v);
+            //this.TryHideActionbar(v);
 
             this.ShowToast("http://my.jsc-solutions.net");
         }

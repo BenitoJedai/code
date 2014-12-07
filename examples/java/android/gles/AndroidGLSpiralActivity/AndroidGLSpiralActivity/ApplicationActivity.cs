@@ -29,6 +29,9 @@ namespace AndroidGLSpiralActivity.Activities
 
     public class ApplicationActivity : Activity
     {
+        // what about the jsc wifi display?
+        // where is that project?
+
         ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
 
         protected override void onCreate(Bundle savedInstanceState)
@@ -37,14 +40,14 @@ namespace AndroidGLSpiralActivity.Activities
 
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-            this.ToFullscreen();
+            //this.ToFullscreen();
 
             var v = new RenderingContextView(this);
             var s = new SpiralSurface(v);
 
             this.setContentView(v);
 
-            this.TryHideActionbar(v);
+            //this.TryHideActionbar(v);
 
             this.ShowToast("http://my.jsc-solutions.net");
         }

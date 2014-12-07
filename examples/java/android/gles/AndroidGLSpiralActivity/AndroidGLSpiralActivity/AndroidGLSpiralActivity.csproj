@@ -71,19 +71,15 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebGLSpiral, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WebGLSpiral.0.0.0.1\lib\WebGLSpiral.exe</HintPath>
-    </Reference>
-    <Reference Include="WebGLSpiral.AssetsLibrary, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WebGLSpiral.0.0.0.1\lib\WebGLSpiral.AssetsLibrary.dll</HintPath>
+    <Reference Include="WebGLSpiral">
+      <HintPath>..\packages\WebGLSpiral.1.0.0.0\lib\WebGLSpiral.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="AndroidGLSpiralActivity.AssetsLibrary">
@@ -91,9 +87,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
-      <Link>ScriptCoreLib\Shader.cs</Link>
-    </Compile>
     <Compile Include="ApplicationActivity.cs">
     </Compile>
     <Compile Include="Program.cs">
@@ -121,10 +114,9 @@
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>
-            start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /TargetAndroidRuntime:true
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /TargetAndroidRuntime:true
 
-        </PreBuildEvent>
+</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
