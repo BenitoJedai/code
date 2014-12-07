@@ -11,6 +11,9 @@ namespace AndroidGLPulsActivity.Shaders
 
     public class PulsSurface
     {
+        // 20141207
+        // nexus7 barely renders it
+
         public PulsSurface(ISurface s)
         {
             s.onsurface +=

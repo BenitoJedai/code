@@ -151,28 +151,7 @@ namespace ScriptCoreLib.Android
         }
 
 
-        class setItems_OnClickListener : DialogInterface_OnClickListener
-        {
-            public Action<DialogInterface, int> handler;
 
-            public void onClick(DialogInterface dialog, int item)
-            {
-                handler(dialog, item);
-            }
-        }
-
-        public static void setItems(this AlertDialog.Builder builder, string[] items, Action<int> handler)
-        {
-            builder.setItems(items, (_dialog, item) => handler(item));
-        }
-
-        public static void setItems(this AlertDialog.Builder builder, string[] items, Action<DialogInterface, int> handler)
-        {
-            builder.setItems(
-                  (CharSequence[])(object)items,
-                  new setItems_OnClickListener { handler = handler }
-              );
-        }
 
 
 
@@ -385,22 +364,7 @@ namespace ScriptCoreLib.Android
         }
 
 
-        class queueEvent_Handler : Runnable
-        {
-            public Action h;
 
-            public void run()
-            {
-                h();
-            }
-        }
-
-        public static void queueEvent(this GLSurfaceView that, Action h)
-        {
-            that.queueEvent(
-                new queueEvent_Handler { h = h }
-            );
-        }
 
         //class AtClickHandler : View.OnClickListener
         //{

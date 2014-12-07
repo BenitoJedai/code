@@ -120,6 +120,8 @@
     <Compile Include="ActionScript\Extensions\ExternalInterfaceExtensions.cs" />
     <Compile Include="Android\CoreAndroidWebServiceActivity.cs" />
     <Compile Include="Android\Extensions\ContextExtensions.cs" />
+    <Compile Include="Android\Extensions\AlertDialogBuilderExtensions.cs" />
+    <Compile Include="Android\Extensions\GLSurfaceViewExtensions.cs" />
     <Compile Include="Android\Extensions\ViewExtensions.cs" />
     <Compile Include="Android\IntentFilterAttribute.cs" />
     <Compile Include="Android\Manifest\ApplicationMetaDataAttribute.cs" />

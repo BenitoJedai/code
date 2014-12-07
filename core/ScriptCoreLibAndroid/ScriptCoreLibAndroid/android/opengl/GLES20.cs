@@ -4,6 +4,9 @@ using ScriptCoreLib;
 
 namespace android.opengl
 {
+    // http://developer.android.com/reference/android/opengl/GLES20.html
+    // X:\jsc.svn\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\SystemHeaders\GLES2\gl2.cs
+
     [Script(IsNative = true)]
     public class GLES20
     {

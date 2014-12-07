@@ -38,6 +38,8 @@ namespace AndroidXElementActivity.Library
 
             try
             {
+                // by now we have webclient?
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207
                 var url = new java.net.URL(SDKVersionLocation);
 
                 HttpURLConnection con = (HttpURLConnection)url.openConnection();

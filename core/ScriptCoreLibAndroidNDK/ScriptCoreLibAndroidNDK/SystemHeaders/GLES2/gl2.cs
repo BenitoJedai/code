@@ -6,6 +6,8 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibNative.SystemHeaders.GLES2
 {
+    // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\android\opengl\GLES20.cs
+
     // "X:\opensource\android-ndk-r10c\platforms\android-21\arch-arm64\usr\include\GLES2\gl2.h"
 
     // LOCAL_LDLIBS    := -llog -lGLESv2

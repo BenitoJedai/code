@@ -915,6 +915,8 @@
     <Compile Include="android\nfc\NfcAdapter.cs" />
     <Compile Include="android\nfc\tech\NfcA.cs" />
     <Compile Include="android\nfc\tech\MifareClassic.cs" />
+    <Compile Include="android\opengl\EGLObjectHandle.cs" />
+    <Compile Include="android\opengl\EGLConfig.cs" />
     <Compile Include="android\opengl\GLES20.cs" />
     <Compile Include="android\opengl\GLES30.cs" />
     <Compile Include="android\opengl\GLSurfaceView.cs" />
