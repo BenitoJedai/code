@@ -20,12 +20,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
 
         //method: System.Threading.Tasks.Task Run(System.Action)
-
+        // X:\jsc.svn\examples\java\hybrid\test\JVMCLRWhenAll\JVMCLRWhenAll\Program.cs
         public static Task Run(Action y)
         {
             // on appengine we need to do special thread creation it seems.
             // X:\jsc.svn\core\ScriptCoreLibJava.AppEngine\ScriptCoreLibJava.AppEngine\Extensions\ThreadManagerExtensions.cs
 
+            var t = new TaskCompletionSource<object>();
 
             new Thread(
                 delegate()
@@ -35,13 +36,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
                     y();
 
                     // signal ready?
+                    t.SetResult(null);
                 }
             ).Start();
 
 
-            return __Task.FromResult(
-                default(object)
-            );
+            return t.Task;
         }
     }
 }

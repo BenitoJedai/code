@@ -181,6 +181,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
             InvokeWhenComplete(
                 delegate
                 {
+                    // tested by ?
                     if (continuationOptions == TaskContinuationOptions.ExecuteSynchronously)
                     {
                         continuationAction(this);
@@ -205,6 +206,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
         public void SetResult(TResult result)
         {
+            // do we have to pay attention to threads?
+
             this.Result = result;
             this.IsCompleted = true;
 

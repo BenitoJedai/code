@@ -293,6 +293,12 @@ namespace ScriptCoreLib.Query.Experimental
                             if (FieldType == typeof(DateTime))
                                 __value = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(__value);
 
+                            // Object of type 'System.Int64' cannot be converted to type 'System.Boolean'.
+                            // X:\jsc.svn\examples\javascript\appengine\XSLXAssetWithXElement\XSLXAssetWithXElement\ApplicationWebService.cs
+
+                            if (FieldType == typeof(bool))
+                                __value = Convert.ToBoolean((long)__value);
+
                             f.SetValue(xRow, __value);
                         }
                     );
