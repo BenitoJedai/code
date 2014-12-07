@@ -33,6 +33,27 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxAndroidOrderByThenGroupBy\ApplicationWebService.cs
 
 
+        #region Factory
+        public static __TaskFactory InternalFactory
+        {
+            get
+            {
+                return new __TaskFactory();
+            }
+        }
+
+
+        public static TaskFactory Factory
+        {
+            get
+            {
+                return InternalFactory;
+            }
+        }
+        #endregion
+
+
+
         public bool IsCompleted { get; set; }
 
         public static __YieldAwaitable Yield()
@@ -227,5 +248,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
             this.WaitEvent.Set();
         }
+
+
+     
     }
 }
