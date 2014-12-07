@@ -14,7 +14,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
     // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Threading\Thread.cs
 
     [Script(Implements = typeof(global::System.Threading.Thread))]
-    internal class __Thread
+    public class __Thread
     {
         // X:\jsc.svn\examples\java\appengine\Test\TestThreadManager\TestThreadManager\ApplicationWebService.cs
         // would this enable async queries?
@@ -51,6 +51,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
             }
         }
 
+
+        // X:\jsc.svn\core\ScriptCoreLibJava.AppEngine\ScriptCoreLibJava.AppEngine\Extensions\ThreadManagerExtensions.cs
+        public static Func<java.lang.Runnable, java.lang.Thread> new_java_lang_Thread = yy => new java.lang.Thread(yy);
+
+
         #region ctor
         internal __Thread()
         {
@@ -59,29 +64,29 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 
         public __Thread(global::System.Threading.ThreadStart t)
         {
-            InternalValue = new java.lang.Thread(
+            InternalValue = new_java_lang_Thread(
                 new RunnableHandler
-                {
-                    Handler =
+            {
+                Handler =
                         delegate
-                        {
-                            t();
-                        }
+                {
+                    t();
                 }
+            }
             );
         }
 
         public __Thread(global::System.Threading.ParameterizedThreadStart t)
         {
-            InternalValue = new java.lang.Thread(
+            InternalValue = new_java_lang_Thread(
                       new RunnableHandler
-                      {
-                          Handler =
+            {
+                Handler =
                               delegate
-                              {
-                                  t(InternalParameterizedThreadStart);
-                              }
-                      }
+                {
+                    t(InternalParameterizedThreadStart);
+                }
+            }
                   );
         }
         #endregion

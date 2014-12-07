@@ -56,6 +56,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
     [Script(Implements = typeof(global::System.Web.HttpRequest))]
     internal class __HttpRequest
     {
+        // check sdk!
+        //Y:\TestThreadManager.ApplicationWebService\staging.java\web\java\ScriptCoreLibJava\BCLImplementation\System\Web\__HttpRequest.java:5: error: package javax.servlet.http does not exist
+        //import javax.servlet.http.Cookie;
+        //                         ^
+
+
         //[jsc.internal] UnhandledException:
         //{ FullName = System.InvalidOperationException, InnerException =  }
 
@@ -282,6 +288,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
         {
             get
             {
+                // X:\jsc.svn\examples\java\appengine\Test\TestThreadManager\TestThreadManager\ApplicationWebService.cs
+
                 var Cookies = new HttpCookieCollection();
 
                 if (this.InternalContext != null)

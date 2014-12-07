@@ -115,6 +115,8 @@ namespace LINQWebCamAvatars
                     // never returns??
                     // errorCallback: { code = 4, message = there was not enough remaining storage space, or the storage quota was reached and the user declined to allow more space }
                     // Clear browsing data!
+
+                    // we need scriptcorelibasync
                     new xAvatar().InsertAsync(new xAvatarRow { Avatar96gif = y.Avatar96gif }).ContinueWith(
                         delegate
                         {
@@ -138,7 +140,9 @@ namespace LINQWebCamAvatars
 
 
         #region example generated data layer
-        public class xAvatar : QueryExpressionBuilder.xSelect<xAvatarRow>
+        public class xAvatar
+            //: QueryExpressionBuilder.xSelect<xAvatarRow>
+            :  QueryExpressionBuilder.xSelect<xAvatarKey, xAvatarRow>
         {
             public xAvatar()
             {

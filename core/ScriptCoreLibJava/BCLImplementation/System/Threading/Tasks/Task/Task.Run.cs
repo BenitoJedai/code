@@ -24,6 +24,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
         public static Task Run(Action y)
         {
             // on appengine we need to do special thread creation it seems.
+            // X:\jsc.svn\core\ScriptCoreLibJava.AppEngine\ScriptCoreLibJava.AppEngine\Extensions\ThreadManagerExtensions.cs
+
 
             new Thread(
                 delegate()
@@ -32,6 +34,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
                     y();
 
+                    // signal ready?
                 }
             ).Start();
 
