@@ -14,7 +14,6 @@
     <FileAlignment>512</FileAlignment>
     <StartupObject>FlashHeatZeeker.UnitHindTouch.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -166,10 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="staging\FlashHeatZeeker.UnitHindTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhzuh-build.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\FlashHeatZeeker.UnitHindTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhzuh-install.bat">
+    <None Include="staging\FlashHeatZeeker.UnitHindTouch.ApplicationSprite\web\air-android.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="staging\FlashHeatZeeker.UnitHindTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhzuh-test.bat">
@@ -188,5 +184,4 @@ start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFil
 
             </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
