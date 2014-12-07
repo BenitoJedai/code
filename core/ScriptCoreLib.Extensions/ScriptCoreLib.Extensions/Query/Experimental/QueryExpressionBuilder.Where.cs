@@ -30,6 +30,17 @@ namespace ScriptCoreLib.Query.Experimental
         // called by LINQ
         public static IQueryStrategy<TElement> Where<TElement>(this IQueryStrategy<TElement> source, Expression<Func<TElement, bool>> filter)
         {
+            // java has a problem with the overload.
+            // X:\jsc.svn\examples\c\java\test\TestMethodOverload\TestMethodOverload\Class1.cs
+
+            //um. 
+            // which thread are we running on?
+            // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
+            //Console.WriteLine("enter Where");
+
+
+
+
             // X:\jsc.svn\examples\javascript\LINQ\GGearAlpha\GGearAlpha\Library\GoogleGearsAdvanced.cs
 
             return Where(source, (LambdaExpression)filter);
