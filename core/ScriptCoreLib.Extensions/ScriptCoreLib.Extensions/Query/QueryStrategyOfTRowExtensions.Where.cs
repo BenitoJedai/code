@@ -65,17 +65,17 @@ namespace System.Data
 
             //Console.WriteLine("IBook1Sheet1Queryable.Where " + new { f_Body_as_MethodCallExpression.Method, f_Body_Left_as_MemberExpression.Member.Name, f_Body_Right_as_ConstantExpression.Value });
             Console.WriteLine("MutableWhere "
-            //    + new
-            //{
-            //    body.Method,
+                //    + new
+                //{
+                //    body.Method,
 
             //    //NodeType	Equal	System.Linq.Expressions.ExpressionType
-            //    body.NodeType,
+                //    body.NodeType,
 
 
             //    ColumnName = lColumnName0,
-            //    Right = rAddParameterValue0
-            //}
+                //    Right = rAddParameterValue0
+                //}
             );
 
 
@@ -502,7 +502,7 @@ namespace System.Data
                             // X:\jsc.svn\examples\javascript\linq\test\TestSelectScalarAverage\TestSelectScalarAverage\ApplicationWebService.cs
                             // x:\jsc.svn\examples\javascript\linq\test\testselectofselect\testselectofselect\applicationwebservice.cs
 
-                            #region asRParameterExpression 
+                            #region asRParameterExpression
                             var asRParameterExpression = f_Body_Right.Expression as ParameterExpression;
                             if (asRParameterExpression != null)
                             {
@@ -811,14 +811,14 @@ namespace System.Data
                     // X:\jsc.svn\examples\javascript\linq\test\TestJoinSelectAnonymousType\TestJoinSelectAnonymousType\ApplicationWebService.cs
                     state.ApplyParameter.Add(
                         c =>
-                            {
-                                // um. the upper scope isnt calling this here, in a join, why?
+                        {
+                            // um. the upper scope isnt calling this here, in a join, why?
 
-                                // either the actualt command or the explain command?
+                            // either the actualt command or the explain command?
 
-                                //c.Parameters.AddWithValue(n, r);
-                                c.AddParameter(n, rAddParameterValue0);
-                            }
+                            //c.Parameters.AddWithValue(n, r);
+                            c.AddParameter(n, rAddParameterValue0);
+                        }
                     );
 
 
@@ -872,6 +872,11 @@ namespace System.Data
         static MethodInfo refWhere = new Func<IQueryStrategy<object>, Expression<Func<object, bool>>, IQueryStrategy<object>>(QueryStrategyOfTRowExtensions.Where).Method;
         public static IQueryStrategy<TElement> Where<TElement>(this IQueryStrategy<TElement> source, Expression<Func<TElement, bool>> filter)
         {
+            // which thread are we running on?
+            // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
+            Console.WriteLine("enter Where");
+
+
             var xINestedQueryStrategy = source is INestedQueryStrategy;
             if (!xINestedQueryStrategy)
             {
