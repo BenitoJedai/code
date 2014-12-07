@@ -5,7 +5,7 @@ using System.Text;
 using android.app;
 using android.content;
 using android.content.pm;
-using android.opengl;
+//using android.opengl;
 using android.os;
 using android.provider;
 using android.view;
@@ -13,20 +13,22 @@ using android.webkit;
 using android.widget;
 using java.lang;
 using java.nio;
-using javax.microedition.khronos.egl;
+//using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using System.ComponentModel;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Android.Extensions;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
 
 namespace AndroidOpenGLESLesson5Activity.Activities
 {
-    using opengl = GLES20;
+    using opengl = android.opengl.GLES20;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using __gl = __WebGLRenderingContext;
+    using __gl = ScriptCoreLib.Android.WebGL.__WebGLRenderingContext;
     using f = System.Single;
+    using android.opengl;
 
     public class AndroidOpenGLESLesson5Activity : Activity
     {
@@ -42,7 +44,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
         {
             base.onCreate(savedInstanceState);
 
-            this.ToFullscreen();
+            //this.ToFullscreen();
 
             mGLSurfaceView = new LessonFiveGLSurfaceView(this);
 
@@ -63,7 +65,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
 
             setContentView(mGLSurfaceView);
 
-            this.ShowToast("http://my.jsc-solutions.net !");
+            //this.ShowToast("http://my.jsc-solutions.net !");
         }
 
 
@@ -111,6 +113,8 @@ namespace AndroidOpenGLESLesson5Activity.Activities
 
                         // Ensure we call switchMode() on the OpenGL thread.
                         // queueEvent() is a method of GLSurfaceView that will do this for us.
+
+                        // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\Extensions\GLSurfaceViewExtensions.cs
                         this.queueEvent(
                             () =>
                             {
@@ -188,7 +192,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
             /** This will be used to switch between blending mode and regular mode. */
             private bool mBlending = true;
 
-            __WebGLRenderingContext __gl = new __WebGLRenderingContext();
+            __gl __gl = new __gl();
             ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl;
 
 
@@ -346,7 +350,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 }
             }
 
-            public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
+            public void onSurfaceCreated(GL10 glUnused, javax.microedition.khronos.egl.EGLConfig config)
             {
                 // Set the background clear color to black.
                 gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);

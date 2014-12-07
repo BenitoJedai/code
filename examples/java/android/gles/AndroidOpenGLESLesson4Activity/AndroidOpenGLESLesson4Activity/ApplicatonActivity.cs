@@ -5,7 +5,7 @@ using System.Text;
 using android.app;
 using android.content;
 using android.content.pm;
-using android.opengl;
+//using android.opengl;
 using android.os;
 using android.provider;
 using android.view;
@@ -13,7 +13,7 @@ using android.webkit;
 using android.widget;
 using java.lang;
 using java.nio;
-using javax.microedition.khronos.egl;
+//using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
@@ -22,10 +22,11 @@ using ScriptCoreLib.JavaScript.WebGL;
 
 namespace AndroidOpenGLESLesson4Activity.Activities
 {
-    using opengl = GLES20;
+    using opengl = android.opengl.GLES20;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using __gl = __WebGLRenderingContext;
+    using __gl = ScriptCoreLib.Android.WebGL.__WebGLRenderingContext;
     using java.io;
+    using android.opengl;
 
 
 
@@ -43,7 +44,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
-            this.ToFullscreen();
+            //this.ToFullscreen();
 
             mGLSurfaceView = new GLSurfaceView(this);
 
@@ -57,7 +58,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
 
             setContentView(mGLSurfaceView);
 
-            this.ShowToast("http://my.jsc-solutions.net !");
+            //this.ShowToast("http://my.jsc-solutions.net !");
         }
 
         #region pause
@@ -171,7 +172,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
             /** This is a handle to our texture data. */
             private WebGLTexture mTextureDataHandle;
 
-            __WebGLRenderingContext __gl = new __WebGLRenderingContext();
+            __gl __gl = new __gl();
             ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext gl;
 
 
@@ -423,7 +424,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
                 mCubeTextureCoordinates.put(cubeTextureCoordinateData).position(0);
             }
 
-            public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
+            public void onSurfaceCreated(GL10 glUnused, javax.microedition.khronos.egl.EGLConfig config)
             {
                 // Set the background clear color to black.
                 gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);

@@ -13,7 +13,7 @@ using android.webkit;
 using android.widget;
 using java.lang;
 using java.nio;
-using javax.microedition.khronos.egl;
+//using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
@@ -38,7 +38,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         {
             base.onCreate(savedInstanceState);
 
-            this.ToFullscreen();
+            //this.ToFullscreen();
 
             var fl = new FrameLayout(this);
             var ll = new LinearLayout(this);
