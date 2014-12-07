@@ -138,10 +138,15 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
         //public async Task<DataTable> GetVisitHeadersFor(Book1BSheet1Key visit)
         public Task<DataTable> GetVisitHeadersFor(Book1BSheet1Key visit)
         {
+            Console.WriteLine("enter GetVisitHeadersFor");
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201409/20140908
 
             //at ScriptCoreLibJava.BCLImplementation.System.Diagnostics.__Debugger.Break(__Debugger.java:32)
             //at ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder_1.SetException(__AsyncTaskMethodBuilder_1.java:49)
+
+            //at ScriptCoreLib.Query.Experimental.QueryExpressionBuilder.Where(QueryExpressionBuilder.java:137)
+            //at ScriptCoreLib.Query.Experimental.QueryExpressionBuilder.Where(QueryExpressionBuilder.java:137)
+            //at ScriptCoreLib.Query.Experimental.QueryExpressionBuilder.Where(QueryExpressionBuilder.java:137)
 
             return (
                 from k in new Design.Book1BSheet2()
