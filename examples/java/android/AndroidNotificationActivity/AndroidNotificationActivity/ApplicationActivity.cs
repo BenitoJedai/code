@@ -18,7 +18,8 @@ namespace AndroidNotificationActivity.Activities
 {
     public class ApplicationActivity : Activity
     {
-
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207
+        // how can we shot this from NDK?
 
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)

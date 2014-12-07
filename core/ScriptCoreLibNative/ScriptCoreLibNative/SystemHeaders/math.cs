@@ -8,6 +8,8 @@ namespace ScriptCoreLibNative.SystemHeaders
 {
     // "X:\opensource\android-ndk-r10c\platforms\android-21\arch-arm64\usr\include\math.h"
     // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Math.cs
+    // X:\jsc.svn\core\discontinued\ScriptCoreLib.Alchemy\ScriptCoreLib.Alchemy\Alchemy\BCLImplementation\System\Math.cs
+    // X:\jsc.svn\core\discontinued\ScriptCoreLib.Alchemy\ScriptCoreLib.Alchemy\Alchemy\Headers\math.cs
 
     // should we name it math_h or __math ?
     // should we use interfaces
@@ -16,15 +18,26 @@ namespace ScriptCoreLibNative.SystemHeaders
 	[Script(IsNative = true, Header = "math.h", IsSystemHeader = true)]
 	public static class math
 	{
-		public static double sin(double e)
-		{
-			return default(double);
-		}
 
-		public static double cos(double e)
-		{
-			return default(double);
-		}
+        public static double sin(double e)
+        {
+            return default(double);
+        }
+
+        public static double cos(double e)
+        {
+            return default(double);
+        }
+
+        public static double sqrt(double e)
+        {
+            return default(double);
+        }
+
+        public static double pow(double x, double y)
+        {
+            return default(double);
+        }
 	}
 
 }

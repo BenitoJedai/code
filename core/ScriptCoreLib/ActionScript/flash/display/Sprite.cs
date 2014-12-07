@@ -12,6 +12,15 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Sprite : DisplayObjectContainer
     {
+        // if HZ no longer depends on svg files
+        // and we can use .dae instead, can we move from flex to the new compiler?
+
+        // AIR 16 SDK for Flex Developers
+        // https://forums.adobe.com/thread/1638700
+
+        // http://help.adobe.com/en_US/air/extensions/WSb464b1207c184b14-62b8e11f12937b86be4-8000.html
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207
+
         // http://labsdownload.adobe.com/pub/labs/flashruntimes/shared/air16_flashplayer16_releasenotes.pdf
         // http://blogs.adobe.com/flashplayer/2014/09/stage3d-standard-profile.html#more-6487
         // http://blogs.adobe.com/flashplayer/2014/11/adobe-air-and-android-5-0.html
