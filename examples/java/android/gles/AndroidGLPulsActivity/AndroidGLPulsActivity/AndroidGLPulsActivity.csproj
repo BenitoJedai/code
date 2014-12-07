@@ -69,11 +69,9 @@
     <Reference Include="ScriptCoreLibAndroid.Windows.Forms">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibAndroid.XLinq">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.XLinq.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -86,9 +84,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
-      <Link>ScriptCoreLib\Shader.cs</Link>
-    </Compile>
     <Compile Include="ApplicationActivity.cs">
     </Compile>
     <Compile Include="Program.cs">

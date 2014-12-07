@@ -36,14 +36,14 @@ namespace AndroidGLPulsActivity.Activities
 
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-            this.ToFullscreen();
+            //this.ToFullscreen();
 
             var v = new RenderingContextView(this);
             var s = new PulsSurface(v);
 
             this.setContentView(v);
 
-            this.TryHideActionbar(v);
+            //this.TryHideActionbar(v);
 
             this.ShowToast("http://my.jsc-solutions.net");
         }
