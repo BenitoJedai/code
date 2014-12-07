@@ -228,6 +228,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 
         public override Task<object> ExecuteScalarAsync()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207/async-query
+
             Console.WriteLine("enter ExecuteScalarAsync before ExecuteReaderAsync");
 
             // X:\jsc.svn\examples\javascript\LINQ\LINQWebCamAvatars\LINQWebCamAvatars\Application.cs

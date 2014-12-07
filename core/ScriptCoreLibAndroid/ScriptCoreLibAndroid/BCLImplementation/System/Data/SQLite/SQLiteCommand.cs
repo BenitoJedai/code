@@ -140,9 +140,11 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 
 
 
-
+        // called by?
         public override global::System.Threading.Tasks.Task<global::System.Data.Common.DbDataReader> __DbCommand_ExecuteReaderAsync()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207/async-query
+
             // can we do async/await sql inserts for android?
 
             // http://www.codeofaninja.com/2013/12/android-sqlite-transaction-tutorial.html

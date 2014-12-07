@@ -16,6 +16,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
+        // X:\jsc.svn\examples\java\appengine\Test\TestThreadManager\TestThreadManager\ApplicationWebService.cs
         // would this enable async queries?
 
         // if we are to target appengine

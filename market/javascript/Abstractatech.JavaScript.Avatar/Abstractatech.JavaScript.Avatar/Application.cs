@@ -321,7 +321,8 @@ namespace Abstractatech.JavaScript.Avatar
                     var bytes = frames.Select(x => x.bytes.Result).ToArray().AsEnumerable();
 
                     //bytes = bytes.Concat(bytes.Skip(1).Reverse().Skip(1)).ToArray().AsEnumerable();
-
+                    
+                        // build it
                     new GIFEncoderWorker(
                          96,
                          96,

@@ -23,6 +23,7 @@ namespace GoogleCloudSQLExample
             // see also: https://developers.google.com/cloud-sql/docs/developers_guide_java
             // http://www.javacodegeeks.com/2011/04/app-engine-capabilities-namespaces-api.html
 
+            // why is that api missing? did we exclue it during build?
             var s = com.google.appengine.api.capabilities.CapabilitiesServiceFactory.getCapabilitiesService();
 
             Action<Capability> ff =

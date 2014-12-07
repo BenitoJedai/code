@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
     // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DBCommand.cs
-    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/System.Data/System.Data.Common/DbCommand.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System.Data/System.Data.Common/DbCommand.cs
 
     [Script(Implements = typeof(global::System.Data.Common.DbCommand))]
     public abstract class __DbCommand : __Component, __IDbCommand
@@ -30,8 +30,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 
         public virtual Task<DbDataReader> __DbCommand_ExecuteReaderAsync()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207/async-query
             return null;
         }
+
         public virtual DbDataReader __DbCommand_ExecuteReader()
         {
             return null;
@@ -72,6 +74,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         // X:\jsc.svn\examples\javascript\test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
         public virtual Task<int> ExecuteNonQueryAsync()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207/async-query
+
             throw new NotImplementedException();
         }
 
