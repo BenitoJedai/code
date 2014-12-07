@@ -19,6 +19,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
     internal partial class __Task
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAll.cs
+
         // BCL4.5
         public static Task WhenAll(IEnumerable<Task> tasks)
         {

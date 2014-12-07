@@ -135,6 +135,13 @@ namespace ScriptCoreLib.Query.Experimental
                         return;
                     }
 
+                    // X:\jsc.svn\examples\javascript\appengine\XSLXAssetWithXElement\XSLXAssetWithXElement\ApplicationWebService.cs
+                    if (f.FieldType == typeof(bool))
+                    {
+                        w.Append(" BIGINT NOT NULL");
+                        return;
+                    }
+
                     Debugger.Break();
                 }
             );

@@ -39,6 +39,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                     //Task.Factory.ContinueWhenAll(
                     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAll.cs
+                    // X:\jsc.svn\examples\java\hybrid\test\JVMCLRWhenAll\JVMCLRWhenAll\Program.cs
                     Task.WhenAll(i.ToArray()).ContinueWith(
                         delegate
                     {
@@ -93,6 +94,7 @@ namespace ScriptCoreLib.Query.Experimental
             {
                 //Console.WriteLine("before ExecuteNonQueryAsync");
                 var n = xDbCommand.ExecuteNonQueryAsync();
+                // n = Id = 0x00000001, Status = RanToCompletion, Method = "{null}", Result = "1"
 
                 var c = new TaskCompletionSource<TKey>();
 
