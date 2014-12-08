@@ -2949,7 +2949,14 @@ namespace ScriptCoreLib.Query.Experimental
                                     }
                                    );
                             }
-                            else Debugger.Break();
+                            else
+                            {
+                                // xGroupBy.elementSelector.Body = {new <>f__AnonymousType27`2(c = <>h__TransparentIdentifier18f.c, cData = <>h__TransparentIdentifier18f.cData)}
+                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141208
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxJoinThenGroupBy\Program.cs
+
+                                Debugger.Break();
+                            }
                         }
 
 
