@@ -20,6 +20,9 @@ namespace ScriptCoreLib.Android
     // what about cleanroom build? such types might not be available yet!
     public class RenderingContextView : GLSurfaceView, GLSurfaceView.Renderer, ISurface
     {
+        // Error	7	'ScriptCoreLib.Android.RenderingContextView' does not implement interface member 
+        // 'android.opengl.GLSurfaceView.Renderer.onSurfaceCreated(javax.microedition.khronos.opengles.GL10, android.opengl.EGLConfig)'	X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\RenderingContextView.cs	21	18	ScriptCoreLib.Ultra
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
 
         WebGLRenderingContext gl;

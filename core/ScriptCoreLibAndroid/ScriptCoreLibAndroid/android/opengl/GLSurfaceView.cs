@@ -14,6 +14,10 @@ namespace android.opengl
     [Script(IsNative = true)]
     public class GLSurfaceView : SurfaceView
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\Extensions\GLSurfaceViewExtensions.cs
+        public void queueEvent(java.lang.Runnable y)
+        { 
+        }
         // http://developer.android.com/reference/android/opengl/GLSurfaceView.Renderer.html
         [Script(IsNative = true)]
         public interface Renderer
@@ -23,7 +27,8 @@ namespace android.opengl
 
             void onSurfaceChanged(GL10 gl, int width, int height);
 
-            void onSurfaceCreated(GL10 gl, EGLConfig config);
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\RenderingContextView.cs
+            void onSurfaceCreated(GL10 gl, javax.microedition.khronos.egl.EGLConfig config);
         }
 
         public GLSurfaceView(Context context)

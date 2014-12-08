@@ -57,6 +57,12 @@ namespace android.app
             {
                 return default(Builder);
             }
+
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\Extensions\AlertDialogBuilderExtensions.cs
+            public virtual Builder setItems(java.lang.CharSequence[] text, DialogInterface_OnClickListener listener)
+            {
+                return default(Builder);
+            }
         }
     }
 }
