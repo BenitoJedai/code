@@ -128,6 +128,12 @@ namespace ScriptCoreLib.Query.Experimental
                         return;
                     }
 
+                    if (f.FieldType == typeof(bool))
+                    {
+                        w.Append(" BIGINT NOT NULL");
+                        return;
+                    }
+
                     // foreign keys
                     if (f.FieldType.IsEnum)
                     {
@@ -135,10 +141,12 @@ namespace ScriptCoreLib.Query.Experimental
                         return;
                     }
 
+                    // https://www.sqlite.org/datatype3.html
+                    // X:\jsc.svn\examples\javascript\test\TestXLSXDouble\TestXLSXDouble\ApplicationWebService.cs
                     // X:\jsc.svn\examples\javascript\appengine\XSLXAssetWithXElement\XSLXAssetWithXElement\ApplicationWebService.cs
-                    if (f.FieldType == typeof(bool))
+                    if (f.FieldType == typeof(double))
                     {
-                        w.Append(" BIGINT NOT NULL");
+                        w.Append(" REAL NOT NULL");
                         return;
                     }
 
