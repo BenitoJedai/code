@@ -304,6 +304,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs">
       <Link>BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\TaskFactory.cs">
+      <Link>BCLImplementation\System\Threading\Tasks\TaskFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task\Task.cs">
       <Link>BCLImplementation\System\Threading\Tasks\Task\Task.cs</Link>
     </Compile>
