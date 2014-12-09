@@ -316,6 +316,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs">
       <Link>BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAll.cs">
+      <Link>BCLImplementation\System\Threading\Tasks\Task\Task.WhenAll.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs">
       <Link>BCLImplementation\System\Threading\Thread.cs</Link>
     </Compile>
@@ -916,6 +919,9 @@
     <Compile Include="android\nfc\Tag.cs" />
     <Compile Include="android\nfc\NfcActivityManager.cs" />
     <Compile Include="android\nfc\NfcAdapter.cs" />
+    <Compile Include="android\nfc\tech\BasicTagTechnology.cs" />
+    <Compile Include="android\nfc\tech\TagTechnology.cs" />
+    <Compile Include="android\nfc\tech\IsoDep.cs" />
     <Compile Include="android\nfc\tech\NfcA.cs" />
     <Compile Include="android\nfc\tech\MifareClassic.cs" />
     <Compile Include="android\opengl\EGLObjectHandle.cs" />
@@ -924,6 +930,7 @@
     <Compile Include="android\opengl\GLES30.cs" />
     <Compile Include="android\opengl\GLSurfaceView.cs" />
     <Compile Include="android\os\BatteryManager.cs" />
+    <Compile Include="android\os\BaseBundle.cs" />
     <Compile Include="android\os\Looper.cs" />
     <Compile Include="android\os\Parcel.cs" />
     <Compile Include="android\os\Handler.cs" />

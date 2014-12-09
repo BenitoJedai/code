@@ -19,8 +19,12 @@ namespace android.app
         // members and types are to be extended by jsc at release build
 
 
-
-
+        public void setMessage(string message)
+        {
+        }
+        public void setView(View view)
+        {
+        }
 
         // http://developer.android.com/reference/android/app/AlertDialog.Builder.html
         [Script(IsNative = true)]
@@ -33,9 +37,18 @@ namespace android.app
 
             }
 
+            public virtual AlertDialog show()
+            {
+                return default(AlertDialog);
+            }
+
             public virtual AlertDialog create()
             {
                 return default(AlertDialog);
+            }
+            public virtual Builder setIcon(int iconId)
+            {
+                return default(Builder);
             }
 
             public virtual Builder setView(View view)

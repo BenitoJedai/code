@@ -13,5 +13,9 @@ namespace android.nfc.tech
     {
         // X:\jsc.svn\examples\javascript\android\forms\AndroidNFCEvents\AndroidNFCEvents\ApplicationWebService_poll_onnfc.cs
 
+        public static NfcA get(Tag tag)
+        {
+            return null;
+        }
     }
 }

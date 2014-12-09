@@ -21,6 +21,7 @@ namespace android
 
 
             public static int ic_menu_close_clear_cancel;
+            public static int ic_dialog_alert;
 
 
             public static int star_on;
