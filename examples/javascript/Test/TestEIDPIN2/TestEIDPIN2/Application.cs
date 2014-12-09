@@ -30,6 +30,11 @@ namespace TestEIDPIN2
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // Invalid request. This video was rejected.
+            // youtube videos need to be landscape
+            // The video is a duplicate of a video you already uploaded.
+
+
             // X:\jsc.svn\examples\javascript\Test\TestDynamicCall\TestDynamicCall\Application.cs
             // X:\jsc.svn\examples\java\hybrid\JVMCLRTCPMultiplex\JVMCLRTCPMultiplex\Program.cs
 
