@@ -23,11 +23,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
         public static Task<TResult[]> WhenAll<TResult>(params Task<TResult>[] tasks)
         {
+            // X:\jsc.svn\examples\java\Test\TestGenericParameterArray\TestGenericParameterArray\Class1.cs
             // X:\jsc.svn\examples\java\hybrid\Test\TestGenericArray\TestGenericArray\Program.cs
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209
-            throw null;
-#if FGENERIC
+
             var x = new TaskCompletionSource<TResult[]>();
 
             var a = new TResult[tasks.Length];
@@ -56,7 +56,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
 
             return x.Task;
-#endif
         }
 
         public static Task WhenAll(params Task[] tasks)

@@ -19,6 +19,16 @@ namespace TestEIDPIN2
     /// </summary>
     public class ApplicationWebService
     {
+
+        //---------------------------
+        //Microsoft Visual Studio Express 2012 for Web
+        //---------------------------
+        //Visual Studio cannot start debugging because the debug target 'X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\bin\Release\TestEIDPIN2.exe' is missing. Please build the project and retry, or set the OutputPath and AssemblyName properties appropriately to point at the correct location for the target assembly.
+        //---------------------------
+        //OK   
+        //---------------------------
+
+
         // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
         // what?
         // something is up with our port multiplexer?
