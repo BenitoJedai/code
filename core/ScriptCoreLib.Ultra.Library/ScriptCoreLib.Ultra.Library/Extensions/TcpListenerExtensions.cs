@@ -17,7 +17,7 @@ namespace ScriptCoreLib.Extensions
         //static void BridgeStreamTo(this NetworkStream x, NetworkStream y, int ClientCounter, string prefix = "#")
         static void BridgeStreamTo(this Stream x, Stream y, int ClientCounter, string prefix = "#")
         {
-            Console.WriteLine("BridgeStreamTo x: " + x.GetType().AssemblyQualifiedName);
+            //Console.WriteLine("BridgeStreamTo x: " + x.GetType().AssemblyQualifiedName);
 
             new Thread(
                delegate()
@@ -325,7 +325,7 @@ namespace ScriptCoreLib.Extensions
                     var zbuffer = new byte[1];
                     var z = xPeekableStream.Peek(zbuffer, 0, 1);
                     var peek_char = zbuffer[0];
-                    Console.WriteLine(new { peek_char });
+                    //Console.WriteLine(new { peek_char });
 
                     if (peek_char == 0x16)
                     {
@@ -337,11 +337,13 @@ namespace ScriptCoreLib.Extensions
 
                         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209
                         // how do we get a break point here?
-                        Console.WriteLine("enter https? " + new
-                        {
-                            Debugger.IsAttached,
-                            System.Reflection.Assembly.GetExecutingAssembly().Location
-                        });
+                        Console.WriteLine("enter https "
+                            //    + new
+                            //{
+                            //    Debugger.IsAttached,
+                            //    System.Reflection.Assembly.GetExecutingAssembly().Location
+                            //}
+                        );
 
 
                         //using (
@@ -453,11 +455,8 @@ namespace ScriptCoreLib.Extensions
                         //clientSocket.BridgeConnectionTo(y, ClientCounter, "?" + rx, tx);
                         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209/bridgeconnectiontoport
 
-                        xPeekableStream.BridgeStreamTo(y.GetStream(), ClientCounter, "?" + rx);
-                        
-
-                        // cant write back?
-                        y.GetStream().BridgeStreamTo(clientSocket.GetStream(), ClientCounter, "?" + tx);
+                        xPeekableStream.BridgeStreamTo(y.GetStream(), ClientCounter, rx);
+                        y.GetStream().BridgeStreamTo(clientSocket.GetStream(), ClientCounter, tx);
                     }
 
                 };

@@ -13,6 +13,9 @@ namespace ScriptCoreLibJava.AppEngine.Extensions
         [Obsolete("called by the compiler, to enable Task.Run for app engine services.")]
         public static void InitializeWebServiceThread()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209/bridgeconnectiontoport
+            // X:\jsc.svn\examples\javascript\Test\TestBridgeConnectionToPort\TestBridgeConnectionToPort\ApplicationWebService.cs
+
             Console.WriteLine("InitializeWebServiceThread " + new { Thread.CurrentThread.ManagedThreadId });
 
             // X:\jsc.svn\examples\java\appengine\Test\TestThreadManager\TestThreadManager\ApplicationWebService.cs
