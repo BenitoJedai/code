@@ -18,6 +18,11 @@ namespace ScriptCoreLibNative.SystemHeaders
 	[Script(IsNative = true, Header = "math.h", IsSystemHeader = true)]
 	public static class math
 	{
+        // C++ originally targetted C as it's output, not machine code
+        // http://developers.slashdot.org/story/14/12/09/0418252/how-relevant-is-c-in-2014
+        // C is important because it directly presents the actual machine memory model.
+        // C allows you to get into regions that Java does not even know exist.
+
 
         public static double sin(double e)
         {

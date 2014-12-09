@@ -19,6 +19,17 @@ namespace TestEIDPIN2
     /// </summary>
     public class ApplicationWebService
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
+        // what?
+        // something is up with our port multiplexer?
+        //     [HttpException (0x80004005): Path 'ET' is forbidden.]
+        //System.Web.HttpMethodNotAllowedHandler.ProcessRequest(HttpContext context) +197
+        //System.Web.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute() +1132
+        //System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously) +114
+
+
+
+
         // "C:\util\android-sdk-windows\tools\ddms.bat"
 
 
