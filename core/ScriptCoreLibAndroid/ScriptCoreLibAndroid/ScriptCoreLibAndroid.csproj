@@ -920,6 +920,8 @@
     <Compile Include="android\nfc\NfcActivityManager.cs" />
     <Compile Include="android\nfc\NfcAdapter.cs" />
     <Compile Include="android\nfc\tech\BasicTagTechnology.cs" />
+    <Compile Include="android\nfc\tech\NdefFormatable.cs" />
+    <Compile Include="android\nfc\tech\Ndef.cs" />
     <Compile Include="android\nfc\tech\TagTechnology.cs" />
     <Compile Include="android\nfc\tech\IsoDep.cs" />
     <Compile Include="android\nfc\tech\NfcA.cs" />

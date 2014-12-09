@@ -18,6 +18,9 @@ namespace android.app
 
         // members and types are to be extended by jsc at release build
 
+        public void setButton(string text, DialogInterface_OnClickListener listener)
+        {
+        }
 
         public void setMessage(string message)
         {
