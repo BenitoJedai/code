@@ -17,40 +17,44 @@ namespace ScriptCoreLib.Extensions
         //static void BridgeStreamTo(this NetworkStream x, NetworkStream y, int ClientCounter, string prefix = "#")
         static void BridgeStreamTo(this Stream x, Stream y, int ClientCounter, string prefix = "#")
         {
+            Console.WriteLine("BridgeStreamTo x: " + x.GetType().AssemblyQualifiedName);
+
             new Thread(
-               delegate ()
-            {
-                var buffer = new byte[0x100000];
+               delegate()
+               {
+                   var buffer = new byte[0x100000];
 
-                while (true)
-                {
-                    //
-                    try
-                    {
+                   while (true)
+                   {
+                       //
+                       try
+                       {
 
-                        var c = x.Read(buffer, 0, buffer.Length);
+                           var c = x.Read(buffer, 0, buffer.Length);
 
-                        if (c <= 0)
-                            return;
+                           if (c <= 0)
+                               return;
 
 
-                        Console.WriteLine(prefix + ClientCounter.ToString("x4") + " 0x" + c.ToString("x4") + " bytes");
+                           Console.WriteLine(prefix + ClientCounter.ToString("x4") + " 0x" + c.ToString("x4") + " bytes");
 
-                        if (prefix.StartsWith("?"))
-                            Console.WriteLine(Encoding.ASCII.GetString(buffer, 0, c));
+                           if (prefix.StartsWith("?"))
+                               Console.WriteLine(Encoding.ASCII.GetString(buffer, 0, c));
 
-                        y.Write(buffer, 0, c);
+                           y.Write(buffer, 0, c);
 
-                        Thread.Sleep(1);
-                    }
-                    catch
-                    {
-                        //Console.WriteLine("#" + ClientCounter + " error");
+                           // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209/bridgeconnectiontoport
+                           // why is sleep a good idea here?
+                           Thread.Sleep(1);
+                       }
+                       catch
+                       {
+                           //Console.WriteLine("#" + ClientCounter + " error");
 
-                        return;
-                    }
-                }
-            }
+                           return;
+                       }
+                   }
+               }
            )
             {
                 Name = "BridgeStreamTo",
@@ -77,7 +81,7 @@ namespace ScriptCoreLib.Extensions
             = new Dictionary<object, Action<RemoteCertificateValidationCallback>>();
 
 
-
+        // called by?
         public static void BridgeConnectionToPort(this TcpListener x, int port, string rx, string tx)
         {
             // http://stackoverflow.com/questions/5510063/makecert-exe-missing-in-windows-7-how-to-get-it-and-use-it
@@ -113,54 +117,54 @@ namespace ScriptCoreLib.Extensions
                     #region CertificateFromCurrentUser
                     Func<X509Certificate> CertificateFromCurrentUser =
                         delegate
-                    {
-                        X509Store store = new X509Store(
-                                //StoreName.Root,
-                                StoreName.My,
-                            StoreLocation.CurrentUser);
-                        // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
-                        // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
-
-                        // Policy Information:
-                        //URL = http://127.0.0.5:10500
-
-                        try
                         {
+                            X509Store store = new X509Store(
+                                //StoreName.Root,
+                                    StoreName.My,
+                                StoreLocation.CurrentUser);
+                            // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
+                            // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
 
-                            store.Open(OpenFlags.ReadOnly);
-                            // Additional information: The OID value was invalid.
-                            X509Certificate2Collection cers = store.Certificates;
+                            // Policy Information:
+                            //URL = http://127.0.0.5:10500
 
-
-                            foreach (var item in cers)
+                            try
                             {
-                                // http://comments.gmane.org/gmane.comp.emulators.wine.devel/86862
-                                var SPC_SP_AGENCY_INFO_OBJID = "1.3.6.1.4.1.311.2.1.10";
 
-                                // // spcSpAgencyInfo private extension
+                                store.Open(OpenFlags.ReadOnly);
+                                // Additional information: The OID value was invalid.
+                                X509Certificate2Collection cers = store.Certificates;
 
-                                var elink = item.Extensions[SPC_SP_AGENCY_INFO_OBJID];
-                                if (elink != null)
+
+                                foreach (var item in cers)
                                 {
-                                    var prefix = 6;
-                                    var linkvalue = Encoding.UTF8.GetString(elink.RawData, prefix, elink.RawData.Length - prefix);
+                                    // http://comments.gmane.org/gmane.comp.emulators.wine.devel/86862
+                                    var SPC_SP_AGENCY_INFO_OBJID = "1.3.6.1.4.1.311.2.1.10";
 
-                                    //Console.WriteLine(new { item.Subject, linkvalue });
+                                    // // spcSpAgencyInfo private extension
 
-                                    if (linkvalue == link)
-                                        return item;
+                                    var elink = item.Extensions[SPC_SP_AGENCY_INFO_OBJID];
+                                    if (elink != null)
+                                    {
+                                        var prefix = 6;
+                                        var linkvalue = Encoding.UTF8.GetString(elink.RawData, prefix, elink.RawData.Length - prefix);
+
+                                        //Console.WriteLine(new { item.Subject, linkvalue });
+
+                                        if (linkvalue == link)
+                                            return item;
+                                    }
                                 }
                             }
-                        }
-                        finally
-                        {
+                            finally
+                            {
 
-                            store.Close();
-                        }
+                                store.Close();
+                            }
 
-                        return null;
+                            return null;
 
-                    };
+                        };
                     #endregion
 
                     // are we slowing down checking certs at each connection?
@@ -235,36 +239,36 @@ namespace ScriptCoreLib.Extensions
             #region CertificateRootFromCurrentUser
             Func<X509Certificate> CertificateRootFromCurrentUser =
                 delegate
-            {
-                X509Store store = new X509Store(
-                            StoreName.Root,
-                    StoreLocation.CurrentUser);
-                // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
-                // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
-
-                // Policy Information:
-                //URL = http://127.0.0.5:10500
-
-                try
                 {
+                    X509Store store = new X509Store(
+                                StoreName.Root,
+                        StoreLocation.CurrentUser);
+                    // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
+                    // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
 
-                    store.Open(OpenFlags.ReadOnly);
+                    // Policy Information:
+                    //URL = http://127.0.0.5:10500
 
-                    var item = store.Certificates.Find(X509FindType.FindBySubjectName, CN, true);
+                    try
+                    {
 
-                    if (item.Count > 0)
-                        return item[0];
+                        store.Open(OpenFlags.ReadOnly);
 
-                }
-                finally
-                {
+                        var item = store.Certificates.Find(X509FindType.FindBySubjectName, CN, true);
 
-                    store.Close();
-                }
+                        if (item.Count > 0)
+                            return item[0];
 
-                return null;
+                    }
+                    finally
+                    {
 
-            };
+                        store.Close();
+                    }
+
+                    return null;
+
+                };
             #endregion
 
 
@@ -281,7 +285,7 @@ namespace ScriptCoreLib.Extensions
                 var p = Process.Start(
                     new ProcessStartInfo(
                         makecert,
-                       // this cert is constant
+                    // this cert is constant
                        args
                     )
                 {
@@ -313,18 +317,36 @@ namespace ScriptCoreLib.Extensions
             Action<TcpClient> yield =
                 clientSocket =>
                 {
-                    var p = new Library.Eugene.PeekableStream(clientSocket.GetStream(), 1);
+                    // how do we get a break point here?
+                    // is the peek broken?
+                    var xPeekableStream = new Library.Eugene.PeekableStream(clientSocket.GetStream(), 1);
 
 
                     var zbuffer = new byte[1];
-                    var z = p.Peek(zbuffer, 0, 1);
+                    var z = xPeekableStream.Peek(zbuffer, 0, 1);
+                    var peek_char = zbuffer[0];
+                    Console.WriteLine(new { peek_char });
 
-                    if (zbuffer[0] == 0x16)
+                    if (peek_char == 0x16)
                     {
-                        Console.WriteLine("enter https");
+                        #region 0x16
+
+                        //ScriptCoreLib.Ultra.Library.dll	X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\bin\Debug\ScriptCoreLib.Ultra.Library.dll	No	N/A	Symbols loaded.	X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\bin\Debug\ScriptCoreLib.Ultra.Library.pdb	8	4.5.0.0	2014-12-09 07:57 PM	01000000-01096000	[0x2888] TestEIDPIN2.exe: Managed (v4.0.30319)		
+                        //ScriptCoreLib.Ultra.Library.dll	C:\Users\Arvo\AppData\Local\Temp\Temporary ASP.NET Files\root\859044d8\ccb7784\assembly\dl3\a7ce0579\776f278d_d913d001\ScriptCoreLib.Ultra.Library.dll	No	N/A	Symbols loaded.	x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\obj\Debug\ScriptCoreLib.Ultra.Library.pdb	103	4.5.0.0	2014-12-09 07:57 PM	12AD0000-12B66000	[0x2888] TestEIDPIN2.exe: Managed (v4.0.30319)		
+
+
+                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209
+                        // how do we get a break point here?
+                        Console.WriteLine("enter https? " + new
+                        {
+                            Debugger.IsAttached,
+                            System.Reflection.Assembly.GetExecutingAssembly().Location
+                        });
+
+
                         //using (
                         SslStream sslStream = new SslStream(
-                           innerStream: p,
+                           innerStream: xPeekableStream,
                            leaveInnerStreamOpen: false,
 
                            userCertificateSelectionCallback:
@@ -386,8 +408,8 @@ namespace ScriptCoreLib.Extensions
                                     serverCertificate: CertificateFromCurrentUserByLocalEndPoint((IPEndPoint)clientSocket.Client.LocalEndPoint),
                                     //clientCertificateRequired: false,
                                     clientCertificateRequired: true,
-                                // Tls12 = 3072
-                                //enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
+                                    // Tls12 = 3072
+                                    //enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
                                 enabledSslProtocols: enabledSslProtocols,
                                     checkCertificateRevocation: false
                                 );
@@ -416,33 +438,47 @@ namespace ScriptCoreLib.Extensions
                         }
                         //Console.WriteLine("exit https");
                         return;
+                        #endregion
+
                     }
 
+
+                    // { peek_char = 71 }
+                    //=>0006 0x0120 bytes
                     {
                         var y = new TcpClient();
                         y.Connect(new System.Net.IPEndPoint(IPAddress.Loopback, port));
-                        clientSocket.BridgeConnectionTo(y, ClientCounter, rx, tx);
+
+                        // how was this able to work? did svn loose state?
+                        //clientSocket.BridgeConnectionTo(y, ClientCounter, "?" + rx, tx);
+                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209/bridgeconnectiontoport
+
+                        xPeekableStream.BridgeStreamTo(y.GetStream(), ClientCounter, "?" + rx);
+                        
+
+                        // cant write back?
+                        y.GetStream().BridgeStreamTo(clientSocket.GetStream(), ClientCounter, "?" + tx);
                     }
 
                 };
 
 
             new Thread(
-               delegate ()
-            {
-                while (true)
-                {
-                    var clientSocket = x.AcceptTcpClient();
-                    ClientCounter++;
+               delegate()
+               {
+                   while (true)
+                   {
+                       var clientSocket = x.AcceptTcpClient();
+                       ClientCounter++;
 
-                    //Console.WriteLine("#" + ClientCounter + " BridgeConnectionToPort");
-
-
-                    yield(clientSocket);
-                }
+                       //Console.WriteLine("#" + ClientCounter + " BridgeConnectionToPort");
 
 
-            }
+                       yield(clientSocket);
+                   }
+
+
+               }
            )
             {
                 IsBackground = true,
