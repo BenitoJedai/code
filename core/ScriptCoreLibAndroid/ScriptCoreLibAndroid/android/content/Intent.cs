@@ -16,6 +16,8 @@ namespace android.content
     [Script(IsNative = true)]
     public class Intent
     {
+        public static readonly string CATEGORY_DEFAULT = "android.intent.category.DEFAULT";
+
         public static int FLAG_ACTIVITY_SINGLE_TOP = 0x20000000;
 
         public Intent addFlags(int flags) { return null; }

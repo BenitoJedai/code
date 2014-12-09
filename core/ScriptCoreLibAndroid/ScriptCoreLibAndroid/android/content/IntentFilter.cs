@@ -25,7 +25,12 @@ namespace android.content
         public void addAction(string e)
         {
         }
-
+        public void addCategory(string e)
+        {
+        }
+        public void addDataType(string e)
+        {
+        }
         public virtual void writeToParcel(Parcel dest, int flags)
         {
         }

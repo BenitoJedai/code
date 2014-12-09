@@ -1,4 +1,5 @@
-﻿using android.content;
+﻿using android.app;
+using android.content;
 using android.net;
 using ScriptCoreLib;
 using System.Collections.Generic;
@@ -12,6 +13,10 @@ namespace android.nfc
     [Script(IsNative = true)]
     public class NfcAdapter
     {
+        public static string ACTION_NDEF_DISCOVERED;
+        public static string ACTION_TAG_DISCOVERED;
+        public static string ACTION_TECH_DISCOVERED;
+
         // can we access it from NDK?
 
         // X:\jsc.svn\examples\javascript\android\forms\AndroidNFCEvents\AndroidNFCEvents\ApplicationWebService_poll_onnfc.cs
@@ -19,5 +24,11 @@ namespace android.nfc
         public bool isEnabled() { return false; }
 
         public static NfcAdapter getDefaultAdapter(Context context) { return null; }
+
+
+
+        public void enableForegroundDispatch(Activity activity, PendingIntent intent,
+            IntentFilter[] filters, string[][] techLists)
+        { }
     }
 }
