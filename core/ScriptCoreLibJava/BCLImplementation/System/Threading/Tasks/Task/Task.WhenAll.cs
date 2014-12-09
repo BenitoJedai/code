@@ -16,14 +16,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
         // X:\jsc.svn\examples\java\hybrid\test\JVMCLRWhenAll\JVMCLRWhenAll\Program.cs
 
 
-     
+
 
 
         // X:\jsc.svn\examples\javascript\appengine\XSLXAssetWithXElement\XSLXAssetWithXElement\ApplicationWebService.cs
 
         public static Task<TResult[]> WhenAll<TResult>(params Task<TResult>[] tasks)
         {
-
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209
+            throw null;
+#if FGENERIC
             var x = new TaskCompletionSource<TResult[]>();
 
             var a = new TResult[tasks.Length];
@@ -52,6 +54,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
 
             return x.Task;
+#endif
         }
 
         public static Task WhenAll(params Task[] tasks)

@@ -12,10 +12,14 @@ namespace android.os
 
     // http://developer.android.com/reference/android/os/Bundle.html
     [Script(IsNative = true)]
-    public class Bundle
+    public class Bundle : BaseBundle 
     {
         // members and types are to be extended by jsc at release build
 
+        public string getString(string e)
+        {
+            throw null;
+        }
 
         public int getInt(string e)
         {

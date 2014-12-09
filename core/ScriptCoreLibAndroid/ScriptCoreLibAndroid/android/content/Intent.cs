@@ -16,8 +16,17 @@ namespace android.content
     [Script(IsNative = true)]
     public class Intent
     {
+        public static int FLAG_ACTIVITY_SINGLE_TOP = 0x20000000;
+
+        public Intent addFlags(int flags) { return null; }
+
         // X:\jsc.svn\examples\javascript\android\com.abstractatech.battery\com.abstractatech.battery\ApplicationWebService.cs
         public static readonly string ACTION_BATTERY_CHANGED = "android.intent.action.BATTERY_CHANGED";
+
+        public sbyte[] getByteArrayExtra(string name)
+        {
+            return null;
+        }
 
         public string getStringExtra(string name)
         {

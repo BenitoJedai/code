@@ -155,23 +155,23 @@ namespace ScriptCoreLib.Query.Experimental
                 var WithoutLinefeedsDirty = false;
                 Func<IDisposable> WithoutLinefeeds =
                     delegate
-                {
-                    if (WithoutLinefeedsCounter == 0)
-                        WithoutLinefeedsDirty = false;
-
-                    WithoutLinefeedsCounter++;
-
-                    return new SQLWriterWithoutLinefeeds
                     {
-                        yield = delegate
-                        {
-                            WithoutLinefeedsCounter--;
+                        if (WithoutLinefeedsCounter == 0)
+                            WithoutLinefeedsDirty = false;
 
-                            if (WithoutLinefeedsCounter == 0)
-                                Write("\r\n");
-                        }
+                        WithoutLinefeedsCounter++;
+
+                        return new SQLWriterWithoutLinefeeds
+                        {
+                            yield = delegate
+                            {
+                                WithoutLinefeedsCounter--;
+
+                                if (WithoutLinefeedsCounter == 0)
+                                    Write("\r\n");
+                            }
+                        };
                     };
-                };
                 #endregion
 
                 // X:\jsc.svn\examples\javascript\LINQ\GGearAlpha\GGearAlpha\Application.cs
@@ -1009,18 +1009,18 @@ namespace ScriptCoreLib.Query.Experimental
 
                                             yyaa(aa_source_MethodCallExpression,
                                               aa_sourcei =>
-                                                {
-                                                    var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
-                                                            new object[] {
+                                              {
+                                                  var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
+                                                          new object[] {
                                                                     aa_sourcei,
                                                                     aa_selectorQuote.Operand
                                                                 }
-                                                    );
+                                                  );
 
-                                                    yield(
-                                                        newsource2
-                                                    );
-                                                }
+                                                  yield(
+                                                      newsource2
+                                                  );
+                                              }
                                           );
 
                                             //var aa_source_MethodCallExpression = aa_MethodCallExpression.Arguments[0] as MethodCallExpression;
@@ -1274,140 +1274,140 @@ namespace ScriptCoreLib.Query.Experimental
                         #region WriteProjectionProxy:GetSourceName
                         Func<string> GetSourceName =
                             delegate
-                        {
-                            var w = "";
+                            {
+                                var w = "";
 
-                            if (Target != null)
-                                foreach (var item in Source)
-                                {
-                                    if (item.Item1 != null)
+                                if (Target != null)
+                                    foreach (var item in Source)
                                     {
-                                        if (!string.IsNullOrEmpty(w))
-                                            w += ".";
+                                        if (item.Item1 != null)
+                                        {
+                                            if (!string.IsNullOrEmpty(w))
+                                                w += ".";
 
-                                        w += item.Item1;
+                                            w += item.Item1;
+                                        }
+                                        else if (item.Item2 == null)
+                                            w += "[" + item.Item3 + "]";
+                                        else
+                                        {
+                                            if (!string.IsNullOrEmpty(w))
+                                                w += ".";
+
+                                            w += item.Item2.Name + "";
+                                        }
+
                                     }
-                                    else if (item.Item2 == null)
-                                        w += "[" + item.Item3 + "]";
-                                    else
-                                    {
-                                        if (!string.IsNullOrEmpty(w))
-                                            w += ".";
 
-                                        w += item.Item2.Name + "";
-                                    }
-
-                                }
-
-                            return w;
-                        };
+                                return w;
+                            };
                         #endregion
 
                         #region WriteProjectionProxy:GetSourceNameWithQuotes
                         Func<string> GetSourceNameWithQuotes =
                             delegate
-                        {
-                            var w = "";
-                            var i = 0;
-                            w += "`";
-                            var needToClose = false;
-
-                            if (Target != null)
-                                foreach (var item in Source)
-                                {
-                                    if (item.Item1 != null)
-                                    {
-                                        if (i > 0)
-                                        {
-                                            if (i == 1)
-                                            {
-                                                w += ".`";
-                                                needToClose = true;
-                                            }
-                                            else
-                                                w += ".";
-                                        }
-
-
-                                        w += item.Item1;
-                                    }
-                                    else if (item.Item2 == null)
-                                        w += "[" + item.Item3 + "]";
-                                    else
-                                    {
-                                        if (i > 0)
-                                        {
-                                            if (i == 1)
-                                            {
-                                                w += ".`";
-                                                needToClose = true;
-                                            }
-                                            else
-                                                w += ".";
-                                        }
-
-
-                                        w += item.Item2.Name + "";
-                                    }
-
-
-
-
-
-                                    if (i == 0)
-                                        w += "`";
-
-                                    i++;
-                                }
-
-                            if (needToClose)
+                            {
+                                var w = "";
+                                var i = 0;
                                 w += "`";
+                                var needToClose = false;
 
-                            return w;
-                        };
+                                if (Target != null)
+                                    foreach (var item in Source)
+                                    {
+                                        if (item.Item1 != null)
+                                        {
+                                            if (i > 0)
+                                            {
+                                                if (i == 1)
+                                                {
+                                                    w += ".`";
+                                                    needToClose = true;
+                                                }
+                                                else
+                                                    w += ".";
+                                            }
+
+
+                                            w += item.Item1;
+                                        }
+                                        else if (item.Item2 == null)
+                                            w += "[" + item.Item3 + "]";
+                                        else
+                                        {
+                                            if (i > 0)
+                                            {
+                                                if (i == 1)
+                                                {
+                                                    w += ".`";
+                                                    needToClose = true;
+                                                }
+                                                else
+                                                    w += ".";
+                                            }
+
+
+                                            w += item.Item2.Name + "";
+                                        }
+
+
+
+
+
+                                        if (i == 0)
+                                            w += "`";
+
+                                        i++;
+                                    }
+
+                                if (needToClose)
+                                    w += "`";
+
+                                return w;
+                            };
                         #endregion
 
                         #region WriteProjectionProxy:GetTargetNameWithQuotes
                         Func<string> GetTargetNameWithQuotes =
                             delegate
-                        {
-                            var w = "";
-                            var i = 0;
-                            w += "`";
-                            var needToClose = false;
+                            {
+                                var w = "";
+                                var i = 0;
+                                w += "`";
+                                var needToClose = false;
 
-                            if (Target != null)
-                                foreach (var item in Target)
-                                {
-                                    if (item.Item1 == null)
-                                        w += "[" + item.Item2 + "]";
-                                    else
+                                if (Target != null)
+                                    foreach (var item in Target)
                                     {
-                                        if (i > 0)
+                                        if (item.Item1 == null)
+                                            w += "[" + item.Item2 + "]";
+                                        else
                                         {
-                                            if (i == 1)
+                                            if (i > 0)
                                             {
-                                                w += ".`";
-                                                needToClose = true;
+                                                if (i == 1)
+                                                {
+                                                    w += ".`";
+                                                    needToClose = true;
+                                                }
+                                                else
+                                                    w += ".";
                                             }
-                                            else
-                                                w += ".";
+
+                                            w += item.Item1.Name + "";
                                         }
 
-                                        w += item.Item1.Name + "";
+                                        if (i == 0)
+                                            w += "`";
+
+                                        i++;
                                     }
 
-                                    if (i == 0)
-                                        w += "`";
+                                if (needToClose)
+                                    w += "`";
 
-                                    i++;
-                                }
-
-                            if (needToClose)
-                                w += "`";
-
-                            return w;
-                        };
+                                return w;
+                            };
                         #endregion
 
 
@@ -1415,40 +1415,40 @@ namespace ScriptCoreLib.Query.Experimental
                         #region WriteProjectionProxy:GetTargetName
                         Func<string> GetTargetName =
                             delegate
-                        {
-                            var w = "";
+                            {
+                                var w = "";
 
-                            if (Target != null)
-                                foreach (var item in Target)
-                                {
-                                    if (item.Item1 == null)
-                                        w += "[" + item.Item2 + "]";
-                                    else
+                                if (Target != null)
+                                    foreach (var item in Target)
                                     {
-                                        if (!string.IsNullOrEmpty(w))
-                                            w += ".";
-
-
-                                        // 		LastReference.Method.Name == item.Item1.Name	true	bool
-
-                                        if (xReferencesOfLong.LastReference.Method.Name == item.Item1.Name)
-                                        {
-                                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebOrderByThenGroupBy\Application.cs
-                                            // keep Last method name from being obfuscated for js..
-                                            w += "Last";
-
-                                        }
+                                        if (item.Item1 == null)
+                                            w += "[" + item.Item2 + "]";
                                         else
                                         {
+                                            if (!string.IsNullOrEmpty(w))
+                                                w += ".";
 
-                                            w += item.Item1.Name + "";
+
+                                            // 		LastReference.Method.Name == item.Item1.Name	true	bool
+
+                                            if (xReferencesOfLong.LastReference.Method.Name == item.Item1.Name)
+                                            {
+                                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebOrderByThenGroupBy\Application.cs
+                                                // keep Last method name from being obfuscated for js..
+                                                w += "Last";
+
+                                            }
+                                            else
+                                            {
+
+                                                w += item.Item1.Name + "";
+                                            }
                                         }
+
                                     }
 
-                                }
-
-                            return w;
-                        };
+                                return w;
+                            };
                         #endregion
 
 
@@ -1847,7 +1847,7 @@ namespace ScriptCoreLib.Query.Experimental
                 #region WriteProjection
 
                 WriteProjection =
-                      // do we need zsource?
+                    // do we need zsource?
                       (zsource, zExpression, Target) =>
                       {
                           //WriteCommentLine(1, "WriteProjection");
@@ -1857,26 +1857,26 @@ namespace ScriptCoreLib.Query.Experimental
                           #region GetTargetName
                           Func<string> GetTargetName =
                               delegate
-                          {
-                              var w = "";
+                              {
+                                  var w = "";
 
-                              if (Target != null)
-                                  foreach (var item in Target)
-                                  {
-                                      if (item.Item1 == null)
-                                          w += "[" + item.Item2 + "]";
-                                      else
+                                  if (Target != null)
+                                      foreach (var item in Target)
                                       {
-                                          if (!string.IsNullOrEmpty(w))
-                                              w += ".";
+                                          if (item.Item1 == null)
+                                              w += "[" + item.Item2 + "]";
+                                          else
+                                          {
+                                              if (!string.IsNullOrEmpty(w))
+                                                  w += ".";
 
-                                          w += item.Item1.Name + "";
+                                              w += item.Item1.Name + "";
+                                          }
+
                                       }
 
-                                  }
-
-                              return w;
-                          };
+                                  return w;
+                              };
                           #endregion
 
                           var zSelect = source as xSelect;
@@ -2589,7 +2589,7 @@ namespace ScriptCoreLib.Query.Experimental
                               zNewArrayExpression.Expressions.WithEachIndex(
                                    (SourceArgument, SourceArgumentIndex) =>
                                        WriteScalarExpression(
-                                        //zsource,
+                                       //zsource,
 
                                         true,
                                            SourceArgument
@@ -2615,13 +2615,13 @@ namespace ScriptCoreLib.Query.Experimental
                                             WriteScalarExpression(
 
                                                 true,
-                                                //zsource,
+                                            //zsource,
                                                 SourceArgument //,
-                                                               //Target.Concat(new[] { Tuple.Create(
-                                                               //                  default(MemberInfo) ,
-                                                               //                  SourceArgumentIndex
-                                                               //                  )
-                                                               //              }).ToArray()
+                                            //Target.Concat(new[] { Tuple.Create(
+                                            //                  default(MemberInfo) ,
+                                            //                  SourceArgumentIndex
+                                            //                  )
+                                            //              }).ToArray()
                                             )
                                     );
                                   return;
@@ -2631,13 +2631,13 @@ namespace ScriptCoreLib.Query.Experimental
                                   (SourceArgument, SourceArgumentIndex) =>
                                       WriteScalarExpression(
                                       true,
-                                          //zsource,
+                                      //zsource,
                                           SourceArgument //,
-                                                         //Target.Concat(new[] { Tuple.Create(
-                                                         //    zNewExpression.Members[SourceArgumentIndex],
-                                                         //    SourceArgumentIndex
-                                                         //    )
-                                                         //}).ToArray()
+                                      //Target.Concat(new[] { Tuple.Create(
+                                      //    zNewExpression.Members[SourceArgumentIndex],
+                                      //    SourceArgumentIndex
+                                      //    )
+                                      //}).ToArray()
                                       )
                               );
                               return;
@@ -2954,8 +2954,33 @@ namespace ScriptCoreLib.Query.Experimental
                                 // xGroupBy.elementSelector.Body = {new <>f__AnonymousType27`2(c = <>h__TransparentIdentifier18f.c, cData = <>h__TransparentIdentifier18f.cData)}
                                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141208
                                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxJoinThenGroupBy\Program.cs
+                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209
 
-                                Debugger.Break();
+                                //Debugger.Break();
+
+                                var xxNewExpression = xGroupBy.elementSelector.Body as NewExpression;
+                                // xGroupBy.elementSelector.Body = {new <>f__AnonymousType0`2(x = <>h__TransparentIdentifier0.x, y = <>h__TransparentIdentifier0.y)}
+                                // um, we need to write both of them.
+                                // how can we do that?
+
+                                //var ii = xxNewExpression.Members.Select(xx => xx.Name).ToList().IndexOf(xMemberExpression.Member.Name);
+                                //var aa = xxNewExpression.Arguments[ii];
+
+                                WriteProjectionProxy(
+                                   xGroupBy.source,
+                                    //aa,
+                                   xxNewExpression,
+                                    new[] { new Tuple<MemberInfo, int>(xReferencesOfLong.LastReference.Method, 1) },
+                                    new[] {
+
+                                        new Tuple<string, MemberInfo, int>(xGroupBy.keySelector.Parameters[0].Name, null, 1)
+                                        //,
+                                        //new Tuple<string, MemberInfo, int>(null, xMemberExpression.Member, 1)
+
+                                    }
+                                   );
+
+                                //WriteLine(1, "proxy { ? }");
                             }
                         }
 
@@ -3227,23 +3252,23 @@ namespace ScriptCoreLib.Query.Experimental
 
                 Action WriteSelectProjection =
                     delegate
-                {
-                    // time to write our projection of selection fields
-                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectString\Program.cs
-                    // this is a lambda to allow returns
-
-
-                    #region WriteSelectProjection:ListInitExpression
-                    var xListInitExpression = xSelect.selector.Body as ListInitExpression;
-                    if (xListInitExpression != null)
                     {
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectStringDictionary\Program.cs
-                        // [0x00000000] = {Void Add(System.String, System.String)("hello", x.Tag)}
-                        WriteCommentLine(1, "ListInitExpression");
-                        WriteProjection(source, xListInitExpression.NewExpression, new Tuple<MemberInfo, int>[0]);
+                        // time to write our projection of selection fields
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectString\Program.cs
+                        // this is a lambda to allow returns
 
-                        xListInitExpression.Initializers.WithEachIndex(
-                            (SourceInitializer, index) =>
+
+                        #region WriteSelectProjection:ListInitExpression
+                        var xListInitExpression = xSelect.selector.Body as ListInitExpression;
+                        if (xListInitExpression != null)
+                        {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectStringDictionary\Program.cs
+                            // [0x00000000] = {Void Add(System.String, System.String)("hello", x.Tag)}
+                            WriteCommentLine(1, "ListInitExpression");
+                            WriteProjection(source, xListInitExpression.NewExpression, new Tuple<MemberInfo, int>[0]);
+
+                            xListInitExpression.Initializers.WithEachIndex(
+                                (SourceInitializer, index) =>
                                 {
 
                                     SourceInitializer.Arguments.WithEachIndex(
@@ -3256,26 +3281,26 @@ namespace ScriptCoreLib.Query.Experimental
 
                                     //WriteProjection(source, SourceArgument, new[] { Tuple.Create(default(MemberInfo), index) });
                                 }
-                        );
+                            );
 
-                        return;
-                    }
-                    #endregion
+                            return;
+                        }
+                        #endregion
 
 
-                    #region WriteSelectProjection:MemberInitExpression
-                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMemberInitExpression\Program.cs
-                    var xMemberInitExpression = xSelect.selector.Body as MemberInitExpression;
-                    if (xMemberInitExpression != null)
-                    {
-                        WriteCommentLine(1, "WriteSelectProjection:MemberInitExpression");
+                        #region WriteSelectProjection:MemberInitExpression
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMemberInitExpression\Program.cs
+                        var xMemberInitExpression = xSelect.selector.Body as MemberInitExpression;
+                        if (xMemberInitExpression != null)
+                        {
+                            WriteCommentLine(1, "WriteSelectProjection:MemberInitExpression");
 
-                        WriteProjection(source, xMemberInitExpression.NewExpression, new Tuple<MemberInfo, int>[0]);
+                            WriteProjection(source, xMemberInitExpression.NewExpression, new Tuple<MemberInfo, int>[0]);
 
-                        // what about XElement?
+                            // what about XElement?
 
-                        xMemberInitExpression.Bindings.WithEachIndex(
-                            (SourceBinding_3266, SourceBindingIndex) =>
+                            xMemberInitExpression.Bindings.WithEachIndex(
+                                (SourceBinding_3266, SourceBindingIndex) =>
                                 {
                                     var item = new
                                     {
@@ -3285,160 +3310,160 @@ namespace ScriptCoreLib.Query.Experimental
 
                                     WriteProjection(source, item.a, new[] { Tuple.Create(item.m, SourceBindingIndex) });
                                 }
-                        );
-                        return;
-                    }
-                    #endregion
+                            );
+                            return;
+                        }
+                        #endregion
 
 
 
 
-                    #region WriteSelectProjection:NewExpression
-                    var xNewExpression = xSelect.selector.Body as NewExpression;
-                    if (xNewExpression != null)
-                    {
-                        //WriteCommentLine(1, "NewExpression");
-
-                        if (xNewExpression.Members == null)
+                        #region WriteSelectProjection:NewExpression
+                        var xNewExpression = xSelect.selector.Body as NewExpression;
+                        if (xNewExpression != null)
                         {
-                            // all arguments are for ctor?
-                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectNewExpressionConstructor\Program.cs
-                            xNewExpression.Arguments.WithEachIndex(
-                                  (SourceArgument, index) =>
+                            //WriteCommentLine(1, "NewExpression");
+
+                            if (xNewExpression.Members == null)
+                            {
+                                // all arguments are for ctor?
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectNewExpressionConstructor\Program.cs
+                                xNewExpression.Arguments.WithEachIndex(
+                                      (SourceArgument, index) =>
                                       {
 
                                           WriteProjection(source, SourceArgument, new[] { Tuple.Create(default(MemberInfo), index) });
                                       }
-                              );
-                            return;
+                                  );
+                                return;
 
-                        }
+                            }
 
-                        // xNewExpression = {new XElement(Convert("hello"), x.Tag)}
+                            // xNewExpression = {new XElement(Convert("hello"), x.Tag)}
 
 
-                        // tested by?
+                            // tested by?
 
-                        // we are selecting a group for upper select arent we.
-                        var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
-                        xArguments.WithEachIndex(
-                                 (item, index) =>
+                            // we are selecting a group for upper select arent we.
+                            var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
+                            xArguments.WithEachIndex(
+                                     (item, index) =>
                                      {
                                          //Console.WriteLine(":3312 " + new { item.m, index });
                                          WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, index) });
                                      }
-                        );
+                            );
 
-                        return;
-                    }
-                    #endregion
+                            return;
+                        }
+                        #endregion
 
-                    #region WriteSelectProjection:MethodCallExpression
-                    var xMethodCallExpression = xSelect.selector.Body as MethodCallExpression;
-                    if (xMethodCallExpression != null)
-                    {
-                        WriteCommentLine(1, "MethodCallExpression");
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectTuple\Program.cs
-                        WriteProjection(source, xMethodCallExpression, new Tuple<MemberInfo, int>[0]);
-                        return;
-                    }
-                    #endregion
+                        #region WriteSelectProjection:MethodCallExpression
+                        var xMethodCallExpression = xSelect.selector.Body as MethodCallExpression;
+                        if (xMethodCallExpression != null)
+                        {
+                            WriteCommentLine(1, "MethodCallExpression");
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectTuple\Program.cs
+                            WriteProjection(source, xMethodCallExpression, new Tuple<MemberInfo, int>[0]);
+                            return;
+                        }
+                        #endregion
 
 
-                    #region WriteSelectProjection:InvocationExpression
-                    var sInvocationExpression = (source as xSelect).selector.Body as InvocationExpression;
-                    if (sInvocationExpression != null)
-                    {
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectInvocationExpression\Program.cs
-                        // that lambda shall be run during readout, not within db
-                        //WriteLine(1, "f(?, ?)");
+                        #region WriteSelectProjection:InvocationExpression
+                        var sInvocationExpression = (source as xSelect).selector.Body as InvocationExpression;
+                        if (sInvocationExpression != null)
+                        {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectInvocationExpression\Program.cs
+                            // that lambda shall be run during readout, not within db
+                            //WriteLine(1, "f(?, ?)");
 
-                        sInvocationExpression.Arguments.WithEachIndex(
-                            (SourceArgument, index) =>
+                            sInvocationExpression.Arguments.WithEachIndex(
+                                (SourceArgument, index) =>
                                 {
                                     WriteProjection(source, SourceArgument, new[] { Tuple.Create(default(MemberInfo), index) });
                                 }
-                        );
-                        return;
-                    }
-                    #endregion
+                            );
+                            return;
+                        }
+                        #endregion
 
-                    #region WriteSelectProjection:ParameterExpression
-                    var sParameterExpression = (source as xSelect).selector.Body as ParameterExpression;
-                    if (sParameterExpression != null)
-                    {
-                        // that lambda shall be run during readout, not within db
-                        // ? tested by?
-                        WriteProjection(source, sParameterExpression, new Tuple<MemberInfo, int>[0]);
-                        return;
-                    }
-                    #endregion
-
-                    #region WriteSelectProjection:MemberExpression
-                    var sMemberExpression = xSelect.selector.Body as MemberExpression;
-                    if (sMemberExpression != null)
-                    {
-                        WriteCommentLine(1, "MemberExpression");
-
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarXElementField\Program.cs
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectKey\Program.cs
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMemberExpression\Program.cs
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxLetOrderBy\Program.cs
-
-                        using (WithoutLinefeeds())
+                        #region WriteSelectProjection:ParameterExpression
+                        var sParameterExpression = (source as xSelect).selector.Body as ParameterExpression;
+                        if (sParameterExpression != null)
                         {
+                            // that lambda shall be run during readout, not within db
+                            // ? tested by?
+                            WriteProjection(source, sParameterExpression, new Tuple<MemberInfo, int>[0]);
+                            return;
+                        }
+                        #endregion
 
-                            //WriteScalarExpression(false, sMemberExpression);
+                        #region WriteSelectProjection:MemberExpression
+                        var sMemberExpression = xSelect.selector.Body as MemberExpression;
+                        if (sMemberExpression != null)
+                        {
+                            WriteCommentLine(1, "MemberExpression");
 
-                            WriteProjection(xSelect, sMemberExpression, new Tuple<MemberInfo, int>[] {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarXElementField\Program.cs
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectKey\Program.cs
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMemberExpression\Program.cs
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxLetOrderBy\Program.cs
+
+                            using (WithoutLinefeeds())
+                            {
+
+                                //WriteScalarExpression(false, sMemberExpression);
+
+                                WriteProjection(xSelect, sMemberExpression, new Tuple<MemberInfo, int>[] {
                                 // Tuple.Create(item.m, index)
                             });
+                            }
+
+                            return;
                         }
+                        #endregion
 
-                        return;
-                    }
-                    #endregion
+                        #region WriteSelectProjection:BinaryExpression
+                        var xBinaryExpression = (source as xSelect).selector.Body as BinaryExpression;
+                        if (xBinaryExpression != null)
+                        {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectStringConcat\Program.cs
+                            WriteCommentLine(1, "BinaryExpression");
 
-                    #region WriteSelectProjection:BinaryExpression
-                    var xBinaryExpression = (source as xSelect).selector.Body as BinaryExpression;
-                    if (xBinaryExpression != null)
-                    {
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectStringConcat\Program.cs
-                        WriteCommentLine(1, "BinaryExpression");
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectBinaryExpression\Program.cs
 
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectBinaryExpression\Program.cs
+                            // scalar select
+                            // this will look like roslyn dictionary indexer initializer
+                            using (WithoutLinefeeds())
+                                WriteScalarExpression(false, xBinaryExpression);
 
-                        // scalar select
-                        // this will look like roslyn dictionary indexer initializer
-                        using (WithoutLinefeeds())
-                            WriteScalarExpression(false, xBinaryExpression);
+                            return;
+                        }
+                        #endregion
 
-                        return;
-                    }
-                    #endregion
+                        #region WriteSelectProjection:NewArrayExpression
+                        var xNewArrayExpression = xSelect.selector.Body as NewArrayExpression;
+                        if (xNewArrayExpression != null)
+                        {
+                            WriteCommentLine(1, "NewArrayExpression");
 
-                    #region WriteSelectProjection:NewArrayExpression
-                    var xNewArrayExpression = xSelect.selector.Body as NewArrayExpression;
-                    if (xNewArrayExpression != null)
-                    {
-                        WriteCommentLine(1, "NewArrayExpression");
-
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectArray\Program.cs
-                        // no longer merging.
-                        WriteProjection(source, xNewArrayExpression, new Tuple<MemberInfo, int>[0]);
-                        return;
-                    }
-                    #endregion
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectArray\Program.cs
+                            // no longer merging.
+                            WriteProjection(source, xNewArrayExpression, new Tuple<MemberInfo, int>[0]);
+                            return;
+                        }
+                        #endregion
 
 
 
-                    // look we can select array from single row, in db this would be a union. for reading the data out, we just need to prefix with index.
+                        // look we can select array from single row, in db this would be a union. for reading the data out, we just need to prefix with index.
 
 
-                    Debugger.Break();
+                        Debugger.Break();
 
 
-                };
+                    };
 
                 WriteSelectProjection();
 

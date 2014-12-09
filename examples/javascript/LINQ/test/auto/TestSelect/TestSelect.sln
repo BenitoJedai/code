@@ -538,6 +538,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GroupBy", "GroupBy", "{1183F769-5A6C-4489-ADAC-00FDC520DFD0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxJoinThenGroupBy", "SyntaxJoinThenGroupBy\SyntaxJoinThenGroupBy.csproj", "{27F419A2-DDD3-4DF7-85B4-D8F4F3CB6424}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxGroupIntoNewExpression", "SyntaxGroupIntoNewExpression\SyntaxGroupIntoNewExpression.csproj", "{C8CB825F-7AB5-481A-95F5-BBC0473E7A25}"
 EndProject
@@ -711,6 +714,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLite CLR", "SQLite CLR", "{81FE4DA7-A5A2-41FD-BC05-CE0550ED4585}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLite CLR", "SQLite CLR", "{56954227-4D57-4CCA-A43E-C7CC1037C7EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestJoinThenGroupBy", "TestJoinThenGroupBy\TestJoinThenGroupBy.csproj", "{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -4431,6 +4436,31 @@ Global
 		{72D7FEFC-741F-436F-B72D-F7C906DD76E5}.Release|Mixed Platforms.Build.0 = Release|x86
 		{72D7FEFC-741F-436F-B72D-F7C906DD76E5}.Release|x86.ActiveCfg = Release|x86
 		{72D7FEFC-741F-436F-B72D-F7C906DD76E5}.Release|x86.Build.0 = Release|x86
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Android|Any CPU.Build.0 = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Android|x86.ActiveCfg = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Assets|x86.ActiveCfg = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.PHP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.PHP|Mixed Platforms.Build.0 = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.PHP|x86.ActiveCfg = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -4670,5 +4700,6 @@ Global
 		{9D5C1E16-60D1-4471-8FA7-FE8E7D81FB17} = {5FBEC426-116B-4649-BF7C-D6D00037A2D9}
 		{81FE4DA7-A5A2-41FD-BC05-CE0550ED4585} = {1523E44A-DBC7-4131-A0C2-775608606DD1}
 		{56954227-4D57-4CCA-A43E-C7CC1037C7EA} = {729D425B-FF6B-4CF8-98E6-558668077E95}
+		{5D39532D-7C7F-4B51-B6C8-FAAA9559763F} = {1183F769-5A6C-4489-ADAC-00FDC520DFD0}
 	EndGlobalSection
 EndGlobal

@@ -6,6 +6,7 @@ class Program
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141208
         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxGroupByNewExpression\Program.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209
 
         var f = (
             from x in new xTable()

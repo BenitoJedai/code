@@ -13,5 +13,9 @@ namespace android.nfc
     {
         // X:\jsc.svn\examples\javascript\android\forms\AndroidNFCEvents\AndroidNFCEvents\ApplicationWebService_poll_onnfc.cs
 
+        public sbyte[] getId() { return null; }
+
+
+        public string[] getTechList() { return null; }
     }
 }
