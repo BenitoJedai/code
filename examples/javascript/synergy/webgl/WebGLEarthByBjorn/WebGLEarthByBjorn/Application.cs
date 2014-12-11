@@ -39,6 +39,9 @@ namespace WebGLEarthByBjorn
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // http://www.doingbusiness.org/data/exploreeconomies/puerto-rico/starting-a-business
+            // http://www.doingbusiness.org/data/exploretopics/starting-a-business
+
             // X:\jsc.svn\examples\javascript\svg\DEAGELForecast\DEAGELForecast\Application.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141028
 

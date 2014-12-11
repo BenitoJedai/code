@@ -76,6 +76,8 @@ namespace ScriptCoreLib.Query.Experimental
 
             // Additional information: no such column: x.connectStart
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarCount\Program.cs
+
+            // Additional information: near "`y`": syntax error
             var r = c.ExecuteReader();
             //Console.WriteLine("after ExecuteReader");
 

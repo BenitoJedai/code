@@ -716,6 +716,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLite CLR", "SQLite CLR", "{56954227-4D57-4CCA-A43E-C7CC1037C7EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestJoinThenGroupBy", "TestJoinThenGroupBy\TestJoinThenGroupBy.csproj", "{5D39532D-7C7F-4B51-B6C8-FAAA9559763F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

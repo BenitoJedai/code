@@ -12,7 +12,7 @@ class Program
             from x in new xTable()
             join y in new xTable() on x.field1 equals y.field2
             group new { x, y } by x.field1 into gg
-            select new { gg.Key }
+            select new { gg.Key, gg.Last().x.field1 }
         ).FirstOrDefault();
 
     }
