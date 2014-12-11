@@ -2951,6 +2951,9 @@ namespace ScriptCoreLib.Query.Experimental
                             }
                             else
                             {
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoin\Program.cs
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxJoinThenGroupBy\Program.cs
+
                                 // xGroupBy.elementSelector.Body = {new <>f__AnonymousType27`2(c = <>h__TransparentIdentifier18f.c, cData = <>h__TransparentIdentifier18f.cData)}
                                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141208
                                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxJoinThenGroupBy\Program.cs
@@ -2963,22 +2966,69 @@ namespace ScriptCoreLib.Query.Experimental
                                 // um, we need to write both of them.
                                 // how can we do that?
 
-                                //var ii = xxNewExpression.Members.Select(xx => xx.Name).ToList().IndexOf(xMemberExpression.Member.Name);
-                                //var aa = xxNewExpression.Arguments[ii];
+                                //xxNewExpression.Members.WithEachIndex(
+                                //    (m, ii) =>
+                                {
+                                    var a0 = xxNewExpression.Arguments[1] as MemberExpression;
+                                    var a1 = xxNewExpression.Arguments[0] as MemberExpression;
+                                    //var aa = xxNewExpression.Arguments[ii];
 
-                                WriteProjectionProxy(
-                                   xGroupBy.source,
-                                    //aa,
-                                   xxNewExpression,
-                                    new[] { new Tuple<MemberInfo, int>(xReferencesOfLong.LastReference.Method, 1) },
-                                    new[] {
+                                    // are we grouping a join?
+                                    // what if we take all?
+                                    var __xGroupBy_source = xGroupBy.source as xJoin;
 
-                                        new Tuple<string, MemberInfo, int>(xGroupBy.keySelector.Parameters[0].Name, null, 1)
-                                        //,
-                                        //new Tuple<string, MemberInfo, int>(null, xMemberExpression.Member, 1)
+                                    // m = {TestJoinThenGroupBy.PerformanceResourceTimingData2ApplicationPerformanceRow x}
+                                    // how are we to know what fields is it talking about?
 
-                                    }
-                                   );
+                                    // do we care what are we joining?
+
+                                    var __xGroupBy_source_inner = __xGroupBy_source.inner as xSelect;
+                                    var __xGroupBy_source_inner_selector = __xGroupBy_source_inner.selector.Body;
+
+                                    var __xGroupBy_source_outer = __xGroupBy_source.outer as xSelect;
+                                    var __xGroupBy_source_outer_selector = __xGroupBy_source_outer.selector.Body;
+
+
+
+                                    WriteProjectionProxy(
+                                       xGroupBy.source,
+                                        //aa,
+                                   __xGroupBy_source_inner_selector,
+                                        new[] { 
+                                            new Tuple<MemberInfo, int>(xReferencesOfLong.LastReference.Method, 1)
+                                            , new Tuple<MemberInfo, int>(a0.Member, 1)
+
+                                        
+                                        },
+                                        new[] {
+
+                                            new Tuple<string, MemberInfo, int>(xGroupBy.keySelector.Parameters[0].Name, null, 1)
+                                                ,
+                                                new Tuple<string, MemberInfo, int>(null, a0.Member, 1)
+
+                                        }
+                                       );
+
+                                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141210
+                                    WriteLine(0, ",");
+
+                                    WriteProjectionProxy(
+                                        xGroupBy.source,
+                                        //aa,
+                                    __xGroupBy_source_outer_selector,
+                                         new[] { new Tuple<MemberInfo, int>(xReferencesOfLong.LastReference.Method, 1)
+                                            , new Tuple<MemberInfo, int>(a1.Member, 1)
+                                         },
+                                         new[] {
+
+                                                    new Tuple<string, MemberInfo, int>(xGroupBy.keySelector.Parameters[0].Name, null, 1)
+                                                    ,
+                                                new Tuple<string, MemberInfo, int>(null, a1.Member, 1)
+
+                                                }
+                                        );
+                                }
+                                //);
 
                                 //WriteLine(1, "proxy { ? }");
                             }
@@ -3134,6 +3184,8 @@ namespace ScriptCoreLib.Query.Experimental
                     var xNewExpression = xJoin.resultSelector.Body as NewExpression;
                     if (xNewExpression != null)
                     {
+                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141210
+
                         // we are selecting a group for upper select arent we.
                         var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
 
@@ -3143,6 +3195,11 @@ namespace ScriptCoreLib.Query.Experimental
                         xArguments.WithEachIndex(
                             (item, index) =>
                             {
+                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141210
+                                // should WriteProjection not write the , ?
+                                if (index > 0)
+                                    WriteLine(0, ",");
+
                                 WriteProjection(
                                     item.source,
                                     item.a,

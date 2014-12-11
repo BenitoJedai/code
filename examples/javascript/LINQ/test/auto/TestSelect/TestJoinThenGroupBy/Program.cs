@@ -25,7 +25,7 @@ class Program
         new PerformanceResourceTimingData2ApplicationPerformance().Insert(
             new PerformanceResourceTimingData2ApplicationPerformanceRow
         {
-            connectStart = 5,
+            APconnectStart = 5,
             Tag = "first insert 1"
         }
         );
@@ -33,7 +33,7 @@ class Program
         new PerformanceResourceTimingData2ApplicationResourcePerformance().Insert(
              new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
         {
-            connectStart = 5,
+            ARPconnectStart = 5,
             Tag = "first insert 2"
         }
          );
@@ -41,15 +41,15 @@ class Program
 
         var q = (
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
-            join y in new PerformanceResourceTimingData2ApplicationResourcePerformance() on x.connectStart equals y.connectStart
+            join y in new PerformanceResourceTimingData2ApplicationResourcePerformance() on x.APconnectStart equals y.ARPconnectStart
 
-            group new { x, y } by x.connectStart into gg
+            group new { x, y } by x.APconnectStart into gg
 
             select new
             {
                 field1 = gg.Last().x.Tag,
                 field2 = gg.Last().y.Tag,
-                field3 = gg.Last().x.connectStart,
+                field3 = gg.Last().x.APconnectStart,
             }
 
         );
