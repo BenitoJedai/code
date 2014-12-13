@@ -20,6 +20,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task.cs
     // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.cs
+    // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Threading\Tasks\Task\Task.cs
 
     // http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.aspx
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
