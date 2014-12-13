@@ -20,6 +20,15 @@ namespace ScriptCoreLibNative.BCLImplementation.System.Threading
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
+        // remember C++ started out generating C code.
+        // what about tasks?
+        // could we do async in c?
+        // did we have a CLRJVM example for it?
+        // likely jsc does not yet correctly support the switch rewriter to enable async keyword?
+        // or is there a way to manually enable it?
+
+
+
         // http://msdn.microsoft.com/en-us/library/windows/desktop/ms682664(v=vs.85).aspx
         // http://msdn.microsoft.com/en-us/library/2s9wt68x.aspx
         // __declspec(thread)
