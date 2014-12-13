@@ -112,7 +112,9 @@ namespace TestFunc
                     var ok = 1;
                     while (ok == 1)
                     {
+                        
 
+                        // this keeps going even if the main thread quits?
                         Console.Write(".");
                         Thread.Sleep(100);
                     }
