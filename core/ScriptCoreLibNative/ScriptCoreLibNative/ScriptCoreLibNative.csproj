@@ -69,6 +69,8 @@
     <Compile Include="BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Threading\ParameterizedThreadStart.cs" />
+    <Compile Include="BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs" />
+    <Compile Include="BCLImplementation\System\Threading\Tasks\Task\Task.cs" />
     <Compile Include="BCLImplementation\System\Threading\ThreadStart.cs" />
     <Compile Include="BCLImplementation\System\EventArgs.cs" />
     <Compile Include="BCLImplementation\System\EventHandler.cs" />
