@@ -11,15 +11,40 @@ namespace ScriptCoreLibNative.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.MemoryStream))]
 	internal class __MemoryStream : __Stream
 	{
-		public __MemoryStream()
+        public static int override_Stream_Read(object k, byte[] buffer, int offset, int count)
+        {
+            return  ((__MemoryStream)k).__Read(buffer, offset, count);
+        }
+
+        public static long override_Stream_Seek(object k, long offest, SeekOrigin so)
+        {
+            return ((__MemoryStream)k).__Seek(offest, so);
+        }
+
+        public static void override_Stream_Write(object k, byte[] buffer, int offset, int count)
+        {
+            ((__MemoryStream)k).__Write(buffer, offset, count);
+        }
+
+        public static void override_Stream_Close(object k)
+        {
+            //((__MemoryStream)k).__Close();
+        }
+
+        public static long override_Stream_get_Length(object k)
+        {
+            return ((__MemoryStream)k).__Length;
+        }
+
+        public __MemoryStream()
 		{
+            this.__Stream_Write = override_Stream_Write;
+            this.__Stream_Close = override_Stream_Close;
+            this.__Stream_Read = override_Stream_Read;
+            this.__Stream_Seek = override_Stream_Seek;
+            this.__Stream_get_Length = override_Stream_get_Length;
 
-
-			// we are doing manual virtual calls.. feel the pain yet?
-			this.__Stream_get_Length = k => ((__MemoryStream)k).__Length;
-			this.__Stream_Write = (k, buffer, offset, count) => ((__MemoryStream)k).__Write(buffer, offset, count);
-			this.__Stream_Seek = (k, offset, o) => ((__MemoryStream)k).__Seek(offset, o);
-			this.__Stream_Read = (k, offset, o, c) => ((__MemoryStream)k).__Read(offset, o, c);
+            // we are doing manual virtual calls.. feel the pain yet?
 
 
 			this.InternalLength = 0;
