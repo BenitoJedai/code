@@ -24,10 +24,14 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     #endregion
 
+    // Enabled by default 40
     [Script(HasNoPrototype = true, ExternalTarget = "ServiceWorker")]
     [Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // https://github.com/GoogleChrome/samples/tree/gh-pages/service-worker
+        // https://code.google.com/p/chromium/issues/detail?id=364627
+
         // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
 
         // X:\jsc.svn\core\ScriptCoreLib\ActionScript\flash\system\Worker.cs
