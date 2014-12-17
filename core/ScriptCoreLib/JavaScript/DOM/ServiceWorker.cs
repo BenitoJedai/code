@@ -29,6 +29,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // https://www.chromium.org/Home/chromium-security/marking-http-as-non-secure
+        
         // https://github.com/GoogleChrome/samples/tree/gh-pages/service-worker
         // https://code.google.com/p/chromium/issues/detail?id=364627
 

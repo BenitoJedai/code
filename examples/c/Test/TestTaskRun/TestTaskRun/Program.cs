@@ -55,6 +55,8 @@ namespace TestTaskRun
         [Script(NoDecoration = true)]
         public static int main()
         {
+            // TestTaskRun.exe.h(81) : error C2061: syntax error : identifier 'ScriptCoreLibNative_BCLImplementation_System_Collections_Generic___List_1_T'
+
             // http://msdn.microsoft.com/en-us/library/3y1sfaz2.aspx
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141116
