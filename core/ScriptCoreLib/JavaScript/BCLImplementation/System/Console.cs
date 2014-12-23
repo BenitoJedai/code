@@ -17,6 +17,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Console))]
     internal class __Console
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141223
+
+        //console: WorkerConsole
+        //this: ServiceWorkerGlobalScope
+        //this.console: WorkerConsole
+        //this.console.log("hi"): undefined
+
+
         /// <summary>
         /// firefox: run with -console
         /// and about:config must be altered
@@ -368,6 +376,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 return;
             }
 
+
+            if (Native.serviceworker != null)
+            {
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141223
+                // X:\jsc.svn\examples\javascript\test\TestServiceWorker\TestServiceWorker\Application.cs
+                InternalDump(Native.serviceworker, e);
+                return;
+            }
 
             InternalDump(Native.window, e);
         }

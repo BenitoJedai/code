@@ -11,6 +11,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class WorkerLocation
     {
         public readonly string href;
+        public readonly string hash;
     }
 
 }

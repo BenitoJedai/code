@@ -139,6 +139,7 @@ namespace ScriptCoreLib.JavaScript
         static public SharedWorkerGlobalScope sharedworker;
 
         // tested by ?
+        // X:\jsc.svn\examples\javascript\test\TestServiceWorker\TestServiceWorker\Application.cs
         static public ServiceWorkerGlobalScope serviceworker;
 
 

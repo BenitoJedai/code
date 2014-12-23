@@ -9,6 +9,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "CacheStorage")]
     public class CacheStorage
     {
+        // https://jakearchibald.github.io/isserviceworkerready/
+        // Only available within ServiceWorkers
 
         public IPromise<string[]> keys()
         {

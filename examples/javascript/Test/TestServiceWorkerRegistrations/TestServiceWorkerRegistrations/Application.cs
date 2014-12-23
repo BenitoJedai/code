@@ -76,6 +76,7 @@ namespace TestServiceWorkerRegistrations
                 }
             }.AttachToDocument();
             // {{ installing = null, waiting = null, active = null, controller = null }}
+            // {{ installing = null, waiting = null, active = null, controller = [object ServiceWorker] }}
 
 
             // https://github.com/slightlyoff/ServiceWorker/blob/master/explainer.md
@@ -84,6 +85,8 @@ namespace TestServiceWorkerRegistrations
             new IHTMLButton { "register" }.AttachToDocument().onclick +=
                 delegate
             {
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141223
+
                 // The ServiceWorker itself is a bit of JavaScript that runs in a context that's very much like a shared worker.
                 // how does this relate to history API? 
 
