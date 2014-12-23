@@ -30,10 +30,98 @@ namespace TestServiceWorker
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //   // ScriptCoreLib.JavaScript.Extensions.INodeExtensionsWithXLinq.InternalReplaceAll
+            //ScriptCoreLib.JavaScript.Extensions.INodeExtensionsWithXLinq.InternalReplaceAll
+
+
             // install
             // fetch
             // sync
 
+            if (Native.serviceworker != null)
+            {
+                Console.WriteLine("we seem to run as a background page, service worker ");
+
+                Native.serviceworker.addEventListener("install",
+                    e =>
+                    {
+                        Console.WriteLine("oninstall");
+                    }
+                );
+
+                // http://jakearchibald.com/2014/using-serviceworker-today/
+
+                Native.serviceworker.addEventListener("activate",
+                   e =>
+                    {
+                        Console.WriteLine("onactivate");
+                    }
+               );
+
+                Native.serviceworker.addEventListener("beforeevicted",
+                    e =>
+                    {
+                        Console.WriteLine("beforeevicted");
+                    }
+                );
+
+
+                Native.serviceworker.addEventListener("evicted",
+                  e =>
+                    {
+                        Console.WriteLine("evicted");
+                    }
+              );
+
+                Native.serviceworker.onmessage += e =>
+                {
+                    Console.WriteLine("onmessage " + new
+                    {
+                        e.data
+                    });
+                };
+
+
+                var fetchCounter = 0;
+
+                // https://fetch.spec.whatwg.org/#request
+                // FetchEvent
+                //Native.serviceworker.addEventListener("fetch",
+                //    e =>
+                //    {
+                //        // can we do async/worker threads and io here?
+                //        // refresh will cause a new fetch.
+
+                //        fetchCounter++;
+
+                //        Console.WriteLine("fetch " + new { fetchCounter });
+                //    }
+                //);
+
+
+                Native.serviceworker.onfetch +=
+                    e =>
+                    {
+                        // can we do async/worker threads and io here?
+                        // refresh will cause a new fetch.
+
+                        fetchCounter++;
+
+                        Console.WriteLine("fetch " + new
+                        {
+                            fetchCounter,
+
+                            e.isReload,
+
+                            request = new { e.request.url },
+                            //client = new { e.client.url }
+                            //client = new { e.client }
+                        });
+                    };
+
+
+                return;
+            }
 
             // responses 
 
@@ -55,8 +143,19 @@ namespace TestServiceWorker
                 }
             }.AttachToDocument();
 
-            new IHTMLAnchor { href = "chrome://inspect/#service-workers", innerText = "chrome://inspect/#service-workers" }.AttachToDocument();
 
+            new IHTMLButton { "controller post" }.AttachToDocument().onclick +=
+                delegate
+            {
+                Native.window.navigator.serviceWorker.controller.postMessage("hello from UI");
+
+            };
+            new IHTMLBreak { }.AttachToDocument();
+
+            //  chrome://serviceworker-internals .
+            new IHTMLAnchor { href = "chrome://inspect/#service-workers", innerText = "chrome://inspect/#service-workers" }.AttachToDocument();
+            new IHTMLBreak { }.AttachToDocument();
+            new IHTMLAnchor { href = "chrome://serviceworker-internals", innerText = "chrome://serviceworker-internals" }.AttachToDocument();
             new IHTMLBreak { }.AttachToDocument();
 
 
@@ -66,6 +165,8 @@ namespace TestServiceWorker
 
                 // 8ms serviceworker! { href = https://192.168.43.252:10049/view-source }
 
+                // once registered
+                // can we take over the cache and sub pages?
                 Native.window.navigator.serviceWorker.register("view-source#serviceWorker", null).then(
                     w =>
                     {
@@ -73,7 +174,8 @@ namespace TestServiceWorker
                         // http://www.w3.org/TR/service-workers/#service-worker-interface
 
                         new IHTMLPre { "navigator.serviceWorker.register... " + new {
-                                                                                        w.scope,
+
+                            w.scope,
 
                                                                                         // http://www.w3.org/TR/service-workers/
                                                                                         w.active, w.installing, w.waiting } }.AttachToDocument();

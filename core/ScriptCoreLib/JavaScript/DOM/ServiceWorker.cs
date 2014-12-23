@@ -33,7 +33,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // https://www.igvita.com/2014/12/15/capability-reporting-with-service-worker/
 
         // https://www.chromium.org/Home/chromium-security/marking-http-as-non-secure
-        
+
         // https://github.com/GoogleChrome/samples/tree/gh-pages/service-worker
         // https://code.google.com/p/chromium/issues/detail?id=364627
 
@@ -77,6 +77,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // works only on https? does jsc inline server support SSL?
         // 20141018 now it does.
+
+
+
+
     }
 
 
