@@ -843,7 +843,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                 Console.WriteLine("serviceworker! "
                     + new
                     {
-                        Native.serviceworker.scope,
+                        // chrome removed it
+                        //Native.serviceworker.scope,
 
                         Native.serviceworker.location.href,
                         Native.serviceworker.location.hash
@@ -859,6 +860,12 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 // what are we supposed to do now?
                 // invoke a static callback like we did with shared worker?
+
+                // um. how to do it.
+                // just call the app code like we do on chrome background worker?
+
+                // message: "ServiceWorker cannot be started"
+                default_yield();
 
                 return;
 

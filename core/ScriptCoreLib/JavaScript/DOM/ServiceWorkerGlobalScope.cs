@@ -21,6 +21,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class ServiceWorkerGlobalScope : WorkerGlobalScope
     {
         // X:\jsc.svn\examples\javascript\test\TestServiceWorker\TestServiceWorker\Application.cs
+        // chrome just removed it..?
         public readonly string scope;
 
         // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
@@ -34,5 +35,38 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // tested by?
 
+
+        #region event onmessage
+        public event System.Action<MessageEvent> onmessage
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "message");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "message");
+            }
+        }
+        #endregion
+
+
+        #region event onfetch
+        public event System.Action<FetchEvent> onfetch
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "fetch");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "fetch");
+            }
+        }
+        #endregion
     }
 }

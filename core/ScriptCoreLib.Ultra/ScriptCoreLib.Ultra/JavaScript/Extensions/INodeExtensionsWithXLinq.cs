@@ -22,6 +22,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
         // 436
         public static XElement InternalReplaceAll(XElement value, XElement old, string ApplicationWebServieFieldName)
         {
+            // X:\jsc.svn\examples\javascript\Test\TestServiceWorker\TestServiceWorker\Application.cs
+
             //Console.WriteLine("InternalReplaceAll" + new { old, value, ApplicationWebServieFieldName });
 
             //old.Add(new XAttribute("y", "this is what we have before update"));
@@ -33,10 +35,15 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
             // X:\jsc.svn\examples\javascript\test\TestVisibleSynchronizedTitleElement\TestVisibleSynchronizedTitleElement\Application.vb
 
-            var FromDocument = Native.document.getElementById(ApplicationWebServieFieldName).AsXElement();
-            if (FromDocument != null)
+            if (Native.document != null)
             {
-                return InternalReplaceAll(value, FromDocument);
+                // not in service worker..
+
+                var FromDocument = Native.document.getElementById(ApplicationWebServieFieldName).AsXElement();
+                if (FromDocument != null)
+                {
+                    return InternalReplaceAll(value, FromDocument);
+                }
             }
 
             //0:31ms ReplaceAll { { old = < title id = "title" > dynamic title </ title >, value = < title > dynamic title </ title > } }
