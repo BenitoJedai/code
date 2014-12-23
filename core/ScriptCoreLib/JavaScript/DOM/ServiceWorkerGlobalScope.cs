@@ -20,6 +20,9 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorkerGlobalScope : WorkerGlobalScope
     {
+        // X:\jsc.svn\examples\javascript\test\TestServiceWorker\TestServiceWorker\Application.cs
+        public readonly string scope;
+
         // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
 
         // http://www.chromium.org/blink/serviceworker/service-worker-faq

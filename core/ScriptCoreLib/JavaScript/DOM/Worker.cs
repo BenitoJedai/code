@@ -814,14 +814,48 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
 
-
+            #region serviceworker
             if (Native.serviceworker != null)
             {
+                // https://gauntface.com/blog/2014/12/15/push-notifications-service-worker
+                // http://2014.jsconf.eu/speakers/jake-archibald-the-serviceworker-is-coming-look-busy.html
+
+
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141223
+                // X:\jsc.svn\examples\javascript\test\TestServiceWorker\TestServiceWorker\Application.cs
                 // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
 
                 // ?
-                Console.WriteLine("serviceworker!");
-                Debugger.Break();
+                // how can we debug it?
+                // chrome://inspect/#service-workers
+
+                // the function we need to call.
+                // what is it?
+                // how do we share scope/data?
+                // sessionStorage?
+
+                // http://stackoverflow.com/questions/6179159/accessing-localstorage-from-a-webworker
+                // https://code.google.com/p/chromium/issues/detail?id=105495
+
+                //Debugger.Break();
+
+                // cant see the console?
+                Console.WriteLine("serviceworker! "
+                    + new
+                    {
+                        Native.serviceworker.scope,
+
+                        Native.serviceworker.location.href,
+                        Native.serviceworker.location.hash
+
+
+
+                    });
+
+                // there will be no onfirstmessage
+                // how do we know which function to call?
+
+                //Debugger.Break();
 
                 // what are we supposed to do now?
                 // invoke a static callback like we did with shared worker?
@@ -829,6 +863,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return;
 
             }
+            #endregion
+
 
             #region worker
             if (Native.worker != null)
