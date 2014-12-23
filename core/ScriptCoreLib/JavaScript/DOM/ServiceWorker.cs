@@ -29,6 +29,9 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // http://blog.chromium.org/2014/12/chrome-40-beta-powerful-offline-and.html
+        // https://www.igvita.com/2014/12/15/capability-reporting-with-service-worker/
+
         // https://www.chromium.org/Home/chromium-security/marking-http-as-non-secure
         
         // https://github.com/GoogleChrome/samples/tree/gh-pages/service-worker
