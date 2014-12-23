@@ -22,6 +22,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public partial class IWindow : IEventTarget
     {
+        // https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#cache-objects
+        // X:\jsc.svn\examples\javascript\test\TestCacheStorage\TestCacheStorage\Application.cs
+        // 41 shows null? not implemented yet?
+        public readonly CacheStorage caches;
+
         // tested by? what about web workers?
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\WorkerGlobalScope.cs
         public readonly Crypto crypto;

@@ -15,6 +15,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
+        // http://ask.slashdot.org/story/14/12/20/2331202/ask-slashdot-is-an-open-source-net-up-to-the-job
+        // Of late, .NET Native is an interesting piece of tech that precompiles .NET apps using VC++ compiler backend. 
+        // When you are offering a system that can fire up nodes and destroy them dynamically and on-demand, its just not worth it to 
+        // have to keep track of some piece of that being commercially licensed and all the restrictions you end up with on your freedom to fire up new nodes on demand
+
         public static bool ReferenceEquals(object objA, object objB)
         {
             return Expando.ReferenceEquals(objA, objB);
