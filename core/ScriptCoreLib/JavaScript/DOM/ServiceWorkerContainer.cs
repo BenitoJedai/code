@@ -30,6 +30,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         // current ?
 
         public readonly ServiceWorker active;
+
+        // X:\jsc.svn\examples\javascript\test\TestServiceWorkerClient\TestServiceWorkerClient\Application.cs
         public readonly ServiceWorker controller;
 
 
