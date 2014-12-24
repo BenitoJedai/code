@@ -30,6 +30,15 @@ namespace TestServiceWorker
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141224
+
+            // can we run physics from the background?
+            // can we do threads?
+            // can we service multiple threads?
+            // is service worker time limited?
+            // like web requests?
+
+
             //   // ScriptCoreLib.JavaScript.Extensions.INodeExtensionsWithXLinq.InternalReplaceAll
             //ScriptCoreLib.JavaScript.Extensions.INodeExtensionsWithXLinq.InternalReplaceAll
 
@@ -65,7 +74,7 @@ namespace TestServiceWorker
                     }
                 );
 
-
+                //
                 Native.serviceworker.addEventListener("evicted",
                   e =>
                     {
@@ -127,13 +136,14 @@ namespace TestServiceWorker
 
             // Worker pid:10244
             https://192.168.43.252:16034/view-source
-            // https://jakearchibald.github.io/isserviceworkerready/
+                  // https://jakearchibald.github.io/isserviceworkerready/
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141223
             //Native.serviceworker 
             // whatif
             // http://www.chromium.org/blink/serviceworker/service-worker-faq
 
+            // X:\jsc.svn\examples\javascript\Test\TestServiceWorker\TestServiceWorker\Application.cs
             new IHTMLPre {
                 new {
                         Native.window.navigator.serviceWorker.installing,
@@ -150,9 +160,8 @@ namespace TestServiceWorker
                 Native.window.navigator.serviceWorker.controller.postMessage("hello from UI");
 
             };
-            new IHTMLBreak { }.AttachToDocument();
 
-            //  chrome://serviceworker-internals .
+            new IHTMLBreak { }.AttachToDocument();
             new IHTMLAnchor { href = "chrome://inspect/#service-workers", innerText = "chrome://inspect/#service-workers" }.AttachToDocument();
             new IHTMLBreak { }.AttachToDocument();
             new IHTMLAnchor { href = "chrome://serviceworker-internals", innerText = "chrome://serviceworker-internals" }.AttachToDocument();

@@ -89,9 +89,12 @@
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAny.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
     <Compile Include="JavaScript\DOM\CacheStorage.cs" />
+    <Compile Include="JavaScript\DOM\ServiceWorkerClients.cs" />
     <Compile Include="JavaScript\DOM\ServiceWorkerClient.cs" />
     <Compile Include="JavaScript\DOM\Request.cs" />
     <Compile Include="JavaScript\DOM\FetchEvent.cs" />
+    <Compile Include="JavaScript\Extensions\IPromiseExtensions.cs" />
+    <Compile Include="JavaScript\Extensions\ServiceWorkerContainerExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\AsyncTaskMethodBuilder.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\UTF8Encoding.cs" />

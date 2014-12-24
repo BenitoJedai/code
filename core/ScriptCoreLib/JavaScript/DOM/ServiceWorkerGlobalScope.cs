@@ -32,6 +32,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // how does this relate to UI performance tracker?
 
+        // X:\jsc.svn\examples\javascript\test\TestServiceWorkerClient\TestServiceWorkerClient\Application.cs
+
+        public readonly ServiceWorkerClients clients;
 
         // tested by?
 
