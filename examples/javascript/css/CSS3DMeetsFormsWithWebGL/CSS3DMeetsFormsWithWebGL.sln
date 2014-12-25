@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSS3DMeetsFormsWithWebGL", "CSS3DMeetsFormsWithWebGL\CSS3DMeetsFormsWithWebGL.csproj", "{059E81C4-42A0-485F-AACD-CD03BE990E0B}"
 	ProjectSection(ProjectDependencies) = postProject
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {F32D7675-1193-4DA7-98C8-C8B010C608D9}
+		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {5EC1743F-043B-44E8-A635-72331EEE81D8}
 		{6743CD12-F62A-4863-8660-669415976A77} = {6743CD12-F62A-4863-8660-669415976A77}
 	EndProjectSection
 EndProject
@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSMinimizeFormToSidebar", "..\CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar.csproj", "{6743CD12-F62A-4863-8660-669415976A77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{F32D7675-1193-4DA7-98C8-C8B010C608D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{5EC1743F-043B-44E8-A635-72331EEE81D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsometricTycoonViewWithToolbar", "..\..\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar.csproj", "{A28A2898-D11B-4027-B5FE-2A911CC5D66F}"
 EndProject
@@ -87,26 +87,26 @@ Global
 		{6743CD12-F62A-4863-8660-669415976A77}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6743CD12-F62A-4863-8660-669415976A77}.Release|x86.ActiveCfg = Release|x86
 		{6743CD12-F62A-4863-8660-669415976A77}.Release|x86.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|Any CPU.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|Mixed Platforms.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|Mixed Platforms.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|x86.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|x86.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Assets|Any CPU.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Assets|Mixed Platforms.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Assets|Mixed Platforms.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Assets|x86.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Assets|x86.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.Build.0 = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Any CPU.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.Build.0 = Release|x86
 		{A28A2898-D11B-4027-B5FE-2A911CC5D66F}.Android|Any CPU.ActiveCfg = Android|x86
 		{A28A2898-D11B-4027-B5FE-2A911CC5D66F}.Android|Mixed Platforms.ActiveCfg = Android|x86
 		{A28A2898-D11B-4027-B5FE-2A911CC5D66F}.Android|Mixed Platforms.Build.0 = Android|x86
@@ -293,7 +293,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6743CD12-F62A-4863-8660-669415976A77} = {05AE9A34-0EB9-4DEC-A3DF-6F9A1B68F27B}
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {05AE9A34-0EB9-4DEC-A3DF-6F9A1B68F27B}
+		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {05AE9A34-0EB9-4DEC-A3DF-6F9A1B68F27B}
 		{A28A2898-D11B-4027-B5FE-2A911CC5D66F} = {05AE9A34-0EB9-4DEC-A3DF-6F9A1B68F27B}
 		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82} = {05AE9A34-0EB9-4DEC-A3DF-6F9A1B68F27B}
 		{7DE9714D-6403-4E7C-A1A1-10E7206DF46A} = {05AE9A34-0EB9-4DEC-A3DF-6F9A1B68F27B}

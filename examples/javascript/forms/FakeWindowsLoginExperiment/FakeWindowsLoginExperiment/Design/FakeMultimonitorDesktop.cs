@@ -36,7 +36,7 @@ namespace FakeWindowsLoginExperiment.Design
             {
                 // http://stackoverflow.com/questions/504052/determining-position-of-the-browser-window-in-javascript
 
-                dynamic window = Native.Window;
+                dynamic window = Native.window;
                 int left = window.screenLeft;
                 int top = window.screenTop;
 
@@ -70,12 +70,12 @@ namespace FakeWindowsLoginExperiment.Design
 
                 e.PrimaryScreen.style.SetLocation(-left, -top, width, height);
 
-                Native.Window.requestAnimationFrame += frame;
+                Native.window.requestAnimationFrame += frame;
             };
 
 
 
-            Native.Window.requestAnimationFrame += frame;
+            Native.window.requestAnimationFrame += frame;
             #endregion
 
 

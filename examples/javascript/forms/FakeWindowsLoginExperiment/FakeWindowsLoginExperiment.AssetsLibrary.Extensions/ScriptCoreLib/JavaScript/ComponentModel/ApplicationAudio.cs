@@ -29,7 +29,7 @@ namespace FakeWindowsLoginExperiment.Library
             {
                 InternalAutoBuffer = true;
 
-                if (Native.Window == null)
+                if (Native.window == null)
                     return;
 
                 if (this.InternalAudio == null)

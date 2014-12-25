@@ -29,6 +29,12 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // service worker could be used
+        // to use to sync datasources
+        // "X:\jsc.svn\examples\javascript\forms\FormsDualDataSource\FormsDualDataSource.sln"
+
+
+
         // http://www.i-programmer.info/news/87-web-development/7494-serviceworkers-are-coming.html
 
         // http://blog.chromium.org/2014/12/chrome-40-beta-powerful-offline-and.html

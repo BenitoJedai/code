@@ -33,6 +33,7 @@ namespace NewTabContinuation
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140412
 
             // also show how does this relate to Workers async and localstorage, historic api
+            // what about service worker?
 
             var state = "binary state?";
             var state64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(state));

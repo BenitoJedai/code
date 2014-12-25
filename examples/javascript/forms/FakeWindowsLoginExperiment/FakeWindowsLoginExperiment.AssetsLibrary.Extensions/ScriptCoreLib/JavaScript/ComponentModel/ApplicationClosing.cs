@@ -23,10 +23,10 @@ namespace FakeWindowsLoginExperiment.Library
                     this.Sound.AutoBuffer = true;
                 };
 
-            if (Native.Window == null)
+            if (Native.window == null)
                 return;
 
-            Native.Window.onbeforeunload +=
+            Native.window.onbeforeunload +=
                 x =>
                 {
                     if (Sound != null)

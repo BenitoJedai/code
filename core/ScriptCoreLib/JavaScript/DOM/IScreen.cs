@@ -9,8 +9,17 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IScreen
     {
+        // X:\jsc.svn\examples\javascript\forms\FormsForSecondaryScreen\FormsForSecondaryScreen\Application.cs
+        // we should also have a demo
+        // for svg multimouse/drawing
+
         // tested by?
         // X:\jsc.svn\examples\javascript\test\TestIScreen\TestIScreen\Application.cs
+        // X:\jsc.svn\examples\javascript\ReportScreenSizeToServer\ReportScreenSizeToServer\Application.cs
+        // "X:\jsc.svn\examples\javascript\NewTabContinuation\NewTabContinuation.sln"
+        // X:\jsc.svn\examples\javascript\forms\FakeWindowsLoginExperiment\FakeWindowsLoginExperiment.AssetsLibrary.Extensions\ScriptCoreLib\JavaScript\ComponentModel\ApplicationExitFullscreen.cs
+        // X:\jsc.svn\examples\javascript\forms\FakeWindowsLoginExperiment\FakeWindowsLoginExperiment\Design\FakeMultimonitorDesktop.cs
+        // "X:\jsc.svn\examples\javascript\forms\FormsForSecondaryScreen\FormsForSecondaryScreen.sln"
 
         public int width;
         public int height;

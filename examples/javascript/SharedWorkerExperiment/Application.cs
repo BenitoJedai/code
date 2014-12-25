@@ -31,6 +31,8 @@ namespace SharedWorkerExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // what about service worker?
+
             // http://stackoverflow.com/questions/6778360/whats-the-difference-between-shared-worker-and-worker-in-html5
             //http://stackoverflow.com/questions/9336774/do-shared-web-workers-persist-across-a-single-page-reload-link-navigation
 

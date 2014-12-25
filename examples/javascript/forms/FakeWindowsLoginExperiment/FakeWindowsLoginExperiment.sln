@@ -5,13 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakeWindowsLoginExperiment"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakeWindowsLoginExperiment.AssetsLibrary.Extensions", "FakeWindowsLoginExperiment.AssetsLibrary.Extensions\FakeWindowsLoginExperiment.AssetsLibrary.Extensions.csproj", "{611ACF38-08ED-41F3-83B6-199A0F2041AA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CEC067B5-036B-466B-B73D-3EBF0F5E6068}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{922F7137-F89C-4AEE-B809-858EB5E1D787}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsWithAvalonExample", "..\FormsWithAvalonExample\FormsWithAvalonExample\FormsWithAvalonExample.csproj", "{C5D0A6DE-2D74-4B59-90F1-91FEA9B34ED3}"
@@ -25,6 +18,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components.Volatile", "..\..\..\..\core\ScriptCoreLib.Ultra.Components.Volatile\ScriptCoreLib.Ultra.Components.Volatile\ScriptCoreLib.Ultra.Components.Volatile.csproj", "{8B8C61EA-D890-403D-9B40-3ACCB679BB20}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Avalon", "..\..\..\..\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.csproj", "{0910EC49-6697-4664-8A71-F09CAEC02E88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.Forms.FloatStyler", "..\..\..\..\market\javascript\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler.csproj", "{7E3E19CE-5998-41A5-8475-37B61FC63A64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.Forms.AeroStyler", "..\..\..\..\market\javascript\Abstractatech.JavaScript.Forms.AeroStyler\Abstractatech.JavaScript.Forms.AeroStyler\Abstractatech.JavaScript.Forms.AeroStyler.csproj", "{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{5EC1743F-043B-44E8-A635-72331EEE81D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -202,6 +201,66 @@ Global
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Android|Any CPU.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Android|Mixed Platforms.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Android|x86.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Android|x86.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Assets|Any CPU.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Assets|x86.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Assets|x86.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|x86.ActiveCfg = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|x86.Build.0 = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|Any CPU.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|x86.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|x86.Build.0 = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Android|Any CPU.ActiveCfg = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Android|Mixed Platforms.Build.0 = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Android|x86.ActiveCfg = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Android|x86.Build.0 = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Assets|Any CPU.ActiveCfg = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Assets|x86.ActiveCfg = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Assets|x86.Build.0 = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Debug|x86.ActiveCfg = Debug|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Debug|x86.Build.0 = Debug|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Release|Any CPU.ActiveCfg = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Release|Mixed Platforms.Build.0 = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Release|x86.ActiveCfg = Release|x86
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F}.Release|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -213,5 +272,8 @@ Global
 		{B20F5CD6-7CBB-450A-BF04-5D9B58B7B5F0} = {922F7137-F89C-4AEE-B809-858EB5E1D787}
 		{8B8C61EA-D890-403D-9B40-3ACCB679BB20} = {922F7137-F89C-4AEE-B809-858EB5E1D787}
 		{0910EC49-6697-4664-8A71-F09CAEC02E88} = {922F7137-F89C-4AEE-B809-858EB5E1D787}
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64} = {922F7137-F89C-4AEE-B809-858EB5E1D787}
+		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F} = {922F7137-F89C-4AEE-B809-858EB5E1D787}
+		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {922F7137-F89C-4AEE-B809-858EB5E1D787}
 	EndGlobalSection
 EndGlobal
