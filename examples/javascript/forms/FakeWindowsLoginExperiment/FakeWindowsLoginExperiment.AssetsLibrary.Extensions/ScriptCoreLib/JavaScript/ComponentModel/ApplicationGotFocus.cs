@@ -27,10 +27,10 @@ namespace FakeWindowsLoginExperiment.Library
             add
             {
                 // design-mode
-                if (Native.Window == null)
+                if (Native.window == null)
                     return;
 
-                Native.Window.onfocus += value;
+                Native.window.onfocus += value;
             }
             remove
             {

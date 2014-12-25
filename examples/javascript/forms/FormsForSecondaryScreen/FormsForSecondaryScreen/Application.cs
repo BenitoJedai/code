@@ -194,8 +194,11 @@ namespace FormsForSecondaryScreen
                     @"primary screen".ToDocumentTitle();
                 };
 
-            content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
+            //content.AttachControlTo(page.Content);
+
+            content.AttachControlToDocument();
+
+            //content.AutoSizeControlTo(page.ContentSize);
 
         }
 

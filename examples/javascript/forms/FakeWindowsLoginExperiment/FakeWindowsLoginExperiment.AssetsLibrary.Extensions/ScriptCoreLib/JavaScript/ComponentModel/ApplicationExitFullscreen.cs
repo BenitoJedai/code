@@ -16,7 +16,7 @@ namespace FakeWindowsLoginExperiment.Library
 
             InitializeComponent();
 
-            if (Native.Window == null)
+            if (Native.window == null)
                 return;
 
 
@@ -28,7 +28,7 @@ namespace FakeWindowsLoginExperiment.Library
             {
                 // http://stackoverflow.com/questions/504052/determining-position-of-the-browser-window-in-javascript
 
-                dynamic window = Native.Window;
+                dynamic window = Native.window;
 
 
                 int innerHeight = window.innerHeight;
@@ -58,12 +58,12 @@ namespace FakeWindowsLoginExperiment.Library
                     }
                 }
 
-                Native.Window.requestAnimationFrame += frame;
+                Native.window.requestAnimationFrame += frame;
             };
 
 
 
-            Native.Window.requestAnimationFrame += frame;
+            Native.window.requestAnimationFrame += frame;
         }
 
         private void InitializeComponent()

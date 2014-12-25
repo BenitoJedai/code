@@ -38,6 +38,10 @@ namespace TestIScreen
 
             new IHTMLPre
             {
+                // can we do box2d physics in the background?
+
+
+
                 // can we get a service worker
                 // to chime in for multiscreen session?
                 // can we then test it as a chrome app too?
@@ -46,6 +50,8 @@ namespace TestIScreen
                 // will we know when we are moved onto the other monitor?
                 () => new { c = c++,
 
+                              // "X:\jsc.svn\examples\javascript\css\CSSTransform3DFPSBlueprint\CSSTransform3DFPSBlueprint.sln"
+                              // "X:\jsc.svn\examples\javascript\css\CSSTransform3DFPSExperiment\CSSTransform3DFPSExperiment.sln"
 
                               Native.screen.width,
                               Native.screen.height,

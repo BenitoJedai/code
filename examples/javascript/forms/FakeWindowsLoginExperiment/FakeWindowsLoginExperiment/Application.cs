@@ -30,6 +30,13 @@ namespace FakeWindowsLoginExperiment
     {
         public readonly IApp page;
 
+        //02000030 ScriptCoreLib.Library.StringConversions
+        //02000032 FakeWindowsLoginExperiment.Library.Designers.Samples.RootDesignedComponent
+        //02000031 FakeWindowsLoginExperiment.Library.Designers.Samples.RootViewSampleComponent
+        //02000033 FakeWindowsLoginExperiment.Library.Designers.SampleRootDesigner
+        //02000034 FakeWindowsLoginExperiment.Library.ScriptResourceWriter
+        //no implementation for System.Reflection.Emit.AssemblyBuilder 0814be2a-48e5-3d61-90f3-ef3d05df9d5e
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(System.Reflection.Emit.CustomAttributeBuilder)]
 
 
         /// <summary>
@@ -61,7 +68,8 @@ namespace FakeWindowsLoginExperiment
 
             //Error	2	The call is ambiguous between the following methods or properties: 'ScriptCoreLib.JavaScript.Windows.Forms.FormAsPopupExtensions.PopupInsteadOfClosing<System.Windows.Forms.Form>(System.Windows.Forms.Form)' and 'ScriptCoreLib.Extensions.FormAsPopupExtensionsForConsoleFormPackage.PopupInsteadOfClosing<System.Windows.Forms.Form>(System.Windows.Forms.Form)'	X:\jsc.svn\examples\javascript\forms\FakeWindowsLoginExperiment\FakeWindowsLoginExperiment\Application.cs	47	21	FakeWindowsLoginExperiment
 
-            Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensionsForConsoleFormPackage.PopupInsteadOfClosing(
+            //Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensionsForConsoleFormPackage.PopupInsteadOfClosing(
+            ScriptCoreLib.Extensions.FormAsPopupExtensionsForConsoleFormPackage.PopupInsteadOfClosing(
                 taskManagerForm1
                 );
 
