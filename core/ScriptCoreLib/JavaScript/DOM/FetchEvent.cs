@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "FetchEvent")]
     public class FetchEvent : IEvent
     {
+        // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerFetchHTML\TestServiceWorkerFetchHTML\Application.cs
+
         public readonly Request request;
 
 
