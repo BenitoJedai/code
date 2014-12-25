@@ -18,6 +18,12 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
+        // https://fetch.spec.whatwg.org/#responseinit
+        // typedef (Headers or sequence<sequence<ByteString>> or OpenEndedDictionary<ByteString>) HeadersInit;
+        public Response(object BodyInit, object ResponseInit)
+        {
+
+        }
     }
 
 }
