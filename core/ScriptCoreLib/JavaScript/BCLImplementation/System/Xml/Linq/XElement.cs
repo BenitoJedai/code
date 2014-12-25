@@ -165,6 +165,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
         public static XElement Parse(string text)
         {
+            // xml still is not yet correclty available for service workers.
+
+            // X:\jsc.svn\examples\javascript\test\TestServiceWorkerFetchHTML\TestServiceWorkerFetchHTML\Application.cs
+
             var x = __XDocument.Parse(text);
 
             return x.Root;

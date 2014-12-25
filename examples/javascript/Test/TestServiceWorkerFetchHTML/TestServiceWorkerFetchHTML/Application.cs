@@ -63,6 +63,11 @@ namespace TestServiceWorkerFetchHTML
 
                         if (relative == "/jsc")
                         {
+                            // can we now do a multiscreen app?
+                            // where window/ is synced via service worker?
+
+
+                            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Xml\Linq\XElement.cs
                             // does this obsolete the history api effort?
 
                             //clients.WithEachIndex(
@@ -73,6 +78,12 @@ namespace TestServiceWorkerFetchHTML
                             // http://www.i-programmer.info/news/87-web-development/7494-serviceworkers-are-coming.html
                             //e.respondWith(new Response("the first string response. next time async?"));
                             // DOMException: Failed to execute 'respondWith' on 'FetchEvent': The fetch event has already been responded to.
+
+
+                            // will this work from service worker?
+                            // // ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq.__XDocument.get_Root
+                            // no not yet.
+                            //var doc = XElement.Parse(SpecialContentFromServiceWorkerSource.Text);
 
                             // Status Code:200 OK (from ServiceWorker)
                             // if the server goes down this link will still reload from service worker.
