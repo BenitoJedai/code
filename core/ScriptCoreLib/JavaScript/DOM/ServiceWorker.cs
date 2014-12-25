@@ -29,6 +29,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // http://www.i-programmer.info/news/87-web-development/7494-serviceworkers-are-coming.html
+
         // http://blog.chromium.org/2014/12/chrome-40-beta-powerful-offline-and.html
         // https://www.igvita.com/2014/12/15/capability-reporting-with-service-worker/
 
@@ -80,6 +82,24 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
+
+
+        // X:\jsc.svn\examples\javascript\test\TestServiceWorkerCache\TestServiceWorkerCache\Application.cs
+        #region event onstatechange
+        public event System.Action<IEvent> onstatechange
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "statechange");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "statechange");
+            }
+        }
+        #endregion
 
     }
 

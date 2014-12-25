@@ -33,6 +33,8 @@ namespace TestCacheStorage
 
             // http://blog.chromium.org/2014/12/chrome-40-beta-powerful-offline-and.html
 
+            // window.caches.keys() { { caches = null } }
+
             new IHTMLButton { "window.caches.keys() " + new { Native.window.caches } }.AttachToDocument().onclick += delegate
             {
                 Native.window.caches.keys().then(

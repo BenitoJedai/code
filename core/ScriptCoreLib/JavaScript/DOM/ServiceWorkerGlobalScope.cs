@@ -36,6 +36,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public readonly ServiceWorkerClients clients;
 
+        //[CallWith=ExecutionContext, Unforgeable, RuntimeEnabled=ServiceWorkerCache] readonly attribute CacheStorage caches;
+        // X:\jsc.svn\examples\javascript\Test\TestCacheStorage\TestCacheStorage\Application.cs
+        public readonly CacheStorage caches;
+
         // tested by?
 
 
