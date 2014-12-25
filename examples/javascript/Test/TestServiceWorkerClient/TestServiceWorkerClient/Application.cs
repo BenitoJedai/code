@@ -38,6 +38,10 @@ namespace TestServiceWorkerClient
 
             if (Native.serviceworker != null)
             {
+                // what about identity/crypto?
+                // is there a need for sharedWorker too?
+                // can we async sitch to UI?
+
                 // were we just stopped and restarted? no events to run?
 
                 Console.WriteLine("we seem to run as a background page, service worker ");
@@ -53,35 +57,45 @@ namespace TestServiceWorkerClient
                     {
                         controlledClients = clients.Length
                     }
-                        );
+                    );
+
+
                 }
                 );
 
 
 
+
+                #region install
                 Native.serviceworker.addEventListener("install",
                     e =>
                     {
                         Console.WriteLine("oninstall");
                     }
                 );
+                #endregion
 
+
+                #region activate
                 // http://jakearchibald.com/2014/using-serviceworker-today/
-
                 Native.serviceworker.addEventListener("activate",
                    e =>
                     {
                         Console.WriteLine("onactivate");
                     }
                );
+                #endregion
 
+                #region beforeevicted
                 Native.serviceworker.addEventListener("beforeevicted",
                     e =>
                     {
                         Console.WriteLine("beforeevicted");
                     }
                 );
+                #endregion
 
+                #region evicted
                 //
                 Native.serviceworker.addEventListener("evicted",
                   e =>
@@ -89,7 +103,9 @@ namespace TestServiceWorkerClient
                         Console.WriteLine("evicted");
                     }
               );
+                #endregion
 
+                #region sync
                 // when is this useful?
                 Native.serviceworker.addEventListener("sync",
                      e =>
@@ -98,6 +114,7 @@ namespace TestServiceWorkerClient
                                 }
                  );
 
+                #endregion
 
                 //                35ms oninstall
                 //2014-12-24 13:57:24.833view-source:43453 42ms onmessage {{ data = hi installing! }}
@@ -107,9 +124,10 @@ namespace TestServiceWorkerClient
                 //2014-12-24 13:57:24.835view-source:43453 44ms onmessage {{ data = hi installing statechange! {{ state = activated }} }}
 
                 // yes we are getting a message.
-
+                // https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerClient
                 Native.serviceworker.onmessage += async e =>
                 {
+                    // we are being called by a tab.
 
                     // is that all we know whch client the message is from?
                     // controled
@@ -124,6 +142,17 @@ namespace TestServiceWorkerClient
 
 
                     e.postMessage("reply from serviceworker: " + new { e.data, controlledClients = clients.Length });
+
+                    if (clients.Length > 1)
+                    {
+                        // there are two tabs now open!
+                        // let them both know about this.
+
+                        clients.WithEachIndex(
+                            (c, index) =>
+                                c.postMessage("service worker knows there are multiple tabs now " + new { index, clients.Length, c.focused, c.visibilityState, c.frameType }, null)
+                                );
+                    }
                 };
 
 
@@ -282,7 +311,7 @@ namespace TestServiceWorkerClient
                                         // navigator.serviceWorker.register... installing... activated {{ data = reply from serviceworker: {{ data = UI has activated itself as a service worker!, clients = 0 }} }}
 
                                         // um, activating a service worker, it cant see us?
-
+                                        // // > {{ data = reply from serviceworker: {{ data = UI has activated itself as a service worker!, controlledClients = 0 }} }}
                                         new IHTMLPre { "> " +
                                             new
                                             {
@@ -351,17 +380,41 @@ namespace TestServiceWorkerClient
             };
             #endregion
 
+
+            new IHTMLButton { "open a secondary tab as iframe" }.AttachToDocument().onclick += delegate
+            {
+                //new IHTMLIFrame { }.AttachToDocument();
+                new IHTMLIFrame { src = "/" }.AttachToDocument();
+
+            };
+
             if (Native.window.navigator.serviceWorker.controller != null)
             {
                 new IHTMLPre { "Seems like, we were already installed as a service worker. lets notify." }.AttachToDocument();
 
                 // navigator.serviceWorker.register... installing... activated {{ data = reply from serviceworker: {{ data = UI has activated itself as a service worker! }} }}
 
-
-
-                Native.window.navigator.serviceWorker.controller.onmessage +=
-                                     m =>
+                // window.onmessage > {{ data = service worker knows there are multiple tabs now {{ index = 0, Length = 2, focused = null, visibilityState = null, frameType = null }} }}
+                Native.window.onmessage +=
+                              m =>
                      {
+                         // is this where clients messages are received?
+                         // window.onmessage > {{ data = service worker knows there are multiple tabs now {{ index = 1 }} }}
+
+
+                         // would the service worker be able to tell us something of interesting?
+
+                         new IHTMLPre { "window.onmessage > " + new { m.data } }.AttachToDocument();
+                     };
+
+
+                // can we get a message back from to all tabs?
+                // useless, should use window.onmessage instead?
+                Native.window.navigator.serviceWorker.controller.onmessage +=
+                     m =>
+                     {
+                         // is this where clients messages are received?
+
                          // would the service worker be able to tell us something of interesting?
 
                          new IHTMLPre { "serviceWorker.controller.onmessage > " + new { m.data } }.AttachToDocument();
@@ -371,6 +424,9 @@ namespace TestServiceWorkerClient
                 Native.window.navigator.serviceWorker.controller.postMessage("hello from UI",
                     m =>
                     {
+
+                        // > {{ data = reply from serviceworker: {{ data = hello from UI, controlledClients = 1 }} }}
+                        // > {{ data = reply from serviceworker: {{ data = hello from UI, controlledClients = 2 }} }}
                         new IHTMLPre { "> " + new { m.data } }.AttachToDocument();
                     }
                 );

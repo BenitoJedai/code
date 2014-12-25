@@ -25,5 +25,35 @@ namespace ScriptCoreLib.JavaScript.Extensions
             return x.AsTask();
         }
 
+
+        // X:\jsc.svn\examples\javascript\test\TestServiceWorkerCache\TestServiceWorkerCache\Application.cs
+        public static Task<ServiceWorker> activate(this ServiceWorkerContainer serviceworker)
+        {
+            var x = new TaskCompletionSource<ServiceWorker>();
+
+            serviceworker.register().ContinueWith(
+                t =>
+                {
+                    var registration = t.Result;
+
+                    if (registration.installing != null)
+                    {
+                        var i = registration.installing;
+
+                        i.onstatechange += delegate
+                        {
+                            if (i.state != "activated")
+                                return;
+
+                            x.SetResult(i);
+                        };
+                    }
+                }
+            );
+
+            return x.Task;
+
+        }
+
     }
 }

@@ -15,8 +15,23 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class FetchEvent : IEvent
     {
         public readonly Request request;
+
+
+        // X:\jsc.svn\examples\javascript\test\TestServiceWorkerCache\TestServiceWorkerCache\Application.cs
+        [Obsolete("not available yet?")]
         public readonly ServiceWorkerClient client;
         public readonly bool isReload;
+
+
+
+        // client side web service like activity?
+
+        //void respondWith((Response or Promise<Response>) r);
+        
+        // how can we translate Task to Promise?
+        // can we then update jsc to do it automagically?
+        // https://chromium.googlesource.com/chromium/blink.git/+/master/Source/modules/serviceworkers/RespondWithObserver.h
+        public void respondWith(Response r) { }
     }
 
 }
