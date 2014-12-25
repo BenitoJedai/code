@@ -120,7 +120,7 @@ namespace MultiMouse.SVGCursor
             page.cursor1.ToSVG().With(
                 svg =>
                 {
-                    Native.Document.onmousemove +=
+                    Native.document.onmousemove +=
                         e =>
                         {
                             svg.SVGElement.AsXElement().Elements("g").Elements("path").WithEach(

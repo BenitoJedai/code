@@ -178,11 +178,13 @@ namespace MultiMouse
                };
 
 
+#if onorientationchange
             Native.window.onorientationchange +=
                 e =>
                 {
                     Toggle();
                 };
+#endif
 
             Native.document.onkeyup +=
                 e =>
@@ -206,8 +208,8 @@ namespace MultiMouse
             //fs.FormBorderStyle = FormBorderStyle.None;
 
             fs.BackColor = Color.FromArgb(0, 148, 155);
-            fs.Width = Native.Screen.width / 4;
-            fs.Height = Native.Screen.height / 4;
+            fs.Width = Native.screen.width / 4;
+            fs.Height = Native.screen.height / 4;
             fs.Show();
             fs.Opacity = 0.5;
 
@@ -215,8 +217,8 @@ namespace MultiMouse
             var fvs = new Form { Text = "Virtual Screen" };
             fvs.BackColor = Color.Transparent;
             FormStyler.AtFormCreated = FormStyler.LikeWindowsClassic;
-            fvs.Width = Native.Screen.width / 4;
-            fvs.Height = Native.Screen.height / 4;
+            fvs.Width = Native.screen.width / 4;
+            fvs.Height = Native.screen.height / 4;
             fvs.Show();
             fvs.Owner = fs;
 
@@ -291,11 +293,15 @@ namespace MultiMouse
             Action AtResize = delegate
             {
                 // screen can change, but only once, when window is moved to the other monitor?
-                fs.Text = "Screen " + new { Native.Screen.width, Native.Screen.height };
-                fs.Width = Native.Screen.width / 4;
-                fs.Height = Native.Screen.height / 4;
+                fs.Text = "Screen " + new { Native.screen.width, Native.screen.height };
+                fs.Width = Native.screen.width / 4;
+                fs.Height = Native.screen.height / 4;
 
-                fw.Text = " " + new { Native.window.Width, Native.window.Height, Native.window.orientation };
+                fw.Text = " " + new { Native.window.Width, Native.window.Height
+#if onorientationchange                    
+                    , Native.window.orientation 
+#endif
+                };
                 fw.Width = Native.window.Width / 4;
                 fw.Height = Native.window.Height / 4;
 
@@ -352,8 +358,8 @@ namespace MultiMouse
 
                     fwshadow.BackColor = Color.Transparent;
                     FormStyler.AtFormCreated = FormStyler.LikeWindowsClassic;
-                    fwshadow.Width = Native.Screen.width / 4;
-                    fwshadow.Height = Native.Screen.height / 4;
+                    fwshadow.Width = Native.screen.width / 4;
+                    fwshadow.Height = Native.screen.height / 4;
                     fwshadow.Show();
 
 
@@ -798,7 +804,7 @@ namespace MultiMouse
             internal_exit_MultiMouseMode();
             internal_set_cursor_position(0, 0);
 
-            Native.Document.body.ontouchstart +=
+            Native.document.body.ontouchstart +=
                  e =>
                  {
                      e.preventDefault();
@@ -825,7 +831,7 @@ namespace MultiMouse
                      );
                  };
 
-            Native.Document.body.ontouchend +=
+            Native.document.body.ontouchend +=
                e =>
                {
 
@@ -844,7 +850,7 @@ namespace MultiMouse
 
                };
 
-            Native.Document.body.ontouchmove +=
+            Native.document.body.ontouchmove +=
                  e =>
                  {
                      e.preventDefault();
@@ -1546,7 +1552,7 @@ namespace MultiMouse
 
 
 
-            Native.Document.documentElement.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.documentElement.style.overflow = IStyle.OverflowEnum.hidden;
         }
 
         public static bool DisableKeepOwnedFormsLinkedToOwnerLocation;
