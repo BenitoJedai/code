@@ -25,6 +25,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#cache-objects
         // X:\jsc.svn\examples\javascript\test\TestCacheStorage\TestCacheStorage\Application.cs
         // 41 shows null? not implemented yet?
+        [System.Obsolete("not available yet?")]
         public readonly CacheStorage caches;
 
         // tested by? what about web workers?
@@ -453,6 +454,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public double aspect
         {
+            // X:\jsc.svn\examples\javascript\test\TestIScreen\TestIScreen\Application.cs
+
             // used by THREE.PerspectiveCamera
             [Script(DefineAsStatic = true)]
             get
