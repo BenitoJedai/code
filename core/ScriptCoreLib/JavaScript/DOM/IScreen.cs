@@ -12,6 +12,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // X:\jsc.svn\examples\javascript\forms\FormsForSecondaryScreen\FormsForSecondaryScreen\Application.cs
         // we should also have a demo
         // for svg multimouse/drawing
+        // "X:\jsc.svn\examples\javascript\android\MultiMouse\MultiMouse.sln"
 
         // tested by?
         // X:\jsc.svn\examples\javascript\test\TestIScreen\TestIScreen\Application.cs
@@ -20,6 +21,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         // X:\jsc.svn\examples\javascript\forms\FakeWindowsLoginExperiment\FakeWindowsLoginExperiment.AssetsLibrary.Extensions\ScriptCoreLib\JavaScript\ComponentModel\ApplicationExitFullscreen.cs
         // X:\jsc.svn\examples\javascript\forms\FakeWindowsLoginExperiment\FakeWindowsLoginExperiment\Design\FakeMultimonitorDesktop.cs
         // "X:\jsc.svn\examples\javascript\forms\FormsForSecondaryScreen\FormsForSecondaryScreen.sln"
+
+        // "X:\jsc.svn\examples\javascript\android\JellyworldExperiment\JellyworldExperiment.sln"
 
         public int width;
         public int height;
