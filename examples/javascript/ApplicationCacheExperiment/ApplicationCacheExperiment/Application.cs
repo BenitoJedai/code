@@ -39,6 +39,7 @@ namespace ApplicationCacheExperiment
 
             // Application Cache Error event: Master entry fetch failed (-1) http://192.168.1.100:8571/ 
 
+            // 20141225 / superseded by service worker?
             Native.window.applicationCache.oncached = IFunction.Of(
                 delegate
                 {
