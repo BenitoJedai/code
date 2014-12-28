@@ -15,6 +15,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public class WebSocket
     {
+        // how does this relate to service workers?
+
         // is the jsc async web server RTC/WebSocket/Stream ready?
         // right after SSL?
     }

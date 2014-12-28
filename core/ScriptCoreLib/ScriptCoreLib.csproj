@@ -97,6 +97,10 @@
     <Compile Include="JavaScript\DOM\FetchEvent.cs" />
     <Compile Include="JavaScript\Extensions\IPromiseExtensions.cs" />
     <Compile Include="JavaScript\Extensions\ServiceWorkerContainerExtensions.cs" />
+    <Compile Include="JavaScript\WebGL\WebGLVertexArrayObject.cs" />
+    <Compile Include="JavaScript\WebGL\WebGLTransformFeedback.cs" />
+    <Compile Include="JavaScript\WebGL\WebGLSync.cs" />
+    <Compile Include="JavaScript\WebGL\WebGLSampler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\AsyncTaskMethodBuilder.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
