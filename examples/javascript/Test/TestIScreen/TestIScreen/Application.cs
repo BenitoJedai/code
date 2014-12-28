@@ -30,6 +30,8 @@ namespace TestIScreen
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\test\TestServiceWorkerScreens\TestServiceWorkerScreens\Application.cs
+
             // can we open two flash windows and have them synced?
 
             // on screen changed?

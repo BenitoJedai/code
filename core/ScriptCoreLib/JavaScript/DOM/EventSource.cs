@@ -10,6 +10,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "EventSource")]
     public class EventSource : IEventTarget
     {
+        // tested by?
+        // what about service worker?
+        // will event source be the push api?
+        // would app engine support long running streams?
+
         // https://code.google.com/p/chromium/issues/detail?id=264170
         public EventSource(string url = "/event-stream")
         {

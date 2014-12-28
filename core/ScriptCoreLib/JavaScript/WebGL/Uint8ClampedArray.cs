@@ -16,6 +16,12 @@ namespace ScriptCoreLib.JavaScript
             // Uncaught TypeError: Cannot use 'in' operator to search for 'Uint8ClampedArray' in null 
             // see also x:\jsc.svn\examples\javascript\Test\TestNewByteArray\TestNewByteArrayViaScriptCoreLib\Class1.cs
 
+            if (Native.self == null)
+            {
+                // X:\jsc.svn\examples\javascript\forms\FakeWindowsLoginExperiment\FakeWindowsLoginExperiment\Library\Form1.cs
+                return;
+            }
+
             if (ScriptCoreLib.JavaScript.Runtime.Expando.Of(Native.self).Contains("Uint8ClampedArray"))
                 return;
 

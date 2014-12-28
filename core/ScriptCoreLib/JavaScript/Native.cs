@@ -181,6 +181,8 @@ namespace ScriptCoreLib.JavaScript
         static Native()
         {
 
+            //at ScriptCoreLib.JavaScript.Native.__Uint8ClampedArray() in x:\jsc.svn\core\ScriptCoreLib\JavaScript\WebGL\Uint8ClampedArray.cs:line 19
+            //at ScriptCoreLib.JavaScript.Native..cctor() in x:\jsc.svn\core\ScriptCoreLib\JavaScript\Native.cs:line 185
 
             __Uint8ClampedArray();
 

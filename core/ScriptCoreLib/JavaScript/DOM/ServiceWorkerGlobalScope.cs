@@ -20,6 +20,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorkerGlobalScope : WorkerGlobalScope
     {
+        //  what about event source?
+
         // X:\jsc.svn\examples\javascript\test\TestServiceWorker\TestServiceWorker\Application.cs
         // chrome just removed it..?
         public readonly string scope;
@@ -42,7 +44,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // tested by?
 
-
+        // The event.source of these MessageEvents are instances of ServiceWorkerClient.
+        // not available yet?
         #region event onmessage
         public event System.Action<MessageEvent> onmessage
         {
