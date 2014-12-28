@@ -18,6 +18,7 @@ using TestServiceWorkerVisualizedScreens.Design;
 using TestServiceWorkerVisualizedScreens.HTML.Pages;
 using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
+using System.Diagnostics;
 
 namespace TestServiceWorkerVisualizedScreens
 {
@@ -31,10 +32,15 @@ namespace TestServiceWorkerVisualizedScreens
 
         public int screen_width;
         public int screen_height;
+
         public int window_screenLeft;
         public int window_screenTop;
+
         public int window_Width;
         public int window_Height;
+
+
+        public bool closed;
     }
 
     static class __reinventingthewheel
@@ -62,6 +68,184 @@ namespace TestServiceWorkerVisualizedScreens
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            #region serviceworker
+            if (Native.serviceworker != null)
+            {
+                // since chrome does not yet tell us who the clients
+                //are we need to collect the intel in user code?
+
+                var clients = new { e = default(MessageEvent), edata = default(ClientData) }.AsEmptyListWithEvents();
+
+                Native.serviceworker.onmessage += e =>
+                {
+                    var edata = (ClientData)e.data;
+
+                    // if the data identity is already know, then its an update
+                    // we will ignore current ports and reuse previous ones.
+
+                    var known = clients.Source.FirstOrDefault(x => x.edata.identity == edata.identity);
+                    if (known != null)
+                    {
+                        if (known.edata.window_screenLeft == edata.window_screenLeft)
+                            if (known.edata.window_screenTop == edata.window_screenTop)
+                                if (known.edata.closed == edata.closed)
+                                {
+                                    // discard as nop
+                                    return;
+                                }
+
+                        Console.WriteLine(
+                            "serviceworker.onmessage update " + new
+                            {
+                                edata.window_screenLeft,
+                                edata.window_screenTop
+
+                            }
+                        );
+
+                        known.edata.closed = edata.closed;
+                        known.edata.window_screenLeft = edata.window_screenLeft;
+                        known.edata.window_screenTop = edata.window_screenTop;
+                        known.edata.window_Width = edata.window_Width;
+                        known.edata.window_Height = edata.window_Height;
+
+                        // data updated
+                        // let everybody know
+
+                        clients.Source.WithEach(
+                            x =>
+                            {
+                                // let each know of this specific data item, not about their own data
+                                x.e.postMessage(known.edata);
+
+                            }
+                        );
+
+
+                        return;
+                    }
+
+
+                    // how could the as operator know if object is of a type
+                    //var edata = e.data as ClientData;
+
+                    // 48686ms serviceworker.onmessage {{ source = null, data = [object Object] }}
+
+                    // tab is telling us something.
+
+                    Console.WriteLine(
+                        "serviceworker.onmessage " + new
+                        {
+                            edata.screen_width,
+                            edata.screen_height
+
+                        }
+                    );
+
+                    //e.postMessage("got it! " + new
+                    //{
+                    //    edata.screen_width,
+                    //    edata.screen_height
+                    //}
+                    //);
+
+                    // echo back what the tab told us
+                    e.postMessage(edata);
+
+                    // late to the party?
+                    // let the newby know about the others.
+
+                    clients.Source.WithEach(
+                        n =>
+                        {
+                            e.postMessage(n.edata);
+                        }
+                    );
+
+                    clients.Source.Add(new { e, edata });
+
+                    clients.Added +=
+                        (n, nindex) =>
+                        {
+                            Console.WriteLine(
+                                "serviceworker.onmessage  clients.Added " + new
+                                {
+                                    nindex
+                                }
+                            );
+
+
+                            // report that somebody joined?
+                            e.postMessage(n.edata);
+                        };
+
+                };
+
+                return;
+            }
+            #endregion
+
+
+
+            // this does not work within shadow root, due to css use?
+            //FormStyler.AtFormCreated = FormStylerLikeChrome.LikeChrome;
+
+            // wont see it on black background
+            //FormStyler.AtFormCreated = FormStylerLikeFloat.LikeFloat;
+
+            new IHTMLAnchor { href = "chrome://serviceworker-internals", innerText = "chrome://serviceworker-internals" }.AttachToDocument();
+            new IHTMLPre { "Opens the DevTools window for ServiceWorker on start for debugging." }.AttachToDocument();
+
+            new IHTMLBreak { }.AttachToDocument();
+
+            #region register
+            if (Native.window.navigator.serviceWorker.controller == null)
+            {
+                Native.css.style.borderTop = "1em solid red";
+
+                // we need to register!
+
+                new { }.With(async delegate
+                {
+                    var sw = Stopwatch.StartNew();
+
+                    new IHTMLPre { "service register!" }.AttachToDocument();
+
+                    // should jsc do this automatically?
+                    // how many test cases should be made to understand it?
+                    var activated = await Native.window.navigator.serviceWorker.activate();
+
+
+                    new IHTMLPre { "service activated! " + new { sw.ElapsedMilliseconds } }.AttachToDocument();
+
+                    Native.css.style.borderTop = "1em solid yellow";
+
+                    new IHTMLButton { "reload to become controlled client " }.AttachToDocument().onclick +=
+                         delegate
+                         {
+                             // is this something jsc app should do automatically?
+                             Native.document.location.reload();
+
+                         };
+                }
+                );
+
+
+
+                return;
+            }
+            else
+            {
+                Native.css.style.borderTop = "1em solid green";
+
+                new IHTMLPre { "service as controller!" }.AttachToDocument();
+            }
+            #endregion
+
+
+
+
+
             // we need to get roslyn compiler to work for scriptcorelib windows forms.
 
             // dual 4k is to be the max for visualization?
@@ -212,16 +396,13 @@ namespace TestServiceWorkerVisualizedScreens
 
             f.GetHTMLTarget().AttachTo(offsetandscale);
 
-
-
             var fcontent = new IHTMLContent { select = "body" };
             fcontent.AttachTo(f.GetHTMLTargetContainer());
-
 
             f.Show();
 
 
-
+            #region Toggle
             Action Toggle =
                 delegate
                 {
@@ -254,13 +435,68 @@ namespace TestServiceWorkerVisualizedScreens
                        Toggle();
                    }
                };
+            #endregion
+
+
+            var lookup = new Dictionary<int, Form> { { data.identity, f } };
+
+
+
+            new IHTMLPre { "lets tell the service, we have opened a new tab. " }.AttachToDocument();
+
+            #region postMessage
+            Native.window.navigator.serviceWorker.controller.postMessage(
+                data,
+
+                // data updated o the other side.
+                // lets decode.
+                m =>
+                {
+                    var mdata = (ClientData)m.data;
+
+
+                    if (!lookup.ContainsKey(mdata.identity))
+                    {
+                        var ff = new Form { Text = new { mdata.identity }.ToString() };
+
+                        ff.GetHTMLTarget().AttachTo(offsetandscale);
+                        ff.Show();
+                        ff.Opacity = 0.5;
+
+                        lookup[mdata.identity] = ff;
+                    }
+
+                    {
+                        var ff = lookup[mdata.identity];
+
+                        ff.Left = mdata.window_screenLeft;
+                        ff.Top = mdata.window_screenTop;
+
+                        ff.Width = mdata.window_Width;
+                        ff.Height = mdata.window_Height;
+
+                        if (mdata.closed)
+                        {
+                            ff.Close();
+                        }
+                    }
+
+
+                }
+           );
+            #endregion
+
 
 
             // keep it up to date
 
+            #region onframe
             Native.window.onframe +=
                 delegate
                 {
+                    if (data.closed)
+                        return;
+
 
 
 
@@ -293,7 +529,7 @@ namespace TestServiceWorkerVisualizedScreens
                     // assume our monitors are side by side?
                     offsetandscale.style.top = (data.window_Height / 4) + "px";
 
-
+                    #region screen0
                     // what happens if we move to the other monitor?
                     screen0.style.SetSize(
                         data.screen_width,
@@ -303,6 +539,7 @@ namespace TestServiceWorkerVisualizedScreens
                     if (data.window_screenLeft < -(data.window_Width / 2))
                     {
                         // assume we are on the other monitor to the left?
+                        // we do not know the actual offset until we go fullscreen.
 
                         screen0.style.SetLocation(
                            -data.screen_width,
@@ -316,17 +553,38 @@ namespace TestServiceWorkerVisualizedScreens
                            0
                        );
                     }
-
-                    f.Text = new { data.window_screenLeft, data.window_screenTop }.ToString();
-
-                    f.Left = data.window_screenLeft;
-                    f.Top = data.window_screenTop;
-
-                    f.Width = data.window_Width;
-                    f.Height = data.window_Height;
+                    #endregion
 
 
+                    //f.Text = new { data.window_screenLeft, data.window_screenTop }.ToString();
+
+                    //f.Left = data.window_screenLeft;
+                    //f.Top = data.window_screenTop;
+
+                    //f.Width = data.window_Width;
+                    //f.Height = data.window_Height;
+
+
+
+                    // resend data
+                    Native.window.navigator.serviceWorker.controller.postMessage(data);
                 };
+            #endregion
+
+
+            Native.window.onbeforeunload +=
+                //Native.window.onunload +=
+                delegate
+                {
+
+                    // move out of view to signify being closed?
+                    data.closed = true;
+
+
+                    // resend data
+                    Native.window.navigator.serviceWorker.controller.postMessage(data);
+                };
+
         }
 
     }

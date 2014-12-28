@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Drawing", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.Forms.ChromeStyler", "..\..\..\..\market\javascript\Abstractatech.JavaScript.Forms.ChromeStyler\Abstractatech.JavaScript.Forms.ChromeStyler\Abstractatech.JavaScript.Forms.ChromeStyler.csproj", "{69368E37-BE77-46D4-AE23-C08635C0A4ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.Forms.FloatStyler", "..\..\..\..\market\javascript\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler.csproj", "{7E3E19CE-5998-41A5-8475-37B61FC63A64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -105,6 +109,46 @@ Global
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|x86.ActiveCfg = Release|Any CPU
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Android|Any CPU.ActiveCfg = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Android|Mixed Platforms.Build.0 = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Android|x86.ActiveCfg = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Android|x86.Build.0 = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Debug|x86.ActiveCfg = Debug|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Debug|x86.Build.0 = Debug|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.PHP|Any CPU.ActiveCfg = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.PHP|x86.ActiveCfg = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.PHP|x86.Build.0 = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Release|Any CPU.ActiveCfg = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Release|Mixed Platforms.Build.0 = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Release|x86.ActiveCfg = Release|x86
+		{69368E37-BE77-46D4-AE23-C08635C0A4ED}.Release|x86.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Android|Any CPU.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Android|Mixed Platforms.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Android|x86.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Android|x86.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|x86.ActiveCfg = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|x86.Build.0 = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.PHP|Any CPU.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.PHP|x86.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.PHP|x86.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|Any CPU.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|x86.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
