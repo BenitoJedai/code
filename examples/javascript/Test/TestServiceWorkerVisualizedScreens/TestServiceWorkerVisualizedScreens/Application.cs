@@ -80,12 +80,11 @@ namespace TestServiceWorkerVisualizedScreens
 
             //Native.shadow
 
-
             var desktop = new IHTMLDiv();
 
             new IStyle(desktop)
             {
-                backgroundColor = "darkcyan",
+                backgroundColor = "black",
 
 
                 // need to glue it
@@ -94,6 +93,10 @@ namespace TestServiceWorkerVisualizedScreens
                 right = "0px",
                 bottom = "0px",
                 left = "0px",
+
+                // no scrollbars. thanks
+                // how will this work for android multiscreeners?
+                overflow = IStyle.OverflowEnum.hidden
             };
 
             //__Form.
@@ -103,6 +106,60 @@ namespace TestServiceWorkerVisualizedScreens
             desktop.AttachTo(Native.shadow);
             //Native.shadow
 
+            // actully the offset and scale.
+            // screen0 as background should be there as another element.
+
+
+            var offsetandscale = new IHTMLDiv();
+
+            new IStyle(offsetandscale)
+            {
+                // the viewport info?
+
+                //backgroundColor = "darkcyan",
+                backgroundColor = "gray",
+
+
+                // need to glue it
+                position = IStyle.PositionEnum.absolute,
+
+
+                // both screens should be able to fit here
+                top = "100px",
+                left = "100px",
+
+                width = "600px",
+                height = "600px",
+
+
+                transformOrigin = "0% 0%",
+                transform = "scale(0.3)"
+            };
+
+            offsetandscale.AttachTo(desktop);
+
+            var screen0 = new IHTMLDiv();
+
+            new IStyle(screen0)
+            {
+                // the viewport info?
+
+                backgroundColor = "darkcyan",
+
+
+                // need to glue it
+                position = IStyle.PositionEnum.absolute,
+
+
+                // both screens should be able to fit here
+                top = "0px",
+                left = "0px",
+
+                width = "600px",
+                height = "600px",
+            };
+
+            screen0.AttachTo(offsetandscale);
 
 
             // why would it be a good idea to maximize?
@@ -145,21 +202,131 @@ namespace TestServiceWorkerVisualizedScreens
 
             var f = new Form
             {
-                Text = new { data.window_screenLeft, data.window_screenTop }.ToString()
+                // frame0
+                Text = new { data.window_screenLeft, data.window_screenTop }.ToString(),
 
-
+                Left = data.window_screenLeft,
+                Top = data.window_screenTop
 
             };
 
-            f.GetHTMLTarget().AttachTo(desktop);
+            f.GetHTMLTarget().AttachTo(offsetandscale);
 
 
 
-            var c = new IHTMLContent { select = "body" };
-            c.AttachTo(f.GetHTMLTargetContainer());
+            var fcontent = new IHTMLContent { select = "body" };
+            fcontent.AttachTo(f.GetHTMLTargetContainer());
 
 
             f.Show();
+
+
+
+            Action Toggle =
+                delegate
+                {
+                    if (desktop.parentNode == null)
+                    {
+                        // show setup mode again
+                        Native.shadow.replaceChild(
+                            desktop, Native.shadow.firstChild
+                        );
+                    }
+                    else
+                    {
+                        // remove the screen setup mode
+                        desktop.Orphanize();
+                        new IHTMLContent { }.AttachTo(Native.shadow);
+                    }
+                };
+
+            Native.document.onkeyup +=
+               e =>
+               {
+                   // US
+                   if (e.KeyCode == 222)
+                   {
+                       Toggle();
+                   }
+                   // EE
+                   if (e.KeyCode == 192)
+                   {
+                       Toggle();
+                   }
+               };
+
+
+            // keep it up to date
+
+            Native.window.onframe +=
+                delegate
+                {
+
+
+
+                    data.screen_width = Native.screen.width;
+                    data.screen_height = Native.screen.height;
+
+                    //Native.window.aspect,
+
+                    data.window_Width = Native.window.Width;
+                    data.window_Height = Native.window.Height;
+
+                    // where is this window on current screen?
+                    //(Native.window as dynamic).offsetLeft,
+                    //(Native.window as dynamic).offsetTop,
+
+                    data.window_screenLeft = (Native.window as dynamic).screenLeft;
+                    data.window_screenTop = (Native.window as dynamic).screenTop;
+
+
+
+                    // keep it in center
+
+                    offsetandscale.style.transform = "scale(" + ((data.window_Width * 0.5) / (data.screen_width + 200)) + ")";
+
+
+
+                    offsetandscale.style.left = (data.window_Width / 2) + "px";
+                    //offsetandscale.style.top = (Native.window.Height / 2) + "px";
+
+                    // assume our monitors are side by side?
+                    offsetandscale.style.top = (data.window_Height / 4) + "px";
+
+
+                    // what happens if we move to the other monitor?
+                    screen0.style.SetSize(
+                        data.screen_width,
+                        data.screen_height
+                    );
+
+                    if (data.window_screenLeft < -(data.window_Width / 2))
+                    {
+                        // assume we are on the other monitor to the left?
+
+                        screen0.style.SetLocation(
+                           -data.screen_width,
+                           0
+                       );
+                    }
+                    else
+                    {
+                        screen0.style.SetLocation(
+                           0,
+                           0
+                       );
+                    }
+
+                    f.Text = new { data.window_screenLeft, data.window_screenTop }.ToString();
+
+                    f.Left = data.window_screenLeft;
+                    f.Top = data.window_screenTop;
+
+                    f.Width = data.window_Width;
+                    f.Height = data.window_Height;
+
+
+                };
         }
 
     }
