@@ -1,4 +1,4 @@
-#define FCHROME
+//#define FCHROME
 
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
@@ -40,7 +40,7 @@ using HeatZeekerRTS.HTML.Audio.FromAssets;
 //        }
 //    }
 
-    
+
 //}
 
 namespace HeatZeekerRTS
@@ -63,7 +63,7 @@ namespace HeatZeekerRTS
 
 
 
-
+#if FCHROME
             #region ChromeTCPServer
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
@@ -93,6 +93,8 @@ namespace HeatZeekerRTS
                 return;
             }
             #endregion
+#endif
+
 
 
 

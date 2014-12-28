@@ -109,8 +109,8 @@ namespace WebGLHeatZeekerColladaExperiment
             };
             #endregion
 
-
-            new WebGLColladaExperiment.THREE_ColladaAsset(
+            // why isnt it being found?
+            new global::WebGLColladaExperiment.THREE_ColladaAsset(
 
                 // we get purple small thingy
                 "assets/WebGLHeatZeekerColladaExperiment/Promotion3D_daytime.dae"
