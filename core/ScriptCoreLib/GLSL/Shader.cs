@@ -7,6 +7,7 @@ namespace ScriptCoreLib.GLSL
 {
     public partial class Shader
     {
+        // http://msdn.microsoft.com/en-us/library/ie/dn611835(v=vs.85).aspx
         // see also: http://www.opengl.org/sdk/docs/manglsl/
 
         [uniform]

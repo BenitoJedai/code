@@ -76,6 +76,8 @@ namespace WebGLYomotsuTPS
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
+
+#if FCHROME
             #region AtFormCreated
             FormStyler.AtFormCreated =
                  s =>
@@ -106,6 +108,8 @@ namespace WebGLYomotsuTPS
                 return;
             }
             #endregion
+#endif
+
 
             var fov = 40;
 

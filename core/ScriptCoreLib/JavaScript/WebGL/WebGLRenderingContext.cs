@@ -30,6 +30,11 @@ namespace ScriptCoreLib.JavaScript.WebGL
     public class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
     // : WebGLRenderingContextBase
     {
+        // 20141228
+        // cool projects:
+        // http://lo-th.github.io/3d.city/index.html
+        // http://webgl.nu/
+
         // "X:\opensource\android-ndk-r10c\sources\android\ndk_helper\GLContext.cpp"
 
         // when can we do WebGL from a worker?
