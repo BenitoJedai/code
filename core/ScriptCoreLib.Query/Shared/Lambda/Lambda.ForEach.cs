@@ -232,7 +232,9 @@ namespace ScriptCoreLib.Shared.Lambda
 
 		public static BindingListWithEvents<T> WithEvents<T>(this BindingList<T> source)
 		{
-			return new BindingListWithEvents<T>(source);
+            // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerScreens\TestServiceWorkerScreens\Application.cs
+
+            return new BindingListWithEvents<T>(source);
 		}
 
 		public static BindingList<T> ForEachItemDeleted<T>(this BindingList<T> source, Action<T, Action> handler)

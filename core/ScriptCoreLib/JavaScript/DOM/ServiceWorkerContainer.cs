@@ -17,6 +17,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorkerContainer
     {
+        // http://www.w3.org/TR/service-workers/
         // http://www.w3.org/TR/service-workers/#service-worker-obj
         // tested by
         // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
@@ -25,10 +26,13 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://mxr.mozilla.org/mozilla-central/source/dom/workers/ServiceWorkerContainer.h
 
 
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public readonly ServiceWorker installing;
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public readonly ServiceWorker waiting;
         // current ?
 
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public readonly ServiceWorker active;
 
         // X:\jsc.svn\examples\javascript\test\TestServiceWorkerClient\TestServiceWorkerClient\Application.cs
