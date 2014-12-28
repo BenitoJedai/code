@@ -13,6 +13,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public class IHTMLShadow : IHTMLElement<IHTMLShadow>
     {
+        // one is supposed to add elements to shadow
+
+        // X:\jsc.svn\examples\javascript\test\TestServiceWorkerVisualizedScreens\TestServiceWorkerVisualizedScreens\Application.cs
+
         // once template becomes popular AssetsLibrary needs to learn it too
 
         public IHTMLElement[] getDistributedNodes() { return null; }

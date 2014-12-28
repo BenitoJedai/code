@@ -13,6 +13,15 @@ namespace ScriptCoreLib.JavaScript.WebGL
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class WebGL2RenderingContext
     {
+        // http://www.reddit.com/comments/1iy0vj
+        // 2 adds multiple render targets which makes it much more reasonable to bring deferred rendering engines to the web.
+
+        // http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html
+
+        // 20141228
+        // can we have multiscreen HZ on webgl yet?
+        // the internet still does not yet have any examples for webgl2?
+
         // https://wiki.mozilla.org/Platform/GFX/WebGL2
 
         // https://code.google.com/p/chromium/issues/detail?id=295792&q=WebGL2&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified

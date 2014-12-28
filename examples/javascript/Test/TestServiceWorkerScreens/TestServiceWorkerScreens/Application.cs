@@ -65,6 +65,9 @@ namespace TestServiceWorkerScreens
             // based on 
             // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerFetchHTML\TestServiceWorkerFetchHTML\Application.cs
             // X:\jsc.svn\examples\javascript\Test\TestIScreen\TestIScreen\Application.cs
+            // X:\jsc.svn\examples\javascript\test\TestServiceWorkerVisualizedScreens\TestServiceWorkerVisualizedScreens\Application.cs
+            // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerScreens\TestServiceWorkerScreens\Application.cs
+
 
             // what about BroadcastChannel ?
 
@@ -220,6 +223,10 @@ namespace TestServiceWorkerScreens
 
                 window_screenLeft = (Native.window as dynamic).screenLeft,
                 window_screenTop = (Native.window as dynamic).screenTop,
+
+                // if we were to update, mutate this object,
+                // how would we distribute the knowledge?
+                // with sync events?
             };
 
             new IHTMLPre { "lets tell the service, we have opened a new tab. " }.AttachToDocument();
@@ -247,6 +254,21 @@ namespace TestServiceWorkerScreens
                         mdata.screen_height
 
                         } }.AttachToDocument();
+
+
+                    new IStyle(new IHTMLDiv { }.AttachToDocument())
+                    {
+
+                        backgroundColor = "yellow",
+
+                        border = "1px solid blue",
+
+                        width = (0.1 * mdata.window_Width) + "px",
+                        height = (0.1 * mdata.window_Height) + "px",
+
+                        // wont actually help
+                        //transform = "scale(0.1)"
+                    };
 
                     //> { { identity = 256648414, window_screenLeft = 548, window_screenTop = 177, screen_width = 1920, screen_height = 1080 } }
                     //> { { identity = 2132896978, window_screenLeft = -1420, window_screenTop = 271, screen_width = 1600, screen_height = 900 } }
