@@ -29,6 +29,18 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // https://jakearchibald.github.io/isserviceworkerready/
+
+        // ServiceWorker, in contrast, promises to change the way we all develop Web applications. The impact will be significant.
+        // Scripts will be automatically updated every 24 hours, and when the browser re-fetches the main script
+        // http://www.programmableweb.com/news/serviceworker-caching-solution-holds-great-promise/how-to/2014/05/19
+
+        // chrome apps only have https client api
+        // on android tcps server is not yet prototyped too?
+
+        // would service worker
+        // be the one to download/fetch the assetslibary paload?
+
         // service worker could be used
         // to use to sync datasources
         // "X:\jsc.svn\examples\javascript\forms\FormsDualDataSource\FormsDualDataSource.sln"

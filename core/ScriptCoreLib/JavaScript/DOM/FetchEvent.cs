@@ -14,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "FetchEvent")]
     public class FetchEvent : IEvent
     {
+
         // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerFetchHTML\TestServiceWorkerFetchHTML\Application.cs
 
         public readonly Request request;
@@ -29,11 +30,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         // client side web service like activity?
 
         //void respondWith((Response or Promise<Response>) r);
-        
+
         // how can we translate Task to Promise?
         // can we then update jsc to do it automagically?
         // https://chromium.googlesource.com/chromium/blink.git/+/master/Source/modules/serviceworkers/RespondWithObserver.h
         public void respondWith(Response r) { }
+        public void respondWith(IPromise<object> r) { }
     }
 
 }

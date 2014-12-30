@@ -19,7 +19,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
             var x = new TaskCompletionSource<T>();
 
-            z.then(x.SetResult);
+            z.then(y => x.SetResult(y));
 
             return x.Task;
         }

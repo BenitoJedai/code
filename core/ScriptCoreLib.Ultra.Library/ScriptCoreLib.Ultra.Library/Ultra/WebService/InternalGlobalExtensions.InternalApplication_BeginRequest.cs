@@ -213,7 +213,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     var Host = that.Context.Request.Headers["Host"].TakeUntilIfAny(":");
 
-                    var CacheManifest = true;
+                    var CacheManifest = false;
+                    //var CacheManifest = true;
 
                     // should disable that for android webview?
 
@@ -224,6 +225,7 @@ namespace ScriptCoreLib.Ultra.WebService
                     //if ("127.0.0.1" == that.Context.Request.UserHostAddress)
                     //    CacheManifest = false;
 
+                    // X:\jsc.svn\examples\javascript\test\TestServiceWorkerAssetCache\TestServiceWorkerAssetCache\Application.cs
                     app.WriteTo(Write, CacheManifest);
 
                     IsComplete = true;
@@ -656,10 +658,16 @@ namespace ScriptCoreLib.Ultra.WebService
 
             // cache manifest will not be needed
             // after ServiceWorker becomes useful
+            // 20141230
+            // X:\jsc.svn\examples\javascript\test\TestServiceWorkerAssetCache\TestServiceWorkerAssetCache\Application.cs
             #region WriteCacheManifest
             if (Path == "/" + WebApplicationCacheManifest.ManifestName)
             {
-                WriteCacheManifest(g, that, WriteLine);
+                // <html manifest="cache-manifest">
+                //WriteCacheManifest(g, that, WriteLine);
+
+                Context.Response.StatusCode = 404;
+                that.CompleteRequest();
                 return;
             }
             #endregion
