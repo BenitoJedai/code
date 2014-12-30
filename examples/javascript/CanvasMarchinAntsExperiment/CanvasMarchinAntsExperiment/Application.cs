@@ -35,6 +35,8 @@ namespace CanvasMarchinAntsExperiment
             // inspired by
             // http://www.amplifon.co.uk/sounds-of-street-view/how-and-create/index.html
 
+            // 20141230 
+            // wont work anymore?
 
             new CanvasRenderingContext2D(500, 400).With(
                async ctx =>

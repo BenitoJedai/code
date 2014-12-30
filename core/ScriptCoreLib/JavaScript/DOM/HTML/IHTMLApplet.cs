@@ -14,6 +14,23 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 	[Script(InternalConstructor = true)]
 	public class IHTMLApplet : IHTMLElement
 	{
+        // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/shadow/PluginPlaceholderElement.idl
+
+        // 20141230
+        // would be nice if applets would continue their life as PPAPI?
+
+
+        // http://java.com/en/download/faq/chrome.xml
+        // The Java plug-in for web browsers relies on the cross platform plugin architecture NPAPI, 
+        // which has long been, and currently is, supported by all major web browsers. Google announced 
+        // in September 2013 plans to remove NPAPI support from Chrome by "the end of 2014", thus 
+        // effectively dropping support for Silverlight, Java, Facebook Video and other 
+        // similar NPAPI based plugins. Recently, Google has revised their plans and now state 
+        // that they plan to completely remove NPAPI by late 2015. As it is unclear if these dates 
+        // will be further extended or not, we strongly recommend Java users consider 
+        // alternatives to Chrome as soon as possible. Instead, we recommend Firefox, 
+        // Internet Explorer and Safari as longer-term options.
+
 		public string code;
 		public string codebase;
 		public string archive;

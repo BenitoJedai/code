@@ -10,6 +10,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     public partial class IHTMLDocument
     {
+        // any reason to use the icon for the default notification too?
         [Obsolete("experimental")]
         public IHTMLImage icon
         {

@@ -27,6 +27,9 @@ namespace ScriptCoreLib.JavaScript
     // C# 6 shall import this static type and make members available!
     public static partial class Native
     {
+        // http://www.zdnet.com/article/microsoft-is-building-a-new-browser-as-part-of-its-windows-10-push/
+        // http://www.zdnet.com/article/microsoft-ready-to-show-off-windows-10-mobile-sku-on-january-21/
+
         // http://jim.com/security/replacing_TCP.html
         //According google research 400 milliseconds reduces usage by 0.76%, or roughly two percent per second of delay
 
