@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/fetch/WorkerFetch.idl
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/WorkerGlobalScope.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/WorkerGlobalScope.idl
     // http://src.chromium.org/viewvc/blink/trunk/Source/modules/performance/WorkerGlobalScopePerformance.idl
@@ -13,13 +14,20 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class WorkerGlobalScope : IEventTarget
     {
+        // console
+
+
+
         // X:\jsc.svn\examples\javascript\test\TestServiceWorkerAssetCache\TestServiceWorkerAssetCache\Application.cs
         // https://fetch.spec.whatwg.org/#dom-global-fetch
         //[NewObject] Promise<Response> fetch(RequestInfo input, optional RequestInit init);
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\FetchEvent.cs
         // https://code.google.com/p/chromium/issues/detail?id=408041
-        // http://src.chromium.org/viewvc/blink/trunk/Source/modules/fetch/WorkerFetch.idl
+        // 20141230/ can we get some ProgressEvent s?
+        // https://code.google.com/p/chromium/issues/detail?id=445583
         public IPromise<Response> fetch(object input) { return null; }
+
+        // http://src.chromium.org/viewvc/blink/trunk/Source/core/xmlhttprequest/XMLHttpRequestProgressEvent.idl
 
 
         public Crypto crypto;
@@ -102,6 +110,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // http://www.infoq.com/news/2010/02/Web-SQL-Database
         // what about service worker?
+        // tested by?
         public Database openDatabase(
             string name = "database.sqlite",
             string version = "1.0",

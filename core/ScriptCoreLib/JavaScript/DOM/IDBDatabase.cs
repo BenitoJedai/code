@@ -6,6 +6,9 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://www.w3.org/TR/IndexedDB/
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/indexeddb/WindowIndexedDatabase.idl
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/indexeddb/IDBDatabase.idl
+
     [Script(HasNoPrototype = true)]
     public class IDBDatabase
     {

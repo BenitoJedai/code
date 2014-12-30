@@ -12,6 +12,9 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "SharedWorker")]
     public class SharedWorker : IEventTarget
     {
+
+
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141102
         // X:\jsc.svn\core\ScriptCoreLib\ActionScript\flash\system\Worker.cs
 

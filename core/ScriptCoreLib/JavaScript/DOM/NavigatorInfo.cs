@@ -18,6 +18,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public partial class NavigatorInfo
     {
+        // http://src.chromium.org/viewvc/blink/trunk/Source/modules/credentialmanager/NavigatorCredentials.idl
+
         // http://w3c.github.io/netinfo/
         public INetworkInformation connection;
 
