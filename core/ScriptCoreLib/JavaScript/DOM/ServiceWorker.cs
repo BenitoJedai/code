@@ -26,9 +26,15 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     // Enabled by default 40
     [Script(HasNoPrototype = true, ExternalTarget = "ServiceWorker")]
-    [Obsolete("experimental")]
+    //[Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // Pages using SSL can be sure that only pages using SSL that have certificates identifying them as being from the same domain can access their databases.
+
+        // back in the days, gears plugin allowed to go offline
+
+        // http://sssslide.com/www.slideshare.net/cwdoh/serviceworker-new-game-changer-is-coming
+
         // https://jakearchibald.github.io/isserviceworkerready/
 
         // ServiceWorker, in contrast, promises to change the way we all develop Web applications. The impact will be significant.

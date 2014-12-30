@@ -10,6 +10,7 @@ namespace android.app
 {
     // http://developer.android.com/reference/android/app/Notification.html
     // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/app/Notification.java
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\Notification.cs
 
     [Script(IsNative = true)]
     public class Notification

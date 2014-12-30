@@ -11,6 +11,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/ServiceWorkerGlobalScope.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/modules/serviceworkers/ServiceWorkerGlobalScope.idl
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/notifications/ServiceWorkerGlobalScopeNotifications.idl
+
+
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\ServiceWorker.cs
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\DedicatedWorkerGlobalScope.cs
 
@@ -83,6 +86,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         #region event oninstall
+        // http://src.chromium.org/viewvc/blink/trunk/Source/modules/serviceworkers/InstallEvent.idl
         // X:\jsc.svn\examples\javascript\test\TestServiceWorkerAssetCache\TestServiceWorkerAssetCache\Application.cs
         public event System.Action<IEvent> oninstall
         {

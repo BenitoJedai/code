@@ -9,6 +9,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IDBDatabase
     {
+        // webSQL not available in service worker?
+
         // http://developer.samsung.com/events/developer-blog/blog/Tutorial-Advanced-Gear2-Database-Development
 
         // tested by?

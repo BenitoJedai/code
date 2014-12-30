@@ -9,7 +9,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     // X:\jsc.svn\examples\javascript\Test\TestServiceWorker\TestServiceWorker\Application.cs
     // http://www.w3.org/TR/service-workers/#service-worker-client-interface
     // http://src.chromium.org/viewvc/blink/trunk/Source/modules/serviceworkers/ServiceWorkerClient.idl
-
+    
     [Script(HasNoPrototype = true, ExternalTarget = "ServiceWorkerClient")]
     public class ServiceWorkerClient
     {
