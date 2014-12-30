@@ -29,6 +29,13 @@ namespace ScriptCoreLib.JavaScript.DOM
     //[Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API
+
+
+
+        // would jsc be able to
+        // package assets and unpack unto the client?
+
         // Pages using SSL can be sure that only pages using SSL that have certificates identifying them as being from the same domain can access their databases.
 
         // back in the days, gears plugin allowed to go offline

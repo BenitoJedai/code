@@ -17,6 +17,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     partial class IWindow
     {
+        // http://caniuse.com/#search=sql-storage
+        // The Web SQL Database specification is no longer being maintained and support may be dropped in future versions.
+
         // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\android\database\sqlite\SQLiteDatabase.cs
 
         // https://code.google.com/p/dart/source/browse/third_party/WebCore/modules/webdatabase/WindowWebDatabase.idl?r=26952

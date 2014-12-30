@@ -18,6 +18,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     // http://www.devguru.com/Technologies/xmldom/quickref/obj_httpRequest.html
     // http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
+
+
+    // defunct http://www.w3.org/TR/XMLHttpRequest2/
+    // https://xhr.spec.whatwg.org/
+
     [Script(InternalConstructor = true)]
     public partial class IXMLHttpRequest : IEventTarget
     {

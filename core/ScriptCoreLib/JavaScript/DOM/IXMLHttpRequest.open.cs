@@ -50,9 +50,11 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
     }
 
+    [Obsolete("handled by service worker onfetch?")]
     [Script]
     public class IXMLHttpRequestActivity
     {
+        
         // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\Templates\JavaScript\InternalWebMethodRequest.cs
 
         public IXMLHttpRequest request;
