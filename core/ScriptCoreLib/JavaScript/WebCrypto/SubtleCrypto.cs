@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -17,7 +18,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://ceur-ws.org/Vol-1011/2.pdf
 
         // https://speakerdeck.com/ttaubert/keeping-secrets-with-javascript-an-introduction-to-the-webcrypto-api
-        
+
         // http://research.microsoft.com/en-us/downloads/29f9385d-da4c-479a-b2ea-2a7bb335d727/default.aspx
 
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1020598
@@ -157,9 +158,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             var promise = that.generateKey(algorithm, extractable, keyUsages);
 
             // we are taking a delegate of a BCL function, and then converting it to IFunction! nice.
-            promise.then(x.SetResult);
 
-            return x.Task;
+            return promise.AsTask();
         }
 
         // what an ugly name. keep it?

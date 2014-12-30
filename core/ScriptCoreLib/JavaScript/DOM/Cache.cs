@@ -6,8 +6,8 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#cache-objects
-    [Script(HasNoPrototype = true, ExternalTarget = "CacheStorage")]
-    public class CacheStorage
+    [Script(HasNoPrototype = true, ExternalTarget = "Cache")]
+    public class Cache
     {
         // https://code.google.com/p/chromium/issues/detail?id=425426
 
@@ -16,21 +16,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         // https://jakearchibald.github.io/isserviceworkerready/
         // Only available within ServiceWorkers
 
-        public IPromise<Response> match(object request)
-        {
-            return null;
-        }
+        [Obsolete("not yet available")]
+        public IPromise addAll(params string[] requests) { return null; }
 
-        public IPromise<Cache> open(string cacheName)
-        {
-            // X:\jsc.svn\examples\javascript\test\TestServiceWorkerAssetCache\TestServiceWorkerAssetCache\Application.cs
 
-            return null;
-        }
 
-        public IPromise<string[]> keys()
-        {
-            return null;
-        }
+        // X:\jsc.svn\examples\javascript\test\TestServiceWorkerAssetCache\TestServiceWorkerAssetCache\Application.cs
+        public IPromise<object> put(Request request, Response response) { return null; }
     }
 }

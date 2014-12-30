@@ -11,6 +11,13 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class WorkerGlobalScope : IEventTarget
     {
+        // X:\jsc.svn\examples\javascript\test\TestServiceWorkerAssetCache\TestServiceWorkerAssetCache\Application.cs
+        // https://fetch.spec.whatwg.org/#dom-global-fetch
+        //[NewObject] Promise<Response> fetch(RequestInfo input, optional RequestInit init);
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\FetchEvent.cs
+        // https://code.google.com/p/chromium/issues/detail?id=408041
+        public IPromise<Response> fetch(object input) { return null; }
+
 
         public Crypto crypto;
         // http://src.chromium.org/viewvc/blink/trunk/Source/modules/crypto/Crypto.idl

@@ -42,6 +42,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         // X:\jsc.svn\examples\javascript\Test\TestCacheStorage\TestCacheStorage\Application.cs
         public readonly CacheStorage caches;
 
+        // https://github.com/slightlyoff/BackgroundSync/blob/master/explainer.md
+
         // tested by?
 
         // The event.source of these MessageEvents are instances of ServiceWorkerClient.
@@ -75,6 +77,24 @@ namespace ScriptCoreLib.JavaScript.DOM
             remove
             {
                 base.InternalEvent(false, value, "fetch");
+            }
+        }
+        #endregion
+
+
+        #region event oninstall
+        // X:\jsc.svn\examples\javascript\test\TestServiceWorkerAssetCache\TestServiceWorkerAssetCache\Application.cs
+        public event System.Action<IEvent> oninstall
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "install");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "install");
             }
         }
         #endregion

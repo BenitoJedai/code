@@ -40,6 +40,29 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
+        //public IPromise<TResult> then<TResult>(Func<T, TResult> onSuccess)
+        //{
+        //    // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
+        //    // X:\jsc.svn\examples\javascript\test\TestServiceWorkerAssetCache\TestServiceWorkerAssetCache\Application.cs
+
+        //    return null;
+        //}
+
+        // what if different types objects are to be returned? 
+        public IPromise<object> then(Func<T, object> onSuccess)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
+            // X:\jsc.svn\examples\javascript\test\TestServiceWorkerAssetCache\TestServiceWorkerAssetCache\Application.cs
+
+            return null;
+        }
+
+
+        public IPromise<object> then(Func<T, object> onSuccess, Func<T, object> onError)
+        {
+            return null;
+        }
+
         public void then(Action<T> onSuccess, Action<object> onError)
         {
 

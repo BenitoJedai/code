@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "EventSource")]
     public class EventSource : IEventTarget
     {
+        // http://w3c.github.io/push-api/
+
         // tested by?
         // what about service worker?
         // will event source be the push api?

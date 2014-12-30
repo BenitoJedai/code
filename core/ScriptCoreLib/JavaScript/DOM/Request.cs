@@ -13,7 +13,13 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "Request")]
     public class Request
     {
+        // TypeError: Request method 'POST' is unsupported
+        // POST cannot be cached
+        public readonly string method;
+
+
         public readonly string url;
+
         [Obsolete("not available yet?")]
         public readonly string context;
     }
