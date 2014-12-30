@@ -7,6 +7,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     // X:\jsc.svn\examples\javascript\Test\TestServiceWorker\TestServiceWorker\Application.cs
     // http://www.w3.org/TR/service-workers/#fetch-event-interface
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/serviceworkers/FetchEvent.idl
     // https://chromium.googlesource.com/chromium/blink.git/+/master/Source/modules/serviceworkers/FetchEvent.h
     // X:\jsc.svn\examples\javascript\test\TestServiceWorkerClient\TestServiceWorkerClient\Application.cs
 
@@ -14,6 +15,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "FetchEvent")]
     public class FetchEvent : IEvent
     {
+        // https://developer.mozilla.org/en-US/docs/Web/API/ExtendableEvent
 
         // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerFetchHTML\TestServiceWorkerFetchHTML\Application.cs
 

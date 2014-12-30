@@ -6,6 +6,8 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#cache-objects
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/serviceworkers/CacheStorage.idl
+
     [Script(HasNoPrototype = true, ExternalTarget = "CacheStorage")]
     public class CacheStorage
     {
