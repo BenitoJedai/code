@@ -19,6 +19,10 @@ namespace android.app
     [Script(IsNative = true)]
     public class NativeActivity : Activity
     {
+        // NASA's Johnson Space Center (JSC) in Houston, Texas, is home to the agency's Virtual Reality Lab
+        // http://gizmodo.com/the-nasa-playground-that-takes-virtual-reality-to-a-who-1658637427
+
+
         // X:\jsc.svn\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\SystemHeaders\android\native_activity.cs
 
         // https://sourcex.wordpress.com/2013/11/12/art-runtime-for-kitkat-4-4-explained/

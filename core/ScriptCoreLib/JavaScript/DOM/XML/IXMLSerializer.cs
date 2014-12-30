@@ -14,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM.XML
     /// </summary>
     /// <typeparam name="TRoot"></typeparam>
     [Script]
+    [Obsolete]
     public class IXMLSerializer<TRoot>
         where TRoot : class, new()
     {

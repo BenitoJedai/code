@@ -10,6 +10,9 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public class INetworkInformation
     {
+        // http://global.samsungtomorrow.com/samsung-electronics-launches-the-worlds-first-lte-advanced-tri-band-carrier-aggregation-smartphone/
+        // New technology delivers download speeds of 300Mbps,
+
         // tested by?
         // X:\jsc.svn\examples\javascript\Test\TestDownlinkMax\TestDownlinkMax\Application.cs
 
