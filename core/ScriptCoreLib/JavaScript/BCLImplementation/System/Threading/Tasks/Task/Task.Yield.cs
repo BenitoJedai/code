@@ -21,6 +21,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         [Obsolete("Task.Yield is not correctly working. workaround Task.Delay")]
         public static __YieldAwaitable Yield()
         {
+            // "X:\jsc.svn\examples\rewrite\async\Test453Async\Test453Async.sln"
 
             // x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
 

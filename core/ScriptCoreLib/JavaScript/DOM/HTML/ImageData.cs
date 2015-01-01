@@ -14,10 +14,15 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(HasNoPrototype = true)]
     public class ImageData
     {
+        // available for service workers?
+
+
+
         // http://www.khronos.org/registry/typedarray/specs/latest/
         //public readonly CanvasPixelArray data;
 
         // namespace issues. typed array to be moved to where?
+        // is jsc using byte[] now as an alias?
         public readonly Uint8ClampedArray data;
 
 
