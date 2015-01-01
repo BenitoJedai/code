@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
     [Script(HasNoPrototype = true)]
     public class WebGLShader
     {
+        // http://webglreport.com/
+
         // WebGL 1.0 supports tokens up to 256 characters in length. WebGL 2.0 follows The OpenGL ES Shading Language,
         // Version 3.00 (OpenGL ES 3.0.3 §3.8) and allows tokens up to 1024 characters in length. 
         // Shaders containing tokens longer than 1024 characters must fail to compile.
