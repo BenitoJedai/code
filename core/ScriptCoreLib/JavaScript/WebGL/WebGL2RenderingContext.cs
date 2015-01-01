@@ -13,6 +13,11 @@ namespace ScriptCoreLib.JavaScript.WebGL
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class WebGL2RenderingContext
     {
+        
+        // http://en.wikipedia.org/wiki/Metaverse
+        // https://wemo.io/google-chrome-and-the-future-of-virtual-reality-interview-with-531
+        // http://gamedev.stackexchange.com/questions/62164/opengl-what-are-the-adoption-rates-of-the-various-versions-and-whats-a-reason
+
         // http://www.reddit.com/comments/1iy0vj
         // 2 adds multiple render targets which makes it much more reasonable to bring deferred rendering engines to the web.
 

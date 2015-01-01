@@ -86,19 +86,28 @@ namespace TestShadowDOM
             new IHTMLElement("foo-bar").AttachToDocument();
 
 
+            // Show Details	Severity	Code	Description	Project	File	Line
+            //Error CS1660  Cannot convert lambda expression to type 'object' because it is not a delegate type TestShadowDOM   Application.cs  91
 
-            Native.document.registerElement("z-z",
-                async e =>
+            // public IFunction registerElement<TElement>(string name, Action<TElement> createdCallback, Action<string, TElement> attributeChangedCallback = null) where TElement : IHTMLElement;
+
+            Native.document.registerElement(
+                name: "z-z",
+
+                createdCallback:
+                //async 
+                (IHTMLElement e) =>
                 {
                     e.innerText = "z-z";
 
-                    await e.async.onmouseover;
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/20150101/async
+                    //await e.async.onmouseover;
 
-                    e.style.color = "blue";
+                    //e.style.color = "blue";
 
-                    await e.async.onclick;
+                    //await e.async.onclick;
 
-                    e.style.color = "red";
+                    //e.style.color = "red";
                 }
             );
 
