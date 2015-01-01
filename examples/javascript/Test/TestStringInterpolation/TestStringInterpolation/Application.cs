@@ -13,11 +13,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TestAsyncMouseOver;
-using TestAsyncMouseOver.Design;
-using TestAsyncMouseOver.HTML.Pages;
+using TestStringInterpolation;
+using TestStringInterpolation.Design;
+using TestStringInterpolation.HTML.Pages;
 
-namespace TestAsyncMouseOver
+namespace TestStringInterpolation
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -30,24 +30,12 @@ namespace TestAsyncMouseOver
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            // whats the references/ analyzers/ ?
-            // X:\jsc.svn\examples\javascript\async\Test\Test453Async\Test453Async\Program.cs
 
-            new { }.With(
-                async scope =>
-                {
-                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/20150101/async
+            //new IHTMLPre {  $"" }.AttachToDocument();
+            // looks like cshtml?
+            // http://davefancher.com/2014/12/04/c-6-0-string-interpolation/
 
-                    Native.css.style.backgroundColor = "yellow";
-
-                    //await Native.document.onmouseover;
-                    //await Native.document.async.onm;
-                    await Native.document.body.async.onmouseover;
-
-                    Native.css.style.backgroundColor = "cyan";
-
-                }
-            );
+            new IHTMLPre { "pre: \{this.Field1}" }.AttachToDocument();
 
         }
 
