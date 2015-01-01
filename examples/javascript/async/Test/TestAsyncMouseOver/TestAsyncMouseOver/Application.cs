@@ -36,6 +36,7 @@ namespace TestAsyncMouseOver
             new { }.With(
                 async scope =>
                 {
+                    // works with 2012 web update4, not with 2013, not with 2015?
                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/20150101/async
 
                     Native.css.style.backgroundColor = "yellow";

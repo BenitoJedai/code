@@ -18,6 +18,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
     internal partial class __Task
     {
+        //// STAThread changes Task.Yield
+        //[STAThread]
+
         [Obsolete("Task.Yield is not correctly working. workaround Task.Delay")]
         public static __YieldAwaitable Yield()
         {
@@ -27,6 +30,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             // X:\jsc.svn\examples\javascript\Test\TestAsyncAssignArrayToEnumerable\TestAsyncAssignArrayToEnumerable\Application.cs
             // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRAsync\TestJVMCLRAsync\Program.cs
+
+
 
             return new __YieldAwaitable { };
         }
