@@ -30,10 +30,15 @@ namespace TestStringInterpolation
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // http://davefancher.com/2014/11/19/fun-with-code-diagnostic-analyzers/
 
             //new IHTMLPre {  $"" }.AttachToDocument();
             // looks like cshtml?
             // http://davefancher.com/2014/12/04/c-6-0-string-interpolation/
+            // http://roslyn.codeplex.com/discussions/570292
+            // where are xml literals?
+            //var x = <xml />
+            // http://roslyn.codeplex.com/workitem/328
 
             new IHTMLPre { "pre: \{this.Field1}" }.AttachToDocument();
 
