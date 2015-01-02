@@ -15,6 +15,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
+        // http://www.dotnetfoundation.org/netcore5
+        // .NET Core has two major components. It includes a small runtime that is built from the same codebase as the .NET Framework CLR. 
+        // The .NET Core runtime includes the same GC and JIT (RyuJIT), but doesn’t include features like Application Domains or Code Access Security. 
+        // The runtime is delivered on NuGet, via the Microsoft.CoreCLR package.
+
         // http://ask.slashdot.org/story/14/12/20/2331202/ask-slashdot-is-an-open-source-net-up-to-the-job
         // Of late, .NET Native is an interesting piece of tech that precompiles .NET apps using VC++ compiler backend. 
         // When you are offering a system that can fire up nodes and destroy them dynamically and on-demand, its just not worth it to 
