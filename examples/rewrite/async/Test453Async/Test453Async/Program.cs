@@ -35,12 +35,12 @@ namespace Test453Async
         static void Main(string[] args)
         {
             Debugger.Launch();
-            Debugger.Break();
+            //Debugger.Break();
 
 
             Method1();
 
-            Thread.Yield();
+            //Thread.Yield();
 
 
 
