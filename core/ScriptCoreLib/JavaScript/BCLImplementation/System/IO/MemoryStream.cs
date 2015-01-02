@@ -10,7 +10,8 @@ using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
     // http://referencesource.microsoft.com/#mscorlib/system/io/memorystream.cs
-    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/corlib/System.IO/MemoryStream.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.IO/MemoryStream.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/IO/MemoryStream.cs
 
     [Script(Implements = typeof(global::System.IO.MemoryStream))]
     internal class __MemoryStream : __Stream

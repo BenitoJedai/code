@@ -6,6 +6,10 @@ using System.IO;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/io/binarywriter.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.IO/BinaryWriter.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/IO/BinaryWriter.cs
+
 	[Script(Implements = typeof(global::System.IO.BinaryWriter))]
 	internal class __BinaryWriter : IDisposable
 	{

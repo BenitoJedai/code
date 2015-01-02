@@ -6,6 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
     // http://referencesource.microsoft.com/#mscorlib/system/reflection/methodbase.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/MethodBase.cs
 
     [Script(Implements = typeof(global::System.Reflection.MethodBase))]
     public abstract class __MethodBase : __MemberInfo

@@ -12,6 +12,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
         public string FullName;
     }
 
+    // .Shared?
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/AssemblyName.cs
+
     [Script(Implements = typeof(global::System.Reflection.AssemblyName))]
     public sealed class __AssemblyName
     {

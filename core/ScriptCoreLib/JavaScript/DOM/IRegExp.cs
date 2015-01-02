@@ -3,11 +3,13 @@ using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    /// <summary>
     /// http://www.cuneytyilmaz.com/prog/jrx/
     /// http://www.regular-expressions.info/examples.html
     /// http://www.regular-expressions.info/javascriptexample.html
-    /// </summary>
+    
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/Microsoft/LiveLabs/JavaScript/JSRegExp.cs
+
+
     [Script(InternalConstructor=true)]
     public class IRegExp
     {

@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/threading/thread.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading/Thread.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Threading/Thread.cs
 
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs
     // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Threading\Thread.cs
@@ -18,6 +19,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
+        // can we make threads from service workers?
+
         // "C:\Program Files (x86)\SketchUp\SketchUp 2014\Tools\RubyStdLib\thread.rb"
         // X:\jsc.svn\examples\c\Test\TestThreadStart\TestThreadStart\BCLImplementation.cs
         // tested by x:\jsc.svn\examples\javascript\Test\TestThreadStartAsWebWorker\TestThreadStartAsWebWorker\Application.cs

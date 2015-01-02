@@ -9,6 +9,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
     // http://referencesource.microsoft.com/#mscorlib/system/io/binaryreader.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.IO/BinaryReader.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/IO/BinaryReader.cs
+
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\BinaryReader.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\BinaryReader.cs
     // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\IO\BinaryReader.cs

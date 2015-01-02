@@ -6,6 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
     // http://referencesource.microsoft.com/#mscorlib/system/reflection/parameterinfo.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/ParameterInfo.cs
 
     [Script(Implements = typeof(global::System.Reflection.ParameterInfo))]
     public class __ParameterInfo

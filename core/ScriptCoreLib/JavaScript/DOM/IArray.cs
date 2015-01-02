@@ -7,6 +7,8 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/Microsoft/LiveLabs/JavaScript/JSArray%601.cs
+
     [Script(HasNoPrototype = true, InternalConstructor=true)]
     public class IArray<TItem>
     {

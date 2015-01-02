@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/Microsoft/LiveLabs/JavaScript/JSError.cs
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/DOMError.idl
 
     // http://www.w3.org/TR/domcore/#domexception

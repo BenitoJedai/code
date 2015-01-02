@@ -7,6 +7,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
     // http://referencesource.microsoft.com/#mscorlib/system/reflection/propertyinfo.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Reflection/PropertyInfo.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/PropertyInfo.cs
+
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\PropertyInfo.cs
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Reflection\PropertyInfo.cs
 

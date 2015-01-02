@@ -6,7 +6,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/threading/monitor.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading/Monitor.cs
-
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Threading/Monitor.cs
 
     [Script(Implements = typeof(global::System.Threading.Monitor))]
     internal class __Monitor

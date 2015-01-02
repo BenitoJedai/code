@@ -7,6 +7,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     using ScriptCoreLib.JavaScript.Runtime;
 
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/UInt64.cs
+
     [Script(Implements = typeof(global::System.UInt64))]
     internal class __UInt64
     {
