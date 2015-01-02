@@ -8,6 +8,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
     // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/TaskScheduler.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading.Tasks/TaskScheduler.cs
+    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/threading/Tasks/TaskScheduler.cs
 
     [Script(Implements = typeof(global::System.Threading.Tasks.TaskScheduler))]
     internal class __TaskScheduler

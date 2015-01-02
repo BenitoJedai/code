@@ -7,10 +7,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
     // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/TaskCompletionSource.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading.Tasks/TaskCompletionSource.cs
+    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/threading/Tasks/TaskCompletionSource.cs
 
     [Script(Implements = typeof(global::System.Threading.Tasks.TaskCompletionSource<>))]
     internal class __TaskCompletionSource<TResult>
     {
+        // X:\jsc.svn\examples\javascript\async\Test\TestCompletedTask\TestCompletedTask\Application.cs
+
         // http://stackoverflow.com/questions/15316613/real-life-scenarios-for-using-taskcompletionsourcet
 
         public __Task<TResult> InternalTask;
