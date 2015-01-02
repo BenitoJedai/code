@@ -20,6 +20,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
     [Obsolete("this shall also work for AIR? what about web workers?")]
     public abstract class InternalWebMethodRequest
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150102
         // used by the compiler!
 
 
@@ -297,6 +298,9 @@ namespace ScriptCoreLib.JavaScript.Remoting
         // called by Invoke
         public void Complete(byte[] r, WebClient c)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150102
+            // fails for roslyn? or is the rewriter doing something it should not?
+
             if (r == null)
             {
                 Console.WriteLine("InternalWebMethodRequest.Complete r is null. why?");
