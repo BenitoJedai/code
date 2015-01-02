@@ -30,6 +30,12 @@ namespace ScriptCoreLib.JavaScript.WebGL
     public class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
     // : WebGLRenderingContextBase
     {
+        // http://support.apple.com/en-us/HT4623
+        // http://toucharcade.com/2014/09/18/ios-8-webgl-demo-quake-iii/
+        // ipad2 should support webgl too!
+        // http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html#comment-form
+
+
         // 20141228
         // cool projects:
         // http://lo-th.github.io/3d.city/index.html
