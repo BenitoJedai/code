@@ -233,8 +233,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
 
 
-                p1.InternalClientSizeChanged();
-                p2.InternalClientSizeChanged();
+                p1.InternalClientSizeChanged0();
+                p2.InternalClientSizeChanged0();
             };
 
 

@@ -18,6 +18,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnection")]
     public class __SQLiteConnection : __DbConnection
     {
+        // http://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/6027593-native-support-sqlite-in-visual-studio
+
         // Association between a client request and a database record needs to be part of the security system. It should not something each web page developer is expected to build on top of the security system. 
         // http://jim.com/security/replacing_TCP.html
 

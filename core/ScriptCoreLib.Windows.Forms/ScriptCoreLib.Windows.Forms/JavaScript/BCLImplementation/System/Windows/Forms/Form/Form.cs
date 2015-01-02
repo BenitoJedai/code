@@ -495,7 +495,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         this.HTMLTarget.requestAnimationFrame +=
                             delegate
                             {
-                                InternalClientSizeChanged();
+                                InternalClientSizeChanged0();
                             };
                         #endregion
                     }
@@ -601,7 +601,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                        if (!anitimer_Enabled)
                                            return;
 
-                                       InternalClientSizeChanged();
+                                       InternalClientSizeChanged0();
                                    };
                             }
                         }
@@ -632,7 +632,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             onresize =
                                 delegate
                                 {
-                                    InternalClientSizeChanged();
+                                    InternalClientSizeChanged0();
 
 
                                     if (this.WindowState == FormWindowState.Maximized)
@@ -645,7 +645,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                             Native.window.onresize += onresize;
 
-                            InternalClientSizeChanged();
+                            InternalClientSizeChanged0();
 
                             //Console.WriteLine("set_WindowState requestFullscreen");
                             //Native.Document.body.requestFullscreen();
