@@ -6,6 +6,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 {
     // http://referencesource.microsoft.com/#mscorlib/system/text/stringbuilder.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Text/StringBuilder.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Text/StringBuilder.cs
+
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Text\StringBuilder.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Text\StringBuilder.cs
     // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Text\StringBuilder.cs

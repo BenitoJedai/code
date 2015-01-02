@@ -2,6 +2,8 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/Microsoft/LiveLabs/JavaScript/JSMath.cs
+
     [Script(HasNoPrototype = true)]
     public partial class IMath
     {

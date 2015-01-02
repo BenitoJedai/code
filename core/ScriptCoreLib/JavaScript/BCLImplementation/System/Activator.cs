@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Activator.cs
     // http://referencesource.microsoft.com/#mscorlib/system/activator.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Activator.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Activator.cs
 
 
     // X:\opensource\github\SaltarelleCompiler\Runtime\CoreLib\Activator.cs

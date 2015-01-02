@@ -19,6 +19,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
 
     // http://referencesource.microsoft.com/#mscorlib/system/reflection/assembly.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/Assembly.cs
 
     [Script(Implements = typeof(global::System.Reflection.Assembly))]
     public class __Assembly
@@ -43,6 +44,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
             return x;
         }
 
+        // tested by ?
         public static __Assembly Load(AssemblyName assemblyRef)
         {
             var x = (__AssemblyName)(object)assemblyRef;

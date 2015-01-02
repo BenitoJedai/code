@@ -12,9 +12,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Object.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Object.cs
 
+
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
+        // http://channel9.msdn.com/Blogs/Charles/From-the-Archives-Erik-Meijer-and-Mark-Shields-Compiling-MSIL-to-JS
+        // http://channel9.msdn.com/Forums/Coffeehouse/Volta-Dead-or-Alive
+
         // http://www.dotnetfoundation.org/netcore5
         // .NET Core has two major components. It includes a small runtime that is built from the same codebase as the .NET Framework CLR. 
         // The .NET Core runtime includes the same GC and JIT (RyuJIT), but doesn’t include features like Application Domains or Code Access Security. 

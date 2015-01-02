@@ -12,6 +12,9 @@ namespace ScriptCoreLib.JavaScript.WebGL
     [Script(HasNoPrototype = true)]
     public class WebGLShader
     {
+        //  Creating and destroying GPU resources is one of the slowest things you can do on a per frame basis. 
+        // https://jeremiahmorrill.wordpress.com/2011/02/14/a-critical-deep-dive-into-the-wpf-rendering-system/
+
         // http://webglreport.com/
 
         // WebGL 1.0 supports tokens up to 256 characters in length. WebGL 2.0 follows The OpenGL ES Shading Language,

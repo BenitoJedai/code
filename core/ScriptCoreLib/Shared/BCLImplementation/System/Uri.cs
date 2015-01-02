@@ -6,6 +6,8 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#System/net/System/URI.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/System/System/Uri.cs
+
     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20120-1/20120817-uri
 
     [Script(Implements = typeof(global::System.Uri))]

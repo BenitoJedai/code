@@ -9,6 +9,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
     // http://referencesource.microsoft.com/#System/compmod/system/collections/generic/queue.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/System/System/Collections/Generic/Queue%601.cs
 
     [Script(Implements = typeof(Queue<>))]
     internal class __Queue<T> : IEnumerable<T>, ICollection, IEnumerable

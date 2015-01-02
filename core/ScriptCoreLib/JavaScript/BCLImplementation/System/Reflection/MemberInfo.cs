@@ -5,6 +5,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
     // http://referencesource.microsoft.com/#mscorlib/system/reflection/memberinfo.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/MemberInfo.cs
 
     [Script(Implements = typeof(global::System.Reflection.MemberInfo))]
     public abstract class __MemberInfo
