@@ -16,6 +16,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLDivElement.idl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLDivElement.idl
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/Div.cs
+
     // like span, only operators?
 
     [Script(InternalConstructor = true)]

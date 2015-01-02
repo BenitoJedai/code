@@ -7,6 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/DataTransfer.webidl
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/DataTransfer.cs
 
     // inferred from Redux
     [Script(HasNoPrototype = true)]

@@ -5,6 +5,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/runtimehandles.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/RuntimeTypeHandle.cs
 
     [Script(Implements = typeof(global::System.RuntimeTypeHandle))]
     public sealed class __RuntimeTypeHandle

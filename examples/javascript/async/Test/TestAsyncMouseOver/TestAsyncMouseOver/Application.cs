@@ -40,6 +40,8 @@ namespace TestAsyncMouseOver
             new { }.With(
                 async scope =>
                 {
+                    // http://www.slideshare.net/RyanAnklam/rethink-async-with-rxjs
+
                     // works with 2012 web update4, with 2015
                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/20150101/async
 

@@ -7,6 +7,8 @@ using ScriptCoreLib.JavaScript.WebGL;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/intptr.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/IntPtr.cs
+
     // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\IntPtr.cs
     // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\IntPtr.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IntPtr.cs
@@ -14,6 +16,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.IntPtr))]
     internal class __IntPtr
     {
+        // can we share
+        // void* between service worker and ui?
+
+
         // tested by
         // X:\jsc.svn\core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing\JavaScript\BCLImplementation\System\Drawing\Bitmap.cs
         // X:\jsc.svn\examples\javascript\forms\MandelbrotFormsControl\MandelbrotFormsControl\Application.cs

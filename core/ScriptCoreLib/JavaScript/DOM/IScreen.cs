@@ -5,6 +5,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Screen.webidl
     // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/Screen/
     // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/Screen.idl
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/Screen.cs
 
     [Script(HasNoPrototype = true)]
     public class IScreen
