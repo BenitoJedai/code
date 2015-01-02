@@ -13,17 +13,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TestStringInterpolation;
-using TestStringInterpolation.Design;
-using TestStringInterpolation.HTML.Pages;
+using TestXStringInterpolation;
+using TestXStringInterpolation.Design;
+using TestXStringInterpolation.HTML.Pages;
 
-namespace TestStringInterpolation
+namespace TestXStringInterpolation
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -41,8 +42,11 @@ namespace TestStringInterpolation
             //var x = <xml />
             // http://roslyn.codeplex.com/workitem/328
 
-            new IHTMLPre { "pre: \{this.Field1}" }.AttachToDocument();
+            //new IHTMLDiv { new XElement("b", "bold text") }.AttachToDocument();
 
+            var text = new { goo = "hello world" };
+
+            new XElement("b", "bold \{text.goo}").AttachToDocument();
         }
 
     }
