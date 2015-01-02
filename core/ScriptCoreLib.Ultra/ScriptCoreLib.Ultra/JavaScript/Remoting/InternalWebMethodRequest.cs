@@ -298,6 +298,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
         // called by Invoke
         public void Complete(byte[] r, WebClient c)
         {
+            // X:\jsc.svn\examples\rewrite\Test\Test453If\Test453If\Program.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150102
             // fails for roslyn? or is the rewriter doing something it should not?
 
@@ -306,6 +307,9 @@ namespace ScriptCoreLib.JavaScript.Remoting
                 Console.WriteLine("InternalWebMethodRequest.Complete r is null. why?");
             }
 
+
+
+//#if FPOPERROR
             // http://stackoverflow.com/questions/3574659/how-to-get-status-code-from-webclient
 
             // were we getting 204 or 304?
@@ -393,7 +397,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
                 return;
             }
 
-
+            //what about service worker?
             var xml = XElement.Parse(
                 Encoding.UTF8.GetString(r)
             );
@@ -441,7 +445,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
                 //}
             }
-
+//#endif
         }
 
 
