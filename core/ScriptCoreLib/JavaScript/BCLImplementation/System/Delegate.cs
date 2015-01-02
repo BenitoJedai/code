@@ -9,6 +9,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/delegate.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Delegate.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Delegate.cs
+
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Delegate.cs
     // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Delegate.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Delegate.cs

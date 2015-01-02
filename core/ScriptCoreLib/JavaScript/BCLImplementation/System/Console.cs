@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     // X:\opensource\github\WootzJs\WootzJs.Runtime\Console.cs
     // http://referencesource.microsoft.com/#mscorlib/system/console.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Console.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Console.cs
+
     // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Console.cs
 
     [Script(Implements = typeof(global::System.Console))]

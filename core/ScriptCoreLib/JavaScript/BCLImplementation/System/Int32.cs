@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/int32.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Int32.cs
 
     [Script(Implements = typeof(global::System.Int32))]
     internal class __Int32

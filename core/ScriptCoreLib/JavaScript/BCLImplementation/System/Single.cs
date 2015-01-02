@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/single.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Single.cs
 
     [Script(Implements = typeof(global::System.Single))]
     internal class __Single

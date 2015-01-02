@@ -14,10 +14,8 @@ using System;
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLImageElement.idl
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/Image.cs
 
-    /// <summary>
-    /// 
-    /// </summary>
     [Script(InternalConstructor = true /*, ExternalTarget = "Image"*/)]
     public class IHTMLImage : IHTMLElement
     {

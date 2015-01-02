@@ -6,6 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Threading
 {
     // http://referencesource.microsoft.com/#WindowsBase/src/Base/System/Windows/Threading/DispatcherTimer.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/System.Windows/System/Windows/Threading/DispatcherTimer.cs
 
 	[Script(Implements = typeof(global::System.Windows.Threading.DispatcherTimer))]
 	internal class __DispatcherTimer

@@ -16,6 +16,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLDocument.idl
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/dom.html#current-document-readiness
     // https://github.com/mono/mono/blob/master/mcs/class/Managed.Windows.Forms/System.Windows.Forms/HtmlDocument.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/Document.cs
 
     [Script(HasNoPrototype = true)]
     public partial class IHTMLDocument : IDocument<IHTMLElement>
