@@ -10,6 +10,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
     // http://referencesource.microsoft.com/#System.Xml.Linq/XLinq.cs
     // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/System/Xml/Linq/XElement.cs
+    // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/src/System/Xml/Linq/XElement.cs
     // https://github.com/mono/mono/blob/master/mcs/class/System.Xml.Linq/System.Xml.Linq/XElement.cs
 
     [Script(Implements = typeof(XElement))]
