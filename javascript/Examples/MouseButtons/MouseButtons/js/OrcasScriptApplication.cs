@@ -11,13 +11,17 @@ namespace MouseButtons.js
     [Script, ScriptApplicationEntryPoint]
     public class MouseButtons
     {
+        // roslyn messed up something, InternalTarget null?
+        const string vs = "vs2015";
+
+
         public MouseButtons()
         {
-            var div = new IHTMLDiv("Click here");
+            var div = new IHTMLDiv("\{vs} Click here");
 
             div.style.backgroundColor = Color.Yellow;
 
-            div.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            div.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
             div.AttachToDocument();
 
@@ -52,6 +56,7 @@ namespace MouseButtons.js
             var x = Expando.Of(ev);
             object onmousedown = new
             {
+                // dynamic?
                 button = x["button"].GetValue(),
                 which = x["which"].GetValue(),
                 ev.MouseButton
