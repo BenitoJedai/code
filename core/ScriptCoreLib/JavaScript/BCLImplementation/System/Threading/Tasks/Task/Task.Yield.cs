@@ -21,6 +21,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         //// STAThread changes Task.Yield
         //[STAThread]
 
+        public static Task CompletedTask
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\async\Test\TestCompletedTask\TestCompletedTask\Application.cs
+
+                var c = new TaskCompletionSource<object>();
+                c.SetResult(null);
+
+                return c.Task;
+            }
+        }
+
         [Obsolete("Task.Yield is not correctly working. workaround Task.Delay")]
         public static __YieldAwaitable Yield()
         {

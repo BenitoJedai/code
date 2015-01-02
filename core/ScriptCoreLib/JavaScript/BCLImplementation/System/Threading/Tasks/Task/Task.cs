@@ -16,8 +16,11 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
+    // with 4.6!
     // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/Task.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading.Tasks/Task.cs
+    // this seems out of sync for 4.6?
+    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/threading/Tasks/Future.cs
 
     // "X:\opensource\github\WootzJs\WootzJs.Runtime\Threading\Tasks\Task.cs"
     // X:\opensource\github\SaltarelleCompiler\Runtime\CoreLib\Threading\Tasks\Task.cs
