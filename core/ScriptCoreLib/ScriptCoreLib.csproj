@@ -1205,6 +1205,7 @@
     <Folder Include="JavaScript\BCLImplementation\System\Collections\ObjectModel\" />
     <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="JavaScript\BCLImplementation\System\ComponentModel\" />
+    <Folder Include="JavaScript\BCLImplementation\System\Linq\Parallel\" />
     <Folder Include="JavaScript\DOM\HTML\Elements\" />
     <Folder Include="PHP\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />

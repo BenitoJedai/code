@@ -30,6 +30,10 @@ namespace TestNullConditionalOperator
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // http://channel9.msdn.com/Blogs/Roslyn/Analyzer-sample-in-Dev14-CTP3
+            // http://channel9.msdn.com/Events/Visual-Studio/Connect-event-2014/714
+            // https://visualstudiogallery.msdn.microsoft.com/530dc77a-a9b0-43bf-9ae2-9498b0ec15da/view/Discussions
+
             var u = new string[0];
 
             // http://www.software-architects.com/devblog/2014/12/04/NET-Infoday-Whats-New-in-C-6
