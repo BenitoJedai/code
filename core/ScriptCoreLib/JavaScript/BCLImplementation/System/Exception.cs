@@ -27,6 +27,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             [Script(DefineAsStatic = true)]
             get
             {
+                // X:\jsc.svn\examples\javascript\Test\TestDelegateInvokeDisplayName\TestDelegateInvokeDisplayName\Application.cs
                 // how else could we get a stack trace?
 
                 // https://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
