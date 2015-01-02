@@ -19,6 +19,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
+        // how can we move data from thread to thread?
+        // some components, like UI may not be movable.
+        // will we need a proxy type then?
+
         // can we make threads from service workers?
 
         // "C:\Program Files (x86)\SketchUp\SketchUp 2014\Tools\RubyStdLib\thread.rb"
