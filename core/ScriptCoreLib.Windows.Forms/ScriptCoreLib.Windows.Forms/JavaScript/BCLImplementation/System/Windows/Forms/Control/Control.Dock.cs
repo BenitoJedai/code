@@ -223,6 +223,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 //at jsc.RecursionGuard.get_Lock() in x:\jsc.internal.svn\compiler\jsc\RecursionGuard.cs:line 47
 
                 // X:\jsc.svn\examples\javascript\Test\Test453LINQSum\Test453LINQSum\Class1.cs
+                // X:\jsc.svn\examples\javascript\Test\Test453WebLINQSum\Test453WebLINQSum\Application.cs
+                // roslyn needs jsc stack rewriter to kick in..
                 var __Bottom = Enumerable.Sum(
                     from cc in SiblingsBottom
                     select cc.Height

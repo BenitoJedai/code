@@ -9,13 +9,21 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
-
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Collections\Generic\Dictonary.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\Dictionary.cs
     // http://referencesource.microsoft.com/#mscorlib/system/collections/generic/dictionary.cs
+    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/collections/generic/dictionary.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Collections.Generic/Dictionary.cs
+
     [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>))]
     internal class __Dictionary<TKey, TValue> :
         __IDictionary<TKey, TValue>
     //, IEnumerable
     {
+        // X:\jsc.svn\examples\javascript\Test\Test453IndexInitializer\Test453IndexInitializer\Application.cs
+        // http://msdn.microsoft.com/en-us/library/bb531208.aspx
+        // http://gigi.nullneuron.net/gigilabs/c-6-preview-index-initializers/
 
         //Expando list = new Expando();
 
