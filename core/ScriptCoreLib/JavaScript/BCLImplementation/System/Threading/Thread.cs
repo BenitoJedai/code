@@ -22,6 +22,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         // how can we move data from thread to thread?
         // some components, like UI may not be movable.
         // will we need a proxy type then?
+        // much like the tainted data concept.
 
         // can we make threads from service workers?
 
@@ -41,7 +42,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 {
                     InternalCurrentThreadValue = new __Thread(default(ThreadStart));
 
-
+                    // service worker would be 0 ?
                     if (Native.window != null)
                         InternalCurrentThreadValue.ManagedThreadId = 1;
 
