@@ -8,6 +8,13 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Collections\Generic\Dictonary.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\Dictionary.cs
+    // http://referencesource.microsoft.com/#mscorlib/system/collections/generic/dictionary.cs
+    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/collections/generic/dictionary.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Collections.Generic/Dictionary.cs
+
     [Script(Implements = typeof(Dictionary<,>))]
     internal class __Dictionary<TKey, TValue> : __IDictionary<TKey, TValue> //, __IEnumerable, __ICollection
     {
