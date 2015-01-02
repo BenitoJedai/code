@@ -34,7 +34,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 // X:\jsc.svn\examples\javascript\forms\HashForBindingSource\HashForBindingSource\ApplicationControl.cs
 
-                InternalChildrenAnchorUpdate();
+                InternalChildrenAnchorUpdate0();
             }
         }
         #endregion
@@ -86,7 +86,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-        public void InternalChildrenAnchorUpdate()
+        public void InternalChildrenAnchorUpdate0()
         {
             InternalChildrenAnchorUpdate(
                 clientWidth,
@@ -164,7 +164,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 __c.outer_style.top = ThoseBeforeUsHeight + "px";
                 __c.outer_style.right = "0px";
 
-                __c.InternalClientSizeChanged();
+                __c.InternalClientSizeChanged0();
                 return;
             }
             #endregion
@@ -222,6 +222,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 //             at jsc.RecursionGuard..ctor(RecursionGuard parent) in x:\jsc.internal.svn\compiler\jsc\RecursionGuard.cs:line 31
                 //at jsc.RecursionGuard.get_Lock() in x:\jsc.internal.svn\compiler\jsc\RecursionGuard.cs:line 47
 
+                // X:\jsc.svn\examples\javascript\Test\Test453LINQSum\Test453LINQSum\Class1.cs
                 var __Bottom = Enumerable.Sum(
                     from cc in SiblingsBottom
                     select cc.Height
@@ -283,7 +284,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                 // let the children know size has likely changed
-                __c.InternalClientSizeChanged();
+                __c.InternalClientSizeChanged0();
 
                 return;
             }

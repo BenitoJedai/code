@@ -779,7 +779,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         protected virtual void OnControlAdded(ControlEventArgs e)
         {
             //Console.WriteLine("__Control OnControlAdded: " + e.Control.Name);
-            InternalChildrenAnchorUpdate(
+            InternalChildrenAnchorUpdate4(
                 this.clientWidth,
                 this.clientHeight,
                 0,

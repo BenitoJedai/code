@@ -303,7 +303,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 Native.setTimeout(
                   delegate
                   {
-                      InternalClientSizeChanged();
+                      InternalClientSizeChanged0();
 
                   },
                   1
@@ -313,7 +313,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         }
 
-        public void InternalClientSizeChanged()
+        public void InternalClientSizeChanged0()
         {
             //Console.WriteLine(new { this.Name } + " enter InternalClientSizeChanged");
 
@@ -334,7 +334,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             else
             {
-                InternalChildrenAnchorUpdate(
+                InternalChildrenAnchorUpdate4(
                     clientWidth,
                     clientHeight,
                     dx: 0,
@@ -345,8 +345,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
         // who is calling this?
-        public void InternalChildrenAnchorUpdate(int width, int height, int dx, int dy)
+        public void InternalChildrenAnchorUpdate4(int width, int height, int dx, int dy)
         {
+            // X:\jsc.svn\examples\javascript\Test\Test453For\Test453For\Class1.cs
+            // X:\jsc.svn\examples\javascript\Test\Test453While\Test453While\Class1.cs
+            // X:\jsc.svn\examples\javascript\forms\Test\Test453Forms\Test453Forms\Application.cs
+
             for (int i = 0; i < this.Controls.Count; i++)
             {
                 var item = this.Controls[i];

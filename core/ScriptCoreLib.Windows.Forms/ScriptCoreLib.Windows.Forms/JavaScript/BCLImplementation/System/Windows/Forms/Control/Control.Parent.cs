@@ -44,7 +44,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             if (this.Dock != DockStyle.None)
             {
                 // update the docking controls! why? :D
-                InternalChildrenAnchorUpdate();
+                InternalChildrenAnchorUpdate0();
             }
 
             if (ParentChanged != null)
