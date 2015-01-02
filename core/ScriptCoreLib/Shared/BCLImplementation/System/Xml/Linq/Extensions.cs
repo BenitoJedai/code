@@ -11,6 +11,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Xml.Linq
     [Script(Implements = typeof(global::System.Xml.Linq.Extensions))]
 	internal static class __Extensions
 	{
+        // roslyn 
+        //    0200016a ScriptCoreLib.Shared.BCLImplementation.System.Xml.Linq.__Extensions
+        //{ SourceMethod = System.Collections.Generic.IEnumerable`1[System.Xml.Linq.XElement] Elements[T](System.Collections.Generic.IEnumerable`1[T]) }
+
+
         public static IEnumerable<XElement> Elements<T>(IEnumerable<T> source) where T : XContainer
         {
             return source.SelectMany(k => k.Elements());
