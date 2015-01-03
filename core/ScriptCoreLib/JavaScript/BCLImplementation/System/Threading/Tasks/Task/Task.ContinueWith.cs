@@ -89,6 +89,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             if (xfunction.Target != null)
                 if (xfunction.Target != Native.self)
                 {
+                    // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                     Delegate InternalTaskExtensionsScope_function = (xfunction.Target as dynamic).InternalTaskExtensionsScope_function;
 
                     if (InternalTaskExtensionsScope_function == null)
@@ -118,6 +119,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
                     #region xdata___string
+                    // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                     dynamic xdata___string = new object();
 
                     // how much does this slow us down?
@@ -161,6 +163,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                              // what kind of write backs do we expect?
                              // for now it should be console only
 
+                             // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                              dynamic zdata = e.data;
 
                              #region AtWrite

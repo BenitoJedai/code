@@ -65,7 +65,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                     //Console.WriteLine("InternalInitializeInlineWorker " + new { Target = function.Target.ToString(), TargetType });
 
-
+                    // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                     Delegate InternalTaskExtensionsScope_function = (xfunction.Target as dynamic).InternalTaskExtensionsScope_function;
                     // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\TaskExtensions.cs
 
@@ -284,6 +284,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             Action<string> CreateWorker = uri =>
             {
                 #region xdata___string
+                // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                 dynamic xdata___string = new object();
 
                 // how much does this slow us down?
@@ -404,7 +405,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                          //    }
                          //);
 
-
+                         // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                          dynamic zdata = e.data;
 
 
@@ -428,6 +429,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                          if (zdata___string != null)
                          {
                              #region __string
+                             // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                              dynamic target = InternalInlineWorker.__string;
                              var m = Expando.Of(zdata___string).GetMembers();
 
@@ -447,7 +449,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                          #region MethodTargetObjectDataProgressReport
                          {
                              // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
-
+                             // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                              dynamic MethodTargetObjectDataProgressReport = zdata.MethodTargetObjectDataProgressReport;
                              if ((object)MethodTargetObjectDataProgressReport != null)
                              {
@@ -464,6 +466,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                          #region ContinueWithResult
                          {
+                             // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                              dynamic ContinueWithResult = zdata.ContinueWithResult;
                              if ((object)ContinueWithResult != null)
                              {
@@ -491,7 +494,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                                  if (ResultTypeIndex != null)
                                  {
                                      // X:\jsc.svn\examples\javascript\async\test\TestTaskRunReturnToString\TestTaskRunReturnToString\Application.cs
-
+                                     // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                                      dynamic self = Native.self;
 
                                      var ResultType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[ResultTypeIndex]));
@@ -530,6 +533,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                          #region yield
                          {
+                             // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                              dynamic yield = zdata.yield;
                              if ((object)yield != null)
                              {
@@ -559,6 +563,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                          #region __IProgress_Report
                          if (xProgress != null)
                          {
+                             // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                              dynamic __IProgress_Report = zdata.__IProgress_Report;
 
                              if ((object)__IProgress_Report != null)
