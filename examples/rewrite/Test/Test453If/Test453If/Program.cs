@@ -6,26 +6,42 @@ using System.Threading.Tasks;
 
 namespace Test453If
 {
-    namespace fake { public interface IAsyncStateMachine { } }
+    class CallSite
+    {
+        public Action<CallSite, object, string> Target;
+    }
 
-    class Program 
-        //: fake.IAsyncStateMachine
+    class Class1 : ScriptCoreLib.Shared.IAssemblyReferenceToken
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150102
         // X:\jsc.svn\examples\javascript\Test\Test435Using\Test435Using\Class1.cs
+        // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
 
-        //static
-        void MoveNext(string[] r)
+
+        static class Invoke_SiteContainer
         {
-            //if (r == null)
-            if (r != null)
-            {
-                Console.WriteLine("InternalWebMethodRequest.Complete r is null. why?");
-            }
+            public static CallSite Site;
         }
 
-        static void Main(string[] r) => new Program { }. MoveNext(r);
+        public static void Invoke(string item)
+        {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150103/dynamic
 
-       
+            var foo = new object();
+
+            if (Invoke_SiteContainer.Site == null)
+            {
+
+
+                Invoke_SiteContainer.Site = new CallSite();
+            }
+
+            Invoke_SiteContainer.Site.Target(
+                Invoke_SiteContainer.Site,
+                foo,
+                "hello"
+            );
+        }
+
     }
 }
