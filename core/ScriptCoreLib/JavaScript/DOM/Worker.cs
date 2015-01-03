@@ -239,7 +239,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             // x:\jsc.svn\examples\javascript\Test\TestThreadStart\TestThreadStart\Application.cs
             // share scope
 
-
+            // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
             dynamic xdata = new object();
 
             xdata.InternalThreadCounter = InternalInlineWorker.InternalThreadCounter;
@@ -273,6 +273,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                      // what kind of write backs do we expect?
                      // for now it should be console only
 
+                     // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                      dynamic zdata = e.data;
 
                      #region AtWrite
@@ -347,6 +348,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             w.AtWrite =
                  x =>
                  {
+                     // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                      dynamic zdata = new object();
 
                      zdata.AtWrite = x;
@@ -366,7 +368,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             __Thread.InternalCurrentThread.ManagedThreadId = InternalThreadCounter;
             __Thread.InternalCurrentThread.IsBackground = true;
 
-
+            // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
             dynamic self = Native.self;
 
             var stateType = default(Type);
@@ -451,6 +453,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                         MethodTargetObjectData[ii] = new __Progress<object>(
                             ProgressEvent =>
                             {
+                                // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                                 dynamic zdata = new object();
 
                                 zdata.MethodTargetObjectDataProgressReport = new { ProgressEvent, ii };
@@ -495,7 +498,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-
+                // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                 MethodTokenReference = (MethodTarget as dynamic)[MethodToken];
             }
 
@@ -554,6 +557,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     {
                         //Console.WriteLine("__IProgress_Report " + new { value });
 
+                        // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                         dynamic zdata = new object();
 
                         zdata.__IProgress_Report = new { value };
@@ -575,6 +579,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
             #region __string
+            // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
             dynamic target = __string;
             var m = Expando.Of(data___string).GetMembers();
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130826-domainmemory
@@ -628,6 +633,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
                 // for now we only support static calls
 
+
+                // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                 dynamic zdata = new object();
 
 
@@ -669,6 +676,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                             {
                                 Console.WriteLine("worker Task Run ContinueWith " + new { t });
 
+
+                                // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                                 dynamic zzdata = new object();
 
                                 // null?
@@ -880,6 +889,9 @@ namespace ScriptCoreLib.JavaScript.DOM
                     Native.worker.onfirstmessage +=
                         e =>
                         {
+
+
+                            // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                             dynamic e_data = e.data;
 
                             int InternalThreadCounter = e_data.InternalThreadCounter;

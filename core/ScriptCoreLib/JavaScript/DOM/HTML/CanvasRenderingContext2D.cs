@@ -117,6 +117,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 // update scriptcorelib? why isnt this defined in idl?
                 // what about patternQuality ?
 
+                // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                 dynamic context = this;
 
                 context.imageSmoothingEnabled = value;
