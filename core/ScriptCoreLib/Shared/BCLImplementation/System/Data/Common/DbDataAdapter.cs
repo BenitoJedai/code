@@ -9,14 +9,16 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
     // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DataAdapter.cs
     // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DbDataAdapter.cs
-    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/System.Data/System.Data.Common/DbDataAdapter.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System.Data/System.Data.Common/DbDataAdapter.cs
 
     [Script(Implements = typeof(global::System.Data.Common.DbDataAdapter))]
     public
         //abstract 
         class __DbDataAdapter
     {
+        // X:\jsc.svn\examples\javascript\Test\Test435Using\Test435Using\Class1.cs
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+
         // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
 
 
@@ -39,6 +41,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 
         public int Fill(DataTable dataTable)
         {
+            // X:\jsc.svn\examples\javascript\Test\Test435Using\Test435Using\Class1.cs
+
             // roslyn makes it complicated?
 
             // X:\jsc.svn\examples\javascript\LINQ\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs
@@ -111,7 +115,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
                     }
                 }
 
-
+            // this seems to confuse roslyn il?
             if (data == null)
                 return 0;
 
