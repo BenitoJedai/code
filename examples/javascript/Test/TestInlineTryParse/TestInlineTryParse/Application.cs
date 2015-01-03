@@ -36,10 +36,19 @@ namespace TestInlineTryParse
             //script: error JSC1000: Method: TryParse, Type: ScriptCoreLib.JavaScript.BCLImplementation.System.__Double; emmiting failed : System.InvalidOperationException: unknown opcode stind.r8 at TryParse + 0x0021
 
             // script: error JSC1000: No implementation found for this native method, please implement [static System.Double.TryParse(System.String, System.Double&)]
-            double.TryParse("1.3", out var goo);
+
+            // https://roslyn.codeplex.com/discussions/568820
+            var goo = default(byte);
+            //var goo = default(double);
+            //double.TryParse("1.3", out var goo);
+            //double.TryParse("1.3", out goo);
+            byte.TryParse("13", out goo);
             //int.TryParse("13", out var goo);
 
-            new IHTMLPre { goo }.AttachToDocument();
+            // goo: {0:x8}
+            //new IHTMLPre { "goo: \{goo:x8}" }.AttachToDocument();
+            //new IHTMLPre { "goo: \{goo:x2}" }.AttachToDocument();
+            new IHTMLPre { "goo: \{goo}" }.AttachToDocument();
 
         }
 

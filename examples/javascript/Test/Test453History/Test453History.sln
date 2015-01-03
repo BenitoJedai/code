@@ -5,16 +5,30 @@ VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test453History", "Test453History\Test453History.csproj", "{76843B5B-EB0A-4E49-8B36-037969E0545F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib", "..\..\..\..\core\ScriptCoreLib\ScriptCoreLib.csproj", "{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|x86.ActiveCfg = Debug|x86
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|x86.Build.0 = Debug|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|Any CPU.ActiveCfg = Release|x86
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.ActiveCfg = Release|x86
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.Build.0 = Release|x86
+		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Debug|x86.Build.0 = Debug|Any CPU
+		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|x86.ActiveCfg = Release|Any CPU
+		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
