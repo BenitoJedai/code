@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 [assembly: Obfuscation(Feature = "script")]
 namespace Test435Using
 {
-    public class Class1
+    public static class Class1
     {
         static void content() { }
 
@@ -24,8 +24,13 @@ namespace Test435Using
             //0x0007 brfalse.s
 
             if (reader != null)
+            //{ 
+                // will adding a scope block help?
                 using (reader)
                     content();
+
+
+            //}
 
         }
 
