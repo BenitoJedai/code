@@ -17,11 +17,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
     // https://github.com/mono/mono/blob/master/mcs/tools/cil-strip/Mono.Cecil/CallSite.cs
     // https://github.com/mono/mono/blob/master/mcs/class/dlr/Runtime/Microsoft.Scripting.Core/Actions/CallSiteOps.cs
 
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs
+
     // 
     [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite))]
     internal class __CallSite
     {
+
         // tested by
+        // X:\jsc.svn\examples\javascript\Test\Test435Dynamic\Test435Dynamic\Application.cs
+
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150103/uint8clampedarray
+        // roslyn dynamic can only be used on merge mode?
+
+
         // can we move it into Shared?
         // ActionSctipt is also on board?
 
@@ -32,7 +43,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
     [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite<>))]
     internal class __CallSite<T> : __CallSite
     {
-        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs
+
 
         public T Target;
 
