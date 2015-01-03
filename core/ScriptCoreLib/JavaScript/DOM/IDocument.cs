@@ -46,6 +46,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             // X:\jsc.svn\examples\javascript\Test\TestShadowIFrame\TestShadowIFrame\Application.cs
             // X:\jsc.svn\examples\javascript\Test\TestShadowDOM\TestShadowDOM\Application.cs
 
+            // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
             dynamic prototype = new IFunction("return Object.create(HTMLElement.prototype)").apply(null);
 
 

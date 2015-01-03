@@ -208,6 +208,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
 
+        [Obsolete("what about offset")]
         public IHTMLImage cursorImage
         {
 
@@ -217,10 +218,12 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // tested by
                 // X:\jsc.svn\examples\javascript\CSS\Test\CSSCursorImage\CSSCursorImage\Application.cs
 
+                // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                 (this as dynamic).cursor = "url('" + value.src + "'), auto";
             }
         }
 
+        [Obsolete("what about offset")]
         public IHTMLDiv cursorElement
         {
 
