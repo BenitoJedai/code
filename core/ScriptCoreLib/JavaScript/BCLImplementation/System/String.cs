@@ -40,6 +40,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         }
 
 
+        // X:\jsc.svn\examples\javascript\Test\Test435AnonymousToString\Test435AnonymousToString\Class1.cs
+
         #region Format
         public static string Format(string format, object a)
         {
