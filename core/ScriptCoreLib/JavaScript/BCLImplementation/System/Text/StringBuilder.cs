@@ -20,7 +20,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
     [Script(Implements = typeof(global::System.Text.StringBuilder))]
     internal class __StringBuilder
     {
-        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Text\StringBuilder.cs
 
         public __StringBuilder()
         {

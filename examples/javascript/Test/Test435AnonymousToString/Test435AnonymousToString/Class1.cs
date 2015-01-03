@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 [assembly: Obfuscation(Feature = "script")]
 
+// 453!
 namespace Test435AnonymousToString
 {
     public  class Class1 : ScriptCoreLib.Shared.IAssemblyReferenceToken
