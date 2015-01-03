@@ -408,6 +408,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             var TargetTypeIndex = AllMemberNames.FirstOrDefault(
                   item =>
                   {
+                      // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
                       dynamic self = Native.self;
                       object value = self[item];
 
