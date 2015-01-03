@@ -75,6 +75,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             {
                 var value = b[i];
 
+                // what about {0:x2}
                 x = x.Replace("{" + i + "}", Convert.ToString(value));
             }
 

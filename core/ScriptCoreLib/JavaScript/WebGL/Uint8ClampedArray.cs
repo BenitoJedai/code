@@ -33,6 +33,8 @@ namespace ScriptCoreLib.JavaScript
             // dynamic site caching and if dont work well?
             if (ScriptCoreLib.JavaScript.Runtime.Expando.Of(Native.self).Contains("Uint8Array"))
             {
+                // X:\jsc.svn\examples\javascript\Test\Test453DynamicAssignmentConditional\Test453DynamicAssignmentConditional\Class1.cs
+
                 // IE its 2014! where is Uint8ClampedArray ???
                 // tested by
                 // X:\jsc.svn\examples\javascript\Test\TestUploadValuesAsync\TestUploadValuesAsync\Application.cs
@@ -45,6 +47,8 @@ namespace ScriptCoreLib.JavaScript
             }
 
 
+
+            // X:\jsc.svn\examples\javascript\Test\Test453DynamicAssignment\Test453DynamicAssignment\Class1.cs
             // ArrayBuffer cannot be used with array can it?
             self.Uint8ClampedArray = self.Array;
         }
