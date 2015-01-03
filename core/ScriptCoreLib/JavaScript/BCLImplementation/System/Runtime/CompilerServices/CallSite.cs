@@ -28,6 +28,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         // tested by
         // X:\jsc.svn\examples\javascript\Test\Test435Dynamic\Test435Dynamic\Application.cs
+        // X:\jsc.svn\examples\javascript\Test\Test435CoreAsDynamic\Test435CoreAsDynamic\Class1.cs
+
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150103/uint8clampedarray
         // roslyn dynamic can only be used on merge mode?
