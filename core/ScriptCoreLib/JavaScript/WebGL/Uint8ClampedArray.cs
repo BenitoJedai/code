@@ -9,6 +9,8 @@ namespace ScriptCoreLib.JavaScript
     {
         static partial void __Uint8ClampedArray()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150103/uint8clampedarray
+
             // Native cctor shall call us
             // no other cctor shall do byte[] before this
             // how could we make sure Native cctor is ran first?
@@ -25,8 +27,10 @@ namespace ScriptCoreLib.JavaScript
             if (ScriptCoreLib.JavaScript.Runtime.Expando.Of(Native.self).Contains("Uint8ClampedArray"))
                 return;
 
+            // roslyn dynamic uses complex stack it seems.
             dynamic self = Native.self;
 
+            // dynamic site caching and if dont work well?
             if (ScriptCoreLib.JavaScript.Runtime.Expando.Of(Native.self).Contains("Uint8Array"))
             {
                 // IE its 2014! where is Uint8ClampedArray ???
