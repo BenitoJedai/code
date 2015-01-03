@@ -21,6 +21,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
         public DataTable ToTable(bool distinct, params string[] columnNames)
         {
+            // roslyn doesnt like smth?
+
             var x = new DataTable();
 
             foreach (var c in columnNames)
@@ -36,11 +38,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
                 {
                     foreach (DataRow NewRow in x.Rows)
                     {
-                        var SourceCells = columnNames.Select(z => SourceRow[z]).ToArray();
-                        var NewCells = columnNames.Select(z => NewRow[z]).ToArray();
-
-                        if (SourceCells.SequenceEqual(NewCells))
-                            SequenceEqual = true;
+                        SequenceEqual = InternalIsSequenceEqualToDataRow(columnNames, SourceRow, SequenceEqual, NewRow);
                     }
                 }
 
@@ -74,6 +72,17 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             }
 
             return x;
+        }
+
+        private static bool InternalIsSequenceEqualToDataRow(string[] columnNames, DataRow SourceRow, bool SequenceEqual, DataRow NewRow)
+        {
+            var SourceCells = columnNames.Select(z => SourceRow[z]).ToArray();
+            var NewCells = columnNames.Select(z => NewRow[z]).ToArray();
+
+            if (SourceCells.SequenceEqual(NewCells))
+                SequenceEqual = true;
+
+            return SequenceEqual;
         }
     }
 }

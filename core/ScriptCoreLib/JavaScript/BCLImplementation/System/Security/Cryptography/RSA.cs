@@ -15,6 +15,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
     [Script(Implements = typeof(global::System.Security.Cryptography.RSA))]
     internal class __RSA : __AsymmetricAlgorithm
     {
+        // https://en.wikipedia.org/wiki/RSA_(cryptosystem)
+
+
         // transpose plain bytes against brutefore attacks!
 
         // https://www.youtube.com/watch?v=QyIkzr22bD8#t=665

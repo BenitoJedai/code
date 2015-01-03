@@ -9,6 +9,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 {
     // http://referencesource.microsoft.com/#System.Data/data/System/Data/DataTable.cs
+
     [Script(Implements = typeof(global::System.Data.DataTable))]
     public class __DataTable : __MarshalByValueComponent, __IListSource
     {

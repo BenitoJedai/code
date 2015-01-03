@@ -30,6 +30,14 @@ namespace Test453Forms
         public readonly ApplicationControl content = new ApplicationControl();
 
 
+        //02000076 ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Form
+        //script: error JSC1000: unsupported flow detected, try to simplify.
+        // Assembly X:\jsc.svn\examples\javascript\forms\Test\Test453Forms\Test453Forms\bin\Release\ScriptCoreLib.Windows.Forms.dll
+        // DeclaringType ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Form, ScriptCoreLib.Windows.Forms, Version= 1.0.0.0, Culture= neutral, PublicKeyToken= null
+        // OwnerMethod.ctor
+        // Offset 064e
+
+
         //02000050 ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control
         //script: error JSC1000: Method: InternalChildrenAnchorUpdate, Type: ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control; emmiting failed : System.Exception: recursion detected at stack 32
         //   at jsc.RecursionGuard..ctor(RecursionGuard parent) in x:\jsc.internal.git\compiler\jsc\RecursionGuard.cs:line 31

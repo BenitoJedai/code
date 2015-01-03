@@ -12,6 +12,8 @@ namespace MouseButtons.js
     public class MouseButtons
     {
         // roslyn messed up something, InternalTarget null?
+        // cctor misused?
+        // know only anonymous types seem to misbehave.
         const string vs = "vs2015";
 
 

@@ -11,6 +11,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography
     [ScriptCoreLib.Script]
     public class __MD5CryptoServiceProviderByMahmood
     {
+        // X:\jsc.svn\examples\javascript\Test\Test453RefByteLocal\Test453RefByteLocal\Class1.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150103
+        // tested by?
+
 
         /*******************************************************
          * Programmed by

@@ -80,7 +80,13 @@ namespace PNGEncoderExperiment
                 0
             );
 
+ //           script: error JSC1000: unsupported flow detected, try to simplify.
+ //Assembly U:\PNGEncoderExperiment.Application.exe
+ //DeclaringType Plupload.PngEncoder.DeflaterHuffman + Tree, PNGEncoderExperiment.Application,
+ //OwnerMethod BuildTree
+ //            Offset 030d
 
+            
             var bytes = p.pngEncode();
 
             new IHTMLPre { new { bytes } }.AttachToDocument();
