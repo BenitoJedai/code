@@ -18,6 +18,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Xml.Linq
 
         public static IEnumerable<XElement> Elements<T>(IEnumerable<T> source) where T : XContainer
         {
+            // X:\jsc.svn\examples\javascript\Test\Test453LINQSum\Test453LINQSum\Class1.cs
+            // X:\jsc.svn\examples\javascript\Test\Test435SelectManyDelegate\Test435SelectManyDelegate\Class1.cs
             return source.SelectMany(k => k.Elements());
         }
 
