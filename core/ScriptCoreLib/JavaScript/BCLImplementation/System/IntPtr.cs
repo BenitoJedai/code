@@ -17,6 +17,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.IntPtr))]
     internal class __IntPtr
     {
+        // X:\jsc.svn\examples\javascript\Test\Test453DefaultIntPtr\Test453DefaultIntPtr\Class1.cs
+
         // can we share
         // void* between service worker and ui?
 
@@ -25,6 +27,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         // X:\jsc.svn\core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing\JavaScript\BCLImplementation\System\Drawing\Bitmap.cs
         // X:\jsc.svn\examples\javascript\forms\MandelbrotFormsControl\MandelbrotFormsControl\Application.cs
 
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150104/dynamic
+
+        // usedby?
         public Uint8ClampedArray PointerToUInt8;
 
         [Script(OptimizedCode = "return a==b")]

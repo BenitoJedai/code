@@ -43,7 +43,24 @@ namespace YieldKeyword
         }
 
 
-        public 
+
+
+        //02000006 YieldKeyword.Application+<Foo>d__5
+        //{ SourceMethod = Void System.IDisposable.Dispose() }
+        //{ SourceMethod = Boolean MoveNext() }
+        //{ SourceMethod = System.String System.Collections.Generic.IEnumerator<System.String>.get_Current() }
+        //{ SourceMethod = Void System.Collections.IEnumerator.Reset() }
+        //{ SourceMethod = System.Object System.Collections.IEnumerator.get_Current() }
+        //{ SourceMethod = System.Collections.Generic.IEnumerator`1[System.String] System.Collections.Generic.IEnumerable<System.String>.GetEnumerator() }
+        //script: error JSC1000: if block not detected correctly, opcode was { Branch = [0x0008] bne.un.s   +0 -2{[0x0001] ldfld      +1 -1{[0x0000] ldarg.0    +1 -0} } {[0x0006] ldc.i4.s   +1 -0} , Location =
+        // assembly: U:\YieldKeyword.Application.exe
+        // type: YieldKeyword.Application+<Foo>d__5, YieldKeyword.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        // offset: 0x0008
+        //  method:System.Collections.Generic.IEnumerator`1[System.String] System.Collections.Generic.IEnumerable<System.String>.GetEnumerator() }
+
+
+
+        public
             //static 
             IEnumerable<string> Foo(IEnumerable<string> content)
         {
