@@ -28,6 +28,17 @@ namespace Test435AnonymousToString
             //        return __String.Format("{{ foo = {0}, bar = {1} }}", new Object[2]);
             //    }
 
+            //// <>f__AnonymousType0`2.ToString
+            //type$baM7TO22dDybGPS8BXlYNg.toString /* <>f__AnonymousType0`2.ToString */ = function ()
+            //{
+            //  var a = [this];
+
+            //  /* let 0006 = */new Array(2);
+            //  /* ldloc 0006 */new Array(2)[0] = a[0].foo;
+            //  /* ldloc 0006 */new Array(2)[1] = a[0].bar;
+            //  return dR8ABtNdQz66ZYUODttTfw('{{ foo = {0}, bar = {1} }}', /* 0006 */new Array(2));
+            //};
+
             return new { foo, bar }.ToString();
         }
     }

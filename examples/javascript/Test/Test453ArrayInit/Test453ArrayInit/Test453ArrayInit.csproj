@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DC37D7AB-21F5-4107-B552-A7864671FC9B}</ProjectGuid>
+    <ProjectGuid>{20E5B029-B89C-488E-A9F3-BF96E42D3C44}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test435AnonymousToString</RootNamespace>
-    <AssemblyName>Test435AnonymousToString</AssemblyName>
+    <RootNamespace>Test453ArrayInit</RootNamespace>
+    <AssemblyName>Test453ArrayInit</AssemblyName>
     <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,12 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScriptCoreLib">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibJava">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
