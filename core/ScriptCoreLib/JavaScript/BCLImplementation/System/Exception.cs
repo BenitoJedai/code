@@ -10,6 +10,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Exception.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Exception.cs
 
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Exception.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Exception.cs
+
     [Script(InternalConstructor = true, Implements = typeof(global::System.Exception))]
     internal class __Exception
     {
@@ -63,6 +66,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         [Script(DefineAsStatic = true)]
         public void RestoreExceptionDispatchInfo(__ExceptionDispatchInfo e)
         {
+            // can the stacktrace be restored for the serverside?
+            // we could perhaps even walk up the stack
+            // and see readonly locals for the client side?
+
+
             // X:\jsc.svn\examples\javascript\async\AsyncWindowUncaughtError\AsyncWindowUncaughtError\Application.cs
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140524
