@@ -8,6 +8,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/intptr.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/IntPtr.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/IntPtr.cs
 
     // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\IntPtr.cs
     // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\IntPtr.cs
