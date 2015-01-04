@@ -64,59 +64,69 @@ namespace Test453DynamicAssignmentConditional
             x.Uint8ClampedArray = x.Array;
 
 
-            //d = Rw4ABtVg6j6tf7_aLlpqs7A(Mw4ABtVg6j6tf7_aLlpqs7A(b), 'Uint8Array');
-
-            //if (d)
+            //          // Test453DynamicAssignmentConditional.Class1.Invoke
+            //          this.AQAABvhdzz63eE177xi3RA = function(b)
             //{
-            //    _0h4ABo302jK_arjcePTx37w('Uint8ClampedArray not available. while Uint8Array seems to be.');
+            //              var c, d;
 
-            //    if (AgAABIMaLDOZpFTc83zBpQ)
-            //    {
-            //    }
-            //    else
-            //    {
-            //        new Array(2)[0] = twgABr0mMjmREJxf62g10A(0, null);
-            //        new Array(2)[1] = twgABr0mMjmREJxf62g10A(0, null);
-            //        AgAABIMaLDOZpFTc83zBpQ = hQkABkmHWjqHBHzPjs4Qsg(OwkABiO2_aTySKN41_aKL3ew(0, 'Uint8ClampedArray', _4R8ABtC6ljmbrk8x5kK6iA(new ctor$bR8ABhfpfj6IFLf_a4gLSZg(type$S4zLdfhdzz63eE177xi3RA)), new Array(2)));
-            //    }
+            //              c = b;
+            //              d = Rw4ABtVg6j6tf7_aLlpqs7A(Mw4ABtVg6j6tf7_aLlpqs7A(b), 'Uint8Array');
 
+            //              if (d)
+            //              {
+            //                  _0h4ABo302jK_arjcePTx37w('Uint8ClampedArray not available. while Uint8Array seems to be.');
 
-            //    if (AQAABIMaLDOZpFTc83zBpQ)
-            //    {
-            //    }
-            //    else
-            //    {
-            //        new Array(1)[0] = twgABr0mMjmREJxf62g10A(0, null);
-            //        AQAABIMaLDOZpFTc83zBpQ = hQkABkmHWjqHBHzPjs4Qsg(PQkABiO2_aTySKN41_aKL3ew(0, 'Uint8Array', _4R8ABtC6ljmbrk8x5kK6iA(new ctor$bR8ABhfpfj6IFLf_a4gLSZg(type$S4zLdfhdzz63eE177xi3RA)), new Array(1)));
-            //    }
-
-            //    AgAABIMaLDOZpFTc83zBpQ.Target.GREABtXRBzSbUYeYQmTv4A(AgAABIMaLDOZpFTc83zBpQ, c, AQAABIMaLDOZpFTc83zBpQ.Target.FREABqSnJzGqSLFy_aB0XMg(AQAABIMaLDOZpFTc83zBpQ, c));
-            //    return;
-            //}
+            //                  if (AgAABIMaLDOZpFTc83zBpQ)
+            //                  {
+            //                  }
+            //                  else
+            //                  {
+            //                      var __0040 = new Array(2);
+            //                      __0040[0] = twgABr0mMjmREJxf62g10A(0, null);
+            //                      __0040[1] = twgABr0mMjmREJxf62g10A(0, null);
+            //                      AgAABIMaLDOZpFTc83zBpQ = hQkABkmHWjqHBHzPjs4Qsg(OwkABiO2_aTySKN41_aKL3ew(0, 'Uint8ClampedArray', _4R8ABtC6ljmbrk8x5kK6iA(new ctor$bR8ABhfpfj6IFLf_a4gLSZg(type$S4zLdfhdzz63eE177xi3RA)), __0040));
+            //                  }
 
 
-            //if (BAAABIMaLDOZpFTc83zBpQ)
-            //{
-            //}
-            //else
-            //{
-            //    new Array(2)[0] = twgABr0mMjmREJxf62g10A(0, null);
-            //    new Array(2)[1] = twgABr0mMjmREJxf62g10A(0, null);
-            //    BAAABIMaLDOZpFTc83zBpQ = hQkABkmHWjqHBHzPjs4Qsg(OwkABiO2_aTySKN41_aKL3ew(0, 'Uint8ClampedArray', _4R8ABtC6ljmbrk8x5kK6iA(new ctor$bR8ABhfpfj6IFLf_a4gLSZg(type$S4zLdfhdzz63eE177xi3RA)), new Array(2)));
-            //}
+            //                  if (AQAABIMaLDOZpFTc83zBpQ)
+            //                  {
+            //                  }
+            //                  else
+            //                  {
+            //                      var __0092 = new Array(1);
+            //                      __0092[0] = twgABr0mMjmREJxf62g10A(0, null);
+            //                      AQAABIMaLDOZpFTc83zBpQ = hQkABkmHWjqHBHzPjs4Qsg(PQkABiO2_aTySKN41_aKL3ew(0, 'Uint8Array', _4R8ABtC6ljmbrk8x5kK6iA(new ctor$bR8ABhfpfj6IFLf_a4gLSZg(type$S4zLdfhdzz63eE177xi3RA)), __0092));
+            //                  }
+
+            //                  AgAABIMaLDOZpFTc83zBpQ.Target.GREABtXRBzSbUYeYQmTv4A(AgAABIMaLDOZpFTc83zBpQ, c, AQAABIMaLDOZpFTc83zBpQ.Target.FREABqSnJzGqSLFy_aB0XMg(AQAABIMaLDOZpFTc83zBpQ, c));
+            //                  return;
+            //              }
 
 
-            //if (AwAABIMaLDOZpFTc83zBpQ)
-            //{
-            //}
-            //else
-            //{
-            //    new Array(1)[0] = twgABr0mMjmREJxf62g10A(0, null);
-            //    AwAABIMaLDOZpFTc83zBpQ = hQkABkmHWjqHBHzPjs4Qsg(PQkABiO2_aTySKN41_aKL3ew(0, 'Array', _4R8ABtC6ljmbrk8x5kK6iA(new ctor$bR8ABhfpfj6IFLf_a4gLSZg(type$S4zLdfhdzz63eE177xi3RA)), new Array(1)));
-            //}
+            //              if (BAAABIMaLDOZpFTc83zBpQ)
+            //              {
+            //              }
+            //              else
+            //              {
+            //                  var __00ea = new Array(2);
+            //                  __00ea[0] = twgABr0mMjmREJxf62g10A(0, null);
+            //                  __00ea[1] = twgABr0mMjmREJxf62g10A(0, null);
+            //                  BAAABIMaLDOZpFTc83zBpQ = hQkABkmHWjqHBHzPjs4Qsg(OwkABiO2_aTySKN41_aKL3ew(0, 'Uint8ClampedArray', _4R8ABtC6ljmbrk8x5kK6iA(new ctor$bR8ABhfpfj6IFLf_a4gLSZg(type$S4zLdfhdzz63eE177xi3RA)), __00ea));
+            //              }
 
-            //BAAABIMaLDOZpFTc83zBpQ.Target.GREABtXRBzSbUYeYQmTv4A(BAAABIMaLDOZpFTc83zBpQ, c, AwAABIMaLDOZpFTc83zBpQ.Target.FREABqSnJzGqSLFy_aB0XMg(AwAABIMaLDOZpFTc83zBpQ, c));
 
+            //              if (AwAABIMaLDOZpFTc83zBpQ)
+            //              {
+            //              }
+            //              else
+            //              {
+            //                  var __013c = new Array(1);
+            //                  __013c[0] = twgABr0mMjmREJxf62g10A(0, null);
+            //                  AwAABIMaLDOZpFTc83zBpQ = hQkABkmHWjqHBHzPjs4Qsg(PQkABiO2_aTySKN41_aKL3ew(0, 'Array', _4R8ABtC6ljmbrk8x5kK6iA(new ctor$bR8ABhfpfj6IFLf_a4gLSZg(type$S4zLdfhdzz63eE177xi3RA)), __013c));
+            //              }
+
+            //              BAAABIMaLDOZpFTc83zBpQ.Target.GREABtXRBzSbUYeYQmTv4A(BAAABIMaLDOZpFTc83zBpQ, c, AwAABIMaLDOZpFTc83zBpQ.Target.FREABqSnJzGqSLFy_aB0XMg(AwAABIMaLDOZpFTc83zBpQ, c));
+            //          };
 
         }
     }

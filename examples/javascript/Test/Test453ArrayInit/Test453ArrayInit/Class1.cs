@@ -11,7 +11,7 @@ namespace Test453ArrayInit
     public class Class1
     {
         // X:\jsc.svn\examples\javascript\Test\Test454AnonymousToStringFake\Test454AnonymousToStringFake\Class1.cs
-
+       
         static void Invoke()
         {
 

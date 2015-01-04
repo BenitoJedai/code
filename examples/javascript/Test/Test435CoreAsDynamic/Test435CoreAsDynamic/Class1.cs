@@ -40,8 +40,13 @@ namespace Test435CoreAsDynamic
 
             // we should test all use cases for dynamic for roslyn js.
 
-            //new Array(1)[0] = twgABr0mMjmREJxf62g10A(0, null);
-            //AQAABKl6eD2kr62vxldjAQ = hQkABkmHWjqHBHzPjs4Qsg(PQkABiO2_aTySKN41_aKL3ew(0, 'bar', _4R8ABtC6ljmbrk8x5kK6iA(new ctor$bR8ABhfpfj6IFLf_a4gLSZg(type$UxpR0RNEiTmJ760665b1dw)), new Array(1)));
+            ///* let 001b = */new Array(1);
+            ///* ldloc 001b */new Array(1)[0] = twgABr0mMjmREJxf62g10A(0, null);
+            //AQAABKl6eD2kr62vxldjAQ = hQkABkmHWjqHBHzPjs4Qsg(PQkABiO2_aTySKN41_aKL3ew(0, 'bar', _4R8ABtC6ljmbrk8x5kK6iA(new ctor$bR8ABhfpfj6IFLf_a4gLSZg(type$UxpR0RNEiTmJ760665b1dw)), /* 001b */new Array(1)));
+
+            //var __001b = new Array(1);
+            //__001b[0] = twgABr0mMjmREJxf62g10A(0, null);
+            //AQAABKl6eD2kr62vxldjAQ = hQkABkmHWjqHBHzPjs4Qsg(PQkABiO2_aTySKN41_aKL3ew(0, 'bar', _4R8ABtC6ljmbrk8x5kK6iA(new ctor$bR8ABhfpfj6IFLf_a4gLSZg(type$UxpR0RNEiTmJ760665b1dw)), __001b));
 
             var bar = (self as dynamic).bar;
         }

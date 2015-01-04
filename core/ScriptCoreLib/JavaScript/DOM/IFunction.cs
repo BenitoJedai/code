@@ -172,6 +172,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150104/dynamic
         public static explicit operator MulticastDelegate(IFunction f)
         {
             var x = new __MulticastDelegate(default(object), default(IntPtr)) { InternalMethodReference = f };

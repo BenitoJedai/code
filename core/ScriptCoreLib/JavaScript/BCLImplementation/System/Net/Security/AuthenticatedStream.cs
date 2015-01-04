@@ -12,6 +12,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
     [Script(Implements = typeof(global::System.Net.Security.AuthenticatedStream))]
     internal abstract class __AuthenticatedStream : __Stream
     {
+        // could it be used for service worker fetch?
 
         // what about CryptoStream?
         // used by
