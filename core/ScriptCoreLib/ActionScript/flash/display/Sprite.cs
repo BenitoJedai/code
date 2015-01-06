@@ -12,6 +12,9 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Sprite : DisplayObjectContainer
     {
+        // would jsc be able to dynamically update/patch running apps on the LAN?
+
+
         // if HZ no longer depends on svg files
         // and we can use .dae instead, can we move from flex to the new compiler?
 

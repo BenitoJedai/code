@@ -18,10 +18,10 @@ namespace Test453History
     /// </summary>
     public class ApplicationWebService
     {
-        /// <summary>
-        /// The static content defined in the HTML file will be update to the dynamic content once application is running.
-        /// </summary>
-        public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
+        // message: "URI malformed"
+        // b: "%1B%19%13%CA%D1hJ%E9%14%1B-%F3%DA%D1%AC%5E%09%B2%1EX%B0%1BI%B2%5E%E1%E5%5B%98%EF%0F"
+        // ?
+
 
         /// <summary>
         /// This Method is a javascript callable method.

@@ -14,6 +14,9 @@ namespace TestNDKLooper
 {
     public class xNativeActivity : ScriptCoreLibAndroidNDK.IAssemblyReferenceToken
     {
+        // tested by nexus9
+        // will this work with roslyn complier?
+
         // <!-- This .apk has no Java code itself, so set hasCode to false. -->
 
         // tested on android 2.4 galaxy s1
