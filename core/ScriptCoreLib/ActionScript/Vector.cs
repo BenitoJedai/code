@@ -15,6 +15,8 @@ namespace ScriptCoreLib.ActionScript
     [Script(IsNative = true)]
     public class Vector<T>
     {
+        // is AIR to support other generics in 2015?
+
         public Vector()
         {
 
