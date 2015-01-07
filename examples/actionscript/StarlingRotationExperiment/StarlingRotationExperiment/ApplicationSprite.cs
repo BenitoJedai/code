@@ -78,6 +78,7 @@ namespace StarlingRotationExperiment
             var maxframe = new Stopwatch();
             var maxframe_elapsed = 0.0;
 
+            // jsc analyzer, suggest net stats instead?
             #region fps
             var sw = new Stopwatch();
 

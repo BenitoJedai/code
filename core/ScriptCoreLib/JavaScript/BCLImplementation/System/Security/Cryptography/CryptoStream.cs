@@ -11,6 +11,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
 {
     // http://msdn.microsoft.com/en-us/library/system.security.cryptography.cryptostream(v=vs.110).aspx
     // https://github.com/mono/mono/tree/master/mcs/class/corlib/System.Security.Cryptography/CryptoStream.cs
+    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/security/cryptography/cryptostream.cs
     // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/CryptoStream.cs
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Security\Cryptography\CryptoStream.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\CryptoStream.cs
@@ -23,6 +24,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
     [Script(Implements = typeof(global::System.Security.Cryptography.CryptoStream))]
     internal class __CryptoStream : __Stream
     {
+        // can it be used by service worker?
+
+
         // the view-source is the shared key
         // the client creates a new key
         // to encrypted respond to

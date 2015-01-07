@@ -12,6 +12,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
     [Script(Implements = typeof(global::System.IO.MemoryStream))]
     internal class __MemoryStream : __Stream
     {
+        // http://www.adobe.com/devnet/air/articles/faster-byte-array-operations.html
+
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\MemoryStream.cs
 
         // this cost use 1 man day to figure out!

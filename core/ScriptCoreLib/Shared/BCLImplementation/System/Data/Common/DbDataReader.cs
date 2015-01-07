@@ -6,7 +6,8 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
     // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DbDataReader.cs
-    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/System.Data/System.Data.Common/DbDataReader.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System.Data/System.Data.Common/DbDataReader.cs
+    // https://github.com/Microsoft/referencesource/blob/master/System.Data/System/Data/Common/DbDataReader.cs
 
     [Script(Implements = typeof(global::System.Data.Common.DbDataReader))]
     public abstract class __DbDataReader : IDisposable, __IDataReader
