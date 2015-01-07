@@ -12,6 +12,12 @@ namespace AIRAudioWorker
     {
         public ApplicationSprite()
         {
+            // "X:\jsc.svn\examples\actionscript\air\AIRThreadedSound\AIRThreadedSound.sln"
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150107
+            // ! jsc inserts a check here now
+            // if ((__Thread.InternalWorkerInvoke_4ebbe596_0600112e(this)))
+
+
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140310
             // http://16bit.signt.com/post/31487077697/extendable-as3-worker-class
             // http://performancebydesign.blogspot.com/2011/11/measuring-thread-execution-state-using.html
@@ -49,6 +55,8 @@ namespace AIRAudioWorker
                         e.data.writeFloat(Math.Sin(((c + e.position) / Math.PI / 2)) * 0.25);
                     }
                 };
+
+            // i cannot hear a thing!
             mySound.play();
 
 

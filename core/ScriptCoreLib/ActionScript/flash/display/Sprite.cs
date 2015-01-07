@@ -20,6 +20,8 @@ namespace ScriptCoreLib.ActionScript.flash.display
 
         // AIR 16 SDK for Flex Developers
         // https://forums.adobe.com/thread/1638700
+        //1/6/2015 - Beta - AIR 16.0.0.259 Runtime and SDK
+        // https://forums.adobe.com/thread/1673793
 
         // http://help.adobe.com/en_US/air/extensions/WSb464b1207c184b14-62b8e11f12937b86be4-8000.html
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207

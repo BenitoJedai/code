@@ -8,6 +8,8 @@ namespace net.hires.debug
     {
         public ApplicationSprite()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150107
+
 
             // http://www.flare3d.com/support/index.php?topic=1101.0
             // "X:\jsc.svn\examples\actionscript\synergy\net.hires.debug\net.hires.debug\net.hires.debug.csproj"
