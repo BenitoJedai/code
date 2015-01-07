@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarlingRotationExperiment", "StarlingRotationExperiment\StarlingRotationExperiment.csproj", "{8C36076C-7270-4841-BB8B-1C28A24ED1CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "starling", "..\..\..\market\synergy\starling\starling\starling.csproj", "{C1F13666-5C65-41F7-8A00-D0F03679931C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Debug|x86.Build.0 = Debug|x86
 		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Release|x86.ActiveCfg = Release|x86
 		{8C36076C-7270-4841-BB8B-1C28A24ED1CE}.Release|x86.Build.0 = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Debug|x86.ActiveCfg = Debug|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Debug|x86.Build.0 = Debug|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Release|x86.ActiveCfg = Release|x86
+		{C1F13666-5C65-41F7-8A00-D0F03679931C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

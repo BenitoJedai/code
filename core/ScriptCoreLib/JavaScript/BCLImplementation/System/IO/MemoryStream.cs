@@ -13,6 +13,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.IO/MemoryStream.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/IO/MemoryStream.cs
 
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\MemoryStream.css
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
+
+
     [Script(Implements = typeof(global::System.IO.MemoryStream))]
     internal class __MemoryStream : __Stream
     {
@@ -20,13 +25,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 
         // X:\jsc.svn\examples\javascript\io\ZIPDecoderExperiment\ZIPDecoderExperiment\Application.cs
 
-        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
-        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\MemoryStream.cs
+
 
 
         // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
         // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\Experimental\X.cs
-        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
         // X:\jsc.svn\examples\javascript\WebCamAvatarsExperiment\WebCamAvatarsExperiment\ApplicationWebService.cs
         // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\UCLImplementation\AvalonExtensions.cs
 
