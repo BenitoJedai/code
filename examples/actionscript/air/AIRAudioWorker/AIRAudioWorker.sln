@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashWorkerExperiment", "..
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{6B5F4F8A-2603-44B7-B74C-6645C17AAC63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net.hires.debug", "..\..\synergy\net.hires.debug\net.hires.debug\net.hires.debug.csproj", "{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -27,6 +29,10 @@ Global
 		{C2DDF2CD-E027-46FE-9423-81F4F7F4BE10}.Debug|x86.Build.0 = Debug|x86
 		{C2DDF2CD-E027-46FE-9423-81F4F7F4BE10}.Release|x86.ActiveCfg = Release|x86
 		{C2DDF2CD-E027-46FE-9423-81F4F7F4BE10}.Release|x86.Build.0 = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|x86.ActiveCfg = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|x86.Build.0 = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|x86.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -34,5 +40,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C2DDF2CD-E027-46FE-9423-81F4F7F4BE10} = {6B5F4F8A-2603-44B7-B74C-6645C17AAC63}
 		{919A6834-7BA5-489D-B8D7-A062E056E5A3} = {6B5F4F8A-2603-44B7-B74C-6645C17AAC63}
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {6B5F4F8A-2603-44B7-B74C-6645C17AAC63}
 	EndGlobalSection
 EndGlobal

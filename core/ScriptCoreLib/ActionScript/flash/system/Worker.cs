@@ -11,7 +11,13 @@ namespace ScriptCoreLib.ActionScript.flash.system
     [Script(IsNative = true)]
     public class Worker : EventDispatcher
     {
+        // Please note that support for creating universal IPA binaries will only be available in the new compiler. The legacy compiler is not (and will not be)
+        // compatible with iOS 64-bit. Because of this, it will be removed with version 16 of the AIR SDK. 
+
+
+        // do we have air workers for ipad2/ios2 yet?
         // https://bugbase.adobe.com/index.cfm?event=bug&id=3683920
+        // http://forum.starling-framework.org/topic/air-sdk-16-beta
 
 
         // what happens if we throw in the worker?
