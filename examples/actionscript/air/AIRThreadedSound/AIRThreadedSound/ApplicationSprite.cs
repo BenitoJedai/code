@@ -9,12 +9,14 @@ namespace AIRThreadedSound
 {
     public sealed class ApplicationSprite : Sprite
     {
+        // tested by nexus9
+
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150107
         // X:\jsc.svn\examples\actionscript\air\AIRAudioWorker\AIRAudioWorker\ApplicationSprite.cs
 
         // would jsc be able to translate it into
         // a property with events for cross thread sync?
-        // Error	1	'AIRThreadedSound.ApplicationSprite.volume': 
-        // a volatile field cannot be of the type 'double'	X:\jsc.svn\examples\actionscript\air\AIRThreadedSound\AIRThreadedSound\ApplicationSprite.cs	13	25	AIRThreadedSound
+        
         // or, a GC like syncer should see what fields are being read and written
         // and on the fly bridge the data flow if usage is found
         //volatile double volume;
@@ -38,6 +40,10 @@ namespace AIRThreadedSound
             // http://www.blixtsystems.com/2010/11/audio-mixing-on-air-for-android/
             // http://coenraets.org/blog/2010/07/voicenotes-for-android-sample-app-using-flex-air-and-the-microphone-api/
 
+            // can we get a code analyzer to suggest a new nuget
+            // 20150107, until when clippy starts selling us things?:D
+            // Error	1	The type or namespace name 'net' could not be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\examples\actionscript\air\AIRThreadedSound\AIRThreadedSound\ApplicationSprite.cs	44	17	AIRThreadedSound
+            new net.hires.debug.Stats().AttachTo(this);
 
             new Thread(
                 // jsc, whats the scope sharing analysis for this new block
@@ -54,7 +60,7 @@ namespace AIRThreadedSound
                 // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/media/Sound.html
                 var mySound = new Sound();
 
-                    // would it make any sense to use the async workflow instead?
+                // would it make any sense to use the async workflow instead?
                 mySound.sampleData += e =>
                 {
                     // does it work on tab?
