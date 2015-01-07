@@ -17,6 +17,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
+        // http://www.hanselman.com/blog/GettingReadyForTheFutureWithTheMicrosoftNETPortabilityAnalyzer.aspx
+
         // http://channel9.msdn.com/Blogs/Charles/From-the-Archives-Erik-Meijer-and-Mark-Shields-Compiling-MSIL-to-JS
         // http://channel9.msdn.com/Forums/Coffeehouse/Volta-Dead-or-Alive
 
