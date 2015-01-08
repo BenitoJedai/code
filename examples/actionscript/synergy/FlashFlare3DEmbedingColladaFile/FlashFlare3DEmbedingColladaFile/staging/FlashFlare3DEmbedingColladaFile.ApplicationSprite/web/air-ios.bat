@@ -5,12 +5,12 @@ rem call createapk.bat
 
 
 set e=%cd%
-set swf=Flare3DMeetsStarlingExperiment.ApplicationSprite.swf
+set swf=FlashFlare3DEmbedingColladaFile.ApplicationSprite.swf
 set ipa=air.ipa
 set xml=air-descriptor.xml
 
 echo build
-call "X:\jsc.internal.svn\keystore\carlo-lenovo\air13.com.abstractatech-package.and.sign.ios.bat" %e% %swf% %ipa% %xml%
+call "X:\jsc.internal.git\keystore\carlo-lenovo\air16.com.abstractatech-package.and.sign.ios.bat" %e% %swf% %ipa% %xml%
 
 
 
@@ -23,4 +23,4 @@ rem http://blogs.adobe.com/airodynamics/2012/07/17/installinguninstalling-ios-ai
 rem https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140301
 
 echo install
-C:\util\AIRSDK_Compiler\bin\adt -installApp -platform ios -package air.ipa
+C:\util\air16_sdk_sa_win\bin\adt -installApp -platform ios -package air.ipa

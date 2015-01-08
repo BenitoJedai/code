@@ -2002,6 +2002,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Obsolete("experimental")]
         public static CSSStyleRuleMonkier operator >(CSSStyleRuleMonkier left, int millisecondsDelay)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150107
+
             // x:\jsc.svn\examples\javascript\test\test453history\test453history\application.cs
 
             // X:\jsc.svn\examples\javascript\css\Test\CSSDelayedStyle\CSSDelayedStyle\Application.cs

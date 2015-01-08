@@ -20,6 +20,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
     // http://referencesource.microsoft.com/#PresentationCore/src/Core/CSharp/System/Windows/UIElement.cs
     // https://github.com/grokys/Avalonia
     // https://github.com/grokys/Perspex
+    // https://twitter.com/fusetools
 
     [Script(Implements = typeof(global::System.Windows.UIElement))]
     public class __UIElement : __Visual, __IAnimatable, __IInputElement

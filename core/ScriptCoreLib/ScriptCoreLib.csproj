@@ -86,7 +86,6 @@
     <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodBase.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Linq\ParallelEnumerable.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAny.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
     <Compile Include="JavaScript\DOM\CacheStorage.cs" />

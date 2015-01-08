@@ -8,6 +8,8 @@ using System.Runtime.Serialization;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
 {
+    // https://github.com/dotnet/corefx/blob/master/src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+
 	[Script(Implements = typeof(global::System.Collections.Specialized.NameObjectCollectionBase))]
 	public abstract class __NameObjectCollectionBase : ICollection, IEnumerable, ISerializable, IDeserializationCallback
 	{

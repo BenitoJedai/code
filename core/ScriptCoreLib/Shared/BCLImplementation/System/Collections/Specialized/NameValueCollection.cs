@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
 {
     // http://referencesource.microsoft.com/#System/compmod/system/collections/specialized/namevaluecollection.cs
+    // https://github.com/dotnet/corefx/blob/master/src/System.Collections.Specialized/src/System/Collections/Specialized/NameValueCollection.cs
 
     [Script(Implements = typeof(global::System.Collections.Specialized.NameValueCollection))]
     public class __NameValueCollection : __NameObjectCollectionBase
