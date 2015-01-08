@@ -33,6 +33,7 @@ namespace FlashFlare3DEmbedingColladaFile
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+#if FCHROME
             #region += Launched chrome.app.window
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
             dynamic self = Native.self;
@@ -51,6 +52,8 @@ namespace FlashFlare3DEmbedingColladaFile
                 return;
             }
             #endregion
+#endif
+
 
             var sprite = new ApplicationSprite();
             sprite.AttachSpriteToDocument().With(
