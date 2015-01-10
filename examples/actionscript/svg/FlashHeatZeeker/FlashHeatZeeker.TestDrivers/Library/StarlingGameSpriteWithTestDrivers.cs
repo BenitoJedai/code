@@ -3,6 +3,8 @@ using Box2D.Dynamics;
 using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.CorePhysics.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
+// jsc should be able to enforce project dependencies
+// vs seems to forget.
 using FlashHeatZeeker.UnitCannon.Library;
 using FlashHeatZeeker.UnitCannonControl.Library;
 using FlashHeatZeeker.UnitHind.Library;

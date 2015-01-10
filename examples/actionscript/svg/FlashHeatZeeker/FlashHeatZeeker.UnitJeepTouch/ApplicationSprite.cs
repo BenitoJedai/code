@@ -15,6 +15,9 @@ namespace FlashHeatZeeker.UnitJeepTouch
     {
         public readonly ApplicationCanvas content1 = new ApplicationCanvas();
 
+        // 30 fps in chrome?
+        // 60 fps in air tester?
+
         public ApplicationSprite()
         {
             // http://away3d.com/forum/viewthread/1976/
