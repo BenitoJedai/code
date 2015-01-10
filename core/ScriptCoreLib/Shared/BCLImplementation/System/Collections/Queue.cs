@@ -7,6 +7,8 @@ using System.Collections;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections
 {
     // http://referencesource.microsoft.com/#mscorlib/system/collections/queue.cs
+    // https://github.com/dotnet/corefx/blob/master/src/System.Collections.NonGeneric/src/System/Collections/Queue.cs
+
 	[Script(Implements = typeof(global::System.Collections.Queue))]
 	internal class __Queue
 	{
