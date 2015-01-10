@@ -9,6 +9,10 @@ namespace ScriptCoreLib.ActionScript.flash.events
     [Script(IsNative=true)]
     public class NetStatusEvent : Event
     {
+        // tested by ?
+
+        // when will c# dynamic keyword learn intellisense?
+
         [Script]
         public class dynamic
         {
