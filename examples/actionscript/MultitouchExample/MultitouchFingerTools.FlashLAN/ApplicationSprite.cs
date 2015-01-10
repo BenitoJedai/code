@@ -51,11 +51,13 @@ namespace MultitouchFingerTools.FlashLAN
 
                     #endregion
 
+                    // AttachToSprite
                     content.AttachToContainer(this).AutoSizeTo(this.stage);
 
                     // user code
                     content.ConnectToSession(ApplicationCanvasExtensionsForFlash.ConnectToSessionVariation.Flash);
 
+                    // asset builder to find the nuget for us?
                     this.addChild(new net.hires.debug.Stats());
                 }
             );

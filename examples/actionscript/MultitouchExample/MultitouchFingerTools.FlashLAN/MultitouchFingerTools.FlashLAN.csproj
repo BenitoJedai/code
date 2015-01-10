@@ -52,18 +52,6 @@
     <Reference Include="Abstractatech.JavaScript.Forms.FloatStyler">
       <HintPath>..\packages\Abstractatech.JavaScript.Forms.FloatStyler.1.0.0.0\lib\Abstractatech.JavaScript.Forms.FloatStyler.dll</HintPath>
     </Reference>
-    <Reference Include="Chrome Web Server">
-      <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
-    </Reference>
-    <Reference Include="Chrome Web Server App Window">
-      <HintPath>..\packages\Chrome.Web.Server.AppWindow.1.0.0.0\lib\Chrome Web Server App Window.dll</HintPath>
-    </Reference>
-    <Reference Include="Chrome Web Server Styled Form">
-      <HintPath>..\packages\Chrome.Web.Server.StyledForm.1.0.0.0\lib\Chrome Web Server Styled Form.dll</HintPath>
-    </Reference>
-    <Reference Include="Chrome Web Store">
-      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
-    </Reference>
     <Reference Include="FSharp.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="jsc.meta, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

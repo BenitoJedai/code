@@ -10,6 +10,8 @@ namespace ScriptCoreLib.ActionScript.flash.events
     public class NetStatusEvent : Event
     {
         // tested by ?
+        // "X:\jsc.svn\examples\actionscript\MultitouchExample\MultitouchFingerTools.FlashLAN\MultitouchFingerTools.FlashLAN.csproj"
+        // X:\jsc.svn\examples\actionscript\MultitouchExample\MultitouchFingerTools.FlashLAN\ApplicationSprite.cs
 
         // when will c# dynamic keyword learn intellisense?
 

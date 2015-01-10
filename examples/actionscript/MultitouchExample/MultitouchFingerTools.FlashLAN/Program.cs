@@ -4,7 +4,7 @@
 // http://studio.jsc-solutions.net/
 
 
-using chrome;
+//using chrome;
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using MultitouchFingerTools.FlashLAN;
 using MultitouchFingerTools.FlashLAN.HTML.Pages;
@@ -210,6 +210,10 @@ namespace MultitouchFingerTools.FlashLAN
 
 #endif
 
+#if FCHROME
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150110
+
+
             #region += Launched chrome.app.window
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
             dynamic self = Native.self;
@@ -232,6 +236,8 @@ namespace MultitouchFingerTools.FlashLAN
                 return;
             }
             #endregion
+#endif
+
 
             var sprite = new ApplicationSprite();
             sprite.AttachSpriteToDocument().With(

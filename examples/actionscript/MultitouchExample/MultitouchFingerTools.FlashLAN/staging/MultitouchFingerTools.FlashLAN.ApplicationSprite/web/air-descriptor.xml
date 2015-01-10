@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<application xmlns="http://ns.adobe.com/air/application/13.0">
+<application xmlns="http://ns.adobe.com/air/application/16.0">
   <!--
   https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140301
+  https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150110
+  
+  
+  :: Installation Error: ApplicationVerificationFailed.
+  
   -->
   
   <!--<id>FlashWorkerExperiment</id>-->
 
-  <id>com.abstractatech.gamification.mft</id>
+  <!--<id>com.abstractatech.gamification.mft</id>-->
+  <id>jsc-solutions.hellojsc</id>
   
   <versionNumber>2</versionNumber>
   <filename>MultitouchFingerTools.FlashLAN</filename>
