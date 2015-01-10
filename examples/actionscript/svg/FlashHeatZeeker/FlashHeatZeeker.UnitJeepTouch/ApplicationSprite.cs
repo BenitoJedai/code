@@ -33,7 +33,8 @@ namespace FlashHeatZeeker.UnitJeepTouch
 
             var content0 = new FlashHeatZeeker.UnitJeepControl.ApplicationSprite();
 
-            content0.AttachTo(this);
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150110/hz
+            content0.AttachToSprite();
 
             content1.r.Opacity = 0;
 
@@ -95,7 +96,13 @@ namespace FlashHeatZeeker.UnitJeepTouch
 
 
                     // http://www.flare3d.com/support/index.php?topic=1101.0
-                    this.addChild(new Stats());
+                    //this.addChild(new Stats());
+                    // public static T AttachToSprite<T>(this T e) where T : DisplayObject;
+                    // Error	1	The type 'net.hires.debug.Stats' cannot be used as type parameter 'T'
+                    // in the generic type or method 'System.Windows.Forms.ControlExtensions.MoveTo<T>(T, int, int)'.
+                    //There is no implicit reference conversion from 'net.hires.debug.Stats' to 'System.Windows.Forms.Control'.	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.UnitJeepTouch\ApplicationSprite.cs	101	21	FlashHeatZeeker.UnitJeepTouch
+                    //new net.hires.debug.Stats().AttachToSprite().MoveTo(0, 48);
+                    new net.hires.debug.Stats().AttachToSprite().y = 48;
                 }
             );
         }

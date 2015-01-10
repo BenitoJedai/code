@@ -10,6 +10,8 @@ namespace FlashHeatZeeker.UnitTankSync
     {
         public static void Main(string[] args)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150110/hz
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 
