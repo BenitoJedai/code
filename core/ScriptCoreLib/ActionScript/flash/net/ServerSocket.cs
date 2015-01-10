@@ -25,6 +25,9 @@ namespace ScriptCoreLib.ActionScript.flash.net
         {
         }
 
+        // tcp async server?
+        // chrome app can create a server, now air can too.
+        // can ios device know its ip in the lan?
 
         // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/ServerSocket.html#event:connect
         [method: Script(NotImplementedHere = true)]
