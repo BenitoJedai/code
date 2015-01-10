@@ -76,11 +76,16 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
         private static bool InternalIsSequenceEqualToDataRow(string[] columnNames, DataRow SourceRow, bool SequenceEqual, DataRow NewRow)
         {
+#if FIXED
             var SourceCells = columnNames.Select(z => SourceRow[z]).ToArray();
             var NewCells = columnNames.Select(z => NewRow[z]).ToArray();
 
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150109
+            // error in java?
             if (SourceCells.SequenceEqual(NewCells))
                 SequenceEqual = true;
+
+#endif
 
             return SequenceEqual;
         }
