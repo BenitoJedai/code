@@ -141,6 +141,9 @@ namespace FlashHeatZeeker.UnitTankSync
 
                   s.showStats = true;
 
+                  // when can we have live constant updates?
+                  new net.hires.debug.Stats().AttachToSprite().MoveTo(0, 48);
+
                   #region atresize
                   Action atresize = delegate
                   {
