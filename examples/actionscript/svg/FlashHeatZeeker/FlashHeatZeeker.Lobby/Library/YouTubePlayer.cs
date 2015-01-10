@@ -15,6 +15,8 @@ namespace InteractivePromotionB.Components
 {
     internal static class DynamicYouTubePlayer
     {
+        // we should have dynamic by now.
+
         // dynamic keyword please!!
 
         [Script(OptimizedCode = "e.seekTo(seconds, allowSeekAhead);")]

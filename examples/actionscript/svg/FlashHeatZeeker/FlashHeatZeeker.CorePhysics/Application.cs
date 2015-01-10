@@ -30,6 +30,9 @@ namespace FlashHeatZeeker.CorePhysics
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // what to expect when we run this?
+            // 
+
             sprite.AttachSpriteToDocument().With(
                    embed =>
                    {

@@ -1,4 +1,7 @@
-﻿using Box2D.Dynamics;
+﻿
+// jsc store/market
+// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150110/hz
+using Box2D.Dynamics;
 using FlashHeatZeeker.CorePhysics.Library;
 using System;
 using System.Collections.Generic;
