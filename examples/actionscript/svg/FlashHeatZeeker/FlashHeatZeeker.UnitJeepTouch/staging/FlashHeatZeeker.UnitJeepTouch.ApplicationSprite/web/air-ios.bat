@@ -14,7 +14,7 @@ echo build
 :: ipad 6 FPS
 rem call "X:\jsc.internal.svn\keystore\carlo-lenovo\air13.com.abstractatech-package.and.sign.ios.bat" %e% %swf% %ipa% %xml%
 :: rem 24 fps
-call "X:\jsc.internal.svn\keystore\carlo-lenovo\air16.com.abstractatech-package.and.sign.ios.aot.bat" %e% %swf% %ipa% %xml%
+call "X:\jsc.internal.git\keystore\carlo-lenovo\air16.com.abstractatech-package.and.sign.ios.aot.bat" %e% %swf% %ipa% %xml%
 
 
 
