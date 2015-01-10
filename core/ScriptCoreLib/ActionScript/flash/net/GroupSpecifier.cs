@@ -5,9 +5,14 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.flash.net
 {
+    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/GroupSpecifier.html
+
     [Script(IsNative = true)]
     public class GroupSpecifier
     {
+        // X:\jsc.svn\examples\actionscript\MultitouchExample\MultitouchFingerTools.FlashLAN\ApplicationCanvas.Session.cs
+        public int minGroupspecVersion { get; set; }
+
         #region Methods
         /// <summary>
         /// Causes the associated NetStream or NetGroup to make an initial neighbor connection to the specified peerID.
