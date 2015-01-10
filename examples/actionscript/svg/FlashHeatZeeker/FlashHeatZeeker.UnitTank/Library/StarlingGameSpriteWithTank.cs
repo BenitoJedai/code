@@ -42,11 +42,21 @@ namespace FlashHeatZeeker.UnitTank.Library
 
             this.onbeforefirstframe += delegate
              {
+                 // this will be called once.
+
+
+
+
+                 
                  // 12 FPS
                  //var c = 64;
 
                  // 60 FPS
-                 var c = 20;
+                 // ios 17FPS ?
+                 //var c = 20;
+
+                 // ios8 60FPS!
+                 var c = 10;
 
                  for (int i = 0; i < c; i++)
                      for (int yi = 0; yi < c; yi++)
@@ -55,8 +65,11 @@ namespace FlashHeatZeeker.UnitTank.Library
 
                          var tank1 = new VisualTank(textures, this);
 
+
+                         // setting up some randomization
                          tank1.SetPositionAndAngle(i * 128, yi * 128, rot);
 
+                         // this will be called a lot.
                          onframe += delegate
                          {
                              tank1.Animate(1);

@@ -156,6 +156,7 @@
     </Compile>
     <Content Include="staging\FlashFlare3DEmbedingColladaFile.ApplicationSprite\web\air-descriptor.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <EmbeddedResource Include="web\assets\FlashFlare3DEmbedingColladaFile\HZCannon_capture_009_04032013_192834.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

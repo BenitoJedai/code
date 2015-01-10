@@ -12,6 +12,19 @@ namespace FlashHeatZeeker.UnitTank
     [SWF(backgroundColor = 0xA26D41)]
     public sealed class ApplicationSprite : Sprite
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150110/hz
+
+
+        //Error: Error #3709: The depthAndStencil flag in the application descriptor must match the enableDepthAndStencil Boolean passed to configureBackBuffer on the Context3D object.
+        //    at flash.display3D::Context3D/configureBackBuffer()
+        //    at Function/http://adobe.com/AS3/2006/builtin::apply()
+        //    at starling.core::Starling/configureBackBuffer()
+        //    at starling.core::Starling/updateViewPort()
+        //    at starling.core::Starling/initializeGraphicsAPI()
+        //    at starling.core::Starling/initialize()
+        //    at starling.core::Starling/onContextCreated()
+
+
         public ApplicationSprite()
         {
             this.InvokeWhenStageIsReady(
