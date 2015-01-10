@@ -407,6 +407,10 @@ namespace ScriptCoreLib.JavaScript
             return Native.worker.encodeURIComponent(i);
         }
 
+
+        //<exception>: URIError: URI malformed
+        //b: "%1B%19%13%CA%D1hJ%E9%14%1B-%F3%DA%D1%AC%5E%09%B2%1EX%B0%1BI%B2%5E%E1%E5%5B%98%EF%0F"
+
         public static string decodeURIComponent(string i)
         {
             if (Native.window != null)
