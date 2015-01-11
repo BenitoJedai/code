@@ -21,6 +21,7 @@ namespace Test453WhileBreak
                 int r = 0;
                 var x = p;
 
+                // i {[0x002f] brtrue.s   +0 -1{[0x002d] ldloc.s    +1 -0} }
                 while (x != null)
                 {
                     r = x.Compare(a, b);
