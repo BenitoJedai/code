@@ -38,7 +38,7 @@ namespace ColorDisco
         {
             // tested with roslyn.
 
-            Native.document.body.css.style.transition = "background-color 100ms linear";
+            Native.document.body.css.style.transition = "background-color 333ms linear";
 
             this.body = Native.document.body;
 

@@ -206,7 +206,7 @@ namespace NatureBoy.js
             Container.style.SetSize(ViewSize.Width, ViewSize.Height + 22);
             Container.KeepInCenter();
 
-            Container.MakeCSSShaderCrumple();
+            //Container.MakeCSSShaderCrumple();
 
             var Wallpaper = new IHTMLDiv().AttachTo(Container);
             Wallpaper.style.SetSize(ViewSize.Width, ViewSize.Height + 22);
