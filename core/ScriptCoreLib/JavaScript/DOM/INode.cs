@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.Query;
 using ScriptCoreLib.JavaScript.Extensions;
 using System.Threading.Tasks;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
+using System;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -207,10 +208,15 @@ namespace ScriptCoreLib.JavaScript.DOM
             return this.GetEnumerator();
         }
 
+
+
+
+
+
         #endregion
 
 
 
-
+        // 
     }
 }
