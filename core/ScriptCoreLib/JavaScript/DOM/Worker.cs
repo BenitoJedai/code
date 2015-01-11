@@ -338,6 +338,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             __Task<object>[] TaskArray
             )
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111
+
             #region ConsoleFormWriter
             var w = new InternalInlineWorkerTextWriter();
 

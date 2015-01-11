@@ -2002,6 +2002,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Obsolete("experimental")]
         public static CSSStyleRuleMonkier operator >(CSSStyleRuleMonkier left, int millisecondsDelay)
         {
+            // X:\jsc.svn\examples\javascript\Test\Test453NamedParameter\Test453NamedParameter\Class1.cs
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150107
 
             // x:\jsc.svn\examples\javascript\test\test453history\test453history\application.cs
@@ -2016,7 +2019,6 @@ namespace ScriptCoreLib.JavaScript.DOM
                 left.__task.ContinueWith(
                     x =>
                     {
-                        // X:\jsc.svn\examples\javascript\Test\Test453NamedParameter\Test453NamedParameter\Class1.cs
 
                         //Console.WriteLine("conditional after? onclick complete");
                         __Task.Delay(millisecondsDelay: millisecondsDelay).ContinueWith(

@@ -11,6 +11,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "RTCPeerConnection")]
     public class RTCPeerConnection
     {
+        // http://blog.salemove.com/webrtc-vs-flash-not-much-of-a-competition/
+
         // http://googletesting.blogspot.se/2014/08/chrome-firefox-webrtc-interop-test-pt-1.html
 
         // how does this relate to UDP / encrypted UDP

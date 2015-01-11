@@ -17,7 +17,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 #else
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.YieldAwaitable")]
 #endif
-    internal class __YieldAwaitable
+    public class __YieldAwaitable
     {
         // X:\jsc.svn\examples\javascript\Test\TestAsyncAssignArrayToEnumerable\TestAsyncAssignArrayToEnumerable\Application.cs
 
@@ -28,7 +28,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
     }
 
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.YieldAwaitable+YieldAwaiter")]
-    internal class __YieldAwaiter
+    public class __YieldAwaiter
     {
         // x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
 

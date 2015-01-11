@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
-    internal partial class __Task
+    public partial  class __Task
     {
         // public static Task<Task<TResult>> WhenAny<TResult>(params Task<TResult>[] tasks);
 

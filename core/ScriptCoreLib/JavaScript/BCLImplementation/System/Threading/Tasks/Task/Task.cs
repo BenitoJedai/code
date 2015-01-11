@@ -33,8 +33,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     // Task<TResult> (aka. promise).
 
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
-    internal partial class __Task
+    public partial class __Task
     {
+        // X:\jsc.svn\examples\javascript\Test\Test453NamedParameter\Test453NamedParameter\Class1.cs
+
 
         public override string ToString()
         {
@@ -93,7 +95,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
         #region Factory
-        public static __TaskFactory InternalFactory
+        public static TaskFactory InternalFactory
         {
             get
             {

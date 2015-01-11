@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
-    internal partial class __Task
+    public partial class __Task
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAll.cs
 
