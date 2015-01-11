@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatureBoyTestPadExperiment", "NatureBoyTestPadExperiment\NatureBoyTestPadExperiment.csproj", "{7C790787-CE0B-4918-95D1-63C5F1A90362}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.NatureBoy", "..\..\..\market\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy.csproj", "{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{ABA5DBFB-1901-4F55-8A35-850EBF71B492}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{F32D7675-1193-4DA7-98C8-C8B010C608D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{5EC1743F-043B-44E8-A635-72331EEE81D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{88756CC0-7E88-42B7-980E-02D5924CF88F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerWithFrameNone", "..\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone.csproj", "{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}"
 EndProject
@@ -73,46 +75,46 @@ Global
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|Mixed Platforms.Build.0 = Release|x86
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.ActiveCfg = Release|x86
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|Any CPU.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|Mixed Platforms.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|Mixed Platforms.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|x86.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|x86.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.Build.0 = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.PHP|Any CPU.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.PHP|Mixed Platforms.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.PHP|Mixed Platforms.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.PHP|x86.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.PHP|x86.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Any CPU.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.Build.0 = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Android|Any CPU.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Android|Mixed Platforms.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Android|Mixed Platforms.Build.0 = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Android|x86.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Android|x86.Build.0 = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Debug|x86.ActiveCfg = Debug|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Debug|x86.Build.0 = Debug|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.PHP|Any CPU.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.PHP|Mixed Platforms.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.PHP|Mixed Platforms.Build.0 = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.PHP|x86.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.PHP|x86.Build.0 = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Release|Any CPU.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Release|Mixed Platforms.Build.0 = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Release|x86.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Release|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Android|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.PHP|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.PHP|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.PHP|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|Any CPU.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|Mixed Platforms.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|x86.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.ActiveCfg = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.Build.0 = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.PHP|Any CPU.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.PHP|x86.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.PHP|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|Any CPU.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|Mixed Platforms.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.Build.0 = Release|x86
 		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|Any CPU.ActiveCfg = Release|x86
 		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|Mixed Platforms.ActiveCfg = Release|x86
 		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|Mixed Platforms.Build.0 = Release|x86
@@ -179,8 +181,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED} = {ABA5DBFB-1901-4F55-8A35-850EBF71B492}
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {ABA5DBFB-1901-4F55-8A35-850EBF71B492}
-		{88756CC0-7E88-42B7-980E-02D5924CF88F} = {ABA5DBFB-1901-4F55-8A35-850EBF71B492}
+		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {ABA5DBFB-1901-4F55-8A35-850EBF71B492}
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {ABA5DBFB-1901-4F55-8A35-850EBF71B492}
 		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {ABA5DBFB-1901-4F55-8A35-850EBF71B492}
 		{9672D112-D806-49D3-B5C8-3B3A2278AD18} = {ABA5DBFB-1901-4F55-8A35-850EBF71B492}
 		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {ABA5DBFB-1901-4F55-8A35-850EBF71B492}
