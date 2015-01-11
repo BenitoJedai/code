@@ -32,12 +32,7 @@ namespace Test453History
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150110/history
 
-            //02000556 ScriptCoreLib.JavaScript.DOM.CSSStyleRuleMonkier+<>c__DisplayClass17
-            //{ SourceMethod = Void <op_GreaterThan>b__18(System.Threading.Tasks.Task) }
-            //script: error JSC1000: Method: <op_GreaterThan>b__18, Type: ScriptCoreLib.JavaScript.DOM.CSSStyleRuleMonkier+<>c__DisplayClass17; emmiting failed : System.ArgumentNullException: Value cannot be null.
-            //   at jsc.ILFlowStackItem.InlineLogic(Prestatement p) in x:\jsc.internal.git\compiler\jsc\CodeModel\ILFlow.cs:line 68
-            //   at jsc.IL2ScriptGenerator.OpCodeHandlerArgument(IdentWriter w, Prestatement p, ILInstruction i, ILFlowStackItem s) in x:\jsc.internal.git\compiler\jsc\Languages\JavaScript\IL2ScriptGenerator.cs:line 212
-
+        
             var u = "201501";
 
             new IHTMLButton { "next" }.AttachToDocument().onclick +=

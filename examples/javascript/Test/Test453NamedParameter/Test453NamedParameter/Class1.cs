@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 [assembly: Obfuscation(Feature = "script")]
 namespace Test453NamedParameter
 {
-    public class Class1 : ScriptCoreLib.Shared.IAssemblyReferenceToken
+    public class Class1 
+        : ScriptCoreLib.Shared.IAssemblyReferenceToken
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150107
 
