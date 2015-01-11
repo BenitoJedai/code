@@ -312,6 +312,8 @@ namespace ThreeDStuff.js
             info.innerText = "Loading images...";
 
             #region StartLoadingSingleImage
+            // X:\jsc.svn\examples\javascript\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\Library\Tycoon4.cs
+            // X:\jsc.svn\examples\javascript\Test\Test453StartLoadingSingleImage\Test453StartLoadingSingleImage\Class1.cs
             Action<IHTMLImage> StartLoadingSingleImage = Image =>
                 {
                     ImagesThatAreCurrentlyLoading.Add(Image);
