@@ -72,6 +72,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
                     callback:
                          tx =>
                          {
+                             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111
                              // tested by ?
 
 
