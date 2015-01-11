@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.gamification.craft", "com.abstractatech.gamification.craft\com.abstractatech.gamification.craft.csproj", "{AFB54CD6-F4FF-4C30-A983-5BB45BE818D8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{25C11821-6AAF-4AED-95D1-8B60431A0585} = {25C11821-6AAF-4AED-95D1-8B60431A0585}
@@ -20,9 +22,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerWithFrameNon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServer", "..\..\chrome\apps\ChromeTCPServer\ChromeTCPServer\ChromeTCPServer.csproj", "{9672D112-D806-49D3-B5C8-3B3A2278AD18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{88756CC0-7E88-42B7-980E-02D5924CF88F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Async", "..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\ScriptCoreLib.Async.csproj", "{88C3C260-D1DA-4FB3-A53D-79462913E80C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "chrome", "chrome", "{F93C389D-22F6-4729-AB8B-920F9A10D763}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -160,26 +164,26 @@ Global
 		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Release|Mixed Platforms.Build.0 = Release|x86
 		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Release|x86.ActiveCfg = Release|x86
 		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Release|x86.Build.0 = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Android|Any CPU.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Android|Mixed Platforms.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Android|Mixed Platforms.Build.0 = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Android|x86.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Android|x86.Build.0 = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Debug|x86.ActiveCfg = Debug|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Debug|x86.Build.0 = Debug|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.PHP|Any CPU.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.PHP|Mixed Platforms.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.PHP|Mixed Platforms.Build.0 = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.PHP|x86.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.PHP|x86.Build.0 = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Release|Any CPU.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Release|Mixed Platforms.Build.0 = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Release|x86.ActiveCfg = Release|x86
-		{88756CC0-7E88-42B7-980E-02D5924CF88F}.Release|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|Any CPU.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|Mixed Platforms.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|x86.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.ActiveCfg = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.Build.0 = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.PHP|Any CPU.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.PHP|x86.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.PHP|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|Any CPU.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|Mixed Platforms.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.Build.0 = Release|x86
 		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Android|Any CPU.ActiveCfg = Release|x86
 		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Android|Mixed Platforms.ActiveCfg = Release|x86
 		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Android|Mixed Platforms.Build.0 = Release|x86
@@ -207,9 +211,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{25C11821-6AAF-4AED-95D1-8B60431A0585} = {FA7B8E22-E58F-491F-9F0F-4C500517DBCA}
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED} = {FA7B8E22-E58F-491F-9F0F-4C500517DBCA}
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {FA7B8E22-E58F-491F-9F0F-4C500517DBCA}
-		{9672D112-D806-49D3-B5C8-3B3A2278AD18} = {FA7B8E22-E58F-491F-9F0F-4C500517DBCA}
-		{88756CC0-7E88-42B7-980E-02D5924CF88F} = {FA7B8E22-E58F-491F-9F0F-4C500517DBCA}
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {F93C389D-22F6-4729-AB8B-920F9A10D763}
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18} = {F93C389D-22F6-4729-AB8B-920F9A10D763}
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {F93C389D-22F6-4729-AB8B-920F9A10D763}
 		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {FA7B8E22-E58F-491F-9F0F-4C500517DBCA}
+		{F93C389D-22F6-4729-AB8B-920F9A10D763} = {FA7B8E22-E58F-491F-9F0F-4C500517DBCA}
 	EndGlobalSection
 EndGlobal

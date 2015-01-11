@@ -65,7 +65,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             // unless jsc now has learned how to do a global async?
             // fake sleep. keep cpu busy!
+            throw null;
 
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111
+#if false
             Console.WriteLine("sleep " + new { ms, Thread.CurrentThread.ManagedThreadId });
 
             var e = new Stopwatch();
@@ -78,6 +81,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 }
 
             Console.WriteLine("end of sleep " + new { ms, e.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId });
+            #endif
+
         }
 
 
