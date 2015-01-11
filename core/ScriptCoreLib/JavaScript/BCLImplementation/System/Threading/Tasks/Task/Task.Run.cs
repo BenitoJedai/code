@@ -22,7 +22,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs
 
-    internal partial class __Task
+    public partial class __Task
     {
         // X:\jsc.svn\examples\java\hybrid\JVMCLRHopToThreadPool\JVMCLRHopToThreadPool\Program.cs
 

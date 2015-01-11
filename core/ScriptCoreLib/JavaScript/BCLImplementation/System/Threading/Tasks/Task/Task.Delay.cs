@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
-    internal partial class __Task
+    public partial class __Task
     {
         // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.Delay.cs
 

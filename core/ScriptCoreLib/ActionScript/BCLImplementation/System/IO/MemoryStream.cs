@@ -13,6 +13,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
     internal class __MemoryStream : __Stream
     {
         // http://www.adobe.com/devnet/air/articles/faster-byte-array-operations.html
+        // https://obtw.wordpress.com/2013/04/03/making-bytearray-faster/
+        // https://makc3d.wordpress.com/2013/04/11/as3-and-alchemy/
+        // https://makc3d.wordpress.com/2013/05/27/how-to-make-asc2-alchemy-swc-asc1-compatible/
+
 
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\MemoryStream.cs
 

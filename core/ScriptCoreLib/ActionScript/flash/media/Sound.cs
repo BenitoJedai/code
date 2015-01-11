@@ -41,6 +41,7 @@ namespace ScriptCoreLib.ActionScript.flash.media
     [Obsolete("experimental")]
     public class SoundTasks
     {
+
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\IHTMLElement.async.cs
         // X:\jsc.svn\core\ScriptCoreLib\ActionScript\Extensions\flash\display\InteractiveObject.cs
 
@@ -134,6 +135,9 @@ namespace ScriptCoreLib.ActionScript.flash.media
     [Script(IsNative = true)]
     public class Sound : EventDispatcher
     {
+        // https://makc3d.wordpress.com/2009/12/10/what-exactly-is-position-in-sound-extract/
+
+        // 
         // cymatics
         // sound is a very important type. 
         // with the correct speakers we should be aveble to levitate particles
