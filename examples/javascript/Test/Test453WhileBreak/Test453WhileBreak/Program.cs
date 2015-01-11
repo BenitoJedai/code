@@ -11,6 +11,20 @@ namespace Test453WhileBreak
     {
         private Program next;
 
+
+        //while (f!=null)
+        //{
+        //  e = f.AgAABiwiQTmQStujX5drSQ(b, c);
+        //  g = (e > 0);
+
+        //  if (g)
+        //  {
+        //    break;
+        //  }
+
+        //  f = f.next;
+        //}
+
         int Foo(Program a, Program b)
         {
             var p = this;
@@ -21,6 +35,7 @@ namespace Test453WhileBreak
                 int r = 0;
                 var x = p;
 
+                // i {[0x0008] br.s       +0 -0}
                 // i {[0x002f] brtrue.s   +0 -1{[0x002d] ldloc.s    +1 -0} }
                 while (x != null)
                 {
@@ -31,7 +46,7 @@ namespace Test453WhileBreak
 
                     x = x.next;
                 }
-
+                // i.InlineLoopConstruct.Join = {[0x0031] ldloc.1    +1 -0}
                 return r;
             }
         }
