@@ -488,6 +488,14 @@ namespace ScriptCoreLib.Ultra.WebService
             #region WebMethodMetadataToken
             if (Context.Request.HttpMethod == "POST")
             {
+                // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\WebClient.cs
+                
+                // who sets WebMethodMetadataToken ?
+                // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\JavaScript\Remoting\InternalWebMethodRequest.cs
+                // C:\Users\Arvo\AppData\Local\Temp\6796$ScriptCoreLib.Ultra.dll$v4.0.30319$NoDynamic\ScriptCoreLib.JavaScript.Remoting.InternalWebMethodRequest.cs
+
+                // X:\jsc.svn\examples\javascript\css\Test\TestLongWebMethod\TestLongWebMethod\Application.cs
+
                 // tested by
                 // X:\jsc.svn\examples\javascript\Test\TestWebMethodIPAddress\TestWebMethodIPAddress\ApplicationWebService.cs
                 // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\Templates\JavaScript\InternalWebMethodRequest.cs

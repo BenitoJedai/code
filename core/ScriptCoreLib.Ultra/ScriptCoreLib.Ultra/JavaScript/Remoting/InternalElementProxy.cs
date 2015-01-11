@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.Remoting
     // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.WriteInitialization.cs
 	public abstract class __InternalElementProxy
 	{
+        // tested by?
+
 		public IHTMLElement __InternalElement;
 
 		public static implicit operator IHTMLElement(__InternalElementProxy e)

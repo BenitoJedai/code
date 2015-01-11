@@ -181,7 +181,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
 
 
-
+        // this means we are to run on a server
         public HttpContext InternalContext;
         [Obsolete("is that it, just store the context?")]
         public void LoadParameters(HttpContext c)

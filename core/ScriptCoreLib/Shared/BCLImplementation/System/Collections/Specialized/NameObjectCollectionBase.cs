@@ -47,9 +47,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
 			throw new NotImplementedException();
 		}
 
-		public int Count
+		public virtual int Count
 		{
-			get { throw new NotImplementedException(); }
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\WebClient.cs
+            get { throw new NotImplementedException(); }
 		}
 
 		public bool IsSynchronized
