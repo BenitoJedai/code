@@ -53,7 +53,15 @@ namespace TestLongWebMethod
 
                     await Native.body.async.onclick;
 
+                    // this will forget the id?
+                    //page.Header = "will do the thing...";
+                    page.Header.innerText = "will do the thing...";
+
                     var sw = Stopwatch.StartNew();
+
+
+
+
 
                     // Show Details	Severity	Code	Description	Project	File	Line
                     //Error CS1674  'IHTMLPre': type used in a using statement must be implicitly convertible to 'System.IDisposable'   TestLongWebMethod Application.cs  59
@@ -68,15 +76,29 @@ namespace TestLongWebMethod
                         await Task.Delay(300);
                         Console.WriteLine("yellow to cyan done " + new { sw.ElapsedMilliseconds });
 
+                        //(Native.css > 600).style.backgroundColor = "red";
+
+                        var task = this.WebMethod2();
+
+                        //Native.css[task].style.backgroundColor = "red";
+                        //Native.css[task].not.style.backgroundColor = "red";
+                        //(!(Native.css + task)).style.backgroundColor = "red";
+
+                        var xsw = Stopwatch.StartNew();
+
+                        // longer than expected
+                        //(Native.css + Task.Delay(1200) - task).style.backgroundColor = "red";
+                        (Native.css + Task.Delay(800) - task).style.backgroundColor = "red";
+
                         //await Task.Delay(1000);
-                        await this.WebMethod2();
+                        await task;
 
 
 
                         Console.WriteLine("cyan to yellow " + new { sw.ElapsedMilliseconds });
                         Native.css.style.backgroundColor = "yellow";
 
-                        new IHTMLPre { "will dispose be called?" }.AttachToDocument();
+                        new IHTMLPre { "will dispose be called? " + new { xsw.ElapsedMilliseconds } }.AttachToDocument();
 
                         // workaround
                         // until async using dispose works..
