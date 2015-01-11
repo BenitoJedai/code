@@ -49,7 +49,7 @@ namespace LBAPrequelPromotion
             //            .Try ommiting the return, break or continue instruction.
             // not ready for roslyn!
 
-
+#if false
 
             #region AtFormCreated
             FormStyler.AtFormCreated =
@@ -81,6 +81,8 @@ namespace LBAPrequelPromotion
                 return;
             }
             #endregion
+#endif
+
 
             // https://docs.google.com/a/jsc-solutions.net/spreadsheet/ccc?key=0AjBm0oHdZ3DwdFhMb2UxVnBYUnNnUE16LUNiUzJJSVE#gid=0
             //<iframe src="https://docs.google.com/a/jsc-solutions.net/spreadsheet/embeddedform?formkey=dFhMb2UxVnBYUnNnUE16LUNiUzJJSVE6MQ" width="760" height="692" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
@@ -182,12 +184,12 @@ namespace LBAPrequelPromotion
                                   AtKeyCode(e.KeyCode);
                               };
 
-                          Native.window.onorientationchange +=
-                              delegate
-                              {
-                                  Toggle();
+                          //Native.window.onorientationchange +=
+                          //    delegate
+                          //    {
+                          //        Toggle();
 
-                              };
+                          //    };
                           page.fund.href = diagnostics.src;
                           page.fund.onclick +=
                               e =>
