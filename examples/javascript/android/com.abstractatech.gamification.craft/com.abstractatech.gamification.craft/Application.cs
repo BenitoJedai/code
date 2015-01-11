@@ -95,7 +95,7 @@ namespace com.abstractatech.gamification.craft
 
             // it does work, yet chrome server is a slow asset server for now..
 
-
+#if false
             #region AtFormCreated
             FormStyler.AtFormCreated =
                  s =>
@@ -126,6 +126,8 @@ namespace com.abstractatech.gamification.craft
                 return;
             }
             #endregion
+#endif
+
 
 
 
