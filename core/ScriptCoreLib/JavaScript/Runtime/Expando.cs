@@ -635,6 +635,8 @@ namespace ScriptCoreLib.JavaScript.Runtime
             bool bVoid
             )
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111/test453foreachstringarray-1
+
             IArray<ExpandoMember> e = new IArray<ExpandoMember>();
 
             foreach (string n in this.GetMemberNames())
