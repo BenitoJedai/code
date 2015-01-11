@@ -8,7 +8,7 @@ namespace ScriptCoreLib.Extensions
 {
     public static class OpCodeExtensions
     {
-        
+        // used by ?
         public static bool IsOpCodeLeave(this OpCode e)
         {
             // you gotta love the distinction of short forms.

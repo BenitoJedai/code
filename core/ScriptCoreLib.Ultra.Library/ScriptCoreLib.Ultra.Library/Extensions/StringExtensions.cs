@@ -174,6 +174,8 @@ namespace ScriptCoreLib.Extensions
             return w.ToString();
         }
 
+        [Obsolete(".tostring x2")]
+
         public static string ToHexString(this byte e)
         {
             const string u = "0123456789abcdef";
@@ -183,6 +185,9 @@ namespace ScriptCoreLib.Extensions
 
         public static void AtIndecies(this string e, string target, AtIndeciesDelegate h)
         {
+            // X:\jsc.svn\examples\javascript\Test\Test453AtIndeciesWhile\Test453AtIndeciesWhile\Class1.cs
+            // X:\jsc.svn\examples\javascript\css\Test\TestLongWebMethod\TestLongWebMethod\ApplicationWebService.cs
+
             var i = e.IndexOf(target);
             var YieldIndex = -1;
             while (i >= 0)
