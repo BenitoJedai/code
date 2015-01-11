@@ -49,14 +49,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         //0200004f ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control
         //script: error JSC1000: Method: get_InternalSiblingsIncludingThis, Type: ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control; emm
-        [Obsolete("why does this fail for roslyn? roslyn likes dup opcodes. jsc rewriter needs to simplify it.")]
+        //[Obsolete("why does this fail for roslyn? roslyn likes dup opcodes. jsc rewriter needs to simplify it.")]
         // x:\jsc.svn\examples\javascript\future\asyncorderbyexpression\asyncorderbyexpression\applicationcontrol.cs
         // X:\jsc.svn\examples\javascript\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\Application.cs
         // X:\jsc.svn\examples\javascript\LINQ\test\TestInternalSiblingsIncludingThis\TestInternalSiblingsIncludingThis\Application.cs
-        public IEnumerable<__Control> InternalSiblingsIncludingThis_NOT_ROSLYN_FRIENDLY
+        public IEnumerable<__Control> InternalSiblingsIncludingThis
         {
             get
             {
+                // works now?
+                // X:\jsc.svn\examples\javascript\forms\Test\TestForms453\TestForms453\ApplicationControl.cs
+
+
+
                 // what if roslyn optimizes it
                 // and jsc stack rewriter is not allowed to rewrite it?
 
@@ -77,7 +82,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
-                return from cc in InternalSiblingsIncludingThis_NOT_ROSLYN_FRIENDLY
+                return from cc in InternalSiblingsIncludingThis
                        where cc != this
                        select cc;
 
@@ -137,7 +142,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 __c.outer_style.left = "0px";
 
                 // X:\jsc.svn\examples\javascript\forms\ChartExperiment\ChartExperiment\ApplicationControl.cs
-                var ThoseBeforeUs = __c.InternalSiblingsIncludingThis_NOT_ROSLYN_FRIENDLY.Reverse().TakeWhile(
+                var ThoseBeforeUs = __c.InternalSiblingsIncludingThis.Reverse().TakeWhile(
                     z => z != __c
                 ).Where(
                     x => x.Dock == DockStyle.Top
@@ -225,6 +230,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 // X:\jsc.svn\examples\javascript\Test\Test453LINQSum\Test453LINQSum\Class1.cs
                 // X:\jsc.svn\examples\javascript\Test\Test453WebLINQSum\Test453WebLINQSum\Application.cs
                 // roslyn needs jsc stack rewriter to kick in..
+                // X:\jsc.svn\examples\javascript\forms\Test\TestForms453\TestForms453\ApplicationControl.cs
+
                 var __Bottom = Enumerable.Sum(
                     from cc in SiblingsBottom
                     select cc.Height
