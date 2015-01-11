@@ -36,9 +36,10 @@ namespace TestWeb453CallWithDelegatesSharedContext
 
             Foo("hello!",
 
+                //a: e => new IHTMLPre { "\{nameof(a)}: " + new { e } }.AttachToDocument(),
                 a: e => new IHTMLPre { "a: " + new { e } }.AttachToDocument(),
 
-                b: e => new IHTMLPre { "a: " + new { e } }.AttachToDocument()
+                b: e => new IHTMLPre { "b: " + new { e } }.AttachToDocument()
 
             );
         }
