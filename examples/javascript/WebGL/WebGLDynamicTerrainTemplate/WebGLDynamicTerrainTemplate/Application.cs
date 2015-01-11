@@ -44,7 +44,7 @@ namespace WebGLDynamicTerrainTemplate
         {
             var location = "" + Native.document.location;
 
-
+#if false
             #region workaround for ThreeJS/chrome webgl upscale bug
             // workaround for not knowing how to tell three js to upscale correctly..
             // X:\jsc.svn\examples\javascript\Test\TestNestedIFrameForMoreWidth\TestNestedIFrameForMoreWidth\Application.cs
@@ -58,7 +58,7 @@ namespace WebGLDynamicTerrainTemplate
 
             if (Native.window.Width < Native.screen.width)
             {
-                #region make sure the url looks different to make iframe actually load
+            #region make sure the url looks different to make iframe actually load
                 Native.window.parent.With(
                     parent =>
                     {
@@ -92,7 +92,7 @@ namespace WebGLDynamicTerrainTemplate
                         }
                     }
                 );
-                #endregion
+            #endregion
 
 
 
@@ -160,6 +160,8 @@ namespace WebGLDynamicTerrainTemplate
 
 
             #endregion
+
+#endif
 
 
             #region await Three.js then do InitializeContent
@@ -493,7 +495,7 @@ namespace WebGLDynamicTerrainTemplate
                 new global::WebGLDynamicTerrainTemplate.HTML.Images.FromAssets.grasslight_big().src,
                 null,
                 IFunction.Of(
-                    delegate()
+                    delegate ()
                     {
                         loadTextures();
                         applyShader(__THREE.ShaderExtras.luminosity, diffuseTexture1, specularMap);
@@ -505,7 +507,7 @@ namespace WebGLDynamicTerrainTemplate
                    new global::WebGLDynamicTerrainTemplate.HTML.Images.FromAssets.backgrounddetailed6().src,
                    null,
                    IFunction.Of(
-                       delegate()
+                       delegate ()
                        {
                            loadTextures();
                        }
@@ -516,7 +518,7 @@ namespace WebGLDynamicTerrainTemplate
               new global::WebGLDynamicTerrainTemplate.HTML.Images.FromAssets.grasslight_big_nm().src,
               null,
               IFunction.Of(
-                  delegate()
+                  delegate ()
                   {
                       loadTextures();
                   }
@@ -568,9 +570,9 @@ namespace WebGLDynamicTerrainTemplate
 
 
             var _params = new[] {
-                new { id= "heightmap", fragmentShader= new Shaders.NoiseFragmentShader().ToString(), vertexShader= 	vertexShader, uniforms= (object)uniformsNoise, lights = false },
-                new { id="normal", fragmentShader=	normalShader.fragmentShader,  vertexShader=normalShader.vertexShader, uniforms=(object)uniformsNormal, lights = false },
-                new { id="terrain", fragmentShader=	terrainShader.fragmentShader, vertexShader=terrainShader.vertexShader, uniforms=(object)uniformsTerrain, lights = true }
+                new { id= "heightmap", fragmentShader= new Shaders.NoiseFragmentShader().ToString(), vertexShader=  vertexShader, uniforms= (object)uniformsNoise, lights = false },
+                new { id="normal", fragmentShader=  normalShader.fragmentShader,  vertexShader=normalShader.vertexShader, uniforms=(object)uniformsNormal, lights = false },
+                new { id="terrain", fragmentShader= terrainShader.fragmentShader, vertexShader=terrainShader.vertexShader, uniforms=(object)uniformsTerrain, lights = true }
             };
 
             for (var i = 0; i < _params.Length; i++)
