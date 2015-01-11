@@ -127,6 +127,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             Array.Sort(array,
                 (a, b) =>
                 {
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111/redux
+                    // X:\jsc.svn\examples\javascript\Test\Test453WhileBreak\Test453WhileBreak\Program.cs
+
                     int r = 0;
                     var x = p;
 
