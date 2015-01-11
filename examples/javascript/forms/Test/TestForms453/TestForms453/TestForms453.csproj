@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5EC1743F-043B-44E8-A635-72331EEE81D8}</ProjectGuid>
+    <ProjectGuid>{02F60678-6AE6-4B09-970C-C6836C0D25DF}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Abstractatech.JavaScript.FormAsPopup</RootNamespace>
-    <AssemblyName>Abstractatech.JavaScript.FormAsPopup</AssemblyName>
+    <RootNamespace>TestForms453</RootNamespace>
+    <AssemblyName>TestForms453</AssemblyName>
     <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>Abstractatech.JavaScript.FormAsPopup.Program</StartupObject>
+    <StartupObject>TestForms453.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -25,7 +25,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -36,7 +35,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
@@ -93,6 +91,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -112,20 +114,17 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="Abstractatech.JavaScript.FormAsPopup.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\Abstractatech.JavaScript.FormAsPopup.AssetsLibrary.dll</HintPath>
+    <Reference Include="TestForms453.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestForms453.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="Library\ExampleForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Library\ExampleForm.Designer.cs">
-      <DependentUpon>ExampleForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -140,34 +139,26 @@
     </Compile>
     <Compile Include="Application.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <SubType>component</SubType>
     </Compile>
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Preview.png" />
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Library\ExampleForm.resx">
-      <DependentUpon>ExampleForm.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget
-
-if $(ConfigurationName)==Release (
-start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false /FilterTo:$(SolutionDir)
-)</PostBuildEvent>
-    <PreBuildEvent>
-
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
-
-            </PreBuildEvent>
+    <PostBuildEvent>
+		if $(ConfigurationName)==Release (
+		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
+		)</PostBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
+		            </PreBuildEvent>
   </PropertyGroup>
 </Project>
