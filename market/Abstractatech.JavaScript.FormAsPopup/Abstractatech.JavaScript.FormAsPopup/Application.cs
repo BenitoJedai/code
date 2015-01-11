@@ -19,7 +19,7 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 
 
 //namespace Abstractatech.JavaScript.FormAsPopup
-namespace ScriptCoreLib.Extensions
+namespace Abstractatech.JavaScript.FormAsPopup
 {
     static class X
     {
@@ -127,7 +127,7 @@ namespace ScriptCoreLib.Extensions
                             m.ports.WithEach(port =>
                                 port.postMessage(
                                     new XElement("re", "yes i have my own frame!").ToString()
-                                    //null
+                                //null
                                 )
                             );
                         };
@@ -178,7 +178,7 @@ namespace ScriptCoreLib.Extensions
                         m.ports.WithEach(port =>
                                 port.postMessage(
                                 new XElement("re", "yes i have my own frame!").ToString()
-                                    //null
+                                //null
                                 )
                             );
 

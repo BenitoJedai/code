@@ -20,6 +20,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Toolbar.JavaScript;
 
+
+using System.Windows.Forms;
+
 namespace ThreeDStuff.js
 {
 
@@ -693,7 +696,7 @@ namespace ThreeDStuff.js
 
                     info.innerText = "Loading items...";
 
-                    Timer.DoAsync(
+                    ScriptCoreLib.JavaScript.Runtime.Timer.DoAsync(
                         delegate
                         {
                             SpawnItems(TileColor,
@@ -1048,7 +1051,10 @@ namespace ThreeDStuff.js
                             infotoolbar.Control.AttachToDocument();
 
                             //toolbar.Control.AttachToDocument();
-                            toolbar.ControlForm.PopupInsteadOfClosing().Show();
+
+                            // whats the namespace?
+                            // jsc analyzer could help us?
+                            //toolbar.ControlForm.PopupInsteadOfClosing().Show();
 
 
 
@@ -1849,7 +1855,7 @@ namespace ThreeDStuff.js
 
 
                                     Console.WriteLine("starting city building");
-                                    toolbar_btn_city_StopTimer = new Timer(
+                                    toolbar_btn_city_StopTimer = new ScriptCoreLib.JavaScript.Runtime.Timer(
                                         t =>
                                         {
                                             if (paused)
@@ -2090,7 +2096,7 @@ namespace ThreeDStuff.js
 
 
 
-            new Timer(
+            new ScriptCoreLib.JavaScript.Runtime.Timer(
                 t =>
                 {
                     info.innerHTML = ImagesThatAreCurrentlyLoadingCounter + " of " + ImagesThatAreCurrentlyLoading.Count;
