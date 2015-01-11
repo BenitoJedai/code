@@ -26,6 +26,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
         internal __InternalCreateStatement InternalCreateStatement()
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111
+            // X:\jsc.svn\examples\javascript\Test\Test453CallWithMultipleDelegates\Test453CallWithMultipleDelegates\Program.cs
 
 
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 [assembly: System.Reflection.Obfuscation(Feature = "script")]
 namespace Test453CallWithMultipleDelegates
 {
-    class Program
+    class Program : ScriptCoreLib.Shared.IAssemblyReferenceToken
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111/test453callwithmultipledelegates
 
