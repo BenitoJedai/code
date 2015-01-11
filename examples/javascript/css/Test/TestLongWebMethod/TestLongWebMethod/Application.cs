@@ -58,6 +58,8 @@ namespace TestLongWebMethod
                     // Show Details	Severity	Code	Description	Project	File	Line
                     //Error CS1674  'IHTMLPre': type used in a using statement must be implicitly convertible to 'System.IDisposable'   TestLongWebMethod Application.cs  59
 
+                    // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\JavaScript\Remoting\InternalWebMethodRequest.cs
+
                     using (var u = new IHTMLPre { sw }.AttachToDocument())
                     {
 

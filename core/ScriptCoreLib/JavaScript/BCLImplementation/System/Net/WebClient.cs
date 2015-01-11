@@ -31,6 +31,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 
         public void UploadValuesAsync(Uri address, NameValueCollection data)
         {
+            Console.WriteLine("enter WebClient.UploadValuesAsync");
+            // called by
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\JavaScript\Remoting\InternalWebMethodRequest.cs
+
+
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140119
 
             var x = new IXMLHttpRequest();
@@ -39,7 +44,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
             x.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
 
-            var xx = ToFormDataString(data);
+            var xFormDataString = ToFormDataString(data);
 
             //Uncaught InvalidStateError: Failed to execute 'send' on 'XMLHttpRequest': the object's state must be OPENED.
             // X:\jsc.svn\examples\javascript\Test\TestUploadValuesAsync\TestUploadValuesAsync\Application.cs
@@ -49,6 +54,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
             x.InvokeOnComplete(
                 delegate
                 {
+                    #region complete
                     var response = new byte[0];
 
                     // UploadValuesAsync { status = 204, responseType = arraybuffer, response = [object Uint8ClampedArray] }
@@ -150,12 +156,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 
                     if (UploadValuesCompleted != null)
                         UploadValuesCompleted(null, (UploadValuesCompletedEventArgs)(object)e);
+                    #endregion
+
 
                 }
                );
 
             x.responseType = "arraybuffer";
-            x.send(xx);
+
+
+            Console.WriteLine("WebClient.UploadValuesAsync IXMLHttpRequest " + new { xFormDataString });
+            x.send(xFormDataString);
 
 
 
@@ -163,11 +174,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 
         public static string ToFormDataString(NameValueCollection data)
         {
+            // X:\jsc.svn\examples\javascript\css\Test\TestLongWebMethod\TestLongWebMethod\Application.cs
+            Console.WriteLine("enter WebClient.ToFormDataString " + new { data.Count });
+
             #region AllKeys
             var xx = "";
 
+            // for (e = 0; e; e++)
             foreach (var item in data.AllKeys)
             {
+                Console.WriteLine("WebClient.ToFormDataString " + new { item });
+
+
                 if (xx != "")
                 {
                     xx += "&";

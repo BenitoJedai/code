@@ -78,6 +78,9 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
         public static void Invoke(InternalWebMethodRequest that)
         {
+            Console.WriteLine("InternalWebMethodRequest.Invoke");
+
+
             var w = new System.Net.WebClient();
 
             w.UploadValuesCompleted +=
@@ -142,6 +145,9 @@ namespace ScriptCoreLib.JavaScript.Remoting
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140110-xml
             // description?
             var Target = "/xml/" + that.Name;
+
+            Console.WriteLine("InternalWebMethodRequest.Invoke WebClient UploadValuesAsync");
+
 
             w.UploadValuesAsync(
                 new Uri(Target, UriKind.Relative),

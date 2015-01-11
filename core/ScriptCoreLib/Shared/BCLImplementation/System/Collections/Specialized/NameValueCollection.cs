@@ -26,6 +26,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
             InternalCollection.Add(name, value);
         }
 
+        public override int Count
+        {
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\WebClient.cs
+            get
+            {
+                return this.InternalCollection.Count;
+            }
+        }
+
         public virtual string[] AllKeys
         {
             get
