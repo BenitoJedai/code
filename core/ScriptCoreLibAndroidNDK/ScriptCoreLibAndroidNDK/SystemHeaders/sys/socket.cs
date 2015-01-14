@@ -11,6 +11,14 @@ namespace ScriptCoreLibNative.SystemHeaders.sys
     [Script(IsNative = true, Header = "sys/socket.h", IsSystemHeader = true)]
     public static class socket
     {
+        // what does it take to build 
+        // a native app on the red server?
+        // would it be useful for lan udb broadcasts?
+
+        // http://www.roman10.net/simple-tcp-socket-client-and-server-communication-in-c-under-linux/
+
+
+
         // http://mobilepearls.com/labs/native-android-api/
 
         // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs
