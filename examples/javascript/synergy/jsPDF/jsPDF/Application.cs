@@ -67,6 +67,8 @@ namespace jsPDF
 
         private static void InitializeContent(IDefaultPage page)
         {
+            // http://mrrio.github.io/jsPDF/
+
             page.twopage.onclick +=
                 delegate
                 {
@@ -100,10 +102,14 @@ namespace jsPDF
                     doc.output("datauri");
                };
 
+            // https://github.com/MrRio/jsPDF/issues/339
+
             page.metadata.onclick +=
                 delegate
                 {
                     var doc = new Design.jsPDF();
+
+                    // addImage: function(imageData, format, x, y, w, h) {
 
                     doc.text(20, 20, "This PDF has a title, subject, author, keywords and a creator.");
 

@@ -9,6 +9,8 @@ namespace jsPDF.Design
     [Script(HasNoPrototype = true, ExternalTarget = "jsPDF")]
     public class jsPDF
     {
+        // addImage: function(imageData, format, x, y, w, h) {
+
         internal void text(int p, int p_2, string p_3)
         {
             throw new NotImplementedException();
