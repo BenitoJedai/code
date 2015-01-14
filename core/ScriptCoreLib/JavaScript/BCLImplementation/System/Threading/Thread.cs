@@ -19,6 +19,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
+        // http://nexusilluminati.blogspot.com/2013/10/the-big-lie-of-genetics-exposed-human.html
+        //somehow the cells in your hand knew they were supposed to grow into a hand, not a foot or an ear, for example.
+
+
+
+
         // how can we move data from thread to thread?
         // some components, like UI may not be movable.
         // will we need a proxy type then?

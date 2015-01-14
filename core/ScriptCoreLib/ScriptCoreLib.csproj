@@ -93,6 +93,7 @@
     <Compile Include="JavaScript\DOM\Body.cs" />
     <Compile Include="JavaScript\DOM\Cache.cs" />
     <Compile Include="JavaScript\DOM\INode.Dispose.cs" />
+    <Compile Include="JavaScript\DOM\Geolocation.cs" />
     <Compile Include="JavaScript\DOM\Notification.cs" />
     <Compile Include="JavaScript\DOM\Response.cs" />
     <Compile Include="JavaScript\DOM\ServiceWorkerClients.cs" />

@@ -31,6 +31,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     public class __Type : __MemberInfo
     // IReflect ??
     {
+        // https://github.com/xen2/SharpLang/blob/master/src/SharpLang.Compiler/Type.cs
+
         // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
 

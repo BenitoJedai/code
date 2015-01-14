@@ -18,6 +18,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public partial class NavigatorInfo
     {
+        // http://www.w3.org/TR/geolocation-API/
+        public readonly Geolocation geolocation;
+
+
         // http://src.chromium.org/viewvc/blink/trunk/Source/modules/credentialmanager/NavigatorCredentials.idl
 
         // http://w3c.github.io/netinfo/
