@@ -17,6 +17,7 @@ namespace ScriptCoreLibNative.BCLImplementation.System
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
+        // http://csnative.codeplex.com/
         // http://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/6742251-make-c-c-compiler-cl-exe-independent-of-ide
 
         // X:\jsc.svn\examples\c\Test\TestFunc\TestFunc\Program.cs
