@@ -19,11 +19,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
+        // More generally, the cost of context switches is why high-performance code is often thread-per-core and not thread-per-logical-task.
+        // http://danluu.com/new-cpu-features/
+
         // http://nexusilluminati.blogspot.com/2013/10/the-big-lie-of-genetics-exposed-human.html
         //somehow the cells in your hand knew they were supposed to grow into a hand, not a foot or an ear, for example.
 
 
 
+        // https://zproxy.wordpress.com/2009/06/22/new-example-threadingexample/
 
         // how can we move data from thread to thread?
         // some components, like UI may not be movable.
@@ -67,6 +71,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             }
         }
 
+
+        [Obsolete("jsc updated for roslyn while yet?")]
         public static void Sleep(int ms)
         {
             // unless jsc now has learned how to do a global async?

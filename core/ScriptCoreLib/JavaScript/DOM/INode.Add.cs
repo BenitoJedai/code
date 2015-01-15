@@ -72,6 +72,19 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(DefineAsStatic = true)]
         public void Add(object e)
         {
+            // would this work for the compiled assets/html blocks too?
+
+            var xXElement = e as XElement;
+            if (xXElement != null)
+            {
+                // X:\jsc.svn\examples\javascript\Test\vb\TestXElementLiteral\TestXElementLiteral\Application.vb
+                this.appendChild(
+                    xXElement.AsHTMLElement()
+                    );
+
+                return;
+            }
+
             // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
 
             // Implementing Collection Initializers
