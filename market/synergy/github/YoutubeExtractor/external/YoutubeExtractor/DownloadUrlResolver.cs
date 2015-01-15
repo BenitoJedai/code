@@ -24,7 +24,7 @@ namespace YoutubeExtractor
         /// <exception cref="YoutubeParseException">
         /// There was an error while deciphering the signature.
         /// </exception>
-        public static void DecryptDownloadUrl(VideoInfo videoInfo)
+        public static void DecryptDownloadUrl(this VideoInfo videoInfo)
         {
             IDictionary<string, string> queries = HttpHelper.ParseQueryString(videoInfo.DownloadUrl);
 
@@ -73,8 +73,6 @@ namespace YoutubeExtractor
         /// <exception cref="YoutubeParseException">The Youtube page could not be parsed.</exception>
         public static IEnumerable<VideoInfo> GetDownloadUrls(string videoUrl, bool decryptSignature = true)
         {
-            Console.WriteLine("enter GetDownloadUrls");
-
             if (videoUrl == null)
                 throw new ArgumentNullException("videoUrl");
 
@@ -87,20 +85,15 @@ namespace YoutubeExtractor
 
             try
             {
-                Console.WriteLine("before LoadJson");
                 var json = LoadJson(videoUrl);
-                Console.WriteLine("after LoadJson");
 
                 string videoTitle = GetVideoTitle(json);
-                Console.WriteLine(new { videoTitle });
+
                 IEnumerable<ExtractionInfo> downloadUrls = ExtractDownloadUrls(json);
-                Console.WriteLine("after ExtractDownloadUrls");
 
                 IEnumerable<VideoInfo> infos = GetVideoInfos(downloadUrls, videoTitle).ToList();
-                Console.WriteLine("after GetVideoInfos");
 
                 string htmlPlayerVersion = GetHtml5PlayerVersion(json);
-                Console.WriteLine("after GetHtml5PlayerVersion");
 
                 foreach (VideoInfo info in infos)
                 {
@@ -108,7 +101,7 @@ namespace YoutubeExtractor
 
                     if (decryptSignature && info.RequiresDecryption)
                     {
-                        DecryptDownloadUrl(info);
+                        //DecryptDownloadUrl(info);
                     }
                 }
 
@@ -122,7 +115,7 @@ namespace YoutubeExtractor
                     throw;
                 }
 
-                ThrowYoutubeParseException(ex);
+                ThrowYoutubeParseException(ex, videoUrl);
             }
 
             return null; // Will never happen, but the compiler requires it
@@ -178,8 +171,6 @@ namespace YoutubeExtractor
 
         private static IEnumerable<ExtractionInfo> ExtractDownloadUrls(JObject json)
         {
-            Console.WriteLine("ExtractDownloadUrls");
-
             string[] splitByUrls = GetStreamMap(json).Split(',');
             string[] adaptiveFmtSplitByUrls = GetAdaptiveStreamMap(json).Split(',');
             splitByUrls = splitByUrls.Concat(adaptiveFmtSplitByUrls).ToArray();
@@ -211,7 +202,6 @@ namespace YoutubeExtractor
                 url = HttpHelper.UrlDecode(url);
                 url = HttpHelper.UrlDecode(url);
 
-                Console.WriteLine("ExtractDownloadUrls yield");
                 yield return new ExtractionInfo { RequiresDecryption = requiresDecryption, Uri = new Uri(url) };
             }
         }
@@ -308,27 +298,23 @@ namespace YoutubeExtractor
 
         private static JObject LoadJson(string url)
         {
-            Console.WriteLine("enter LoadJson");
             string pageSource = HttpHelper.DownloadString(url);
-            Console.WriteLine("after  DownloadString");
 
             if (IsVideoUnavailable(pageSource))
             {
                 throw new VideoNotAvailableException();
             }
-            Console.WriteLine("before LoadJson dataRegex");
+
             var dataRegex = new Regex(@"ytplayer\.config\s*=\s*(\{.+?\});", RegexOptions.Multiline);
 
             string extractedJson = dataRegex.Match(pageSource).Result("$1");
 
-            Console.WriteLine(new { extractedJson });
-
             return JObject.Parse(extractedJson);
         }
 
-        private static void ThrowYoutubeParseException(Exception innerException)
+        private static void ThrowYoutubeParseException(Exception innerException, string videoUrl)
         {
-            throw new YoutubeParseException("Could not parse the Youtube page.\n" +
+            throw new YoutubeParseException("Could not parse the Youtube page for URL " + videoUrl + "\n" +
                                             "This may be due to a change of the Youtube page structure.\n" +
                                             "Please report this bug at www.github.com/flagbug/YoutubeExtractor/issues", innerException);
         }

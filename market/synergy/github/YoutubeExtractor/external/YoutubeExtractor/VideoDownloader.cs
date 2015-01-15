@@ -41,6 +41,7 @@ namespace YoutubeExtractor
                 request.AddRange(0, this.BytesToDownload.Value - 1);
             }
 
+            // Additional information: The remote server returned an error: (403) Forbidden.
             // the following code is alternative, you may implement the function after your needs
             using (WebResponse response = request.GetResponse())
             {
