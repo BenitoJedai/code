@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestJObjectParse", "TestJOb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newtonsoft.Json", "..\..\..\..\..\opensource\github\Newtonsoft.Json\Src\Newtonsoft.Json\Newtonsoft.Json.csproj", "{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestJObjectParseProjectRef", "TestJObjectParseProjectRef\TestJObjectParseProjectRef.csproj", "{B9781AE5-1D8C-43D8-A390-B282CA4C1C1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9781AE5-1D8C-43D8-A390-B282CA4C1C1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9781AE5-1D8C-43D8-A390-B282CA4C1C1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9781AE5-1D8C-43D8-A390-B282CA4C1C1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9781AE5-1D8C-43D8-A390-B282CA4C1C1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSwitchReadStringIntoBuffer", "TestSwitchReadStringIntoBuffer\TestSwitchReadStringIntoBuffer.csproj", "{F40ED34D-7F30-437F-B71D-6A4E470869DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F40ED34D-7F30-437F-B71D-6A4E470869DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F40ED34D-7F30-437F-B71D-6A4E470869DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F40ED34D-7F30-437F-B71D-6A4E470869DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F40ED34D-7F30-437F-B71D-6A4E470869DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
