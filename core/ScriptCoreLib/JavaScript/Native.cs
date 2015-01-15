@@ -49,6 +49,11 @@ namespace ScriptCoreLib.JavaScript
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         [Script(ExternalTarget = "document")]
         [Obsolete("document", error)]
+        // http://msdn.microsoft.com/en-us/library/ms235408(v=vs.90).aspx
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150115
+        //Error BC31429	'Document' is ambiguous because multiple kinds of members with this name exist in class 'Native'.	TestXElementLiteral Application.vb  32
+        // visible in vb?
+        [CLSCompliant(false)]
         // 22 matches
         static public IHTMLDocument Document;
 

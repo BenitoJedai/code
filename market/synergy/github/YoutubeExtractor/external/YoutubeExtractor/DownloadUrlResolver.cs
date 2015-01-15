@@ -73,6 +73,8 @@ namespace YoutubeExtractor
         /// <exception cref="YoutubeParseException">The Youtube page could not be parsed.</exception>
         public static IEnumerable<VideoInfo> GetDownloadUrls(string videoUrl, bool decryptSignature = true)
         {
+            Console.WriteLine("enter GetDownloadUrls");
+
             if (videoUrl == null)
                 throw new ArgumentNullException("videoUrl");
 
@@ -85,7 +87,9 @@ namespace YoutubeExtractor
 
             try
             {
+                Console.WriteLine("before LoadJson");
                 var json = LoadJson(videoUrl);
+                Console.WriteLine("after LoadJson");
 
                 string videoTitle = GetVideoTitle(json);
                 Console.WriteLine(new { videoTitle });
@@ -304,16 +308,20 @@ namespace YoutubeExtractor
 
         private static JObject LoadJson(string url)
         {
+            Console.WriteLine("enter LoadJson");
             string pageSource = HttpHelper.DownloadString(url);
+            Console.WriteLine("after  DownloadString");
 
             if (IsVideoUnavailable(pageSource))
             {
                 throw new VideoNotAvailableException();
             }
-
+            Console.WriteLine("before LoadJson dataRegex");
             var dataRegex = new Regex(@"ytplayer\.config\s*=\s*(\{.+?\});", RegexOptions.Multiline);
 
             string extractedJson = dataRegex.Match(pageSource).Result("$1");
+
+            Console.WriteLine(new { extractedJson });
 
             return JObject.Parse(extractedJson);
         }

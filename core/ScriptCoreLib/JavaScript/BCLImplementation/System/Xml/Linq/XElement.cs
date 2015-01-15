@@ -16,6 +16,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
     [Script(Implements = typeof(XElement))]
     internal class __XElement : __XContainer
     {
+        // 20150105
+        // c# shall have xml literals?
+        // https://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/6942534-implement-xml-literals
+
+        // tested by?
+
+
+
+
         // "C:\Program Files (x86)\SketchUp\SketchUp 2014\Tools\RubyStdLib\rexml\element.rb"
         public __XName Name
         {
@@ -225,7 +234,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
 
         // script: error JSC1000: No implementation found for this native method, please implement [static System.Xml.Linq.XElement.op_Explicit(System.Xml.Linq.XElement)]
-        public static explicit operator string(__XElement element)
+        public static explicit operator string (__XElement element)
         {
             // X:\jsc.svn\examples\javascript\linq\VBWebSQLXElement\VBWebSQLXElement\Application.vb
 
