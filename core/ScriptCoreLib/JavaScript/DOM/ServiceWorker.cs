@@ -31,10 +31,14 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         // https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API
 
-
+        // http://www.zdnet.com/article/how-to-fix-the-upnp-security-holes/
+        //UPnP would be all fine and dandy...if it had any sort of authentication.It doesn't. So, far too often, by default any UPnP device will blindly accept communications from any source. UPnP devices consider all other devices and users to be trustworthy. Needless to say, that's not true.
+        //Making things even worse, some routers accept UPnP requests across their Wide Area Network (WAN) interface. This is just asking to be attacked.
 
         // would jsc be able to
         // package assets and unpack unto the client?
+        // vhd?
+
 
         // Pages using SSL can be sure that only pages using SSL that have certificates identifying them as being from the same domain can access their databases.
 
@@ -53,6 +57,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // would service worker
         // be the one to download/fetch the assetslibary paload?
+        // https://discutils.codeplex.com/
 
         // service worker could be used
         // to use to sync datasources

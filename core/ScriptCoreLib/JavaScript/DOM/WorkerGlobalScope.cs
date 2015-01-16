@@ -25,6 +25,11 @@ namespace ScriptCoreLib.JavaScript.DOM
         // https://code.google.com/p/chromium/issues/detail?id=408041
         // 20141230/ can we get some ProgressEvent s?
         // https://code.google.com/p/chromium/issues/detail?id=445583
+        // https://discutils.codeplex.com/
+        // for dosbox java we had img to package assets
+        // for sevice worker, we could as well use vhd?
+        // sync with vhd should have progress visibile.
+        // X:\jsc.svn\examples\merge\Test\TestCreateVHD\TestCreateVHD\Program.cs
         public IPromise<Response> fetch(object input) { return null; }
 
         // http://src.chromium.org/viewvc/blink/trunk/Source/core/xmlhttprequest/XMLHttpRequestProgressEvent.idl

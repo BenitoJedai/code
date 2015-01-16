@@ -22,6 +22,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
         // tested by?
 
+        // http://weblogs.asp.net/kennykerr
+        // http://msdn.microsoft.com/en-us/magazine/cc163436.aspx
 
 
 
