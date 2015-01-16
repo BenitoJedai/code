@@ -40,9 +40,22 @@ namespace TestYouTubeExtractor
 
             var Title =
                   video.Title
+                //.Replace("/", " ")
+                //.Replace("\\", " ")
                 .Replace("\"", "'")
-                .Replace(":", " ")
-                .Replace("*", " ");
+                //.Replace(":", " ")
+                .Replace("&", " and ")
+                //.Replace("*", " ")
+                ;
+
+            // http://msdn.microsoft.com/en-us/library/system.io.path.getinvalidpathchars(v=vs.110).aspx
+
+            foreach (var item in
+                Path.GetInvalidFileNameChars())
+            {
+                Title = Title.Replace(item, ' ');
+
+            }
 
             var px = Path.Combine(
                //Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
@@ -112,7 +125,7 @@ namespace TestYouTubeExtractor
             // X:\jsc.svn\examples\merge\Test\TestYouTubeExtractor\TestYouTubeExtractor\Program.cs
             // x:\jsc.svn\market\synergy\github\youtubeextractor\external\exampleapplication\program.cs
 
-            var p = 4;
+            var p = 2;
 
             for (int ioffset = 0; ioffset < 3; ioffset++)
             {
@@ -133,7 +146,11 @@ namespace TestYouTubeExtractor
                     var id = embed.TakeUntilOrEmpty("?");
                     var link = prefix + id;
 
-                    Console.WriteLine(link);
+                    Console.WriteLine();
+
+                    // a running applicaion should know when it can reload itself
+                    // when all running tasks are complete and no new tasks are to be taken.
+                    Console.WriteLine(new { page0, link });
 
                     // Our test youtube link
                     //const string link = "https://www.youtube.com/watch?v=BJ9v4ckXyrU";
@@ -147,7 +164,7 @@ namespace TestYouTubeExtractor
 
                         // jsc rewriter breaks it?
                         IEnumerable<VideoInfo> videoInfos = DownloadUrlResolver.GetDownloadUrls(link);
-                    // Additional information: The remote name could not be resolved: 'youtube.com'
+                        // Additional information: The remote name could not be resolved: 'youtube.com'
 
                         //DownloadAudio(videoInfos);
                         DownloadVideo(link, videoInfos);
@@ -155,8 +172,8 @@ namespace TestYouTubeExtractor
                     catch (Exception err)
                     {
                         // https://discutils.codeplex.com/
-
-                        Console.WriteLine(new { err});
+                        // Message = "Result cannot be called on a failed Match."
+                        Console.WriteLine(new { err });
 
                     }
 
