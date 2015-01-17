@@ -23,14 +23,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
     // X:\opensource\github\JSIL\Proxies\Reflection.cs
     // "X:\opensource\github\Netjs\mscorlib.ts"
-    // X:\opensource\github\SaltarelleCompiler\Runtime\CoreLib\Type.cs
-    // X:\opensource\github\WootzJs\WootzJs.Runtime\Type.cs
+    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
+    // https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Type.cs
     // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
 
     [Script(Implements = typeof(global::System.Type))]
     public class __Type : __MemberInfo
     // IReflect ??
     {
+        // http://thenewstack.io/why-you-should-care-about-the-new-open-source-net-core/
+
         // https://github.com/xen2/SharpLang/blob/master/src/SharpLang.Compiler/Type.cs
 
         // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs

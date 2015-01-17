@@ -6,7 +6,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // FEATURE_CORECLR
 
-    using DOM;
 
     // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/math.cs
     // http://referencesource.microsoft.com/#mscorlib/system/math.cs
@@ -26,7 +25,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         // inline static methods optimization needed
 
         [Script(ExternalTarget = "Math")]
-        readonly static IMath m;
+        readonly static DOM.IMath m;
 
         public static double Floor(double d) { return m.floor(d); }
         public static double Ceiling(double d) { return m.ceil(d); }

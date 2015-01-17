@@ -296,7 +296,7 @@ namespace YoutubeExtractor
             return pageSource.Contains(unavailableContainer);
         }
 
-        private static JObject LoadJson(string url)
+        public static JObject LoadJson(string url)
         {
             string pageSource = HttpHelper.DownloadString(url);
 

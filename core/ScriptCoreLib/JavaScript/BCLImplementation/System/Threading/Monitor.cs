@@ -8,9 +8,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading/Monitor.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Threading/Monitor.cs
 
+
+
     [Script(Implements = typeof(global::System.Threading.Monitor))]
     internal class __Monitor
     {
+        // how could one sync across multiple devices in async flow?
+
         public static void Enter(object obj, ref bool lockTaken)
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140108-lock

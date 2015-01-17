@@ -12,6 +12,9 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Promise.webidl
     // https://code.google.com/p/dart/source/browse/third_party/WebCore/core/dom/Promise.idl?spec=svn26952&r=26952
     // https://chromium.googlesource.com/chromium/blink/+/072dd87acc8859c3a35441f24b1486faa12efe42/Source/core/dom/Promise.idl
+
+    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Threading/Tasks/Promise.cs
+
     // chosing the prefix of I to prevent intellisense pollution. 
     // this feature in C# is to be available as async/await Task<>
     // this might be what Windows Runtime API def feels within .NET def

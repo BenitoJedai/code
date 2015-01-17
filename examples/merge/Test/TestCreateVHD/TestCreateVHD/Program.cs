@@ -112,7 +112,7 @@ namespace TestCreateVHD
             // close handle to disk
             CloseHandle(handle);
 
-
+            // http://technet.microsoft.com/en-us/library/dd440865(v=ws.10).aspx
             System.Windows.Forms.MessageBox.Show("Disk is attached.");
 
         }

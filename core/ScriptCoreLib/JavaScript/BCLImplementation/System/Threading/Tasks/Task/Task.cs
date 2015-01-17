@@ -22,8 +22,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     // this seems out of sync for 4.6?
     // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/threading/Tasks/Future.cs
 
-    // "X:\opensource\github\WootzJs\WootzJs.Runtime\Threading\Tasks\Task.cs"
-    // X:\opensource\github\SaltarelleCompiler\Runtime\CoreLib\Threading\Tasks\Task.cs
+    // https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Threading/Tasks/Task.cs
+    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Threading/Tasks/Task.cs
     // http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.aspx
 
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.cs

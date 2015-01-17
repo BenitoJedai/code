@@ -102,5 +102,30 @@ namespace ScriptCoreLib.Desktop
                  ScriptCoreLib.Desktop.TaskbarProgress.TaskbarStates.NoProgress
              );
         }
+
+        public static void SetMainWindowError()
+        {
+            ScriptCoreLib.Desktop.TaskbarProgress.SetState(
+                 System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle,
+                 ScriptCoreLib.Desktop.TaskbarProgress.TaskbarStates.Error
+             );
+        }
+
+        public static void SetMainWindowProgress(double progress)
+        {
+            // X:\jsc.svn\examples\merge\Test\TestYouTubeExtractor\TestYouTubeExtractor\Program.cs
+
+            ScriptCoreLib.Desktop.TaskbarProgress.SetState(
+                 System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle,
+                 ScriptCoreLib.Desktop.TaskbarProgress.TaskbarStates.Normal
+             );
+
+            ScriptCoreLib.Desktop.TaskbarProgress.SetValue(
+                 System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle,
+                 progress, 1.0
+             );
+
+
+        }
     }
 }
