@@ -11,6 +11,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
     [Script(Implements = typeof(global::System.Text.Encoding))]
     internal abstract class __Encoding
     {
+        // https://github.com/dotnet/corefx/tree/master/src/System.Text.Encoding.CodePages/src/System/Text
+
         public virtual string GetString(byte[] bytes)
         {
             return default(string);

@@ -10,7 +10,19 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
+    // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Collections/Generic/Stack.cs
+
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Collections\Generic\Stack.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Collections\Generic\Stack.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Collections\Concurrent\ConcurrentStack.cs
+
     // http://referencesource.microsoft.com/#mscorlib/system/collections/stack.cs
+    // https://github.com/Microsoft/referencesource/blob/master/System/compmod/system/collections/generic/stack.cs
+
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Collections/Generic/Stack.cs
+    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Collections/Generic/Stack.cs
+    // https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Collections/Generic/Stack.cs
+
 
     [Script(Implements = typeof(Stack<>))]
     internal class __Stack<T> : IEnumerable<T>

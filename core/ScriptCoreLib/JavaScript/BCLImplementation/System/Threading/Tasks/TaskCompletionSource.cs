@@ -9,6 +9,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading.Tasks/TaskCompletionSource.cs
     // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/threading/Tasks/TaskCompletionSource.cs
 
+    // https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Threading/Tasks/TaskCompletionSource.cs
+
     [Script(Implements = typeof(global::System.Threading.Tasks.TaskCompletionSource<>))]
     internal class __TaskCompletionSource<TResult>
     {

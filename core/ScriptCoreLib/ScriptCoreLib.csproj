@@ -86,7 +86,9 @@
     <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodBase.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Collections\Concurrent\ConcurrentStack.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteCommand.InternalCreateStatement.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Interlocked.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAny.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
     <Compile Include="JavaScript\DOM\CacheStorage.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="JavaScript\WebGL\WebGLTransformFeedback.cs" />
     <Compile Include="JavaScript\WebGL\WebGLSync.cs" />
     <Compile Include="JavaScript\WebGL\WebGLSampler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Numerics\Vector4.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\AsyncTaskMethodBuilder.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
