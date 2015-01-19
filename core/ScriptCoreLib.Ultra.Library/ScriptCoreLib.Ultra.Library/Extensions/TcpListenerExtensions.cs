@@ -20,7 +20,7 @@ namespace ScriptCoreLib.Extensions
             //Console.WriteLine("BridgeStreamTo x: " + x.GetType().AssemblyQualifiedName);
 
             new Thread(
-               delegate()
+               delegate ()
                {
                    var buffer = new byte[0x100000];
 
@@ -81,9 +81,51 @@ namespace ScriptCoreLib.Extensions
             = new Dictionary<object, Action<RemoteCertificateValidationCallback>>();
 
 
+
+
+        static string win32_processor_processorID()
+        {
+            var sw = Stopwatch.StartNew();
+
+            string cpuInfo = string.Empty;
+            var mc = new System.Management.ManagementClass("win32_processor");
+            var moc = mc.GetInstances();
+
+            foreach (System.Management.ManagementObject mo in moc)
+            {
+                //if (cpuInfo == "")
+                {
+                    // mo = {\\ASUS7\root\cimv2:Win32_Processor.DeviceID="CPU0"}
+
+                    //Get only the first CPU's ID
+                    cpuInfo = mo.Properties["processorID"].Value.ToString();
+
+
+                    // cpuInfo = "BFEBFBFF000206A7"
+
+                    break;
+                }
+            }
+
+
+            // { ElapsedMilliseconds = 1132, cpuInfo = BFEBFBFF000206A7 }
+            // { ElapsedMilliseconds = 1090, cpuInfo = BFEBFBFF000206A7 }
+            Console.WriteLine(
+                new
+                {
+                    sw.ElapsedMilliseconds,
+                    cpuInfo
+                }
+                );
+
+            return cpuInfo;
+        }
+
         // called by?
         public static void BridgeConnectionToPort(this TcpListener x, int port, string rx, string tx)
         {
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
+
             // http://stackoverflow.com/questions/5510063/makecert-exe-missing-in-windows-7-how-to-get-it-and-use-it
 
             var makecert70A = "c:/program files/microsoft sdks/windows/v7.0A/bin/makecert.exe";
@@ -99,12 +141,17 @@ namespace ScriptCoreLib.Extensions
             // X:\jsc.svn\examples\java\hybrid\JVMCLRTCPMultiplex\JVMCLRTCPMultiplex\Program.cs
 
             // Error: There is no matching certificate in the issuer's Root cert store
+            //Error: There are more than one matching certificate in the issuer's Root cert store
             var makecert = new[] { makecert70A, makecert80 }.FirstOrDefault(File.Exists);
 
-
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150119
 
             // certmgr.msc
-            var CN = "device SSL authority for developers";
+            //var CN = "device SSL authority for developers";
+            var CN = "peer integrity authority for cpu " + win32_processor_processorID();
+            // should we scan the network and let other peers know
+            // and tell them 'trust us'?
+
 
             #region CertificateFromCurrentUserByLocalEndPoint
             Func<IPEndPoint, X509Certificate> CertificateFromCurrentUserByLocalEndPoint =
@@ -119,7 +166,7 @@ namespace ScriptCoreLib.Extensions
                         delegate
                         {
                             X509Store store = new X509Store(
-                                //StoreName.Root,
+                                    //StoreName.Root,
                                     StoreName.My,
                                 StoreLocation.CurrentUser);
                             // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
@@ -216,10 +263,10 @@ namespace ScriptCoreLib.Extensions
                             // http://stackoverflow.com/questions/11708717/ip-address-as-hostname-cn-when-creating-a-certificate-https-hostname-wrong
                             )
 
-                        {
-                            UseShellExecute = false
+                            {
+                                UseShellExecute = false
 
-                        }
+                            }
 
                             );
 
@@ -234,6 +281,19 @@ namespace ScriptCoreLib.Extensions
             #endregion
 
 
+            //---------------------------
+            //Security Warning
+            //---------------------------
+            //You are about to install a certificate from a certification authority (CA) claiming to represent:
+            //peer integrity authority for cpu BFEBFBFF000206A7
+            //Windows cannot validate that the certificate is actually from "peer integrity authority for cpu BFEBFBFF000206A7". You should confirm its origin by contacting "peer integrity authority for cpu BFEBFBFF000206A7". The following number will assist you in this process:
+            //Thumbprint (sha1): 4FE31CF8 CDF53883 BD677A2B A3E79ED9 C0225627
+            //Warning:
+            //If you install this root certificate, Windows will automatically trust any certificate issued by this CA. Installing a certificate with an unconfirmed thumbprint is a security risk. If you click "Yes" you acknowledge this risk.
+            //Do you want to install this certificate?
+            //---------------------------
+            //Yes   No   
+            //---------------------------
 
 
             #region CertificateRootFromCurrentUser
@@ -285,12 +345,12 @@ namespace ScriptCoreLib.Extensions
                 var p = Process.Start(
                     new ProcessStartInfo(
                         makecert,
-                    // this cert is constant
+                       // this cert is constant
                        args
                     )
-                {
-                    UseShellExecute = false
-                }
+                    {
+                        UseShellExecute = false
+                    }
 
                 );
 
@@ -338,11 +398,11 @@ namespace ScriptCoreLib.Extensions
                         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209
                         // how do we get a break point here?
                         Console.WriteLine("enter https "
-                            //    + new
-                            //{
-                            //    Debugger.IsAttached,
-                            //    System.Reflection.Assembly.GetExecutingAssembly().Location
-                            //}
+                        //    + new
+                        //{
+                        //    Debugger.IsAttached,
+                        //    System.Reflection.Assembly.GetExecutingAssembly().Location
+                        //}
                         );
 
 
@@ -410,8 +470,8 @@ namespace ScriptCoreLib.Extensions
                                     serverCertificate: CertificateFromCurrentUserByLocalEndPoint((IPEndPoint)clientSocket.Client.LocalEndPoint),
                                     //clientCertificateRequired: false,
                                     clientCertificateRequired: true,
-                                    // Tls12 = 3072
-                                    //enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
+                                // Tls12 = 3072
+                                //enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
                                 enabledSslProtocols: enabledSslProtocols,
                                     checkCertificateRevocation: false
                                 );
@@ -463,7 +523,7 @@ namespace ScriptCoreLib.Extensions
 
 
             new Thread(
-               delegate()
+               delegate ()
                {
                    while (true)
                    {

@@ -22,6 +22,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
     [Script(Implements = typeof(global::System.IO.MemoryStream))]
     internal class __MemoryStream : __Stream
     {
+        //20150119
+        // can async webethod send back a copy of memory stream just yet?
+        // X:\jsc.svn\examples\javascript\test\TestdecodeURIComponent\TestdecodeURIComponent\Application.cs
 
 
         // X:\jsc.svn\examples\javascript\io\ZIPDecoderExperiment\ZIPDecoderExperiment\Application.cs
