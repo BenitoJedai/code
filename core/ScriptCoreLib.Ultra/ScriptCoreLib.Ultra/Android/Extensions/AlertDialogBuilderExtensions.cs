@@ -14,6 +14,8 @@ namespace ScriptCoreLib.Android.Extensions
     public static class AlertDialogBuilderExtensions
     {
         // X:\jsc.svn\examples\java\android\gles\AndroidOpenGLESLesson6Activity\AndroidOpenGLESLesson6Activity\Shaders\ApplicationSurface.cs
+        // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\Extensions\AlertDialogBuilderExtensions.cs
+        // is android even built yet?
 
         class setItems_OnClickListener : DialogInterface_OnClickListener
         {

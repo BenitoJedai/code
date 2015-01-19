@@ -53,6 +53,13 @@ namespace WorkerMD5Experiment
                             // { i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 1268 }
                             // { i = 255, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 170 }
 
+                            // {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 245, ManagedThreadId = 10 }}
+                            // laptop {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 439, ManagedThreadId = 10 }}
+
+                            // on red server. how fast is the laptop?
+                            // laptop wont trust the server ssl?
+                            // certs are configured via certmgr.msc 
+                            // after export and import the laptop should now be able to trust the ssl?
 
                             var scope = new { data };
 
@@ -62,6 +69,7 @@ namespace WorkerMD5Experiment
                                 var hash = bytes.ToMD5Bytes();
                                 var hex = hash.ToHexString();
 
+                                //scope = new { data = new { i, hex, s.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId, Environment.ProcessorCount }.ToString() };
                                 scope = new { data = new { i, hex, s.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId }.ToString() };
 
                             }
@@ -72,7 +80,29 @@ namespace WorkerMD5Experiment
                     );
 
                     // show proof of work
-                    a.Element.innerText = z.data;
+                    //a.Element.innerText = z.data;
+
+
+                    new IHTMLPre {
+                        // ProcessorCount allows to know if we are on our lite laptop or the server
+                        new { Environment.ProcessorCount, z.data }
+                    }.AttachToDocument();
+
+                    // {{ ProcessorCount = 8, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 246, ManagedThreadId = 10 }} }}
+                    //{ { ProcessorCount = 8, data = { { i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 240, ManagedThreadId = 11 } } } }
+                    //{ { ProcessorCount = 8, data = { { i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 240, ManagedThreadId = 12 } } } }
+
+                    // high profile/ac mode
+                    //{ { ProcessorCount = 4, data = { { i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 445, ManagedThreadId = 10 } } } }
+                    //{ { ProcessorCount = 4, data = { { i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 426, ManagedThreadId = 11 } } } }
+                    //{ { ProcessorCount = 4, data = { { i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 422, ManagedThreadId = 12 } } } }
+
+                    // battery/no power
+                    // {{ ProcessorCount = 4, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 1253, ManagedThreadId = 13 }} }}
+                    // {{ ProcessorCount = 4, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 1350, ManagedThreadId = 14 }} }}
+                    // {{ ProcessorCount = 4, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 1550, ManagedThreadId = 15 }} }}
+
+
                 };
 
         }

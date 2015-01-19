@@ -11,6 +11,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.StreamReader))]
 	internal class __StreamReader : __TextReader
 	{
+        // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\IO\TextReader.cs
+
 		readonly Stream _BaseStream;
 
 

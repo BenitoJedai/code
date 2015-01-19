@@ -10,6 +10,7 @@ using System.IO;
 using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.Serialization;
 using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.InteropServices;
 using ScriptCoreLib.Shared.BCLImplementation.System.Security;
+// is ScriptCoreLib built yet?
 using ScriptCoreLib.Shared.BCLImplementation.System.Reflection;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
@@ -20,6 +21,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
     [Script(Implements = typeof(global::System.Reflection.Assembly))]
     public class __Assembly : ___Assembly, __IEvidenceFactory, __ICustomAttributeProvider, __ISerializable
     {
+        // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Security\IEvidenceFactory.cs
+
         public __Type InternalReference;
 
         FileInfo InternalDeclaringFileCached;

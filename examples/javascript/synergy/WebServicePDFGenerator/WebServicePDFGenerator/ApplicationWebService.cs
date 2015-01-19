@@ -20,6 +20,10 @@ namespace WebServicePDFGenerator
     /// </summary>
     public class ApplicationWebService
     {
+        // X:\jsc.svn\examples\javascript\synergy\WebServicePDFGenerator\WebServicePDFGenerator\ApplicationWebService.cs
+        // X:\jsc.svn\examples\javascript\synergy\jsPDF\jsPDF\Application.cs
+        // svn checkout svn://svn.code.sf.net/p/itextsharp/code/trunk itextsharp-code
+
         [Obsolete(" is MemoryStream supported?")]
         //public async Task<MemoryStream> Invoke()
         public async Task<string> Invoke()

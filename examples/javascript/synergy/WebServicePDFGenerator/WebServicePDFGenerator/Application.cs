@@ -31,6 +31,12 @@ namespace WebServicePDFGenerator
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+
+            //         { SourceMethod = Void Page_InitializeInternalFontFace() }
+            //         { SourceMethod = ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement Initialize_0_html(WebServicePDFGenerator.HTML.Pages.App, ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement) }
+            //     script: error JSC1000: Method: Initialize_0_html, Type: WebServicePDFGenerator.HTML.Pages.App; emmiting failed : System.IndexOutOfRangeException: Index was outside the bounds of the array.
+            //at jsc.ILInstruction.get_TargetParameter() in X:\jsc.internal.git\compiler\jsc\CodeModel\ILInstruction.cs:line 1389
+
             new IHTMLButton { "pdf" }.AttachToDocument().WhenClicked(
                 async button =>
                 {
@@ -38,7 +44,7 @@ namespace WebServicePDFGenerator
 
                     // { Length = 1228 }
 
-                    new IHTMLPre { 
+                    new IHTMLPre {
                         new { base64.Length }
                     }.AttachToDocument();
 
