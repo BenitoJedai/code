@@ -17,6 +17,7 @@ using ChromeUDPNotification;
 using ChromeUDPNotification.Design;
 using ChromeUDPNotification.HTML.Pages;
 using chrome;
+using ChromeUDPNotification.HTML.Images.FromAssets;
 
 namespace ChromeUDPNotification
 {
@@ -44,6 +45,7 @@ namespace ChromeUDPNotification
 
             if (self_chrome_socket != null)
             {
+                //new logo1
                 #region AtUDPString
                 Action<string> AtUDPString =
                      async xmlstring =>
@@ -61,7 +63,12 @@ namespace ChromeUDPNotification
                              var uri = "http://" + xml.Value.SkipUntilOrEmpty("Visit me at ");
 
                              var cnn = new ScriptCoreLib.JavaScript.DOM.Notification(
-                                 title: "" + n
+                                 title: "" + n,
+
+                                   options: new
+                                   {
+                                       icon = new logo1().src
+                                   }
                               );
 
 
@@ -88,7 +95,12 @@ namespace ChromeUDPNotification
                      {
                          var gport = 40804;
                          var cnn = new ScriptCoreLib.JavaScript.DOM.Notification(
-                             title: "awaiting for TV.. " + gport
+                             title: "awaiting for TV.. " + gport,
+
+                             options: new
+                             {
+                                 icon = new logo1().src
+                             }
                           );
 
                          Task.Delay(2000).ContinueWith(x => cnn.close());
