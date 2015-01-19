@@ -34,5 +34,13 @@ namespace VisualConsole
             y(e);
         }
 
+        // last error: Uncaught URIError: URI malformed
+        // jsc needs an update?
+
+        //{ SourceMethod = Void Page_InitializeInternalFontFace() }
+        //{ SourceMethod = ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement Initialize_0_html(VisualConsole.HTML.Pages.App, ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement) }
+        //script: error JSC1000: Method: Initialize_0_html, Type: VisualConsole.HTML.Pages.App; emmiting failed : System.IndexOutOfRangeException: Index was outside the bounds of the array.
+        //   at jsc.ILInstruction.get_TargetParameter() in X:\jsc.internal.git\compiler\jsc\CodeModel\ILInstruction.cs:line 1389
+
     }
 }

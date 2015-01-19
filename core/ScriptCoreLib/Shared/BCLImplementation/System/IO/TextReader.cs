@@ -12,6 +12,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.TextReader))]
 	public abstract class __TextReader : IDisposable
 	{
+        // used by
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\StreamReader.cs
+
 		public virtual string ReadLine()
 		{
 			throw new NotImplementedException();

@@ -34,6 +34,7 @@ namespace YieldFromTaskResultExperiment
         {
             // script: error JSC1000: No implementation found for this native method, please implement [System.Threading.Tasks.TaskFactory.ContinueWhenAll(System.Threading.Tasks.Task`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]][], System.Action`1[[System.Threading.Tasks.Task`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]][], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])]
 
+
             Console.WriteLine("starting...");
 
             var xtasks = new Random().Next(2, 4).GetTasks().ToArray();
@@ -62,6 +63,20 @@ namespace YieldFromTaskResultExperiment
 
     static class X
     {
+        //        script: error JSC1000: if block not detected correctly, opcode was { Branch = [0x0008]
+        //        bne.un.s + 0 - 2{[0x0001]
+        //        ldfld      +1 -1{[0x0000]
+        //        ldarg.0    +1 -0}
+        //} {[0x0006]
+        //ldc.i4.s   +1 -0} , Location =
+
+        // assembly: V:\YieldFromTaskResultExperiment.Application.exe
+        // type: YieldFromTaskResultExperiment.X+<GetOutput>d__0, YieldFromTaskResultExperiment.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        // offset: 0x0008
+        //  method:System.Collections.Generic.IEnumerator`1[YieldFromTaskResultExperiment.HTML.Pages.YieldElement]
+        //System.Collections.Generic.IEnumerable<YieldFromTaskResultExperiment.HTML.Pages.YieldElement>.G
+        //etEnumerator() }
+
         public static IEnumerable<YieldElement> GetOutput(this IEnumerable<Task<string>> source)
         {
             //            Closure: YieldFromTaskResultExperiment.X+<GetOutput>d__1+<MoveNext>

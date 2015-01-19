@@ -29,13 +29,7 @@ namespace McKrackenFirstRoom
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            //script: error JSC1000: No implementation found for this native method, please implement [static System.Tuple.Create(, )]
-            //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
-            //script: error JSC1000: error at System.Threading.Tasks.TaskAsyncIProgressExtensions.StartNewWithProgress,
-            // assembly: U:\McKrackenFirstRoom.Application.exe
-            // type: System.Threading.Tasks.TaskAsyncIProgressExtensions, McKrackenFirstRoom.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-            // offset: 0x0025
-            //  method:System.Threading.Tasks.Task`1[TSource] StartNewWithProgress[TSource](System.Threading.Tasks.TaskFactory, TSource, System.Func`2[System.Tup
+
 
 #if FCHROME
             #region ChromeTCPServer
