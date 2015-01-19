@@ -54,6 +54,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
         public override string ToString()
         {
+            // we could also show the .displayName ?
+
+
             // is jsc setting it to be string for methods?
 
             return new { InternalMethodToken }.ToString();
@@ -77,6 +80,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
         public static bool operator !=(__MethodInfo left, __MethodInfo right)
         {
+            // we should check token instead?
             return left.Name != right.Name;
         }
 
