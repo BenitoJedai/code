@@ -9,6 +9,9 @@ using ScriptCoreLib.JavaScript.DOM;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 {
     // http://referencesource.microsoft.com/#mscorlib/system/text/utf8encoding.cs
+    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/text/utf8encoding.cs
+
+
     [Script(Implements = typeof(global::System.Text.UTF8Encoding))]
     internal class __UTF8Encoding : __Encoding
     {
@@ -31,6 +34,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
             // http://ecmanaut.blogspot.com/2006/07/encoding-decoding-utf8-in-javascript.html
             // http://msdn.microsoft.com/en-us/library/ie/aeh9cef7(v=vs.94).aspx
             // X:\jsc.svn\examples\javascript\Test\TestUTF8StringToService\TestUTF8StringToService\ApplicationWebService.cs
+
+            // X:\jsc.svn\examples\javascript\test\TestdecodeURIComponent\TestdecodeURIComponent\ApplicationWebService.cs
 
             var a = new MemoryStream();
 

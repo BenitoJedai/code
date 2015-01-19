@@ -21,6 +21,8 @@ namespace jsPDF
     /// </summary>
     public sealed class Application
     {
+        // X:\jsc.svn\examples\javascript\synergy\WebServicePDFGenerator\WebServicePDFGenerator\ApplicationWebService.cs
+        // X:\jsc.svn\examples\javascript\synergy\jsPDF\jsPDF\Application.cs
         // based on http://snapshotmedia.co.uk/blog/jspdf
 
         public readonly ApplicationWebService service = new ApplicationWebService();

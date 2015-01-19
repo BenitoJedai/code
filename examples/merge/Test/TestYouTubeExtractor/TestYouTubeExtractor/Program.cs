@@ -140,9 +140,9 @@ namespace TestYouTubeExtractor
             // X:\jsc.svn\examples\merge\Test\TestYouTubeExtractor\TestYouTubeExtractor\Program.cs
             // x:\jsc.svn\market\synergy\github\youtubeextractor\external\exampleapplication\program.cs
 
-            var p = 4;
+            var p = 1;
 
-            for (int ioffset = 0; ioffset < 8; ioffset++)
+            for (int ioffset = 0; ioffset < 12; ioffset++)
             {
 
                 Console.WriteLine("DownloadString ... " + new { p });
@@ -171,71 +171,73 @@ namespace TestYouTubeExtractor
 
                     Console.WriteLine();
 
-                    // a running applicaion should know when it can reload itself
-                    // when all running tasks are complete and no new tasks are to be taken.
-
-                    var videoUrl = link;
-
-                    bool isYoutubeUrl = DownloadUrlResolver.TryNormalizeYoutubeUrl(videoUrl, out videoUrl);
-
-                    //Console.WriteLine(new { sw.ElapsedMilliseconds, px, videoUrl });
-
-
-
-                    // wont help
-                    //var y = DownloadUrlResolver.GetDownloadUrls(link);
-                    //var j = DownloadUrlResolver.LoadJson(videoUrl);
-                    var c = new WebClient().DownloadString(videoUrl);
-
-                    // "Kryon - Timing o..." The YouTube account associated with this video has been terminated due to multiple third-party notifications of copyright infringement.
-
-                    // <link itemprop="url" href="http://www.youtube.com/user/melania1172">
-
-                    //                    { videoUrl = http://youtube.com/watch?v=li0E4_7ap3g, ch_name = , userurl = https://youtube.com/user/ }
-                    //{ url = http://youtube.com/watch?v=li0E4_7ap3g }
-                    //{ err = YoutubeExtractor.YoutubeParseException: Could not parse the Youtube page for URL http://youtube.com/watch?v=li0E4_7ap3g
-
-                    // <h1 id="unavailable-message" class="message">
-
-                    //  'IS_UNAVAILABLE_PAGE': false,
-                    var unavailable =
-
-                        !c.Contains("'IS_UNAVAILABLE_PAGE': false") ?
-                        c.SkipUntilOrEmpty("<h1 id=\"unavailable-message\" class=\"message\">").TakeUntilOrEmpty("<").Trim() : "";
-                    if (unavailable != "")
-                    {
-                        Console.WriteLine(new { videoUrl, unavailable });
-                        Thread.Sleep(3000);
-                        continue;
-                    }
-
-                    var ch = c.SkipUntilOrEmpty(" <div class=\"yt-user-info\">").SkipUntilOrEmpty("<a href=\"/channel/");
-                    var ch_id = ch.TakeUntilOrEmpty("\"");
-                    var ch_name = ch.SkipUntilOrEmpty(">").TakeUntilOrEmpty("<");
-
-                    // https://www.youtube.com/channel/UCP-Q2vpvpQmdShz-ASBj2fA/videos
-
-
-                    // ! originally there were users, now there are thos gplus accounts?
-
-                    //var usertoken = c.SkipUntilOrEmpty("<link itemprop=\"url\" href=\"http://www.youtube.com/user/");
-                    //var userid = usertoken.TakeUntilOrEmpty("\"");
-                    ////var ch_name = ch.SkipUntilOrEmpty(">").TakeUntilOrEmpty("<");
-
-                    //var userurl = "https://youtube.com/user/" + userid;
-
-                    Console.WriteLine(new {p,videoUrl, ch_name, ch_id });
-                    //Console.WriteLine(new { page0, link });
-
-                    // Our test youtube link
-                    //const string link = "https://www.youtube.com/watch?v=BJ9v4ckXyrU";
-                    //Debugger.Break();
-
-                    // rewrite broke JObject Parse.
-                    // Additional information: Bad JSON escape sequence: \5.Path 'args.afv_ad_tag_restricted_to_instream', line 1, position 3029.
-
                     try
                     {
+
+                        // a running applicaion should know when it can reload itself
+                        // when all running tasks are complete and no new tasks are to be taken.
+
+                        var videoUrl = link;
+
+                        bool isYoutubeUrl = DownloadUrlResolver.TryNormalizeYoutubeUrl(videoUrl, out videoUrl);
+
+                        //Console.WriteLine(new { sw.ElapsedMilliseconds, px, videoUrl });
+
+
+
+                        // wont help
+                        //var y = DownloadUrlResolver.GetDownloadUrls(link);
+                        //var j = DownloadUrlResolver.LoadJson(videoUrl);
+                        var c = new WebClient().DownloadString(videoUrl);
+
+                        // "Kryon - Timing o..." The YouTube account associated with this video has been terminated due to multiple third-party notifications of copyright infringement.
+
+                        // <link itemprop="url" href="http://www.youtube.com/user/melania1172">
+
+                        //                    { videoUrl = http://youtube.com/watch?v=li0E4_7ap3g, ch_name = , userurl = https://youtube.com/user/ }
+                        //{ url = http://youtube.com/watch?v=li0E4_7ap3g }
+                        //{ err = YoutubeExtractor.YoutubeParseException: Could not parse the Youtube page for URL http://youtube.com/watch?v=li0E4_7ap3g
+
+                        // <h1 id="unavailable-message" class="message">
+
+                        //  'IS_UNAVAILABLE_PAGE': false,
+                        var unavailable =
+
+                            !c.Contains("'IS_UNAVAILABLE_PAGE': false") ?
+                            c.SkipUntilOrEmpty("<h1 id=\"unavailable-message\" class=\"message\">").TakeUntilOrEmpty("<").Trim() : "";
+                        if (unavailable != "")
+                        {
+                            Console.WriteLine(new { videoUrl, unavailable });
+                            Thread.Sleep(3000);
+                            continue;
+                        }
+
+                        var ch = c.SkipUntilOrEmpty(" <div class=\"yt-user-info\">").SkipUntilOrEmpty("<a href=\"/channel/");
+                        var ch_id = ch.TakeUntilOrEmpty("\"");
+                        var ch_name = ch.SkipUntilOrEmpty(">").TakeUntilOrEmpty("<");
+
+                        // https://www.youtube.com/channel/UCP-Q2vpvpQmdShz-ASBj2fA/videos
+
+
+                        // ! originally there were users, now there are thos gplus accounts?
+
+                        //var usertoken = c.SkipUntilOrEmpty("<link itemprop=\"url\" href=\"http://www.youtube.com/user/");
+                        //var userid = usertoken.TakeUntilOrEmpty("\"");
+                        ////var ch_name = ch.SkipUntilOrEmpty(">").TakeUntilOrEmpty("<");
+
+                        //var userurl = "https://youtube.com/user/" + userid;
+
+                        Console.WriteLine(new { p, videoUrl, ch_name, ch_id });
+                        //Console.WriteLine(new { page0, link });
+
+                        // Our test youtube link
+                        //const string link = "https://www.youtube.com/watch?v=BJ9v4ckXyrU";
+                        //Debugger.Break();
+
+                        // rewrite broke JObject Parse.
+                        // Additional information: Bad JSON escape sequence: \5.Path 'args.afv_ad_tag_restricted_to_instream', line 1, position 3029.
+
+
 
                         // jsc rewriter breaks it?
                         IEnumerable<VideoInfo> videoInfos = DownloadUrlResolver.GetDownloadUrls(link);
@@ -243,6 +245,14 @@ namespace TestYouTubeExtractor
 
                         //DownloadAudio(videoInfos);
                         DownloadVideo(link, videoInfos);
+
+                        //{
+                        //    err = System.IO.IOException: Unable to read data from the transport connection: An established connection was aborted by the software in your host machine. --->System.Net.Sockets.SocketException: An established connection was aborted by the software in your host machine
+                        //    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+                        //   at System.Net.Sockets.NetworkStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+                        //   -- - End of inner exception stack trace-- -
+                        //    at System.Net.ConnectStream.Read(Byte[] buffer, Int32 offset, Int32 size)
+                        //   at YoutubeExtractor.VideoDownloader.Execute()
                     }
                     catch (Exception err)
                     {
