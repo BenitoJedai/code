@@ -213,5 +213,18 @@ namespace ScriptCoreLib.JavaScript.WebGL
         //    // see also X:\jsc.svn\core\ScriptCoreLib\JavaScript\Extensions\INodeConvertible.cs
         //    throw new NotImplementedException();
         //}
+
+        public object getExtension(string name)
+        {
+            // X:\jsc.svn\examples\javascript\WorkerMD5Experiment\WorkerMD5Experiment\Application.cs
+
+            //gl.getExtension("WEBGL_debug_renderer_info");
+            return null;
+        }
+
+        public object getParameter(uint pname)
+        {
+            return null;
+        }
     }
 }

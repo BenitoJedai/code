@@ -3,6 +3,7 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
+using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
@@ -33,6 +34,31 @@ namespace WorkerMD5Experiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            var gl = new WebGLRenderingContext();
+
+            // http://webglreport.com/
+            //       unMaskedRenderer: getUnmaskedInfo(gl).renderer,
+            //<th>Unmasked Renderer:</th>
+            //			<td><%= report.unMaskedRenderer %></td>
+
+            var UNMASKED_RENDERER_WEBGL = "";
+            var WEBGL_debug_renderer_info = new
+            {
+                UNMASKED_RENDERER_WEBGL = 0x9246u
+            };
+
+
+//            02000509 ScriptCoreLib.Shared.BCLImplementation.System.Linq.__OrderedEnumerable`1 +<> c__DisplayClass0
+//{ SourceMethod = Int32 < GetEnumerator > b__1(TSource, TSource) }
+//        script: error JSC1000: unknown opcode brtrue.s at < GetEnumerator > b__1 + 0x002f
+
+            var dbgRenderInfo = gl.getExtension("WEBGL_debug_renderer_info");
+            if (dbgRenderInfo != null)
+            {
+                // https://www.khronos.org/registry/webgl/extensions/WEBGL_debug_renderer_info/
+                UNMASKED_RENDERER_WEBGL = (string)gl.getParameter(WEBGL_debug_renderer_info.UNMASKED_RENDERER_WEBGL);
+            }
+
 
             new IHTMLButton { "do MD5" }.AttachToDocument().onclick +=
                 async a =>
@@ -83,10 +109,30 @@ namespace WorkerMD5Experiment
                     //a.Element.innerText = z.data;
 
 
+                    //Environment.OSVersion.
+                    var winver = Native.window.navigator.userAgent.SkipUntilOrEmpty("(Windows ").TakeUntilOrEmpty(")");
+
+
+
+
                     new IHTMLPre {
                         // ProcessorCount allows to know if we are on our lite laptop or the server
-                        new { Environment.ProcessorCount, z.data }
+                        new {
+                            Environment.ProcessorCount,
+                            winver,
+                            UNMASKED_RENDERER_WEBGL,
+                            Native.window.navigator.userAgent,
+                            //Native.window.navigator.mem
+                            z.data }
                     }.AttachToDocument();
+
+                    // {{ ProcessorCount = 8, userAgent = Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.99 Safari/537.36, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 252, ManagedThreadId = 10 }} }}
+
+                    // red server 2008r2:
+                    // {{ ProcessorCount = 8, winver = NT 6.1; WOW64, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 243, ManagedThreadId = 10 }} }}
+                    // lenovo 8.1 battery
+                    // {{ ProcessorCount = 4, winver = NT 6.3; Win64; x64, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 313, ManagedThreadId = 10 }} }}
+
 
                     // {{ ProcessorCount = 8, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 246, ManagedThreadId = 10 }} }}
                     //{ { ProcessorCount = 8, data = { { i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 240, ManagedThreadId = 11 } } } }
