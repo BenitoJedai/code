@@ -15,6 +15,11 @@ namespace TestYouTubeExtractor
 {
     class Program
     {
+        // Show Details	Severity	Code	Description	Project	File	Line
+        //Error NuGet Package restore failed for project TestYouTubeExtractor: Unable to find version '1.0.0.0' of package 'YoutubeExtractor'..			0
+
+        // https://github.com/mono/taglib-sharp/
+
         private static void DownloadVideo(string link, IEnumerable<VideoInfo> videoInfos)
         {
             // Show Details	Severity	Code	Description	Project	File	Line
@@ -140,21 +145,30 @@ namespace TestYouTubeExtractor
             // X:\jsc.svn\examples\merge\Test\TestYouTubeExtractor\TestYouTubeExtractor\Program.cs
             // x:\jsc.svn\market\synergy\github\youtubeextractor\external\exampleapplication\program.cs
 
-            var p = 1;
+            //var p = 1;
 
-            for (int ioffset = 0; ioffset < 12; ioffset++)
-            {
+            for (int p = 1; p < 12; p++)
+                foreach (var src in new[] {
+                    "https://hiddenlighthouse.wordpress.com/page/\{p}/",
+                    "https://zproxy.wordpress.com/page/\{p}/"
 
-                Console.WriteLine("DownloadString ... " + new { p });
+                })
+                {
+
+
+
+                Console.WriteLine("DownloadString ... " + new { p, src });
 
                 // Additional information: The underlying connection was closed: An unexpected error occurred on a send.
                 // Additional information: The operation has timed out.
                 // Additional information: The underlying connection was closed: The connection was closed unexpectedly.
-                var page0 = new WebClient().DownloadString(
-                    "https://zproxy.wordpress.com/page/\{p}/"
+                var page0 = new WebClient().DownloadString(src
                     );
 
                 Console.WriteLine("DownloadString ... done " + new { p });
+
+                //p++;
+
 
                 // https://www.youtube.com/embed/FhEYvOYceNs?
 
@@ -271,7 +285,6 @@ namespace TestYouTubeExtractor
 
                 }
 
-                p++;
             }
 
             Debugger.Break();

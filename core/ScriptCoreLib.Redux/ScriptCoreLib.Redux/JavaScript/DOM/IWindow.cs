@@ -47,7 +47,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-
+        // https://developer.mozilla.org/en-US/docs/Web/API/window.performance
         public Performance performance;
 
         // http://caniuse.com/deviceorientation
