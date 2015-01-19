@@ -48,12 +48,16 @@ namespace WebServicePDFGenerator
                         new { base64.Length }
                     }.AttachToDocument();
 
-                    new IHTMLIFrame
+                    var i = new IHTMLIFrame
                     {
 
                         src = "data:application/pdf;base64," + base64
                         //bytes =
                     }.AttachToDocument();
+
+                    i.style.width = "100%";
+                    i.style.height = "100%";
+
                 }
              );
 

@@ -24,7 +24,11 @@ namespace WebServicePDFGenerator
         // X:\jsc.svn\examples\javascript\synergy\jsPDF\jsPDF\Application.cs
         // svn checkout svn://svn.code.sf.net/p/itextsharp/code/trunk itextsharp-code
 
-        [Obsolete(" is MemoryStream supported?")]
+        // Show Details	Severity	Code	Description	Project	File	Line
+        //Error Metadata file 'X:\opensource\sourceforge\itextsharp\src\core\bin\Debug\itextsharp.dll' could not be found   WebServicePDFGenerator CSC
+
+
+      [Obsolete(" is MemoryStream supported?")]
         //public async Task<MemoryStream> Invoke()
         public async Task<string> Invoke()
         {
