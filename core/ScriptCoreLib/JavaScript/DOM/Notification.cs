@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -11,10 +12,12 @@ namespace ScriptCoreLib.JavaScript.DOM
     // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\android\app\Notification.cs
     // https://notifications.spec.whatwg.org/
 
-    // name clash? name to IResponse?
     [Script(HasNoPrototype = true, ExternalTarget = "Notification")]
     public class Notification : IEventTarget
     {
+        // X:\jsc.svn\examples\javascript\chrome\apps\ChromeUDPNotification\ChromeUDPNotification\Application.cs
+        // X:\jsc.svn\examples\javascript\test\TestNotification\TestNotification\Application.cs
+
         // service worker doesnt yet support it?
 
         // http://permalink.gmane.org/gmane.comp.web.blink.devel/14696
@@ -23,7 +26,6 @@ namespace ScriptCoreLib.JavaScript.DOM
         // android Notification vs chrome app Notification
         // didnt we do an example for it with webkit prefix?
 
-        // X:\jsc.svn\examples\javascript\test\TestNotification\TestNotification\Application.cs
 
         // Uncaught ReferenceError: NotificationCwAABA8QXTe2Tutf1Fl80w is not defined
         public static readonly string permission;
@@ -78,6 +80,48 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
         #endregion
+
+
+
+        #region async
+        [Script]
+        public new class Tasks
+        {
+            internal Notification that;
+
+            #region onresize
+            public Task<IEvent> onclick
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var x = new TaskCompletionSource<IEvent>();
+
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\android\TextToSpeechExperiment\TextToSpeechExperiment\Application.cs
+                    // X:\jsc.svn\examples\javascript\chrome\apps\ChromeUDPNotification\ChromeUDPNotification\Application.cs
+                    that.onclick += x.SetResult;
+
+                    return x.Task;
+                }
+            }
+            #endregion
+        }
+        #endregion
+
+        public void close()
+        {
+        }
+
+        [System.Obsolete("is this the best way to expose events as async?")]
+        public new Tasks async
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return new Tasks { that = this };
+            }
+        }
     }
 
 }

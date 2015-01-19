@@ -83,6 +83,7 @@ namespace ScriptCoreLib.JavaScript
         [Script(HasNoPrototype = true, ExternalTarget = "Uint8ClampedArray", Implements = typeof(byte[]))]
         public class Uint8ClampedArray : ArrayBufferView
         {
+
             public Uint8ClampedArray(ArrayBuffer array)
             {
 

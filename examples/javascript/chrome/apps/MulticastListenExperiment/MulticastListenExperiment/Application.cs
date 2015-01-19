@@ -708,6 +708,10 @@ namespace MulticastListenExperiment
 
             // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
             // Fired when a connection is made from another extension.
+
+            // X:\jsc.svn\examples\merge\TestDetectOpenFiles\TestDetectOpenFiles\Program.cs
+
+            #region ConnectExternal
             chrome.runtime.ConnectExternal += e =>
             {
                 // 0:10428ms extension connects to app: { id = fkgibadjpabiongmgoeomdbcefhabmah }
@@ -776,6 +780,7 @@ namespace MulticastListenExperiment
                     };
             };
 
+            #endregion
 
 
 

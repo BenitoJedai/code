@@ -152,59 +152,59 @@ namespace ChromeNotificationExperiment
             //    this.onframe();
             //};
 
-            new Notification
+            new chrome.Notification
             {
                 Title = "ChromeNotificationExperiment",
                 Message = "activated!",
                 //IconCanvas = new WebGLTetrahedron.Application().gl.canvas
             };
 
-            #region notify  with spiral
-            new IHTMLButton { innerText = "notify with WebGLTetrahedron" }.AttachToDocument().WhenClicked(
-             async delegate
-            {
-                Console.WriteLine("enter WhenClicked");
+            //#region notify  with spiral
+            //new IHTMLButton { innerText = "notify with WebGLTetrahedron" }.AttachToDocument().WhenClicked(
+            // async delegate
+            //{
+            //    Console.WriteLine("enter WhenClicked");
 
-                var n = new Notification
-                {
-                    Title = "WebGLTetrahedron",
-                    Message = "energy!",
+            //    var n = new Notification
+            //    {
+            //        Title = "WebGLTetrahedron",
+            //        Message = "energy!",
 
-                    // this locks up chrome nowadays. why? are we doing something wrong?
-                    //IconCanvas = new WebGLTetrahedron.Application().gl.canvas
-                };
+            //        // this locks up chrome nowadays. why? are we doing something wrong?
+            //        //IconCanvas = new WebGLTetrahedron.Application().gl.canvas
+            //    };
 
-                Console.WriteLine("at WhenClicked 175");
+            //    Console.WriteLine("at WhenClicked 175");
 
-                n.Clicked +=
-                    delegate
-                {
-                    Console.WriteLine("Clicked");
-                };
+            //    n.Clicked +=
+            //        delegate
+            //    {
+            //        Console.WriteLine("Clicked");
+            //    };
 
-                Console.WriteLine("at WhenClicked 183");
+            //    Console.WriteLine("at WhenClicked 183");
 
-                n.Closed +=
-                    byUser =>
-                     {
-                         Console.WriteLine("Closed " + new { byUser });
-                     };
+            //    n.Closed +=
+            //        byUser =>
+            //         {
+            //             Console.WriteLine("Closed " + new { byUser });
+            //         };
 
 
-                Console.WriteLine("at WhenClicked 192");
+            //    Console.WriteLine("at WhenClicked 192");
 
-                // and now it blows up. why?
-            }
-            );
-            #endregion
+            //    // and now it blows up. why?
+            //}
+            //);
+            //#endregion
 
-            #region notify  with spiral
-            new IHTMLButton { innerText = "notify with spiral" }.AttachToDocument().WhenClicked(
+            #region notify 
+            new IHTMLButton { innerText = "notify" }.AttachToDocument().WhenClicked(
              async delegate
             {
                 c++;
 
-                var n = new Notification
+                var n = new chrome.Notification
                 {
                     Message = "Primary message to display",
                     //IconCanvas = gl.canvas
@@ -235,7 +235,7 @@ namespace ChromeNotificationExperiment
             {
                 c++;
 
-                var n = new Notification("foo" + c,
+                var n = new chrome.Notification("foo" + c,
                    message: "Primary message to display"
                 );
 
