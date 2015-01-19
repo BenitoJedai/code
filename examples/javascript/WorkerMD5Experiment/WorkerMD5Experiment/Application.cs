@@ -129,10 +129,11 @@ namespace WorkerMD5Experiment
                     // {{ ProcessorCount = 8, userAgent = Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.99 Safari/537.36, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 252, ManagedThreadId = 10 }} }}
 
                     // red server 2008r2:
-                    // {{ ProcessorCount = 8, winver = NT 6.1; WOW64, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 243, ManagedThreadId = 10 }} }}
+                    // {{ ProcessorCount = 8, winver = NT 6.1; WOW64, UNMASKED_RENDERER_WEBGL = ANGLE (Intel(R) HD Graphics 4000 Direct3D11 vs_5_0 ps_5_0), userAgent = Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.99 Safari/537.36, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 255, ManagedThreadId = 10 }} }}
                     // lenovo 8.1 battery
-                    // {{ ProcessorCount = 4, winver = NT 6.3; Win64; x64, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 313, ManagedThreadId = 10 }} }}
-
+                    // {{ ProcessorCount = 4, winver = NT 6.3; Win64; x64, UNMASKED_RENDERER_WEBGL = ANGLE (Intel(R) HD Graphics Family Direct3D11 vs_5_0 ps_5_0), userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2275.2 Safari/537.36, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 383, ManagedThreadId = 10 }} }}
+                    // windows7
+                    // {{ ProcessorCount = 4, winver = NT 6.1; Win64; x64, UNMASKED_RENDERER_WEBGL = ANGLE (Intel(R) HD Graphics Family Direct3D9Ex vs_3_0 ps_3_0), userAgent = Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2280.2 Safari/537.36, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 453, ManagedThreadId = 10 }} }}
 
                     // {{ ProcessorCount = 8, data = {{ i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 246, ManagedThreadId = 10 }} }}
                     //{ { ProcessorCount = 8, data = { { i = 4095, hex = 4ea77972bc2c613b782ab9f17360b0db, ElapsedMilliseconds = 240, ManagedThreadId = 11 } } } }
