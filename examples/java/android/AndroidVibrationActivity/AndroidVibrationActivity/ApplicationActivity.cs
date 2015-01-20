@@ -14,6 +14,8 @@ using ScriptCoreLib.Android.Extensions;
 
 namespace AndroidVibrationActivity.Activities
 {
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "21")]
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
     public class ApplicationActivity : Activity
     {
 
@@ -24,14 +26,11 @@ namespace AndroidVibrationActivity.Activities
 
             base.onCreate(savedInstanceState);
 
-            ScrollView sv = new ScrollView(this);
-
-            LinearLayout ll = new LinearLayout(this);
+            var sv = new ScrollView(this);
+            var ll = new LinearLayout(this);
 
             ll.setOrientation(LinearLayout.VERTICAL);
-
             sv.addView(ll);
-
 
             var b = new Button(this);
 
@@ -53,7 +52,7 @@ namespace AndroidVibrationActivity.Activities
             this.setContentView(sv);
 
 
-            this.ShowLongToast("http://my.jsc-solutions.net x");
+            //this.ShowLongToast("http://my.jsc-solutions.net x");
         }
 
 

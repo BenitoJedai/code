@@ -17,6 +17,7 @@ namespace JVMCLRBroadcastLogger
     public class __AndroidMulticast
     {
         public static __AndroidMulticast value;
+        private object AtData;
 
 
 
@@ -39,6 +40,12 @@ namespace JVMCLRBroadcastLogger
 
                 Name = "client"
             }.Start();
+        }
+
+        public __AndroidMulticast(object AtData)
+        {
+            // TODO: Complete member initialization
+            this.AtData = AtData;
         }
 
         private void InitializeThread(Action<string> AtData)

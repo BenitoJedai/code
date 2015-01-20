@@ -16,6 +16,10 @@ using ScriptCoreLibJava.Extensions;
 
 namespace AndroidNotificationActivity.Activities
 {
+
+
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "21")]
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
     public class ApplicationActivity : Activity
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207
@@ -31,16 +35,15 @@ namespace AndroidNotificationActivity.Activities
 
             base.onCreate(savedInstanceState);
 
-            ScrollView sv = new ScrollView(this);
-
-            LinearLayout ll = new LinearLayout(this);
+            var sv = new ScrollView(this);
+            var ll = new LinearLayout(this);
 
             ll.setOrientation(LinearLayout.VERTICAL);
 
             sv.addView(ll);
 
 
-            Button b = new Button(this);
+            var b = new Button(this);
 
             b.setText("Notify!");
             int counter = 0;
@@ -50,18 +53,18 @@ namespace AndroidNotificationActivity.Activities
                 delegate
                 {
                     counter++;
-                    NotificationManager nm = (NotificationManager)this.getSystemService(Activity.NOTIFICATION_SERVICE);
+                    var nm = (NotificationManager)this.getSystemService(Activity.NOTIFICATION_SERVICE);
 
 
                     // see http://developer.android.com/reference/android/app/Notification.html
-                    Notification notification = new Notification(
+                    var notification = new Notification(
                         android.R.drawable.star_on,
                         "The text that flows by in the status bar when the notification first activates.",
                          java.lang.System.currentTimeMillis()
                     );
 
-                    Intent notificationIntent = new Intent(this, typeof(ApplicationActivity).ToClass());
-                    PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+                    var notificationIntent = new Intent(this, typeof(ApplicationActivity).ToClass());
+                    var contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
 
                     notification.setLatestEventInfo(

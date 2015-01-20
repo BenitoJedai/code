@@ -6,6 +6,8 @@ using System.Text;
 
 namespace java.net
 {
+    // X:\jsc.svn\examples\java\JVMCLRBroadcastLogger\JVMCLRBroadcastLogger\Library\__AndroidMulticast.cs
+
     [Script(IsNative = true)]
     public class DatagramSocket
     {

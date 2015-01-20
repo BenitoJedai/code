@@ -14,6 +14,9 @@ namespace android.net.wifi
     [Script(IsNative = true)]
     public class WifiManager
     {
+        // tested by?
+        // X:\jsc.svn\examples\java\android\AndroidServiceUDPNotification\AndroidServiceUDPNotification\ApplicationActivity.cs
+
         public MulticastLock createMulticastLock(string tag)
         {
             throw null;

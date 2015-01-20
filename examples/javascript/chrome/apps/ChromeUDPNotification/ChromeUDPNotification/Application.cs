@@ -50,6 +50,7 @@ namespace ChromeUDPNotification
                 Action<string> AtUDPString =
                      async xmlstring =>
                      {
+                         // X:\jsc.svn\examples\java\android\AndroidServiceUDPNotification\AndroidServiceUDPNotification\ApplicationActivity.cs
                          var xml = XElement.Parse(xmlstring);
 
                          if (xml.Value.StartsWith("Visit me at "))

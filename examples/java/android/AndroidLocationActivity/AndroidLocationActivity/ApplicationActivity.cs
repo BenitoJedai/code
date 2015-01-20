@@ -15,6 +15,9 @@ using ScriptCoreLib.Android.Extensions;
 
 namespace AndroidLocationActivity.Activities
 {
+
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "21")]
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
     public class AndroidLocationActivity : Activity
     {
         // inspired by http://android-er.blogspot.com/2012/05/obtaining-user-location.html
@@ -25,10 +28,11 @@ namespace AndroidLocationActivity.Activities
         // http://developer.android.com/guide/developing/building/building-cmdline.html
         // http://developer.android.com/guide/developing/device.html#setting-up
 
-  
+
 
 
         string PROVIDER = LocationManager.GPS_PROVIDER;
+        //string PROVIDER = LocationManager.prov;
         //string PROVIDER = LocationManager.NETWORK_PROVIDER;
 
         LocationManager locationManager;
@@ -46,6 +50,8 @@ namespace AndroidLocationActivity.Activities
 
             textLatitude = new TextView(this).AttachTo(ll);
             textLongitude = new TextView(this).AttachTo(ll);
+
+            textLatitude.setText("?");
  
             setContentView(ll);
 

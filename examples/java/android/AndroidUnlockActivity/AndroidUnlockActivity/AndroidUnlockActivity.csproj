@@ -75,9 +75,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
-      <Link>ScriptCoreLib\Shader.cs</Link>
-    </Compile>
     <Compile Include="ApplicationActivity.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationActivity.cs</DependentUpon>
@@ -92,7 +89,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-start /MIN /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
 
 
 if $(ConfigurationName)==Debug (

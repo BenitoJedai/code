@@ -8,16 +8,19 @@ using android.provider;
 using android.view;
 using android.webkit;
 using android.widget;
-using AndroidBootServiceNotificationActivity.Activities;
+using AndroidServiceUDPNotification.Activities;
 //using java.lang;
 using ScriptCoreLib;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.Android.Extensions;
 using ScriptCoreLibJava.Extensions;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Xml.Linq;
+using android.net.wifi;
 
-namespace AndroidBootServiceNotificationActivity.Activities
+namespace AndroidServiceUDPNotification.Activities
 {
     // http://android-er.blogspot.com/2011/04/start-service-to-send-notification.html
 
@@ -49,19 +52,20 @@ namespace AndroidBootServiceNotificationActivity.Activities
 
             #region startservice
             var startservice = new Button(this);
-            startservice.setText("Start Service to send Notification");
+            startservice.setText("Start Service");
             startservice.AtClick(
                 delegate
                 {
                     startservice.setEnabled(false);
-                    this.ShowToast("startservice_onclick");
+                    //this.ShowToast("startservice_onclick");
 
                     //var intent = new Intent(this, NotifyService.Class);
                     var intent = new Intent(this, typeof(NotifyService).ToClass());
                     this.startService(intent);
 
                     // http://developer.android.com/reference/android/app/Activity.html#recreate%28%29
-                    this.recreate();
+                    //this.recreate();
+                    this.finish();
                 }
             );
             ll.addView(startservice);
@@ -114,7 +118,7 @@ namespace AndroidBootServiceNotificationActivity.Activities
 
                 Console.WriteLine(new { cn });
 
-                // I/System.Console(17713): { cn = AndroidBootServiceNotificationActivity.Activities.NotifyService }
+                // I/System.Console(17713): { cn = AndroidServiceUDPNotification.Activities.NotifyService }
                 if (cn == typeof(NotifyService).FullName)
                 {
 
@@ -160,7 +164,7 @@ namespace AndroidBootServiceNotificationActivity.Activities
                         );
                         ll.addView(cpb);
                     }
-                        #endregion
+                    #endregion
 #endif
 
 
@@ -195,36 +199,110 @@ namespace AndroidBootServiceNotificationActivity.Activities
 
         public override int onStartCommand(Intent value0, int value1, int value2)
         {
+            #region Notify
+            int counter = 0;
+            Action<string, string, string> Notify =
+                (Title, link, search) =>
+                {
+                    counter++;
+
+                    var nm = (NotificationManager)this.getSystemService(Activity.NOTIFICATION_SERVICE);
+
+                    // see http://developer.android.com/reference/android/app/Notification.html
+                    var notification = new Notification(
+                        android.R.drawable.star_on,
+                        Title,
+                         java.lang.System.currentTimeMillis()
+                    );
+
+                    // ToClass is like GetTypeInfo
+                    //var xmyIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("http://youtube.com"));
+
+                    //http://stackoverflow.com/questions/9860456/search-a-specific-string-in-youtube-application-from-my-app
+
+
+                    Intent xmyIntent = new Intent(Intent.ACTION_SEARCH);
+                    xmyIntent.setPackage("com.google.android.youtube");
+                    xmyIntent.putExtra("query", search);
+                    xmyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //startActivity(intent);
+
+                    //var xmyIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(link));
+
+                    var xpendingIntent
+                      = PendingIntent.getActivity(getBaseContext(),
+                        0, xmyIntent,
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+
+
+                    notification.setLatestEventInfo(
+                        this,
+                        Title,
+                        "",
+                        xpendingIntent);
+
+                    // http://stackoverflow.com/questions/10402686/how-to-have-led-light-notification
+                    notification.defaults |= Notification.DEFAULT_VIBRATE;
+                    notification.defaults |= Notification.DEFAULT_SOUND;
+                    //notification.defaults |= Notification.DEFAULT_LIGHTS;
+                    notification.defaults |= Notification.FLAG_SHOW_LIGHTS;
+                    // http://androiddrawableexplorer.appspot.com/
+                    nm.notify(counter, notification);
+
+                    //context.ToNotification(
+                    //      Title: Title,
+                    //      Content: Title,
+
+                    //      id: (int)java.lang.System.currentTimeMillis(),
+                    //        icon: android.R.drawable.star_on,
+                    //      uri: "http://my.jsc-solutions.net"
+                    //  );
+                };
+            #endregion
+
             var intentFilter = new IntentFilter();
             intentFilter.addAction(ACTION);
             registerReceiver(notifyServiceReceiver, intentFilter);
 
+            //            0001 02000006 AndroidServiceUDPNotification.AndroidActivity::< module >.SHA1c9cbee88a1edabb97eb411ca262280fe2fa18dd1@229018826
+            //{ OwnerMethod = Int32 onStartCommand(android.content.Intent, Int32, Int32), DeclaringType = AndroidServiceUDPNotification.Activities.NotifyService }
+            //            {
+            //                exc = System.Security.VerificationException: Operation could destabilize the runtime.
+            //                 at System.RuntimeMethodHandle.GetMethodBody(IRuntimeMethodInfo method, RuntimeType declaringType)
+            //               at System.Reflection.RuntimeMethodInfo.GetMethodBody()
+            //               at jsc.ILBlock..ctor(MethodBase SourceMethod) in x:\jsc.internal.git\compiler\jsc\CodeModel\ILBlock.cs:line 349
 
-            // Send Notification
-            var notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+            Notify("awaiting for tv...", "http://youtube.com", "music");
 
-            var myNotification = new Notification(
-                android.R.drawable.star_on,
-                //(CharSequence)(object)"Boot!!",
-                "Boot!!",
-                java.lang.System.currentTimeMillis()
+            // http://developer.android.com/reference/android/net/wifi/WifiManager.html
+            // http://developer.android.com/reference/android/net/wifi/WifiManager.html#createMulticastLock(java.lang.String)
+            ((WifiManager)this.getSystemService(Context.WIFI_SERVICE)).createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, "ApplicationActivity").acquire();
+            ((WifiManager)this.getSystemService(Context.WIFI_SERVICE)).createMulticastLock("ApplicationActivity").acquire();
+
+            new JVMCLRBroadcastLogger.__AndroidMulticast(
+                AtData:
+                xmlstring =>
+                {
+                    // X:\jsc.svn\examples\javascript\chrome\apps\ChromeUDPNotification\ChromeUDPNotification\Application.cs
+
+                    var xml = XElement.Parse(xmlstring);
+
+                    if (xml.Value.StartsWith("Visit me at "))
+                    {
+                        // what about android apps runnning on SSL?
+                        // what about preview images?
+                        // do we get localhost events too?
+
+                        var n = xml.Attribute("n");
+
+                        var uri = "http://" + xml.Value.SkipUntilOrEmpty("Visit me at ");
+                        var link = uri + "/results?search_query=" + n.Value;
+
+                        Notify(n.Value, link, n.Value);
+                    }
+                }
             );
 
-            var context = getApplicationContext();
-
-            var myIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("http://youtube.com"));
-
-            var pendingIntent
-              = PendingIntent.getActivity(getBaseContext(),
-                0, myIntent,
-                Intent.FLAG_ACTIVITY_NEW_TASK);
-            myNotification.defaults |= Notification.DEFAULT_SOUND;
-            myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
-            myNotification.setLatestEventInfo(context,
-                    "Boot!!",
-                    "Proud to be a jsc developer :)",
-               pendingIntent);
-            notificationManager.notify(1, myNotification);
 
 
             return base.onStartCommand(value0, value1, value2);
@@ -247,6 +325,17 @@ namespace AndroidBootServiceNotificationActivity.Activities
         public class NotifyServiceReceiver : BroadcastReceiver
         {
             public NotifyService that;
+
+
+            //internal compiler error at method
+            // assembly: Y:\staging\clr\AndroidServiceUDPNotification.AndroidActivity.dll at X:\jsc.svn\examples\java\android\AndroidServiceUDPNotification\AndroidServiceUDPNotification\bin\Release
+            // type: AndroidServiceUDPNotification.Activities.NotifyService+NotifyServiceReceiver, AndroidServiceUDPNotification.AndroidActivity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            // method: onReceive
+            // Java : invalid if block at
+            // assembly: Y:\staging\clr\AndroidServiceUDPNotification.AndroidActivity.dll
+            // type: AndroidServiceUDPNotification.Activities.NotifyService+NotifyServiceReceiver, AndroidServiceUDPNotification.AndroidActivity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            // offset: 0x000f
+            //  method:Void onReceive(android.content.Context, android.content.Intent)
 
             public override void onReceive(Context c, Intent i)
             {

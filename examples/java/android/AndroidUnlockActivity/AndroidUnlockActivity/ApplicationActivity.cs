@@ -9,6 +9,7 @@ using android.provider;
 using android.webkit;
 using android.widget;
 using ScriptCoreLib;
+using ScriptCoreLibJava.Extensions;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.Android.Extensions;
 using android.content.pm;
@@ -16,7 +17,8 @@ using android.content;
 
 namespace AndroidUnlockActivity.Activities
 {
-
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "21")]
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
     public class AndroidUnlockActivity : Activity
     {
         // inspired by http://baroqueworksdev.blogspot.com/2012/09/how-to-handle-screen-onoff-and-keygurad.html
@@ -50,17 +52,48 @@ namespace AndroidUnlockActivity.Activities
                         (Context context, Intent intent)  =>
                         {
                             #region Notify
+                            int counter = 0;
                             Action<string> Notify =
                                 Title =>
                                 {
-                                    context.ToNotification(
-                                          Title: Title,
-                                          Content: Title,
+                                    counter++;
 
-                                          id: (int)java.lang.System.currentTimeMillis(),
-                                            icon: android.R.drawable.star_on,
-                                          uri: "http://my.jsc-solutions.net"
-                                      );
+                                    var nm = (NotificationManager)this.getSystemService(Activity.NOTIFICATION_SERVICE);
+
+                                    // see http://developer.android.com/reference/android/app/Notification.html
+                                    var notification = new Notification(
+                                        android.R.drawable.star_on,
+                                        Title,
+                                         java.lang.System.currentTimeMillis()
+                                    );
+
+                                    // ToClass is like GetTypeInfo
+                                    var notificationIntent = new Intent(this, typeof(AndroidUnlockActivity).ToClass());
+                                    var contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+
+                                    notification.setLatestEventInfo(
+                                        this,
+                                        Title,
+                                        "",
+                                        contentIntent);
+
+                                    // http://stackoverflow.com/questions/10402686/how-to-have-led-light-notification
+                                    notification.defaults |= Notification.DEFAULT_VIBRATE;
+                                    notification.defaults |= Notification.DEFAULT_SOUND;
+                                    //notification.defaults |= Notification.DEFAULT_LIGHTS;
+                                    notification.defaults |= Notification.FLAG_SHOW_LIGHTS;
+                                    // http://androiddrawableexplorer.appspot.com/
+                                    nm.notify(counter, notification);
+
+                                    //context.ToNotification(
+                                    //      Title: Title,
+                                    //      Content: Title,
+
+                                    //      id: (int)java.lang.System.currentTimeMillis(),
+                                    //        icon: android.R.drawable.star_on,
+                                    //      uri: "http://my.jsc-solutions.net"
+                                    //  );
                                 };
                             #endregion
 

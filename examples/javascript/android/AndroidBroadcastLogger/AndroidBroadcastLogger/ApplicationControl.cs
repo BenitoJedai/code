@@ -14,6 +14,8 @@ namespace AndroidBroadcastLogger
 {
     public partial class ApplicationControl : UserControl
     {
+        // jsc, this looks too complex?
+
         public ApplicationControl()
         {
             this.InitializeComponent();
