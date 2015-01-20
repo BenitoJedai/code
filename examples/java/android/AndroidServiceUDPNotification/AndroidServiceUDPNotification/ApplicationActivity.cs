@@ -55,18 +55,18 @@ namespace AndroidServiceUDPNotification.Activities
             startservice.setText("Start Service");
             startservice.AtClick(
                 delegate
-                {
-                    startservice.setEnabled(false);
-                    //this.ShowToast("startservice_onclick");
+            {
+                startservice.setEnabled(false);
+                //this.ShowToast("startservice_onclick");
 
-                    //var intent = new Intent(this, NotifyService.Class);
-                    var intent = new Intent(this, typeof(NotifyService).ToClass());
-                    this.startService(intent);
+                //var intent = new Intent(this, NotifyService.Class);
+                var intent = new Intent(this, typeof(NotifyService).ToClass());
+                this.startService(intent);
 
-                    // http://developer.android.com/reference/android/app/Activity.html#recreate%28%29
-                    //this.recreate();
-                    this.finish();
-                }
+                // http://developer.android.com/reference/android/app/Activity.html#recreate%28%29
+                //this.recreate();
+                this.finish();
+            }
             );
             ll.addView(startservice);
             #endregion
@@ -76,22 +76,22 @@ namespace AndroidServiceUDPNotification.Activities
             stopservice.setText("Stop Service");
             stopservice.AtClick(
                 delegate
-                {
-                    this.ShowToast("stopservice_onclick");
+            {
+                this.ShowToast("stopservice_onclick");
 
-                    var intent = new Intent();
-                    intent.setAction(NotifyService.ACTION);
-                    intent.putExtra("RQS", NotifyService.RQS_STOP_SERVICE);
-                    this.sendBroadcast(intent);
+                var intent = new Intent();
+                intent.setAction(NotifyService.ACTION);
+                intent.putExtra("RQS", NotifyService.RQS_STOP_SERVICE);
+                this.sendBroadcast(intent);
 
-                    // seems stop takes a while
+                // seems stop takes a while
 
-                    //Task.Delay(100);
+                //Task.Delay(100);
 
-                    Thread.Sleep(30);
+                Thread.Sleep(30);
 
-                    this.recreate();
-                }
+                this.recreate();
+            }
             );
             ll.addView(stopservice);
             #endregion
@@ -208,6 +208,8 @@ namespace AndroidServiceUDPNotification.Activities
 
                     var nm = (NotificationManager)this.getSystemService(Activity.NOTIFICATION_SERVICE);
 
+
+                    //var nn = new NotificationCompat
                     // see http://developer.android.com/reference/android/app/Notification.html
                     var notification = new Notification(
                         android.R.drawable.star_on,
@@ -220,32 +222,48 @@ namespace AndroidServiceUDPNotification.Activities
 
                     //http://stackoverflow.com/questions/9860456/search-a-specific-string-in-youtube-application-from-my-app
 
+                    // http://grokbase.com/t/gg/android-developers/123s02429a/use-marquee-on-notification-bar
 
                     Intent xmyIntent = new Intent(Intent.ACTION_SEARCH);
                     xmyIntent.setPackage("com.google.android.youtube");
                     xmyIntent.putExtra("query", search);
+
+                    // https://code.google.com/p/android/issues/detail?id=82065
+                    // http://stackoverflow.com/questions/11939018/scrolling-text-in-notification
                     xmyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     //startActivity(intent);
 
                     //var xmyIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(link));
 
+
+ //[javac] W:\src\JVMCLRBroadcastLogger\__AndroidMulticast.java:165: error: bad operand type __Func_2< __f__AnonymousType_109_1_2<__NetworkInterface, Boolean>,__IEnumerable_1 < __UnicastIPAddressInformation >> for unary operator '!'
+ //     [javac]             if (!__AndroidMulticast.CS___9__CachedAnonymousMethodDelegate10)
+ //[javac] ^
+
                     var xpendingIntent
-                      = PendingIntent.getActivity(getBaseContext(),
-                        0, xmyIntent,
+                      = PendingIntent.getActivity(
+                          getBaseContext(),
+                        0,
+                        xmyIntent,
                         Intent.FLAG_ACTIVITY_NEW_TASK);
 
 
                     notification.setLatestEventInfo(
                         this,
                         Title,
-                        "",
+                       Title,
                         xpendingIntent);
 
+                    
                     // http://stackoverflow.com/questions/10402686/how-to-have-led-light-notification
                     notification.defaults |= Notification.DEFAULT_VIBRATE;
-                    notification.defaults |= Notification.DEFAULT_SOUND;
+                    //notification.defaults |= Notification.DEFAULT_SOUND;
                     //notification.defaults |= Notification.DEFAULT_LIGHTS;
                     notification.defaults |= Notification.FLAG_SHOW_LIGHTS;
+
+
+                    //new Notification.BigTextStyle(
+                    
                     // http://androiddrawableexplorer.appspot.com/
                     nm.notify(counter, notification);
 
