@@ -22,6 +22,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     // ScriptPromise 
 
+    // http://blog.slaks.net/2015-01-05/introducing-promises/
+    // http://blog.slaks.net/2015-01-08/comparing-different-languages-promises-frameworks/
+
     [Script(HasNoPrototype = true, ExternalTarget = "Promise")]
     public class IPromise
     {

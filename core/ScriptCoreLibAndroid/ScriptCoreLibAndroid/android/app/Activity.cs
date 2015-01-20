@@ -13,6 +13,7 @@ namespace android.app
 {
     // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/app/Activity.java
     // http://developer.android.com/reference/android/app/Activity.html
+    // https://github.com/blue112/android-externs-haxe/blob/master/android/app/Activity.hx
 
     [Script(IsNative = true)]
     public class Activity : ContextThemeWrapper

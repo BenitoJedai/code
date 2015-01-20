@@ -104,7 +104,15 @@ namespace ScriptCoreLib.Extensions
             return null;
         }
 
-    
+
+
+
+        //       internal compiler error at method
+        //assembly: Y:\staging\JVMCLRBroadcastLogger__i__d.jvm.exe at C:\Users\Arvo\AppData\Local\Temp\xb0uuyk1.1ce\staging.jvm
+        //type: JVMCLRBroadcastLogger__i__d.Internal.Extensions.LinqExtensions, JVMCLRBroadcastLogger__i__d.jvm, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        //method: Otherwise
+        //Object reference not set to an instance of an object.
+        //   at jsc.Script.CompilerCLike.EmitIfBlock(Prestatement p, ILIfElseConstruct iif) in x:\jsc.internal.git\compiler\jsc\Languages\CompilerCLike.cs:line 892
 
         [System.Diagnostics.DebuggerStepThrough]
         public static T Otherwise<T>(this T e, Action h) where T : class

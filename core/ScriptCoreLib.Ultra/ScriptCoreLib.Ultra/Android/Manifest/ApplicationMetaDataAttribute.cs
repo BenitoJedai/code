@@ -8,6 +8,8 @@ namespace ScriptCoreLib.Android.Manifest
     [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     public sealed class ApplicationMetaDataAttribute : Attribute
     {
+        // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\Manifest\ApplicationAttribute.cs
+
         public string name;
         public string value;   
     }

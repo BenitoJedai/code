@@ -75,8 +75,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
         public override string ToString()
         {
+            // X:\jsc.svn\examples\java\android\AndroidServiceUDPNotification\AndroidServiceUDPNotification\ApplicationActivity.cs
 
-            return new { Name, Value }.ToString();
+            return Value;
+            //return new { Name, Value }.ToString();
         }
     }
 }

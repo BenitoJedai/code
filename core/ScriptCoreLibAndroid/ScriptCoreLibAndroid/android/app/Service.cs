@@ -11,10 +11,13 @@ namespace android.app
 {
     // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/app/Service.java
     // http://developer.android.com/reference/android/app/Service.html
+    // https://github.com/blue112/android-externs-haxe/blob/master/android/app/Service.hx
 
     [Script(IsNative = true)]
     public abstract class Service : ContextWrapper
     {
+        // X:\jsc.svn\examples\java\android\AndroidBootServiceNotificationActivity\AndroidBootServiceNotificationActivity\ApplicationActivity.cs
+
         // https://developer.android.com/tools/sdk/ndk/index.html
         // You cannot access features such as Services and Content Providers natively, 
         // so if you want to use them or any other framework API, you can still write JNI code to do so.
