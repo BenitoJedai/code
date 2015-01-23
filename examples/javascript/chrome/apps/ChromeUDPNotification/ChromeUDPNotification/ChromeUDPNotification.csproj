@@ -133,6 +133,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Textures\logo1.jpg" />
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="staging\ChromeUDPNotification.Application\web\manifest.json">
@@ -143,7 +144,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 		if $(ConfigurationName)==Release (
-		start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  
+		start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  
 		)</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
 		            </PreBuildEvent>
