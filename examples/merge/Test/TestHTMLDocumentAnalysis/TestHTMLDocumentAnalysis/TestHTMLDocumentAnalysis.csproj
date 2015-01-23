@@ -47,6 +47,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\opensource\codeplex\htmlagilitypack\HtmlAgilityPack\HtmlAgilityPack.fx.4.5.csproj">
+      <Project>{1028002a-bbe2-4ff2-94b7-a8368a8f6887}</Project>
+      <Name>HtmlAgilityPack.fx.4.5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TestYouTubeExtractor\TestYouTubeExtractor\TestYouTubeExtractor.csproj">
+      <Project>{d668d3f3-a1de-44a5-a055-813a6b705350}</Project>
+      <Name>TestYouTubeExtractor</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

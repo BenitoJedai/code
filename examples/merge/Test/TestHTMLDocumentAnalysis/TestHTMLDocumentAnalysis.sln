@@ -5,6 +5,12 @@ VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHTMLDocumentAnalysis", "TestHTMLDocumentAnalysis\TestHTMLDocumentAnalysis.csproj", "{7238DDCD-07D1-431A-960C-9434DD2A334A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlAgilityPack.fx.4.5", "..\..\..\..\..\opensource\codeplex\htmlagilitypack\HtmlAgilityPack\HtmlAgilityPack.fx.4.5.csproj", "{1028002A-BBE2-4FF2-94B7-A8368A8F6887}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDetectOpenFiles", "..\..\TestDetectOpenFiles\TestDetectOpenFiles\TestDetectOpenFiles.csproj", "{D7983935-FDFD-44F6-A578-00A7BD38A54F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestYouTubeExtractor", "..\TestYouTubeExtractor\TestYouTubeExtractor\TestYouTubeExtractor.csproj", "{D668D3F3-A1DE-44A5-A055-813A6B705350}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{7238DDCD-07D1-431A-960C-9434DD2A334A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7238DDCD-07D1-431A-960C-9434DD2A334A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7238DDCD-07D1-431A-960C-9434DD2A334A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7983935-FDFD-44F6-A578-00A7BD38A54F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7983935-FDFD-44F6-A578-00A7BD38A54F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7983935-FDFD-44F6-A578-00A7BD38A54F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7983935-FDFD-44F6-A578-00A7BD38A54F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D668D3F3-A1DE-44A5-A055-813A6B705350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D668D3F3-A1DE-44A5-A055-813A6B705350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D668D3F3-A1DE-44A5-A055-813A6B705350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D668D3F3-A1DE-44A5-A055-813A6B705350}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
