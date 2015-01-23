@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using YoutubeExtractor;
 using ScriptCoreLib.Extensions;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace TestYouTubeExtractor
 {
@@ -180,11 +181,36 @@ namespace TestYouTubeExtractor
                     // Additional information: The underlying connection was closed: An unexpected error occurred on a send.
                     // Additional information: The operation has timed out.
                     // Additional information: The underlying connection was closed: The connection was closed unexpectedly.
+ 
                     // Additional information: The request was aborted: Could not create SSL/TLS secure channel.
-
+                    // xml tidy?
                     var page0 = new WebClient().DownloadStringOrRetry(src);
 
                     Console.WriteLine("DownloadString ... done " + new { p });
+                    // http://stackoverflow.com/questions/281682/reference-to-undeclared-entity-exception-while-working-with-xml
+                    // Additional information: Reference to undeclared entity 'raquo'. Line 11, position 73.
+                    //  Additional information: The 'p' start tag on line 105 position 2 does not match the end tag of 'div'.Line 107, position 10.
+                    // http://stackoverflow.com/questions/15926142/regular-expression-for-finding-href-value-of-a-a-link
+
+                    // Command: Checkout from https://htmlagilitypack.svn.codeplex.com/svn/trunk, revision HEAD, Fully recursive, Externals included  
+
+
+                    // could it be used within a service worker?
+                    var doc = new HtmlAgilityPack.HtmlDocument();
+                    doc.LoadHtml(page0);
+
+                    var hrefList = doc.DocumentNode.SelectNodes("//a")
+                                      .Select(xp => xp.GetAttributeValue("href", "not found"))
+                                      .ToList();
+                    //var xpage0 = XElement.Parse(
+
+                    //    System.Net.WebUtility.HtmlDecode(page0)
+
+                    //    );
+
+                    // http://htmlagilitypack.codeplex.com/
+
+                    Console.WriteLine("DownloadString ... done " + new { p, hrefList.Count });
 
                     //p++;
 

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.SharpZLib", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library", "..\..\..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj", "{132EB43F-19B4-42AC-8025-3249B129867A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlAgilityPack.fx.4.5", "..\..\..\..\..\opensource\codeplex\htmlagilitypack\HtmlAgilityPack\HtmlAgilityPack.fx.4.5.csproj", "{1028002A-BBE2-4FF2-94B7-A8368A8F6887}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -51,6 +53,14 @@ Global
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887}.Android|Any CPU.Build.0 = Release|Any CPU
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
