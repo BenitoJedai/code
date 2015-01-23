@@ -17,6 +17,8 @@ using ChromeUDPNotification;
 using ChromeUDPNotification.Design;
 using ChromeUDPNotification.HTML.Pages;
 using chrome;
+//Error NuGet Package restore failed for project ChromeUDPNotification: Unable to find version '1.0.0.0' of package 'Chrome.Web.Store'..			0
+
 using ChromeUDPNotification.HTML.Images.FromAssets;
 
 namespace ChromeUDPNotification
