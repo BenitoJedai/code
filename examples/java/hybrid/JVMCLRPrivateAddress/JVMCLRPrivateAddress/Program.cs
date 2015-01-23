@@ -152,6 +152,13 @@ namespace JVMCLRPrivateAddress
                         group gkey by key;
 
 
+                // X:\jsc.svn\examples\java\hybrid\JVMCLRPrivateAddress\JVMCLRPrivateAddress\Program.cs
+
+                //{ Key = True, gi = 0 }
+                //{ Address = 192.168.43.12, Description = TP - LINK Wireless USB Adapter }
+                //{ Address = 192.168.136.1, Description = VMware Virtual Ethernet Adapter for VMnet1 }
+                //{ Address = 192.168.81.1, Description = VMware Virtual Ethernet Adapter for VMnet8 }
+
                 g.Reverse().WithEachIndex(
                       (gx, gi) =>
                       {
