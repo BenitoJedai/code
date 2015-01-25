@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using ScriptCoreLib.Extensions;
 
 namespace TestHTMLDocumentAnalysis
 {
@@ -28,31 +29,40 @@ namespace TestHTMLDocumentAnalysis
         {
             var doc = new HtmlAgilityPack.HtmlDocument();
 
-            var origin = new Uri("https://zproxy.wordpress.com");
+            var origin = new Uri("https://www.youtube.com/playlist?list=PL_2cq1Gbhke8KAbNKEz-HszGqNlqtGfKl");
+            // second take on it
+            // we cannot trust blog bost liks.
+            // we could trust page1 of a channel
+
             // http://www.coralcdn.org/
 
-            var origincc = new Uri("http://zproxy.wordpress.com.nyud.net");
+            // Additional information: Invalid URI: The format of the URI could not be determined.
 
-            Console.WriteLine("thinking about looking at " + new { origincc });
+            Console.WriteLine("thinking about looking at " + new { origin });
 
             //  Additional information: The underlying connection was closed: An unexpected error occurred on a send.
             // Additional information: Unable to connect to the remote server
 
-            var c = new WebClient().DownloadString(origincc);
+            var c = new WebClient().DownloadString(origin);
             Console.WriteLine("about to look at " + new { c.Length });
 
             doc.LoadHtml(c);
 
             var hrefList = (
                 from x in doc.DocumentNode.SelectNodes("//a")
-                let u = new Uri(x.GetAttributeValue("href", "not found"))
+                let href = x.GetAttributeValue("href", "not found")
+                //where href.StartsWith("https://www.youtube.com/watch?v=")
+                where href.StartsWith("/watch?v=")
+                let u = new Uri("https://www.youtube.com/watch?v=" + href.SkipUntilOrEmpty("=").TakeUntilIfAny("&amp;"))
+
 
 
                 // we are interested in outgoing indirections
-                where u.Host != origin.Host
+                //where u.Host != origin.Host
 
-                group u by new { u.Host }
-            ).ToArray();
+                //group u by new { u.Host }
+                select u
+            ).Distinct().ToArray();
 
             Console.WriteLine("the origin has " + new { hrefList.Length } + " groups we could look at");
 
@@ -62,12 +72,11 @@ namespace TestHTMLDocumentAnalysis
 
             foreach (var g in hrefList)
             {
-                Console.WriteLine(new { g.Key.Host });
+                //Console.WriteLine(new { g.Key.Host });
 
-                foreach (var item in g)
-                {
-                    Console.WriteLine(new { item.PathAndQuery });
-                }
+                Console.WriteLine(new { g });
+
+                TestYouTubeExtractor.Program.DoVideo(g.ToString());
             }
 
             Debugger.Break();

@@ -30,6 +30,11 @@ namespace ScriptCoreLib.JavaScript.WebGL
     public class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
     // : WebGLRenderingContextBase
     {
+        // cpu, gpu, hpu
+        // http://en.wikipedia.org/wiki/Holographic_processing_unit
+
+
+
         // http://support.apple.com/en-us/HT4623
         // http://toucharcade.com/2014/09/18/ios-8-webgl-demo-quake-iii/
         // ipad2 should support webgl too!

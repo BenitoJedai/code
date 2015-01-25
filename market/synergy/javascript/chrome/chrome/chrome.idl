@@ -393,6 +393,7 @@ interface chrome.app.runtime
 {
 	static attribute string        id  ;
 
+	// https://developer.chrome.com/apps/app_lifecycle
 	event static attribute chrome.ChromeEventTarget<chrome.app.runtime.LaunchData> onLaunched;
 	//event static attribute chrome.ChromeEventTarget onLaunched;
 

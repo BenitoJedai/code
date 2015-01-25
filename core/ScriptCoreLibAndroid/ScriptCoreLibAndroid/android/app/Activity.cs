@@ -18,6 +18,8 @@ namespace android.app
     [Script(IsNative = true)]
     public class Activity : ContextThemeWrapper
     {
+        // http://redmondmag.com/articles/2014/02/01/could-android-be-coming-to-windows.aspx
+
         // http://developer.android.com/reference/android/app/NativeActivity.html
 
         // http://static.oculus.com/sdk-downloads/documents/Oculus_Mobile_v0.4.0_SDK_Documentation.zip
