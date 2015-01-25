@@ -22,6 +22,9 @@ namespace WebGLYomotsuMD2Model
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        // http://www.terrybutler.co.uk/downloads/web/webgl-md2.htm
+        // http://jasonbejot.com/load-and-animate-an-md2-model-in-away3d
+
         // inspired by http://yomotsu.github.com/threejs-examples/md2/
 
 

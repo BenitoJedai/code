@@ -245,6 +245,8 @@ interface chrome.app.window
 	// alphaEnabled
 	// 20140815
 	// alpha_enabled
+
+	// chrome40 still does not allow stable users to use it?
 	async static void create(string url, any options, function<chrome.AppWindow> callback);
 };
 
