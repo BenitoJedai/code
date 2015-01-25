@@ -29,7 +29,10 @@ namespace TestHTMLDocumentAnalysis
         {
             var doc = new HtmlAgilityPack.HtmlDocument();
 
-            var origin = new Uri("https://www.youtube.com/playlist?list=PL_2cq1Gbhke8KAbNKEz-HszGqNlqtGfKl");
+            //var origin = new Uri("https://www.youtube.com/playlist?list=PL_2cq1Gbhke8KAbNKEz-HszGqNlqtGfKl");
+            // 
+            var origin = new Uri("https://www.youtube.com/user/TerenceMcKennaTube/videos");
+
             // second take on it
             // we cannot trust blog bost liks.
             // we could trust page1 of a channel
