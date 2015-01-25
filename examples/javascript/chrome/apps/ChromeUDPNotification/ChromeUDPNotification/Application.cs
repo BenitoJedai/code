@@ -21,6 +21,26 @@ using chrome;
 
 using ChromeUDPNotification.HTML.Images.FromAssets;
 
+using a.analysis;
+
+namespace a
+{
+    static class analysis
+    {
+        public class i
+        {
+            public string name;
+        }
+        public static i caller
+        {
+            get
+            {
+                return null;
+            }
+        }
+    }
+}
+
 namespace ChromeUDPNotification
 {
     /// <summary>
@@ -38,6 +58,8 @@ namespace ChromeUDPNotification
             // X:\jsc.svn\examples\javascript\chrome\apps\MulticastListenExperiment\MulticastListenExperiment\Application.cs
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeNotificationExperiment\ChromeNotificationExperiment\Application.cs
 
+            Console.WriteLine("hi!");
+
 
             #region += Launched chrome.app.window
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
@@ -47,9 +69,15 @@ namespace ChromeUDPNotification
 
             if (self_chrome_socket != null)
             {
+                Action respawn = delegate { };
+                // https://code.google.com/p/chromium/issues/detail?id=142450
+
+
                 //new logo1
                 #region AtUDPString
-                Action<string> AtUDPString =
+                var AtUDPString = default(Action<string>);
+
+                AtUDPString =
                      async xmlstring =>
                      {
                          // X:\jsc.svn\examples\java\android\AndroidServiceUDPNotification\AndroidServiceUDPNotification\ApplicationActivity.cs
@@ -65,77 +93,133 @@ namespace ChromeUDPNotification
 
                              var uri = "http://" + xml.Value.SkipUntilOrEmpty("Visit me at ");
 
-                             var cnn = new ScriptCoreLib.JavaScript.DOM.Notification(
+                             respawn = delegate
+                             {
+                                 AtUDPString(xmlstring);
+                             };
+
+                             //var cnn = new ScriptCoreLib.JavaScript.DOM.Notification(
+                             //    title: "" + n,
+
+                             //      options: new
+                             //      {
+                             //          icon = new logo1().src
+                             //      }
+                             // );
+                             //Task.Delay(8000).ContinueWith(x => cnn.close());
+
+
+                             var cn = new chrome.Notification(
+                                 //message: uri,
                                  title: "" + n,
+                                 iconUrl: new logo1().src
+                             );
 
-                                   options: new
-                                   {
-                                       icon = new logo1().src
-                                   }
-                              );
-
-
-                             //var cn = new chrome.Notification(
-                             //    message: uri,
-                             //    title: "" + n
-                             //);
-
-                             Task.Delay(8000).ContinueWith(x => cnn.close());
-
-                             await cnn.async.onclick;
+                             await (Task)cn;
+                             //await cnn.async.onclick;
 
                              Native.window.open(uri + "/results?search_query=" + n);
 
+
                          }
 
                      };
                 #endregion
 
 
-                #region Launched
+                //delegate
+                //{
+
+                //};
+                ////chrome.
+                //chrome.runtime.Installed +=
+
+
+                var Activate = default(Action);
+
+                Activate =
+                    async delegate
+                    {
+                        // context analysis injection?
+                        //caller.name;
+
+                        // need to run once only
+                        Activate = delegate { };
+
+                        // can we start here and allow Launched event to toggle?
+
+                        // https://code.google.com/p/cassia/
+                        // http://stackoverflow.com/questions/18052282/sending-message-from-one-application-to-another-application-in-the-same-terminal
+
+                        var gport = 40804;
+
+                        respawn = delegate
+                        {
+
+                            var cnn = new ScriptCoreLib.JavaScript.DOM.Notification(
+                                title: "awaiting for TV.. " + gport,
+
+                                options: new
+                                {
+                                    icon = new logo1().src,
+                                    body = "what interests you?"
+                                }
+                            );
+
+                            Task.Delay(10000).ContinueWith(x => cnn.close());
+                        };
+
+                        respawn();
+
+
+                        //  var n = new chrome.Notification(
+                        //    title: "awaiting for TV..",
+                        //    message: "TV could say hi about now..."
+
+                        //);
+
+                        var socket = await chrome.socket.create("udp", new object());
+                        var socketId = socket.socketId;
+                        var value_setMulticastTimeToLive = await socketId.setMulticastTimeToLive(30);
+                        var value_bind = await socketId.bind("0.0.0.0", gport);
+                        var value_joinGroup = await socketId.joinGroup("239.1.2.3");
+                        var forever = true;
+
+                        while (forever)
+                        {
+                            var result = await socketId.recvFrom(1048576);
+                            if (result.resultCode < 0)
+                                return;
+
+                            byte[] source = new ScriptCoreLib.JavaScript.WebGL.Uint8ClampedArray(result.data);
+
+                            var xml = Encoding.UTF8.GetString(source);
+
+                            AtUDPString(xml);
+                            // 52 bytes
+                        }
+
+                    };
+
+                // make sure setup.exe and chrome.exe is closed if it seems stuck.
+
+                // browser restart
+                chrome.runtime.Startup +=
+                    delegate { Activate(); };
+
+                chrome.runtime.Installed +=
+                    delegate { Activate(); };
+
+                // if machine restarts, we never get launched?
+                // Inspect views: background page (Inactive)
+
                 chrome.app.runtime.Launched +=
                      async delegate
                      {
-                         var gport = 40804;
-                         var cnn = new ScriptCoreLib.JavaScript.DOM.Notification(
-                             title: "awaiting for TV.. " + gport,
+                         // re show the last data?
 
-                             options: new
-                             {
-                                 icon = new logo1().src
-                             }
-                          );
-
-                         Task.Delay(2000).ContinueWith(x => cnn.close());
-
-                         //  var n = new chrome.Notification(
-                         //    title: "awaiting for TV..",
-                         //    message: "TV could say hi about now..."
-
-                         //);
-
-                         var socket = await chrome.socket.create("udp", new object());
-                         var socketId = socket.socketId;
-                         var value_setMulticastTimeToLive = await socketId.setMulticastTimeToLive(30);
-                         var value_bind = await socketId.bind("0.0.0.0", gport);
-                         var value_joinGroup = await socketId.joinGroup("239.1.2.3");
-                         var forever = true;
-
-                         while (forever)
-                         {
-                             var result = await socketId.recvFrom(1048576);
-                             if (result.resultCode < 0)
-                                 return;
-
-                             byte[] source = new ScriptCoreLib.JavaScript.WebGL.Uint8ClampedArray(result.data);
-
-                             var xml = Encoding.UTF8.GetString(source);
-
-                             AtUDPString(xml);
-                             // 52 bytes
-                         }
+                         respawn();
                      };
-                #endregion
 
 
             }

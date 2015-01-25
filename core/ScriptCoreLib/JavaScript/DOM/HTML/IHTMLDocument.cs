@@ -18,6 +18,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     // https://github.com/mono/mono/blob/master/mcs/class/Managed.Windows.Forms/System.Windows.Forms/HtmlDocument.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/Document.cs
 
+    // X:\opensource\codeplex\htmlagilitypack\HtmlAgilityPack\HtmlDocument.cs
+
     [Script(HasNoPrototype = true)]
     public partial class IHTMLDocument : IDocument<IHTMLElement>
     {

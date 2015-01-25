@@ -20,6 +20,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/Mono.WebBrowser/Mono.WebBrowser/DOM/IElement.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/HtmlElement.cs
 
+    // X:\opensource\codeplex\htmlagilitypack\HtmlAgilityPack\HtmlNode.cs
+
     [Script]
     // move to own file
     public static class HTMLElementEnumExtensions
