@@ -520,7 +520,12 @@ interface THREE.Quaternion
 
 };
 
-[Constructor(any geometry), 
+
+
+//        Create Partial Type: THREE+SkinnedMesh
+//0dc8:01:01 RewriteToAssembly error: System.NotSupportedException: Parent does not have a default constructor.The default constructor must be explicitly defined.
+// X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuTPS\WebGLYomotsuTPS\Application.cs
+[Constructor(), Constructor(any geometry),
 	Constructor(any geometry, any material)]
 interface THREE.Mesh : THREE.Object3D
 { 
@@ -536,7 +541,7 @@ interface THREE.Mesh : THREE.Object3D
 };
 
 
-[Constructor(any mesh, any name)]
+[Constructor(), Constructor(any mesh, any name)]
 interface THREE.SkinnedMesh :  THREE.Mesh
 {
 

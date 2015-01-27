@@ -135,6 +135,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Textures\dirt_tx.png" />
     <Content Include="Textures\MarineCv2_color.jpg" />
     <Content Include="Models\marine_anims.js" />
     <Content Include="Textures\nx.jpg" />

@@ -22,11 +22,12 @@ namespace WebGLYomotsuTPS
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         // inspired by http://yomotsu.github.com/threejs-examples/tps/
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
+//        Create Partial Type: THREE+SkinnedMesh
+//0dc8:01:01 RewriteToAssembly error: System.NotSupportedException: Parent does not have a default constructor.The default constructor must be explicitly defined.
 
 
         sealed class motion
@@ -76,6 +77,9 @@ namespace WebGLYomotsuTPS
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
+            { THREE.SkinnedMesh ref0; }
+            { THREE.SpeedBlendCharacter ref0; }
+
 
 #if FCHROME
             #region AtFormCreated
@@ -114,7 +118,7 @@ namespace WebGLYomotsuTPS
             var fov = 40;
 
             #region container
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             var container = new IHTMLDiv();
 
             container.AttachToDocument();
