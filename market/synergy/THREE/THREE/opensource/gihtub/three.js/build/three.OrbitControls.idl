@@ -1,0 +1,16 @@
+﻿// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150127
+// http://www.realitymeltdown.com/WebGL3/js/OrbitControls.js
+// x:\jsc.svn\examples\webgl\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter\Application.cs
+
+
+[Constructor(),
+ Constructor(any camera)]
+interface THREE.OrbitControls
+{ 
+	attribute THREE.Vector3 center;
+
+	void update();
+
+	//void load(string url, function onLoad);
+	//any parse(string text);
+};

@@ -27,7 +27,8 @@ namespace WebGLYomotsuMD2Model
 
         // inspired by http://yomotsu.github.com/threejs-examples/md2/
 
-
+        // var THREE = { REVISION: '68dev' };
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150127
 
 
         sealed class motion
@@ -80,6 +81,8 @@ namespace WebGLYomotsuMD2Model
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
+            // var THREE = { REVISION: '67' };
+            Native.document.title = new { THREE.REVISION }.ToString();
             // works on IE11
             //DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
