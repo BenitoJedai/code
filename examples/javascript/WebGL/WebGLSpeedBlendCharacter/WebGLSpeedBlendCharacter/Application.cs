@@ -35,6 +35,7 @@ namespace WebGLSpeedBlendCharacter
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150127
             //Native.css
             Native.body.style.margin = "0px";
+            Native.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             //Error CS0246  The type or namespace name 'THREE' could not be found(are you missing a using directive or an assembly reference?)	WebGLSpeedBlendCharacter Application.cs  46
             // used by, for?
@@ -87,6 +88,86 @@ namespace WebGLSpeedBlendCharacter
             //    bottom = "0px",
             //};
 
+
+            new { }.With(
+                async delegate
+                {
+
+                    await Native.window.async.onresize;
+
+                    // if the reload were fast, then we could actually do that:D
+                    Native.document.location.reload();
+
+                }
+            );
+
+
+
+
+
+            #region create field
+
+
+            var planeGeometry = new THREE.PlaneGeometry(1000, 1000);
+            var planeMaterial = new THREE.MeshLambertMaterial(
+                new
+                {
+                    map = THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.dirt_tx().src),
+                    color = 0xffffff
+                }
+            );
+
+            planeMaterial.map.repeat.x = 300;
+            planeMaterial.map.repeat.y = 300;
+            planeMaterial.map.wrapS = THREE.RepeatWrapping;
+            planeMaterial.map.wrapT = THREE.RepeatWrapping;
+            var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+            plane.castShadow = false;
+            plane.receiveShadow = true;
+
+
+            {
+
+                var parent = new THREE.Object3D();
+                parent.add(plane);
+                parent.rotation.x = -Math.PI / 2;
+                parent.scale.set(100, 100, 100);
+
+                scene.add(parent);
+            }
+
+            var random = new Random();
+            var meshArray = new List<THREE.Mesh>();
+            var geometry = new THREE.CubeGeometry(1, 1, 1);
+
+            for (var i = 1; i < 100; i++)
+            {
+
+                var ii = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(
+                    new
+                    {
+                        color = (Convert.ToInt32(0xffffff * random.NextDouble()))
+                    }));
+                ii.position.x = i % 2 * 500 - 2.5f;
+                //ii.position.y = .5f;
+                ii.position.z = -1 * i * 400;
+                ii.castShadow = true;
+                ii.receiveShadow = true;
+                //ii.scale.set(100, 100, 100 * i);
+                ii.scale.set(100, 100 * i, 100);
+
+
+                meshArray.Add(ii);
+
+                scene.add(ii);
+
+            }
+            #endregion
+
+
+
+
+
             var blendMesh = new THREE.SpeedBlendCharacter();
 
 
@@ -98,14 +179,21 @@ namespace WebGLSpeedBlendCharacter
                     {
                         // buildScene
 
-                        blendMesh.rotation.y = Math.PI * -135 / 180;
-                        //blendMesh.castShadow = true;
+                        //blendMesh.rotation.y = Math.PI * -135 / 180;
+                        blendMesh.castShadow = true;
 
                         scene.add(blendMesh);
 
                         //var characterController = new THREE.CharacterController(blendMesh);
 
+                        // run
+                        blendMesh.setSpeed(1.0);
+
                         var radius = blendMesh.geometry.boundingSphere.radius;
+
+
+                        Native.document.title = new { radius }.ToString();
+
 
                         var camera = new THREE.PerspectiveCamera(45, Native.window.aspect, 1, 20000);
                         camera.position.set(0.0, radius * 3, radius * 3.5);
@@ -202,7 +290,26 @@ namespace WebGLSpeedBlendCharacter
                             };
                         #endregion
 
+                        //#region AtResize
+                        //Action AtResize = delegate
+                        //{
+                        //    renderer.domElement.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
+                        //    renderer.setSize(Native.window.Width, Native.window.Height);
 
+                        //    //camera.projectionMatrix.makePerspective(fov, Native.window.aspect, 1, 1100);
+
+                        //    camera.aspect = Native.window.aspect;
+                        //    camera.updateProjectionMatrix();
+                        //};
+
+                        //Native.window.onresize +=
+                        //    delegate
+                        //    {
+                        //        AtResize();
+                        //    };
+
+                        //AtResize();
+                        //#endregion
                     }
                 )
            );
