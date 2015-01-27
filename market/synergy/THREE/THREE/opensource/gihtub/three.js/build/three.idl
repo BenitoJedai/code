@@ -2,12 +2,24 @@
 // https://github.com/mrdoob/three.js/commit/fc70bb9ba7439148c10c9cb498793988d5cba899
 // https://github.com/mrdoob/three.js/blob/fc70bb9ba7439148c10c9cb498793988d5cba899/build/three.js
 // 67
+// 70
 // X:\jsc.svn\examples\javascript\WebGL\WebGLMTLExperiment\WebGLMTLExperiment\Application.cs
+// X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuMD2Model\WebGLYomotsuMD2Model\Application.cs
 // "X:\opensource\github\three.js\build\three.js"
+// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150127
 
 
 interface THREE
 {
+	static attribute string REVISION;
+
+
+	// SHADOWING TYPES
+	const long BasicShadowMap = 0;
+	const long PCFShadowMap = 1;
+	const long PCFSoftShadowMap = 2;
+
+
 	const long FlatShading = 1;
 
 	const long LineStrip = 0;
@@ -19,7 +31,12 @@ interface THREE
 	static attribute THREE.GeometryUtilsType GeometryUtils; 
 	static attribute THREE.MathType Math; 
 
-	static attribute long DoubleSide; 
+
+	// File:src/renderers/shaders/ShaderLib.js
+	static attribute THREE.ShaderLibType ShaderLib;
+
+	static attribute long DoubleSide;
+	
 
 
 	// blending modes
@@ -43,6 +60,17 @@ interface THREE
 	const long LinearMipMapLinearFilter = 8;
 
 	const long BackSide = 1;
+};
+
+
+// x:\jsc.svn\examples\webgl\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter\Application.cs
+// dynamic anonymous type
+// how can we do intellisense?
+interface THREE.ShaderLibType 
+{
+	getter any get(string index);
+	//getter dynamic get(string index);
+
 };
 
 // this is an anonymous type actually
@@ -72,6 +100,11 @@ interface THREE.ImageUtilsType
 
 	// loadTexture: function ( url, mapping, onLoad, onError ) {
 
+
+	// x:\jsc.svn\examples\webgl\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter\Application.cs
+	// jsc could allow untyped params to be any?
+	THREE.Texture loadTextureCube(string[] array, any mapping, Function onLoad, Function onError);
+	THREE.Texture loadTextureCube(string[] array);
 };
 
 [Constructor(),
@@ -480,17 +513,6 @@ interface THREE.Bone : THREE.Object3D
 
 
 
-[Constructor(any mesh, any name)]
-interface THREE.SkinnedMesh 
-{ 
-	attribute THREE.Vector3  rotation;
-	attribute THREE.Vector3  position;
-
-
-	attribute sequence<THREE.Bone>        bones;
-
-};
-
 [Constructor()]
 interface THREE.Quaternion
 {
@@ -513,6 +535,17 @@ interface THREE.Mesh : THREE.Object3D
 	void lookAt(THREE.Vector3 target);
 };
 
+
+[Constructor(any mesh, any name)]
+interface THREE.SkinnedMesh :  THREE.Mesh
+{
+
+
+	attribute sequence<THREE.Bone>        bones;
+
+};
+
+
 [Constructor(any geometry, any material)]
 interface THREE.MorphAnimMesh 
 {
@@ -534,6 +567,8 @@ interface THREE.MorphAnimMesh
 [Constructor(), Constructor(any args)]
 interface THREE.WebGLRenderer 
 { 
+	attribute long shadowMapType;
+	
 	attribute boolean        shadowMapEnabled;
 	attribute boolean        shadowMapSoft;
 	attribute boolean        autoClear;
@@ -595,9 +630,20 @@ interface THREE.EffectComposer
 
 };
 
+
+
+[Constructor]
+interface THREE.Sphere
+{
+	attribute double  radius;
+	
+};
+
 [Constructor]
 interface THREE.Geometry 
 { 
+	attribute THREE.Sphere boundingSphere;
+
 	attribute sequence<THREE.Vector3>        vertices;
 
 	attribute sequence<THREE.Geometry>        faces;
@@ -709,7 +755,9 @@ interface THREE.JSONLoader
 	//void load(any src, any handler);
 	void load(any src, function<any> handler);
 
-
+	// jsc does not yet do the Action<> 
+	//void load(any src, function<any,any> handler);
+	//loader.load("models/objects/ground.js", function(geometry, materials) {
 };
 
 
@@ -750,3 +798,14 @@ interface THREE.MeshPhongMaterial : THREE.Material
 	// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLMD2MorphtargetExample\WebGLMD2MorphtargetExample\Application.cs
 	attribute THREE.Texture map;
 };
+
+
+
+// File:src/core/Clock.js
+// x:\jsc.svn\examples\webgl\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter\Application.cs
+[Constructor()]
+interface THREE.Clock
+{
+	double getDelta();
+	
+}

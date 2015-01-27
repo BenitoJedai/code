@@ -137,6 +137,10 @@
     <Content Include="opensource\gihtub\three.js\build\three.loaders.OBJMTLLoader.js" />
     <Content Include="opensource\gihtub\three.js\build\three.ColladaLoader.js" />
     <Content Include="opensource\gihtub\three.js\build\three.ColladaLoader.idl" />
+    <Content Include="opensource\gihtub\three.js\build\three.OrbitControls.js" />
+    <Content Include="opensource\gihtub\three.js\build\three.OrbitControls.idl" />
+    <Content Include="opensource\gihtub\three.js\build\three.SpeedBlendCharacter.idl" />
+    <Content Include="opensource\gihtub\three.js\build\three.SpeedBlendCharacter.js" />
     <Content Include="opensource\gihtub\three.js\build\three.OBJLoader.idl" />
     <Content Include="opensource\gihtub\three.js\build\three.OBJLoader.js" />
     <Content Include="opensource\gihtub\three.js\build\three.CSS3DRenderer.idl" />
@@ -154,10 +158,7 @@
     <PostBuildEvent>
 start /WAIT cmd /C  c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget  /PackageID:$(ProjectName)   /OutputName:$(ProjectName) /ProjectFileName:"$(ProjectPath)"
 
-
-if $(ConfigurationName)==Release (
-rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
-)</PostBuildEvent>
+</PostBuildEvent>
     <PreBuildEvent>
 
 start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
