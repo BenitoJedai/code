@@ -43,7 +43,7 @@ namespace ChromeTCPServer
 
             if (self_chrome_socket != null)
             {
-                Notification.DefaultTitle = "ChromeTCPServer";
+                chrome.Notification.DefaultTitle = "ChromeTCPServer";
                 TheServer.Invoke(AppSource.Text);
 
                 // http://developer.chrome.com/extensions/messaging.html
@@ -373,6 +373,7 @@ namespace ChromeTCPServer
              Action<string> open = null
              )
         {
+
             if (open == null)
                 open = (u) => Native.window.open(u);
 
@@ -394,11 +395,28 @@ namespace ChromeTCPServer
 
         }
 
+
+        //{ SourceMethod = Int32<0083> ldloc.s.try(<MoveNext>060000b7, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.CreateInfo] ByRef, <<InvokeAsync>b__34>d__0 ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[System.Int32] ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.AcceptInfo] ByRef, System.Runtime.CompilerServices.TaskAwaiter ByRef)
+        //script: error JSC1000: if block not detected correctly, opcode was { Branch = [0x000e]
+        //        blt        +0 -2{[0x0001]
+        //        ldfld      +1 -1{[0x0000]
+        //        ldarg.0    +1 -0}
+        //} {[0x000d]
+        //conv.i4    +1 -1{[0x000c]
+        //ldlen      +1 -1{[0x0007]
+        //ldfld      +1 -1{[0x0006]
+        //ldarg.0    +1 -0} } } } , Location =
+        // assembly: W:\ChromeTCPServerAppWindow.Application.exe
+        // type: ChromeTCPServer.TheServer+<>c__DisplayClass10+<<InvokeAsync>b__34>d__0+<MoveNext>060000b7, ChromeTCPServerAppWindow.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        // offset: 0x000e
+        //  method:Int32<0083> ldloc.s.try(<MoveNext>060000b7, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.CreateInfo] ByRef, <<InvokeAsync>b__34>d__0 ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[System.Int32] ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.AcceptInfo] ByRef, System.Runtime.CompilerServices.TaskAwaiter ByRef) }
+
         public static void InvokeAsync(
             string __PageSource,
             Func<string, Task> open
             )
         {
+            Console.WriteLine("enter ChromeTCPServer.TheServer.InvokeAsync");
 
 
 
@@ -409,7 +427,7 @@ namespace ChromeTCPServer
             chrome.app.runtime.Restarted +=
           delegate
             {
-                new Notification
+                new chrome.Notification
                 {
                     Message = "Restarted!"
                 };
@@ -426,7 +444,7 @@ namespace ChromeTCPServer
             {
                 Console.WriteLine("at chrome.runtime.Installed");
 
-                new Notification
+                new chrome.Notification
                 {
                     Message = "Installed!"
                 };
@@ -435,7 +453,7 @@ namespace ChromeTCPServer
             chrome.runtime.Startup +=
                 delegate
             {
-                new Notification
+                new chrome.Notification
                 {
                     Message = "Startup!"
                 };
@@ -448,7 +466,7 @@ namespace ChromeTCPServer
             chrome.runtime.Suspend +=
                 delegate
             {
-                var n = new Notification
+                var n = new chrome.Notification
                 {
                     Message = "Suspend! " + new { t.ElapsedMilliseconds }
                 };
@@ -763,17 +781,17 @@ namespace ChromeTCPServer
                                "",
                                visitme,
                                "",
-                               Notification.DefaultTitle
+                               chrome.Notification.DefaultTitle
                            );
 
-                           new IHTMLImage { src = Notification.DefaultIconUrl }.InvokeOnComplete(
+                           new IHTMLImage { src = chrome.Notification.DefaultIconUrl }.InvokeOnComplete(
                                preview =>
                                {
                                    MulticastSend(
                                         "",
                                        visitme,
                                         preview.toDataURL(),
-                                       Notification.DefaultTitle
+                                       chrome.Notification.DefaultTitle
                                     );
 
                                }
@@ -788,7 +806,7 @@ namespace ChromeTCPServer
 
                        ShowUri = delegate
                        {
-                           var nn = new Notification
+                           var nn = new chrome.Notification
                            {
                                //Message = new { uri }.ToString(),
                                Message = uri,

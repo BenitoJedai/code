@@ -39,6 +39,9 @@ namespace ChromeTCPServer
             string AppSource
         )
         {
+            Console.WriteLine("enter TheServerWithAppWindow.Invoke");
+
+
             if (!(Native.window.opener == null && Native.window.parent == Native.window.self))
             {
                 Console.WriteLine("chrome.app.window.create, is that you?");
@@ -239,6 +242,7 @@ namespace ChromeTCPServer
                 return;
             }
 
+            Console.WriteLine("invoke ChromeTCPServer.TheServer.InvokeAsync");
 
             ChromeTCPServer.TheServer.InvokeAsync(AppSource, async uri =>
             {
@@ -292,6 +296,8 @@ namespace ChromeTCPServerAppWindow
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        // X:\jsc.svn\examples\javascript\WebGL\WebGLHZBlendCharacter\WebGLHZBlendCharacter\Application.cs
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
