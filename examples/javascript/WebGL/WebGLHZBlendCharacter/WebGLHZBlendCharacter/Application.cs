@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,11 +26,44 @@ namespace WebGLHZBlendCharacter
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
-        // Could not connect to the feed specified at 'http://my.jsc-solutions.net/nuget'. P
+        // https://chrome.google.com/webstore/detail/webglhzblendcharacter/cgnjcccfcjhdnbfgjgllglbhfcgndmea
 
+        // Could not connect to the feed specified at 'http://my.jsc-solutions.net/nuget'. P
+        // https://github.com/dotnet/roslyn/issues/98
+
+
+        //Icon image is missing.
+        //At least one new-style screenshot or video is required.
+        //Small tile image is missing.
+        //Please select a Primary Category for your item.
+        //Language is not selected.
+
+        // 640x400
+        // 128x128
+        // 440x280
 
         public Application(IApp page)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150128
+
+            Console.WriteLine("enter WebGLHZBlendCharacter");
+
+            #region += Launched chrome.app.window
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                Console.WriteLine("invoke TheServerWithAppWindow.Invoke");
+                ChromeTCPServer.TheServerWithAppWindow.Invoke(AppSource.Text);
+
+                return;
+            }
+            #endregion
+
+
             TexturesImages ref0;
 
             // http://www.realitymeltdown.com/WebGL3/character-controller.html
@@ -195,7 +229,7 @@ namespace WebGLHZBlendCharacter
 
 
             new HeatZeekerRTSOrto.HZCannon().Source.Task.ContinueWithResult(
-                cube =>
+                async cube =>
                 {
                     // https://github.com/mrdoob/three.js/issues/1285
                     //cube.children.WithEach(c => c.castShadow = true);
@@ -224,7 +258,8 @@ namespace WebGLHZBlendCharacter
                     //cube.castShadow = true;
                     //dae.receiveShadow = true;
 
-                    cube.position.x = -100;
+                    //cube.position.x = -100;
+
                     ////cube.position.y = (cube.scale.y * 50) / 2;
                     //cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
 
@@ -233,12 +268,21 @@ namespace WebGLHZBlendCharacter
                     // if i want to rotate, how do I do it?
                     //cube.rotation.z = random() + Math.PI;
                     //cube.rotation.x = random() + Math.PI;
-                    cube.rotation.y = new Random().NextDouble() * Math.PI * 2;
+                    var sw = Stopwatch.StartNew();
 
 
 
                     scene.add(cube);
                     //interactiveObjects.Add(cube);
+
+
+                    while (true)
+                    {
+                        await Native.window.async.onframe;
+
+                        cube.rotation.y = Math.PI * 0.0002 * sw.ElapsedMilliseconds;
+
+                    }
                 }
             );
 
@@ -353,9 +397,10 @@ namespace WebGLHZBlendCharacter
                                 controls.center.y += radius * 2.0;
                                 controls.update();
 
-                                var camOffset = camera.position.clone().sub(controls.center);
-                                camOffset.normalize().multiplyScalar(750);
-                                camera.position = controls.center.clone().add(camOffset);
+                                //var camOffset = camera.position.clone().sub(controls.center);
+                                //camOffset.normalize().multiplyScalar(750);
+                                camera.position = controls.center.clone();
+                                //camera.position = controls.center.clone().add(camOffset);
 
                                 skyCamera.rotation.copy(camera.rotation);
 

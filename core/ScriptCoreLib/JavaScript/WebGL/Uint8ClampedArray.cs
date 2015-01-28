@@ -83,8 +83,14 @@ namespace ScriptCoreLib.JavaScript
         [Script(HasNoPrototype = true, ExternalTarget = "Uint8ClampedArray", Implements = typeof(byte[]))]
         public class Uint8ClampedArray : ArrayBufferView
         {
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServer\ChromeTCPServer\Application.cs
 
             public Uint8ClampedArray(ArrayBuffer array)
+            {
+
+            }
+
+            public Uint8ClampedArray(ArrayBuffer array, uint byteOffset, uint length)
             {
 
             }
