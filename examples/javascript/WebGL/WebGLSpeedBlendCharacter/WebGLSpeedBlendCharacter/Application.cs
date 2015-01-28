@@ -53,17 +53,19 @@ namespace WebGLSpeedBlendCharacter
             var light = new THREE.DirectionalLight(0xffffff, 1.5);
             light.position.copy(lightOffset);
             light.castShadow = true;
-            //light.shadowMapWidth = 4096;
-            //light.shadowMapHeight = 2048;
-            //light.shadowDarkness = 0.5;
-            //light.shadowCameraNear = 10;
-            //light.shadowCameraFar = 10000;
-            //light.shadowBias = 0.00001;
-            //light.shadowCameraRight = 4000;
-            //light.shadowCameraLeft = -4000;
-            //light.shadowCameraTop = 4000;
-            //light.shadowCameraBottom = -4000;
-            //light.shadowCameraVisible = true;
+
+            var xlight = light as dynamic;
+            xlight.shadowMapWidth = 4096;
+            xlight.shadowMapHeight = 2048;
+            xlight.shadowDarkness = 0.5;
+            xlight.shadowCameraNear = 10;
+            xlight.shadowCameraFar = 10000;
+            xlight.shadowBias = 0.00001;
+            xlight.shadowCameraRight = 4000;
+            xlight.shadowCameraLeft = -4000;
+            xlight.shadowCameraTop = 4000;
+            xlight.shadowCameraBottom = -4000;
+            xlight.shadowCameraVisible = true;
 
             scene.add(light);
 
@@ -89,17 +91,17 @@ namespace WebGLSpeedBlendCharacter
             //};
 
 
-            new { }.With(
-                async delegate
-                {
+            //new { }.With(
+            //    async delegate
+            //    {
 
-                    await Native.window.async.onresize;
+            //        await Native.window.async.onresize;
 
-                    // if the reload were fast, then we could actually do that:D
-                    Native.document.location.reload();
+            //        // if the reload were fast, then we could actually do that:D
+            //        Native.document.location.reload();
 
-                }
-            );
+            //    }
+            //);
 
 
 
@@ -107,34 +109,34 @@ namespace WebGLSpeedBlendCharacter
 
             #region create field
 
+            // THREE.PlaneGeometry: Consider using THREE.PlaneBufferGeometry for lower memory footprint.
+            //var planeGeometry = new THREE.PlaneGeometry(1000, 1000);
+            //var planeMaterial = new THREE.MeshLambertMaterial(
+            //    new
+            //    {
+            //        map = THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.dirt_tx().src),
+            //        color = 0xffffff
+            //    }
+            //);
 
-            var planeGeometry = new THREE.PlaneGeometry(1000, 1000);
-            var planeMaterial = new THREE.MeshLambertMaterial(
-                new
-                {
-                    map = THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.dirt_tx().src),
-                    color = 0xffffff
-                }
-            );
-
-            planeMaterial.map.repeat.x = 300;
-            planeMaterial.map.repeat.y = 300;
-            planeMaterial.map.wrapS = THREE.RepeatWrapping;
-            planeMaterial.map.wrapT = THREE.RepeatWrapping;
-            var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-            plane.castShadow = false;
-            plane.receiveShadow = true;
+            //planeMaterial.map.repeat.x = 300;
+            //planeMaterial.map.repeat.y = 300;
+            //planeMaterial.map.wrapS = THREE.RepeatWrapping;
+            //planeMaterial.map.wrapT = THREE.RepeatWrapping;
+            //var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+            //plane.castShadow = false;
+            //plane.receiveShadow = true;
 
 
-            {
+            //{
 
-                var parent = new THREE.Object3D();
-                parent.add(plane);
-                parent.rotation.x = -Math.PI / 2;
-                parent.scale.set(100, 100, 100);
+            //    var parent = new THREE.Object3D();
+            //    parent.add(plane);
+            //    parent.rotation.x = -Math.PI / 2;
+            //    parent.scale.set(100, 100, 100);
 
-                scene.add(parent);
-            }
+            //    scene.add(parent);
+            //}
 
             var random = new Random();
             var meshArray = new List<THREE.Mesh>();
@@ -149,7 +151,9 @@ namespace WebGLSpeedBlendCharacter
                         color = (Convert.ToInt32(0xffffff * random.NextDouble()))
                     }));
                 ii.position.x = i % 2 * 500 - 2.5f;
-                //ii.position.y = .5f;
+
+                // raise it up
+                ii.position.y = .5f * 100;
                 ii.position.z = -1 * i * 400;
                 ii.castShadow = true;
                 ii.receiveShadow = true;
@@ -172,7 +176,6 @@ namespace WebGLSpeedBlendCharacter
 
 
             blendMesh.load(
-                //"models/marine/marine_anims.js",
                 new Models.marine_anims().Content.src,
                 new Action(
                     delegate
@@ -181,6 +184,8 @@ namespace WebGLSpeedBlendCharacter
 
                         //blendMesh.rotation.y = Math.PI * -135 / 180;
                         blendMesh.castShadow = true;
+                        // we cannot scale down we want our shadows
+                        //blendMesh.scale.set(0.1, 0.1, 0.1);
 
                         scene.add(blendMesh);
 
@@ -204,23 +209,23 @@ namespace WebGLSpeedBlendCharacter
                         var controls = new THREE.OrbitControls(camera);
                         //controls.noPan = true;
 
-#if ground
+
                         var loader = new THREE.JSONLoader();
-                        loader.load("models/objects/ground.js",
+                        loader.load(new Models.ground().Content.src,
                             new Action<THREE.Geometry, THREE.Material[]>(
-                                (geometry, materials) =>
-                                {
-                                    var ground = new THREE.Mesh(geometry, materials[0]);
-                                    ground.scale.set(20, 20, 20);
-                                    ground.receiveShadow = true;
-                                    ground.castShadow = true;
-                                    scene.add(ground);
 
-                                }
+                            (xgeometry, materials) =>
+                            {
+
+                                var ground = new THREE.Mesh(xgeometry, materials[0]);
+                                ground.scale.set(20, 20, 20);
+                                ground.receiveShadow = true;
+                                ground.castShadow = true;
+                                scene.add(ground);
+
+                            }
                             )
-                        );
-    #endif
-
+                         );
 
                         #region  createSky
 
@@ -273,7 +278,7 @@ namespace WebGLSpeedBlendCharacter
                                 }
 
                                 controls.center.copy(blendMesh.position);
-                                controls.center.y += blendMesh.geometry.boundingSphere.radius * 2.0;
+                                controls.center.y += radius * 2.0;
                                 controls.update();
 
                                 var camOffset = camera.position.clone().sub(controls.center);
@@ -290,26 +295,26 @@ namespace WebGLSpeedBlendCharacter
                             };
                         #endregion
 
-                        //#region AtResize
-                        //Action AtResize = delegate
-                        //{
-                        //    renderer.domElement.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
-                        //    renderer.setSize(Native.window.Width, Native.window.Height);
+                        #region AtResize
+                        Action AtResize = delegate
+                        {
+                            //renderer.domElement.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
-                        //    //camera.projectionMatrix.makePerspective(fov, Native.window.aspect, 1, 1100);
+                            //camera.projectionMatrix.makePerspective(fov, Native.window.aspect, 1, 1100);
 
-                        //    camera.aspect = Native.window.aspect;
-                        //    camera.updateProjectionMatrix();
-                        //};
+                            camera.aspect = Native.window.aspect;
+                            camera.updateProjectionMatrix();
+                            renderer.setSize(Native.window.Width, Native.window.Height);
+                        };
 
-                        //Native.window.onresize +=
-                        //    delegate
-                        //    {
-                        //        AtResize();
-                        //    };
+                        Native.window.onresize +=
+                            delegate
+                            {
+                                AtResize();
+                            };
 
-                        //AtResize();
-                        //#endregion
+                        AtResize();
+                        #endregion
                     }
                 )
            );

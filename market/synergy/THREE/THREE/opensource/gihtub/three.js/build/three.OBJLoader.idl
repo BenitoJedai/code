@@ -1,4 +1,6 @@
 ﻿// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131109-gold
+// "X:\opensource\github\three.js\examples\js\loaders\OBJLoader.js"
+// X:\jsc.svn\examples\javascript\webgl\WebGLOBJExperiment\WebGLOBJExperiment\Application.cs
 
 // does jsc do idl inheritance just yet?
 [Constructor(),
@@ -7,5 +9,6 @@ interface THREE.OBJLoader
 { 
 
 	void load(string url, function onLoad, function onProgress, function onError);
+	void load(string url, function onLoad);
 	any parse(string text);
 };

@@ -447,8 +447,11 @@ namespace HeatZeekerRTSOrto
         }
     }
 
+
+
+    // x:\jsc.svn\examples\javascript\webgl\WebGLHZBlendCharacter\WebGLHZBlendCharacter\Application.cs
     [Obsolete("jsc should generate this")]
-    class HZCannon : THREE_ColladaAsset
+    public class HZCannon : THREE_ColladaAsset
     {
         string ref0 = "assets/HeatZeekerRTSOrto/HZCannon_capture_009_04032013_192834.png";
 
