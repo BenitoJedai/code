@@ -7,7 +7,7 @@ Constructor(any manager)]
 interface THREE.SpeedBlendCharacter : THREE.SkinnedMesh
 {
 	void setSpeed(double newSpeed);
-
+	void showSkeleton(boolean shouldShow);
 
 	void updateSkeletonHelper();
 	void load(string url, function onLoad);

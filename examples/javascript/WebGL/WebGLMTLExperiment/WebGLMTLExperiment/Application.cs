@@ -51,6 +51,8 @@ namespace WebGLMTLExperiment
 
             // model
 
+            // THREE.ImageUtils.loadCompressedTexture has been removed.Use THREE.DDSLoader instead.
+
             var loader = new THREE.OBJMTLLoader();
 
 
