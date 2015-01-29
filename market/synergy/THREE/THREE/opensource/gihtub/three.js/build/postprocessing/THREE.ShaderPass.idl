@@ -1,0 +1,18 @@
+﻿// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150127
+// "X:\opensource\github\three.js\examples\js\postprocessing\RenderPass.js"
+// x:\jsc.svn\examples\javascript\webgl\WebGLDepthOfField\WebGLDepthOfField\Application.cs
+
+
+[Constructor(any shader, any textureID)]
+interface THREE.ShaderPass
+{
+	//getter any get(string index);
+
+
+	// attribute THREE.Vector3 center;
+
+	// void update();
+
+	//void load(string url, function onLoad);
+	//any parse(string text);
+};
