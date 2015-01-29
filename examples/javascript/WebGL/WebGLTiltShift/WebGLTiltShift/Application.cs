@@ -93,11 +93,18 @@ namespace WebGLTiltShift
             //scene.add(new THREE.AmbientLight(0xaaaaaa));
             scene.add(new THREE.AmbientLight(0xffffff));
 
-            var lightOffset = new THREE.Vector3(0, 1000, 1000.0);
 
             var light = new THREE.DirectionalLight(0xffffff, 1.0);
             //var light = new THREE.DirectionalLight(0xffffff, 2.5);
             //var light = new THREE.DirectionalLight(0xffffff, 1.5);
+            //var lightOffset = new THREE.Vector3(0, 1000, 2500.0);
+            var lightOffset = new THREE.Vector3(
+                2000, 
+                700,
+                
+                // lower makes longer shadows 
+                700.0
+                );
             light.position.copy(lightOffset);
             light.castShadow = true;
 
@@ -115,7 +122,8 @@ namespace WebGLTiltShift
             xlight.shadowCameraLeft = -4000;
             xlight.shadowCameraTop = 4000;
             xlight.shadowCameraBottom = -4000;
-            //xlight.shadowCameraVisible = true;
+
+            xlight.shadowCameraVisible = true;
 
             scene.add(light);
 
@@ -130,12 +138,14 @@ namespace WebGLTiltShift
             #region create field
 
             // THREE.PlaneGeometry: Consider using THREE.PlaneBufferGeometry for lower memory footprint.
-            var planeGeometry = new THREE.PlaneGeometry(1000, 1000);
+
+            // could we get some film grain?
+            var planeGeometry = new THREE.CubeGeometry(512, 512, 1);
             var plane = new THREE.Mesh(planeGeometry,
                     new THREE.MeshPhongMaterial(new { ambient = 0x101010, color = 0xA26D41, specular = 0xA26D41, shininess = 1 })
 
                 );
-            plane.castShadow = false;
+            //plane.castShadow = false;
             plane.receiveShadow = true;
 
 
@@ -144,7 +154,7 @@ namespace WebGLTiltShift
                 var parent = new THREE.Object3D();
                 parent.add(plane);
                 parent.rotation.x = -Math.PI / 2;
-                parent.scale.set(100, 100, 100);
+                parent.scale.set(10, 10, 10);
 
                 scene.add(parent);
             }
@@ -154,7 +164,7 @@ namespace WebGLTiltShift
             var geometry = new THREE.CubeGeometry(1, 1, 1);
             var sw = Stopwatch.StartNew();
 
-            for (var i = 1; i < 15; i++)
+            for (var i = 1; i < 12; i++)
             {
 
                 //THREE.MeshPhongMaterial
@@ -172,11 +182,11 @@ namespace WebGLTiltShift
                     //})
 
                     );
-                ii.position.x = i % 4 * 500 - 2.5f;
+                ii.position.x = i % 7 * 200 - 2.5f;
 
                 // raise it up
                 ii.position.y = .5f * 100;
-                ii.position.z = -1 * i * 300;
+                ii.position.z = -1 * i * 100;
                 ii.castShadow = true;
                 ii.receiveShadow = true;
                 //ii.scale.set(100, 100, 100 * i);
@@ -202,11 +212,11 @@ namespace WebGLTiltShift
                             // we cannot scale down we want our shadows
                             //blendMesh.scale.set(0.1, 0.1, 0.1);
 
-                            blendMesh.position.x = (_i + 2) % 4 * 500 - 2.5f;
+                            blendMesh.position.x = (_i + 2) % 7 * 200 - 2.5f;
 
                             // raise it up
                             //blendMesh.position.y = .5f * 100;
-                            blendMesh.position.z = -1 * _i * 300;
+                            blendMesh.position.z = -1 * _i *100;
 
 
                             var xtrue = true;
@@ -341,7 +351,43 @@ namespace WebGLTiltShift
             );
             #endregion
 
+            #region HZBunker
+            new HeatZeekerRTSOrto.HZBunker().Source.Task.ContinueWithResult(
+                     cube =>
+                     {
+                         // https://github.com/mrdoob/three.js/issues/1285
+                         //cube.children.WithEach(c => c.castShadow = true);
+                         cube.castShadow = true;
 
+                         cube.traverse(
+                             new Action<THREE.Object3D>(
+                                 child =>
+                                      {
+                                          // does it work? do we need it?
+                                          //if (child is THREE.Mesh)
+                                          child.castShadow = true;
+                                          //child.receiveShadow = true;
+
+                                      }
+                             )
+                         );
+
+                         // um can edit and continue insert code going back in time?
+                         cube.scale.x = 10.0;
+                         cube.scale.y = 10.0;
+                         cube.scale.z = 10.0;
+
+                         //cube.castShadow = true;
+                         //dae.receiveShadow = true;
+
+                         cube.position.x = -1000;
+                         //cube.position.y = (cube.scale.y * 50) / 2;
+                         cube.position.z = 0;
+
+                         scene.add(cube);
+                     }
+                 );
+            #endregion
 
             var controls = new THREE.OrbitControls(camera);
 
