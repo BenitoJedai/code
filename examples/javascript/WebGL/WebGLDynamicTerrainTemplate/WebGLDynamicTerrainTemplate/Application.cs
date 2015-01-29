@@ -242,8 +242,8 @@ namespace WebGLDynamicTerrainTemplate
 
             #region code port
 
-            var SCREEN_WIDTH = Native.window.Width;
-            var SCREEN_HEIGHT = Native.window.Height;
+            double SCREEN_WIDTH = Native.window.Width ;
+            double  SCREEN_HEIGHT = Native.window.Height;
 
             var animDelta = 0;
             var animDeltaDir = -1;
@@ -318,10 +318,10 @@ namespace WebGLDynamicTerrainTemplate
             var sceneRenderTarget = new THREE.Scene();
 
             var cameraOrtho = new THREE.OrthographicCamera(
-                SCREEN_WIDTH / -2,
-                SCREEN_WIDTH / 2,
-                SCREEN_HEIGHT / 2,
-                SCREEN_HEIGHT / -2,
+                (int)SCREEN_WIDTH / -2,
+                (int)SCREEN_WIDTH / 2,
+                (int)SCREEN_HEIGHT / 2,
+                (int)SCREEN_HEIGHT / -2,
                 -10000,
                 10000
             );
@@ -338,7 +338,7 @@ namespace WebGLDynamicTerrainTemplate
             scene.fog = new THREE.Fog(0x050505, 2000, 4000);
             scene.fog.color.setHSV(0.102, 0.9, 0.825);
 
-            var camera = new THREE.PerspectiveCamera(40, SCREEN_WIDTH / SCREEN_HEIGHT, 2, 4000);
+            var camera = new THREE.PerspectiveCamera(40, (int)Native.window.aspect, 2, 4000);
             camera.position.set(-1200, 800, 1200);
 
             scene.add(camera);
@@ -417,7 +417,7 @@ namespace WebGLDynamicTerrainTemplate
             #region RENDERER
 
             var renderer = new THREE.WebGLRenderer();
-            renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+            renderer.setSize(Native.window.Width, Native.window.Height);
             renderer.setClearColor(scene.fog.color, 1);
 
             renderer.domElement.style.position = IStyle.PositionEnum.absolute;
@@ -451,7 +451,7 @@ namespace WebGLDynamicTerrainTemplate
 
                 var sceneTmp = new THREE.Scene();
 
-                var meshTmp = new THREE.Mesh(new THREE.PlaneGeometry(SCREEN_WIDTH, SCREEN_HEIGHT), shaderMaterial);
+                var meshTmp = new THREE.Mesh(new THREE.PlaneGeometry(Native.window.Width, Native.window.Height), shaderMaterial);
                 meshTmp.position.z = -500;
                 sceneTmp.add(meshTmp);
 
@@ -595,7 +595,7 @@ namespace WebGLDynamicTerrainTemplate
             }
 
 
-            var plane = new THREE.PlaneGeometry(SCREEN_WIDTH, SCREEN_HEIGHT);
+            var plane = new THREE.PlaneGeometry(Native.window.Width, Native.window.Height);
 
             var quadTarget = new THREE.Mesh(
                 plane,
@@ -616,7 +616,7 @@ namespace WebGLDynamicTerrainTemplate
             geometryTerrain.computeTangents();
 
             terrain = new THREE.Mesh(geometryTerrain, mlib["terrain"]);
-            terrain.rotation.set(-Math.PI / 2, 0, 0);
+            terrain.rotation.set(-Math.PI / 2.0, 0, 0);
             terrain.position.set(0, -125, 0);
             terrain.visible = false;
             scene.add(terrain);
@@ -641,7 +641,7 @@ namespace WebGLDynamicTerrainTemplate
                 stencilBufer = false
             };
 
-            var renderTarget = new THREE.WebGLRenderTarget(SCREEN_WIDTH, SCREEN_HEIGHT, renderTargetParameters);
+            var renderTarget = new THREE.WebGLRenderTarget((int)SCREEN_WIDTH, (int)SCREEN_HEIGHT, renderTargetParameters);
 
             var effectBloom = new THREE.BloomPass(0.6);
             var effectBleach = new THREE.ShaderPass(__THREE.ShaderExtras.bleachbypass);
@@ -701,7 +701,7 @@ namespace WebGLDynamicTerrainTemplate
 
                 meshAnim.speed = speed;
                 meshAnim.duration = duration;
-                meshAnim.time = 600 * Math_random();
+                meshAnim.time = 600.0 * Math_random();
 
                 meshAnim.position.set(x, y, z);
                 meshAnim.rotation.y = (f)(Math.PI / 2f);
@@ -891,7 +891,7 @@ namespace WebGLDynamicTerrainTemplate
                         uniformsNoise_offset_value.x += delta * 0.05f;
 
                         var uniformsTerrain_uOffset_value = (THREE.Vector3)uniformsTerrain.uOffset.value;
-                        uniformsTerrain_uOffset_value.x = 4 * uniformsNoise_offset_value.x;
+                        uniformsTerrain_uOffset_value.x = 4.0f * uniformsNoise_offset_value.x;
 
                         quadTarget.material = mlib["heightmap"];
                         renderer.render(sceneRenderTarget, cameraOrtho, heightMap, true);

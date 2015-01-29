@@ -31,6 +31,7 @@ namespace WebGLDepthOfField
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLDepthOfField\WebGLDepthOfField\Application.cs
             // http://threejs.org/examples/#webgl_postprocessing_dof
             // "X:\opensource\github\three.js\examples\webgl_postprocessing_dof.html"
 
