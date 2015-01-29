@@ -1,0 +1,21 @@
+﻿// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150127
+// "X:\opensource\github\three.js\examples\js\postprocessing\RenderPass.js"
+// x:\jsc.svn\examples\javascript\webgl\WebGLDepthOfField\WebGLDepthOfField\Application.cs
+
+
+[Constructor(any scene, any camera, any params)]
+interface THREE.BokehPass
+{
+	// X:\jsc.svn\market\synergy\THREE\THREE\opensource\gihtub\three.js\build\shaders\THREE.BokehShader.idl
+	// THREE.BokehPass relies on THREE.BokehShader
+
+	//getter any get(string index);
+
+
+	attribute boolean renderToScreen;
+
+	// void update();
+
+	//void load(string url, function onLoad);
+	//any parse(string text);
+};

@@ -131,6 +131,20 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="opensource\gihtub\three.js\build\!References.htm" />
+    <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.MaskPass.idl" />
+    <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.MaskPass.js" />
+    <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.ShaderPass.idl" />
+    <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.ShaderPass.js" />
+    <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.EffectComposer.js" />
+    <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.BokehPass.js" />
+    <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.BokehPass.idl" />
+    <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.EffectComposer.idl" />
+    <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.RenderPass.js" />
+    <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.RenderPass.idl" />
+    <Content Include="opensource\gihtub\three.js\build\shaders\THREE.CopyShader.idl" />
+    <Content Include="opensource\gihtub\three.js\build\shaders\THREE.CopyShader.js" />
+    <Content Include="opensource\gihtub\three.js\build\shaders\THREE.BokehShader.js" />
+    <Content Include="opensource\gihtub\three.js\build\shaders\THREE.BokehShader.idl" />
     <Content Include="opensource\gihtub\three.js\build\THREE.ShaderGodRays.idl" />
     <Content Include="opensource\gihtub\three.js\build\THREE.ShaderGodRays.js" />
     <Content Include="opensource\gihtub\three.js\build\three.loaders.MTLLoader.idl" />

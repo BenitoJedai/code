@@ -295,26 +295,20 @@ namespace WebGLSpeedBlendCharacter
                             };
                         #endregion
 
-                        #region AtResize
-                        Action AtResize = delegate
-                        {
-                            //renderer.domElement.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
+                        new { }.With(
+                              async delegate
+                              {
+                                    do
+                                  {
+                                      camera.aspect = Native.window.aspect;
+                                      camera.updateProjectionMatrix();
+                                      renderer.setSize(Native.window.Width, Native.window.Height);
 
-                            //camera.projectionMatrix.makePerspective(fov, Native.window.aspect, 1, 1100);
+                                    } while (await Native.window.async.onresize);
+                                }
+                          );
 
-                            camera.aspect = Native.window.aspect;
-                            camera.updateProjectionMatrix();
-                            renderer.setSize(Native.window.Width, Native.window.Height);
-                        };
-
-                        Native.window.onresize +=
-                            delegate
-                            {
-                                AtResize();
-                            };
-
-                        AtResize();
-                        #endregion
+                      
                     }
                 )
            );

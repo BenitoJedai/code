@@ -41,6 +41,14 @@ interface THREE
 	// JSON or dynamic instead?
 	static attribute THREE.ShaderGodRaysType ShaderGodRays;
 
+	// X:\jsc.svn\market\synergy\THREE\THREE\opensource\gihtub\three.js\build\shaders\THREE.CopyShader.idl
+	static attribute THREE.CopyShaderType CopyShader;
+
+	// X:\jsc.svn\market\synergy\THREE\THREE\opensource\gihtub\three.js\build\shaders\THREE.BokehShader.idl
+	// JSON or dynamic instead?
+	static attribute THREE.BokehShaderType BokehShader;
+
+
 
 	// // File:src/renderers/shaders/UniformsUtils.js
 	// would jsc allow to define the type inline here?
@@ -681,15 +689,7 @@ interface THREE.CanvasRenderer
 
 };
 
-[Constructor(THREE.WebGLRenderer r)]
-interface THREE.EffectComposer
-{
-	// defined where?
 
-	void addPass(any e);
-	void render(double e);
-
-};
 
 
 
