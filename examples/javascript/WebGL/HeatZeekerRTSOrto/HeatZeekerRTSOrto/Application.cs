@@ -434,7 +434,7 @@ namespace HeatZeekerRTSOrto
     }
 
     [Obsolete("jsc should generate this")]
-    class HZBunker : THREE_ColladaAsset
+    public class HZBunker : THREE_ColladaAsset
     {
         string ref0 = "assets/HeatZeekerRTSOrto/HZCannon_capture_009_04032013_192834.png";
 
