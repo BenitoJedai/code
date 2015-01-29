@@ -26,6 +26,10 @@ namespace WebGLHZBlendCharacter
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        // http://alteredqualia.com/three/examples/webgl_postprocessing_ssao.html
+        // http://alteredqualia.com/three/examples/webgl_cars.html
+        // http://alteredqualia.com/xg/examples/animation_physics_terrain.html
+
         // https://chrome.google.com/webstore/detail/webglhzblendcharacter/cgnjcccfcjhdnbfgjgllglbhfcgndmea
 
         // Could not connect to the feed specified at 'http://my.jsc-solutions.net/nuget'. P
@@ -48,6 +52,7 @@ namespace WebGLHZBlendCharacter
 
             Console.WriteLine("enter WebGLHZBlendCharacter");
 
+#if !DEBUG
             #region += Launched chrome.app.window
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
             dynamic self = Native.self;
@@ -62,9 +67,10 @@ namespace WebGLHZBlendCharacter
                 return;
             }
             #endregion
+#endif
 
 
-            TexturesImages ref0;
+            { TexturesImages ref0; }
 
             // http://www.realitymeltdown.com/WebGL3/character-controller.html
 
@@ -155,19 +161,6 @@ namespace WebGLHZBlendCharacter
 
             // THREE.PlaneGeometry: Consider using THREE.PlaneBufferGeometry for lower memory footprint.
             var planeGeometry = new THREE.PlaneGeometry(1000, 1000);
-            //var planeMaterial = new THREE.MeshLambertMaterial(
-            //    new
-            //    {
-            //        //map = THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.dirt_tx().src),
-            //        color = 0xA26D41
-            //        //color = 0xff0000
-            //    }
-            //);
-
-            //planeMaterial.map.repeat.x = 300;
-            //planeMaterial.map.repeat.y = 300;
-            //planeMaterial.map.wrapS = THREE.RepeatWrapping;
-            //planeMaterial.map.wrapT = THREE.RepeatWrapping;
             var plane = new THREE.Mesh(planeGeometry,
                     new THREE.MeshPhongMaterial(new { ambient = 0x101010, color = 0xA26D41, specular = 0xA26D41, shininess = 1 })
 
@@ -227,7 +220,7 @@ namespace WebGLHZBlendCharacter
             #endregion
 
 
-
+            #region HZCannon
             new HeatZeekerRTSOrto.HZCannon().Source.Task.ContinueWithResult(
                 async cube =>
                 {
@@ -285,11 +278,11 @@ namespace WebGLHZBlendCharacter
                     }
                 }
             );
+            #endregion
+
 
 
             var blendMesh = new THREE.SpeedBlendCharacter();
-
-
             blendMesh.load(
                 new Models.marine_anims().Content.src,
                 new Action(
@@ -302,8 +295,6 @@ namespace WebGLHZBlendCharacter
                         //blendMesh.scale.set(0.1, 0.1, 0.1);
 
                         scene.add(blendMesh);
-
-                        //var characterController = new THREE.CharacterController(blendMesh);
 
                         var xtrue = true;
                         // run
@@ -376,6 +367,46 @@ namespace WebGLHZBlendCharacter
                         skyScene.add(skyMesh);
                         #endregion
 
+
+
+
+                        ////var renderTarget = new THREE.WebGLRenderTarget((int)Native.window.Width, (int)Native.window.Height,
+                        ////    new
+                        ////    {
+                        ////        minFilter = THREE.LinearFilter,
+                        ////        magFilter = THREE.LinearFilter,
+                        ////        format = THREE.RGBFormat,
+                        ////        stencilBufer = false
+                        ////    }
+                        ////);
+
+                        ////var composer = new THREE.EffectComposer(renderer, renderTarget);
+                        ////composer.addPass(new THREE.RenderPass(skyScene, skyCamera));
+                        ////composer.addPass(new THREE.RenderPass(scene, camera));
+
+                        ////#region vblur
+                        ////var hblur = new THREE.ShaderPass(THREE.HorizontalTiltShiftShader);
+                        ////var vblur = new THREE.ShaderPass(THREE.VerticalTiltShiftShader);
+
+                        ////var bluriness = 6;
+
+                        ////// Show Details	Severity	Code	Description	Project	File	Line
+                        //////Error CS0656  Missing compiler required member 'Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo.Create' WebGLTiltShift Application.cs  183
+
+                        ////(hblur.uniforms as dynamic).h.value = bluriness / Native.window.Width;
+                        ////(vblur.uniforms as dynamic).v.value = bluriness / Native.window.Height;
+
+                        ////(hblur.uniforms as dynamic).r.value = 0.5;
+                        ////(vblur.uniforms as dynamic).r.value = 0.5;
+                        ////vblur.renderToScreen = true;
+
+                        ////composer.addPass(hblur);
+                        ////composer.addPass(vblur);
+                        ////#endregion
+
+                        //composer.addPass(new THREE.RenderPass(scene, camera));
+                        // 
+
                         #region onframe
                         Native.window.onframe +=
                             delegate
@@ -405,29 +436,30 @@ namespace WebGLHZBlendCharacter
                                 skyCamera.rotation.copy(camera.rotation);
 
 
+                                //composer.render(0.1);
 
-                                renderer.clear();
+                                //renderer.clear();
                                 renderer.render(skyScene, skyCamera);
                                 renderer.render(scene, camera);
                             };
                         #endregion
 
-                        #region AtResize
-                        Action AtResize = delegate
-                        {
-                            camera.aspect = Native.window.aspect;
-                            camera.updateProjectionMatrix();
-                            renderer.setSize(Native.window.Width, Native.window.Height);
-                        };
+                        new { }.With(
+                           async delegate
+                           {
+                               //while (true)
+                               do
+                               {
+                                   camera.aspect = Native.window.aspect;
+                                   camera.updateProjectionMatrix();
+                                   renderer.setSize(Native.window.Width, Native.window.Height);
 
-                        Native.window.onresize +=
-                            delegate
-                            {
-                                AtResize();
-                            };
+                                   // convert to bool?
+                               } while (await Native.window.async.onresize);
+                               //} while (await Native.window.async.onresize != null);
 
-                        AtResize();
-                        #endregion
+                           }
+                       );
                     }
                 )
            );

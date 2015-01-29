@@ -9,7 +9,7 @@
 //static attribute THREE.ShaderGodRaysType ShaderGodRays;
 //};
 
-interface THREE.BokehShaderType
+interface THREE.VerticalTiltShiftShaderType
 {
 
 };

@@ -6,6 +6,8 @@
 Constructor(any manager)]
 interface THREE.SpeedBlendCharacter : THREE.SkinnedMesh
 {
+	attribute THREE.Animation run;
+
 	void setSpeed(double newSpeed);
 	void showSkeleton(boolean shouldShow);
 

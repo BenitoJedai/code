@@ -34,7 +34,8 @@ THREE.SpeedBlendCharacter = function () {
 
             for (var i = 0; i < geometry.animations.length; ++i) {
 
-                THREE.AnimationHandler.add(geometry.animations[i]);
+                // why?
+                //THREE.AnimationHandler.add(geometry.animations[i]);
 
                 // Create the animation object and set a default weight
                 var animName = geometry.animations[i].name;

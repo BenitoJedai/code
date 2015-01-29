@@ -41,6 +41,14 @@ interface THREE
 	// JSON or dynamic instead?
 	static attribute THREE.ShaderGodRaysType ShaderGodRays;
 
+	// X:\jsc.svn\market\synergy\THREE\THREE\opensource\gihtub\three.js\build\shaders\THREE.HorizontalTiltShiftShader.idl
+	static attribute THREE.HorizontalTiltShiftShaderType HorizontalTiltShiftShader;
+
+	// X:\jsc.svn\market\synergy\THREE\THREE\opensource\gihtub\three.js\build\shaders\THREE.VerticalTiltShiftShader.idl
+	static attribute THREE.VerticalTiltShiftShaderType VerticalTiltShiftShader;
+
+	
+
 	// X:\jsc.svn\market\synergy\THREE\THREE\opensource\gihtub\three.js\build\shaders\THREE.CopyShader.idl
 	static attribute THREE.CopyShaderType CopyShader;
 
@@ -165,12 +173,28 @@ interface THREE.ColorUtilsType
 
 };
 
+
+// X:\jsc.svn\examples\javascript\webgl\WebGLBokehWithGeometry\WebGLBokehWithGeometry\Application.cs
+// http://threejs.org/docs/#Reference/Extras.Animation/AnimationHandler
+// // File:src/extras/animation/AnimationHandler.js
 interface THREE.AnimationHandlerType
 {
 	void add(any data);
 	void update(double delta);
 
 };
+
+// File:src/extras/animation/Animation.js
+// http://threejs.org/docs/#Reference/Extras.Animation/Animation
+[Constructor(any geometry, any material)]
+interface THREE.Animation
+{
+	attribute long        currentTime;
+
+	void play();
+	void update(double delta);
+};
+
 
 
 interface THREE.Camera : THREE.Object3D
@@ -183,7 +207,7 @@ interface THREE.Camera : THREE.Object3D
 };
 
 
-
+// File:src/cameras/OrthographicCamera.js
 // X:\jsc.svn\examples\javascript\WebGL\HeatZeekerRTSOrto\HeatZeekerRTSOrto\Application.cs
 [Constructor(double  left, double right, double top, double bottom),
 Constructor(double  left, double right, double top, double bottom, double near, double far)]
@@ -198,7 +222,7 @@ interface THREE.OrthographicCamera :  THREE.Camera
 	attribute THREE.Vector3  up;
 };
 
-
+// File:src/cameras/PerspectiveCamera.js
 // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLMD2MorphtargetExample\WebGLMD2MorphtargetExample\Application.cs
 [Constructor(double fov, double aspect, double near, double far)]
 interface THREE.PerspectiveCamera :  THREE.Camera
@@ -340,8 +364,13 @@ interface THREE.DirectionalLight
 	attribute THREE.Vector3  position;
 };
 
+
+
+
+// File:src/lights/PointLight.js
 [Constructor(long x),
-Constructor(long x, double y, long z)]
+Constructor(long  color, double intensity),
+Constructor(long  color, double intensity, long distance)]
 interface THREE.PointLight
 {
 	attribute THREE.Vector3  position;
@@ -359,7 +388,10 @@ interface THREE.AmbientLight
 {
 };
 
-[Constructor(long x)]
+
+
+// File:src/lights/SpotLight.js
+[Constructor(long color), Constructor(long color, double intensity)]
 interface THREE.SpotLight
 {
 	attribute THREE.Vector3  position;
@@ -534,13 +566,6 @@ interface THREE.Object3D
 
 
 
-[Constructor(any geometry, any material)]
-interface THREE.Animation
-{
-	attribute long        currentTime;
-
-	void play();
-};
 
 
 [Constructor()]
@@ -582,6 +607,8 @@ interface THREE.Mesh : THREE.Object3D
 };
 
 
+
+// // File:src/objects/SkinnedMesh.js
 [Constructor(), Constructor(any mesh, any name)]
 interface THREE.SkinnedMesh :  THREE.Mesh
 {

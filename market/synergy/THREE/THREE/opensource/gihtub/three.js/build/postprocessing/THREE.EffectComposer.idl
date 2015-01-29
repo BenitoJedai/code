@@ -3,7 +3,7 @@
 // x:\jsc.svn\examples\javascript\webgl\WebGLDepthOfField\WebGLDepthOfField\Application.cs
 
 
-[Constructor(THREE.WebGLRenderer r)]
+[Constructor(THREE.WebGLRenderer r), Constructor(THREE.WebGLRenderer r, any renderTarget)]
 interface THREE.EffectComposer
 {
 	// defined where?
