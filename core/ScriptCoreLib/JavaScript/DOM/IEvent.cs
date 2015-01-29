@@ -34,6 +34,17 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IEvent
     {
+        // x:\jsc.svn\examples\javascript\webgl\WebGLGodRay\WebGLGodRay\Application.cs
+        public static implicit operator bool (IEvent e)
+        {
+            // future C# may allow if (obj)
+            // but for now booleans are needed
+
+            // enable 
+            // while (await Native.window.async.onresize);
+            return ((object)e != null);
+        }
+
         #region Element
         [Script(OptimizedCode = @"
             if (a0['target'] != void(0)) 
@@ -319,7 +330,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         internal bool IsMozilla
         {
             [Script(DefineAsStatic = true)]
-            get { return InternalIsMozilla(this); }
+            get
+            { return InternalIsMozilla(this); }
         }
 
         [Script(OptimizedCode = @"

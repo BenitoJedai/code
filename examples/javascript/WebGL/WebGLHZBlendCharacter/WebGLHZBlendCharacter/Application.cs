@@ -415,10 +415,6 @@ namespace WebGLHZBlendCharacter
                         #region AtResize
                         Action AtResize = delegate
                         {
-                            //renderer.domElement.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
-
-                            //camera.projectionMatrix.makePerspective(fov, Native.window.aspect, 1, 1100);
-
                             camera.aspect = Native.window.aspect;
                             camera.updateProjectionMatrix();
                             renderer.setSize(Native.window.Width, Native.window.Height);

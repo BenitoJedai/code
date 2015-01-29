@@ -9,6 +9,8 @@
 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150127
 
 
+// will the IDL compiler work as chrome app too?
+
 interface THREE
 {
 	static attribute string REVISION;
@@ -25,18 +27,29 @@ interface THREE
 	const long LineStrip = 0;
 	const long LinePieces = 1;
 
-	static attribute THREE.ColorUtilsType ColorUtils; 
-	static attribute THREE.ImageUtilsType ImageUtils; 
-	static attribute THREE.AnimationHandlerType AnimationHandler; 
-	static attribute THREE.GeometryUtilsType GeometryUtils; 
-	static attribute THREE.MathType Math; 
+	static attribute THREE.ColorUtilsType ColorUtils;
+	static attribute THREE.ImageUtilsType ImageUtils;
+	static attribute THREE.AnimationHandlerType AnimationHandler;
+	static attribute THREE.GeometryUtilsType GeometryUtils;
+	static attribute THREE.MathType Math;
 
 
 	// File:src/renderers/shaders/ShaderLib.js
 	static attribute THREE.ShaderLibType ShaderLib;
 
+	// X:\jsc.svn\market\synergy\THREE\THREE\opensource\gihtub\three.js\build\THREE.ShaderGodRays.idl
+	// JSON or dynamic instead?
+	static attribute THREE.ShaderGodRaysType ShaderGodRays;
+
+
+	// // File:src/renderers/shaders/UniformsUtils.js
+	// would jsc allow to define the type inline here?
+	static attribute THREE.UniformsUtilsType UniformsUtils;
+
 	static attribute long DoubleSide;
-	
+
+	static attribute long LinearFilter;
+	static attribute long RGBFormat;
 
 
 	// blending modes
@@ -62,11 +75,15 @@ interface THREE
 	const long BackSide = 1;
 };
 
+interface THREE.UniformsUtilsType
+{
+	any clone(any uniforms_src);
+};
 
 // x:\jsc.svn\examples\webgl\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter\Application.cs
 // dynamic anonymous type
 // how can we do intellisense?
-interface THREE.ShaderLibType 
+interface THREE.ShaderLibType
 {
 	getter any get(string index);
 	//getter dynamic get(string index);
@@ -75,21 +92,21 @@ interface THREE.ShaderLibType
 
 // this is an anonymous type actually
 interface THREE.MathType
-{ 
+{
 	double degToRad(double e);
 
 };
 
 // this is an anonymous type actually
 interface THREE.GeometryUtilsType
-{ 
+{
 	void merge(any x, any y);
 
 };
 
 // this is an anonymous type actually
 interface THREE.ImageUtilsType
-{ 
+{
 	// are we not better of with async/await functions?
 
 	THREE.Texture loadTexture(any src);
@@ -108,10 +125,10 @@ interface THREE.ImageUtilsType
 };
 
 [Constructor(),
-	Constructor(html::HTMLImageElement c),
-	Constructor(html::HTMLCanvasElement c)]
+Constructor(html::HTMLImageElement c),
+Constructor(html::HTMLCanvasElement c)]
 interface THREE.Texture
-{ 
+{
 
 	// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\Application.cs
 	attribute html::HTMLImageElement image;
@@ -134,14 +151,14 @@ interface THREE.Texture
 
 // this is an anonymous type actually
 interface THREE.ColorUtilsType
-{ 
+{
 	// no longer available [Obsolete]
 	void adjustHSV(long color, long x, long y, double z);
 
 };
 
 interface THREE.AnimationHandlerType
-{ 
+{
 	void add(any data);
 	void update(double delta);
 
@@ -161,8 +178,8 @@ interface THREE.Camera : THREE.Object3D
 
 // X:\jsc.svn\examples\javascript\WebGL\HeatZeekerRTSOrto\HeatZeekerRTSOrto\Application.cs
 [Constructor(double  left, double right, double top, double bottom),
- Constructor(double  left, double right, double top, double bottom, double near, double far)]
-interface THREE.OrthographicCamera :  THREE.Camera 
+Constructor(double  left, double right, double top, double bottom, double near, double far)]
+interface THREE.OrthographicCamera :  THREE.Camera
 {
 	attribute double  left;
 	attribute double  right;
@@ -176,9 +193,9 @@ interface THREE.OrthographicCamera :  THREE.Camera
 
 // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLMD2MorphtargetExample\WebGLMD2MorphtargetExample\Application.cs
 [Constructor(double fov, double aspect, double near, double far)]
-interface THREE.PerspectiveCamera :  THREE.Camera 
-{ 
-	attribute double aspect; 
+interface THREE.PerspectiveCamera :  THREE.Camera
+{
+	attribute double aspect;
 
 	void updateProjectionMatrix();
 
@@ -196,10 +213,18 @@ interface THREE.PerspectiveCamera :  THREE.Camera
 
 };
 
+
+
+// // File:src/scenes/Scene.js
 [Constructor()]
 interface THREE.Scene  : THREE.Object3D
-{ 
+{
 	attribute any         fog;
+
+
+	// x:\jsc.svn\examples\javascript\webgl\WebGLGodRay\WebGLGodRay\Application.cs
+	attribute THREE.Material         overrideMaterial;
+
 	//attribute THREE.Fog         fog;
 
 	//attribute THREE.Vector3  position;
@@ -214,7 +239,7 @@ interface THREE.Scene  : THREE.Object3D
 
 // X:\jsc.svn\examples\javascript\WebGL\WebGLOrthographicCamera\WebGLOrthographicCamera\Application.cs
 [Constructor(any parameters)]
-interface THREE.LineBasicMaterial 
+interface THREE.LineBasicMaterial
 {
 };
 
@@ -224,29 +249,32 @@ interface THREE.Line  : THREE.Object3D
 	attribute long type;
 };
 
+
+
+// File:src/materials/ShaderMaterial.js
 [Constructor(any parameters)]
-interface THREE.ShaderMaterial 
+interface THREE.ShaderMaterial : THREE.Material
 {
 	attribute any         uniforms;
 };
 
 [Constructor(long color)]
-interface THREE.Color 
-{ 
-	attribute double r; 
+interface THREE.Color
+{
+	attribute double r;
 	attribute double g;
 	attribute double b;
 
 	THREE.Color  setRGB(double r,double g,double b);
 	THREE.Color  clone();
-	THREE.Color  multiply( THREE.Color c);
+	THREE.Color  multiply(THREE.Color c);
 
 };
 
 
 [Constructor(long x, long y)]
-interface THREE.Plane 
-{ 
+interface THREE.Plane
+{
 };
 
 
@@ -258,12 +286,12 @@ interface THREE.Raycaster_intersectObject
 };
 
 [Constructor,
-	Constructor(THREE.Vector3 position, THREE.Vector3 target)
+Constructor(THREE.Vector3 position, THREE.Vector3 target)
 ]
-interface THREE.Raycaster 
-{ 
+interface THREE.Raycaster
+{
 	//THREE.Raycaster.prototype.intersectObjects = function ( objects, recursive ) {
-	
+
 	void set(any position, any vec);
 	sequence<THREE.Raycaster_intersectObject> intersectObject(THREE.Mesh position);
 
@@ -280,8 +308,8 @@ interface THREE.FogExp2
 };
 
 [Constructor(long color, long y, long z)]
-interface THREE.Fog 
-{ 
+interface THREE.Fog
+{
 	// tested by X:\jsc.svn\examples\javascript\WebGLClouds\WebGLClouds\Application.cs
 
 	attribute long        near;
@@ -296,8 +324,8 @@ interface THREE.Fog
 
 
 [Constructor(long x), Constructor(long x, double y)]
-interface THREE.DirectionalLight 
-{ 
+interface THREE.DirectionalLight
+{
 	attribute boolean        castShadow;
 
 
@@ -305,27 +333,27 @@ interface THREE.DirectionalLight
 };
 
 [Constructor(long x),
-	Constructor(long x, double y, long z)]
-interface THREE.PointLight 
-{ 
+Constructor(long x, double y, long z)]
+interface THREE.PointLight
+{
 	attribute THREE.Vector3  position;
 };
 
 [Constructor(long x, double y, double z)]
-interface THREE.HemisphereLight 
-{ 
+interface THREE.HemisphereLight
+{
 	attribute THREE.Vector3  position;
 };
 
 
 [Constructor(long x)]
-interface THREE.AmbientLight 
-{ 
+interface THREE.AmbientLight
+{
 };
 
 [Constructor(long x)]
-interface THREE.SpotLight 
-{ 
+interface THREE.SpotLight
+{
 	attribute THREE.Vector3  position;
 	attribute THREE.Object3D target;
 
@@ -342,27 +370,21 @@ interface THREE.SpotLight
 	attribute long        shadowMapHeight;
 };
 
-[Constructor(long x, long y), 
-	Constructor(long x, long y, long z, long q)]
-interface THREE.PlaneGeometry 
-{ 
+[Constructor(long x, long y),
+Constructor(long x, long y, long z, long q)]
+interface THREE.PlaneGeometry
+{
 	attribute sequence<THREE.Vector3>        vertices;
 
 	void applyMatrix(any value);
 };
 
-[Constructor()]
-interface THREE.BufferGeometry {
-	attribute any attributes;
-	attribute sequence<any> drawcalls;
-	any computeBoundingSphere();
-};
 
 
 [Constructor(), Constructor(double x, double y)]
 interface THREE.Vector2
-{ 
-	attribute double x; 
+{
+	attribute double x;
 	attribute double y;
 
 	THREE.Vector2  set(double x, double y);
@@ -370,24 +392,29 @@ interface THREE.Vector2
 
 
 [Constructor(), Constructor(double x, double y, double z)]
-interface THREE.Euler 
-{ 
+interface THREE.Euler
+{
 };
 
+
+
+// // File:src/math/Vector3.js
 [Constructor(), Constructor(double x, double y, double z)]
-interface THREE.Vector3 
-{ 
-	attribute double x; 
+interface THREE.Vector3
+{
+	attribute double x;
 	attribute double y;
 	attribute double z;
 
-	THREE.Vector3  fromArray ( sequence<double> array );
+	THREE.Vector3  fromArray(sequence<double> array);
 
 	THREE.Vector3  set(double x, double y, double z);
 
-	void copy( THREE.Vector3  p);
-	void copy( any  p);
-	THREE.Vector3  sub( THREE.Vector3   p);
+	// x:\jsc.svn\examples\javascript\webgl\WebGLGodRay\WebGLGodRay\Application.cs
+	THREE.Vector3 copy(THREE.Vector3  p);
+
+	void copy(any  p);
+	THREE.Vector3  sub(THREE.Vector3   p);
 
 	THREE.Vector3 subSelf(any xyz);
 	THREE.Vector3 normalize();
@@ -404,22 +431,26 @@ interface THREE.Vector3
 	THREE.Vector3 sub(any l, any r);
 	THREE.Vector3 cross(THREE.Vector3 v);
 
+
+	// x:\jsc.svn\examples\javascript\webgl\WebGLGodRay\WebGLGodRay\Application.cs
+	THREE.Vector3 project(THREE.PerspectiveCamera camera);
+
 	THREE.Vector3 clone();
 };
 
 [Constructor(), Constructor(double x, double y, double z, double q)]
-interface THREE.Vector4 
-{ 
-	attribute double x; 
+interface THREE.Vector4
+{
+	attribute double x;
 	attribute double y;
 	attribute double z;
 
-	THREE.Vector4 applyMatrix4( THREE.Matrix4 m);
+	THREE.Vector4 applyMatrix4(THREE.Matrix4 m);
 };
 
 [Constructor()]
-interface THREE.Matrix4 
-{ 
+interface THREE.Matrix4
+{
 	any makePerspective(double fov, double xy, long a, long b);
 	any makeRotationX(double value);
 
@@ -431,7 +462,7 @@ interface THREE.Matrix4
 	any makeRotationFromEuler(THREE.Euler vec3);
 	any lookAt(THREE.Vector3 x, THREE.Vector3 y, THREE.Vector3 z);
 	any multiply(THREE.Matrix4 m);
-	
+
 
 	THREE.Matrix4 makeTranslation(double x, double y, double z);
 	THREE.Matrix4 makeTranslation(THREE.Vector3 y);
@@ -445,8 +476,8 @@ interface THREE.Matrix4
 };
 
 [Constructor(any x)]
-interface THREE.MeshLambertMaterial 
-{ 
+interface THREE.MeshLambertMaterial
+{
 	attribute long        color;
 	attribute THREE.Texture map;
 };
@@ -458,7 +489,7 @@ interface THREE.MeshLambertMaterial
 
 [Constructor()]
 interface THREE.Object3D
-{ 
+{
 	attribute boolean castShadow;
 	attribute boolean receiveShadow;
 	attribute boolean visible;
@@ -496,8 +527,8 @@ interface THREE.Object3D
 
 
 [Constructor(any geometry, any material)]
-interface THREE.Animation 
-{ 
+interface THREE.Animation
+{
 	attribute long        currentTime;
 
 	void play();
@@ -506,7 +537,7 @@ interface THREE.Animation
 
 [Constructor()]
 interface THREE.Bone : THREE.Object3D
-{ 
+{
 	attribute THREE.Matrix4 skinMatrix;
 
 };
@@ -516,7 +547,7 @@ interface THREE.Bone : THREE.Object3D
 [Constructor()]
 interface THREE.Quaternion
 {
-	void copy( any  p);
+	void copy(any  p);
 
 };
 
@@ -526,16 +557,18 @@ interface THREE.Quaternion
 //0dc8:01:01 RewriteToAssembly error: System.NotSupportedException: Parent does not have a default constructor.The default constructor must be explicitly defined.
 // X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuTPS\WebGLYomotsuTPS\Application.cs
 [Constructor(), Constructor(any geometry),
-	Constructor(any geometry, any material)]
+Constructor(any geometry, any material)]
 interface THREE.Mesh : THREE.Object3D
-{ 
+{
 	// ? X:\jsc.svn\examples\javascript\WebGL\WebGLOBJExperiment\WebGLOBJExperiment\Application.cs
 	attribute THREE.MeshBasicMaterial  material;
 
 
 	attribute THREE.Geometry geometry;
 
+	attribute boolean        matrixAutoUpdate;
 	attribute boolean        useQuaternion;
+
 	void rotateOnAxis(THREE.Vector3 vect, double angle);
 	void lookAt(THREE.Vector3 target);
 };
@@ -552,7 +585,7 @@ interface THREE.SkinnedMesh :  THREE.Mesh
 
 
 [Constructor(any geometry, any material)]
-interface THREE.MorphAnimMesh 
+interface THREE.MorphAnimMesh
 {
 	attribute THREE.Vector3  position;
 	attribute THREE.Vector3  rotation;
@@ -569,20 +602,26 @@ interface THREE.MorphAnimMesh
 
 };
 
+
+
+
+// File:src/renderers/WebGLRenderer.js
+
 [Constructor(), Constructor(any args)]
-interface THREE.WebGLRenderer 
-{ 
+interface THREE.WebGLRenderer
+{
 	attribute long shadowMapType;
-	
+
 	attribute boolean        shadowMapEnabled;
 	attribute boolean        shadowMapSoft;
 	attribute boolean        autoClear;
+	attribute boolean        sortObjects;
 
 	attribute Element domElement;
 
 
 	void setClearColorHex(long color);
-	
+
 
 	// X:\jsc.svn\examples\javascript\WebGL\WebGLOrthographicCamera\WebGLOrthographicCamera\Application.cs
 	void setClearColor(long color);
@@ -590,18 +629,35 @@ interface THREE.WebGLRenderer
 
 	void setClearColor(THREE.Color color);
 	void setSize(long w, long h);
+
 	void render(any scene, any camera);
+	void render(any scene, any camera, THREE.WebGLRenderTarget target);
+
+	// x:\jsc.svn\examples\javascript\webgl\WebGLGodRay\WebGLGodRay\Application.cs
+	void render(any scene, any camera, THREE.WebGLRenderTarget target, boolean forceClear);
+
 	void setViewport(any a, any b, any c, any d);
 
 	void clear();
+	void clearTarget(THREE.WebGLRenderTarget renderTarget, boolean color, boolean depth, boolean stencil);
 
 	int getMaxAnisotropy();
 
+
+	void setScissor(double x, double y, double width, double height);
+		void enableScissorTest(boolean enable);
+
+};
+
+// File:src/renderers/WebGLRenderTarget.js
+[Constructor(long width, long height, any options)]
+interface THREE.WebGLRenderTarget
+{
 };
 
 [Constructor(), Constructor(any args)]
-interface THREE.CanvasRenderer 
-{ 
+interface THREE.CanvasRenderer
+{
 	attribute boolean        shadowMapEnabled;
 	attribute boolean        shadowMapSoft;
 	attribute boolean        autoClear;
@@ -626,9 +682,9 @@ interface THREE.CanvasRenderer
 };
 
 [Constructor(THREE.WebGLRenderer r)]
-interface THREE.EffectComposer 
-{ 
-    // defined where?
+interface THREE.EffectComposer
+{
+	// defined where?
 
 	void addPass(any e);
 	void render(double e);
@@ -641,12 +697,12 @@ interface THREE.EffectComposer
 interface THREE.Sphere
 {
 	attribute double  radius;
-	
+
 };
 
 [Constructor]
-interface THREE.Geometry 
-{ 
+interface THREE.Geometry
+{
 	attribute THREE.Sphere boundingSphere;
 
 	attribute sequence<THREE.Vector3>        vertices;
@@ -658,29 +714,49 @@ interface THREE.Geometry
 	// um. collada thingy wants to use computeCentroids.
 };
 
+
+
+
+
+// // File:src/core/BufferGeometry.js
+[Constructor()]
+interface THREE.BufferGeometry
+{
+	attribute any attributes;
+	attribute sequence<any> drawcalls;
+	any computeBoundingSphere();
+};
+
 [Constructor]
-interface THREE.Face4 
-{ 
+interface THREE.Face4
+{
 	attribute THREE.Color        color;
 
 
 };
 
+// File:src/extras/geometries/PlaneBufferGeometry.js
+// x:\jsc.svn\examples\javascript\webgl\WebGLGodRay\WebGLGodRay\Application.cs
+[Constructor(long width, long height)]
+interface THREE.PlaneBufferGeometry : THREE.BufferGeometry
+{
+
+};
 
 
 [Constructor(double radius),
-	Constructor(double size, double arg1, double arg2),
-	Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5),
-	Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5, double arg6)]
-interface THREE.SphereGeometry 
-{ 
+Constructor(double size, double arg1, double arg2),
+Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5),
+Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5, double arg6)]
+interface THREE.SphereGeometry
+{
 	attribute sequence<THREE.Face4>        faces;
 
 };
 
 [Constructor(double size, double arg1, double arg2, double arg3)]
-interface THREE.CylinderGeometry 
-{ 
+interface THREE.CylinderGeometry
+{
 	void applyMatrix(any value);
 
 };
@@ -688,15 +764,15 @@ interface THREE.CylinderGeometry
 //radius, segments, thetaStart, thetaLength
 
 [Constructor(double radius, double segments)]
-interface THREE.CircleGeometry 
-{ 
+interface THREE.CircleGeometry
+{
 	void applyMatrix(any value);
 
 };
 
 [Constructor(double radius, double tube, double radialSegments, double tubularSegments, double p, double q, double heightSegments)]
-interface THREE.TorusKnotGeometry 
-{ 
+interface THREE.TorusKnotGeometry
+{
 	void applyMatrix(any value);
 };
 
@@ -704,10 +780,10 @@ interface THREE.TorusKnotGeometry
 
 
 [Constructor()]
-interface THREE.Projector 
-{ 
+interface THREE.Projector
+{
 	//this.pickingRay = function ( vector, camera ) {
-	THREE.Raycaster pickingRay (any vector,any camera);
+	THREE.Raycaster pickingRay(any vector,any camera);
 	void unprojectVector(any vector, any camera);
 };
 
@@ -717,15 +793,15 @@ interface THREE.Projector
 // X:\jsc.svn\examples\javascript\WebGL\WebGLInteractiveCubes\WebGLInteractiveCubes\Application.cs
 [Constructor(double x, double y, double z)]
 interface THREE.BoxGeometry : THREE.Geometry
-{ 
+{
 };
 
 
 // obsolete
 [Constructor(double x, double y, double z),
-	Constructor(double x, double y, double z, double cx, double cy, double cz)]
-interface THREE.CubeGeometry 
-{ 
+Constructor(double x, double y, double z, double cx, double cy, double cz)]
+interface THREE.CubeGeometry
+{
 	// array?
 	attribute sequence<THREE.Face4>        faces;
 	attribute sequence<sequence<sequence<THREE.Vector2>>>        faceVertexUvs;
@@ -734,29 +810,29 @@ interface THREE.CubeGeometry
 };
 
 [Constructor(any position, any n)]
-interface THREE.Ray 
-{ 
+interface THREE.Ray
+{
 	attribute THREE.Vector3  direction;
 };
 
 [Constructor(any geometry, any material)]
 interface THREE.ParticleSystem : THREE.Object3D
-{ 
+{
 	attribute THREE.Vector3  position;
 
 };
 
 [Constructor(any a)]
-interface THREE.Sprite 
-{ 
+interface THREE.Sprite
+{
 	attribute THREE.Vector3  position;
 	attribute double  rotation;
 
 };
 
 [Constructor()]
-interface THREE.JSONLoader 
-{ 
+interface THREE.JSONLoader
+{
 	//void load(any src, any handler);
 	void load(any src, function<any> handler);
 
@@ -774,6 +850,16 @@ interface THREE.Material
 
 };
 
+
+// File:src/materials/MeshDepthMaterial.js
+// x:\jsc.svn\examples\javascript\webgl\WebGLGodRay\WebGLGodRay\Application.cs
+[Constructor()]
+interface THREE.MeshDepthMaterial : THREE.Material
+{
+
+};
+
+
 [Constructor(any e)]
 interface THREE.ParticleSystemMaterial : THREE.Material
 {
@@ -783,14 +869,14 @@ interface THREE.ParticleSystemMaterial : THREE.Material
 
 [Constructor(any e)]
 interface THREE.MeshFaceMaterial : THREE.Material
-{ 
+{
 	attribute sequence<any> materials;
 
 };
 
 [Constructor(any e)]
 interface THREE.MeshBasicMaterial : THREE.Material
-{ 
+{
 	// X:\jsc.svn\examples\javascript\WebGL\WebGLOBJExperiment\WebGLOBJExperiment\Application.cs
 	attribute THREE.Texture map;
 	attribute THREE.Color color;
@@ -799,7 +885,7 @@ interface THREE.MeshBasicMaterial : THREE.Material
 
 [Constructor(any e)]
 interface THREE.MeshPhongMaterial : THREE.Material
-{ 
+{
 	// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLMD2MorphtargetExample\WebGLMD2MorphtargetExample\Application.cs
 	attribute THREE.Texture map;
 };
@@ -812,5 +898,5 @@ interface THREE.MeshPhongMaterial : THREE.Material
 interface THREE.Clock
 {
 	double getDelta();
-	
+
 }

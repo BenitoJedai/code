@@ -1,0 +1,25 @@
+﻿// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150127
+// "X:\opensource\github\three.js\examples\js\ShaderGodRays.js"
+// x:\jsc.svn\examples\javascript\webgl\WebGLGodRay\WebGLGodRay\Application.cs
+
+// since the file is a JSON, could jsc convert it to MSIL essientially rewriting the file?
+
+// does jsc allow partials yet? no?
+//interface THREE
+//{
+	//static attribute THREE.ShaderGodRaysType ShaderGodRays;
+//};
+
+//[Constructor()]
+interface THREE.ShaderGodRaysType
+{
+	getter any get(string index);
+
+
+	// attribute THREE.Vector3 center;
+
+	// void update();
+
+	//void load(string url, function onLoad);
+	//any parse(string text);
+};
