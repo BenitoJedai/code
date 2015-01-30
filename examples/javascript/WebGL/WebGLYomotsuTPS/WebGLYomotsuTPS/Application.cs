@@ -29,6 +29,24 @@ namespace WebGLYomotsuTPS
 //        Create Partial Type: THREE+SkinnedMesh
 //0dc8:01:01 RewriteToAssembly error: System.NotSupportedException: Parent does not have a default constructor.The default constructor must be explicitly defined.
 
+//020000a1 WebGLYomotsuTPS.HTML.Pages.App
+//        { SourceMethod = WebGLYomotsuTPS.HTML.Pages.App Create() }
+//{ SourceMethod = Void Page_InitializeInternalFontFace() }
+//{ SourceMethod = ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement Initialize_0_htm
+//l(WebGLYomotsuTPS.HTML.Pages.App, ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement
+//) }
+//script: error JSC1000: Method: Initialize_0_html, Type: WebGLYomotsuTPS.HTML.Pag
+//es.App; emmiting failed : System.IndexOutOfRangeException: Index was outside the
+// bounds of the array.
+//   at jsc.ILInstruction.get_TargetParameter() in X:\jsc.internal.git\compiler\js
+//c\CodeModel\ILInstruction.cs:line 1389
+//   at jsc.IL2ScriptGenerator.<>c__DisplayClass4.<CreateInstructionHandlers>b__5(
+//IdentWriter w, Prestatement p, ILInstruction i, ILFlowStackItem[] s) in X:\jsc.i
+//nternal.git\compiler\jsc\Languages\JavaScript\IL2ScriptGenerator.OpCodes.cs:line
+// 54
+//   at jsc.IL2ScriptGenerator.OpCodeHandler(IdentWriter w, Prestatement p, ILInst
+//ruction i, ILFlowStackItem s) in X:\jsc.internal.git\compiler\jsc\Languages\Java
+//Script\IL2ScriptGenerator.cs:line 263
 
         sealed class motion
         {
@@ -437,7 +455,7 @@ namespace WebGLYomotsuTPS
                                 player_model_objects.add(md2meshBody);
 
                                 #region onkeydown
-                                Native.Document.onkeydown +=
+                                Native.document.onkeydown +=
                                     e =>
                                     {
                                         if (e.KeyCode == 67)
@@ -483,7 +501,7 @@ namespace WebGLYomotsuTPS
                                 #endregion
 
                                 #region onkeyup
-                                Native.Document.onkeyup +=
+                                Native.document.onkeyup +=
                                     e =>
                                     {
                                         if (e.KeyCode == 87)

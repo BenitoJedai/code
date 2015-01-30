@@ -22,6 +22,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLEarthByBjorn", "..\..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeatZeekerRTS", "..\HeatZeekerRTS\HeatZeekerRTS\HeatZeekerRTS.csproj", "{6B5E30B0-A3A4-4E3D-9407-003FF76195F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLYomotsuTPS", "..\WebGLYomotsuTPS\WebGLYomotsuTPS\WebGLYomotsuTPS.csproj", "{4D221D4E-654D-4AE4-89AA-98D35EB70778}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {7B5C94C5-F6AA-42BA-815B-34DD472A47AC}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -60,6 +65,10 @@ Global
 		{6B5E30B0-A3A4-4E3D-9407-003FF76195F6}.Debug|x86.Build.0 = Debug|x86
 		{6B5E30B0-A3A4-4E3D-9407-003FF76195F6}.Release|x86.ActiveCfg = Release|x86
 		{6B5E30B0-A3A4-4E3D-9407-003FF76195F6}.Release|x86.Build.0 = Release|x86
+		{4D221D4E-654D-4AE4-89AA-98D35EB70778}.Debug|x86.ActiveCfg = Debug|x86
+		{4D221D4E-654D-4AE4-89AA-98D35EB70778}.Debug|x86.Build.0 = Debug|x86
+		{4D221D4E-654D-4AE4-89AA-98D35EB70778}.Release|x86.ActiveCfg = Release|x86
+		{4D221D4E-654D-4AE4-89AA-98D35EB70778}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

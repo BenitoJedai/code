@@ -19,6 +19,9 @@ namespace android.app
     [Script(IsNative = true)]
     public class NativeActivity : Activity
     {
+        // Galaxy S5. The device could be revealed as early as April 2015. 
+        // http://vrfocus.com/archives/11119/samsung-developing-new-version-gear-vr-galaxy-s6/
+
         // NASA's Johnson Space Center (JSC) in Houston, Texas, is home to the agency's Virtual Reality Lab
         // http://gizmodo.com/the-nasa-playground-that-takes-virtual-reality-to-a-who-1658637427
 
