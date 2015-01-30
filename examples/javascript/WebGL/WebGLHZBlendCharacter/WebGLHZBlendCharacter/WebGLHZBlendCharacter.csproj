@@ -154,6 +154,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Models\ground.js" />
+    <Content Include="Promotional\x128.png" />
     <Content Include="Textures\dirt_tx.png" />
     <Content Include="Textures\MarineCv2_color.jpg" />
     <Content Include="Models\marine_anims.js" />
@@ -175,9 +176,7 @@
       <Name>HeatZeekerRTSOrto</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Promotional\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
