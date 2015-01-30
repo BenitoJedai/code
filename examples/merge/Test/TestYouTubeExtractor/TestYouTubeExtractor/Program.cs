@@ -165,11 +165,12 @@ namespace TestYouTubeExtractor
 
             //var p = 1;
 
-            for (int p = 1; p < 22; p++)
+            for (int p = 1; p < 70; p++)
                 foreach (var src in new[] {
-                    "https://faustuscrow.wordpress.com/page/\{p}/",
-                    "https://hiddenlighthouse.wordpress.com/page/\{p}/",
-                    "https://zproxy.wordpress.com/page/\{p}/"
+                    "http://consciousresonance.net/?page_id=1587&paged=\{p}"
+                    //"https://faustuscrow.wordpress.com/page/\{p}/",
+                    //"https://hiddenlighthouse.wordpress.com/page/\{p}/",
+                    //"https://zproxy.wordpress.com/page/\{p}/"
 
                 })
                 {
@@ -219,10 +220,12 @@ namespace TestYouTubeExtractor
 
                     while (!string.IsNullOrEmpty(page0))
                     {
+                        // <iframe src="//www.youtube.com/embed/umfjGNlxWcw" 
 
-                        var prefix = "https://www.youtube.com/embed/";
+                        var prefix = "//www.youtube.com/embed/";
+                        //var prefix = "https://www.youtube.com/embed/";
                         var embed = page0.SkipUntilOrEmpty(prefix);
-                        var id = embed.TakeUntilOrEmpty("?");
+                        var id = embed.TakeUntilIfAny("\"").TakeUntilIfAny("?");
                         var link = prefix + id;
 
                         page0 = embed.SkipUntilOrEmpty("?");

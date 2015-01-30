@@ -30,8 +30,10 @@ namespace TestHTMLDocumentAnalysis
             var doc = new HtmlAgilityPack.HtmlDocument();
 
             //var origin = new Uri("https://www.youtube.com/playlist?list=PL_2cq1Gbhke8KAbNKEz-HszGqNlqtGfKl");
-            // 
-            var origin = new Uri("https://www.youtube.com/user/TerenceMcKennaTube/videos");
+            //var origin = new Uri("https://www.youtube.com/playlist?list=PLnEcFDjSTr44-TcOqkdyUhjxUbxEfSna7");
+            var origin = new Uri("https://www.youtube.com/playlist?list=PLJPCEZN0IYJak1AqzSWISdRoiwnRyI_BN");
+            //var origin = new Uri("https://www.youtube.com/user/TheSpiritualCatalyst/videos?sort=dd&view=0&flow=list&live_view=500");
+            //var origin = new Uri("https://www.youtube.com/user/TerenceMcKennaTube/videos");
 
             // second take on it
             // we cannot trust blog bost liks.
@@ -73,16 +75,20 @@ namespace TestHTMLDocumentAnalysis
             //the origin has { Length = 64 }
             //groups we could look at
 
-            foreach (var g in hrefList)
-            {
-                //Console.WriteLine(new { g.Key.Host });
 
-                Console.WriteLine(new { g });
+            hrefList.WithEachIndex(
+               (g, gi) =>
+                {
+                    //Console.WriteLine(new { g.Key.Host });
 
-                TestYouTubeExtractor.Program.DoVideo(g.ToString());
-            }
+                    Console.WriteLine(new { gi, count = hrefList.Count(), g });
 
-            Debugger.Break();
+                    TestYouTubeExtractor.Program.DoVideo(g.ToString());
+                }
+
+            );
+
+             Debugger.Break();
         }
     }
 }
