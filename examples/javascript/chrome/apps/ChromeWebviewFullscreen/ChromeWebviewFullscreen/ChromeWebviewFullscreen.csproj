@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6611A1D4-5541-402A-A211-405B02712F89}</ProjectGuid>
+    <ProjectGuid>{76843B5B-EB0A-4E49-8B36-037969E0545F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebGLTiltShift</RootNamespace>
-    <AssemblyName>WebGLTiltShift</AssemblyName>
+    <RootNamespace>ChromeWebviewFullscreen</RootNamespace>
+    <AssemblyName>ChromeWebviewFullscreen</AssemblyName>
     <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>WebGLTiltShift.Program</StartupObject>
+    <StartupObject>ChromeWebviewFullscreen.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -25,7 +25,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -36,7 +35,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Abstractatech.JavaScript.Forms.FloatStyler">
@@ -55,10 +53,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -69,15 +67,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Async">
-      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Extensions">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Query">
       <SpecificVersion>False</SpecificVersion>
@@ -86,6 +78,10 @@
     <Reference Include="ScriptCoreLib.Windows.Forms">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra">
       <SpecificVersion>False</SpecificVersion>
@@ -116,14 +112,13 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="THREE">
-      <HintPath>..\packages\THREE.1.0.0.0\lib\THREE.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -131,72 +126,32 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLTiltShift.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\WebGLTiltShift.AssetsLibrary.dll</HintPath>
+    <Reference Include="ChromeWebviewFullscreen.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ChromeWebviewFullscreen.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLHZBlendCharacter.AssetsLibrary">
-      <HintPath>..\..\WebGLHZBlendCharacter\WebGLHZBlendCharacter\bin\staging.AssetsLibrary\WebGLHZBlendCharacter.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="HeatZeekerRTSOrto.AssetsLibrary">
-      <HintPath>..\..\HeatZeekerRTSOrto\HeatZeekerRTSOrto\bin\staging.AssetsLibrary\HeatZeekerRTSOrto.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="HeatZeekerRTS.AssetsLibrary">
-      <HintPath>..\..\HeatZeekerRTS\HeatZeekerRTS\bin\staging.AssetsLibrary\HeatZeekerRTS.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="WebGLYomotsuTPS.AssetsLibrary">
-      <HintPath>..\..\WebGLYomotsuTPS\WebGLYomotsuTPS\bin\staging.AssetsLibrary\WebGLYomotsuTPS.AssetsLibrary.dll</HintPath>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <Content Include="Design\Default.css" />
-    <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Design\App.css" />
+    <Content Include="Design\App.htm" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="staging\WebGLTiltShift.Application\web\manifest.json">
+    <None Include="staging\ChromeWebviewFullscreen.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\HeatZeekerRTSOrto\HeatZeekerRTSOrto\HeatZeekerRTSOrto.csproj">
-      <Project>{29947aad-0b14-4fb0-a3c3-a51322be2eda}</Project>
-      <Name>HeatZeekerRTSOrto</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\HeatZeekerRTS\HeatZeekerRTS\HeatZeekerRTS.csproj">
-      <Project>{6b5e30b0-a3a4-4e3d-9407-003ff76195f6}</Project>
-      <Name>HeatZeekerRTS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WebGLHZBlendCharacter\WebGLHZBlendCharacter\WebGLHZBlendCharacter.csproj">
-      <Project>{a5de484d-54a0-4418-ad41-84b77f5ae4e8}</Project>
-      <Name>WebGLHZBlendCharacter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WebGLYomotsuTPS\WebGLYomotsuTPS\WebGLYomotsuTPS.csproj">
-      <Project>{4d221d4e-654d-4ae4-89aa-98d35eb70778}</Project>
-      <Name>WebGLYomotsuTPS</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToDev14:true
-)
-
-
-rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false
-
-
-
- start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false
-</PostBuildEvent>
-    <PreBuildEvent>
-
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /xAttachDebugger:true
-
-</PreBuildEvent>
+    <PostBuildEvent>start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false</PostBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
+		            </PreBuildEvent>
   </PropertyGroup>
 </Project>

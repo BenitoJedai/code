@@ -10,13 +10,19 @@ namespace WebGLTiltShift
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public  class ApplicationWebService
+    public class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript. JSC supports string data type for all platforms.</param>
-        /// <param name="y">A callback to javascript. In the future all platforms will allow Action&lt;XElementConvertable&gt; delegates.</param>
+        // jsc java does not yet like roslyn 2015
+
+        //0001 02000178 ScriptCoreLib::ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProvider
+        //script: error JSC1000: Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
+        //internal compiler error at method
+        // assembly: C:\util\jsc\bin\ScriptCoreLib.dll at
+        // type: ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood, ScriptCoreLib, Version=4.6.0.0, Culture=neutral, PublicKeyToken=null
+        // method: CreatePaddedBuffer
+        // Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
+
+
         public void WebMethod2(string e, Action<string> y)
         {
             // Send it back to the caller.

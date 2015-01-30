@@ -26,29 +26,37 @@ namespace WebGLYomotsuTPS
     {
         // inspired by http://yomotsu.github.com/threejs-examples/tps/
 
-//        Create Partial Type: THREE+SkinnedMesh
-//0dc8:01:01 RewriteToAssembly error: System.NotSupportedException: Parent does not have a default constructor.The default constructor must be explicitly defined.
+        //        Create Partial Type: THREE+SkinnedMesh
+        //0dc8:01:01 RewriteToAssembly error: System.NotSupportedException: Parent does not have a default constructor.The default constructor must be explicitly defined.
 
-//020000a1 WebGLYomotsuTPS.HTML.Pages.App
-//        { SourceMethod = WebGLYomotsuTPS.HTML.Pages.App Create() }
-//{ SourceMethod = Void Page_InitializeInternalFontFace() }
-//{ SourceMethod = ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement Initialize_0_htm
-//l(WebGLYomotsuTPS.HTML.Pages.App, ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement
-//) }
-//script: error JSC1000: Method: Initialize_0_html, Type: WebGLYomotsuTPS.HTML.Pag
-//es.App; emmiting failed : System.IndexOutOfRangeException: Index was outside the
-// bounds of the array.
-//   at jsc.ILInstruction.get_TargetParameter() in X:\jsc.internal.git\compiler\js
-//c\CodeModel\ILInstruction.cs:line 1389
-//   at jsc.IL2ScriptGenerator.<>c__DisplayClass4.<CreateInstructionHandlers>b__5(
-//IdentWriter w, Prestatement p, ILInstruction i, ILFlowStackItem[] s) in X:\jsc.i
-//nternal.git\compiler\jsc\Languages\JavaScript\IL2ScriptGenerator.OpCodes.cs:line
-// 54
-//   at jsc.IL2ScriptGenerator.OpCodeHandler(IdentWriter w, Prestatement p, ILInst
-//ruction i, ILFlowStackItem s) in X:\jsc.internal.git\compiler\jsc\Languages\Java
-//Script\IL2ScriptGenerator.cs:line 263
 
-        sealed class motion
+        // compiler needs to be rebuilt under non roslyn?
+
+        //020000a1 WebGLYomotsuTPS.HTML.Pages.App
+        //        { SourceMethod = WebGLYomotsuTPS.HTML.Pages.App Create() }
+        //{ SourceMethod = Void Page_InitializeInternalFontFace() }
+        //{ SourceMethod = ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement Initialize_0_htm
+        //l(WebGLYomotsuTPS.HTML.Pages.App, ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement
+        //) }
+        //script: error JSC1000: Method: Initialize_0_html, Type: WebGLYomotsuTPS.HTML.Pag
+        //es.App; emmiting failed : System.IndexOutOfRangeException: Index was outside the
+        // bounds of the array.
+        //   at jsc.ILInstruction.get_TargetParameter() in X:\jsc.internal.git\compiler\js
+        //c\CodeModel\ILInstruction.cs:line 1389
+        //   at jsc.IL2ScriptGenerator.<>c__DisplayClass4.<CreateInstructionHandlers>b__5(
+        //IdentWriter w, Prestatement p, ILInstruction i, ILFlowStackItem[] s) in X:\jsc.i
+        //nternal.git\compiler\jsc\Languages\JavaScript\IL2ScriptGenerator.OpCodes.cs:line
+        // 54
+        //   at jsc.IL2ScriptGenerator.OpCodeHandler(IdentWriter w, Prestatement p, ILInst
+        //ruction i, ILFlowStackItem s) in X:\jsc.internal.git\compiler\jsc\Languages\Java
+        //Script\IL2ScriptGenerator.cs:line 263
+
+
+
+
+        // X:\jsc.svn\examples\javascript\WebGL\WebGLTiltShift\WebGLTiltShift\Application.cs
+
+        public sealed class motion
         {
             public int min = 0;
             public int max = 39;
@@ -57,7 +65,7 @@ namespace WebGLYomotsuTPS
             public bool action;
         }
 
-        sealed class md2frames
+        public sealed class md2frames
         {
             // first, last, fps
 
@@ -335,10 +343,10 @@ namespace WebGLYomotsuTPS
             var planeGeometry = new THREE.PlaneGeometry(1000, 1000);
             var planeMaterial = new THREE.MeshLambertMaterial(
                 new
-            {
-                map = THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.bg().src),
-                color = 0xffffff
-            }
+                {
+                    map = THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.bg().src),
+                    color = 0xffffff
+                }
             );
 
             planeMaterial.map.repeat.x = 300;
@@ -368,9 +376,9 @@ namespace WebGLYomotsuTPS
 
                 var ii = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(
                     new
-                {
-                    color = (Convert.ToInt32(0xffffff * random.NextDouble()))
-                }));
+                    {
+                        color = (Convert.ToInt32(0xffffff * random.NextDouble()))
+                    }));
                 ii.position.x = i % 2 * 5 - 2.5f;
                 ii.position.y = .5f;
                 ii.position.z = -1 * i * 4;
@@ -395,16 +403,16 @@ namespace WebGLYomotsuTPS
 
             var material = new THREE.MeshPhongMaterial(
                 new
-            {
-                map = THREE.ImageUtils.loadTexture(
+                {
+                    map = THREE.ImageUtils.loadTexture(
                         new HTML.Images.FromAssets._1().src
                     ),
-                ambient = 0x999999,
-                color = 0xffffff,
-                specular = 0xffffff,
-                shininess = 25,
-                morphTargets = true
-            }
+                    ambient = 0x999999,
+                    color = 0xffffff,
+                    specular = 0xffffff,
+                    shininess = 25,
+                    morphTargets = true
+                }
             );
 
 

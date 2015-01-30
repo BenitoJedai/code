@@ -132,30 +132,31 @@ namespace WebGLTiltShift
             #endregion
 
 
-            #region playmusic
-            new { }.With(
-                async delegate
-                {
-                    do
-                    {
-                        var music = new HeatZeekerRTS.HTML.Audio.FromAssets.crickets
-                        {
+            //#region playmusic
+            //new { }.With(
+            //    async delegate
+            //    {
+            //        do
+            //        {
+            //            var music = new HeatZeekerRTS.HTML.Audio.FromAssets.crickets
+            //            {
+            //                volume = 0.1
 
-                            //loop = true,
-                            //controls = true
-                        }.AttachToHead();
+            //                //loop = true,
+            //                //controls = true
+            //            }.AttachToHead();
 
-                        music.play();
+            //            music.play();
 
-                        await music.async.onended;
+            //            await music.async.onended;
 
-                        music.Orphanize();
-                    }
-                    while (true);
-                }
-            );
+            //            music.Orphanize();
+            //        }
+            //        while (true);
+            //    }
+            //);
 
-            #endregion
+            //#endregion
 
 
             double SCREEN_WIDTH = Native.window.Width;
@@ -181,7 +182,7 @@ namespace WebGLTiltShift
             var camera = new THREE.PerspectiveCamera(
 
                 //40,
-                30,
+                20,
                 //10,
 
                 Native.window.aspect, 2,
@@ -290,7 +291,7 @@ namespace WebGLTiltShift
             var geometry = new THREE.CubeGeometry(1, 1, 1);
             var sw = Stopwatch.StartNew();
 
-            for (var i = 1; i < 12; i++)
+            for (var i = 3; i < 9; i++)
             {
 
                 //THREE.MeshPhongMaterial
@@ -402,7 +403,8 @@ namespace WebGLTiltShift
             var hblur = new THREE.ShaderPass(THREE.HorizontalTiltShiftShader);
             var vblur = new THREE.ShaderPass(THREE.VerticalTiltShiftShader);
 
-            var bluriness = 6.0;
+            //var bluriness = 6.0;
+            var bluriness = 4.0;
 
             // Show Details	Severity	Code	Description	Project	File	Line
             //Error CS0656  Missing compiler required member 'Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo.Create' WebGLTiltShift Application.cs  183
@@ -467,14 +469,14 @@ namespace WebGLTiltShift
                     scene.add(cube);
                     //interactiveObjects.Add(cube);
 
+                    // offset is wrong
+                    //while (true)
+                    //{
+                    //    await Native.window.async.onframe;
 
-                    while (true)
-                    {
-                        await Native.window.async.onframe;
+                    //    cube.rotation.y = Math.PI * 0.0002 * sw2.ElapsedMilliseconds;
 
-                        cube.rotation.y = Math.PI * 0.0002 * sw2.ElapsedMilliseconds;
-
-                    }
+                    //}
                 }
             );
             #endregion
@@ -517,6 +519,314 @@ namespace WebGLTiltShift
                  );
             #endregion
 
+
+
+            #region YomotsuTPS
+
+            var material = new THREE.MeshPhongMaterial(
+                          new
+                          {
+                              map = THREE.ImageUtils.loadTexture(
+                                  new WebGLYomotsuTPS.HTML.Images.FromAssets._1().src
+                              ),
+                              ambient = 0x999999,
+                              color = 0xffffff,
+                              specular = 0xffffff,
+                              shininess = 25,
+                              morphTargets = true
+                          }
+                      );
+
+
+
+
+            var loader = new THREE.JSONLoader();
+            var md2frames = new WebGLYomotsuTPS.Application.md2frames();
+
+            var moveState_moving = false;
+            var moveState_front = false;
+            var moveState_Backwards = false;
+            var moveState_left = false;
+            var moveState_right = false;
+            var moveState_speed = 4.0;
+            var moveState_angle = 0.0;
+
+
+
+            var player_motion = default(WebGLYomotsuTPS.Application.motion);
+            loader.load(
+                new global::WebGLYomotsuTPS.Design.droid().Content.src,
+                    IFunction.OfDelegate(
+                        new Action<object>(
+                            xgeometry =>
+                            {
+                                var md2meshBody = new THREE.MorphAnimMesh(xgeometry, material);
+
+                                // raise it up
+                                md2meshBody.position.y = 100;
+
+                                md2meshBody.rotation.y = (float)(-Math.PI / 2);
+                                //md2meshBody.scale.set(.02, .02, .02);
+                                md2meshBody.scale.set(4, 4, 4);
+                                md2meshBody.castShadow = true;
+                                //md2meshBody.receiveShadow = false;
+
+                                #region player_motion
+                                Action<WebGLYomotsuTPS.Application.motion> player_changeMotion = motion =>
+                                {
+                                    //Console.WriteLine(
+                                    //    new { motion, md2frames.run, md2frames.stand });
+
+                                    player_motion = motion;
+
+                                    //    player.state = md2frames[motion][3].state;
+
+                                    var animMin = motion.min;
+                                    var animMax = motion.max;
+                                    var animFps = motion.fps;
+
+                                    md2meshBody.time = 0;
+                                    md2meshBody.duration = (int)(
+                                        1000 * ((animMax - animMin) / (double)animFps)
+                                    );
+                                    Native.document.title = new { animMin, animMax }.ToString();
+
+                                    md2meshBody.setFrameRange(animMin, animMax);
+                                };
+
+                                player_changeMotion(md2frames.stand);
+                                #endregion
+
+
+                                #region move
+                                Action move = delegate
+                                {
+                                    //            if(player.model.motion !== 'run' && player.model.state === 'stand'){
+
+                                    //    changeMotion('run');
+
+                                    //}
+
+                                    //if(player.model.motion !== 'crwalk' && player.model.state === 'crstand'){
+
+                                    //    changeMotion('crwalk');
+
+                                    //}
+
+                                    var speed = moveState_speed;
+
+                                    //if(player.model.state === 'crstand'){speed *= .5;}
+
+                                    //if(player.model.state === 'freeze') {speed *= 0;}
+
+
+
+                                    var direction = moveState_angle;
+
+                                    if (moveState_front && !moveState_left && !moveState_Backwards && !moveState_right) { direction += 0; }
+                                    if (moveState_front && moveState_left && !moveState_Backwards && !moveState_right) { direction += 45; }
+                                    if (!moveState_front && moveState_left && !moveState_Backwards && !moveState_right) { direction += 90; }
+                                    if (!moveState_front && moveState_left && moveState_Backwards && !moveState_right) { direction += 135; }
+                                    if (!moveState_front && !moveState_left && moveState_Backwards && !moveState_right) { direction += 180; }
+                                    if (!moveState_front && !moveState_left && moveState_Backwards && moveState_right) { direction += 225; }
+                                    if (!moveState_front && !moveState_left && !moveState_Backwards && moveState_right) { direction += 270; }
+                                    if (moveState_front && !moveState_left && !moveState_Backwards && moveState_right) { direction += 315; }
+
+
+
+                                    md2meshBody.rotation.y = (float)((direction - 90) * Math.PI / 180);
+
+                                    md2meshBody.position.x -= (float)(Math.Sin(direction * Math.PI / 180.0) * speed * 10);
+                                    md2meshBody.position.z -= (float)(Math.Cos(direction * Math.PI / 180.0) * speed * 10);
+
+                                };
+                                #endregion
+
+
+                                //scene.add(player_model_objects);
+                                //player_model_objects.add(md2meshBody);
+                                scene.add(md2meshBody);
+
+                                #region onkeydown
+                                Native.document.onkeydown +=
+                                    e =>
+                                    {
+                                        if (e.KeyCode == 67)
+                                        {
+                                            if (player_motion == md2frames.stand)
+                                                player_changeMotion(md2frames.crstand);
+                                            else if (player_motion == md2frames.crstand)
+                                                player_changeMotion(md2frames.stand);
+
+                                        }
+                                        else if (e.KeyCode == 87)
+                                        {
+                                            moveState_front = true;
+                                            moveState_Backwards = false;
+                                        }
+                                        else if (e.KeyCode == 83)
+                                        {
+                                            moveState_front = false;
+                                            moveState_Backwards = true;
+                                        }
+                                        else if (e.KeyCode == 65)
+                                        {
+                                            moveState_left = true;
+                                            moveState_right = false;
+                                        }
+                                        else if (e.KeyCode == 68)
+                                        {
+                                            moveState_left = false;
+                                            moveState_right = true;
+                                        }
+
+                                        var isStand = player_motion == md2frames.stand;
+                                        Console.WriteLine(
+                                            new { e.KeyCode, moveState_front, moveState_Backwards, isStand }
+                                            );
+
+                                        if (moveState_front || moveState_Backwards || moveState_left || moveState_right)
+                                            if (player_motion == md2frames.stand)
+                                                player_changeMotion(md2frames.run);
+                                            else if (player_motion == md2frames.crstand)
+                                                player_changeMotion(md2frames.crwalk);
+                                    };
+                                #endregion
+
+                                #region onkeyup
+                                Native.document.onkeyup +=
+                                    e =>
+                                    {
+                                        if (e.KeyCode == 87)
+                                        {
+                                            moveState_front = false;
+                                        }
+                                        else if (e.KeyCode == 83)
+                                        {
+                                            moveState_Backwards = false;
+                                        }
+                                        else if (e.KeyCode == 65)
+                                        {
+                                            moveState_left = false;
+                                        }
+                                        else if (e.KeyCode == 68)
+                                        {
+                                            moveState_right = false;
+                                        }
+
+                                    };
+                                #endregion
+
+
+
+
+                                #region loop
+
+                                var yclock = Stopwatch.StartNew();
+
+                                Native.window.onframe += delegate
+                                {
+                                    if (moveState_front || moveState_Backwards || moveState_left || moveState_right)
+                                    {
+                                        move();
+                                    }
+                                    else
+                                        if (player_motion == md2frames.run)
+                                        player_changeMotion(md2frames.stand);
+                                    else if (player_motion == md2frames.crwalk)
+                                        player_changeMotion(md2frames.crstand);
+
+
+
+                                    //player_model_objects.position.x = player_position_x;
+                                    //player_model_objects.position.y = player_position_y;
+                                    //player_model_objects.position.z = player_position_z;
+
+
+                                    #region model animation
+
+                                    var delta = yclock.ElapsedMilliseconds * 0.001;
+                                    yclock.Restart();
+
+                                    var isEndFleame = (player_motion.max == md2meshBody.currentKeyframe);
+                                    var isAction = player_motion.action;
+
+                                    var x = (isAction && !isEndFleame);
+
+                                    if (!isAction || x)
+                                    {
+                                        md2meshBody.updateAnimation(1000 * delta);
+                                    }
+                                    else if (player_motion.state == "freeze")
+                                    {
+                                        //dead...
+                                    }
+                                    else
+                                    {
+                                        player_changeMotion(player_motion);
+                                    }
+                                    #endregion
+
+                                    //renderer.render(scene, camera);
+
+
+                                };
+
+                                #endregion
+                            }
+                        )));
+
+
+            #endregion
+
+
+            Console.WriteLine("? awaiting to go fullscreen");
+
+            Action requestFullscreen = Native.document.body.requestFullscreen;
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
+
+            // webview virtual dispatch
+            Native.window.onmessage +=
+                e =>
+                {
+                    //await contentWindow.postMessageAsync("virtual webview.requestFullscreen");
+                    // X:\jsc.svn\examples\javascript\chrome\apps\ChromeWebviewFullscreen\ChromeWebviewFullscreen\Application.cs
+
+                    if (e.data == "virtual webview.requestFullscreen")
+                    {
+                        requestFullscreen = delegate
+                        {
+                            Console.WriteLine("requestFullscreen");
+                            //e.ports.
+
+                            //e.ports.WithEach
+                            e.postMessage("requestFullscreen");
+                        };
+
+                        return;
+                    }
+
+                    // ???
+                    Native.document.body.innerText = new { e.data }.ToString();
+
+                    //await contentWindow.postMessageAsync("virtual webview.requestFullscreen");
+                };
+
+
+            #region onkeyup
+            Native.document.onkeyup +=
+                e =>
+                {
+                    if (e.KeyCode == (int)System.Windows.Forms.Keys.F)
+                    {
+                        requestFullscreen();
+                    }
+
+                };
+            #endregion
+
+
+
             var controls = new THREE.OrbitControls(camera);
 
             Native.window.onframe +=
@@ -545,6 +855,9 @@ namespace WebGLTiltShift
                     composer.render(0.1);
                 };
 
+
+
+            #region onresize
             new { }.With(
                 async delegate
                 {
@@ -569,6 +882,9 @@ namespace WebGLTiltShift
 
                 }
             );
+            #endregion
+
+
         }
 
 

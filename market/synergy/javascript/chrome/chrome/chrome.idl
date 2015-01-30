@@ -288,10 +288,16 @@ interface chrome.AppWindow
 	
 	// chromium idl seems to mark em static?
 	void focus();
+
 	void fullscreen();
+	boolean isFullscreen();
+
+	void restore();
+
+
 	void minimize();
 	void maximize();
-	void restore();
+
 	// param naming?
 	void moveTo(int x, int y);
 	void resizeTo(int width, int height);
