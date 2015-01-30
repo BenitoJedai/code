@@ -11,4 +11,5 @@ interface THREE.EffectComposer
 	void addPass(any e);
 	void render(double e);
 
+	void setSize(long width, long height);
 };

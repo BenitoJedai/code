@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 
 namespace WebGLTiltShift
 {
+    using ScriptCoreLib.JavaScript.DOM.SVG;
     using System.Diagnostics;
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
@@ -33,6 +34,8 @@ namespace WebGLTiltShift
     {
         // inspired by http://alteredqualia.com/three/examples/webgl_terrain_dynamic.html
 
+        // Invalid version number in manifest: 40. Please make sure the newly uploaded package has a larger version in file manifest.json than the published package: 40.
+
         public Application(IDefault page = null)
         {
             // X:\opensource\github\three.js
@@ -40,9 +43,120 @@ namespace WebGLTiltShift
 
             // http://stackoverflow.com/questions/21673278/three-js-error-when-applying-texture
 
+            //#if !DEBUG
+            #region += Launched chrome.app.window
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                // could we change the color of the window?
+
+                // https://developer.chrome.com/apps/manifest/icons
+                chrome.Notification.DefaultIconUrl = new WebGLHZBlendCharacter.HTML.Images.FromAssets.x128().src;
+
+                Console.WriteLine("invoke TheServerWithAppWindow.Invoke");
+                ChromeTCPServer.TheServerWithAppWindow.Invoke(WebGLTiltShift.HTML.Pages.DefaultSource.Text);
+
+                return;
+            }
+            #endregion
+            //#endif
+
             Native.document.body.style.margin = "0px";
             Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             Native.document.body.Clear();
+
+
+
+
+            #region svg cursor
+            new IXMLHttpRequest(ScriptCoreLib.Shared.HTTPMethodEnum.GET,
+                 new HeatZeekerRTS.HTML.Images.FromAssets.MyCursor().src,
+                 r =>
+                 {
+                     // public static XElement AsXElement(this IElement e);
+                     var svg = (ISVGSVGElement)(IElement)(r.responseXML.documentElement);
+
+
+                     var cursor1 = svg.AsXElement();
+
+
+
+
+                     cursor1
+                         .Elements("g")
+                         .Elements("path")
+                         .Where(x => x.Attribute("id").Value == "path2985")
+                         .WithEach(
+                             path =>
+                                 path.Attribute("style").Value = path.Attribute("style").Value.Replace("fill:#ffff00;", "fill:#00ff00;")
+                         );
+
+                     cursor1
+                         .Elements("g")
+                         .Elements("path")
+                         .Where(x => x.Attribute("id").Value == "path2985-1")
+                         .WithEach(
+                             path =>
+                                 path.Attribute("style").Value = path.Attribute("style").Value.Replace("fill:#d9d900;", "fill:#00df00;")
+                         );
+
+                     //.AttachToDocument();
+
+                     Native.css.style.cursorImage = svg;
+
+
+                     // this wont work no more?
+                     new IStyle(Native.css[IHTMLElement.HTMLElementEnum.div].hover)
+                     {
+                         // last change was abut adding pointer
+                         // jsc jit could atleast let us know how it looks like
+                         //cursor = IStyle.CursorEnum.pointer
+
+                         //cursorImage = new MyCursor()
+                     };
+
+                     //Native.document.documentElement.style.cursorImage = svg;
+                     //Native.document.documentElement.style.cursorImage = cursor1;
+                     //Native.document.documentElement.style.cursorElement = cursor1;
+                     //Native.document.documentElement.style.cursorElement = cursor1.AsHTMLElement();
+
+                     //public static IHTMLElement AttachToDocument(this XElement e);
+
+                     //.AttachToHead();
+                 }
+            );
+            #endregion
+
+
+            #region playmusic
+            new { }.With(
+                async delegate
+                {
+                    do
+                    {
+                        var music = new HeatZeekerRTS.HTML.Audio.FromAssets.crickets
+                        {
+
+                            //loop = true,
+                            //controls = true
+                        }.AttachToHead();
+
+                        music.play();
+
+                        await music.async.onended;
+
+                        music.Orphanize();
+                    }
+                    while (true);
+                }
+            );
+
+            #endregion
+
 
             double SCREEN_WIDTH = Native.window.Width;
             double SCREEN_HEIGHT = Native.window.Height;
@@ -66,7 +180,8 @@ namespace WebGLTiltShift
             var scene = new THREE.Scene();
             var camera = new THREE.PerspectiveCamera(
 
-                40,
+                //40,
+                30,
                 //10,
 
                 Native.window.aspect, 2,
@@ -94,14 +209,15 @@ namespace WebGLTiltShift
             scene.add(new THREE.AmbientLight(0xffffff));
 
 
-            var light = new THREE.DirectionalLight(0xffffff, 1.0);
+            //var light = new THREE.DirectionalLight(0xffffff, 1.0);
+            var light = new THREE.DirectionalLight(0xffffff, 2.5);
             //var light = new THREE.DirectionalLight(0xffffff, 2.5);
             //var light = new THREE.DirectionalLight(0xffffff, 1.5);
             //var lightOffset = new THREE.Vector3(0, 1000, 2500.0);
             var lightOffset = new THREE.Vector3(
-                2000, 
+                2000,
                 700,
-                
+
                 // lower makes longer shadows 
                 700.0
                 );
@@ -128,7 +244,17 @@ namespace WebGLTiltShift
             scene.add(light);
 
 
-            var renderer = new THREE.WebGLRenderer(new { antialias = true });
+            var renderer = new THREE.WebGLRenderer(
+                new
+                {
+
+                    // http://stackoverflow.com/questions/20495302/transparent-background-with-three-js
+                    alpha = true,
+                    preserveDrawingBuffer = true,
+                    antialias = true
+                }
+
+                );
             renderer.setSize(Native.window.Width, Native.window.Height);
             renderer.domElement.AttachToDocument();
             renderer.shadowMapEnabled = true;
@@ -216,7 +342,7 @@ namespace WebGLTiltShift
 
                             // raise it up
                             //blendMesh.position.y = .5f * 100;
-                            blendMesh.position.z = -1 * _i *100;
+                            blendMesh.position.z = -1 * _i * 100;
 
 
                             var xtrue = true;
@@ -255,13 +381,15 @@ namespace WebGLTiltShift
 
 
             // "X:\opensource\github\three.js\examples\js\shaders\VerticalTiltShiftShader.js"
+            // http://stackoverflow.com/questions/20899326/how-do-i-stop-effectcomposer-from-destroying-my-transparent-background
 
-            var renderTarget = new THREE.WebGLRenderTarget((int)SCREEN_WIDTH, (int)SCREEN_HEIGHT,
+            var renderTarget = new THREE.WebGLRenderTarget(
+                        Native.window.Width, Native.window.Height,
                 new
                 {
                     minFilter = THREE.LinearFilter,
                     magFilter = THREE.LinearFilter,
-                    format = THREE.RGBFormat,
+                    format = THREE.RGBAFormat,
                     stencilBufer = false
                 }
             );
@@ -274,13 +402,13 @@ namespace WebGLTiltShift
             var hblur = new THREE.ShaderPass(THREE.HorizontalTiltShiftShader);
             var vblur = new THREE.ShaderPass(THREE.VerticalTiltShiftShader);
 
-            var bluriness = 6;
+            var bluriness = 6.0;
 
             // Show Details	Severity	Code	Description	Project	File	Line
             //Error CS0656  Missing compiler required member 'Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo.Create' WebGLTiltShift Application.cs  183
 
-            (hblur.uniforms as dynamic).h.value = bluriness / SCREEN_WIDTH;
-            (vblur.uniforms as dynamic).v.value = bluriness / SCREEN_HEIGHT;
+            (hblur.uniforms as dynamic).h.value = bluriness / Native.window.Width;
+            (vblur.uniforms as dynamic).v.value = bluriness / Native.window.Height;
 
             (hblur.uniforms as dynamic).r.value = 0.5;
             (vblur.uniforms as dynamic).r.value = 0.5;
@@ -423,9 +551,17 @@ namespace WebGLTiltShift
                     //while (true)
                     do
                     {
+                        // wont really work yet?
+                        renderer.setSize(Native.window.Width, Native.window.Height);
+                        renderTarget.setSize(Native.window.Width, Native.window.Height);
+                        composer.setSize(Native.window.Width, Native.window.Height);
+
+                        (hblur.uniforms as dynamic).h.value = bluriness / Native.window.Width;
+                        (vblur.uniforms as dynamic).v.value = bluriness / Native.window.Height;
+
+
                         camera.aspect = Native.window.aspect;
                         camera.updateProjectionMatrix();
-                        renderer.setSize(Native.window.Width, Native.window.Height);
 
                         // convert to bool?
                     } while (await Native.window.async.onresize);

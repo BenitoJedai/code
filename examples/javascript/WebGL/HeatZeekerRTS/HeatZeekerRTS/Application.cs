@@ -165,13 +165,15 @@ namespace HeatZeekerRTS
 
                     Native.css.style.cursorImage = svg;
 
+
+                    // this wont work no more?
                     new IStyle(Native.css[IHTMLElement.HTMLElementEnum.div].hover)
                     {
                         // last change was abut adding pointer
                         // jsc jit could atleast let us know how it looks like
                         //cursor = IStyle.CursorEnum.pointer
 
-                        cursorImage = new MyCursor()
+                        //cursorImage = new MyCursor()
                     };
 
                     //Native.document.documentElement.style.cursorImage = svg;

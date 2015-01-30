@@ -47,7 +47,7 @@ interface THREE
 	// X:\jsc.svn\market\synergy\THREE\THREE\opensource\gihtub\three.js\build\shaders\THREE.VerticalTiltShiftShader.idl
 	static attribute THREE.VerticalTiltShiftShaderType VerticalTiltShiftShader;
 
-	
+
 
 	// X:\jsc.svn\market\synergy\THREE\THREE\opensource\gihtub\three.js\build\shaders\THREE.CopyShader.idl
 	static attribute THREE.CopyShaderType CopyShader;
@@ -66,6 +66,9 @@ interface THREE
 
 	static attribute long LinearFilter;
 	static attribute long RGBFormat;
+
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLTiltShift\WebGLTiltShift\Application.cs
+	static attribute long RGBAFormat;
 
 
 	// blending modes
@@ -688,6 +691,11 @@ interface THREE.WebGLRenderer
 [Constructor(long width, long height, any options)]
 interface THREE.WebGLRenderTarget
 {
+	// since jsc can parse IDL, we could
+	// start inserting ref comments here?
+	// referenced by:
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLTiltShift\WebGLTiltShift\Application.cs
+	void setSize(long width, long height);
 };
 
 [Constructor(), Constructor(any args)]

@@ -39,6 +39,18 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.JavaScript.Forms.FloatStyler">
+      <HintPath>..\packages\Abstractatech.JavaScript.Forms.FloatStyler.1.0.0.0\lib\Abstractatech.JavaScript.Forms.FloatStyler.dll</HintPath>
+    </Reference>
+    <Reference Include="Chrome Web Server">
+      <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Chrome Web Server App Window">
+      <HintPath>..\packages\Chrome.Web.Server.AppWindow.1.0.0.0\lib\Chrome Web Server App Window.dll</HintPath>
+    </Reference>
+    <Reference Include="Chrome Web Store">
+      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -56,6 +68,9 @@
     <Reference Include="ScriptCoreLib">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <SpecificVersion>False</SpecificVersion>
@@ -125,10 +140,12 @@
     <Reference Include="HeatZeekerRTSOrto.AssetsLibrary">
       <HintPath>..\..\HeatZeekerRTSOrto\HeatZeekerRTSOrto\bin\staging.AssetsLibrary\HeatZeekerRTSOrto.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="HeatZeekerRTS.AssetsLibrary">
+      <HintPath>..\..\HeatZeekerRTS\HeatZeekerRTS\bin\staging.AssetsLibrary\HeatZeekerRTS.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Content Include="Design\Preview.png" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,11 +155,18 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <None Include="packages.config" />
+    <None Include="staging\WebGLTiltShift.Application\web\manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\HeatZeekerRTSOrto\HeatZeekerRTSOrto\HeatZeekerRTSOrto.csproj">
       <Project>{29947aad-0b14-4fb0-a3c3-a51322be2eda}</Project>
       <Name>HeatZeekerRTSOrto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\HeatZeekerRTS\HeatZeekerRTS\HeatZeekerRTS.csproj">
+      <Project>{6b5e30b0-a3a4-4e3d-9407-003ff76195f6}</Project>
+      <Name>HeatZeekerRTS</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WebGLHZBlendCharacter\WebGLHZBlendCharacter\WebGLHZBlendCharacter.csproj">
       <Project>{a5de484d-54a0-4418-ad41-84b77f5ae4e8}</Project>
@@ -155,9 +179,7 @@
 start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToDev14:true
 )
 
-if $(ConfigurationName)==Release (
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false  /FilterTo:$(SolutionDir)
-)</PostBuildEvent>
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false</PostBuildEvent>
     <PreBuildEvent>
 
 start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /xAttachDebugger:true
