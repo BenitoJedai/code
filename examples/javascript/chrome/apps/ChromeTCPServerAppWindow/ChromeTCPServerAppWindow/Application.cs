@@ -21,6 +21,8 @@ using System.Windows.Forms;
 
 namespace ChromeTCPServer
 {
+
+
     // http://www.snip2code.com/Snippet/19734/Visual-studio-intellisense-file-for-chro
     [Script(HasNoPrototype = true)]
     class xPointerLockPermissionRequest
@@ -35,6 +37,15 @@ namespace ChromeTCPServer
 
     public static class TheServerWithAppWindow
     {
+
+        //        script: error JSC1000: *** stack is empty, invalid pop?
+        //script: error JSC1000: error at ChromeTCPServer.TheServerWithAppWindow+<>c__DisplayClass8+<<Invoke>b__13>d__0+<MoveNext>06000022.<008a> ldloca.s.try,
+        // assembly: W:\ChromeTCPServerAppWindow.Application.exe
+        // type: ChromeTCPServer.TheServerWithAppWindow+<>c__DisplayClass8+<<Invoke>b__13>d__0+<MoveNext>06000022, ChromeTCPServerAppWindow.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        // offset: 0x0036
+        //  method:Int32<008a> ldloca.s.try(<MoveNext>06000022, <<Invoke>b__13>d__0 ByRef, System.Runtime.CompilerServices.TaskAwaiter ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[ScriptCoreLib.JavaScript.DOM.MessageEvent] ByRef)
+
+
         public static void Invoke(
             string AppSource
         )
@@ -53,15 +64,59 @@ namespace ChromeTCPServer
                     // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
                     webview.setAttribute("partition", "p1");
                     webview.setAttribute("allowtransparency", "true");
+
+                    // wont work?
+                    // http://stackoverflow.com/questions/25421586/webview-in-chrome-packaged-app-cannot-be-full-screen
                     webview.setAttribute("allowfullscreen", "true");
 
                     webview.style.Opacity = 0.0;
 
 
+                    // 2012 for web faults..
+                    // 2012 for desktop faults..
+                    // 2013 for web works. roslynctp 0.5
+
                     webview.addEventListener("loadstop", async e =>
                              {
                                  Console.WriteLine("loadstop");
                                  // prevent showing white while loading...
+
+                   
+
+                                 // http://stackoverflow.com/questions/21624897/how-can-a-chrome-packaged-app-interact-with-a-webview-listen-to-events-fired-fr
+
+                                 IWindow contentWindow = (webview as dynamic).contentWindow;
+
+                                 // https://groups.google.com/a/chromium.org/forum/#!topic/chromium-apps/gOKDKDk99pQ
+                                 // X:\jsc.svn\examples\javascript\WebGL\WebGLTiltShift\WebGLTiltShift\Application.cs
+                                 // X:\jsc.svn\examples\javascript\chrome\apps\ChromeWebviewFullscreen\ChromeWebviewFullscreen\Application.cs
+
+                                 // this will break the async even for roslyn ctp 0.5
+
+                                 new { }.With(
+                                     async delegate
+                                 {
+                                 retry:
+                                 {
+                                     Console.WriteLine("awaiting to go fullscreen");
+
+                                     await contentWindow.postMessageAsync("virtual webview.requestFullscreen");
+
+                                     Console.WriteLine("awaiting to go fullscreen. go!");
+
+
+                                     // this makes webview reload. thats bad.
+                                     //that.FindForm().FormBorderStyle = FormBorderStyle.None;
+
+
+                                     // http://stackoverflow.com/questions/15451888/how-can-i-make-a-chrome-packaged-app-which-runs-in-fullscreen-at-startup
+                                     chrome.app.window.current().fullscreen();
+                                     //webview.requestFullscreen();
+                                     goto retry;
+                                 }
+                                 }
+                                 );
+
 
                                  await Task.Delay(100);
 
@@ -191,6 +246,18 @@ namespace ChromeTCPServer
                 );
 
 
+                f.FormClosing +=
+                    (sender, e) =>
+                    {
+                        // X:\jsc.svn\examples\javascript\chrome\apps\ChromeWebviewFullscreen\ChromeWebviewFullscreen\Application.cs
+                        if (chrome.app.window.current().isFullscreen())
+                        {
+                            e.Cancel = true;
+
+                            chrome.app.window.current().restore();
+                            return;
+                        }
+                    };
 
                 f.FormClosed +=
                     delegate
@@ -231,6 +298,17 @@ namespace ChromeTCPServer
                 Native.window.onresize +=
                     delegate
                 {
+                    if (chrome.app.window.current().isFullscreen())
+                    {
+                        f.SizeGripStyle = SizeGripStyle.Hide;
+                        f.SizeTo(
+                     Native.window.Width,
+                     Native.window.Height
+                 );
+                        return;
+                    }
+
+                    f.SizeGripStyle = SizeGripStyle.Auto;
                     // outer frame is resized
                     f.SizeTo(
                         Native.window.Width - ShadowRightBottom,
