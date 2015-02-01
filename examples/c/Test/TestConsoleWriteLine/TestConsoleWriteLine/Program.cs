@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ScriptCoreLib;
+using ScriptCoreLib.C;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -15,9 +17,34 @@ namespace TestConsoleWriteLine
         // can we compile a .lib into us?
         // can we compile us into .lib?
 
-        static void Main(string[] args)
+        static void xMain(string[] args)
         {
-            ScriptCoreLibNative.SystemHeaders.stdio_h.puts("hello");
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150201
+
+            ScriptCoreLibNative.SystemHeaders.stdio_h.puts("hello. Enable native code debugging");
+
+            // http://stackoverflow.com/questions/4532457/program-and-debugger-quit-without-indication-of-problem
+            __debugbreak();
+
+            //http://www.viva64.com/en/k/0035/
+
+        }
+
+        [Script(OptimizedCode = "__debugbreak();")]
+        static void __debugbreak()
+        {
+        }
+
+        // void TestConsoleWriteLine_Program_TheExport1(void);
+
+
+        // [System.Runtime.InteropServices.DllImport]
+        [DllExport]
+        static long TheExport1()
+        {
+            xMain(null);
+
+            return 64;
         }
     }
 }
