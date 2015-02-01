@@ -33,11 +33,21 @@ namespace WebGLTiltShift
     public sealed class Application : ApplicationWebService
     {
         // inspired by http://alteredqualia.com/three/examples/webgl_terrain_dynamic.html
+        // http://alteredqualia.com/three/examples/webgl_morphtargets_md2_control.html
 
         // Invalid version number in manifest: 40. Please make sure the newly uploaded package has a larger version in file manifest.json than the published package: 40.
 
         public Application(IDefault page = null)
         {
+            // vr view, isometric view
+            // http://skycraft.io/
+            // http://www.mark-lundin.com/box/inception/
+
+            // running as android tab
+            //            I / chromium(25513): [INFO: CONSOLE(88580)] "THREE.WebGLRenderer", source: http://192.168.43.7:25796/view-source (88580)
+            //I/chromium(25513): [INFO: CONSOLE(88791)] "Error creating WebGL context.", source: http://192.168.43.7:25796/view-source (88791)
+            //I/chromium(25513): [INFO: CONSOLE(88795)] "Uncaught TypeError: Cannot read property 'getShaderPrecisionFormat' of null", source: http://192.168.43.7:25796/view-source (88795)
+
             // X:\opensource\github\three.js
             // WEBGL_compressed_texture_pvrtc extension not supported.
 
@@ -48,19 +58,26 @@ namespace WebGLTiltShift
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
-            object self_chrome_socket = self_chrome.socket;
 
-            if (self_chrome_socket != null)
+            // I/chromium(18051): [INFO:CONSOLE(36608)] "Uncaught TypeError: Cannot read property 'socket' of undefined", source: http://192.168.43.7:24445/view-source (36608)
+
+            if ((object)self_chrome != null)
             {
-                // could we change the color of the window?
+                object self_chrome_socket = self_chrome.socket;
 
-                // https://developer.chrome.com/apps/manifest/icons
-                chrome.Notification.DefaultIconUrl = new WebGLHZBlendCharacter.HTML.Images.FromAssets.x128().src;
+                if (self_chrome_socket != null)
+                {
+                    // could we change the color of the window?
 
-                Console.WriteLine("invoke TheServerWithAppWindow.Invoke");
-                ChromeTCPServer.TheServerWithAppWindow.Invoke(WebGLTiltShift.HTML.Pages.DefaultSource.Text);
+                    // https://developer.chrome.com/apps/manifest/icons
+                    chrome.Notification.DefaultIconUrl = new WebGLHZBlendCharacter.HTML.Images.FromAssets.x128().src;
 
-                return;
+                    Console.WriteLine("invoke TheServerWithAppWindow.Invoke");
+                    ChromeTCPServer.TheServerWithAppWindow.Invoke(WebGLTiltShift.HTML.Pages.DefaultSource.Text);
+
+                    return;
+                }
+
             }
             #endregion
             //#endif
