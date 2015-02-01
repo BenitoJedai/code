@@ -14,6 +14,7 @@ using System.Text;
 using System.Xml.Linq;
 using WebGLBossHarvesterByOutsideOfSociety.Design;
 using WebGLBossHarvesterByOutsideOfSociety.HTML.Pages;
+using System.Diagnostics;
 
 namespace WebGLBossHarvesterByOutsideOfSociety
 {
@@ -31,6 +32,8 @@ namespace WebGLBossHarvesterByOutsideOfSociety
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
+            var sw = Stopwatch.StartNew();
+
             // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLMD2MorphtargetExample\WebGLMD2MorphtargetExample\Application.cs
 
             Console.WriteLine("before three");
@@ -71,7 +74,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
             // renderer
             var renderer = new THREE.WebGLRenderer(new { antialias = true });
-            renderer.setClearColorHex(0x000000);
+            //renderer.setClearColorHex(0x000000);
 
             renderer.domElement.AttachToDocument();
 
@@ -109,15 +112,15 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
 
                         object geometry_animation = geometry.animation;
-                        THREE.AnimationHandler.add(geometry_animation);
+                        //THREE.AnimationHandler.add(geometry_animation);
 
-                        var animation = new THREE.Animation(skin, "walk1");
-                        animation.play();
+                        //var animation = new THREE.Animation(skin, "walk1");
+                        //animation.play();
 
                         skin.rotation.x = -Math.PI / 2;
                         skin.rotation.z = -Math.PI / 2;
 
-
+                        // view-source:http://threejs.org/examples/webgl_animation_skinning_morph.html
                         var boneArray = new Dictionary<int, THREE.Mesh>();
 
 
@@ -131,36 +134,36 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                         var index = 0;
                         var pmaterial = new THREE.MeshPhongMaterial(new { color = 0xff0000 });
 
-                        for (var b = 1; b != skin.bones.Length; b++)
-                        {
+                        //for (var b = 1; b != skin.bones.Length; b++)
+                        //{
 
-                            var bone = skin.bones[b];
+                        //    var bone = skin.bones[b];
 
-                            var nc = bone.children.Length;
+                        //    var nc = bone.children.Length;
 
-                            for (var c = 0; c != nc; c++)
-                            {
-                                var child = bone.children[c];
+                        //    for (var c = 0; c != nc; c++)
+                        //    {
+                        //        var child = bone.children[c];
 
-                                var size = Math.Min(child.position.length() * 0.05, 8);
+                        //        var size = Math.Min(child.position.length() * 0.05, 8);
 
-                                var cylinder = new THREE.CylinderGeometry(size, 0.1, child.position.length(), 6);
+                        //        var cylinder = new THREE.CylinderGeometry(size, 0.1, child.position.length(), 6);
 
-                                // ERROR: Matrix's .makeRotationFromEuler() now expects a Euler rotation rather than a Vector3 and order.  Please update your code.
-                                cylinder.applyMatrix(
-                                    new THREE.Matrix4().makeRotationFromEuler(
-                                       new THREE.Euler(Math.PI / 2, 0, 0)
-                                    )
-                                );
+                        //        // ERROR: Matrix's .makeRotationFromEuler() now expects a Euler rotation rather than a Vector3 and order.  Please update your code.
+                        //        cylinder.applyMatrix(
+                        //            new THREE.Matrix4().makeRotationFromEuler(
+                        //               new THREE.Euler(Math.PI / 2, 0, 0)
+                        //            )
+                        //        );
 
-                                cylinder.applyMatrix(new THREE.Matrix4().setPosition(new THREE.Vector3(0, 0, 0.5 * child.position.length())));
-                                var mesh = new THREE.Mesh(cylinder, pmaterial);
+                        //        cylinder.applyMatrix(new THREE.Matrix4().setPosition(new THREE.Vector3(0, 0, 0.5 * child.position.length())));
+                        //        var mesh = new THREE.Mesh(cylinder, pmaterial);
 
-                                boneArray[child.id] = mesh;
-                                boneContainer.add(mesh);
-                            }
+                        //        boneArray[child.id] = mesh;
+                        //        boneContainer.add(mesh);
+                        //    }
 
-                        }
+                        //}
 
 
 
@@ -190,36 +193,37 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
 
 
+                            // does not exist?
+                            //for (var b = 1; b != skin.bones.Length; b++)
+                            //{
 
-                            for (var b = 1; b != skin.bones.Length; b++)
-                            {
+                            //    var bone = skin.bones[b];
+                            //    var nc = bone.children.Length;
 
-                                var bone = skin.bones[b];
-                                var nc = bone.children.Length;
+                            //    for (var c = 0; c != nc; c++)
+                            //    {
 
-                                for (var c = 0; c != nc; c++)
-                                {
+                            //        var child = bone.children[c];
+                            //        var child_bone = (THREE.Bone)(object)child;
+                            //        var id = child.id;
+                            //        var mesh = boneArray[id];
 
-                                    var child = bone.children[c];
-                                    var child_bone = (THREE.Bone)(object)child;
-                                    var id = child.id;
-                                    var mesh = boneArray[id];
+                            //        positionVector.getPositionFromMatrix(child_bone.skinMatrix);
+                            //        mesh.position.copy(positionVector);
 
-                                    positionVector.getPositionFromMatrix(child_bone.skinMatrix);
-                                    mesh.position.copy(positionVector);
+                            //        var child_parent_bone = (THREE.Bone)(object)child.parent;
+                            //        lookVector.getPositionFromMatrix(child_parent_bone.skinMatrix);
+                            //        mesh.lookAt(lookVector);
 
-                                    var child_parent_bone = (THREE.Bone)(object)child.parent;
-                                    lookVector.getPositionFromMatrix(child_parent_bone.skinMatrix);
-                                    mesh.lookAt(lookVector);
+                            //    }
 
-                                }
-
-                            }
+                            //}
 
 
                             boneContainer.position.z = skin.position.z;
 
-                            var frame = (int)Math.Floor(animation.currentTime * 24.0);
+                            //var frame = (int)Math.Floor(animation.currentTime * 24.0);
+                            var frame = (int)Math.Floor(sw.ElapsedMilliseconds * 24.0);
 
                             if (frame >= 0 && lastframe > frame)
                             {
@@ -259,7 +263,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             //loader.load(harvester_src, harvesterLoaded);
 
             // lights
-            var pointLight = new THREE.PointLight(0xffffff, 1.0, z: 0);
+            var pointLight = new THREE.PointLight(0xffffff, 1.0, 0);
             camera.add(pointLight);
 
 

@@ -122,7 +122,7 @@ namespace WebGLCannonPhysicsEngine
 
             #region init
 
-            var camera = new THREE.PerspectiveCamera(75, Native.window.Width / Native.window.Height, 0.1, 1000);
+            var camera = new THREE.PerspectiveCamera(75, Native.window.aspect, 0.1, 1000);
 
             var scene = new THREE.Scene();
             scene.fog = new THREE.Fog(0x000000, 0, 500);
@@ -191,7 +191,7 @@ namespace WebGLCannonPhysicsEngine
 
             Action AtResize = delegate
             {
-                camera.aspect = Native.window.Width / Native.window.Height;
+                camera.aspect = Native.window.aspect;
                 camera.updateProjectionMatrix();
                 renderer.setSize(Native.window.Width, Native.window.Height);
             };

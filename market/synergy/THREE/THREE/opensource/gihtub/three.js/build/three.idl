@@ -55,6 +55,7 @@ interface THREE
 	// X:\jsc.svn\market\synergy\THREE\THREE\opensource\gihtub\three.js\build\shaders\THREE.BokehShader.idl
 	// JSON or dynamic instead?
 	static attribute THREE.BokehShaderType BokehShader;
+	static attribute THREE.FilmShaderType FilmShader;
 
 
 
@@ -293,6 +294,9 @@ interface THREE.ShaderMaterial : THREE.Material
 	attribute any         uniforms;
 };
 
+
+
+// File:src/math/Color.js
 [Constructor(long color)]
 interface THREE.Color
 {
@@ -337,11 +341,14 @@ interface THREE.Raycaster
 };
 
 
+// File:src/scenes/FogExp2.js
 [Constructor(long color, double a)]
 interface THREE.FogExp2
 {
 };
 
+
+// File:src/scenes/Fog.js
 [Constructor(long color, long y, long z)]
 interface THREE.Fog
 {
@@ -358,8 +365,18 @@ interface THREE.Fog
 
 
 
+// File:src/lights/Light.js
+[Constructor(), Constructor(long color)]
+interface THREE.Light : THREE.Object3D
+{
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLCelShader\WebGLCelShader\Application.cs
+	attribute THREE.Color        color;
+};
+
+
+// File:src/lights/DirectionalLight.js
 [Constructor(long x), Constructor(long x, double y)]
-interface THREE.DirectionalLight
+interface THREE.DirectionalLight : THREE.Light
 {
 	attribute boolean        castShadow;
 
@@ -374,20 +391,23 @@ interface THREE.DirectionalLight
 [Constructor(long x),
 Constructor(long  color, double intensity),
 Constructor(long  color, double intensity, long distance)]
-interface THREE.PointLight
+interface THREE.PointLight : THREE.Light
 {
 	attribute THREE.Vector3  position;
 };
 
+
+// File:src/lights/HemisphereLight.js
 [Constructor(long x, double y, double z)]
-interface THREE.HemisphereLight
+interface THREE.HemisphereLight : THREE.Light
 {
 	attribute THREE.Vector3  position;
 };
 
 
+// File:src/lights/AmbientLight.js
 [Constructor(long x)]
-interface THREE.AmbientLight
+interface THREE.AmbientLight : THREE.Light
 {
 };
 
@@ -395,7 +415,7 @@ interface THREE.AmbientLight
 
 // File:src/lights/SpotLight.js
 [Constructor(long color), Constructor(long color, double intensity)]
-interface THREE.SpotLight
+interface THREE.SpotLight : THREE.Light
 {
 	attribute THREE.Vector3  position;
 	attribute THREE.Object3D target;
@@ -529,7 +549,7 @@ interface THREE.MeshLambertMaterial
 
 
 // http://sharpkit.net/help/SharpKit.Three/THREE/Object3D/
-
+// File:src/core/Object3D.js
 [Constructor()]
 interface THREE.Object3D
 {
@@ -589,8 +609,12 @@ interface THREE.Quaternion
 
 
 
+
+
 //        Create Partial Type: THREE+SkinnedMesh
 //0dc8:01:01 RewriteToAssembly error: System.NotSupportedException: Parent does not have a default constructor.The default constructor must be explicitly defined.
+
+// File:src/objects/Mesh.js
 // X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuTPS\WebGLYomotsuTPS\Application.cs
 [Constructor(), Constructor(any geometry),
 Constructor(any geometry, any material)]
@@ -617,7 +641,8 @@ interface THREE.SkinnedMesh :  THREE.Mesh
 {
 
 
-	attribute sequence<THREE.Bone>        bones;
+	// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\Application.cs
+	//attribute sequence<THREE.Bone>        bones;
 
 };
 
@@ -658,7 +683,10 @@ interface THREE.WebGLRenderer
 	attribute Element domElement;
 
 
-	void setClearColorHex(long color);
+	// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\Application.cs
+	// how do we communicate a method
+	// was removed? make it a nop?
+	// void setClearColorHex(long color);
 
 
 	// X:\jsc.svn\examples\javascript\WebGL\WebGLOrthographicCamera\WebGLOrthographicCamera\Application.cs
@@ -805,6 +833,17 @@ interface THREE.CircleGeometry
 
 };
 
+
+// X:\jsc.svn\examples\javascript\WebGL\WebGLCelShader\WebGLCelShader\Application.cs
+// File:src/extras/geometries/TorusGeometry.js
+[Constructor(double radius, double tube, double radialSegments, double tubularSegments)]
+interface THREE.TorusGeometry :  THREE.Geometry
+{
+
+};
+
+
+// tested by?
 [Constructor(double radius, double tube, double radialSegments, double tubularSegments, double p, double q, double heightSegments)]
 interface THREE.TorusKnotGeometry
 {
@@ -865,11 +904,22 @@ interface THREE.Sprite
 
 };
 
-[Constructor()]
-interface THREE.JSONLoader
+
+
+interface THREE.Loader
 {
+};
+
+// File:src/loaders/JSONLoader.js
+[Constructor()]
+interface THREE.JSONLoader : THREE.Loader
+{
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLInvade\WebGLInvade\Application.cs
+
+
+
 	//void load(any src, any handler);
-	void load(any src, function<any> handler);
+	void load(any url, function<any> callback);
 
 	// jsc does not yet do the Action<> 
 	//void load(any src, function<any,any> handler);
@@ -879,9 +929,12 @@ interface THREE.JSONLoader
 
 
 
+// File:src/materials/Material.js
 [Constructor()]
 interface THREE.Material
 {
+	// set by initMaterial
+	attribute any program;
 
 };
 
@@ -902,7 +955,8 @@ interface THREE.ParticleSystemMaterial : THREE.Material
 };
 
 
-[Constructor(any e)]
+// File:src/materials/MeshFaceMaterial.js
+[Constructor, Constructor(any e)]
 interface THREE.MeshFaceMaterial : THREE.Material
 {
 	attribute sequence<any> materials;

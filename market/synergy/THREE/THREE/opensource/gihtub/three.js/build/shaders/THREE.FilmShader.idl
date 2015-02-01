@@ -1,0 +1,15 @@
+﻿ // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150127
+// "X:\opensource\github\three.js\examples\js\postprocessing\RenderPass.js"
+// x:\jsc.svn\examples\javascript\webgl\WebGLDepthOfField\WebGLDepthOfField\Application.cs
+
+
+// does jsc allow partials yet? no?
+//interface THREE
+//{
+//static attribute THREE.ShaderGodRaysType ShaderGodRays;
+//};
+
+interface THREE.FilmShaderType
+{
+
+};

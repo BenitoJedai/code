@@ -49,10 +49,13 @@ namespace WebGLInteractiveCubes
             objects = new THREE.Mesh[10];
             for (var i = 0; i < 10; i++)
             {
+                var rgb = (int)(random.NextDouble() * 0xffffff);
+                Console.WriteLine(new { i, rgb });
 
                 var obj = new THREE.Mesh(geometry,
-                    new THREE.MeshBasicMaterial(new { color = new THREE.Color((int)(random.NextDouble() * 0xffffff)) })
+                    new THREE.MeshBasicMaterial(new { color = new THREE.Color(rgb) })
                     );
+
 
                 obj.position.x = random.NextDouble() * 800 - 400;
                 obj.position.y = random.NextDouble() * 800 - 400;
@@ -73,6 +76,7 @@ namespace WebGLInteractiveCubes
             }
 
 
+            // THREE.Projector has been moved to /examples/js/renderers/Projector.js.
             var projector = new THREE.Projector();
 
             // ?

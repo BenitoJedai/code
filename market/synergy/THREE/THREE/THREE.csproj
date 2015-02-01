@@ -131,6 +131,8 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="opensource\gihtub\three.js\build\!References.htm" />
+    <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.FilmPass.js" />
+    <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.FilmPass.idl" />
     <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.MaskPass.idl" />
     <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.MaskPass.js" />
     <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.ShaderPass.idl" />
@@ -141,6 +143,8 @@
     <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.EffectComposer.idl" />
     <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.RenderPass.js" />
     <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.RenderPass.idl" />
+    <Content Include="opensource\gihtub\three.js\build\shaders\THREE.FilmShader.idl" />
+    <Content Include="opensource\gihtub\three.js\build\shaders\THREE.FilmShader.js" />
     <Content Include="opensource\gihtub\three.js\build\shaders\THREE.VerticalTiltShiftShader.idl" />
     <Content Include="opensource\gihtub\three.js\build\shaders\THREE.HorizontalTiltShiftShader.idl" />
     <Content Include="opensource\gihtub\three.js\build\shaders\THREE.HorizontalTiltShiftShader.js" />
@@ -175,6 +179,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="opensource\gihtub\three.js\build\renderers\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
