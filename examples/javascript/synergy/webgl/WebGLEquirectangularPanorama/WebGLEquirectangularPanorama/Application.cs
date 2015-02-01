@@ -19,14 +19,24 @@ namespace WebGLEquirectangularPanorama
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        //---------------------------
+        //Asset Compiler
+        //---------------------------
+        //The Asset Compiler has found a few issues while preparing the assets! 
+
+        //'.', hexadecimal value 0x00, is an invalid character.Line 1, position 1.
+
+        //Please fix the issues and try again!
+        //You may need to reconnect your external drive.
+
+        //X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEquirectangularPanorama\WebGLEquirectangularPanorama\WebGLEquirectangularPanorama.csproj
+        //---------------------------
+        //OK
+        //---------------------------
+
         public Application(IApp page)
         {
             // http://mrdoob.github.io/three.js/examples/webgl_panorama_equirectangular.html
@@ -35,8 +45,8 @@ namespace WebGLEquirectangularPanorama
 
             var fov = 70.0;
 
-            var camera = new THREE.PerspectiveCamera(fov, 
-                (double)window.Width  / window.Height, 1, 1100);
+            var camera = new THREE.PerspectiveCamera(fov,
+                window.aspect, 1, 1100);
             var target = new THREE.Vector3(0, 0, 0);
 
             //(camera as dynamic).target = target;
@@ -71,7 +81,7 @@ namespace WebGLEquirectangularPanorama
             Native.window.onresize +=
                 delegate
                 {
-                    camera.aspect = (double)Native.window.Width / Native.window.Height;
+                    camera.aspect = Native.window.aspect;
                     camera.updateProjectionMatrix();
 
                     renderer.setSize(Native.window.Width, Native.window.Height);
@@ -84,7 +94,7 @@ namespace WebGLEquirectangularPanorama
                 {
                     fov -= e.WheelDirection * 5.0;
                     camera.projectionMatrix.makePerspective(fov,
-                        (double)window.Width  / window.Height, 1, 1100);
+                        (double)window.Width / window.Height, 1, 1100);
                 };
 
             var lon = 90.0;
@@ -166,13 +176,6 @@ namespace WebGLEquirectangularPanorama
 
             #endregion
 
-
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
         }
 
     }

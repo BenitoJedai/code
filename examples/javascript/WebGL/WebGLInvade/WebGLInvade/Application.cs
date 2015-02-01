@@ -11,18 +11,17 @@ namespace WebGLInvade
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using THREE = WebGLInvade.Library.THREE;
+    //using THREE = WebGLInvade.Library.THREE;
 
 
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         /* Source: http://www.webspaceinvader.com/2011/09/21/first-try-at-webgl/
          */
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -30,38 +29,6 @@ namespace WebGLInvade
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
-            new[]
-            {
-                new global::WebGLInvade.Library.Three().Content,
-                new global::WebGLInvade.Library.ShaderExtras().Content,
-                new global::WebGLInvade.Library.postprocessing.EffectComposer().Content,
-                new global::WebGLInvade.Library.postprocessing.ShaderPass().Content,
-                new global::WebGLInvade.Library.postprocessing.MaskPass().Content,
-                new global::WebGLInvade.Library.postprocessing.RenderPass().Content,
-                new global::WebGLInvade.Library.postprocessing.FilmPass().Content,
-            }.ForEach(
-                (SourceScriptElement, i, MoveNext) =>
-                {
-                    SourceScriptElement.AttachToDocument().onload +=
-                        delegate
-                        {
-                            MoveNext();
-                        };
-                }
-            )(
-                delegate
-                {
-                    InitializeContent(page);
-                }
-            );
-
-        }
-
-
-
-        void InitializeContent(IDefault page = null)
-        {
-
             var SCREEN_WIDTH = Native.window.Width;
             var SCREEN_HEIGHT = Native.window.Height;
 
@@ -86,7 +53,7 @@ namespace WebGLInvade
             container.AttachToDocument();
             container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
-            var camera = new THREE.Camera(75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 100000);
+            var camera = new THREE.PerspectiveCamera(75, Native.window.aspect, 1, 100000);
             camera.position.z = 50;
             camera.updateMatrix();
 
@@ -96,17 +63,17 @@ namespace WebGLInvade
 
             var ambient = new THREE.AmbientLight(0x222222);
             ambient.position.z = -300;
-            scene.addLight(ambient);
+            scene.add(ambient);
 
             var directionalLight = new THREE.DirectionalLight(0xffeedd);
             directionalLight.position.set(-1, 0, 1);
             directionalLight.position.normalize();
-            scene.addLight(directionalLight);
+            scene.add(directionalLight);
 
             var dLight = new THREE.DirectionalLight(0xffeedd);
             dLight.position.set(1, 0, 1);
             dLight.position.normalize();
-            scene.addLight(dLight);
+            scene.add(dLight);
 
             // init the WebGL renderer and append it to the Dom
             var renderer = new THREE.WebGLRenderer();
@@ -118,43 +85,43 @@ namespace WebGLInvade
             #region createScene
             Action<object, f, f, f, f> createScene = (geometry, x, y, z, b) =>
             {
-
-                var zmesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial());
+                
+                //var zmesh = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial());
+                var zmesh = new THREE.Mesh(geometry);
                 zmesh.position.x = x;
                 zmesh.position.z = y;
                 zmesh.position.y = z;
                 zmesh.scale.x = 5f;
                 zmesh.scale.y = 5f;
                 zmesh.scale.z = 5f;
-                zmesh.overdraw = true;
+                //zmesh.overdraw = true;
                 zmesh.updateMatrix();
-                scene.addObject(zmesh);
+                scene.add(zmesh);
             };
             #endregion
 
-
+            // message: "Unexpected token /"
             var loader = new THREE.JSONLoader();
 
             Action<object> callbackMale = (geometry) => { createScene(geometry, 90, 50, 0, 105); };
 
             loader.load(
-                new THREE.JSONLoaderArguments
-                {
-                    model = new invade().Content.src,
-                    callback = IFunction.OfDelegate(callbackMale)
-                }
+                    url: new invade().Content.src,
+                    callback: IFunction.OfDelegate(callbackMale)
             );
 
             // postprocessing
 
-            var renderModel = new THREE.RenderPass(scene, camera);
-            var effectFilm = new THREE.FilmPass(0.35, 0.50, 2048, false); //( 0.35, 0.75, 2048, false );
 
-            effectFilm.renderToScreen = true;
 
             var composer = new THREE.EffectComposer(renderer);
 
+            var renderModel = new THREE.RenderPass(scene, camera);
             composer.addPass(renderModel);
+
+
+            var effectFilm = new THREE.FilmPass(0.35, 0.50, 2048, false); //( 0.35, 0.75, 2048, false );
+            effectFilm.renderToScreen = true;
             composer.addPass(effectFilm);
 
             #region IsDisposed
@@ -198,7 +165,7 @@ namespace WebGLInvade
             #endregion
 
             #region onmousemove
-            Native.Document.onmousemove +=
+            Native.document.onmousemove +=
                 e =>
                 {
                     mouseX = (e.CursorX - windowHalfX);
@@ -222,7 +189,7 @@ namespace WebGLInvade
             {
                 container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
-                camera.aspect = Native.window.Width / Native.window.Height;
+                camera.aspect = Native.window.aspect;
                 camera.updateProjectionMatrix();
 
                 renderer.setSize(Native.window.Width, Native.window.Height);

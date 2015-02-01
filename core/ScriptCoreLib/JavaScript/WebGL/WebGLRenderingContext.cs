@@ -33,6 +33,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
         // cpu, gpu, hpu
         // http://en.wikipedia.org/wiki/Holographic_processing_unit
 
+        // http://www.tamats.com/blog/?p=604#more-604
+        // http://www.tamats.com/blog/?p=488
 
 
         // http://support.apple.com/en-us/HT4623

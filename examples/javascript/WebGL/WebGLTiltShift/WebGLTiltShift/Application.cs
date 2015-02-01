@@ -39,6 +39,8 @@ namespace WebGLTiltShift
 
         public Application(IDefault page = null)
         {
+            // http://coryg89.github.io/technical/2013/06/01/photorealistic-3d-moon-demo-in-webgl-and-javascript/
+
             // vr view, isometric view
             // http://skycraft.io/
             // http://www.mark-lundin.com/box/inception/

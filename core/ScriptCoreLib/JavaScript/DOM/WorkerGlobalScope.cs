@@ -17,6 +17,10 @@ namespace ScriptCoreLib.JavaScript.DOM
         // console
 
 
+        // http://www.tamats.com/blog/?p=593#more-593
+
+
+
 
         // X:\jsc.svn\examples\javascript\test\TestServiceWorkerAssetCache\TestServiceWorkerAssetCache\Application.cs
         // https://fetch.spec.whatwg.org/#dom-global-fetch

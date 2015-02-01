@@ -14,6 +14,7 @@ using System.Xml.Linq;
 using WebGLBeachballsByDoob.Design;
 using WebGLBeachballsByDoob.HTML.Pages;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace WebGLBeachballsByDoob
 {
@@ -77,7 +78,7 @@ namespace WebGLBeachballsByDoob
 
             var camera = new THREE.PerspectiveCamera(
                 40,
-                (double)Native.window.Width / (double)Native.window.Height, 1,
+                Native.window.aspect, 1,
                 1000
                 );
 
@@ -141,14 +142,14 @@ namespace WebGLBeachballsByDoob
             //
 
             var colors = new[] {
-					new THREE.Color( 0xe52b30 ),
-					new THREE.Color( 0xe52b30 ),
-					new THREE.Color( 0x2e1b6a ),
-					new THREE.Color( 0xdac461 ),
-					new THREE.Color( 0xf07017 ),
-					new THREE.Color( 0x38b394 ),
-					new THREE.Color( 0xeaf1f7 )
-				};
+                    new THREE.Color( 0xe52b30 ),
+                    new THREE.Color( 0xe52b30 ),
+                    new THREE.Color( 0x2e1b6a ),
+                    new THREE.Color( 0xdac461 ),
+                    new THREE.Color( 0xf07017 ),
+                    new THREE.Color( 0x38b394 ),
+                    new THREE.Color( 0xeaf1f7 )
+                };
 
             var amount = colors.Length;
 
@@ -322,13 +323,13 @@ namespace WebGLBeachballsByDoob
             };
 
             #region onmousemove
-            Native.Document.body.onmousedown +=
+            Native.document.body.onmousedown +=
                 e =>
                 {
                     e.preventDefault();
                     isMouseDown = true;
                 };
-            Native.Document.body.onmouseup +=
+            Native.document.body.onmouseup +=
                  e =>
                  {
                      e.preventDefault();
@@ -353,7 +354,7 @@ namespace WebGLBeachballsByDoob
                          return;
                      }
                  };
-            Native.Document.body.onmousemove +=
+            Native.document.body.onmousemove +=
                e =>
                {
 
@@ -398,25 +399,29 @@ namespace WebGLBeachballsByDoob
 
 
 
-
-            var time = Native.window.performance.now();
-            var lastTime = Native.window.performance.now();
+            var sw0 = Stopwatch.StartNew();
+            var sw = Stopwatch.StartNew();
+            //var time = Native.window.performance.now();
+            //var lastTime = Native.window.performance.now();
 
             #region animate
             Action render =
                 delegate
                 {
 
-                    time = Native.window.performance.now();
+                    var delta = sw.ElapsedMilliseconds;
+                    sw.Restart();
 
-                    camera.position.x = -Math.Cos(time * 0.0001) * 40;
-                    camera.position.z = Math.Sin(time * 0.0001) * 40;
+                    //time = Native.window.performance.now();
+
+                    camera.position.x = -Math.Cos(sw.ElapsedMilliseconds * 0.0001) * 40;
+                    camera.position.z = Math.Sin(sw.ElapsedMilliseconds * 0.0001) * 40;
                     camera.lookAt(new THREE.Vector3(0, 10, 0));
 
                     intersectionPlane.lookAt(camera.position);
 
-                    world.step((time - lastTime) * 0.001);
-                    lastTime = time;
+                    world.step(delta * 0.001);
+                    //lastTime = time;
 
                     for (var i = 0; i < spheres.Count; i++)
                     {

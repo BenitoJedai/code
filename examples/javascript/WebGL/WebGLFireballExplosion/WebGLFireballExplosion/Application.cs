@@ -51,12 +51,12 @@ namespace WebGLFireballExplosion
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         // new three broke it?
         // http://www.clicktorelease.com/code/perlin/explosion.html
+        // http://www.webgl.com/2013/01/webgl-tutorial-vertex-displacement-with-a-noise-function-aka-fiery-explosion/
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -64,8 +64,10 @@ namespace WebGLFireballExplosion
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
+            // http://inear.se/fireshader/
 
-       
+
+
 
             // http://stackoverflow.com/questions/16765120/ashima-perlin-noise-shader-not-working-with-recent-versions-of-three-js
 

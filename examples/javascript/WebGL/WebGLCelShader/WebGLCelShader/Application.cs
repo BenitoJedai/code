@@ -9,7 +9,7 @@ using WebGLCelShader.HTML.Pages;
 using WebGLCelShader.Shaders;
 
 // upgrade to nuget?
-using THREE = WebGLCelShader.Design.THREE;
+//using THREE = WebGLCelShader.Design.THREE;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -26,11 +26,11 @@ namespace WebGLCelShader
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+
+        // all we see is red now. why?
+
         /* Source: http://www.ro.me/tech/demos/6/index.html
          */
-
-
-
 
         sealed class MyUniforms
         {
@@ -47,47 +47,23 @@ namespace WebGLCelShader
             public MyUniform uBaseColor = new MyUniform { type = "c", value = new THREE.Color(0xff0000) };
         }
 
-
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
-
-
-            InitializeContentAsync(page);
-
-        }
-
-
-        async void InitializeContentAsync(IDefault page = null)
-        {
-            await new WebGLCelShader.Design.THREE.__ThreeExtras().Content.AttachToDocument();
-
-            InitializeContent(page);
-        }
-        void InitializeContent(IDefault page = null)
-        {
+            // https://github.com/mrdoob/three.js/wiki/Migration
 
             var size = 600;
-
 
             var windowHalfX = size / 2;
             var windowHalfY = size / 2;
 
-            ///////////////////////////////
             Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
             var container = new IHTMLDiv();
 
             container.AttachToDocument();
             container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
-
             container.style.backgroundColor = JSColor.Black;
 
-
-
-            var camera = new THREE.Camera(40, windowHalfX / windowHalfY, 1, 3000);
+            var camera = new THREE.PerspectiveCamera(40, Native.window.aspect, 1, 3000);
             camera.position.z = 1000;
 
             var scene = new THREE.Scene();
@@ -96,25 +72,26 @@ namespace WebGLCelShader
             light.position.x = 1;
             light.position.y = 0;
             light.position.z = 1;
-            scene.addLight(light);
+            //scene.addLight(light);
+            scene.add(light);
 
             var renderer = new THREE.WebGLRenderer();
 
-            var geometry = new THREE.Torus(50, 20, 15, 15);
+            var geometry = new THREE.TorusGeometry(50, 20, 15, 15);
 
             var uniforms = new MyUniforms();
 
-
-            var material_base = new THREE.MeshShaderMaterial(
-                new THREE.MeshShaderMaterialArguments
+            // ShaderMaterial
+            var material_base = new THREE.ShaderMaterial(
+                new
                 {
-                    uniforms = THREE.__ThreeExtras.Uniforms.clone(uniforms),
+                    uniforms = THREE.UniformsUtils.clone(uniforms),
                     vertex_shader = new GeometryVertexShader().ToString(),
                     fragment_shader = new GeometryFragmentShader().ToString()
                 }
             );
 
-            renderer.initMaterial(material_base, scene.lights, scene.fog);
+            //renderer.initMaterial(material_base, scene.lights, scene.fog);
 
             #region addObject
             var r = new Random();
@@ -123,10 +100,11 @@ namespace WebGLCelShader
 
             for (var i = 0; i < 100; i++)
             {
-                var material_uniforms = (MyUniforms)THREE.__ThreeExtras.Uniforms.clone(uniforms);
+                //var material_uniforms = (MyUniforms)THREE.__ThreeExtras.Uniforms.clone(uniforms);
+                var material_uniforms = (MyUniforms)THREE.UniformsUtils.clone(uniforms);
 
-                var material = new THREE.MeshShaderMaterial(
-                     new THREE.MeshShaderMaterialArguments
+                var material = new THREE.ShaderMaterial(
+                     new
                      {
                          uniforms = material_uniforms,
                          vertex_shader = new GeometryVertexShader().ToString(),
@@ -150,7 +128,8 @@ namespace WebGLCelShader
                 mesh.rotation.y = Math_random() * 360f * (float)Math.PI / 180f;
                 mesh.rotation.z = Math_random() * 360f * (float)Math.PI / 180f;
 
-                scene.addObject(mesh);
+                //scene.addObject(mesh);
+                scene.add(mesh);
 
             }
             #endregion
@@ -167,7 +146,7 @@ namespace WebGLCelShader
             {
                 container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
-                camera.aspect = Native.window.Width / Native.window.Height;
+                camera.aspect = (int)Native.window.aspect;
                 camera.updateProjectionMatrix();
 
                 renderer.setSize(Native.window.Width, Native.window.Height);
@@ -206,18 +185,19 @@ namespace WebGLCelShader
                 c++;
 
 
+                var l = scene.children.Length;
 
-                Native.document.title = "" + c;
+                Native.document.title = new { l }.ToString();
 
                 var time = new IDate().getTime() * 0.0004;
 
-                var l = scene.objects.Length;
+                //var l = scene.objects.Length;
 
                 for (var i = 0; i < l; i++)
                 {
 
-                    scene.objects[i].rotation.x += 0.01f;
-                    scene.objects[i].rotation.y += 0.01f;
+                    scene.children[i].rotation.x += 0.01f;
+                    scene.children[i].rotation.y += 0.01f;
 
                 }
 

@@ -86,7 +86,7 @@ namespace WebGLNyanCat
 
 
             #region onmousemove
-            Native.Document.onmousemove +=
+            Native.document.onmousemove +=
                 e =>
                 {
                     if (IsDisposed)
@@ -116,7 +116,7 @@ namespace WebGLNyanCat
                     }
                 };
             #region onmousedown
-            Native.Document.onmousedown +=
+            Native.document.onmousedown +=
                 e =>
                 {
                     if (IsDisposed)
@@ -580,7 +580,7 @@ namespace WebGLNyanCat
             {
                 container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
 
-                camera.aspect = Native.window.Width / Native.window.Height;
+                camera.aspect = Native.window.aspect;
                 camera.updateProjectionMatrix();
 
                 renderer.setSize(Native.window.Width, Native.window.Height);

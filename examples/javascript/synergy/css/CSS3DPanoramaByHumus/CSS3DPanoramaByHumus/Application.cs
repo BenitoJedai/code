@@ -20,9 +20,8 @@ namespace CSS3DPanoramaByHumus
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         public class side
         {
@@ -250,12 +249,7 @@ namespace CSS3DPanoramaByHumus
                     camera.updateProjectionMatrix();
                 };
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+       
         }
 
     }
