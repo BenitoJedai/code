@@ -7,77 +7,79 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibNative.BCLImplementation.System.Collections.Generic
 {
-	[Script(Implements = typeof(global::System.Collections.Generic.List<>))]
-	internal class __List<T>
-	{
-		private int _size;
+    [Script(Implements = typeof(global::System.Collections.Generic.List<>))]
+    internal class __List<T>
+    {
+        private int _size;
 
-		T[] _list;
+        // tested by?
 
-		public __List()
-		{
-			Allocate(0);
-		}
+        T[] _list;
 
-		internal void Allocate(int i)
-		{
-			_list = new T[i];
-			_size = i;
-		}
+        public __List()
+        {
+            Allocate(0);
+        }
 
-		internal bool InBounds(int i)
-		{
-			return (i < 0 || i >= _size);
-		}
+        internal void Allocate(int i)
+        {
+            _list = new T[i];
+            _size = i;
+        }
 
-		public T this[int i]
-		{
-			get
-			{
-				if (InBounds(i)) return default(T);
+        internal bool InBounds(int i)
+        {
+            return (i < 0 || i >= _size);
+        }
 
-				return _list[i];
-			}
-			set
-			{
-				if (InBounds(i)) return;
+        public T this[int i]
+        {
+            get
+            {
+                if (InBounds(i)) return default(T);
 
-				_list[i] = value;
-			}
-		}
+                return _list[i];
+            }
+            set
+            {
+                if (InBounds(i)) return;
 
-		public int Count
-		{
-			get { return _size; }
-			set
-			{
-				_size = value;
+                _list[i] = value;
+            }
+        }
 
-				_list = (T[])stdlib_h.realloc(_list, IntPtr.Size * _size);
-			}
-		}
+        public int Count
+        {
+            get { return _size; }
+            set
+            {
+                _size = value;
 
-
-		public void Add(T e)
-		{
-			int p = _size;
-
-			Count++;
-
-			this[p] = e;
-		}
-
-		/// <summary>
-		/// releases internal list, and frees the list object itself
-		/// </summary>
-		public void Free()
-		{
-			Count = 0;
-
-			stdlib_h.free(this);
-		}
+                _list = (T[])stdlib_h.realloc(_list, IntPtr.Size * _size);
+            }
+        }
 
 
-	}
+        public void Add(T e)
+        {
+            int p = _size;
+
+            Count++;
+
+            this[p] = e;
+        }
+
+        /// <summary>
+        /// releases internal list, and frees the list object itself
+        /// </summary>
+        public void Free()
+        {
+            Count = 0;
+
+            stdlib_h.free(this);
+        }
+
+
+    }
 
 }

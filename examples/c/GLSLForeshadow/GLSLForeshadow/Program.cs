@@ -114,6 +114,8 @@ namespace GLSLForeshadow
 
     class Program
     {
+        // 1>CSC : Fatal error : Please see the event log for more details.
+
         static void Main(string[] args)
         {
             NativeClass1.main();

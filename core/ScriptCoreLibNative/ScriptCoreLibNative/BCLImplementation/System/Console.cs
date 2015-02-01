@@ -10,6 +10,10 @@ namespace ScriptCoreLibNative.BCLImplementation.System
     [Script(Implements = typeof(global::System.Console))]
     internal class __Console
     {
+        // tested by
+        // X:\jsc.svn\examples\c\Test\TestConsoleWriteLine\TestConsoleWriteLine\Program.cs
+
+
         public static ConsoleColor ForegroundColor
         {
             set

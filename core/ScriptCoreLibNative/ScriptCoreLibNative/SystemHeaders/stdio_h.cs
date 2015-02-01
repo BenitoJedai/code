@@ -61,7 +61,9 @@ namespace ScriptCoreLibNative.SystemHeaders
 		/// <returns>On success, a non-negative value is returned. On error the function returns EOF.</returns>
 		public static int fputs(string _string, object stream)
 		{
-			return default(int);
+            // X:\jsc.svn\examples\c\Test\TestConsoleWriteLine\TestConsoleWriteLine\Program.cs
+
+            return default(int);
 		}
 
 		public static int fprintf(object stream, string format, __arglist) { return default(int); }

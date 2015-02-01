@@ -129,6 +129,8 @@ namespace SpeakerMusic
 	[Script(Implements = typeof(global::System.Collections.Generic.List<>))]
 	internal class __List<T>
 	{
+        //     SpeakerMusic___List_1_T* _list;
+
 		private int _size;
 
 		T[] _list;

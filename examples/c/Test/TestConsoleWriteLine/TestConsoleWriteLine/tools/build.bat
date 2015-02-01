@@ -1,7 +1,4 @@
 
-:: '∩╗┐' is not recognized as an internal or external command,
-:: do we need hex edit to fix it?
-:: no. just save without BOM!
 
 :mxmlc
 @echo off
