@@ -53,6 +53,7 @@
     <Compile Include="ActionScript\EmbedResourcesAttribute.cs" />
     <Compile Include="ActionScript\GenericTypeDefinitionAttribute.cs" />
     <Compile Include="AttributeUsageFieldTypeContractAttribute.cs" />
+    <Compile Include="C\DllExport.cs" />
     <Compile Include="ScriptDelegateDataHintAttribute.cs" />
     <Compile Include="Desktop\Compiler\ISWCNativeTypeBuilder.cs" />
     <Compile Include="ScriptAttribute.OfProvider.cs" />

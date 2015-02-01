@@ -18,6 +18,8 @@ namespace ScriptCoreLib.Ultra.IL
         public IDLParserToken Token;
 
         public bool IsStatic;
+
+        // X:\jsc.svn\examples\c\Test\TestConsoleWriteLine\TestConsoleWriteLine\Program.cs
         public bool IsUnmanagedExport;
 
         public IDLParserToken NameToken;
