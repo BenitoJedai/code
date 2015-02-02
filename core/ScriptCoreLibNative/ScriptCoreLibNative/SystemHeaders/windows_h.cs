@@ -160,6 +160,33 @@ namespace ScriptCoreLibNative.SystemHeaders
 			return default(bool);
 		}
 
-	}
+
+
+
+        // fatal error C1083: Cannot open include file: 'kernel32.h': No such file or directory
+
+        // https://msdn.microsoft.com/en-us/library/windows/desktop/ms684175%28v=vs.85%29.aspx
+
+        public static object LoadLibrary(string lpFileName)
+        {
+            return default(object);
+        }
+
+        // X:\jsc.svn\examples\c\Test\TestSwitchToCLR\TestSwitchToCLR\Program.cs
+
+        public static object GetProcAddress(object hModule, string lpProcName)
+        {
+            return default(object);
+        }
+
+
+        // https://msdn.microsoft.com/en-us/library/windows/desktop/ms683212(v=vs.85).aspx
+        //        FARPROC WINAPI GetProcAddress(
+        //  _In_ HMODULE hModule,
+        //  _In_ LPCSTR lpProcName
+        //);
+
+
+    }
 
 }

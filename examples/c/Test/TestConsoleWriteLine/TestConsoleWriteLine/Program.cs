@@ -17,7 +17,8 @@ namespace TestConsoleWriteLine
         // can we compile a .lib into us?
         // can we compile us into .lib?
 
-        static void xMain(string[] args)
+        // 1>CSC : error CS5001: Program does not contain a static 'Main' method suitable for an entry point
+        static void Main(string[] args)
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150201
 
@@ -42,7 +43,7 @@ namespace TestConsoleWriteLine
         [DllExport]
         static long TheExport1()
         {
-            xMain(null);
+            Main(null);
 
             return 64;
         }
