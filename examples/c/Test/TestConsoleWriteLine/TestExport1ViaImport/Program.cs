@@ -23,13 +23,17 @@ namespace TestExport1ViaImport
 
         // http://blogs.msdn.com/b/freik/archive/2006/03/07/x64-hotpatchability.aspx
 
-        [DllImport("TestConsoleWriteLine.exe"
-            // , CallingConvention = CallingConvention.StdCall
-            )]
+        [DllImport("TestConsoleWriteLine.dll")]
         extern static long TheExport1();
         // long long TheExport1(void)
 
-        static void Main(string[] args)
+
+        [DllImport("TestConsoleWriteLine.dll", CallingConvention = CallingConvention.StdCall)]
+        extern unsafe static long Export196(global::CLRLibraryDllExportDefinition.uvec3* u);
+
+
+
+        static unsafe void Main(string[] args)
         {
             Console.WriteLine(new { Environment.Is64BitProcess });
 
@@ -55,9 +59,23 @@ namespace TestExport1ViaImport
             // The program '[9300] TestExport1ViaImport.vshost.exe' has exited with code 1073741855 (0x4000001f).
             // 'TestExport1ViaImport.exe' (Win32): Loaded 'C:\Windows\SysWOW64\msvcr100.dll'. Cannot find or open the PDB file.
             // Additional information: Attempted to read or write protected memory. This is often an indication that other memory is corrupt.
-            var value = TheExport1();
+            {
+                var value = TheExport1();
 
-            Console.WriteLine(new { value });
+                Console.WriteLine(new { value });
+            }
+
+
+            //Additional information: A call to PInvoke function 'TestExport1ViaImport!TestExport1ViaImport.Program::Export196' has unbalanced the stack. This is likely because the managed PInvoke signature does not match the unmanaged target signature. Check that the calling convention and parameters of the PInvoke signature match the target unmanaged signature.
+
+            {
+                var p = new global::CLRLibraryDllExportDefinition.uvec3 { x = 34 };
+                var pp = &p;
+
+                var value = Export196(pp);
+
+                Console.WriteLine(new { value });
+            }
 
             //            hello.Enable native code debugging
             //{ value = 64 }

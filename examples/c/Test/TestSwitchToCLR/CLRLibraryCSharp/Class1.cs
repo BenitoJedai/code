@@ -184,6 +184,12 @@ namespace CLRLibraryCSharp
         {
             //Error CS0208  Cannot take the address of, get the size of, or declare a pointer to a managed type('uvec3')   TestSwitchToCLR Program.cs  38
 
+            //          > CLRLibraryCSharp.exe!CLRLibraryCSharp.Class1.Export196(CLRLibraryDllExportDefinition.uvec3 * u) Line 184 C#
+            //CLRLibrary.dll!CLRLibrary.Class1.Export196(CLRLibraryDllExportDefinition.uvec3 * u) Line 135 Unknown
+            //    [Native to Managed Transition]
+            //  TestSwitchToCLR.exe!TestSwitchToCLR_Program_Invoke196(void* x) Line 96 C
+            //  TestSwitchToCLR.exe!main(char * *args) Line 69 C
+
 
             return u->x;
             //return u.x;

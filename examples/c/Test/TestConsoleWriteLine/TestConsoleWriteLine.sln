@@ -10,6 +10,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibA", "..\..\..\..\compiler\ScriptCoreLibA\ScriptCoreLibA.csproj", "{477C5608-F5CD-436F-935D-66675988F1D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestExport1ViaImport", "TestExport1ViaImport\TestExport1ViaImport.csproj", "{F262FB78-3D6F-46E7-881A-B8B92D9EDB9D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8F0E73D2-8823-46CB-A0DC-E4DB13E86390} = {8F0E73D2-8823-46CB-A0DC-E4DB13E86390}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLRLibraryDllExportDefinition", "..\TestSwitchToCLR\CLRLibraryDllExportDefinition\CLRLibraryDllExportDefinition.csproj", "{F8B99421-0D5B-492C-9B46-5E061D31395B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +38,10 @@ Global
 		{F262FB78-3D6F-46E7-881A-B8B92D9EDB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F262FB78-3D6F-46E7-881A-B8B92D9EDB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F262FB78-3D6F-46E7-881A-B8B92D9EDB9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8B99421-0D5B-492C-9B46-5E061D31395B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8B99421-0D5B-492C-9B46-5E061D31395B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8B99421-0D5B-492C-9B46-5E061D31395B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8B99421-0D5B-492C-9B46-5E061D31395B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

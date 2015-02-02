@@ -50,7 +50,9 @@ namespace ScriptCoreLibNative.SystemHeaders
 		[Script(LibraryImport = "winmm.lib")]
 		public static bool PlaySound(object pszSound, object hmod, SoundFlags fdwSound)
 		{
-			return false;
+            // x:\jsc.svn\examples\c\test\testconsolewriteline\testexport1viaimport\program.cs
+
+            return false;
 		}
 
 		//[DllImport("winmm.dll", SetLastError = true)]

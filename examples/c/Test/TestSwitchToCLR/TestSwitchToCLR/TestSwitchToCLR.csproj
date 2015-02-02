@@ -56,6 +56,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\CLRLibraryProjectionForLinker\bin\Release\web\CLRLibrary.lib">
+      <Link>web\CLRLibrary.lib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="App.config" />
     <None Include="tools\build.bat" />
     <None Include="tools\compile.native.bat" />

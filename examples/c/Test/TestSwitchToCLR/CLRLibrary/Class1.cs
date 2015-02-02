@@ -9,9 +9,17 @@ namespace CLRLibrary
 {
     public class Class1
     {
+        // https://msdn.microsoft.com/en-us/library/fdy23fx6.aspx
+
         // .export [1] as 'Export2'
 
         // dllExport?
+
+        // http://recxltd.blogspot.com/2012/05/forwarded-dll-exports-and-interesting.html
+        // http://stackoverflow.com/questions/4060143/forwarding-data-in-a-dll
+        // http://blogs.msdn.com/b/oldnewthing/archive/2012/11/16/10369061.aspx
+        // https://msdn.microsoft.com/en-us/library/f5xe74x8(v=vs.110).aspx
+
 
         public static void Export2() => CLRLibraryCSharp.Class1.Export2();
         public static long Export4(long u) => CLRLibraryCSharp.Class1.Export4(u);
