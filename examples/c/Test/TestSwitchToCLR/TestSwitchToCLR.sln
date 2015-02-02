@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLRLibraryCSharp", "CLRLibr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLRLibraryDllExportDefinition", "CLRLibraryDllExportDefinition\CLRLibraryDllExportDefinition.csproj", "{F8B99421-0D5B-492C-9B46-5E061D31395B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleWriteLine", "..\TestConsoleWriteLine\TestConsoleWriteLine\TestConsoleWriteLine.csproj", "{8F0E73D2-8823-46CB-A0DC-E4DB13E86390}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLRLibraryProjectionForLinker", "CLRLibraryProjectionForLinker\CLRLibraryProjectionForLinker.csproj", "{81CA4BE3-1F95-47D6-A281-34C96684D2E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,14 @@ Global
 		{F8B99421-0D5B-492C-9B46-5E061D31395B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8B99421-0D5B-492C-9B46-5E061D31395B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8B99421-0D5B-492C-9B46-5E061D31395B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F0E73D2-8823-46CB-A0DC-E4DB13E86390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F0E73D2-8823-46CB-A0DC-E4DB13E86390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F0E73D2-8823-46CB-A0DC-E4DB13E86390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F0E73D2-8823-46CB-A0DC-E4DB13E86390}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81CA4BE3-1F95-47D6-A281-34C96684D2E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81CA4BE3-1F95-47D6-A281-34C96684D2E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81CA4BE3-1F95-47D6-A281-34C96684D2E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81CA4BE3-1F95-47D6-A281-34C96684D2E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

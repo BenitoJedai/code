@@ -47,5 +47,18 @@ namespace TestConsoleWriteLine
 
             return 64;
         }
+
+        [DllExport(CallingConvention = System.Runtime.InteropServices.CallingConvention.StdCall)]
+        public static unsafe long Export196(global::CLRLibraryDllExportDefinition.uvec3* u)
+        //public static long Export196(ref global::CLRLibraryDllExportDefinition.uvec3 u)
+        {
+            //Error CS0208  Cannot take the address of, get the size of, or declare a pointer to a managed type('uvec3')   TestSwitchToCLR Program.cs  38
+
+            var loc0 = u;
+
+            //return u->x;
+            return loc0->x;
+            //return u.x;
+        }
     }
 }

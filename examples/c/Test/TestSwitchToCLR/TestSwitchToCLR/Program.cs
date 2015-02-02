@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,6 +48,40 @@ namespace TestSwitchToCLR
         // foo.rc(3) : fatal error RC1015: cannot open include file 'resource.h'.
         // LINK : warning LNK4224: /INCREMENTAL:YES is no longer supported;  ignored
 
+
+        // can we generate the lib?
+        // LINK : fatal error LNK1104: cannot open file 'CLRLibrary.lib'
+        [Script(LibraryImport = "CLRLibrary.lib")]
+
+        //        ---------------------------
+        //TestSwitchToCLR.exe - Entry Point Not Found
+        //---------------------------
+        //The procedure entry point _Export196@4 could not be located in the dynamic link library CLRLibrary.dll.
+        //---------------------------
+        //OK   
+        //---------------------------
+
+
+        //        TestSwitchToCLR.exe.obj : error LNK2019: unresolved external symbol __imp__Export196 referenced in function _TestSwitchToCLR_Program_Invoke196
+        //X:\Program Files(x86)\Microsoft Visual Studio 14.0\VC\LIB\OLDNAMES.lib : warning LNK4272: library machine type 'UNKNOWN' conflicts with target machine type 'X86'
+        //TestSwitchToCLR.exe : fatal error LNK1120: 1 unresolved externals
+
+        //[DllImport("CLRLibrary.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("CLRLibrary.dll", CallingConvention = CallingConvention.Cdecl)]
+        extern unsafe static long Export196(global::CLRLibraryDllExportDefinition.uvec3* u);
+
+        // __declspec(dllimport) long long Export196(CLRLibraryDllExportDefinition_uvec3*);
+        // __declspec(dllexport) long long __stdcall Export196(CLRLibraryDllExportDefinition_uvec3*);
+
+        //---------------------------
+        //TestSwitchToCLR.exe - System Error
+        //---------------------------
+        //The program can't start because TestConsoleWriteLine.dll is missing from your computer. Try reinstalling the program to fix this problem. 
+        //---------------------------
+        //OK   
+        //---------------------------
+
+
         unsafe static void Main(string[] args)
         {
             // Binary was not built with debug information.
@@ -62,6 +97,7 @@ namespace TestSwitchToCLR
             // http://hi.baidu.com/hainei_/item/dfcffb5cf442743932e0a912
             // http://andyrushton.co.uk/csharp-dynamic-loading-of-a-c-dll-at-run-time/
 
+            // DllImport could define shadow library we could hard link to?
             var x = windows_h.LoadLibrary("CLRLibrary.dll");
 
             if (x == null)
@@ -144,7 +180,9 @@ namespace TestSwitchToCLR
 
             var yargsref = &yargs;
 
-            var yret = y(yargsref);
+            // long long TestSwitchToCLR_Program_Export196(CLRLibraryDllExportDefinition_uvec3*);
+            var yret = Program.Export196(yargsref);
+            //var yret = y(yargsref);
 
             ScriptCoreLibNative.SystemHeaders.stdio_h.puts("after Export196...");
             ScriptCoreLibNative.SystemHeaders.stdio_h.printf("%lld", __arglist(yret));
