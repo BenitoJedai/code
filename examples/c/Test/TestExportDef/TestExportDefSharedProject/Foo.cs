@@ -35,6 +35,11 @@ namespace TestExportDefSharedProject
 
     unsafe struct FooSignal8
     {
+        public int samplesLength;
+
+        //     struct tag_unsigned short** samples;
+        public ushort* samples;
+
         public long value8;
 
         // by using delegates in a struct, a pointer can no longer taken

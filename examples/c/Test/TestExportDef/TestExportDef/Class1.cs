@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace TestExportDef
 {
+    // x:\jsc.svn\examples\c\test\testexportdef\testexportdef\bin\debug\web\TestExportDef.dll.h(39): error C2628: 'tag_unsigned' followed by 'short' is illegal (did you forget a ';'?)
+
     public class Class1
     {
         // __declspec(dllexport) void InvokeCLRFromCRT(LPTestExportDefSharedProject_Foo);
@@ -43,6 +45,13 @@ namespace TestExportDef
         [ScriptCoreLib.C.DllExport(CallingConvention = System.Runtime.InteropServices.CallingConvention.StdCall)]
         unsafe static void DoCallbackFoo8(TestExportDefSharedProject.FooSignal8* y, Action signal)
         {
+            for (int i = 0; i < y->samplesLength; i++)
+            {
+                //  C : unable to emit stloc.2 at 'TestExportDef.Class1.DoCallbackFoo8'#0012: C : Opcode not implemented: ldind.u2 at TestExportDef.Class1.DoCallbackFoo8
+
+                //var __value = y->samples[i];
+
+            }
             y->value8 = 90;
 
             signal();
