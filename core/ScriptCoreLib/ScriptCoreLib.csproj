@@ -1219,6 +1219,7 @@
     <Folder Include="PHP\BCLImplementation\System\Diagnostics\" />
     <Folder Include="PHP\Web\" />
     <Folder Include="Shared\BCLImplementation\Abstractatech\" />
+    <Folder Include="Shared\BCLImplementation\System\Runtime\InteropServices\Expando\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

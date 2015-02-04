@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices
 {
     // http://referencesource.microsoft.com/#mscorlib/system/runtime/compilerservices/YieldAwaitable.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/YieldAwaitable.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Runtime.CompilerServices/YieldAwaitable.cs
 
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs

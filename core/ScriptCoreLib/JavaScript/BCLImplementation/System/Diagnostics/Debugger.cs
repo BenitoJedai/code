@@ -5,6 +5,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Diagnostics
 {
     // http://referencesource.microsoft.com/#mscorlib/system/diagnostics/debugger.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Debugger.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Diagnostics/Debugger.cs
 
     [Script(Implements = typeof(global::System.Diagnostics.Debugger))]

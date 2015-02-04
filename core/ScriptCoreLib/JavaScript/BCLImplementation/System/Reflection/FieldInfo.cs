@@ -8,6 +8,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
     // http://referencesource.microsoft.com/#mscorlib/system/reflection/fieldinfo.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/FieldInfo.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/FieldInfo.cs
 
     [Script(Implements = typeof(global::System.Reflection.FieldInfo))]

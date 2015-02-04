@@ -6,6 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.InteropServices
 {
     // http://referencesource.microsoft.com/#mscorlib/system/runtime/interopservices/marshal.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/InteropServices/Marshal.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Runtime.InteropServices/Marshal.cs
     // https://github.com/mono/mono/blob/master/mono/metadata/marshal.c
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Runtime\InteropServices\Marshal.cs

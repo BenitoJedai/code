@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.DOM;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 {
     // http://referencesource.microsoft.com/#mscorlib/system/text/utf8encoding.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/UTF8Encoding.cs
     // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/text/utf8encoding.cs
 
 

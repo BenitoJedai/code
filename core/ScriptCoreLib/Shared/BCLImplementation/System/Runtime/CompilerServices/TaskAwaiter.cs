@@ -6,6 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 {
     // http://referencesource.microsoft.com/#mscorlib/system/runtime/compilerservices/TaskAwaiter.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/TaskAwaiter.cs
     // see: http://msdn.microsoft.com/en-us/library/hh138386(v=vs.110).aspx
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.TaskAwaiter`1")]
     //"System.Runtime.CompilerServices.TaskAwaiter`1, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"

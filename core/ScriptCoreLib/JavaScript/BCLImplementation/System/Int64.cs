@@ -6,11 +6,14 @@ using ScriptCoreLib.JavaScript.Runtime;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/int64.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Int64.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Int64.cs
 
     [Script(Implements = typeof(global::System.Int64))]
     internal class __Int64
     {
+        // time to start marking it as a struct for
+        // ServiceWorker contexts?
 
         static public long Parse(string e)
         {

@@ -8,6 +8,7 @@ using System.Linq;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/string.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/String.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/String.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/String.cs
 

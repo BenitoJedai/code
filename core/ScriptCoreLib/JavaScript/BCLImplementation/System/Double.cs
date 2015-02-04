@@ -6,6 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/double.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Double.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Double.cs
 
     [Script(Implements = typeof(double))]
