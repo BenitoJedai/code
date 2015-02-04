@@ -21,6 +21,19 @@ namespace TestExportDef
         // TestExportDef.exp : error LNK2001: unresolved external symbol InvokeCLRFromCRT
 
 
+        [ScriptCoreLib.C.DllExport(CallingConvention = System.Runtime.InteropServices.CallingConvention.StdCall)]
+
+        public static unsafe int __GetCmdTimeout(uint* puTimeout)
+        {
+            var old = *puTimeout;
+
+
+            // script: error JSC1000: C : Opcode not implemented: stind.i4 at CXNBSSC.API.NBSSCGetCmdTimeout
+            *puTimeout = 666u;
+            return 0;
+        }
+
+
         //[ScriptCoreLib.C.DllExport]
         [ScriptCoreLib.C.DllExport(CallingConvention = System.Runtime.InteropServices.CallingConvention.StdCall)]
         unsafe static void InvokeCLRFromCRT(TestExportDefSharedProject.Foo3 f)
