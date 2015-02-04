@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestExportDef", "TestExportDef\TestExportDef.csproj", "{E2045AD6-138C-4BC6-8D45-452412EA7AF6}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TestExportDefSharedProject", "TestExportDefSharedProject\TestExportDefSharedProject.shproj", "{7CC51E9B-5A22-4B22-92C0-0543CADE74FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestExportDefInvoke", "TestExportDefInvoke\TestExportDefInvoke.csproj", "{DFA539CF-0AD2-486E-A028-7DBF432F71BE}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		TestExportDefSharedProject\TestExportDefSharedProject.projitems*{dfa539cf-0ad2-486e-a028-7dbf432f71be}*SharedItemsImports = 4
+		TestExportDefSharedProject\TestExportDefSharedProject.projitems*{e2045ad6-138c-4bc6-8d45-452412ea7af6}*SharedItemsImports = 4
+		TestExportDefSharedProject\TestExportDefSharedProject.projitems*{7cc51e9b-5a22-4b22-92c0-0543cade74fd}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E2045AD6-138C-4BC6-8D45-452412EA7AF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2045AD6-138C-4BC6-8D45-452412EA7AF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2045AD6-138C-4BC6-8D45-452412EA7AF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2045AD6-138C-4BC6-8D45-452412EA7AF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFA539CF-0AD2-486E-A028-7DBF432F71BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFA539CF-0AD2-486E-A028-7DBF432F71BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFA539CF-0AD2-486E-A028-7DBF432F71BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFA539CF-0AD2-486E-A028-7DBF432F71BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
