@@ -24,6 +24,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.String), InternalConstructor = true)]
     internal class __String
     {
+        // why isnt there a byte* ctor?
+        //  unsafe public extern String(sbyte *value);
+
         public __String(char c, int count)
         {
         }
