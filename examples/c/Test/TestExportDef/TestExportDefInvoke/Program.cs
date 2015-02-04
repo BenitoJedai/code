@@ -67,7 +67,17 @@ namespace TestExportDefInvoke
             //    )
             //);
 
-            var aa = new TestExportDefSharedProject.FooSignal8 { value8 = 7 };
+            //fixed ushort samples[3];
+            var samples = stackalloc ushort[100];
+
+            samples[0] = 100;
+
+            var aa = new TestExportDefSharedProject.FooSignal8
+            {
+                value8 = 7,
+                samplesLength = 100,
+                samples = samples
+            };
 
             //        Show Details    Severity Code    Description Project File Line
             //Error CS1686  Local 'aa' or its members cannot have their address taken and be used inside an anonymous method or lambda expression   TestExportDefInvoke Program.cs  58

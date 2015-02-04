@@ -18,6 +18,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
+        // at what point would jsc be able to track, test and import updated CLR code, the redux way? 
+        //
+
+
         // http://www.hanselman.com/blog/GettingReadyForTheFutureWithTheMicrosoftNETPortabilityAnalyzer.aspx
 
         // http://channel9.msdn.com/Blogs/Charles/From-the-Archives-Erik-Meijer-and-Mark-Shields-Compiling-MSIL-to-JS
@@ -51,7 +55,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             var x = new __RuntimeTypeHandle(
                 GetPrototype(this)
-                //(IntPtr) new DOM.IFunction("i", "return i.constructor.prototype;").apply(null, this)
+            //(IntPtr) new DOM.IFunction("i", "return i.constructor.prototype;").apply(null, this)
 
             );
 
