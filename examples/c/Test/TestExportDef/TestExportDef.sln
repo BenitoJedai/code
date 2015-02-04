@@ -8,6 +8,11 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TestExportDefSharedProject", "TestExportDefSharedProject\TestExportDefSharedProject.shproj", "{7CC51E9B-5A22-4B22-92C0-0543CADE74FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestExportDefInvoke", "TestExportDefInvoke\TestExportDefInvoke.csproj", "{DFA539CF-0AD2-486E-A028-7DBF432F71BE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E2045AD6-138C-4BC6-8D45-452412EA7AF6} = {E2045AD6-138C-4BC6-8D45-452412EA7AF6}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibNative", "..\..\..\..\core\ScriptCoreLibNative\ScriptCoreLibNative\ScriptCoreLibNative.csproj", "{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -28,6 +33,10 @@ Global
 		{DFA539CF-0AD2-486E-A028-7DBF432F71BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFA539CF-0AD2-486E-A028-7DBF432F71BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFA539CF-0AD2-486E-A028-7DBF432F71BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
