@@ -7,6 +7,7 @@ using System.Threading;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/environment.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Environment.cs
     // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/environment.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Environment.cs
 

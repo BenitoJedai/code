@@ -10,6 +10,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptography
 {
     // http://msdn.microsoft.com/en-us/library/system.security.cryptography.cryptostream(v=vs.110).aspx
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Security/Cryptography/CryptoStream.cs
     // https://github.com/mono/mono/tree/master/mcs/class/corlib/System.Security.Cryptography/CryptoStream.cs
     // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/security/cryptography/cryptostream.cs
     // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/CryptoStream.cs

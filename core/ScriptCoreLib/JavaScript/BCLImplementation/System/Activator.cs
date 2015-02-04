@@ -13,6 +13,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
     // http://referencesource.microsoft.com/#mscorlib/system/activator.cs
     // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/activator.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Activator.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Activator.cs
 
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Activator.cs

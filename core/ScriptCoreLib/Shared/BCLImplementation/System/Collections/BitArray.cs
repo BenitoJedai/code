@@ -6,6 +6,8 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections
 {
     // http://referencesource.microsoft.com/#mscorlib/system/collections/bitarray.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/BitArray.cs
+
 
     [Script(Implements = typeof(global::System.Collections.BitArray))]
     public class __BitArray

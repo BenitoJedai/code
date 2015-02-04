@@ -5,6 +5,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/bitconverter.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/BitConverter.cs
 
     [Script(Implements = typeof(global::System.BitConverter))]

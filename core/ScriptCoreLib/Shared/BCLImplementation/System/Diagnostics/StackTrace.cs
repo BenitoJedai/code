@@ -7,6 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
 {
     // http://referencesource.microsoft.com/#mscorlib/system/diagnostics/stacktrace.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Diagnostics/Stacktrace.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Diagnostics/StackTrace.cs
 
     [Script(Implements = typeof(global::System.Diagnostics.StackTrace))]

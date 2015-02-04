@@ -7,6 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
     // http://referencesource.microsoft.com/#mscorlib/system/reflection/methodinfo.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/MethodInfo.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Reflection/MethodInfo.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/MethodInfo.cs
 

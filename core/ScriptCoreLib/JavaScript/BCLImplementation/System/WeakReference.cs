@@ -5,6 +5,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/weakreference.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/WeakReference.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/WeakReference.cs
 
     [Script(Implements = typeof(global::System.WeakReference))]

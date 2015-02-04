@@ -17,6 +17,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Type.cs
     // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Type.cs
     // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/type.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs
     // http://referencesource.microsoft.com/#mscorlib/system/type.cs
     // https://github.com/mono/mono/tree/master/mcs/class/corlib/System/Type.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Type.cs

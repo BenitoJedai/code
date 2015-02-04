@@ -12,6 +12,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.ExceptionServices
 {
     // http://referencesource.microsoft.com/#mscorlib/system/runtime/exceptionservices/exceptionservicescommon.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/ExceptionServices/ExceptionServicesCommon.cs
 
 
 #if NET45
