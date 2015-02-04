@@ -20,5 +20,17 @@ namespace ScriptCoreLib.C
         // X:\jsc.svn\examples\c\Test\TestConsoleWriteLine\TestConsoleWriteLine\Program.cs
 
         public CallingConvention CallingConvention;
+
+
+        public DllExportAttribute()
+        {
+
+        }
+
+        public DllExportAttribute(string dllName)
+        {
+            //DllImportAttribute
+
+        }
     }
 }
