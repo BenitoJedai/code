@@ -91,9 +91,12 @@
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Interlocked.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAny.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
+    <Compile Include="JavaScript\DOM\AudioWorkerNode.cs" />
+    <Compile Include="JavaScript\DOM\AudioContext.cs" />
     <Compile Include="JavaScript\DOM\CacheStorage.cs" />
     <Compile Include="JavaScript\DOM\Body.cs" />
     <Compile Include="JavaScript\DOM\Cache.cs" />
+    <Compile Include="JavaScript\DOM\AudioWorkerGlobalScope.cs" />
     <Compile Include="JavaScript\DOM\INode.Dispose.cs" />
     <Compile Include="JavaScript\DOM\Geolocation.cs" />
     <Compile Include="JavaScript\DOM\Notification.cs" />
