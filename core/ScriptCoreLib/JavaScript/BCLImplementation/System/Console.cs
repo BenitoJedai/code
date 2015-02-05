@@ -6,6 +6,8 @@ using ScriptCoreLib.JavaScript.DOM;
 using System.Media;
 using System.IO;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
@@ -99,8 +101,41 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
-        public void Beep()
+
+        static WebAudio.AudioContext __AudioContext;
+        public static void Beep(int frequency, int duration)
         {
+            // AsyncBeep?
+            // X:\jsc.svn\examples\javascript\audio\StandardOscillator\StandardOscillator\Application.cs
+
+            //  number of hardware contexts reached maximum (6).
+
+            if (__AudioContext == null)
+                __AudioContext = new WebAudio.AudioContext();
+
+            var a = __AudioContext;
+            var o = a.createOscillator();
+
+            o.start(0);
+            o.frequency.value = frequency;
+            o.type = WebAudio.OscillatorType.square;
+            o.connect(o.context.destination);
+
+            __Task.Delay(duration).ContinueWith(
+                delegate
+                {
+                    o.disconnect();
+
+                    //a.close();
+                }
+            );
+
+        }
+
+        public static void Beep()
+        {
+            // AsyncBeep?
+            // X:\jsc.svn\examples\javascript\audio\StandardOscillator\StandardOscillator\Application.cs
             // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\AudioContext.cs
 
             // does it still work? :P

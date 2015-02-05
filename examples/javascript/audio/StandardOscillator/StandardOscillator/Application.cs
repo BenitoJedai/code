@@ -36,30 +36,97 @@ namespace StandardOscillator
             new { }.With(
                 async delegate
                 {
-                    var start = new IHTMLButton { "start" };
-                    var stop = new IHTMLButton { "stop" };
+                    var start = new IHTMLButton { "connect" };
+                    var stop = new IHTMLButton { "disconnect" };
 
                     var a = new AudioContext();
-
                     var o = a.createOscillator();
-
-                    retry:
-
-                    var ee = await start.AttachToDocument().async.onclick;
-                    start.Orphanize();
 
                     o.start(0);
 
                     o.frequency.value = 440;
 
+
                     o.type = OscillatorType.sawtooth;
+
+                    o.frequency.valueInput = new IHTMLInput { type = ScriptCoreLib.Shared.HTMLInputTypeEnum.range, min = 1, max = 2000 }.AttachToDocument();
+
+
+                    new IHTMLLabel {
+                        () =>
+                            "frequency: \{ o.frequency.value }Hz"
+                            + " type: \{ o.type }"
+                    }.AttachToDocument();
+
+
+
+
+                    //.onchange +=
+                    //    eee =>
+                    //    {
+                    //        var i = ((IHTMLInput)eee.Element);
+
+                    //        o.frequency.value = i.valueAsNumber;
+                    //    };
+
+                    new IHTMLHorizontalRule { }.AttachToDocument();
+
+                    new IHTMLButton { nameof(OscillatorType.sawtooth) }.AttachToDocument().onclick += delegate { o.type = OscillatorType.sawtooth; };
+                    new IHTMLButton { nameof(OscillatorType.sine) }.AttachToDocument().onclick += delegate { o.type = OscillatorType.sine; };
+                    new IHTMLButton { nameof(OscillatorType.square) }.AttachToDocument().onclick += delegate { o.type = OscillatorType.square; };
+                    new IHTMLButton { nameof(OscillatorType.triangle) }.AttachToDocument().onclick += delegate { o.type = OscillatorType.triangle; };
+
+                    new IHTMLHorizontalRule { }.AttachToDocument();
+
+                    //s.Add()
+
+                    new IHTMLButton { "Beep()" }.AttachToDocument().onclick +=
+                        async delegate
+                        {
+                            //Console.Beep(frequency: 400, duration: 300);
+
+                            o.frequency.value = 400;
+
+                            o.type = OscillatorType.square;
+
+
+                            o.connect(o.context.destination);
+
+                            await Task.Delay(300);
+
+                            o.disconnect();
+                        };
+
+                    new IHTMLButton { "Console.Beep()" }.AttachToDocument().onclick +=
+                       delegate
+                      {
+                          Console.Beep();
+
+                          //Console.Beep(frequency: 400, duration: 300);
+
+
+                      };
+
+                    new IHTMLButton { () => "Console.Beep(\{ o.frequency.value }Hz, 300)" }.AttachToDocument().onclick +=
+                      delegate
+                      {
+                          Console.Beep(frequency: (int)o.frequency.value, duration: 300);
+                      };
+
+                    retry:
+
+
+                    var ee = await start.AttachToDocument().async.onclick;
+                    start.Orphanize();
 
                     o.connect(a.destination);
 
                     var e = await stop.AttachToDocument().async.onclick;
                     stop.Orphanize();
 
-               
+                    o.disconnect();
+
+
                     goto retry;
                 }
             );

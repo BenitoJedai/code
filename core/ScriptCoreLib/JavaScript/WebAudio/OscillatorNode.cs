@@ -17,6 +17,7 @@ namespace ScriptCoreLib.JavaScript.WebAudio
         public OscillatorType type;
 
         public void start(double when = 0) { }
+        public void disconnect() { }
 
         public readonly AudioParam frequency;
     }
