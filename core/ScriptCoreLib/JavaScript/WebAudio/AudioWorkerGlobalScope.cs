@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ScriptCoreLib.JavaScript.DOM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.DOM
+namespace ScriptCoreLib.JavaScript.WebAudio
 {
     // http://webaudio.github.io/web-audio-api/
     // http://dan.nea.me/audiolandscape/
@@ -15,7 +16,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         public double sampleRate;
 
         #region event onaudioprocess
-        public event System.Action<MessageEvent> onaudioprocess
+        public event System.Action<IEvent> onaudioprocess
         {
             [Script(DefineAsStatic = true)]
             add
