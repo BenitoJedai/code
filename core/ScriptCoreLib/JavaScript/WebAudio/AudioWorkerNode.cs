@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.DOM
+namespace ScriptCoreLib.JavaScript.WebAudio
 {
     // http://webaudio.github.io/web-audio-api/
     // http://webaudio.github.io/web-audio-api/#idl-def-AudioWorkerNode
