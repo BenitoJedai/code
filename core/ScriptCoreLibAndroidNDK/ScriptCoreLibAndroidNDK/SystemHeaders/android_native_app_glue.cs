@@ -150,9 +150,12 @@ namespace ScriptCoreLibNative.SystemHeaders
 
             public object userData;
 
+
+
+            // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs
             //     void (*onAppCmd)(struct android_app* app, int32_t cmd);
             public android_app_onAppCmd onAppCmd;
-
+            //public event // ?
 
             // Fill this in with the function to process input events.  At this point
             // the event has already been pre-dispatched, and it will be finished upon

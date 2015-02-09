@@ -6,6 +6,10 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibNative.SystemHeaders
 {
+    // can we move out the support for JVM from jsc
+    // into scriptcorelib
+    // and then share the API here?
+
     // "X:\opensource\android-ndk-r10c\platforms\android-12\arch-arm\usr\include\jni.h"
 
     // or should this be a marker attribute instead?

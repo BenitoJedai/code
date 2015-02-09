@@ -67,7 +67,19 @@ namespace TestNDK
             //state.
 
             // can we do events in C just yet?
+
+            // X:\jsc.svn\examples\c\Test\TestRoslynStaticDelegate\TestRoslynStaticDelegate\Class1.cs
+
             state.onAppCmd = (app, cmd) =>
+            // nonroslyn:
+            // void TestNDK_xNativeActivity__android_main_b__0(struct android_app* app, int cmd)
+            // roslyn 453:
+            // state->onAppCmd = TestNDK_xNativeActivity___c__DisplayClass0__android_main_b__1;
+
+            // void TestNDK_xNativeActivity___c__DisplayClass0__android_main_b__1(LPTestNDK_xNativeActivity___c__DisplayClass0 __that, struct android_app* app, int cmd)
+            // void TestNDK_xNativeActivity___c__DisplayClass0__android_main_b__1(LPTestNDK_xNativeActivity___c__DisplayClass0, struct android_app*, int);
+
+
             {
                 // native callbacks wont like scope/instance pointers
 

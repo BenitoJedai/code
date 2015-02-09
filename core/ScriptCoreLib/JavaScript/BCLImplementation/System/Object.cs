@@ -19,7 +19,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     internal class __Object
     {
         // at what point would jsc be able to track, test and import updated CLR code, the redux way? 
-        //
+        // https://github.com/dotnet/coreclr/blob/master/Documentation/intro-to-clr.md
 
 
         // http://www.hanselman.com/blog/GettingReadyForTheFutureWithTheMicrosoftNETPortabilityAnalyzer.aspx
