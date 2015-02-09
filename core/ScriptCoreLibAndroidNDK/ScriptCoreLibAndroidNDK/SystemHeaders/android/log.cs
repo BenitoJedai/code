@@ -35,7 +35,8 @@ namespace ScriptCoreLibNative.SystemHeaders.android
 
         public static int __android_log_print(android_LogPriority prio, string tag, string fmt) { return default(int); }
 
-        internal static int __android_log_print(android_LogPriority prio, string tag, string fmt, __arglist) { return default(int); }
+        // would be callable if it were a shared code project?
+        public static int __android_log_print(android_LogPriority prio, string tag, string fmt, __arglist) { return default(int); }
 
 
     }

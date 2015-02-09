@@ -10,7 +10,7 @@ namespace ScriptCoreLibNative.SystemHeaders.android
     // "X:\opensource\android-ndk-r10c\platforms\android-9\arch-arm\usr\include\android\native_activity.h"
 
     [Script(IsNative = true, Header = "android/native_activity.h", IsSystemHeader = true)]
-    public static class native_activity
+    public static partial class native_activity
     {
         // The android.app.NativeActivity java class and the corresponding native struct ANativeActivity 
         // defined in <android/native_activity.h> frees applications from having to write java glue code, 
@@ -34,6 +34,8 @@ namespace ScriptCoreLibNative.SystemHeaders.android
         public class ANativeActivityCallbacks
         {
             // X:\jsc.svn\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\SystemHeaders\android\native_activity.cs
+
+            // oncreate?
 
             public ANativeActivityCallbacks_onResume onResume;
             public ANativeActivityCallbacks_onPause onPause;

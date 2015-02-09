@@ -12,10 +12,22 @@ using ScriptCoreLibNative.SystemHeaders;
 
 namespace TestNDKLooper
 {
+    //[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
+    // [aapt] X:\jsc.svn\examples\c\android\Test\TestNDKLooper\TestNDKLooper\bin\Debug\staging\bin\AndroidManifest.xml:16: error: Error: No resource found that matches the given name (at 'theme' with value '@android:style/Theme.Holo.Dialog').
+    // android:theme="@android:style/Theme.Holo.Dialog"
+
+    // http://developer.android.com/guide/topics/ui/dialogs.html
+    // http://stackoverflow.com/questions/9804181/how-to-android-holo-theme-style-dialog-box-buttons
+    // You can set the theme through the Android Manifest xml or inside the Activity's onCreate with setTheme(android.R.style.Theme_Holo);
+
     public class xNativeActivity : ScriptCoreLibAndroidNDK.IAssemblyReferenceToken
     {
         // tested by nexus9
         // will this work with roslyn complier?
+
+        //jni/TestNDKLooper.dll.c:102:40: warning: comparison of distinct pointer types lacks a cast
+        //     if (((android_poll_source2 > NULL)))
+        //                                ^
 
         // <!-- This .apk has no Java code itself, so set hasCode to false. -->
 
