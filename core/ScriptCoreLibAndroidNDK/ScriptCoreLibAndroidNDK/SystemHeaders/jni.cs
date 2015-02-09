@@ -69,6 +69,8 @@ namespace ScriptCoreLibNative.SystemHeaders
         [Script(IsNative = true)]
         public delegate jstring NewStringUTFDelegate(ref JNIEnv env, string value);
 
+
+        // tested by?
         public NewStringUTFDelegate NewStringUTF;
 
     }

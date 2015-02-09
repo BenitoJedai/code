@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNDKUDP", "TestNDKUDP\TestNDKUDP.csproj", "{9CC1F2EC-11D5-46D7-9088-113FD67EF952}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibAndroidNDK", "..\..\..\..\..\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK.csproj", "{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeUDPNotification", "..\..\..\..\javascript\chrome\apps\ChromeUDPNotification\ChromeUDPNotification\ChromeUDPNotification.csproj", "{76843B5B-EB0A-4E49-8B36-037969E0545F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9CC1F2EC-11D5-46D7-9088-113FD67EF952}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CC1F2EC-11D5-46D7-9088-113FD67EF952}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CC1F2EC-11D5-46D7-9088-113FD67EF952}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9CC1F2EC-11D5-46D7-9088-113FD67EF952}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9CC1F2EC-11D5-46D7-9088-113FD67EF952}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9CC1F2EC-11D5-46D7-9088-113FD67EF952}.Debug|x86.Build.0 = Debug|Any CPU
+		{9CC1F2EC-11D5-46D7-9088-113FD67EF952}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CC1F2EC-11D5-46D7-9088-113FD67EF952}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CC1F2EC-11D5-46D7-9088-113FD67EF952}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9CC1F2EC-11D5-46D7-9088-113FD67EF952}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9CC1F2EC-11D5-46D7-9088-113FD67EF952}.Release|x86.ActiveCfg = Release|Any CPU
+		{9CC1F2EC-11D5-46D7-9088-113FD67EF952}.Release|x86.Build.0 = Release|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Debug|x86.Build.0 = Debug|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Release|x86.ActiveCfg = Release|Any CPU
+		{E9A0E839-8BEC-4B5C-B967-2E55A2078A77}.Release|x86.Build.0 = Release|Any CPU
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|x86.ActiveCfg = Debug|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|x86.Build.0 = Debug|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|Any CPU.ActiveCfg = Release|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|Mixed Platforms.Build.0 = Release|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.ActiveCfg = Release|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
