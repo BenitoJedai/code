@@ -48,6 +48,15 @@ namespace TestNDKLooper
         // int __android_log_print(int prio, const char *tag,  const char *fmt, ...)
         // #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "native-activity", __VA_ARGS__))
 
+
+
+
+        //      method: android_main
+        //      C : unable to emit ldloc.s at 'TestNDKLooper.xNativeActivity.android_main'#012c: C : Opcode not implemented: cgt.un at TestNDKLooper.xNativeActivity.android_main
+        //at jsc.Script.CompilerBase.BreakToDebugger(String e) in x:\jsc.internal.git\compiler\jsc\Languages\CompilerBase.cs:line 267
+        //at jsc.Script.CompilerBase.Break(String e) in x:\jsc.internal.git\compiler\jsc\Languages\CompilerBase.cs:line 227
+        //at jsc.Script.CompilerBase.EmitInstruction(Prestatement p, ILInstruction i, Type TypeExpectedOrDefault) in x:\jsc.internal.git\compiler\jsc\Languages\CompilerBase.cs:line 1456
+
         [Script(NoDecoration = true)]
         static void android_main(android_native_app_glue.android_app state)
         {

@@ -18,14 +18,14 @@ copy "web\%TargetFileName%.*" ".\staging\jni\"
 pushd staging
 
 echo update project
-call "C:\util\android-sdk-windows\tools\android.bat" update project -p . -s --target android-8
+call "x:\util\android-sdk-windows\tools\android.bat" update project -p . -s --target android-8
 
 echo ndk-build
 call X:\opensource\android-ndk-r10c\ndk-build.cmd
 
 
 echo sdk-build
-call "C:\util\apache-ant-1.9.2\bin\ant.bat" debug
+call "x:\util\apache-ant-1.9.2\bin\ant.bat" debug
 
 pushd bin
 
@@ -37,3 +37,4 @@ popd
 
 popd
 
+pause
