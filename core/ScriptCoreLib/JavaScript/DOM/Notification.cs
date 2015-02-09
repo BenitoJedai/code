@@ -37,6 +37,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         public static void requestPermission(IFunction callback) { }
 
 
+
+        // could we show animated image in a notification?
+        // canvas element?
+        // pre rendered gif?
+
+
         // Constructor(DOMString title, optional NotificationOptions options),
         public Notification(string title, object options)
         {

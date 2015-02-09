@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9A1F5234-675E-4B8E-8E26-AAD983393A23}</ProjectGuid>
+    <ProjectGuid>{B23791BC-BBED-49D9-9808-08B230B69C55}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebGLEarthByBjorn</RootNamespace>

@@ -15,6 +15,7 @@ namespace ScriptCoreLibNative.SystemHeaders
         // http://man7.org/linux/man-pages/man3/dlopen.3.html
       
         // can we pinvoke into a DRM .so ?
+        // do we have to generate shadow .lib?
     }
 
 }
