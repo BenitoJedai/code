@@ -8,8 +8,15 @@ namespace ScriptCoreLibNative.SystemHeaders.EGL
 {
 
     [Script(IsNative = true, Header = "EGL/eglplatform.h", IsSystemHeader = true)]
-    public static class eglplatform
+    //public static class eglplatform
+    public interface eglplatform_h : egl_h
     {
+        //#include <EGL/eglplatform.h>
+        //#include <EGL/egl.h>
+        //#include <GLES2/gl2platform.h>
+        //#include <GLES2/gl2ext.h>
+        //#include <GLES2/gl2.h>
+
         // X:\jsc.svn\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\SystemHeaders\android_native_app_glue.cs
 
         // http://mobilepearls.com/labs/native-android-api/

@@ -16,6 +16,13 @@ namespace TestNDK
     {
         // <!-- This .apk has no Java code itself, so set hasCode to false. -->
 
+
+        //        In file included from jni/TestNDK.dll.h:9:0,
+        //                 from jni/TestNDK.dll.c:2:
+        //X:/opensource/android-ndk-r10c/platforms/android-21/arch-arm64/usr/include/GLES2/gl2ext.h:81:45: error: unknown type name 'GLenum'
+        // typedef void (GL_APIENTRY* GLDEBUGPROCKHR)(GLenum source, GLenum type,GLuint id, GLenum severity,GLsizei length,const GLchar* message,const void* userParam);
+        //                                             ^
+
         // tested on android 2.4 galaxy s1
         // I/xNativeActivity(17047): enter TestNDK
         // I/xNativeActivity(17047): exit TestNDK
@@ -60,7 +67,7 @@ namespace TestNDK
 
             android_native_app_glue.app_dummy();
 
-            log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "enter TestNDK");
+            log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, nameof(xNativeActivity), "enter TestNDK");
 
             // state<T>.userData
             state.userData = default(object);
@@ -69,7 +76,7 @@ namespace TestNDK
             // can we do events in C just yet?
 
             // X:\jsc.svn\examples\c\Test\TestRoslynStaticDelegate\TestRoslynStaticDelegate\Class1.cs
-
+            // when is it called?
             state.onAppCmd = (app, cmd) =>
             // nonroslyn:
             // void TestNDK_xNativeActivity__android_main_b__0(struct android_app* app, int cmd)
@@ -83,12 +90,12 @@ namespace TestNDK
             {
                 // native callbacks wont like scope/instance pointers
 
-                log.__android_log_print(0, "xNativeActivity", "onAppCmd");
+                log.__android_log_print(0, nameof(xNativeActivity), nameof(android_native_app_glue.android_app.onAppCmd));
 
                 // enum tostring for c available yet?
                 if (cmd == android_native_app_glue.android_app_cmd.APP_CMD_INIT_WINDOW)
                 {
-                    log.__android_log_print(0, "xNativeActivity", "APP_CMD_INIT_WINDOW");
+                    log.__android_log_print(0, nameof(xNativeActivity), nameof(android_native_app_glue.android_app_cmd.APP_CMD_INIT_WINDOW));
                 }
             };
             //state.onInputEvent = delegate { };
@@ -96,7 +103,7 @@ namespace TestNDK
 
             // Error	1	No overload for method '__android_log_print' takes 3 arguments	X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs	27	13	TestNDK
 
-            log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "exit TestNDK");
+            log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, nameof(xNativeActivity), "exit TestNDK");
 
             //I/xNativeActivity(26856): enter TestNDK
             //I/xNativeActivity(26856): exit TestNDK

@@ -43,6 +43,12 @@ namespace ScriptCoreLibNative.SystemHeaders.GLES2
 
         // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs
         // X:\jsc.svn\examples\c\android\Test\TestHybridOVR\TestHybridOVR\xNativeActivity.cs
+
+
+        //       X:/opensource/android-ndk-r10c/platforms/android-21/arch-arm64/usr/include/GLES2/gl2ext.h:81:45: error: unknown type name 'GLenum'
+        //typedef void (GL_APIENTRY* GLDEBUGPROCKHR)(GLenum source, GLenum type,GLuint id, GLenum severity,GLsizei length,const GLchar* message,const void* userParam);
+        //                                            ^
+
     }
 
 }

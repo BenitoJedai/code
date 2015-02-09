@@ -12,12 +12,18 @@ namespace ScriptCoreLibNative.SystemHeaders.GLES2
 
     // LOCAL_LDLIBS    := -llog -lGLESv2
     [Script(IsNative = true, Header = "GLES2/gl2.h", IsSystemHeader = true)]
-    public interface gl2_h
+    public interface gl2_h : EGL.egl_h
     { }
 
     [Script(IsNative = true)]
     public class gl2 : gl2_h
     {
+        //#include <EGL/eglplatform.h>
+        //#include <EGL/egl.h>
+        //#include <GLES2/gl2platform.h>
+        //#include <GLES2/gl2ext.h>
+        //#include <GLES2/gl2.h>
+
         // notice, we are in script mode
         // where we are not omitting unused references
 
