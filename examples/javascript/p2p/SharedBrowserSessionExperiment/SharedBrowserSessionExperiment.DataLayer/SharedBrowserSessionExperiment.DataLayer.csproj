@@ -131,6 +131,8 @@
     </Compile>
     <None Include="Data\NavigationOrders.xlsx" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\NavigationOrdersNavigateBindingSource.datasource" />
+    <None Include="Properties\DataSources\NavigationOrdersPositionsBindingSource.datasource" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

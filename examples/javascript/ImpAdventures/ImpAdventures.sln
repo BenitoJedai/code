@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImpAdventures", "ImpAdventures\ImpAdventures.csproj", "{9C79DDC9-74DB-4F8A-84E8-91744D007AB4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED} = {95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}
@@ -12,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagnosticsConsole", "..\DiagnosticsConsole\DiagnosticsConsole\DiagnosticsConsole.csproj", "{979239DB-60D4-45A3-A236-27F2D984AE17}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.NatureBoy", "..\..\..\market\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy.csproj", "{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSShaderCrumple", "..\css\CSSShaderCrumple\CSSShaderCrumple\CSSShaderCrumple.csproj", "{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,21 +73,6 @@ Global
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|Mixed Platforms.Build.0 = Release|x86
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.ActiveCfg = Release|x86
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.Build.0 = Release|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|Any CPU.ActiveCfg = Release|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|Mixed Platforms.ActiveCfg = Release|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|Mixed Platforms.Build.0 = Release|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|x86.ActiveCfg = Release|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|x86.Build.0 = Release|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|x86.ActiveCfg = Debug|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|x86.Build.0 = Debug|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|Any CPU.ActiveCfg = Release|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|Mixed Platforms.Build.0 = Release|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|x86.ActiveCfg = Release|x86
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +80,5 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{979239DB-60D4-45A3-A236-27F2D984AE17} = {C18742DF-DE94-4B6C-9950-6330E08E8B1A}
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED} = {C18742DF-DE94-4B6C-9950-6330E08E8B1A}
-		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {C18742DF-DE94-4B6C-9950-6330E08E8B1A}
 	EndGlobalSection
 EndGlobal

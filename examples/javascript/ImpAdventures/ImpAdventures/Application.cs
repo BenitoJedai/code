@@ -21,6 +21,12 @@ namespace ImpAdventures
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        // would a service worker be of use
+        // to download
+        // unpack and cache all assets?
+
+
+
 
         /// <summary>
         /// This is a javascript application.

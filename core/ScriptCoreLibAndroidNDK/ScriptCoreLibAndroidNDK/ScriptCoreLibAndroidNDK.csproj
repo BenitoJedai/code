@@ -75,11 +75,13 @@
     <Compile Include="SystemHeaders\GLES2\gl2.cs" />
     <Compile Include="SystemHeaders\jni.cs" />
     <Compile Include="SystemHeaders\dlfcn.cs" />
+    <Compile Include="SystemHeaders\netinet\in_h.cs" />
     <Compile Include="SystemHeaders\sys\socket.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SystemHeaders\GLES3\" />
     <Folder Include="SystemHeaders\GLES\" />
+    <Folder Include="SystemHeaders\linux\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

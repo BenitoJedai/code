@@ -29,6 +29,9 @@ namespace ScriptCoreLib.JavaScript.DOM
     //[Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // X:\jsc.svn\examples\javascript\ScriptDynamicSourceBuilder\ScriptDynamicSourceBuilder\Application.cs
+
+
         // http://technet.microsoft.com/en-us/library/cc939973.aspx
         // http://technet.microsoft.com/en-us/library/dd440865(v=ws.10).aspx
         //Attach.Attaching a VHD activates the VHD so that it appears on the host computer as a local hard disk drive.This is sometimes called “surfacing a VHD” because the VHD is now visible to users.If the VHD already has a disk partition and file system volume when you attach it, the volume inside the VHD is assigned a drive letter. The assigned drive letter is then available for use, similar to when you insert a USB flash drive into a USB connector.All users (not just the current user) can use the attached VHD in the same way they use other volumes on local physical hard disk drives(depending on security permissions). Furthermore, because you can attach a VHD that is located on a remote server message block(SMB), you can manage your images remotely.

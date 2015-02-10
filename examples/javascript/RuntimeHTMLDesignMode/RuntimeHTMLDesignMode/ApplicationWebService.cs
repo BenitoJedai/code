@@ -17,6 +17,9 @@ namespace RuntimeHTMLDesignMode
     /// </summary>
     public sealed partial class ApplicationWebService
     {
+       
+
+
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>

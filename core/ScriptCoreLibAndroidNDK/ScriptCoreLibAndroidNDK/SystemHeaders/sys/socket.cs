@@ -50,8 +50,8 @@ namespace ScriptCoreLibNative.SystemHeaders.sys
         public static int socket(int af, int sock, int ipproto) => default(int);
 
 
-        public unsafe static int setsockopt(int s, int a, int b, void* buffer, int socklen_t) => default(int);
-
+        public unsafe static int setsockopt(int s, int level, int optname, void* optval, int optlen) => default(int);
+        //int setsockopt(int s, int level, int optname, const void* optval, int optlen);
 
         // http://cyberkinetica.homeunix.net/os2tk45/tcppr/087_L3_Multicastingandthese.html
         [Script(IsNative = true)]
