@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ScriptCoreLibNative.SystemHeaders.sys.socket_h;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 [assembly: Obfuscation(Feature = "script")]
 
@@ -18,6 +19,15 @@ namespace TestNDKUDP
     {
         // Error: X:\jsc.svn\examples\c\android\Test\TestNDKUDP\TestNDKUDP\bin\Debug is not a valid project (AndroidManifest.xml not found).
 
+
+        // https://msdn.microsoft.com/en-us/library/hh534540.aspx
+        static void TraceMessage([CallerFilePath] string sourceFilePath = "", [CallerLineNumber] int sourceLineNumber = 0) =>
+            log.__android_log_print(
+                log.android_LogPriority.ANDROID_LOG_INFO,
+                "xNativeActivity",
+                "line %i file %s",
+                __arglist(sourceLineNumber, sourceFilePath)
+            );
 
 
         [Script(NoDecoration = true)]
@@ -93,18 +103,25 @@ namespace TestNDKUDP
 
             byte hopLimit = 2;
             log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", ":70");
-            setsockopt(s, IPPROTO_IP, IP_MULTICAST_TTL, &hopLimit, sizeof(byte));
+            TraceMessage();
+
+            //  The default value is one for all IP multicast datagrams. 
+            //setsockopt(s, IPPROTO_IP, IP_MULTICAST_TTL, &hopLimit, sizeof(byte));
 
             // http://www.tldp.org/HOWTO/Multicast-HOWTO-6.html
             // struct in_addr interface_addr;
             in_addr localAddr;
 
             log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", ":77");
+            TraceMessage();
+
+            // For multicast sending use an IP_MULTICAST_IF flag with the setsockopt() call. This specifies the interface to be used.
             setsockopt(s, IPPROTO_IP, IP_MULTICAST_IF, &localAddr, sizeof(in_addr));
 
 
             //after:
             log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", ":79");
+            TraceMessage();
 
 
             //            I / xNativeActivity(13271): enter TestNDKUDP

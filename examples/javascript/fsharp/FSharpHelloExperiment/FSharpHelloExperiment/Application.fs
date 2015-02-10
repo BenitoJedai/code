@@ -15,6 +15,17 @@ namespace FSharpHelloExperiment
     open FSharpHelloExperiment.Design
     open FSharpHelloExperiment.HTML.Pages
 
+//no implementation for Microsoft.FSharp.Core.FSharpRef`1[FSharpHelloExperiment.Application] 6e4c211e-6a34-3d82-b5fa-c2daa12f13bc
+//script: error JSC1000: No implementation found for this native method, please implement [Microsoft.FSharp.Core.FSharpRef`1.set_contents(FSharpHelloExperiment.Application)]
+
+
+
+//067c:02:01 RewriteToAssembly error: System.IO.FileLoadException: The given assembly name or codebase was invalid. (Exception from HRESULT: 0x80131047)
+//   at System.Reflection.AssemblyName.nInit(RuntimeAssembly& assembly, Boolean forIntrospection, Boolean raiseResolveEvent)
+//   at System.Reflection.AssemblyName..ctor(String assemblyName)
+//   at System.Reflection.Assembly.LoadWithPartialName(String partialName)
+//   at jsc.meta.Commands.Reference.ReferenceJavaScriptDocument.<>c__DisplayClass175.<InternalInvoke>b__237(<>f__AnonymousType54`2 <>h__TransparentIdentifier3)
+
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
@@ -89,8 +100,15 @@ namespace FSharpHelloExperiment
             HelloWorld.style.color <- "blue"
 
             do c.Add(HelloWorld)
+
+            // Severity	Description	Project	File	Line
+//Error	A unique overload for method 'add_onclick' could not be determined based on type information prior to this program point. A type annotation may be needed. Candidates: IHTMLElement.add_onclick(value: Action<IEvent<IHTMLButton>>) : unit, IHTMLElement.add_onclick(value: Action<IEvent>) : unit	FSharpHelloExperiment	Application.fs	99
+
+
+//            HelloWorld.add_onclick()
+
             do HelloWorld.add_onclick(
-                fun (e) ->
+                fun (e : IEvent<IHTMLButton>) ->
                     let w = new ApplicationWebService()
                     do w.WebMethod2("client fsharp. ",
                         fun (y) ->

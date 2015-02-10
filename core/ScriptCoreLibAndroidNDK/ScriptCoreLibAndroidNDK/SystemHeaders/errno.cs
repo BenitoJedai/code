@@ -11,6 +11,10 @@ namespace ScriptCoreLibNative.SystemHeaders
     [Script(IsNative = true, Header = "errno.h", IsSystemHeader = true)]
     public unsafe static class errno_h
     {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Exception.cs
+
+
+
         /* internal function returning the address of the thread-specific errno */
         public static int* __errno() => default(int*);
 

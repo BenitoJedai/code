@@ -38,7 +38,7 @@ namespace ScriptDynamicSourceBuilder
             //script: error JSC1000: You tried to instance a class which seems to be marked as native.
             //script: error JSC1000: type has no callable constructor: [ScriptCoreLib.JavaScript.DOM.Blob] Void .ctor(System.String[])
 
-            var blob = new Blob(s.ToString());
+            var blob = new Blob(new[] { s.ToString() });
             //var url = URL.createObjectURL(blob);
 
             //<script src="blob:http%3A//192.168.43.252%3A28384/6a37d088-4403-4eb2-b45e-1d19083b304e"></script>

@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Query.Experimental;
 using SharedBrowserSessionExperiment.DataLayer.Data;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace SharedBrowserSessionExperiment
 
         // a component? async datasource?
         [Obsolete(" ah we cannot use this more than once, since we are still using mutable builder", true)]
-        NavigationOrders.Navigate n = new NavigationOrders.Navigate();
+        NavigationOrdersNavigate n = new NavigationOrdersNavigate();
 
         public async Task BindingSourceSynchonization()
         {
@@ -65,14 +66,14 @@ namespace SharedBrowserSessionExperiment
 
 
 
-                    var s = new NavigationOrders.Navigate().Where(x => x.urlString == r.urlString).FirstOrDefault();
+                    var s = new NavigationOrdersNavigate().Where(x => x.urlString == r.urlString).FirstOrDefault();
                     if (s != null)
                     {
                         r.Key = s.Key;
                         return;
                     }
 
-                    r.Key = new NavigationOrders.Navigate().Insert(r);
+                    r.Key = new NavigationOrdersNavigate().Insert(r);
                     // see. either way we are done! :)
                 }
             );
@@ -85,7 +86,7 @@ namespace SharedBrowserSessionExperiment
 
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140413
                 var IncrementalSyncSkip = this.IncrementalSyncSkip;
-                IncrementalSyncTake = new NavigationOrders.Navigate().Where(x => x.Key > IncrementalSyncSkip).AsEnumerable().ToArray();
+                IncrementalSyncTake = new NavigationOrdersNavigate().Where(x => x.Key > IncrementalSyncSkip).AsEnumerable().ToArray();
 
 
 
@@ -104,7 +105,7 @@ namespace SharedBrowserSessionExperiment
         public async Task InsertPosition(NavigationOrdersPositionsRow r)
         {
             //return new NavigationOrders.Navigate() += r;
-            LastKnownPositionKey = new NavigationOrders.Positions().Insert(r);
+            LastKnownPositionKey = new NavigationOrdersPositions().Insert(r);
         }
 
         [Obsolete("webview not sending this?")]
@@ -123,7 +124,7 @@ namespace SharedBrowserSessionExperiment
 
             Console.WriteLine("before " + new { LastKnownPositionKey });
 
-            var r = new NavigationOrders.Positions().Where(x => x.Key > LastKnownPositionKey).OrderByDescending(x => x.Key).FirstOrDefault();
+            var r = new NavigationOrdersPositions().Where(x => x.Key > LastKnownPositionKey).OrderByDescending(x => x.Key).FirstOrDefault();
 
             if (r != null)
             {

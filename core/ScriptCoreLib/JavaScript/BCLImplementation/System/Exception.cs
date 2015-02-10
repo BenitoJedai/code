@@ -17,6 +17,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(InternalConstructor = true, Implements = typeof(global::System.Exception))]
     internal class __Exception
     {
+        // android NDK stores os errno at a pointer location 
+        // X:\jsc.svn\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\SystemHeaders\errno.cs
 
         public string Message
         {
