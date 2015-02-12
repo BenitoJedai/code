@@ -6,22 +6,31 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibNative.SystemHeaders
 {
-	/// <summary>
-	/// http://www.unet.univie.ac.at/aix/libs/basetrf1/malloc.htm
-	/// </summary>
-	/// 
-	[Script(IsNative = true, Header = "stdlib.h", IsSystemHeader = true)]
-	public static class stdlib_h
-	{
-		public static object realloc(object ptr, int size)
-		{
-			return default(object);
-		}
+    /// <summary>
+    /// http://www.unet.univie.ac.at/aix/libs/basetrf1/malloc.htm
+    /// </summary>
+    /// 
+    [Script(IsNative = true, Header = "stdlib.h", IsSystemHeader = true)]
+    public unsafe static class stdlib_h
+    {
+        // http://www.cplusplus.com/reference/cstdlib/malloc/
 
-		public static void free(object e)
-		{
+        public unsafe static void* malloc(int size)
+        {
+            return default(void*);
+        }
 
-		}
-	}
+        // used by?
+
+        public static object realloc(object ptr, int size)
+        {
+            return default(object);
+        }
+
+        public static void free(object e)
+        {
+
+        }
+    }
 
 }

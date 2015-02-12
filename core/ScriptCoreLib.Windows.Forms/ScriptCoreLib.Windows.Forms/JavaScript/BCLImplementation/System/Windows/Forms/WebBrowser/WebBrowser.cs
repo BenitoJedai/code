@@ -17,6 +17,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.WebBrowser))]
     public class __WebBrowser : __WebBrowserBase
     {
+        // http://www.projky.com/dotnet/4.0/System/Windows/Forms/HtmlToClrEventProxy.cs.html
+
         // X:\jsc.svn\examples\javascript\Test\TestShadowIFrame\TestShadowIFrame\Application.cs
         // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\Application.cs
 

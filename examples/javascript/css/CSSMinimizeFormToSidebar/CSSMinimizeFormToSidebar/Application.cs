@@ -85,8 +85,14 @@ namespace CSSMinimizeFormToSidebar
             return newlayout;
         }
 
-        public static void InitializeSidebarBehaviour(IApp page, Form f, bool HandleClosed = true,
-            bool HandleDragToLeft = true)
+        
+        // problems with roslyn build?
+        public static void InitializeSidebarBehaviour(
+            IApp page, 
+            Form f, 
+            bool HandleClosed = true,
+            bool HandleDragToLeft = true
+            )
         {
             var tt = f.GetHTMLTarget();
 
