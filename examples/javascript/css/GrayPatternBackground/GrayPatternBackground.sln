@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrayPatternBackground", "GrayPatternBackground\GrayPatternBackground.csproj", "{9122FB76-35CE-41C7-8894-4E58D1BA94BD}"
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrayPatternBackground", "GrayPatternBackground\GrayPatternBackground.csproj", "{16D7540C-F7F3-40E8-8508-B11C5898234F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +11,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Debug|x86.ActiveCfg = Debug|x86
-		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Debug|x86.Build.0 = Debug|x86
-		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Release|x86.ActiveCfg = Release|x86
-		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Release|x86.Build.0 = Release|x86
+		{16D7540C-F7F3-40E8-8508-B11C5898234F}.Debug|x86.ActiveCfg = Debug|x86
+		{16D7540C-F7F3-40E8-8508-B11C5898234F}.Debug|x86.Build.0 = Debug|x86
+		{16D7540C-F7F3-40E8-8508-B11C5898234F}.Release|x86.ActiveCfg = Release|x86
+		{16D7540C-F7F3-40E8-8508-B11C5898234F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

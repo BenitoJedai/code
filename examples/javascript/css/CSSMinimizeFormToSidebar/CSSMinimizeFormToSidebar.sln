@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSMinimizeFormToSidebar", "CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar.csproj", "{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}"
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSMinimizeFormToSidebar", "CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar.csproj", "{6743CD12-F62A-4863-8660-669415976A77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +11,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Debug|x86.ActiveCfg = Debug|x86
-		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Debug|x86.Build.0 = Debug|x86
-		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Release|x86.ActiveCfg = Release|x86
-		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Release|x86.Build.0 = Release|x86
+		{6743CD12-F62A-4863-8660-669415976A77}.Debug|x86.ActiveCfg = Debug|x86
+		{6743CD12-F62A-4863-8660-669415976A77}.Debug|x86.Build.0 = Debug|x86
+		{6743CD12-F62A-4863-8660-669415976A77}.Release|x86.ActiveCfg = Release|x86
+		{6743CD12-F62A-4863-8660-669415976A77}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

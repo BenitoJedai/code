@@ -30,182 +30,194 @@ namespace com.abstractatech.adminshell
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
     public sealed class Application
-    {
-        HTML.Images.FromAssets.Preview ref0;
+//    {
+
+
+
+    //{ SourceMethod = Void<InitializeSidebarBehaviour> b__19(ScriptCoreLib.JavaScript.Runtime.Timer) }
+    //    0x039616fd. [->0]
+    //    [0] -0 +0 IL_0173: br.s[_] IL_0175
+    //  |
+    //script: error JSC1000: logic failure, TargetFlow.Branch: [0x0173]
+    //    br.s       +0 -0
+    //script: error JSC1000: error at CSSMinimizeFormToSidebar.ApplicationExtension+<>c__DisplayClass7.<InitializeSidebarBehaviour>b__19,
+
+
+    HTML.Images.FromAssets.Preview ref0;
 
 #if FEATURE_CLRINSTALL
         com.abstractatech.adminshell.Assets.Publish publish0;
 #endif
 
-        // type is loaded before virtual console is loaded
-        FormAsPopupExtensionsForConsoleFormPackageMediator ref_allow_webview_to_talk;
+    // type is loaded before virtual console is loaded
+    FormAsPopupExtensionsForConsoleFormPackageMediator ref_allow_webview_to_talk;
 
 
-        static void init(string InternalScriptApplicationSource)
-        {
-            (Native.window as dynamic).InternalScriptApplicationSource = InternalScriptApplicationSource;
+    static void init(string InternalScriptApplicationSource)
+    {
+        (Native.window as dynamic).InternalScriptApplicationSource = InternalScriptApplicationSource;
 
-        }
-
-
-        public readonly ApplicationControl control = new ApplicationControl();
+    }
 
 
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
-        {
-            // ask for credentials for new ui
-
-            //new ConsoleForm().InitializeConsoleFormWriter().Show();
-
-            control.nfc.onnfc +=
-                nfcid =>
-                {
-                    page.username.value = nfcid;
-                };
-
-            #region go
-            Action<HistoryScope<InternalScriptApplicationSource>> go =
-                //async
-                  scope =>
-                  {
-                      var source = scope.state;
+    public readonly ApplicationControl control = new ApplicationControl();
 
 
-                      new App.FromDocument().LoginButton.Orphanize();
+    /// <summary>
+    /// This is a javascript application.
+    /// </summary>
+    /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+    public Application(IApp page)
+    {
+        // ask for credentials for new ui
 
-                      Console.WriteLine("eval a...");
-                      var restore = source.eval();
-                      Console.WriteLine("eval a... done");
+        //new ConsoleForm().InitializeConsoleFormWriter().Show();
+
+        control.nfc.onnfc +=
+            nfcid =>
+            {
+                page.username.value = nfcid;
+            };
+
+        #region go
+        Action<HistoryScope<InternalScriptApplicationSource>> go =
+              //async
+              scope =>
+              {
+                  var source = scope.state;
+
+
+                  new App.FromDocument().LoginButton.Orphanize();
+
+                  Console.WriteLine("eval a...");
+                  var restore = source.eval();
+                  Console.WriteLine("eval a... done");
 
                       //await scope;
 
                       //Native.window.alert("go back?");
 
                   };
-            #endregion
+        #endregion
 
 
-            page.go.WhenClicked(
-                async button =>
-                //async delegate
-                {
-                    Console.WriteLine("click!");
+        page.go.WhenClicked(
+            async button =>
+            //async delegate
+            {
+                Console.WriteLine("click!");
 
                     // stop polling
                     control.nfc.service = null;
 
-                    button.disabled = true;
-                    button.style.Opacity = 0.5;
+                button.disabled = true;
+                button.style.Opacity = 0.5;
 
-                    Console.WriteLine("loading a...");
-                    var source = await typeof(a);
-                    Console.WriteLine("loading a... done");
+                Console.WriteLine("loading a...");
+                var source = await typeof(a);
+                Console.WriteLine("loading a... done");
 
-                    Native.window.history.pushState(source, go);
+                Native.window.history.pushState(source, go);
 
-                    button.style.Opacity = 1;
-                    button.disabled = false;
+                button.style.Opacity = 1;
+                button.disabled = false;
 
 
-                }
-             );
+            }
+         );
 
-            "Remote Web Shell".ToDocumentTitle();
+        "Remote Web Shell".ToDocumentTitle();
 
+    }
+
+
+    //[Obsolete("jsc should rewrite nested secondary apps, by referencing the primary, to reduce any duplicate code, or both")]
+    public sealed class a
+    {
+
+
+        public readonly ApplicationWebService service = new ApplicationWebService();
+
+        static a()
+        {
+            // this should not be visible for the default app
+            Console.WriteLine("typeof(a) is now available");
         }
 
-
-        //[Obsolete("jsc should rewrite nested secondary apps, by referencing the primary, to reduce any duplicate code, or both")]
-        public sealed class a
+        public a(IApp e)
         {
+            //yield(new { hello = "secondary app loaded and running!" }.ToString());
 
-
-            public readonly ApplicationWebService service = new ApplicationWebService();
-
-            static a()
+            var c = new ShellWithPing.Library.ConsoleWindow
             {
-                // this should not be visible for the default app
-                Console.WriteLine("typeof(a) is now available");
-            }
+                Text = "Remote Web Shell",
+                //Text = "Remote Web Shell (Logged in as " + new Cookie("foo").Value + ")",
+                Color = Color.Red,
+                BackColor = Color.Black
+            };
 
-            public a(IApp e)
-            {
-                //yield(new { hello = "secondary app loaded and running!" }.ToString());
-
-                var c = new ShellWithPing.Library.ConsoleWindow
-                {
-                    Text = "Remote Web Shell",
-                    //Text = "Remote Web Shell (Logged in as " + new Cookie("foo").Value + ")",
-                    Color = Color.Red,
-                    BackColor = Color.Black
-                };
-
-                c.AppendLine(
+            c.AppendLine(
 @" *** WARNING *** be careful!
 example:
  am start -a android.intent.action.CALL tel:254007
 ");
 
-                // if we will popup, wil we have a frame?
-                c.AppendLine(new { FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame }.ToString());
+            // if we will popup, wil we have a frame?
+            c.AppendLine(new { FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame }.ToString());
 
 
 
-                c.Show();
+            c.Show();
 
 
-                global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
-                    c, HandleClosed: false
-                );
+            global::CSSMinimizeFormToSidebar.ApplicationExtension.InitializeSidebarBehaviour(
+                c, HandleClosed: false
+            );
 
 
-                Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-                if (Native.window.parent != Native.window.self)
-                {
-                    Native.document.body.style.backgroundColor = JSColor.Transparent;
-                }
-                else
-                {
-                    Native.document.body.style.backgroundColor = "#185D7B";
-                }
-
-                c.PopupInsteadOfClosing();
-
-                c.AtCommand += service.ShellAsync;
+            if (Native.window.parent != Native.window.self)
+            {
+                Native.document.body.style.backgroundColor = JSColor.Transparent;
             }
+            else
+            {
+                Native.document.body.style.backgroundColor = "#185D7B";
+            }
+
+            c.PopupInsteadOfClosing();
+
+            c.AtCommand += service.ShellAsync;
         }
     }
+}
 
-    //interface IApplication
-    //{ 
+//interface IApplication
+//{ 
 
-    //}
+//}
 
 
 
-    public static class DownloadSDKFunction
+public static class DownloadSDKFunction
+{
+    // - The digital signature of the object did not verify.
+
+    public static void DownloadSDK(WebServiceHandler h)
     {
-        // - The digital signature of the object did not verify.
+        const string _download = "/download/";
 
-        public static void DownloadSDK(WebServiceHandler h)
+        var path = h.Context.Request.Path;
+
+        if (path == "/crx")
         {
-            const string _download = "/download/";
+            // https://code.google.com/p/chromium/issues/detail?id=128748
 
-            var path = h.Context.Request.Path;
-
-            if (path == "/crx")
-            {
-                // https://code.google.com/p/chromium/issues/detail?id=128748
-
-                h.Context.Response.Redirect("/download/foo.crx");
-                h.CompleteRequest();
-                return;
-            }
+            h.Context.Response.Redirect("/download/foo.crx");
+            h.CompleteRequest();
+            return;
+        }
 
 #if FEATURE_CLRINSTALL
             var p = new com.abstractatech.adminshell.Assets.Publish();
@@ -335,41 +347,41 @@ example:
 
 
 
+        return;
+    }
+
+    private static void DownloadSDKFile(WebServiceHandler h, string fpath, string folder = "/download")
+    {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201306/20130605-lan-clickonce
+
+        Console.WriteLine("download: " + fpath);
+
+        if (fpath.EndsWith(".application"))
+        {
+            var bytes_application = System.IO.File.ReadAllText(fpath);
+
+            var HostUri = new
+            {
+                Host = h.Context.Request.Headers["Host"].TakeUntilIfAny(":"),
+                Port = h.Context.Request.Headers["Host"].SkipUntilIfAny(":")
+            };
+
+            var x = bytes_application.Replace(
+                "127.0.0.1:8181",
+
+                // change path by adding a sub folder
+                HostUri.Host + ":" + HostUri.Port + folder
+            );
+            Console.WriteLine(x);
+            h.Context.Response.Write(x);
+            h.CompleteRequest();
             return;
         }
 
-        private static void DownloadSDKFile(WebServiceHandler h, string fpath, string folder = "/download")
-        {
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201306/20130605-lan-clickonce
 
-            Console.WriteLine("download: " + fpath);
-
-            if (fpath.EndsWith(".application"))
-            {
-                var bytes_application = System.IO.File.ReadAllText(fpath);
-
-                var HostUri = new
-                {
-                    Host = h.Context.Request.Headers["Host"].TakeUntilIfAny(":"),
-                    Port = h.Context.Request.Headers["Host"].SkipUntilIfAny(":")
-                };
-
-                var x = bytes_application.Replace(
-                    "127.0.0.1:8181",
-
-                    // change path by adding a sub folder
-                    HostUri.Host + ":" + HostUri.Port + folder
-                );
-                Console.WriteLine(x);
-                h.Context.Response.Write(x);
-                h.CompleteRequest();
-                return;
-            }
-
-
-            var bytes = System.IO.File.ReadAllBytes(fpath);
-            h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
-            h.CompleteRequest();
-        }
+        var bytes = System.IO.File.ReadAllBytes(fpath);
+        h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+        h.CompleteRequest();
     }
+}
 }
