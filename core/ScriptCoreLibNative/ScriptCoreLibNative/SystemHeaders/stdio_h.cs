@@ -14,6 +14,13 @@ namespace ScriptCoreLibNative.SystemHeaders
     [Script(IsNative = true, Header = "stdio.h", IsSystemHeader = true)]
     public static class stdio_h
     {
+        // X:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\crt\src\appcrt\_file.cpp
+        // #define 	stdout   (__iob[1])
+        //public static object[] __iob;
+
+        public static object freopen(string path, string mode, object stream) => default(object);
+
+
         // http://msdn.microsoft.com/en-us/library/9yky46tz.aspx
         public static void fflush(object stream = null)
         {

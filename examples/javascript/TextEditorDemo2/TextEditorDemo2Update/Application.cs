@@ -20,9 +20,8 @@ namespace TextEditorDemo2Update
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    internal sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -30,12 +29,7 @@ namespace TextEditorDemo2Update
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page)
         {
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+  
 
             var n = new MyEditor();
 
@@ -109,7 +103,7 @@ namespace TextEditorDemo2Update
             n.Nasa.onclick +=
                 delegate
                 {
-                    text.InnerHTML =  NasaSource.Text;
+                    text.InnerHTML = NasaSource.Text;
 
                 };
 
@@ -124,7 +118,7 @@ namespace TextEditorDemo2Update
             n.CnC.onclick +=
                 delegate
                 {
-                    text.InnerHTML =  CnCSource.Text;
+                    text.InnerHTML = CnCSource.Text;
 
                 };
 

@@ -38,9 +38,9 @@ namespace LightsOut.js
 
             // what happens in beta2 when the anonymous types are immutable? :)
 
-
+            
             var usersettings = new __Type1 { x = 5, y = 5, tile = new __Type2 { w = 64, h = 64, cold = 0.8 } };
-            var search = Native.Document.location.search;
+            var search = Native.document.location.search;
 
             if (search.StartsWith("?"))
             {

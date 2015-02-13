@@ -133,7 +133,7 @@ namespace TiltDatabaseExperiment
                         if (dy == zdy)
                         {
                             // check again
-                            Native.Window.requestAnimationFrame += loop;
+                            Native.window.requestAnimationFrame += loop;
 
                             return;
                         }
@@ -145,12 +145,12 @@ namespace TiltDatabaseExperiment
                     yield:
                         delegate
                         {
-                            Native.Window.requestAnimationFrame += loop;
+                            Native.window.requestAnimationFrame += loop;
                         }
                 );
             };
 
-            Native.Window.requestAnimationFrame += loop;
+            Native.window.requestAnimationFrame += loop;
 
             @"Hello world".ToDocumentTitle();
 
@@ -167,11 +167,11 @@ namespace TiltDatabaseExperiment
             x = delegate
             {
                 e();
-                Native.Window.requestAnimationFrame += x;
+                Native.window.requestAnimationFrame += x;
 
             };
 
-            Native.Window.requestAnimationFrame += x;
+            Native.window.requestAnimationFrame += x;
         }
     }
 }

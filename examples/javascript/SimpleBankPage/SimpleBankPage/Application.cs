@@ -20,9 +20,8 @@ namespace SimpleBankPage
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -43,16 +42,16 @@ namespace SimpleBankPage
 
 
             Native.window.onbeforeunload +=
-                delegate(IWindow.Confirmation ev)
+                delegate (IWindow.Confirmation ev)
                 {
 
                     Timer.DoAsync(
                         delegate
                         {
-                            Native.Document.body.style.backgroundColor = JSColor.Red;
+                            Native.document.body.style.backgroundColor = JSColor.Red;
 
 
-                            new Timer((t) => Native.Document.body.style.backgroundColor = JSColor.White, 500, 0);
+                            new Timer((t) => Native.document.body.style.backgroundColor = JSColor.White, 500, 0);
                         }
                     );
 
@@ -68,12 +67,7 @@ namespace SimpleBankPage
 
             Control.appendChild(anchor);
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
         }
 
     }

@@ -18,9 +18,8 @@ namespace Abstractatech.JavaScript.TextEditor
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -54,17 +53,17 @@ namespace Abstractatech.JavaScript.TextEditor
                         new { body = t.Document.body.AsXElement() }
                     );
 
-                    //7990ms { body = <body style="height: auto; border: 0; overflow: auto; background-color:transparent;">ss<font color="#ff0000">dfsdf</font>sd</body> } view-source:35444
-                    //7993ms { f = <font color="#ff0000">dfsdf</font> } 
+                //7990ms { body = <body style="height: auto; border: 0; overflow: auto; background-color:transparent;">ss<font color="#ff0000">dfsdf</font>sd</body> } view-source:35444
+                //7993ms { f = <font color="#ff0000">dfsdf</font> } 
 
-                    t.Document.body.AsXElement().Elements().WithEach(
-                        zf =>
-                        {
+                t.Document.body.AsXElement().Elements().WithEach(
+                zf =>
+                {
                             Console.WriteLine(new { zf, zf.Name.LocalName });
 
-                            // 10797ms { zf = <font color="#ff0000">dfs</font>, LocalName = FONT } 
+                        // 10797ms { zf = <font color="#ff0000">dfs</font>, LocalName = FONT } 
 
-                            if (zf.Name.LocalName.ToLower() == "div")
+                        if (zf.Name.LocalName.ToLower() == "div")
                             {
 
                                 var ff = new IHTMLSpan { innerText = zf.Value };
@@ -92,12 +91,12 @@ namespace Abstractatech.JavaScript.TextEditor
                                 zf.ReplaceWith(ff.AsXElement());
                             }
                         }
-                    );
+            );
 
-                    // we inline images, should look for fonts inside svg too?
-                    t.Document.body.AsXElement().Elements("font").ToArray().WithEach(
-                        f =>
-                        {
+                // we inline images, should look for fonts inside svg too?
+                t.Document.body.AsXElement().Elements("font").ToArray().WithEach(
+                f =>
+                {
                             Console.WriteLine(new { f });
 
 
@@ -107,9 +106,9 @@ namespace Abstractatech.JavaScript.TextEditor
 
                             f.ReplaceWith(ff.AsXElement());
 
-                            //f.Nodes().att
-                        }
-                    );
+                        //f.Nodes().att
+                    }
+            );
                 }
             );
 

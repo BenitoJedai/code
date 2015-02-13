@@ -48,6 +48,8 @@ namespace CLRLibraryCSharp
         {
             try
             {
+                // x:\jsc.svn\examples\c\test\testswitchtoclr\clrlibrarycsharp\class1.cs
+
                 int handle = 0;
                 // Figure out how much version info there is:
                 int size =

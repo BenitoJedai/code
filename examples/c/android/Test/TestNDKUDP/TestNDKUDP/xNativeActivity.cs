@@ -17,6 +17,9 @@ namespace TestNDKUDP
 {
     public class xNativeActivity : ScriptCoreLibAndroidNDK.IAssemblyReferenceToken
     {
+        // double click on exe./metro?
+        // and have it run on android?
+
         // Error: X:\jsc.svn\examples\c\android\Test\TestNDKUDP\TestNDKUDP\bin\Debug is not a valid project (AndroidManifest.xml not found).
 
 

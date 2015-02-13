@@ -28,14 +28,12 @@ namespace McKrackenSceneSlideshow
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page)
         {
+            //20150213
+            // the effect no longer works?
+
             new NatureBoy.js.Class6().Initialize();
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+           
         }
 
     }
