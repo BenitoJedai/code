@@ -356,15 +356,14 @@ namespace ScriptCoreLib.JavaScript.Controls
 
 
 
-                c1.onclick +=
-                    delegate(IEvent xe)
-                    {
-                        c1.blur();
+                c1.onclick += xe =>
+                {
+                    c1.blur();
 
-                        this.Control.Orphanize();
+                    this.Control.Orphanize();
 
-                        this.Value = e;
-                    };
+                    this.Value = e;
+                };
 
                 return c1;
             }
@@ -586,7 +585,7 @@ namespace ScriptCoreLib.JavaScript.Controls
             var justifycenter = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/justifycenter.gif", "&#xf037;", "Justifycenter");
             var justifyright = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/justifyright.gif", "&#xf038;", "Justifyright");
             var justifyfull = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/justifyfull.gif", "&#xf039;", "Justifyfull");
-            
+
             var indent = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/indent.gif", "&#xf03c;", "Indent");
             var outdent = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/outdent.gif", "&#xf03b;", "Outdent");
 
@@ -665,7 +664,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             forecolor_popup.AttachTo(forecolor, () => this.IsFadeEnabled);
             forecolor_popup.Changed =
-                delegate(Color c)
+                delegate (Color c)
                 {
                     DoCommand("ForeColor", c.ToString());
                 };
@@ -676,7 +675,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             hilitecolor_popup.AttachTo(hilitecolor, () => this.IsFadeEnabled);
             hilitecolor_popup.Changed =
-                delegate(Color c)
+                delegate (Color c)
                 {
                     try
                     {
@@ -697,15 +696,15 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                     bold, italic, underline, strike, //,  Separator.cloneNode(false),
 
-                    
 
 
-                    justifyleft, justifycenter, justifyright, justifyfull, // Separator.cloneNode(false),
+
+                justifyleft, justifycenter, justifyright, justifyfull, // Separator.cloneNode(false),
                     indent, outdent, //Separator.cloneNode(false),
                      insertorderedlist, insertunorderedlist,
                     sup, sub, //Separator.cloneNode(false),
-                    //incsize, decsize,
-                    forecolor, hilitecolor,
+                              //incsize, decsize,
+                forecolor, hilitecolor,
                     removeformat,
 
                     undo, redo
