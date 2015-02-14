@@ -46,6 +46,7 @@ namespace TestStackAlloc
 
                 // Allocate space from the local heap.
                 var localEndPoint = stackalloc sockaddr_in[1];
+                // could we do it in async?
                 var localEndPoint0 = stackalloc sockaddr_in0[1];
 
                 localEndPoint->sin_family = 7;
