@@ -88,6 +88,7 @@ namespace TestNDKUDP
         [Script(NoDecoration = true)]
         unsafe static void android_main(android_native_app_glue.android_app state)
         {
+            // http://elfsharp.hellsgate.pl/examples.shtml
             // https://msdn.microsoft.com/en-us/library/dd554932(VS.100).aspx
 
             android_native_app_glue.app_dummy();
