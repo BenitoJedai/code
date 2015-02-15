@@ -40,12 +40,56 @@ namespace TestNDKUDP
                 )
             );
 
+
+        unsafe static void trace(
+    byte* message,
+    [CallerFilePath] string sourceFilePath = "",
+    [CallerLineNumber] int sourceLineNumber = 0)
+    => log.__android_log_print(
+        log.android_LogPriority.ANDROID_LOG_INFO,
+        "xNativeActivity",
+        //"line %i file %s",
+        "%s:%i %s",
+        __arglist(
+            sourceFilePath,
+            sourceLineNumber,
+            message
+        )
+    );
+
+
+        unsafe static void tracei(
+    string message = "",
+    int value = 0,
+    [CallerFilePath] string sourceFilePath = "",
+    [CallerLineNumber] int sourceLineNumber = 0)
+    => log.__android_log_print(
+        log.android_LogPriority.ANDROID_LOG_INFO,
+        "xNativeActivity",
+        //"line %i file %s",
+        "%s:%i %s %i errno: %i %s",
+        __arglist(
+            sourceFilePath,
+            sourceLineNumber,
+            message,
+            value,
+
+                *errno_h.__errno(),
+
+                errno_h.strerror(*errno_h.__errno())
+
+        )
+    );
+
+
         // http://stackoverflow.com/questions/24581245/send-broadcast-from-c-code
 
 
         [Script(NoDecoration = true)]
         unsafe static void android_main(android_native_app_glue.android_app state)
         {
+            // https://msdn.microsoft.com/en-us/library/dd554932(VS.100).aspx
+
             android_native_app_glue.app_dummy();
             //Action<
 
@@ -58,81 +102,110 @@ namespace TestNDKUDP
             // https://msdn.microsoft.com/en-us/library/windows/hardware/ff543744(v=vs.85).aspx
             // http://stackoverflow.com/questions/6033581/using-socket-in-android-ndk
             // can we load apk from udp? and reload on update?
-            var s = socket(
-                AF_INET,
-                SOCK_DGRAM,
-                IPPROTO_UDP
-            );
+            var s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-            #region errno
-            if (s < 0)
-            {
-                // I/xNativeActivity(13196): enter TestNDKUDP
-                //I/xNativeActivity(13196): (s < 0) s: -1, errno: 13
-                // http://stackoverflow.com/questions/23870808/oserror-errno-13-permission-denied
-                // OSError - Errno 13 Permission denied
-                var errno = *errno_h.__errno();
-                log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO,
-                    "xNativeActivity",
-                    "(s < 0) s: %i, errno: %i",
-                    __arglist(s, errno)
-                    );
-
-                return;
-            }
-            #endregion
+            tracei("socket ", (int)s);
 
 
-            trace();
 
-            var bAllowMultiple = true;
-            s.setsockopt(SOL_SOCKET, SO_REUSEADDR, &bAllowMultiple, sizeof(bool));
-            trace();
+            // http://stackoverflow.com/questions/8330808/bind-with-so-reuseaddr-fails
+
+            // https://books.google.ee/books?id=ptSC4LpwGA0C&pg=PA610&lpg=PA610&dq=SO_REUSEADDR+-1+errno+22&source=bl&ots=Ks2AUohlOn&sig=5ytq_BKAlj1sbZVNSGaaqPhM4lg&hl=en&sa=X&ei=glLgVM_SOsjCOa2RgfgN&ved=0CCQQ6AEwATgK#v=onepage&q=SO_REUSEADDR%20-1%20errno%2022&f=false
+
+
 
             //byte hopLimit = 2;
             //  The default value is one for all IP multicast datagrams. 
             //setsockopt(s, IPPROTO_IP, IP_MULTICAST_TTL, &hopLimit, sizeof(byte));
 
             // http://www.tldp.org/HOWTO/Multicast-HOWTO-6.html
-            // struct in_addr interface_addr;
-            in_addr localAddr;
+            var localAddr = new in_addr();
+
+            localAddr.s_addr = INADDR_ANY;
+
 
             // For multicast sending use an IP_MULTICAST_IF flag with the setsockopt() call. This specifies the interface to be used.
-            s.setsockopt(IPPROTO_IP, IP_MULTICAST_IF, &localAddr, sizeof(in_addr));
-            trace();
-            
+            {
+                var status = s.setsockopt(IPPROTO_IP, IP_MULTICAST_IF, &localAddr, sizeof(in_addr));
+
+                // anonymous types like linq expressions?
+                tracei("setsockopt IP_MULTICAST_IF: ", status);
+            }
+
             // http://www.phonesdevelopers.com/1817807/
 
+            // http://www.infres.enst.fr/~dax/polys/multicast/api_en.html
 
-            ip_mreq mreq;
+            //ip_mreq mreq;
+            var mreq = new ip_mreq();
 
             // "239.1.2.3"
+            // ip_mreq3->imr_multiaddr.s_addr = inet_addr((char*)"239.1.2.3");
             mreq.imr_multiaddr.s_addr = "239.1.2.3".inet_addr();
 
-            s.setsockopt(IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(ip_mreq));
+            {
+                var status = s.setsockopt(IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(ip_mreq));
+                tracei("setsockopt IP_ADD_MEMBERSHIP: ", status);
+            }
 
-            trace();
+
+            //var bAllowMultiple = true;
+            //{
+            //    var status = s.setsockopt(SOL_SOCKET, SO_REUSEADDR, &bAllowMultiple, sizeof(bool));
+
+            //    // anonymous types like linq expressions?
+            //    tracei("setsockopt SO_REUSEADDR: ", status);
+            //}
 
             // Create the local endpoint
             sockaddr_in localEndPoint;
+            ushort gport = 40804;
 
             localEndPoint.sin_family = AF_INET;
-            localEndPoint.sin_addr.s_addr = INADDR_ANY;
-            localEndPoint.sin_port = (ushort)0x5555;
+            localEndPoint.sin_addr.s_addr = INADDR_ANY.htonl();
+            localEndPoint.sin_port = gport.htons();
 
 
             // Bind the socket to the port
-            int r = s.bind((sockaddr*)&localEndPoint, sizeof(sockaddr_in));
+            {
+                int bindret = s.bind((sockaddr*)&localEndPoint, sizeof(sockaddr_in));
 
-            trace();
+                tracei("bind: ", bindret);
+            }
+
+            var ok = true;
 
 
+            while (ok)
+            {
 
-            //            I / xNativeActivity(13271): enter TestNDKUDP
-            //I / xNativeActivity(13271): :59
-            //I / xNativeActivity(13271): :70
-            //I / xNativeActivity(13271): :77
-            //I / xNativeActivity(13271): :79
+                var buff = stackalloc byte[0xfff];
+
+                sockaddr_in sender;
+                var sizeof_sender = sizeof(sockaddr_in);
+
+                trace("before recvfrom");
+
+                // http://pubs.opengroup.org/onlinepubs/009695399/functions/recvfrom.html
+                // Upon successful completion, recvfrom() shall return the length of the message in bytes. 
+                var recvfromret = s.recvfrom(buff, 0xfff, 0, (sockaddr*)&sender, &sizeof_sender);
+
+                //I/xNativeActivity(24024): X:\jsc.svn\examples\c\android\Test\TestNDKUDP\TestNDKUDP\xNativeActivity.cs:167 recvfrom:  116 errno: 22 Invalid argument
+                //I/xNativeActivity(24024): X:\jsc.svn\examples\c\android\Test\TestNDKUDP\TestNDKUDP\xNativeActivity.cs:168 SenderAddrSize:  16 errno: 22 Invalid argument
+                tracei("recvfrom: ", recvfromret);
+                //tracei("sockaddr_in: ", sizeof_sender);
+
+                buff[recvfromret] = 0;
+
+
+                //trace(sender.sin_addr.inet_ntoa());
+                trace(buff);
+
+            }
+
+            // do we have XElement in native mode yet?
+
+
 
             // http://pubs.opengroup.org/onlinepubs/7908799/xns/arpainet.h.html
             // http://stackoverflow.com/questions/15569012/android-udp-client-not-able-to-receive-data-on-non-rooted-phone
@@ -144,25 +217,17 @@ namespace TestNDKUDP
             // http://www.gta.ufrj.br/ensino/eel878/sockets/inet_ntoaman.html
 
             // could jsc web apps be turned into ndk servers?
+
+
+            //I/xNativeActivity(23301): X:\jsc.svn\examples\c\android\Test\TestNDKUDP\TestNDKUDP\xNativeActivity.cs:74 enter TestNDKUDP
+            //I/xNativeActivity(23301): X:\jsc.svn\examples\c\android\Test\TestNDKUDP\TestNDKUDP\xNativeActivity.cs:85 socket  28 errno: 0
+            //I/xNativeActivity(23301): X:\jsc.svn\examples\c\android\Test\TestNDKUDP\TestNDKUDP\xNativeActivity.cs:112 setsockopt SO_REUSEADDR:  -1 errno: 22
+            //I/xNativeActivity(23301): X:\jsc.svn\examples\c\android\Test\TestNDKUDP\TestNDKUDP\xNativeActivity.cs:129 setsockopt IP_MULTICAST_IF:  -1 errno: 99
+            //I/xNativeActivity(23301): X:\jsc.svn\examples\c\android\Test\TestNDKUDP\TestNDKUDP\xNativeActivity.cs:143 setsockopt IP_ADD_MEMBERSHIP:  -1 errno: 19
+            //I/xNativeActivity(23301): X:\jsc.svn\examples\c\android\Test\TestNDKUDP\TestNDKUDP\xNativeActivity.cs:159 bind:  -1 errno: 98
+            //I/xNativeActivity(23301): X:\jsc.svn\examples\c\android\Test\TestNDKUDP\TestNDKUDP\xNativeActivity.cs:168 before recvfrom
+            //I/CwMcuSensor(  461): CwMcuSensor::flush: fd = 194, sensors_id = 0, path = /sys/class/htc_sensorhub/sensor_hub/flush, err = 0
         }
 
-
-        //        jni/TestNDKUDP.dll.c: In function 'android_main':
-        //jni/TestNDKUDP.dll.c:102:17: error: request for member 'sin_family' in something not a structure or union
-        //     sockaddr_in4.sin_family = 2;
-        //                 ^
-        //jni/TestNDKUDP.dll.c:104:17: error: request for member 'sin_port' in something not a structure or union
-        //     sockaddr_in4.sin_port = 21845;
-        //                 ^
-        //jni/TestNDKUDP.dll.c:105:18: warning: passing argument 2 of 'bind' from incompatible pointer type
-        //     num5 = ((int)bind((int)t0, (struct sockaddr**)&sockaddr_in4, (int)sizeof(struct sockaddr_in*)));
-        //                  ^
-        //In file included from jni/TestNDKUDP.dll.h:22:0,
-        //                 from jni/TestNDKUDP.dll.c:2:
-        //X:/opensource/android-ndk-r10c/platforms/android-21/arch-arm64/usr/include/sys/socket.h:273:18: note: expected 'const struct sockaddr *' but argument is of type 'struct sockaddr **'
-        // __socketcall int bind(int, const struct sockaddr*, int);
-        //                  ^
-        //make.exe: *** [obj/local/arm64-v8a/objs/TestNDKUDP/TestNDKUDP.dll.o]
-        //        Error 1
     }
 }

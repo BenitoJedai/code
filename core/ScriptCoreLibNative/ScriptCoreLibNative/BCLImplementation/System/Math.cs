@@ -22,7 +22,7 @@ namespace ScriptCoreLibNative.BCLImplementation.System
     // X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\LibOVR\Src\Kernel\OVR_Math.cpp
 
 	[Script(Implements = typeof(global::System.Math))]
-	internal class __Math
+	internal static class __Math
 	{
 		public static int Sign(double e)
 		{

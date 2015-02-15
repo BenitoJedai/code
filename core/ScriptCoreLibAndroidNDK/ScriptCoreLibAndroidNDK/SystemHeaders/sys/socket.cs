@@ -13,7 +13,7 @@ namespace ScriptCoreLibNative.SystemHeaders.sys
     [Script(IsNative = true, Header = "sys/socket.h", IsSystemHeader = true)]
     public static class socket_h
     {
-        public const int INADDR_ANY = 0;
+        public const uint INADDR_ANY = 0;
 
         public const int AF_INET = 2;
         public const int SOCK_DGRAM = 2;
@@ -64,6 +64,19 @@ namespace ScriptCoreLibNative.SystemHeaders.sys
         public unsafe static int bind(this SOCKET s, sockaddr* name, int namelen) => default(int);
         //__socketcall int bind(int, const struct sockaddr *, int);
 
+
+        //__socketcall ssize_t recvfrom(int, void*, size_t, unsigned int, const struct sockaddr *, socklen_t*);
+        public unsafe static int recvfrom(
+          this SOCKET s,
+          byte* buf,
+          int len,
+          uint flags,
+          sockaddr* from,
+          int* fromlen
+        ) => default(int);
+
+
+
         // http://cyberkinetica.homeunix.net/os2tk45/tcppr/087_L3_Multicastingandthese.html
         // https://msdn.microsoft.com/en-us/library/windows/desktop/ms738571(v=vs.85).aspx
         [Script(IsNative = true)]
@@ -75,9 +88,15 @@ namespace ScriptCoreLibNative.SystemHeaders.sys
         }
 
 
+        // "X:\opensource\android-ndk-r10c\platforms\android-12\arch-arm\usr\include\arpa\inet.h"
+        public static ulong inet_addr(this string cp) => default(long);
 
-        public static ulong inet_addr(this string cp)  => default(long);
+        // http://www.beej.us/guide/bgnet/output/html/multipage/inet_ntoaman.html
+        public static string inet_ntoa(this in_addr cp) => default(string);
 
+        // https://msdn.microsoft.com/en-us/library/windows/desktop/ms738557(v=vs.85).aspx
+        public static ushort htons(this ushort hostshort) => default(ushort);
+        public static uint htonl(this uint hostshort) => default(uint);
 
         [Script(IsNative = true)]
         public struct ip_mreq
@@ -115,10 +134,10 @@ namespace ScriptCoreLibNative.SystemHeaders.sys
             public ushort sin_port;
             // 8
 
-            public  in_addr sin_addr;
+            public in_addr sin_addr;
             // 16
 
-            public  fixed byte sin_zero[8];
+            public fixed byte sin_zero[8];
             // 24
         };
 
