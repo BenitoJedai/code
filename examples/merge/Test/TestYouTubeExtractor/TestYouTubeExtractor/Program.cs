@@ -11,6 +11,7 @@ using YoutubeExtractor;
 using ScriptCoreLib.Extensions;
 using System.Threading;
 using System.Xml.Linq;
+using System.Runtime.InteropServices;
 
 namespace TestYouTubeExtractor
 {
@@ -35,6 +36,13 @@ namespace TestYouTubeExtractor
         //Error NuGet Package restore failed for project TestYouTubeExtractor: Unable to find version '1.0.0.0' of package 'YoutubeExtractor'..			0
 
         // https://github.com/mono/taglib-sharp/
+
+
+        [DllImport("mpr.dll", SetLastError = true, EntryPoint = "WNetRestoreSingleConnectionW", CharSet = CharSet.Unicode)]
+        internal static extern int WNetRestoreSingleConnection(IntPtr windowHandle,
+                                                     [MarshalAs(UnmanagedType.LPWStr)] string localDrive,
+                                                     [MarshalAs(UnmanagedType.Bool)] bool useUI);
+
 
         private static void DownloadVideo(string link, IEnumerable<VideoInfo> videoInfos)
         {
@@ -93,33 +101,88 @@ namespace TestYouTubeExtractor
 
             Console.WriteLine(px);
 
+            // https://msdn.microsoft.com/en-us/library/windows/desktop/aa385480(v=vs.85).aspx
+            // https://msdn.microsoft.com/en-us/library/windows/desktop/aa385485(v=vs.85).aspx
+            // http://stackoverflow.com/questions/8629760/how-to-force-windows-to-reconnect-to-network-drive
+            // https://msdn.microsoft.com/en-us/library/windows/desktop/aa385453(v=vs.85).aspx
+
+            try
+            {
+                var ee = Directory.GetFileSystemEntries("r:\\");
+            }
+            catch
+            {
+                // \\192.168.43.12\x$
+
+                //                [Window Title]
+                //        Location is not available
+
+                //        [Content]
+                //R:\ is unavailable.If the location is on this PC, make sure the device or drive is connected or the disc is inserted, and then try again.If the location is on a network, make sure you’re connected to the network or Internet, and then try again.If the location still can’t be found, it might have been moved or deleted.
+
+                //[OK]
+
+                // ---------------------------
+                //Error
+                //-------------------------- -
+                //This network connection does not exist.
+
+
+                //-------------------------- -
+                //OK
+                //-------------------------- -
+
+                IntPtr hWnd = new IntPtr(0);
+                int res = WNetRestoreSingleConnection(hWnd, "r:", true);
+            }
+
+            // res = 86
+            // res = 0
+
+            //            ---------------------------
+            //            Restoring Network Connections
+            //---------------------------
+            //An error occurred while reconnecting r:
+            //                to
+            //\\RED\x$
+            //Microsoft Windows Network: The local device name is already in use.
+
+
+            //This connection has not been restored.
+            //---------------------------
+            //OK
+            //-------------------------- -
+
+
             if (!File.Exists(p))
             {
-                /*
-                 * Create the video downloader.
-                 * The first argument is the video to download.
-                 * The second argument is the path to save the video file.
-                 */
-                var videoDownloader = new VideoDownloader(video, px);
-
-                // Register the ProgressChanged event and print the current progress
-                videoDownloader.DownloadProgressChanged += (sender, args) =>
+                if (!File.Exists(px))
                 {
-                    ScriptCoreLib.Desktop.TaskbarProgress.SetMainWindowProgress(0.01 * args.ProgressPercentage);
+                    /*
+                     * Create the video downloader.
+                     * The first argument is the video to download.
+                     * The second argument is the path to save the video file.
+                     */
+                    var videoDownloader = new VideoDownloader(video, px);
+
+                    // Register the ProgressChanged event and print the current progress
+                    videoDownloader.DownloadProgressChanged += (sender, args) =>
+                    {
+                        ScriptCoreLib.Desktop.TaskbarProgress.SetMainWindowProgress(0.01 * args.ProgressPercentage);
 
 
 
-                    Console.Title = "%" + args.ProgressPercentage.ToString("0.0");
+                        Console.Title = "%" + args.ProgressPercentage.ToString("0.0");
+                    }
+                    ;
+
+
+                    /*
+                     * Execute the video downloader.
+                     * For GUI applications note, that this method runs synchronously.
+                     */
+                    videoDownloader.Execute();
                 }
-                ;
-
-
-                /*
-                 * Execute the video downloader.
-                 * For GUI applications note, that this method runs synchronously.
-                 */
-                videoDownloader.Execute();
-
 
                 // Additional information: The process cannot access the file 'C:\Users\Arvo\Documents\Dido - Don't Believe In Love.mp4' because it is being used by another process.
 
@@ -146,16 +209,37 @@ namespace TestYouTubeExtractor
 
                 // map network drive via ip. as the aias can be forgotten by the network
                 Microsoft.VisualBasic.FileIO.FileSystem.MoveFile(px, p, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs);
+                //err = { "Could not find a part of the path 'r:\\media'."}
                 // System.IO.DirectoryNotFoundException: Could not find a part of the path 'r:\media'.
                 // System.IO.IOException: The specified network name is no longer available.
-                // System.IO.IOException: The system cannot move the file to a different disk drive
+                // Systxem.IO.IOException: The system cannot move the file to a different disk drive
 
+                //Move... { p = r:/ media\KRYON 'Evolution Revealed' - Lee Carroll.mp4 }
+                //{
+                //    err = System.IO.DirectoryNotFoundException: Could not find a part of the path
+                //'r:\media'.
+                //   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+                //   at System.IO.Directory.InternalCreateDirectory(String fullPath, String path,
+                //Object dirSecurityObj, Boolean checkHost)
+                //   at System.IO.Directory.InternalCreateDirectoryHelper(String path, Boolean che
+                //ckHost)
+                //   at System.IO.Directory.CreateDirectory(String path)
+                //   at Microsoft.VisualBasic.FileIO.FileSystem.CopyOrMoveFile(CopyOrMove operatio
+                //n, String sourceFileName, String destinationFileName, Boolean overwrite, UIOptio
+                //nInternal showUI, UICancelOption onUserCancel)
+                //   at Microsoft.VisualBasic.FileIO.FileSystem.MoveFile(String sourceFileName, St
+                //ring destinationFileName, UIOption showUI)
             }
         }
 
 
         static void Main(string[] args)
         {
+            // or what if debugger starts asking for developer license and clicking ok kills to downloads in progress?
+            // what if device looses power.
+            // how are we to know or resume?
+
+
             // X:\jsc.svn\examples\merge\Test\TestJObjectParse\TestJObjectParse\Program.cs
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150115/youtubeextractor
@@ -165,12 +249,12 @@ namespace TestYouTubeExtractor
 
             //var p = 1;
 
-            for (int p = 1; p < 70; p++)
+            for (int p = 1; p < 96; p++)
                 foreach (var src in new[] {
-                    "http://consciousresonance.net/?page_id=1587&paged=\{p}"
+                    //"http://consciousresonance.net/?page_id=1587&paged=\{p}"
                     //"https://faustuscrow.wordpress.com/page/\{p}/",
                     //"https://hiddenlighthouse.wordpress.com/page/\{p}/",
-                    //"https://zproxy.wordpress.com/page/\{p}/"
+                    "https://zproxy.wordpress.com/page/\{p}/"
 
                 })
                 {
@@ -182,7 +266,7 @@ namespace TestYouTubeExtractor
                     // Additional information: The underlying connection was closed: An unexpected error occurred on a send.
                     // Additional information: The operation has timed out.
                     // Additional information: The underlying connection was closed: The connection was closed unexpectedly.
- 
+
                     // Additional information: The request was aborted: Could not create SSL/TLS secure channel.
                     // xml tidy?
                     var page0 = new WebClient().DownloadStringOrRetry(src);
