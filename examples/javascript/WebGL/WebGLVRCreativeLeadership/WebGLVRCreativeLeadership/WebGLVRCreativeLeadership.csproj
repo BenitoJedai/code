@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E1E424F1-507A-4A5A-8FAF-CCC7F7E26642}</ProjectGuid>
+    <ProjectGuid>{76843B5B-EB0A-4E49-8B36-037969E0545F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebGLVRCreativeLeadership</RootNamespace>
@@ -126,6 +126,18 @@
     <Reference Include="com.abstractatech.apps.vr.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\com.abstractatech.apps.vr.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLNexus7.AssetsLibrary">
+      <HintPath>..\..\collada\WebGLNexus7\WebGLNexus7\bin\staging.AssetsLibrary\WebGLNexus7.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLAudi.AssetsLibrary">
+      <HintPath>..\..\collada\WebGLAudi\WebGLAudi\bin\staging.AssetsLibrary\WebGLAudi.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLEarthByBjorn.AssetsLibrary">
+      <HintPath>..\..\..\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\bin\staging.AssetsLibrary\WebGLEarthByBjorn.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Async.AssetsLibrary">
+      <HintPath>..\..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\bin\staging.AssetsLibrary\ScriptCoreLib.Async.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -147,6 +159,18 @@
     <ProjectReference Include="..\..\..\chrome\apps\ChromeCreativeLeadership\ChromeCreativeLeadership\ChromeCreativeLeadership.csproj">
       <Project>{29947aad-0b14-4fb0-a3c3-a51322be2eda}</Project>
       <Name>ChromeCreativeLeadership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\WebGLEarthByBjorn.csproj">
+      <Project>{b23791bc-bbed-49d9-9808-08b230b69c55}</Project>
+      <Name>WebGLEarthByBjorn</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\collada\WebGLAudi\WebGLAudi\WebGLAudi.csproj">
+      <Project>{6b03abe7-4457-43d8-8f25-cd3a91df0988}</Project>
+      <Name>WebGLAudi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\collada\WebGLNexus7\WebGLNexus7\WebGLNexus7.csproj">
+      <Project>{c072d820-0808-40c8-af3a-b965b715bc81}</Project>
+      <Name>WebGLNexus7</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

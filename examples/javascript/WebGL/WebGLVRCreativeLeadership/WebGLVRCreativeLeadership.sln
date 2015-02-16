@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THREE", "..\..\..\..\market
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeCreativeLeadership", "..\..\chrome\apps\ChromeCreativeLeadership\ChromeCreativeLeadership\ChromeCreativeLeadership.csproj", "{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLNexus7", "..\collada\WebGLNexus7\WebGLNexus7\WebGLNexus7.csproj", "{C072D820-0808-40C8-AF3A-B965B715BC81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLAudi", "..\collada\WebGLAudi\WebGLAudi\WebGLAudi.csproj", "{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLEarthByBjorn", "..\..\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\WebGLEarthByBjorn.csproj", "{B23791BC-BBED-49D9-9808-08B230B69C55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -27,6 +33,18 @@ Global
 		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Debug|x86.Build.0 = Debug|x86
 		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Release|x86.ActiveCfg = Release|x86
 		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Release|x86.Build.0 = Release|x86
+		{C072D820-0808-40C8-AF3A-B965B715BC81}.Debug|x86.ActiveCfg = Debug|x86
+		{C072D820-0808-40C8-AF3A-B965B715BC81}.Debug|x86.Build.0 = Debug|x86
+		{C072D820-0808-40C8-AF3A-B965B715BC81}.Release|x86.ActiveCfg = Release|x86
+		{C072D820-0808-40C8-AF3A-B965B715BC81}.Release|x86.Build.0 = Release|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Debug|x86.ActiveCfg = Debug|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Debug|x86.Build.0 = Debug|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Release|x86.ActiveCfg = Release|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Release|x86.Build.0 = Release|x86
+		{B23791BC-BBED-49D9-9808-08B230B69C55}.Debug|x86.ActiveCfg = Debug|x86
+		{B23791BC-BBED-49D9-9808-08B230B69C55}.Debug|x86.Build.0 = Debug|x86
+		{B23791BC-BBED-49D9-9808-08B230B69C55}.Release|x86.ActiveCfg = Release|x86
+		{B23791BC-BBED-49D9-9808-08B230B69C55}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

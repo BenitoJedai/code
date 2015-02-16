@@ -15,6 +15,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using WebGLAudi.__AssetsLibrary__;
+using WebGLEarthByBjorn.HTML.Images.FromAssets;
+using WebGLNexus7;
 using WebGLVRCreativeLeadership;
 
 //namespace WebGLVRCreativeLeadership
@@ -74,6 +77,51 @@ namespace com.abstractatech.vr
             //(camera as dynamic).target = target;
 
             var scene = new THREE.Scene();
+            //scene.add(new THREE.AmbientLight(0xffffff));
+            //scene.add(new THREE.AmbientLight(0xafafaf));
+
+            // http://www.html5canvastutorials.com/three/html5-canvas-webgl-ambient-lighting-with-three-js/
+
+            // http://stackoverflow.com/questions/14717135/three-js-ambient-light-unexpected-effect
+
+            scene.add(new THREE.AmbientLight(0x2f2f2f));
+
+
+            //var light = new THREE.DirectionalLight(0xffffff, 1.0);
+            #region light
+            var light = new THREE.DirectionalLight(0xffffff, 2.5);
+            //var light = new THREE.DirectionalLight(0xffffff, 2.5);
+            //var light = new THREE.DirectionalLight(0xffffff, 1.5);
+            //var lightOffset = new THREE.Vector3(0, 1000, 2500.0);
+            var lightOffset = new THREE.Vector3(
+                2000,
+                700,
+
+                // lower makes longer shadows 
+                700.0
+                );
+            light.position.copy(lightOffset);
+            light.castShadow = true;
+
+            var xlight = light as dynamic;
+            xlight.shadowMapWidth = 4096;
+            xlight.shadowMapHeight = 2048;
+
+            xlight.shadowDarkness = 0.3;
+            //xlight.shadowDarkness = 0.5;
+
+            xlight.shadowCameraNear = 10;
+            xlight.shadowCameraFar = 10000;
+            xlight.shadowBias = 0.00001;
+            xlight.shadowCameraRight = 4000;
+            xlight.shadowCameraLeft = -4000;
+            xlight.shadowCameraTop = 4000;
+            xlight.shadowCameraBottom = -4000;
+
+            xlight.shadowCameraVisible = true;
+
+            scene.add(light);
+            #endregion
 
             var mesh = new THREE.Mesh(new THREE.SphereGeometry(500, 60, 40),
                 new THREE.MeshBasicMaterial(new
@@ -88,6 +136,7 @@ namespace com.abstractatech.vr
             mesh.scale.x = -1;
             scene.add(mesh);
 
+            #region sprite2
             var crateTexture = THREE.ImageUtils.loadTexture(
                 new ChromeCreativeLeadership.HTML.Images.FromAssets.Mockup().src
 
@@ -102,6 +151,8 @@ namespace com.abstractatech.vr
                     color = 0xffffff
                 }
         );
+
+
 
             var sprite2 = new THREE.Sprite(crateMaterial);
 
@@ -120,6 +171,85 @@ namespace com.abstractatech.vr
                 //64, 64,
                 1.0); // imageWidth, imageHeight
             scene.add(sprite2);
+            #endregion
+
+
+            #region ColladaAudiA4
+            new ColladaAudiA4().Source.Task.ContinueWithResult(
+                   dae =>
+                   {
+                       // 90deg
+                       //dae.rotation.x = -Math.Cos(Math.PI);
+
+                       //dae.scale.x = 30;
+                       //dae.scale.y = 30;
+                       //dae.scale.z = 30;
+                       //dae.position.z = 65;
+
+                       // right
+                       dae.position.z = -20;
+                       dae.position.x = -100;
+                       dae.position.y = -90;
+
+
+                       // jsc, do we have ILObserver available yet?
+                       dae.scale.x = 1.0;
+                       dae.scale.y = 1.0;
+                       dae.scale.z = 1.0;
+
+                       //dae.position.y = -80;
+
+                       scene.add(dae);
+                       //oo.Add(dae);
+
+
+                   }
+               );
+            #endregion
+
+
+
+
+            #region nexus7
+            new nexus7().Source.Task.ContinueWithResult(
+                   dae =>
+                   {
+                       // 90deg
+                       dae.rotation.x = -Math.Cos(Math.PI);
+
+                       //dae.scale.x = 30;
+                       //dae.scale.y = 30;
+                       //dae.scale.z = 30;
+                       //dae.position.z = 65;
+
+                       // left
+                       //dae.position.x = 200;
+
+                       dae.position.z = -100;
+                       dae.position.y = -50;
+
+                       //dae.position.z = 100;
+
+
+
+                       // jsc, do we have ILObserver available yet?
+                       dae.scale.x = 13.5;
+                       dae.scale.y = 13.5;
+                       dae.scale.z = 13.5;
+
+                       //dae.position.y = -80;
+
+                       scene.add(dae);
+                       //oo.Add(dae);
+
+
+                   }
+               );
+            #endregion
+
+
+     
+
 
             //          // DK2
             //          hResolution: 1920,
@@ -257,6 +387,7 @@ namespace com.abstractatech.vr
 
             // http://stackoverflow.com/questions/13278087/determine-vertical-direction-of-a-touchmove
 
+            #region camera rotation
             var old = new { clientX = 0, clientY = 0 };
 
             Native.document.body.ontouchstart +=
@@ -280,7 +411,6 @@ namespace com.abstractatech.vr
                     };
 
 
-            #region camera rotation
             Native.document.body.onmousemove +=
                 e =>
                 {

@@ -1,3 +1,5 @@
+#define FWebGLHZBlendCharacter
+
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -34,6 +36,7 @@ namespace WebGLVRHZTeaser
             // 
             Native.document.body.style.margin = "0px";
             Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.body.style.backgroundColor = "black";
             Native.document.body.Clear();
 
             double SCREEN_WIDTH = Native.window.Width;
@@ -56,6 +59,8 @@ namespace WebGLVRHZTeaser
             cameraOrtho.position.z = 100;
             sceneRenderTarget.add(cameraOrtho);
 
+
+
             var camera = new THREE.PerspectiveCamera(
 
                 //40,
@@ -69,6 +74,7 @@ namespace WebGLVRHZTeaser
                 //9000
                 );
             camera.position.set(-1200, 800, 1200);
+            var target = new THREE.Vector3(0, 0, 0);
 
             scene.add(camera);
             //scene.add(new THREE.AmbientLight(0x212121));
@@ -143,8 +149,55 @@ namespace WebGLVRHZTeaser
             renderer.shadowMapType = THREE.PCFSoftShadowMap;
 
 
+
+            var renderTarget = new THREE.WebGLRenderTarget(
+                   Native.window.Width, Native.window.Height,
+                   new
+                   {
+                       minFilter = THREE.LinearFilter,
+                       magFilter = THREE.LinearFilter,
+                       format = THREE.RGBAFormat,
+                       stencilBufer = false
+                   }
+               );
+
+            //var composer = new THREE.EffectComposer(renderer, renderTarget);
+            //var renderModel = new THREE.RenderPass(scene, camera);
+            //composer.addPass(renderModel);
+
+            //#region vblur
+            //var hblur = new THREE.ShaderPass(THREE.HorizontalTiltShiftShader);
+            //var vblur = new THREE.ShaderPass(THREE.VerticalTiltShiftShader);
+
+            ////var bluriness = 6.0;
+            //var bluriness = 4.0;
+
+            //// Show Details	Severity	Code	Description	Project	File	Line
+            ////Error CS0656  Missing compiler required member 'Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo.Create' WebGLTiltShift Application.cs  183
+
+            //(hblur.uniforms as dynamic).h.value = bluriness / Native.window.Width;
+            //(vblur.uniforms as dynamic).v.value = bluriness / Native.window.Height;
+
+            //(hblur.uniforms as dynamic).r.value = 0.5;
+            //(vblur.uniforms as dynamic).r.value = 0.5;
+            ////vblur.renderToScreen = true;
+
+            //composer.addPass(hblur);
+            //composer.addPass(vblur);
+            //#endregion
+
+            // Uncaught TypeError: renderer.setSize is not a function
+            // Uncaught TypeError: renderer.getClearColor is not a function
+
             var effect = new THREE.OculusRiftEffect(
-                renderer, new
+                renderer,
+
+                // how to get the vblur into oculus effect?
+
+                //renderModel,
+                //composer,
+                //renderTarget,
+                new
                 {
                     worldScale = 100,
 
@@ -216,74 +269,183 @@ namespace WebGLVRHZTeaser
                 meshArray.Add(ii);
 
                 scene.add(ii);
+
+                if (i % 2 == 0)
+                {
 #if FWebGLHZBlendCharacter
-                #region SpeedBlendCharacter
-                var _i = i;
-                { WebGLHZBlendCharacter.HTML.Pages.TexturesImages ref0; }
+                    #region SpeedBlendCharacter
+                    var _i = i;
+                    { WebGLHZBlendCharacter.HTML.Pages.TexturesImages ref0; }
 
-                var blendMesh = new THREE.SpeedBlendCharacter();
-                blendMesh.load(
-                    new WebGLHZBlendCharacter.Models.marine_anims().Content.src,
-                    new Action(
-                        delegate
-                        {
-                            // buildScene
-                            //blendMesh.rotation.y = Math.PI * -135 / 180;
-                            blendMesh.castShadow = true;
-                            // we cannot scale down we want our shadows
-                            //blendMesh.scale.set(0.1, 0.1, 0.1);
+                    var blendMesh = new THREE.SpeedBlendCharacter();
+                    blendMesh.load(
+                        new WebGLHZBlendCharacter.Models.marine_anims().Content.src,
+                        new Action(
+                            delegate
+                            {
+                                // buildScene
+                                //blendMesh.rotation.y = Math.PI * -135 / 180;
+                                blendMesh.castShadow = true;
+                                // we cannot scale down we want our shadows
+                                //blendMesh.scale.set(0.1, 0.1, 0.1);
 
-                            blendMesh.position.x = (_i + 2) % 7 * 200 - 2.5f;
+                                blendMesh.position.x = (_i + 2) % 7 * 200 - 2.5f;
 
-                            // raise it up
-                            //blendMesh.position.y = .5f * 100;
-                            blendMesh.position.z = -1 * _i * 100;
-
-
-                            var xtrue = true;
-                            // run
-                            blendMesh.setSpeed(1.0);
-
-                            // will in turn call THREE.AnimationHandler.play( this );
-                            //blendMesh.run.play();
-                            // this wont help. bokah does not see the animation it seems.
-                            //blendMesh.run.update(1);
-
-                            blendMesh.showSkeleton(!xtrue);
-
-                            scene.add(blendMesh);
+                                // raise it up
+                                //blendMesh.position.y = .5f * 100;
+                                blendMesh.position.z = -1 * _i * 100;
 
 
-                            Native.window.onframe +=
-                             delegate
-                             {
+                                var xtrue = true;
+                                // run
+                                blendMesh.setSpeed(1.0);
 
-                                 blendMesh.rotation.y = Math.PI * 0.0002 * sw.ElapsedMilliseconds;
+                                // will in turn call THREE.AnimationHandler.play( this );
+                                //blendMesh.run.play();
+                                // this wont help. bokah does not see the animation it seems.
+                                //blendMesh.run.update(1);
+
+                                blendMesh.showSkeleton(!xtrue);
+
+                                scene.add(blendMesh);
+
+
+                                Native.window.onframe +=
+                                 delegate
+                                 {
+
+                                     blendMesh.rotation.y = Math.PI * 0.0002 * sw.ElapsedMilliseconds;
 
 
 
-                                 ii.rotation.y = Math.PI * 0.0002 * sw.ElapsedMilliseconds;
+                                     ii.rotation.y = Math.PI * 0.0002 * sw.ElapsedMilliseconds;
 
-                             };
+                                 };
 
-                        }
-                    )
-                );
-                #endregion
+                            }
+                        )
+                    );
+                    #endregion
 #endif
+                }
 
             }
             #endregion
 
 
-            var controls = new THREE.OrbitControls(camera);
+            #region HZCannon
+            new HeatZeekerRTSOrto.HZCannon().Source.Task.ContinueWithResult(
+                async cube =>
+                {
+                    // https://github.com/mrdoob/three.js/issues/1285
+                    //cube.children.WithEach(c => c.castShadow = true);
+
+                    cube.traverse(
+                        new Action<THREE.Object3D>(
+                            child =>
+                            {
+                                // does it work? do we need it?
+                                //if (child is THREE.Mesh)
+
+                                child.castShadow = true;
+                                //child.receiveShadow = true;
+
+                            }
+                        )
+                    );
+
+                    // um can edit and continue insert code going back in time?
+                    cube.scale.x = 10.0;
+                    cube.scale.y = 10.0;
+                    cube.scale.z = 10.0;
+
+
+
+                    //cube.castShadow = true;
+                    //dae.receiveShadow = true;
+
+                    //cube.position.x = -100;
+
+                    ////cube.position.y = (cube.scale.y * 50) / 2;
+                    //cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+
+
+
+                    // if i want to rotate, how do I do it?
+                    //cube.rotation.z = random() + Math.PI;
+                    //cube.rotation.x = random() + Math.PI;
+                    var sw2 = Stopwatch.StartNew();
+
+
+
+                    scene.add(cube);
+                    //interactiveObjects.Add(cube);
+
+                    // offset is wrong
+                    //while (true)
+                    //{
+                    //    await Native.window.async.onframe;
+
+                    //    cube.rotation.y = Math.PI * 0.0002 * sw2.ElapsedMilliseconds;
+
+                    //}
+                }
+            );
+            #endregion
+
+            #region HZBunker
+            new HeatZeekerRTSOrto.HZBunker().Source.Task.ContinueWithResult(
+                     cube =>
+                     {
+                         // https://github.com/mrdoob/three.js/issues/1285
+                         //cube.children.WithEach(c => c.castShadow = true);
+                         cube.castShadow = true;
+
+                         cube.traverse(
+                             new Action<THREE.Object3D>(
+                                 child =>
+                                 {
+                                     // does it work? do we need it?
+                                     //if (child is THREE.Mesh)
+                                     child.castShadow = true;
+                                     //child.receiveShadow = true;
+
+                                 }
+                             )
+                         );
+
+                         // um can edit and continue insert code going back in time?
+                         cube.scale.x = 10.0;
+                         cube.scale.y = 10.0;
+                         cube.scale.z = 10.0;
+
+                         //cube.castShadow = true;
+                         //dae.receiveShadow = true;
+
+                         cube.position.x = -1000;
+                         //cube.position.y = (cube.scale.y * 50) / 2;
+                         cube.position.z = 0;
+
+                         scene.add(cube);
+                     }
+                 );
+            #endregion
+
+
+            var lon = -45.0;
+            //var lon = 90.0;
+            var lat = 0.0;
+            var phi = 0.0;
+            var theta = 0.0;
+
+            //var controls = new THREE.OrbitControls(camera);
 
             Native.window.onframe +=
                 delegate
                 {
                     ////var delta = clock.getDelta();
 
-                    controls.update();
+                    //controls.update();
 
 
 
@@ -299,7 +461,32 @@ namespace WebGLVRHZTeaser
                         THREE.AnimationHandler.update(stepSize);
                     }
 
-                    camera.position = controls.center.clone();
+                    //camera.position = controls.center.clone();
+
+                    if (Native.document.pointerLockElement == Native.document.body)
+                        lon += 0.00;
+                    else
+                        lon += 0.01;
+
+                    lat = Math.Max(-85, Math.Min(85, lat));
+
+                    //Native.document.title = new { lon, lat }.ToString();
+                    Native.document.title = new { lon }.ToString();
+
+
+                    phi = THREE.Math.degToRad(90 - lat);
+                    theta = THREE.Math.degToRad(lon);
+
+                    target.x = camera.position.x + (500 * Math.Sin(phi) * Math.Cos(theta));
+                    target.y = camera.position.y + (500 * Math.Cos(phi));
+                    target.z = camera.position.z + (500 * Math.Sin(phi) * Math.Sin(theta));
+
+
+                    //controls.update();
+                    //camera.position = controls.center.clone();
+
+
+                    camera.lookAt(target);
 
                     //composer.render(0.1);
                     //renderer.render(scene, camera);
@@ -322,6 +509,77 @@ namespace WebGLVRHZTeaser
                          goto retry;
                      }
                    );
+
+
+
+            #region camera rotation
+            var old = new { clientX = 0, clientY = 0 };
+
+            Native.document.body.ontouchstart +=
+                e =>
+                {
+                    var n = new { e.touches[0].clientX, e.touches[0].clientY };
+                    old = n;
+                };
+
+            Native.document.body.ontouchmove +=
+                    e =>
+                    {
+                        var n = new { e.touches[0].clientX, e.touches[0].clientY };
+
+                        e.preventDefault();
+
+                        lon += (n.clientX - old.clientX) * 0.2;
+                        lat -= (n.clientY - old.clientY) * 0.2;
+
+                        old = n;
+                    };
+
+
+            Native.document.body.onmousemove +=
+                e =>
+                {
+                    e.preventDefault();
+
+                    if (Native.document.pointerLockElement == Native.document.body)
+                    {
+                        lon += e.movementX * 0.1;
+                        lat -= e.movementY * 0.1;
+
+                        //Console.WriteLine(new { lon, lat, e.movementX, e.movementY });
+                    }
+                };
+
+
+            Native.document.body.onmouseup +=
+              e =>
+              {
+                  //drag = false;
+                  e.preventDefault();
+              };
+
+            Native.document.body.onmousedown +=
+                e =>
+                {
+                    //e.CaptureMouse();
+
+                    //drag = true;
+                    e.preventDefault();
+                    Native.document.body.requestPointerLock();
+
+                };
+
+
+            Native.document.body.ondblclick +=
+                e =>
+                {
+                    e.preventDefault();
+
+                    Console.WriteLine("requestPointerLock");
+                };
+
+            #endregion
+
 
         }
 
