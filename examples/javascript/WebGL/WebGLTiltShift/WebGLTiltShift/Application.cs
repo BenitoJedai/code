@@ -343,6 +343,7 @@ namespace WebGLTiltShift
 
                 scene.add(ii);
 
+                #region SpeedBlendCharacter
                 var _i = i;
                 { WebGLHZBlendCharacter.HTML.Pages.TexturesImages ref0; }
 
@@ -394,6 +395,8 @@ namespace WebGLTiltShift
                         }
                     )
                 );
+                #endregion
+
 
             }
             #endregion
@@ -798,7 +801,7 @@ namespace WebGLTiltShift
 
             #endregion
 
-
+            #region virtual webview.requestFullscreen
             Console.WriteLine("? awaiting to go fullscreen");
 
             Action requestFullscreen = Native.document.body.requestFullscreen;
@@ -830,6 +833,8 @@ namespace WebGLTiltShift
 
                     //await contentWindow.postMessageAsync("virtual webview.requestFullscreen");
                 };
+            #endregion
+
 
 
             #region onkeyup

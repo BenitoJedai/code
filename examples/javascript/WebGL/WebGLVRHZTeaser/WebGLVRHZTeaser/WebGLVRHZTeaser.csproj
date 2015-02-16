@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E1E424F1-507A-4A5A-8FAF-CCC7F7E26642}</ProjectGuid>
+    <ProjectGuid>{76843B5B-EB0A-4E49-8B36-037969E0545F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebGLVRCreativeLeadership</RootNamespace>
-    <AssemblyName>com.abstractatech.apps.vr</AssemblyName>
+    <RootNamespace>WebGLVRHZTeaser</RootNamespace>
+    <AssemblyName>WebGLVRHZTeaser</AssemblyName>
     <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>WebGLVRCreativeLeadership.Program</StartupObject>
+    <StartupObject>WebGLVRHZTeaser.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -117,14 +117,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="WebGLVRHZTeaser.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\WebGLVRHZTeaser.AssetsLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
-    </Reference>
-    <Reference Include="ChromeCreativeLeadership.AssetsLibrary">
-      <HintPath>..\..\..\chrome\apps\ChromeCreativeLeadership\ChromeCreativeLeadership\bin\staging.AssetsLibrary\ChromeCreativeLeadership.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="com.abstractatech.apps.vr.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\com.abstractatech.apps.vr.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -136,25 +133,15 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Preview.png" />
-    <Content Include="Design\x250.png" />
-    <Content Include="Design\x512.png" />
-    <Content Include="Textures\2294472375_24a3b8ef46_o.jpg" />
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\chrome\apps\ChromeCreativeLeadership\ChromeCreativeLeadership\ChromeCreativeLeadership.csproj">
-      <Project>{29947aad-0b14-4fb0-a3c3-a51322be2eda}</Project>
-      <Name>ChromeCreativeLeadership</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-		rem if $(ConfigurationName)==Release (
-		start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false /DisableWebServiceChrome:true  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.git\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:29  
-		rem )</PostBuildEvent>
+		if $(ConfigurationName)==Release (
+		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
+		)</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
 		            </PreBuildEvent>
   </PropertyGroup>
