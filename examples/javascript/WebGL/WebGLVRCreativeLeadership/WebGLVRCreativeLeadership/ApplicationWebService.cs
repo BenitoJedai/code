@@ -11,28 +11,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace WebGLVRCreativeLeadership
+// Your APK's package name must be in the following format "com.example.myapp". 
+// It may contain letters (a-z), numbers, and underscores (_). It must start with a lowercase character. It must be 150 characters or fewer.
+
+// <manifest package="WebGLVRCreativeLeadership.Activities"
+
+//namespace WebGLVRCreativeLeadership
+namespace com.abstractatech.vr
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public class ApplicationWebService
+    public class WebGLVRCreativeLeadershipApplicationWebService
     {
-        /// <summary>
-        /// The static content defined in the HTML file will be update to the dynamic content once application is running.
-        /// </summary>
-        public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
-
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // Send it back to the caller.
-            y(e);
-        }
+ 
 
     }
 }

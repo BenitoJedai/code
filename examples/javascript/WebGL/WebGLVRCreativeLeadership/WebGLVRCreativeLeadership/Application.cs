@@ -1,3 +1,5 @@
+using com.abstractatech.apps.vr.HTML.Images.FromAssets;
+using com.abstractatech.apps.vr.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -14,22 +16,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using WebGLVRCreativeLeadership;
-using WebGLVRCreativeLeadership.Design;
-using WebGLVRCreativeLeadership.HTML.Pages;
 
-namespace WebGLVRCreativeLeadership
+//namespace WebGLVRCreativeLeadership
+namespace com.abstractatech.vr
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application : ApplicationWebService
+    public sealed class Application : WebGLVRCreativeLeadershipApplicationWebService
     {
         //0001 02000178 ScriptCoreLib::ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProvider
         //script: error JSC1000: Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
         //internal compiler error at method
 
+        //       script: error JSC1000: Java :
+        //BCL needs another method, please define it.
+        //Cannot call type without script attribute :
+        //System.Threading.Monitor for Void Enter(System.Object, Boolean ByRef) used at
+        //WebGLVRCreativeLeadership.Activities.ApplicationWebServiceActivity+<>c__DisplayClass24.<CreateServer>b__29 at offset 0018.
+        //If the use of this method is intended, an implementation should be provided with the attribute[Script(Implements = typeof(...)] set.You may have mistyped it.
+
         public Application(IApp page)
         {
+            // https://play.google.com/store/apps/details?id=com.abstractatech.vr
+
+            Native.body.Clear();
+            Native.body.style.margin = "0px";
+            Native.body.style.backgroundColor = "black";
+
+            // https://vronecontest.zeiss.com/index.php?controller=ideas&view=show&id=652
+
             //          hResolution: 1920,
             //vResolution: 1080,
 
@@ -63,7 +79,7 @@ namespace WebGLVRCreativeLeadership
                 new THREE.MeshBasicMaterial(new
                 {
                     map = THREE.ImageUtils.loadTexture(
-                        new WebGLVRCreativeLeadership.HTML.Images.FromAssets._2294472375_24a3b8ef46_o().src
+                        new _2294472375_24a3b8ef46_o().src
                         //new WebGLEquirectangularPanorama.HTML.Images.FromAssets.PANO_20130616_222058().src
                         //new WebGLEquirectangularPanorama.HTML.Images.FromAssets.PANO_20121225_210448().src
 
@@ -99,19 +115,55 @@ namespace WebGLVRCreativeLeadership
 
             //sprite2.position.set(-100, 0, 0);
             sprite2.scale.set(
-                WebGLVRCreativeLeadership.HTML.Images.FromAssets._2294472375_24a3b8ef46_o.ImageDefaultWidth * 0.08,
-                WebGLVRCreativeLeadership.HTML.Images.FromAssets._2294472375_24a3b8ef46_o.ImageDefaultHeight * 0.08,
+               _2294472375_24a3b8ef46_o.ImageDefaultWidth * 0.08,
+               _2294472375_24a3b8ef46_o.ImageDefaultHeight * 0.08,
                 //64, 64,
                 1.0); // imageWidth, imageHeight
             scene.add(sprite2);
 
+            //          // DK2
+            //          hResolution: 1920,
+            //vResolution: 1080,
 
             var renderer = new THREE.WebGLRenderer();
-            renderer.setSize(window.Width, window.Height);
+            renderer.setSize(1920, 1080);
 
 
-            var effect = new THREE.OculusRiftEffect(renderer, new { worldScale = 100 });
-            effect.setSize(window.Width, window.Height);
+            // broken?
+            var distortionK = new double[] { 1.0, 0.22, 0.24, 0.0 };
+            var chromaAbParameter = new double[] { 0.996, -0.004, 1.014, 0.0 };
+
+            var HMD = new OculusRiftEffectOptions
+            {
+                hResolution = window.Width,
+                vResolution = window.Height,
+
+                hScreenSize = 0.12576,
+                vScreenSize = 0.07074,
+                interpupillaryDistance = 0.0635,
+                lensSeparationDistance = 0.0635,
+                eyeToScreenDistance = 0.041,
+
+                //  j.distortionK = [0, 1.875, -71.68, 1.595, -3.218644E+26, 1.615, 0, 0];
+                //distortionK = new double[] { 1.0, 0.22, 0.24, 0.0 },
+                distortionK = distortionK,
+
+                // j.chromaAbParameter = [1.609382E+22, 1.874, -5.189695E+11, -0.939, 4.463059E-29, 1.87675, 0, 0];
+                //chromaAbParameter = new double[] { 0.996, -0.004, 1.014, 0.0 }
+                chromaAbParameter = chromaAbParameter
+
+            };
+
+            var effect = new THREE.OculusRiftEffect(
+                renderer, new
+                {
+                    worldScale = 100,
+
+                    //HMD
+                }
+                );
+
+            effect.setSize(1920, 1080);
 
 
             renderer.domElement.AttachToDocument();
@@ -121,32 +173,52 @@ namespace WebGLVRCreativeLeadership
 
             Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
+            // x:\jsc.svn\examples\javascript\synergy\comanchebysiorki\comanchebysiorki\application.cs
 
-            #region onresize
-            Native.window.onresize +=
-                delegate
-                {
-                    camera.aspect = Native.window.aspect;
-                    camera.updateProjectionMatrix();
+            new { }.With(
+                     async delegate
+                     {
+                         retry:
 
-                    renderer.setSize(window.Width, window.Height);
-                    effect.setSize(window.Width, window.Height);
-                };
-            #endregion
+                         var s = (double)Native.window.Width / 1920.0;
 
 
-            Native.document.body.onmousewheel +=
-                e =>
-                {
-                    fov -= e.WheelDirection * 5.0;
-                    camera.projectionMatrix.makePerspective(fov,
-                        (double)window.Width / window.Height, 1, 1100);
-                };
+                         Native.document.body.style.transform = "scale(" + s + ")";
+                         Native.document.body.style.transformOrigin = "0% 0%";
+
+                         await Native.window.async.onresize;
+                         goto retry;
+                     }
+                   );
+
+            //#region onresize
+            //Native.window.onresize +=
+            //    delegate
+            //    {
+            //        camera.aspect = Native.window.aspect;
+            //        camera.updateProjectionMatrix();
+
+            //        renderer.setSize(window.Width, window.Height);
+            //        effect.setSize(window.Width, window.Height);
+            //    };
+            //#endregion
+
+
+            //Native.document.body.onmousewheel +=
+            //    e =>
+            //    {
+            //        fov -= e.WheelDirection * 5.0;
+            //        camera.projectionMatrix.makePerspective(fov,
+            //            (double)window.Width / window.Height, 1, 1100);
+            //    };
 
             var lon = 90.0;
             var lat = 0.0;
             var phi = 0.0;
             var theta = 0.0;
+
+            //var controls = new THREE.OrbitControls(camera);
+
 
             Native.window.onframe +=
                 delegate
@@ -168,6 +240,11 @@ namespace WebGLVRCreativeLeadership
                     target.y = 500 * Math.Cos(phi);
                     target.z = 500 * Math.Sin(phi) * Math.Sin(theta);
 
+
+                    //controls.update();
+                    //camera.position = controls.center.clone();
+
+
                     camera.lookAt(target);
 
                     //renderer.render(scene, camera);
@@ -177,6 +254,31 @@ namespace WebGLVRCreativeLeadership
 
 
             // http://blog.thematicmapping.org/2013/10/terrain-visualization-with-threejs-and.html
+
+            // http://stackoverflow.com/questions/13278087/determine-vertical-direction-of-a-touchmove
+
+            var old = new { clientX = 0, clientY = 0 };
+
+            Native.document.body.ontouchstart +=
+                e =>
+                {
+                    var n = new { e.touches[0].clientX, e.touches[0].clientY };
+                    old = n;
+                };
+
+            Native.document.body.ontouchmove +=
+                    e =>
+                    {
+                        var n = new { e.touches[0].clientX, e.touches[0].clientY };
+
+                        e.preventDefault();
+
+                        lon += (n.clientX - old.clientX) * 0.2;
+                        lat -= (n.clientY - old.clientY) * 0.2;
+
+                        old = n;
+                    };
+
 
             #region camera rotation
             Native.document.body.onmousemove +=
@@ -223,7 +325,22 @@ namespace WebGLVRCreativeLeadership
 
             #endregion
 
+            // https://developer.android.com/training/system-ui/immersive.html
+
         }
 
+    }
+
+    internal class OculusRiftEffectOptions
+    {
+        internal double[] chromaAbParameter;
+        internal double[] distortionK;
+        internal double eyeToScreenDistance;
+        internal int hResolution;
+        internal double hScreenSize;
+        internal double interpupillaryDistance;
+        internal double lensSeparationDistance;
+        internal int vResolution;
+        internal double vScreenSize;
     }
 }
