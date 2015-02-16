@@ -1,6 +1,7 @@
 ﻿// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131109-gold
 // tested by
 // X:\jsc.svn\examples\javascript\WebGL\WebGLColladaExperiment\WebGLColladaExperiment\Application.cs
+// X:\jsc.svn\examples\javascript\WebGL\collada\WebGLAudi\WebGLAudi\__AssetsLibrary__\ColladaAudiA4.cs
 
 // does jsc do idl inheritance just yet?
 [Constructor()]

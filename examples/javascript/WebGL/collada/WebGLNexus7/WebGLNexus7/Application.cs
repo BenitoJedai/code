@@ -259,7 +259,7 @@ namespace WebGLNexus7
 
 
     [Obsolete("jsc should generate this")]
-    class nexus7 : THREE_ColladaAsset
+    public class nexus7 : THREE_ColladaAsset
     {
         public string ID201 = "assets/WebGLNexus7/nexus-7_material_3.jpg";
         public string ID222 = "assets/WebGLNexus7/nexus-7_big_ASUS_Nexus_7.jpg";

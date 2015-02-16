@@ -230,6 +230,7 @@ namespace WebGLTiltShift
 
 
             //var light = new THREE.DirectionalLight(0xffffff, 1.0);
+            #region light
             var light = new THREE.DirectionalLight(0xffffff, 2.5);
             //var light = new THREE.DirectionalLight(0xffffff, 2.5);
             //var light = new THREE.DirectionalLight(0xffffff, 1.5);
@@ -262,6 +263,8 @@ namespace WebGLTiltShift
             xlight.shadowCameraVisible = true;
 
             scene.add(light);
+            #endregion
+
 
 
             var renderer = new THREE.WebGLRenderer(
