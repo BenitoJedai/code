@@ -896,11 +896,14 @@ interface THREE.ParticleSystem : THREE.Object3D
 
 };
 
+// // File:src/objects/Sprite.js
 [Constructor(any a)]
-interface THREE.Sprite
+interface THREE.Sprite : THREE.Object3D
 {
-	attribute THREE.Vector3  position;
-	attribute double  rotation;
+	// X:\jsc.svn\examples\javascript\webgl\WebGLVRCreativeLeadership\WebGLVRCreativeLeadership\Application.cs
+
+	// attribute THREE.Vector3  position;
+	// attribute double  rotation;
 
 };
 
@@ -937,6 +940,15 @@ interface THREE.Material
 	attribute any program;
 
 };
+
+
+// File:src/materials/SpriteMaterial.js
+[Constructor(any parameters)]
+interface THREE.SpriteMaterial : THREE.Material
+{
+
+};
+
 
 
 // File:src/materials/MeshDepthMaterial.js

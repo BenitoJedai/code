@@ -131,6 +131,8 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="opensource\gihtub\three.js\build\!References.htm" />
+    <Content Include="opensource\gihtub\three.js\build\effects\THREE.OculusRiftEffect.js" />
+    <Content Include="opensource\gihtub\three.js\build\effects\THREE.OculusRiftEffect.idl" />
     <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.FilmPass.js" />
     <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.FilmPass.idl" />
     <Content Include="opensource\gihtub\three.js\build\postprocessing\THREE.MaskPass.idl" />

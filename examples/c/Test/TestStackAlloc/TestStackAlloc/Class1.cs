@@ -10,8 +10,18 @@ using System.Threading.Tasks;
 namespace TestStackAlloc
 {
     [Script(IsNative = true)]
+    public struct in_addr
+    {
+        public ulong s_addr;
+
+        // 8
+    }
+
+    [Script(IsNative = true)]
     public unsafe struct sockaddr_in // : sockaddr
     {
+        public in_addr sin_addr;
+
         public short sin_family;
     }
 
@@ -36,6 +46,8 @@ namespace TestStackAlloc
                 sockaddr_in0 localEndPoint0;
 
                 localEndPoint.sin_family = 7;
+                localEndPoint.sin_addr.s_addr = 7;
+
                 localEndPoint0.sin_family = 7;
             }
 
@@ -50,6 +62,8 @@ namespace TestStackAlloc
                 var localEndPoint0 = stackalloc sockaddr_in0[1];
 
                 localEndPoint->sin_family = 7;
+                localEndPoint->sin_addr.s_addr = 7;
+
                 localEndPoint0->sin_family = 7;
             }
         }

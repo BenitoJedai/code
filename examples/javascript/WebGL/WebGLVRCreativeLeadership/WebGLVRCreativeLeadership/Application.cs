@@ -6,39 +6,45 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
-using WebGLEquirectangularPanorama;
-using WebGLEquirectangularPanorama.Design;
-using WebGLEquirectangularPanorama.HTML.Pages;
+using WebGLVRCreativeLeadership;
+using WebGLVRCreativeLeadership.Design;
+using WebGLVRCreativeLeadership.HTML.Pages;
 
-namespace WebGLEquirectangularPanorama
+namespace WebGLVRCreativeLeadership
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
-
-        //---------------------------
-        //Asset Compiler
-        //---------------------------
-        //The Asset Compiler has found a few issues while preparing the assets! 
-
-        //'.', hexadecimal value 0x00, is an invalid character.Line 1, position 1.
-
-        //Please fix the issues and try again!
-        //You may need to reconnect your external drive.
-
-        //X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEquirectangularPanorama\WebGLEquirectangularPanorama\WebGLEquirectangularPanorama.csproj
-        //---------------------------
-        //OK
-        //---------------------------
+        //0001 02000178 ScriptCoreLib::ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProvider
+        //script: error JSC1000: Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
+        //internal compiler error at method
 
         public Application(IApp page)
         {
+            //          hResolution: 1920,
+            //vResolution: 1080,
+
+            // "X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEquirectangularPanorama\WebGLEquirectangularPanorama.sln"
+
+            // http://oculusstreetview.eu.pn/?lat=44.301987&lng=9.211561999999958&q=3&s=false&heading=0
+            // https://github.com/troffmo5/OculusStreetView
+
+            // http://stackoverflow.com/questions/23817633/threejs-using-a-sprite-with-the-oculusrifteffect
+            // http://laht.info/dk2-parameters-for-three-oculusrifteffect-js/
+
+            // http://stemkoski.github.io/Three.js/Sprites.html
+            // http://stemkoski.github.io/Three.js/Texture-Animation.html
+            // http://blog.thematicmapping.org/2013/10/terrain-visualization-with-threejs-and.html
+
             // http://mrdoob.github.io/three.js/examples/webgl_panorama_equirectangular.html
 
             var window = Native.window;
@@ -57,7 +63,7 @@ namespace WebGLEquirectangularPanorama
                 new THREE.MeshBasicMaterial(new
                 {
                     map = THREE.ImageUtils.loadTexture(
-                        new WebGLEquirectangularPanorama.HTML.Images.FromAssets._2294472375_24a3b8ef46_o().src
+                        new WebGLVRCreativeLeadership.HTML.Images.FromAssets._2294472375_24a3b8ef46_o().src
                         //new WebGLEquirectangularPanorama.HTML.Images.FromAssets.PANO_20130616_222058().src
                         //new WebGLEquirectangularPanorama.HTML.Images.FromAssets.PANO_20121225_210448().src
 
@@ -66,8 +72,47 @@ namespace WebGLEquirectangularPanorama
             mesh.scale.x = -1;
             scene.add(mesh);
 
+            var crateTexture = THREE.ImageUtils.loadTexture(
+                new ChromeCreativeLeadership.HTML.Images.FromAssets.Mockup().src
+
+            );
+
+            var crateMaterial = new THREE.SpriteMaterial(
+                new
+                {
+                    map = crateTexture,
+                    useScreenCoordinates = false,
+                    //color = 0xff0000
+                    color = 0xffffff
+                }
+        );
+
+            var sprite2 = new THREE.Sprite(crateMaterial);
+
+            //floor
+            //sprite2.position.set(0, -200, 0);
+
+            // left
+            //sprite2.position.set(200, 50, 0);
+
+            sprite2.position.set(0, 0, 200);
+
+            //sprite2.position.set(-100, 0, 0);
+            sprite2.scale.set(
+                WebGLVRCreativeLeadership.HTML.Images.FromAssets._2294472375_24a3b8ef46_o.ImageDefaultWidth * 0.08,
+                WebGLVRCreativeLeadership.HTML.Images.FromAssets._2294472375_24a3b8ef46_o.ImageDefaultHeight * 0.08,
+                //64, 64,
+                1.0); // imageWidth, imageHeight
+            scene.add(sprite2);
+
+
             var renderer = new THREE.WebGLRenderer();
             renderer.setSize(window.Width, window.Height);
+
+
+            var effect = new THREE.OculusRiftEffect(renderer, new { worldScale = 100 });
+            effect.setSize(window.Width, window.Height);
+
 
             renderer.domElement.AttachToDocument();
 
@@ -84,7 +129,8 @@ namespace WebGLEquirectangularPanorama
                     camera.aspect = Native.window.aspect;
                     camera.updateProjectionMatrix();
 
-                    renderer.setSize(Native.window.Width, Native.window.Height);
+                    renderer.setSize(window.Width, window.Height);
+                    effect.setSize(window.Width, window.Height);
                 };
             #endregion
 
@@ -124,8 +170,8 @@ namespace WebGLEquirectangularPanorama
 
                     camera.lookAt(target);
 
-                    renderer.render(scene, camera);
-
+                    //renderer.render(scene, camera);
+                    effect.render(scene, camera);
                 };
 
 
