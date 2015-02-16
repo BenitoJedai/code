@@ -26,6 +26,11 @@ namespace ChromeCreativeLeadership
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        //{ SourceMethod = Int32<007d> ldloc.s.try(<MoveNext>060000b7, System.Runtime.CompilerServices
+        //script: error JSC1000: if block not detected correctly, opcode was {
+        //            Branch = [0x000e] blt.s
+        //assembly: W:\ChromeTCPServer.Application.exe
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
