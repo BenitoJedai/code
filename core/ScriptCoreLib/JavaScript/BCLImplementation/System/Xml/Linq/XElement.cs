@@ -12,10 +12,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
     // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/System/Xml/Linq/XElement.cs
     // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/src/System/Xml/Linq/XElement.cs
     // https://github.com/mono/mono/blob/master/mcs/class/System.Xml.Linq/System.Xml.Linq/XElement.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Xml\Linq\XElement.cs
+    // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Xml\Linq\XElement.cs
 
     [Script(Implements = typeof(XElement))]
     internal class __XElement : __XContainer
     {
+        // what about binary xml?
+        // http://en.wikipedia.org/wiki/Binary_XML
+        // could aswell use TLV?
+        // http://en.wikipedia.org/wiki/Extensible_Binary_Meta_Language
+        // suspended memory? serialize to IL?
+        // https://msdn.microsoft.com/en-us/library/cc219210.aspx
+
+
+
+
         // 20150105
         // c# shall have xml literals?
         // https://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/6942534-implement-xml-literals
