@@ -36,6 +36,8 @@ namespace WebGLCubesInstancingThreeJS
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // what are we looking at?
+
             var scene = new THREE.Scene();
 
             var camera = new THREE.PerspectiveCamera(45, Native.window.aspect, 1, 1000);

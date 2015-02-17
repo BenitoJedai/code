@@ -40,6 +40,7 @@ namespace ConsoleWorm
             // code duplicates!
             // "X:\jsc.svn\examples\javascript\android\com.abstractatech.gamification.craft\com.abstractatech.gamification.craft.sln"
 
+#if FCHROME
             #region AtFormCreated
             FormStyler.AtFormCreated =
                  s =>
@@ -70,6 +71,8 @@ namespace ConsoleWorm
                 return;
             }
             #endregion
+#endif
+
 
 
             new ConsoleWorm.js.Game();
