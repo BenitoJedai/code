@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLAudi", "..\collada\Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLEarthByBjorn", "..\..\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\WebGLEarthByBjorn.csproj", "{B23791BC-BBED-49D9-9808-08B230B69C55}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{B43D5FCE-FDD7-4AAD-9139-FE057C824868}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -48,5 +50,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {B43D5FCE-FDD7-4AAD-9139-FE057C824868}
+		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA} = {B43D5FCE-FDD7-4AAD-9139-FE057C824868}
+		{C072D820-0808-40C8-AF3A-B965B715BC81} = {B43D5FCE-FDD7-4AAD-9139-FE057C824868}
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988} = {B43D5FCE-FDD7-4AAD-9139-FE057C824868}
+		{B23791BC-BBED-49D9-9808-08B230B69C55} = {B43D5FCE-FDD7-4AAD-9139-FE057C824868}
 	EndGlobalSection
 EndGlobal

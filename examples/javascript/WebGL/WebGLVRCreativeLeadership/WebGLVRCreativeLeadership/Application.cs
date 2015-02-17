@@ -344,23 +344,39 @@ namespace com.abstractatech.vr
             //            (double)window.Width / window.Height, 1, 1100);
             //    };
 
-            var lon = 90.0;
-            var lat = 0.0;
+            var lon0 = -45.0;
+            var lon1 = 0.0;
+
+            var lon = new sum(
+                 () => lon0,
+                 () => lon1
+             );
+
+            var lat0 = 0.0;
+            var lat1 = 0.0;
+
+            // or could we do it with byref or pointers?
+            var lat = new sum(
+                () => lat0,
+                () => lat1
+            );
+
             var phi = 0.0;
             var theta = 0.0;
 
             //var controls = new THREE.OrbitControls(camera);
 
+            var camera_rotation_z = 0.0;
 
             Native.window.onframe +=
                 delegate
                 {
-                    if (Native.document.pointerLockElement == Native.document.body)
-                        lon += 0.00;
-                    else
-                        lon += 0.01;
+                    //if (Native.document.pointerLockElement == Native.document.body)
+                    //    lon += 0.00;
+                    //else
+                    //    lon += 0.01;
 
-                    lat = Math.Max(-85, Math.Min(85, lat));
+                    //lat = Math.Max(-85, Math.Min(85, lat));
 
                     //Native.document.title = new { lon, lat }.ToString();
 
@@ -378,6 +394,7 @@ namespace com.abstractatech.vr
 
 
                     camera.lookAt(target);
+                    camera.rotation.z += camera_rotation_z;
 
                     //renderer.render(scene, camera);
                     effect.render(scene, camera);
@@ -388,6 +405,94 @@ namespace com.abstractatech.vr
             // http://blog.thematicmapping.org/2013/10/terrain-visualization-with-threejs-and.html
 
             // http://stackoverflow.com/questions/13278087/determine-vertical-direction-of-a-touchmove
+
+
+
+            var compassHeadingOffset = 0.0;
+            var compassHeadingInitialized = 0;
+
+            #region compassHeading
+            // X:\jsc.svn\examples\javascript\android\Test\TestCompassHeading\TestCompassHeading\Application.cs
+            Native.window.ondeviceorientation +=
+              dataValues =>
+              {
+                  // Convert degrees to radians
+                  var alphaRad = dataValues.alpha * (Math.PI / 180);
+                  var betaRad = dataValues.beta * (Math.PI / 180);
+                  var gammaRad = dataValues.gamma * (Math.PI / 180);
+
+                  // Calculate equation components
+                  var cA = Math.Cos(alphaRad);
+                  var sA = Math.Sin(alphaRad);
+                  var cB = Math.Cos(betaRad);
+                  var sB = Math.Sin(betaRad);
+                  var cG = Math.Cos(gammaRad);
+                  var sG = Math.Sin(gammaRad);
+
+                  // Calculate A, B, C rotation components
+                  var rA = -cA * sG - sA * sB * cG;
+                  var rB = -sA * sG + cA * sB * cG;
+                  var rC = -cB * cG;
+
+                  // Calculate compass heading
+                  var compassHeading = Math.Atan(rA / rB);
+
+                  // Convert from half unit circle to whole unit circle
+                  if (rB < 0)
+                  {
+                      compassHeading += Math.PI;
+                  }
+                  else if (rA < 0)
+                  {
+                      compassHeading += 2 * Math.PI;
+                  }
+
+                  /*
+                  Alternative calculation (replacing lines 99-107 above):
+
+                    var compassHeading = Math.atan2(rA, rB);
+
+                    if(rA < 0) {
+                      compassHeading += 2 * Math.PI;
+                    }
+                  */
+
+                  // Convert radians to degrees
+                  compassHeading *= 180 / Math.PI;
+
+                  // Compass heading can only be derived if returned values are 'absolute'
+
+                  // X:\jsc.svn\examples\javascript\android\Test\TestCompassHeadingWithReset\TestCompassHeadingWithReset\Application.cs
+
+                  //Native.document.body.innerText = new { compassHeading }.ToString();
+                  if (compassHeadingInitialized > 0)
+                  {
+                      lon1 = compassHeading - compassHeadingOffset;
+                  }
+                  else
+                  {
+                      compassHeadingOffset = compassHeading;
+                      compassHeadingInitialized++;
+                  }
+
+              };
+            #endregion
+
+            #region gamma
+            Native.window.ondeviceorientation +=
+                //e => Native.body.innerText = new { e.alpha, e.beta, e.gamma }.ToString();
+                //e => lon = e.gamma;
+                e =>
+                {
+                    lat1 = e.gamma;
+
+                    // after servicing a running instance would be nice
+                    // either by patching or just re running the whole iteration in the backgrou
+                    camera_rotation_z = e.beta * 0.02;
+                };
+            #endregion
+
+
 
             #region camera rotation
             var old = new { clientX = 0, clientY = 0 };
@@ -406,8 +511,8 @@ namespace com.abstractatech.vr
 
                         e.preventDefault();
 
-                        lon += (n.clientX - old.clientX) * 0.2;
-                        lat -= (n.clientY - old.clientY) * 0.2;
+                        lon0 += (n.clientX - old.clientX) * 0.2;
+                        lat0 -= (n.clientY - old.clientY) * 0.2;
 
                         old = n;
                     };
@@ -420,8 +525,8 @@ namespace com.abstractatech.vr
 
                     if (Native.document.pointerLockElement == Native.document.body)
                     {
-                        lon += e.movementX * 0.1;
-                        lat -= e.movementY * 0.1;
+                        lon0 += e.movementX * 0.1;
+                        lat0 -= e.movementY * 0.1;
 
                         //Console.WriteLine(new { lon, lat, e.movementX, e.movementY });
                     }
@@ -457,6 +562,13 @@ namespace com.abstractatech.vr
 
             #endregion
 
+            Native.body.onmousewheel +=
+                e =>
+                {
+
+                    camera_rotation_z += 0.1 * e.WheelDirection; ;
+
+                };
             // https://developer.android.com/training/system-ui/immersive.html
 
         }
@@ -474,5 +586,25 @@ namespace com.abstractatech.vr
         internal double lensSeparationDistance;
         internal int vResolution;
         internal double vScreenSize;
+    }
+
+    // http://stackoverflow.com/questions/32664/is-there-a-constraint-that-restricts-my-generic-method-to-numeric-types
+    class sum //<T>
+    {
+        public static implicit operator double (sum that)
+        {
+            return that.i.Sum(x => x());
+        }
+
+
+        Func<double>[] i;
+        public sum(params Func<double>[] i)
+        {
+            this.i = i;
+        }
+
+        //public sum(params ref double[] i)
+        //{
+        //}
     }
 }

@@ -425,8 +425,14 @@ namespace WebGLVRHZTeaser
                     //cube.castShadow = true;
                     //dae.receiveShadow = true;
 
+
+                    // jsc shat about out of band code patching?
+                    cube.position.z = 600;
+                    cube.position.x = -900;
+                    //cube.position.y = -400;
+
                     //cube.position.x = -100;
-                    cube.position.y = 400;
+                    //cube.position.y = -400;
 
                     ////cube.position.y = (cube.scale.y * 50) / 2;
                     //cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
@@ -516,6 +522,7 @@ namespace WebGLVRHZTeaser
             var theta = 0.0;
 
             //var controls = new THREE.OrbitControls(camera);
+            var camera_rotation_z = 0.0;
 
             Native.window.onframe +=
                 delegate
@@ -546,13 +553,12 @@ namespace WebGLVRHZTeaser
                     //    lon += 0.01;
 
                     //var lat2 = Math.Max(-85, Math.Min(85, lat));
-                    var lat2 = lat;
 
                     //Native.document.title = new { lon, lat }.ToString();
                     //Native.document.title = new { lon0 }.ToString();
 
 
-                    phi = THREE.Math.degToRad(90 - lat2);
+                    phi = THREE.Math.degToRad(90 - lat);
                     theta = THREE.Math.degToRad(lon);
 
                     target.x = camera.position.x + (500 * Math.Sin(phi) * Math.Cos(theta));
@@ -563,8 +569,10 @@ namespace WebGLVRHZTeaser
                     //controls.update();
                     //camera.position = controls.center.clone();
 
+                    // camera beta tilt?
 
                     camera.lookAt(target);
+                    camera.rotation.z += camera_rotation_z;
 
                     //composer.render(0.1);
                     //renderer.render(scene, camera);
@@ -664,7 +672,14 @@ namespace WebGLVRHZTeaser
             Native.window.ondeviceorientation +=
                 //e => Native.body.innerText = new { e.alpha, e.beta, e.gamma }.ToString();
                 //e => lon = e.gamma;
-                e => lat1 = e.gamma;
+                e =>
+                {
+                    lat1 = e.gamma;
+
+                    // after servicing a running instance would be nice
+                    // either by patching or just re running the whole iteration in the backgrou
+                    camera_rotation_z = e.beta * 0.02;
+                };
             #endregion
 
 
@@ -737,7 +752,13 @@ namespace WebGLVRHZTeaser
 
             #endregion
 
+            Native.body.onmousewheel +=
+                e =>
+                {
 
+                    camera_rotation_z += 0.1 * e.WheelDirection; ;
+
+                };
         }
 
     }
