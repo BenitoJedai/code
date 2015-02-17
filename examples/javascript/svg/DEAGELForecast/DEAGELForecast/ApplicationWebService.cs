@@ -18,21 +18,21 @@ namespace DEAGELForecast
     /// </summary>
     public class ApplicationWebService
     {
-        /// <summary>
-        /// The static content defined in the HTML file will be update to the dynamic content once application is running.
-        /// </summary>
-        public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
+        ///// <summary>
+        ///// The static content defined in the HTML file will be update to the dynamic content once application is running.
+        ///// </summary>
+        //public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
 
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // Send it back to the caller.
-            y(e);
-        }
+        ///// <summary>
+        ///// This Method is a javascript callable method.
+        ///// </summary>
+        ///// <param name="e">A parameter from javascript.</param>
+        ///// <param name="y">A callback to javascript.</param>
+        //public void WebMethod2(string e, Action<string> y)
+        //{
+        //    // Send it back to the caller.
+        //    y(e);
+        //}
 
     }
 }

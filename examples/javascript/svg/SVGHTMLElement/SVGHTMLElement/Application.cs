@@ -103,6 +103,7 @@ namespace SVGHTMLElement
                    page.body.css.after.style.right = "0";
 
                    Console.WriteLine("cursor");
+                   // cursor no longer appears?
                    Native.document.documentElement.style.cursorImage = i;
                    //Native.css.style.cursorImage = s;
                    Console.WriteLine("icon");
