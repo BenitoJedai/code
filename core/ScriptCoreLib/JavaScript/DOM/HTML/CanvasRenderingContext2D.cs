@@ -24,6 +24,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public IHTMLCanvas canvas;
 
+        // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLCity\WebGLCity\Application.cs
+
+        public string fillStyle;
+        public void fillRect(int x, int y, int cx, int cy) { }
 
         // dashed lines
         public void setLineDash(double[] dash) { }

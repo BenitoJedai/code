@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -29,6 +30,9 @@ namespace WebGLCity
         public Application(IApp page = null)
         {
             InitializeComponent();
+
+            // http://johnstejskal.com/wp/super-hero-city-my-3d-webgl-game-using-three-js/
+            // http://www.johnstejskal.com/dev/super-hero-city/
 
             //DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
@@ -139,6 +143,13 @@ namespace WebGLCity
                         }
                     }
 
+                    // THREE.GeometryUtils: .merge() has been moved to Geometry. Use geometry.merge( geometry2, matrix, materialIndexOffset ) instead.
+                    // stop moving around code!
+
+
+                    //city.merge
+                    //city.merge(building.geometry);
+                    // how??
                     THREE.GeometryUtils.merge(city, building);
 
                 }
@@ -170,7 +181,7 @@ namespace WebGLCity
                         ImageSmoothingEnabled = false
                     };
 
-          
+
                     context.drawImage(context1.canvas, 0, 0, context.canvas.width, context.canvas.height);
 
                     return context.canvas;
@@ -197,17 +208,18 @@ namespace WebGLCity
             };
 
 
-            var lastTime = Native.window.performance.now() / 1000;
+            //var lastTime = Native.window.performance.now() / 1000;
+            var delta = new Stopwatch();
 
             Native.window.onframe +=
                 delegate
                 {
-                    var time = Native.window.performance.now() / 1000;
+                    //var time = Native.window.performance.now() / 1000;
 
-                    controls.update(time - lastTime);
+                    controls.update(delta.ElapsedMilliseconds);
                     renderer.render(scene, camera);
 
-                    lastTime = time;
+                    //lastTime = time;
                 };
         }
 

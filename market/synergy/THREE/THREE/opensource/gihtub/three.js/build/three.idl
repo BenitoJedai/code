@@ -763,6 +763,10 @@ interface THREE.Sphere
 
 };
 
+
+
+// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLCity\WebGLCity\Application.cs
+// // File:src/core/Geometry.js
 [Constructor]
 interface THREE.Geometry
 {
@@ -775,6 +779,10 @@ interface THREE.Geometry
 
 	// http://stackoverflow.com/questions/22348843/three-js-what-does-computecentroids-do
 	// um. collada thingy wants to use computeCentroids.
+
+	//merge: function(geometry, matrix, materialIndexOffset) {
+	//void merge(any geometry, matrix, materialIndexOffset) {
+	void merge(any geometry);
 };
 
 

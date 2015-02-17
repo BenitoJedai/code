@@ -6,6 +6,8 @@ using System.Text;
 
 namespace ScriptCoreLib.C
 {
+    // http://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/6928246-dllexport-attribute
+
     [AttributeUsage(AttributeTargets.Method)]
     public class DllExportAttribute : Attribute
     {
