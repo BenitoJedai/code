@@ -30,6 +30,7 @@ namespace WebGLMTLExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+
             // this is of little help for now/
             // this one is loading dds?
 
