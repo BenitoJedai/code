@@ -42,6 +42,8 @@ namespace com.abstractatech.vr
         public Application(IApp page)
         {
             // https://play.google.com/store/apps/details?id=com.abstractatech.vr
+            // could we display LAN UDP notifications too. like
+            // which youtube video is playing?
 
             Native.body.Clear();
             Native.body.style.margin = "0px";

@@ -156,9 +156,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\chrome\apps\ChromeCreativeLeadership\ChromeCreativeLeadership\ChromeCreativeLeadership.csproj">
+    <ProjectReference Include="..\..\HeatZeekerRTSOrto\HeatZeekerRTSOrto\HeatZeekerRTSOrto.csproj">
       <Project>{29947aad-0b14-4fb0-a3c3-a51322be2eda}</Project>
-      <Name>ChromeCreativeLeadership</Name>
+      <Name>HeatZeekerRTSOrto</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\WebGLEarthByBjorn.csproj">
       <Project>{b23791bc-bbed-49d9-9808-08b230b69c55}</Project>

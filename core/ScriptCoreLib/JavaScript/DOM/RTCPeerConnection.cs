@@ -11,6 +11,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "RTCPeerConnection")]
     public class RTCPeerConnection
     {
+        // http://xsockets.net/docs/3/webrtc
+        // http://stackoverflow.com/questions/15806617/creating-a-webrtc-receiver
+
+        // http://caniuse.com/#feat=rtcpeerconnection
         // http://blog.salemove.com/webrtc-vs-flash-not-much-of-a-competition/
 
         // http://googletesting.blogspot.se/2014/08/chrome-firefox-webrtc-interop-test-pt-1.html

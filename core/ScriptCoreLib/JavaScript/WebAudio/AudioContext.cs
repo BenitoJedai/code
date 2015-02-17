@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.WebAudio
 {
     // http://webaudio.github.io/web-audio-api/
     // http://dan.nea.me/audiolandscape/
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/webaudio/WindowWebAudio.idl?sortby=date
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/webaudio/AudioContext.idl?sortby=file
 
     [Script(HasNoPrototype = true, ExternalTarget = "AudioContext")]
     public class AudioContext

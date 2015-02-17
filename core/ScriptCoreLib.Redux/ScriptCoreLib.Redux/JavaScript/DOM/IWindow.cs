@@ -70,24 +70,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         public int orientation;   // updates the angle: 0, 90, 180, or -90
 
 
-        #region event deviceorientation
-        public event Action<DeviceOrientationEvent> ondeviceorientation
-        {
-            [Script(DefineAsStatic = true)]
-            add
-            {
-                base.InternalEvent(true, value, "deviceorientation");
-            }
-            [Script(DefineAsStatic = true)]
-            remove
-            {
-                base.InternalEvent(false, value, "deviceorientation");
-            }
-        }
-        #endregion
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130330-cache-manifest
-
+        [Obsolete]
         public ApplicationCache applicationCache;
 
         #region event ononline

@@ -45,6 +45,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         public IWindow opener;
         public IWindow top;
         public IWindow self;
+
+        // hide it?
         public IWindow window;
 
 

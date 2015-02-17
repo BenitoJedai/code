@@ -91,6 +91,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Interlocked.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAny.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
+    <Compile Include="JavaScript\DOM\DeviceOrientationEvent.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLHorizontalRule.cs" />
     <Compile Include="JavaScript\WebAudio\AudioDestinationNode.cs" />
     <Compile Include="JavaScript\WebAudio\AudioParam.cs" />

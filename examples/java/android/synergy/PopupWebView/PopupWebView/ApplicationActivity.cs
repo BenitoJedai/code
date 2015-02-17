@@ -10,7 +10,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.Android.Extensions;
 using ScriptCoreLib.Android.Manifest;
 using ScriptCoreLibJava.Extensions;
-using wei.mark.standout;
+//using wei.mark.standout;
 using PopupWebView.Library;
 
 namespace PopupWebView.Activities

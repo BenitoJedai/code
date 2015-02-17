@@ -498,7 +498,7 @@ namespace PopupWebView.Library
 
             public Action update;
         }
-        public List<PersistentNotification> PersistentNotifications = new List<PersistentNotification>();
+        public System.Collections.Generic.List<PersistentNotification> PersistentNotifications = new System.Collections.Generic.List<PersistentNotification>();
 
         public virtual PersistentNotification getPersistentNotification(int id)
         {
