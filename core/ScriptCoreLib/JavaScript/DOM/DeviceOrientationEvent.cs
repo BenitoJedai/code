@@ -17,6 +17,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class DeviceOrientationEvent : IEvent
     {
         // X:\jsc.svn\examples\javascript\android\Test\TestDeviceOrientationEvent\TestDeviceOrientationEvent\Application.cs
+        // X:\jsc.svn\examples\javascript\android\Test\TestCompassHeading\TestCompassHeading\Application.cs
 
         public readonly bool absolute;
         public readonly double alpha;
