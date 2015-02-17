@@ -49,7 +49,7 @@ namespace AndroidUnlockActivity.Activities
                     var mReceiver = new MyBroadcastReceiver();
 
                     mReceiver.AtReceive +=
-                        (Context context, Intent intent)  =>
+                        (Context context, Intent intent) =>
                         {
                             #region Notify
                             int counter = 0;
@@ -131,7 +131,7 @@ namespace AndroidUnlockActivity.Activities
                                 // The user has unlocked the screen. Enabled!
                                 Notify("ACTION_USER_PRESENT");
 
-                               
+
                             }
                         };
 
@@ -155,8 +155,15 @@ namespace AndroidUnlockActivity.Activities
         {
             public event Action<Context, Intent> AtReceive;
 
-            public override void onReceive(Context context, Intent intent) 
+            public override void onReceive(Context context, Intent intent)
             {
+                //            -compile:
+                //[javac]
+                //        Compiling 613 source files to W:\bin\classes
+                //[javac] W:\src\AndroidUnlockActivity\Activities\AndroidUnlockActivity_MyBroadcastReceiver.java:44: error: bad operand types for binary operator '>'
+                //[javac]         if (((this.__04000001__AtReceive > null)))
+                //[javac]                                          ^
+
                 if (AtReceive != null)
                     AtReceive(context, intent);
             }
