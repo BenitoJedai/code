@@ -139,7 +139,7 @@ namespace AndroidNFCExperiment
             //I/CalendarProvider2(17732): Sending notification intent: Intent { act=android.intent.action.PROVIDER_CHANGED dat=content://com.android.calendar }
             //W/ContentResolver(17732): Failed to get type for: content://com.android.calendar (Unknown URL content://com.android.calendar)
 
-
+            // await?
             activity.AtNewIntent +=
                 i =>
                 {

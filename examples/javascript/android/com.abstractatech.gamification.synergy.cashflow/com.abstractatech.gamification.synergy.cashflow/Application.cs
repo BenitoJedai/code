@@ -26,6 +26,19 @@ namespace com.abstractatech.gamification.synergy.cashflow
     public sealed partial class Application
     {
 
+        //{ SourceMethod = Int32<01e2> ldarg.0.try(<MoveNext>06000016, System.Runtime.CompilerServices.TaskAwaiter ByRef, <<_ctor>b__11>d__0 ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[System.String]
+        //        ByRef) }
+        //    script: error JSC1000: if block not detected correctly, opcode was { Branch = [0x0018]
+        //    blt        +0 -2{[0x0006]
+        //    ldfld      +1 -1{[0x0001]
+        //    ldfld      +1 -1{[0x0000]
+        //    ldarg.0    +1 -0} } } {[0x0017]
+        //conv.i4    +1 -1{[0x0
+        // assembly: V:\com.abstractatech.gamification.synergy.cashflow.Application.exe
+        // type: com.abstractatech.gamification.synergy.cashflow.Application+<>c__DisplayClass0+<<_ctor>b__11>d__0+<MoveNext>06000016, com.abstractatech.gamification.synergy.cashflow.Application, Version=1.0.0.0, Culture=neutral
+        // offset: 0x0018
+        //  method:Int32<01e2> ldarg.0.try(<MoveNext>06000016, System.Runtime.CompilerServices.TaskAwaiter ByRef, <<_ctor>b__11>d__0 ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[System.String]
+        //ByRef) }
 
 
         /// <summary>

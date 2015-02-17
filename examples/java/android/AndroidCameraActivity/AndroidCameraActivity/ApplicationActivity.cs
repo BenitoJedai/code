@@ -16,6 +16,13 @@ namespace AndroidCameraActivity.Activities
 {
     public class ApplicationActivity : Activity
     {
+        //        [javac]
+        //        Compiling 614 source files to W:\bin\classes
+        //[javac] W:\src\AndroidCameraActivity\Activities\ApplicationActivity_Preview.java:40: error: bad operand types for binary operator '>'
+        // [javac]             if (((this.oncamera > null)))
+        // [javac]                                 ^
+
+
         ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
 
         public class Preview : SurfaceView, SurfaceHolder_Callback
@@ -196,7 +203,8 @@ namespace ScriptCoreLib
         public string Message
         {
             [Script(ExternalTarget = "getMessage")]
-            get { return default(string); }
+            get
+            { return default(string); }
         }
     }
 }

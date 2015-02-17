@@ -15,7 +15,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public class WebSocket
     {
+        // https://developer.mozilla.org/en-US/docs/WebSockets/Writing_WebSocket_servers
+        // http://caniuse.com/#feat=websockets
+
         // how does this relate to service workers?
+        // can we do a server for android, java, clr and chrome, and android ndk at the same time?
 
         // is the jsc async web server RTC/WebSocket/Stream ready?
         // right after SSL?

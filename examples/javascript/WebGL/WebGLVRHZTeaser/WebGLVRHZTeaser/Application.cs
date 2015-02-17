@@ -434,7 +434,17 @@ namespace WebGLVRHZTeaser
 
             var lon = -45.0;
             //var lon = 90.0;
-            var lat = 0.0;
+
+
+            var lat0 = 0.0;
+            var lat1 = 0.0;
+
+            // or could we do it with byref or pointers?
+            var lat = new sum(
+                () => lat0,
+                () => lat1
+            );
+
             var phi = 0.0;
             var theta = 0.0;
 
@@ -463,18 +473,18 @@ namespace WebGLVRHZTeaser
 
                     //camera.position = controls.center.clone();
 
-                    if (Native.document.pointerLockElement == Native.document.body)
-                        lon += 0.00;
-                    else
-                        lon += 0.01;
+                    //if (Native.document.pointerLockElement == Native.document.body)
+                    //    lon += 0.00;
+                    //else
+                    //    lon += 0.01;
 
-                    lat = Math.Max(-85, Math.Min(85, lat));
+                    var lat2 = Math.Max(-85, Math.Min(85, lat));
 
                     //Native.document.title = new { lon, lat }.ToString();
                     Native.document.title = new { lon }.ToString();
 
 
-                    phi = THREE.Math.degToRad(90 - lat);
+                    phi = THREE.Math.degToRad(90 - lat2);
                     theta = THREE.Math.degToRad(lon);
 
                     target.x = camera.position.x + (500 * Math.Sin(phi) * Math.Cos(theta));
@@ -510,6 +520,12 @@ namespace WebGLVRHZTeaser
                      }
                    );
 
+            // gamma -0 .. -90
+
+            Native.window.ondeviceorientation +=
+                //e => Native.body.innerText = new { e.alpha, e.beta, e.gamma }.ToString();
+                //e => lon = e.gamma;
+                e => lat1 = e.gamma;
 
 
             #region camera rotation
@@ -530,7 +546,7 @@ namespace WebGLVRHZTeaser
                         e.preventDefault();
 
                         lon += (n.clientX - old.clientX) * 0.2;
-                        lat -= (n.clientY - old.clientY) * 0.2;
+                        lat0 -= (n.clientY - old.clientY) * 0.2;
 
                         old = n;
                     };
@@ -544,7 +560,7 @@ namespace WebGLVRHZTeaser
                     if (Native.document.pointerLockElement == Native.document.body)
                     {
                         lon += e.movementX * 0.1;
-                        lat -= e.movementY * 0.1;
+                        lat0 -= e.movementY * 0.1;
 
                         //Console.WriteLine(new { lon, lat, e.movementX, e.movementY });
                     }
@@ -584,4 +600,25 @@ namespace WebGLVRHZTeaser
         }
 
     }
+
+    // http://stackoverflow.com/questions/32664/is-there-a-constraint-that-restricts-my-generic-method-to-numeric-types
+    class sum //<T>
+    {
+        public static implicit operator double (sum that)
+        {
+            return that.i.Sum(x => x());
+        }
+
+
+        Func<double>[] i;
+        public sum(params Func<double>[] i)
+        {
+            this.i = i;
+        }
+
+        //public sum(params ref double[] i)
+        //{
+        //}
+    }
+
 }

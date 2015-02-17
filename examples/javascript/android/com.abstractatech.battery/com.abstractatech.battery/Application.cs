@@ -97,6 +97,7 @@ namespace com.abstractatech.battery
                         // when can we do css[if b].filter = hue(170)?
                         // can we have a client side hue editor and record it for jsc store?
                         (page.gauge_layer3.style as dynamic).webkitFilter = "hue-rotate(0deg)";
+                        //page.gauge_layer3.style.filter
 
                         if (a <= 0.3)
                             page.gauge_layer3.Show();

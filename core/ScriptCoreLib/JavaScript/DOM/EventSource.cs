@@ -7,9 +7,12 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://www.chromestatus.com/features/5311740673785856
 
+    [Obsolete("WebSocket vs WebRTC?")]
     [Script(HasNoPrototype = true, ExternalTarget = "EventSource")]
     public class EventSource : IEventTarget
     {
+        // http://caniuse.com/#feat=eventsource
+        // http://a111a.org/ira/2015/01/24/html-5-server-sent-events-with-c-service-asmx-send-data-within-eventsource/
         // http://w3c.github.io/push-api/
 
         // tested by?

@@ -253,6 +253,13 @@ namespace PopupWebView.Library
         }
         public override bool onTouchEvent(MotionEvent @event)
         {
+            //           assembly: Y:\staging\clr\PopupWebView.AndroidActivity.dll
+            //           type: PopupWebView.Library.XWindow, PopupWebView.AndroidActivity, Version = 1.0.0.0, Culture = neutral, PublicKeyToken = null
+            //offset:
+            //           0x0083
+            // method: Boolean onInterceptTouchEvent(android.view.MotionEvent) }
+            //       script: error JSC1000: Java : unable to emit and at 'PopupWebView.Library.XWindow.onInterceptTouchEvent'#0085: multiple stack entries instead of one
+
             // handle touching outside
             if (@event.getAction() == MotionEvent.ACTION_OUTSIDE)
             {
