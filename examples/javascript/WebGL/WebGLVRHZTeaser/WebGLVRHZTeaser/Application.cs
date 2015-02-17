@@ -393,6 +393,69 @@ namespace WebGLVRHZTeaser
             );
             #endregion
 
+
+            #region HZCannon
+            new HeatZeekerRTSOrto.HZCannon().Source.Task.ContinueWithResult(
+                async cube =>
+                {
+                    // https://github.com/mrdoob/three.js/issues/1285
+                    //cube.children.WithEach(c => c.castShadow = true);
+
+                    cube.traverse(
+                        new Action<THREE.Object3D>(
+                            child =>
+                            {
+                                // does it work? do we need it?
+                                //if (child is THREE.Mesh)
+
+                                child.castShadow = true;
+                                //child.receiveShadow = true;
+
+                            }
+                        )
+                    );
+
+                    // um can edit and continue insert code going back in time?
+                    cube.scale.x = 10.0;
+                    cube.scale.y = 10.0;
+                    cube.scale.z = 10.0;
+
+
+
+                    //cube.castShadow = true;
+                    //dae.receiveShadow = true;
+
+                    //cube.position.x = -100;
+                    cube.position.y = 400;
+
+                    ////cube.position.y = (cube.scale.y * 50) / 2;
+                    //cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+
+
+
+                    // if i want to rotate, how do I do it?
+                    //cube.rotation.z = random() + Math.PI;
+                    //cube.rotation.x = random() + Math.PI;
+                    var sw2 = Stopwatch.StartNew();
+
+
+
+                    scene.add(cube);
+                    //interactiveObjects.Add(cube);
+
+                    // offset is wrong
+                    //while (true)
+                    //{
+                    //    await Native.window.async.onframe;
+
+                    //    cube.rotation.y = Math.PI * 0.0002 * sw2.ElapsedMilliseconds;
+
+                    //}
+                }
+            );
+            #endregion
+
+
             #region HZBunker
             new HeatZeekerRTSOrto.HZBunker().Source.Task.ContinueWithResult(
                      cube =>
@@ -432,9 +495,13 @@ namespace WebGLVRHZTeaser
             #endregion
 
 
-            var lon = -45.0;
-            //var lon = 90.0;
+            var lon0 = -45.0;
+            var lon1 = 0.0;
 
+            var lon = new sum(
+                 () => lon0,
+                 () => lon1
+             );
 
             var lat0 = 0.0;
             var lat1 = 0.0;
@@ -478,10 +545,11 @@ namespace WebGLVRHZTeaser
                     //else
                     //    lon += 0.01;
 
-                    var lat2 = Math.Max(-85, Math.Min(85, lat));
+                    //var lat2 = Math.Max(-85, Math.Min(85, lat));
+                    var lat2 = lat;
 
                     //Native.document.title = new { lon, lat }.ToString();
-                    Native.document.title = new { lon }.ToString();
+                    //Native.document.title = new { lon0 }.ToString();
 
 
                     phi = THREE.Math.degToRad(90 - lat2);
@@ -522,10 +590,83 @@ namespace WebGLVRHZTeaser
 
             // gamma -0 .. -90
 
+            var compassHeadingOffset = 0.0;
+            var compassHeadingInitialized = 0;
+
+            #region compassHeading
+            // X:\jsc.svn\examples\javascript\android\Test\TestCompassHeading\TestCompassHeading\Application.cs
+            Native.window.ondeviceorientation +=
+              dataValues =>
+              {
+                  // Convert degrees to radians
+                  var alphaRad = dataValues.alpha * (Math.PI / 180);
+                  var betaRad = dataValues.beta * (Math.PI / 180);
+                  var gammaRad = dataValues.gamma * (Math.PI / 180);
+
+                  // Calculate equation components
+                  var cA = Math.Cos(alphaRad);
+                  var sA = Math.Sin(alphaRad);
+                  var cB = Math.Cos(betaRad);
+                  var sB = Math.Sin(betaRad);
+                  var cG = Math.Cos(gammaRad);
+                  var sG = Math.Sin(gammaRad);
+
+                  // Calculate A, B, C rotation components
+                  var rA = -cA * sG - sA * sB * cG;
+                  var rB = -sA * sG + cA * sB * cG;
+                  var rC = -cB * cG;
+
+                  // Calculate compass heading
+                  var compassHeading = Math.Atan(rA / rB);
+
+                  // Convert from half unit circle to whole unit circle
+                  if (rB < 0)
+                  {
+                      compassHeading += Math.PI;
+                  }
+                  else if (rA < 0)
+                  {
+                      compassHeading += 2 * Math.PI;
+                  }
+
+                  /*
+                  Alternative calculation (replacing lines 99-107 above):
+
+                    var compassHeading = Math.atan2(rA, rB);
+
+                    if(rA < 0) {
+                      compassHeading += 2 * Math.PI;
+                    }
+                  */
+
+                  // Convert radians to degrees
+                  compassHeading *= 180 / Math.PI;
+
+                  // Compass heading can only be derived if returned values are 'absolute'
+
+                  // X:\jsc.svn\examples\javascript\android\Test\TestCompassHeadingWithReset\TestCompassHeadingWithReset\Application.cs
+
+                  //Native.document.body.innerText = new { compassHeading }.ToString();
+                  if (compassHeadingInitialized > 0)
+                  {
+                      lon1 = compassHeading - compassHeadingOffset;
+                  }
+                  else
+                  {
+                      compassHeadingOffset = compassHeading;
+                      compassHeadingInitialized++;
+                  }
+
+              };
+            #endregion
+
+            #region gamma
             Native.window.ondeviceorientation +=
                 //e => Native.body.innerText = new { e.alpha, e.beta, e.gamma }.ToString();
                 //e => lon = e.gamma;
                 e => lat1 = e.gamma;
+            #endregion
+
 
 
             #region camera rotation
@@ -545,7 +686,7 @@ namespace WebGLVRHZTeaser
 
                         e.preventDefault();
 
-                        lon += (n.clientX - old.clientX) * 0.2;
+                        lon0 += (n.clientX - old.clientX) * 0.2;
                         lat0 -= (n.clientY - old.clientY) * 0.2;
 
                         old = n;
@@ -559,7 +700,7 @@ namespace WebGLVRHZTeaser
 
                     if (Native.document.pointerLockElement == Native.document.body)
                     {
-                        lon += e.movementX * 0.1;
+                        lon0 += e.movementX * 0.1;
                         lat0 -= e.movementY * 0.1;
 
                         //Console.WriteLine(new { lon, lat, e.movementX, e.movementY });

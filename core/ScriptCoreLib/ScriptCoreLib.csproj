@@ -117,6 +117,7 @@
     <Compile Include="JavaScript\WebGL\WebGLTransformFeedback.cs" />
     <Compile Include="JavaScript\WebGL\WebGLSync.cs" />
     <Compile Include="JavaScript\WebGL\WebGLSampler.cs" />
+    <Compile Include="JavaScript\WebRTC\RTCPeerConnection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Numerics\Vector4.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\AsyncTaskMethodBuilder.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
@@ -170,7 +171,6 @@
     <Compile Include="JavaScript\DOM\IDocumentFragment.cs" />
     <Compile Include="JavaScript\DOM\IPromise.cs" />
     <Compile Include="JavaScript\DOM\MutationObserver.cs" />
-    <Compile Include="JavaScript\DOM\RTCPeerConnection.cs" />
     <Compile Include="JavaScript\DOM\ServiceWorkerContainer.cs" />
     <Compile Include="JavaScript\DOM\ServiceWorkerGlobalScope.cs" />
     <Compile Include="JavaScript\DOM\ServiceWorker.cs" />
