@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLCity", "WebGLCity\WebGLCity.csproj", "{7C0B6A91-F338-41A2-8879-E2E837D6D454}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {7B5C94C5-F6AA-42BA-815B-34DD472A47AC}
@@ -57,7 +59,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{053C4547-E32B-458E-B295-1E3640BE96E9} = {DD6C102F-9205-416C-A528-B41DEAA9E35D}
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {DD6C102F-9205-416C-A528-B41DEAA9E35D}
+		{053C4547-E32B-458E-B295-1E3640BE96E9} = {DD6C102F-9205-416C-A528-B41DEAA9E35D}
 	EndGlobalSection
 EndGlobal
