@@ -390,7 +390,12 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
                             new { KeyCode = 38, Point = new Point(0, -1)}, // up
                             new { KeyCode = 37, Point = new Point(-1, 0)}, // left
                             new { KeyCode = 39, Point = new Point(1, 0)}, // right
-                            new { KeyCode = 40, Point = new Point(0, 1)}, // down
+                            new { KeyCode = 40, Point = new Point(0, 1)}, // down,
+
+                              new { KeyCode = (int)System.Windows.Forms.Keys.W, Point = new Point(0, -1)}, // up
+                            new { KeyCode =  (int)System.Windows.Forms.Keys.A, Point = new Point(-1, 0)}, // left
+                            new { KeyCode =  (int)System.Windows.Forms.Keys.D, Point = new Point(1, 0)}, // right
+                            new { KeyCode =  (int)System.Windows.Forms.Keys.S, Point = new Point(0, 1)}, // down
                         };
 
                      Func<IEvent, bool> IsPauseKey =
@@ -405,7 +410,7 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
                             ev.StopPropagation();
                         };
 
-                     
+
                      Action<IEvent> AtClick =
                          ev =>
                          {
@@ -486,7 +491,7 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
                          };
 
                      Native.Document.body.onclick += AtClick;
-                         
+
 
                      #region onkeyup
                      Native.Document.onkeyup +=
@@ -529,20 +534,20 @@ E/AndroidRuntime(20005):        at ScriptCoreLibJava.BCLImplementation.System.Re
                                  }
                                  else
                                      if (ev.KeyCode == 33)
-                                     {
-                                         zoom--;
-                                         zoom = zoom.Max(8);
+                                 {
+                                     zoom--;
+                                     zoom = zoom.Max(8);
 
-                                         apples.ForEach(a => a.MoveToLocation());
-                                         worm.Parts.ForEach(p => p.MoveToLocation());
-                                     }
-                                     else if (ev.KeyCode == 34)
-                                     {
-                                         zoom++;
-                                         zoom = zoom.Min(64);
-                                         apples.ForEach(a => a.MoveToLocation());
-                                         worm.Parts.ForEach(p => p.MoveToLocation());
-                                     }
+                                     apples.ForEach(a => a.MoveToLocation());
+                                     worm.Parts.ForEach(p => p.MoveToLocation());
+                                 }
+                                 else if (ev.KeyCode == 34)
+                                 {
+                                     zoom++;
+                                     zoom = zoom.Min(64);
+                                     apples.ForEach(a => a.MoveToLocation());
+                                     worm.Parts.ForEach(p => p.MoveToLocation());
+                                 }
 
 
                              }
