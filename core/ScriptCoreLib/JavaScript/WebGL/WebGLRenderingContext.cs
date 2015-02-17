@@ -30,6 +30,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
     public class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
     // : WebGLRenderingContextBase
     {
+        // http://webglstats.com/
+
         // cpu, gpu, hpu
         // http://en.wikipedia.org/wiki/Holographic_processing_unit
 

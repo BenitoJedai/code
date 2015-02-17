@@ -72,6 +72,11 @@ namespace AndroidAccelerometerActivity.Activities
             }
             public void onSensorChanged(SensorEvent e)
             {
+                //[javac]
+                //           Compiling 610 source files to W:\bin\classes
+                //   [javac] W:\src\AndroidAccelerometerActivity\Activities\AndroidAccelerometerActivity_MySensorEventListener.java:43: error: bad operand types for binary operator '>'
+                //[javac]             if (((this.onaccelerometer > null)))
+
 
                 // check sensor type
                 if (e.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
