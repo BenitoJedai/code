@@ -55,6 +55,15 @@ namespace JVMCLRHopToThreadPool
             //           Please double check the signature!
 
 
+            //            0001 0200001c JVMCLRHopToThreadPool__i__d.jvm::< module >.SHA1e753615830d7e1078fa8bbc34fd2a916a7ff550f@2144380672$000000da
+            //              - javac
+            //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" - classpath "Y:\staging\web\java"; release - d release java\JVMCLRHopToThreadPool\Program.java
+            //   Y:\staging\web\java\JVMCLRHopToThreadPool\Program___c__DisplayClass0___Main_b__1_d__0__MoveNext_06000028.java:44: error: cannot find symbol
+            //        Program___c__DisplayClass0___Main_b__1_d__0__MoveNext_06000028.__workflow(next_060000280, ref_awaitable1, ref_awaitable2, ref_main_b__1_d__03);
+            //                                                                                                                                  ^
+            //  symbol:   variable ref_main_b__1_d__03
+            //  location: class Program___c__DisplayClass0___Main_b__1_d__0__MoveNext_06000028
+
             new { }.With(
                 async scope =>
                 {
