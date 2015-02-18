@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://referencesource.microsoft.com/#System/net/System/Net/WebSockets/ServerWebSocket.cs
     // http://referencesource.microsoft.com/#System/net/System/Net/WebSockets/WebSocketProtocolComponent.cs
 
+    // http://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.WebSocket
+
     [Script(InternalConstructor = true)]
     public class WebSocket
     {

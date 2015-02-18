@@ -25,6 +25,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/Worker.cpp
     // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/Worker/
 
+    // http://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.Worker
 
     [Script(HasNoPrototype = true, ExternalTarget = "Worker")]
     public class Worker : IEventTarget

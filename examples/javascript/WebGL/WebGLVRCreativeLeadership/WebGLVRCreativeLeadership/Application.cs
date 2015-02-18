@@ -19,6 +19,7 @@ using WebGLAudi.__AssetsLibrary__;
 using WebGLEarthByBjorn.HTML.Images.FromAssets;
 using WebGLNexus7;
 using WebGLVRCreativeLeadership;
+using WebGLSVGSprite.HTML.Pages;
 
 //namespace WebGLVRCreativeLeadership
 namespace com.abstractatech.vr
@@ -39,7 +40,7 @@ namespace com.abstractatech.vr
         //WebGLVRCreativeLeadership.Activities.ApplicationWebServiceActivity+<>c__DisplayClass24.<CreateServer>b__29 at offset 0018.
         //If the use of this method is intended, an implementation should be provided with the attribute[Script(Implements = typeof(...)] set.You may have mistyped it.
 
-        public Application(IApp page)
+        public Application(com.abstractatech.apps.vr.HTML.Pages.IApp page)
         {
             // https://play.google.com/store/apps/details?id=com.abstractatech.vr
             // could we display LAN UDP notifications too. like
@@ -250,7 +251,7 @@ namespace com.abstractatech.vr
             #endregion
 
 
-     
+
 
 
             //          // DK2
@@ -368,9 +369,104 @@ namespace com.abstractatech.vr
 
             var camera_rotation_z = 0.0;
 
+
+            var labove = new NotificationLayout();
+            var lbelow = new NotificationLayout();
+
+            #region sprite2 above
+            {
+                labove.layout.style.background = "";
+                var c = labove.AsCanvas();
+
+                var xcrateTexture = new THREE.Texture(c);
+
+                // like video texture
+                Native.window.onframe += delegate { xcrateTexture.needsUpdate = true; };
+
+                var xcrateMaterial = new THREE.SpriteMaterial(
+                    new
+                    {
+                        map = xcrateTexture,
+                        useScreenCoordinates = false,
+                        //color = 0xff0000
+                        color = 0xffffff
+                    }
+            );
+
+
+
+                var xsprite2 = new THREE.Sprite(xcrateMaterial);
+
+                //floor
+                //sprite2.position.set(0, -200, 0);
+
+                // left
+                xsprite2.position.set(200, 50, 0);
+
+                //sprite2.position.set(0, 0, 200);
+
+                //sprite2.position.set(-100, 0, 0);
+                xsprite2.scale.set(
+                   c.width * 0.5,
+                   c.height * 0.5,
+                    //64, 64,
+                    1.0); // imageWidth, imageHeight
+                scene.add(xsprite2);
+            }
+            #endregion
+
+            #region sprite below
+            {
+                lbelow.layout.style.background = "";
+                lbelow.Message = new { THREE.REVISION }.ToString();
+
+                var c = lbelow.AsCanvas();
+
+                var xcrateTexture = new THREE.Texture(c);
+
+                // like video texture
+                Native.window.onframe += delegate { xcrateTexture.needsUpdate = true; };
+
+                var xcrateMaterial = new THREE.SpriteMaterial(
+                    new
+                    {
+                        map = xcrateTexture,
+                        useScreenCoordinates = false,
+                        //color = 0xff0000
+                        color = 0xffffff
+                    }
+            );
+
+
+
+                var xsprite2 = new THREE.Sprite(xcrateMaterial);
+
+                //floor
+                //sprite2.position.set(0, -200, 0);
+
+                // left middle
+                //sprite2.position.set(200, 0, 0);
+                xsprite2.position.set(200, -50, 0);
+
+                //sprite2.position.set(0, 0, 200);
+
+                //sprite2.position.set(-100, 0, 0);
+                xsprite2.scale.set(
+                   c.width * 0.5,
+                   c.height * 0.5,
+                    //64, 64,
+                    1.0); // imageWidth, imageHeight
+                scene.add(xsprite2);
+            }
+            #endregion
             Native.window.onframe +=
-                delegate
+                ee =>
                 {
+
+                    // look we are having html in 3D in VR!
+                    labove.Message = "" + new { ee.counter };
+
+
                     //if (Native.document.pointerLockElement == Native.document.body)
                     //    lon += 0.00;
                     //else

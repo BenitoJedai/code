@@ -35,11 +35,14 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         }
+
+        public void disconnect() { }
+
     }
 
     [Script]
     public delegate void MutationCallback(MutationRecord[] mutations, MutationObserver observer);
 
-
+    //public class MutationEvent
 
 }

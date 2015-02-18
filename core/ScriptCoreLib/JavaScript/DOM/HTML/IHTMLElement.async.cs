@@ -35,6 +35,53 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             internal TElement that;
 
+
+            public virtual Task<IEvent> onmutation
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    // X:\jsc.svn\examples\javascript\svg\SVGFromHTMLDivObservable\SVGFromHTMLDivObservable\Application.cs
+
+                    var x = new TaskCompletionSource<IEvent>();
+                    //that.onmouseover += x.SetResult;
+
+                    new MutationObserver(
+                                new MutationCallback(
+                                    (MutationRecord[] mutations, MutationObserver observer) =>
+                                    {
+                                        //Console.WriteLine("Mutations len " + mutations.Length);
+
+
+                                        // mutationevent?
+                                        //x.SetResult(null);
+
+
+                                        // non null will yield to await
+                                        x.SetResult((IEvent)new object());
+
+                                        observer.disconnect();
+                                    }
+                                )
+                            ).observe(that,
+                                new
+                                {
+                                    // Set to true if mutations to target's children are to be observed.
+                                    childList = true,
+                                    // Set to true if mutations to target's attributes are to be observed. Can be omitted if attributeOldValue and/or attributeFilter is specified.
+                                    attributes = true,
+                                    // Set to true if mutations to target's data are to be observed. Can be omitted if characterDataOldValue is specified.
+                                    characterData = true,
+                                    // Set to true if mutations to not just target, but also target's descendants are to be observed.
+                                    subtree = true,
+                                }
+                            );
+
+                    return x.Task;
+                }
+            }
+
+            #region onclick
             [System.Obsolete("should jsc expose events as async tasks until C# chooses to allow that?")]
             public virtual Task<IEvent> onclick
             {
@@ -51,11 +98,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                             x.SetResult(e);
                         };
 
+                    // tested by?
                     ScriptCoreLib.JavaScript.DOM.CSSStyleRuleMonkier.InternalTaskNameLookup[x.Task] = "onclick";
 
                     return x.Task;
                 }
             }
+            #endregion
+
 
 
             // X:\jsc.svn\examples\javascript\async\Test\TestAsyncMouseOver\TestAsyncMouseOver\Application.cs

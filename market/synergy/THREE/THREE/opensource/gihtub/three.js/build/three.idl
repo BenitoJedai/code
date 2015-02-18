@@ -144,11 +144,15 @@ interface THREE.ImageUtilsType
 	THREE.Texture loadTextureCube(string[] array);
 };
 
+
+
+// File:src/textures/Texture.js
 [Constructor(),
 Constructor(html::HTMLImageElement c),
 Constructor(html::HTMLCanvasElement c)]
 interface THREE.Texture
 {
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLSVGSprite\WebGLSVGSprite\Application.cs
 
 	// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\Application.cs
 	attribute html::HTMLImageElement image;
@@ -834,6 +838,7 @@ interface THREE.CylinderGeometry
 
 //radius, segments, thetaStart, thetaLength
 
+// tested by?
 [Constructor(double radius, double segments)]
 interface THREE.CircleGeometry
 {
