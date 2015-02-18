@@ -1027,7 +1027,7 @@ interface THREE.Spline
 {
 	// X:\jsc.svn\examples\javascript\WebGL\WebGLDashedLines\WebGLDashedLines\Application.cs
 
-	THREE.Vector3 getPoint(int k);
+	THREE.Vector3 getPoint(double k);
 };
 
 

@@ -31,6 +31,11 @@ namespace WebGLDashedLines
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            Native.body.Clear();
+            Native.body.style.margin = "0px";
+            Native.body.style.overflow = IStyle.OverflowEnum.hidden;
+
+
             // http://threejs.org/examples/webgl_lines_dashed.html
 
             var objects = new List<THREE.Line>();
@@ -50,18 +55,28 @@ namespace WebGLDashedLines
 
             var points = hilbert3D(new THREE.Vector3(0, 0, 0), 25.0, recursion, 0, 1, 2, 3, 4, 5, 6, 7);
 
+            Console.WriteLine(
+                new { points.Length }
+            );
+
+            #region spline
             var spline = new THREE.Spline(points);
             var geometrySpline = new THREE.Geometry();
 
             for (var i = 0; i < points.Length * subdivisions; i++)
             {
 
-                var index = i / (points.Length * subdivisions);
+                var index = (double)i / (points.Length * subdivisions);
                 var position = spline.getPoint(index);
 
                 geometrySpline.vertices[i] = new THREE.Vector3(position.x, position.y, position.z);
 
+                Console.WriteLine(
+           new { i, index, position.x, position.y, position.z }
+       );
+
             }
+            #endregion
 
             var geometryCube = cube(50);
 
@@ -85,6 +100,17 @@ namespace WebGLDashedLines
                 objects.Add(o);
                 scene.add(o);
             }
+
+            {
+
+                var o = new THREE.Line(geometryCube, new THREE.LineDashedMaterial(
+                    new { color = 0xffaa00, dashSize = 3, gapSize = 1, linewidth = 2 }
+                    ), THREE.LinePieces);
+
+                objects.Add(o);
+                scene.add(o);
+            }
+
             var renderer = new THREE.WebGLRenderer(new { antialias = true });
             renderer.setClearColor(0x111111);
             //renderer.setPixelRatio( window.devicePixelRatio );
@@ -187,6 +213,8 @@ namespace WebGLDashedLines
             int v6 = 6,
             int v7 = 7)
         {
+            // 0:71ms {{ i = 0, x = -18.75, y = 18.75, z = -18.75 }}
+
             // Default Vars
             var half = size / 2;
 
@@ -214,10 +242,12 @@ namespace WebGLDashedLines
             };
 
             // Recurse iterations
-            iterations--;
 
-            if (iterations >= 0)
+            //if (--iterations >= 0)
+            if (iterations > 0)
             {
+                iterations--;
+
                 var tmp = new[] {
                     hilbert3D(vec[0], half, iterations, v0, v3, v4, v7, v6, v5, v2, v1),
                     hilbert3D(vec[1], half, iterations, v0, v7, v6, v1, v2, v5, v4, v3),
