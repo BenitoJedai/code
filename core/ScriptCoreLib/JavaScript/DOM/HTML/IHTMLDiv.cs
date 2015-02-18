@@ -91,7 +91,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
-
+        [Obsolete("prefer Task<ISVGSVGElement>")]
         public static explicit operator ISVGSVGElement(IHTMLDiv div)
         {
             // tested by?
@@ -105,6 +105,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public static implicit operator Task<ISVGSVGElement>(IHTMLDiv div)
         {
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLSVGSprite\WebGLSVGSprite\Application.cs
+
             System.Console.WriteLine("Task<ISVGSVGElement> <- IHTMLDiv");
 
 
