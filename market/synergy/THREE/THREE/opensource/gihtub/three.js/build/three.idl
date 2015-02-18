@@ -284,6 +284,7 @@ interface THREE.LineBasicMaterial
 };
 
 [Constructor(any geometry, any material)]
+[Constructor(any geometry, any material, any mode)]
 interface THREE.Line  : THREE.Object3D
 {
 	attribute long type;
@@ -776,6 +777,7 @@ interface THREE.Geometry
 {
 	attribute THREE.Sphere boundingSphere;
 
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLDashedLines\WebGLDashedLines\Application.cs
 	attribute sequence<THREE.Vector3>        vertices;
 
 	attribute sequence<THREE.Geometry>        faces;
@@ -787,6 +789,8 @@ interface THREE.Geometry
 	//merge: function(geometry, matrix, materialIndexOffset) {
 	//void merge(any geometry, matrix, materialIndexOffset) {
 	void merge(any geometry);
+
+	void computeLineDistances();
 };
 
 
@@ -1013,4 +1017,25 @@ interface THREE.Clock
 {
 	double getDelta();
 
-}
+};
+
+
+
+// File:src/math/Spline.js
+[Constructor(any points)]
+interface THREE.Spline
+{
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLDashedLines\WebGLDashedLines\Application.cs
+
+	THREE.Vector3 getPoint(int k);
+};
+
+
+// File:src/materials/LineDashedMaterial.js
+[Constructor(any parameters)]
+interface THREE.LineDashedMaterial : THREE.Material
+{
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLDashedLines\WebGLDashedLines\Application.cs
+
+
+};
