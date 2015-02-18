@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebGLSVGSprite</RootNamespace>
     <AssemblyName>WebGLSVGSprite</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>WebGLSVGSprite.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -107,6 +108,9 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="THREE">
+      <HintPath>..\packages\THREE.1.0.0.0\lib\THREE.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -119,9 +123,20 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeUDPNotification.AssetsLibrary">
+      <HintPath>..\..\..\chrome\apps\ChromeUDPNotification\ChromeUDPNotification\bin\staging.AssetsLibrary\ChromeUDPNotification.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLSpeedBlendCharacter.AssetsLibrary">
+      <HintPath>..\..\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter\bin\staging.AssetsLibrary\WebGLSpeedBlendCharacter.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLEquirectangularPanorama.AssetsLibrary">
+      <HintPath>..\..\..\synergy\webgl\WebGLEquirectangularPanorama\WebGLEquirectangularPanorama\bin\staging.AssetsLibrary\WebGLEquirectangularPanorama.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Design\logo1.jpg" />
+    <Content Include="Design\NotificationLayout.htm" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="ApplicationWebService.cs" />
@@ -129,7 +144,22 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\chrome\apps\ChromeUDPNotification\ChromeUDPNotification\ChromeUDPNotification.csproj">
+      <Project>{76843b5b-eb0a-4e49-8b36-037969e0545f}</Project>
+      <Name>ChromeUDPNotification</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\synergy\webgl\WebGLEquirectangularPanorama\WebGLEquirectangularPanorama\WebGLEquirectangularPanorama.csproj">
+      <Project>{afb54cd6-f4ff-4c30-a983-5bb45be818d8}</Project>
+      <Name>WebGLEquirectangularPanorama</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter.csproj">
+      <Project>{890f6fdf-577b-4100-9fe1-d0f228175984}</Project>
+      <Name>WebGLSpeedBlendCharacter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

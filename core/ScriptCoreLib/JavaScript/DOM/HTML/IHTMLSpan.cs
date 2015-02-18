@@ -1,5 +1,6 @@
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Extensions;
+using System;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -133,6 +134,22 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             return s;
         }
+
+        //public static implicit operator IHTMLSpan([System.Runtime.CompilerServices.Dynamic]object innerText)
+        //public static implicit operator IHTMLSpan(object innerText)
+        //Error	CS1660	Cannot convert lambda expression to type 'IHTMLSpan' because it is not a delegate type	TestSpanOfObject	Application.cs	35
+        //c implicit operator IHTMLSpan(Func<object> innerText)
+        //        {
+        //            // Error	64	'ScriptCoreLib.JavaScript.DOM.HTML.IHTMLSpan.implicit operator ScriptCoreLib.JavaScript.DOM.HTML.IHTMLSpan(object)': user-defined conversions to or from a base class are not allowed	X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\IHTMLSpan.cs	138	23	ScriptCoreLib
+        //            //Error	64	'ScriptCoreLib.JavaScript.DOM.HTML.IHTMLSpan.implicit operator ScriptCoreLib.JavaScript.DOM.HTML.IHTMLSpan(dynamic)': user-defined conversions to or from the dynamic type are not allowed	X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\IHTMLSpan.cs	139	23	ScriptCoreLib
+
+
+        //            // X:\jsc.svn\examples\javascript\Test\TestSpanOfObject\TestSpanOfObject\Application.cs
+        //            // should we monitor the fields of the anonymous type?
+        //            // would we have enough RTTI available?
+
+        //            return new IHTMLSpan { innerText = "" + innerText() };
+        //        }
 
 
 

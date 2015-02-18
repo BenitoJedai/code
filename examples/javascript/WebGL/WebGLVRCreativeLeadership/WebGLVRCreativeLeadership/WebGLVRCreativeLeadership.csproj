@@ -141,6 +141,18 @@
     <Reference Include="HeatZeekerRTSOrto.AssetsLibrary">
       <HintPath>..\..\HeatZeekerRTSOrto\HeatZeekerRTSOrto\bin\staging.AssetsLibrary\HeatZeekerRTSOrto.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLSVGSprite.AssetsLibrary">
+      <HintPath>..\..\WebGLSVGSprite\WebGLSVGSprite\bin\staging.AssetsLibrary\WebGLSVGSprite.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeUDPNotification.AssetsLibrary">
+      <HintPath>..\..\..\chrome\apps\ChromeUDPNotification\ChromeUDPNotification\bin\staging.AssetsLibrary\ChromeUDPNotification.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLSpeedBlendCharacter.AssetsLibrary">
+      <HintPath>..\..\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter\bin\staging.AssetsLibrary\WebGLSpeedBlendCharacter.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLEquirectangularPanorama.AssetsLibrary">
+      <HintPath>..\..\..\synergy\webgl\WebGLEquirectangularPanorama\WebGLEquirectangularPanorama\bin\staging.AssetsLibrary\WebGLEquirectangularPanorama.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,11 +187,15 @@
       <Project>{c072d820-0808-40c8-af3a-b965b715bc81}</Project>
       <Name>WebGLNexus7</Name>
     </ProjectReference>
+    <ProjectReference Include="X:\jsc.svn\examples\javascript\WebGL\WebGLSVGSprite\WebGLSVGSprite\WebGLSVGSprite.csproj">
+      <Project>{426A9419-9287-4880-979F-29F29D3F2A22}</Project>
+      <Name>WebGLSVGSprite</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-		start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false /DisableWebServiceChrome:true  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.git\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:30
+		start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false /DisableWebServiceChrome:true  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.git\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:31
 
 		</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget

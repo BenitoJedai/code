@@ -28,6 +28,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public string fillStyle;
         public void fillRect(int x, int y, int cx, int cy) { }
+        public void clearRect( float x,  float y,  float w,  float h) {}
 
         // dashed lines
         public void setLineDash(double[] dash) { }

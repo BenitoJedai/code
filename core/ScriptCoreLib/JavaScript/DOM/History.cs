@@ -10,6 +10,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/History.idl
     // https://github.com/mono/mono/blob/master/mcs/class/Mono.WebBrowser/Mono.WebBrowser/DOM/IHistory.cs
     // https://github.com/mono/mono/blob/master/mcs/class/Mono.WebBrowser/Mono.Mozilla/DOM/History.cs
+    // http://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.History
 
     [Script(HasNoPrototype = true)]
     public class History

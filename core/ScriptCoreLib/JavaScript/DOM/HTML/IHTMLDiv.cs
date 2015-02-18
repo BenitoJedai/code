@@ -103,12 +103,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             return x.Result;
         }
 
-        public static implicit operator Task<ISVGSVGElement>(IHTMLDiv div)
+        public static implicit operator Task<ISVGSVGElement>(IHTMLDiv ref_div)
         {
             // X:\jsc.svn\examples\javascript\WebGL\WebGLSVGSprite\WebGLSVGSprite\Application.cs
 
-            System.Console.WriteLine("Task<ISVGSVGElement> <- IHTMLDiv");
+            //System.Console.WriteLine("Task<ISVGSVGElement> <- IHTMLDiv");
 
+            var div = (IHTMLDiv)ref_div.cloneNode(true);
+            // keep monitoring?
 
             // Error	101	'ScriptCoreLib.JavaScript.DOM.SVG.ISVGSVGElement.explicit operator ScriptCoreLib.JavaScript.DOM.SVG.ISVGSVGElement(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement)': user-defined conversions to or from a base class are not allowed	X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\SVG\ISVGSVGElement.cs	40	23	ScriptCoreLib
             // Error	101	'ScriptCoreLib.JavaScript.DOM.SVG.ISVGSVGElement.explicit operator ScriptCoreLib.JavaScript.DOM.SVG.ISVGSVGElement(ScriptCoreLib.JavaScript.Extensions.INodeConvertible<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement>)': user-defined conversions to or from an interface are not allowed	X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\SVG\ISVGSVGElement.cs	40	23	ScriptCoreLib
@@ -136,6 +138,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             hidden.style.position = IStyle.PositionEnum.@fixed;
             hidden.style.visibility = IStyle.VisibilityEnum.hidden;
             //hidden.style.display = IStyle.DisplayEnum.none;
+
 
             div.style.display = IStyle.DisplayEnum.inline_block;
             div.AttachTo(hidden);

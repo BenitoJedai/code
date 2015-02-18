@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/NavigatorCPU.idl
     // hardwareConcurrency
 
+    // http://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.Navigator
+
     // rename to INavigator ?
     [Script]
     public partial class NavigatorInfo

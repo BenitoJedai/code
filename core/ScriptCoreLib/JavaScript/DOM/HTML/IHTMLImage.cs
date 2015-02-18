@@ -109,6 +109,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public static implicit operator IHTMLImage(ISVGSVGElement s)
         {
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLSVGSprite\WebGLSVGSprite\Application.cs
+
             var img = new IHTMLImage();
 
 
@@ -156,14 +158,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         // fixme: rewrtie to extension methods
 
-        [System.Obsolete("use await instead")]
+        [System.Obsolete("await async.onload")]
         [Script(DefineAsStatic = true)]
         public void InvokeOnComplete(global::System.Action<IHTMLImage> e)
         {
             InvokeOnComplete(e, 100);
         }
 
-        [System.Obsolete("use await instead")]
+        [System.Obsolete("await async.onload")]
         [Script(DefineAsStatic = true)]
         public void InvokeOnComplete(global::System.Action<IHTMLImage> e, int interval)
         {
