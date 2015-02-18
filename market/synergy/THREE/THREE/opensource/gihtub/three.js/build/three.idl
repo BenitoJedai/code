@@ -770,11 +770,16 @@ interface THREE.Sphere
 
 
 
+
+// http://threejs.org/docs/#Reference/Core/Geometry
 // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLCity\WebGLCity\Application.cs
 // // File:src/core/Geometry.js
 [Constructor]
 interface THREE.Geometry
 {
+	attribute boolean dynamic;
+	attribute boolean verticesNeedUpdate;
+
 	attribute THREE.Sphere boundingSphere;
 
 	// X:\jsc.svn\examples\javascript\WebGL\WebGLDashedLines\WebGLDashedLines\Application.cs

@@ -102,9 +102,17 @@ namespace WebGLDashedLines
             }
 
             {
+                var geometry = new THREE.Geometry
+                {
+                    vertices = new[] {
+                        new THREE.Vector3(0, 0, 0),
+                        new THREE.Vector3(100, 0, 0)
+                    }
+                };
 
-                var o = new THREE.Line(geometryCube, new THREE.LineDashedMaterial(
-                    new { color = 0xffaa00, dashSize = 3, gapSize = 1, linewidth = 2 }
+
+                var o = new THREE.Line(geometry, new THREE.LineDashedMaterial(
+                    new { color = 0x00aaff, dashSize = 3, gapSize = 3, linewidth = 20 }
                     ), THREE.LinePieces);
 
                 objects.Add(o);

@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Design\652_16022015_014177B4188774BAE926A1F3EC0C5B75.jpg" />
     <Content Include="Design\logo1.jpg" />
     <Content Include="Design\NotificationLayout.htm" />
     <Content Include="Design\App.css" />
@@ -144,6 +145,9 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Textures\0_10122014_ECAF4B1F638429B44F4B142C2A4F38EE.jpg" />
+    <Content Include="Textures\371_28122014_2045510F2F7974319A9F7E9F4B39DF07.jpg" />
+    <Content Include="Textures\42_08122014_D2639E0AAA3E54E5F4568760AEE605EE.jpg" />
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
