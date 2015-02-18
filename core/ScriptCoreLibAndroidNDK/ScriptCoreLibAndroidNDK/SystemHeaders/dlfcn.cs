@@ -6,6 +6,8 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibNative.SystemHeaders
 {
+    // http://mobilepearls.com/labs/native-android-api/#dynamic-linker
+    // http://mobilepearls.com/labs/native-android-api/
     // "X:\opensource\android-ndk-r10c\platforms\android-12\arch-arm\usr\include\dlfcn.h"
 
     [Script(IsNative = true, Header = "dlfcn.h", IsSystemHeader = true)]

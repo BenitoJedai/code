@@ -90,6 +90,10 @@ namespace TestNDKUDP
         {
             // http://elfsharp.hellsgate.pl/examples.shtml
             // https://msdn.microsoft.com/en-us/library/dd554932(VS.100).aspx
+            // http://mobilepearls.com/labs/native-android-api/
+
+            // X:\jsc.internal.git\compiler\jsc.meta\jsc.meta\Library\Templates\Java\InternalPopupWebView\XWindow.cs
+            // http://stackoverflow.com/questions/13249164/android-using-jni-from-nativeactivity
 
             android_native_app_glue.app_dummy();
             //Action<
