@@ -67,7 +67,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             TaskContinuationOptions continuationOptions,
             TaskScheduler scheduler)
         {
-            Console.WriteLine("ContinueWhenAll " + new { tasks.Length, scheduler, Thread.CurrentThread.ManagedThreadId });
+            //Console.WriteLine("ContinueWhenAll " + new { tasks.Length, scheduler, Thread.CurrentThread.ManagedThreadId });
 
 
             var t = new __Task<TResult> { InternalStart = null };
@@ -80,7 +80,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             {
                 // how can we pass array of tasks to background?
 
-                Console.WriteLine("ContinueWhenAll_yield " + new { scheduler });
+                //Console.WriteLine("ContinueWhenAll_yield " + new { scheduler });
 
                 #region GUI
                 if (scheduler != null)

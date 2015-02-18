@@ -10,6 +10,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -90,7 +91,9 @@ namespace WebGLSVGSprite
             var fov = 70.0;
 
             var camera = new THREE.PerspectiveCamera(fov,
-                window.aspect, 1, 1100);
+                1920.0 / 1080.0,
+                //window.aspect,
+                1, 1100);
             var target = new THREE.Vector3(0, 0, 0);
 
             //(camera as dynamic).target = target;
@@ -156,11 +159,36 @@ namespace WebGLSVGSprite
             scene.add(mesh);
 
             var labove = new NotificationLayout();
-            var lbelow = new NotificationLayout();
 
             #region sprite2 above
             {
+                labove.Message.innerText = "VR CREATIVE LEADERSHIP";
                 labove.layout.style.background = "";
+
+                new { }.With(
+                    async delegate
+                    {
+                        retry:
+
+                        // make it blink. gaze cursor is on it?
+
+
+                        labove.box.style.background = "rgba(255,255,0,0.7)";
+                        labove.box.setAttribute("invoke", "onmutation1");
+                        await Task.Delay(1500);
+
+                        // is mutation observer noticing it?
+                        labove.box.style.background = "rgba(255,255,255,0.7)";
+                        labove.box.setAttribute("invoke", "onmutation2");
+                        await Task.Delay(1500);
+
+
+                        goto retry;
+                    }
+                );
+
+
+
                 var c = labove.AsCanvas();
 
                 var xcrateTexture = new THREE.Texture(c);
@@ -186,7 +214,7 @@ namespace WebGLSVGSprite
                 //sprite2.position.set(0, -200, 0);
 
                 // left
-                xsprite2.position.set(200, 50, 0);
+                xsprite2.position.set(200, 0, 0);
 
                 //sprite2.position.set(0, 0, 200);
 
@@ -200,50 +228,189 @@ namespace WebGLSVGSprite
             }
             #endregion
 
-            #region sprite below
+
+
+
+            //var lineTo = new List<THREE.Vector3>();
+            var others = new
             {
-                lbelow.layout.style.background = "";
-                lbelow.Message = new { THREE.REVISION }.ToString();
+                ui = default(NotificationLayout),
+                canvas = default(IHTMLCanvas),
 
-                var c = lbelow.AsCanvas();
+                map = default(THREE.Texture),
 
-                var xcrateTexture = new THREE.Texture(c);
+                sprite = default(THREE.Sprite)
+
+            }.ToEmptyList();
+
+            #region add
+            Action<NotificationLayout> add = ui =>
+            {
+                ui.layout.style.background = "";
+
+                var canvas = ui.AsCanvas();
+                var index = others.Count;
+
+                //ui.Message  += new { index };
+                //ui.Message.innerText += new { index };
+
+                //lbelow0.Message = new { THREE.REVISION }.ToString();
+
+                // THREE.WebGLRenderer: Texture is not power of two. Texture.minFilter is set to THREE.LinearFilter or THREE.NearestFilter. ( undefined )
+
+                var map = new THREE.Texture(canvas);
+
+                map.minFilter = THREE.LinearFilter;
 
                 // like video texture
-                Native.window.onframe += delegate { xcrateTexture.needsUpdate = true; };
 
                 var xcrateMaterial = new THREE.SpriteMaterial(
                     new
                     {
-                        map = xcrateTexture,
+                        map,
                         useScreenCoordinates = false,
                         //color = 0xff0000
                         color = 0xffffff
                     }
-            );
+                );
 
 
 
-                var xsprite2 = new THREE.Sprite(xcrateMaterial);
+                var sprite = new THREE.Sprite(xcrateMaterial);
 
                 //floor
                 //sprite2.position.set(0, -200, 0);
 
                 // left middle
                 //sprite2.position.set(200, 0, 0);
-                xsprite2.position.set(200, -50, 0);
+                //sprite.position.set(250, -50, 50);
+                //lineTo.Add(sprite.position);
+
+
+
 
                 //sprite2.position.set(0, 0, 200);
 
                 //sprite2.position.set(-100, 0, 0);
-                xsprite2.scale.set(
-                   c.width * 0.5,
-                   c.height * 0.5,
+                sprite.scale.set(
+                   canvas.width * 0.5,
+                   canvas.height * 0.5,
                     //64, 64,
                     1.0); // imageWidth, imageHeight
-                scene.add(xsprite2);
+                scene.add(sprite);
+
+                others.Add(
+                    new
+                    {
+                        ui,
+                        canvas,
+                        map,
+                        sprite
+                    }
+                );
+
+                var sw = Stopwatch.StartNew();
+
+                Native.window.onframe += delegate
+                {
+                    // can we get some of the crazy c++ template bitmapbuffer code from the past?
+                    map.needsUpdate = true;
+
+                    var offset = Math.PI * 2 * ((double)(index + 1) / others.Count);
+
+                    sprite.position.x = 300;
+
+                    sprite.position.z = Math.Sin(sw.ElapsedMilliseconds * 0.00001 + offset) * 120;
+                    sprite.position.y = Math.Cos(sw.ElapsedMilliseconds * 0.00001 + offset) * 120;
+                };
+
+            };
+            #endregion
+
+
+            add(
+                new NotificationLayout
+                {
+                    // keep attributes around?
+                    // like we do with XElement sync?
+                    Icon = new HTML.Images.FromAssets._0_10122014_ECAF4B1F638429B44F4B142C2A4F38EE().With(
+                        x =>
+                        {
+                            x.style.width = "96px";
+                            x.style.height = "96px";
+                        }
+                    ),
+                    Message = "Advanced Mechanics by Portugal Design Lab"
+                }
+              );
+
+            add(
+                   new NotificationLayout
+                   {
+                       // keep attributes around?
+                       // like we do with XElement sync?
+                       Icon = new HTML.Images.FromAssets._42_08122014_D2639E0AAA3E54E5F4568760AEE605EE().With(
+                           x =>
+                           {
+                               x.style.width = "96px";
+                               x.style.height = "96px";
+                           }
+                       ),
+                       Message = "Face Value by mshariful"
+                   }
+                 );
+
+
+
+            add(
+                   new NotificationLayout
+                   {
+                       // keep attributes around?
+                       // like we do with XElement sync?
+                       Icon = new HTML.Images.FromAssets._371_28122014_2045510F2F7974319A9F7E9F4B39DF07().With(
+                           x =>
+                           {
+                               x.style.width = "96px";
+                               x.style.height = "96px";
+                           }
+                       ),
+                       Message = "Mind Wall. by Sumit Goski"
+                   }
+                 );
+
+
+            #region lines
+            {
+                var geometry = new THREE.Geometry
+                {
+                    // how can we keep streaming verticies data points to gpu?
+                    vertices =
+
+                        others.SelectMany(
+                            lineTo =>
+                                new[]
+                                {
+                                    new THREE.Vector3(200, 0, 0),
+                                    lineTo.sprite.position
+                                }
+                        ).ToArray()
+
+                    // https://github.com/mrdoob/three.js/wiki/Updates
+                    // http://stackoverflow.com/questions/17842521/adding-geometry-to-a-three-js-mesh-after-render
+                    //verticesNeedUpdate = true
+                };
+
+                Native.window.onframe += delegate { geometry.verticesNeedUpdate = true; };
+
+                var o = new THREE.Line(geometry, new THREE.LineDashedMaterial(
+                    new { color = 0x00aaff, dashSize = 1, gapSize = 0.5, linewidth = 1 }
+                    ), THREE.LineStrip);
+
+                //objects.Add(o);
+                scene.add(o);
             }
             #endregion
+
 
             //          // DK2
             //          hResolution: 1920,
@@ -252,7 +419,7 @@ namespace WebGLSVGSprite
             var renderer = new THREE.WebGLRenderer();
             renderer.setSize(1920, 1080);
 
-
+            #region HMD
             // broken?
             var distortionK = new double[] { 1.0, 0.22, 0.24, 0.0 };
             var chromaAbParameter = new double[] { 0.996, -0.004, 1.014, 0.0 };
@@ -277,6 +444,8 @@ namespace WebGLSVGSprite
                 chromaAbParameter = chromaAbParameter
 
             };
+            #endregion
+
 
             //var effect = new THREE.OculusRiftEffect(
             //    renderer, new
@@ -371,12 +540,12 @@ namespace WebGLSVGSprite
             Native.window.onframe +=
                         ee =>
                         {
-                            labove.Message = new
-                            {
-                                lon,
-                                lat,
-                                ee.counter
-                            }.ToString();
+                            //labove.Message = new
+                            //{
+                            //    lon,
+                            //    lat,
+                            //    ee.counter
+                            //}.ToString();
 
                             //if (Native.document.pointerLockElement == Native.document.body)
                             //    lon += 0.00;
