@@ -204,5 +204,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return that__TreeView;
             }
         }
+
+
+
+        public object Tag { get; set; }
     }
 }

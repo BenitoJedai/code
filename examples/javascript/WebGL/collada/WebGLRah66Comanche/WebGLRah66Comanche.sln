@@ -4,31 +4,69 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLRah66Comanche", "WebGLRah66Comanche\WebGLRah66Comanche.csproj", "{76843B5B-EB0A-4E49-8B36-037969E0545F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {B8D28279-57CD-4163-86F9-1DFDF540B58B}
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {7B5C94C5-F6AA-42BA-815B-34DD472A47AC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLHeatZeekerColladaExperiment", "..\..\WebGLHeatZeekerColladaExperiment\WebGLHeatZeekerColladaExperiment\WebGLHeatZeekerColladaExperiment.csproj", "{8C170164-C4E6-4BEE-9C24-D1E4CCC28665}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLColladaExperiment", "..\..\WebGLColladaExperiment\WebGLColladaExperiment\WebGLColladaExperiment.csproj", "{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{DDC08767-AB91-4181-94BB-0B11193A3D09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THREE", "..\..\..\..\..\market\synergy\THREE\THREE\THREE.csproj", "{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|x86.ActiveCfg = Debug|x86
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|x86.Build.0 = Debug|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|Any CPU.ActiveCfg = Release|x86
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.ActiveCfg = Release|x86
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.Build.0 = Release|x86
+		{8C170164-C4E6-4BEE-9C24-D1E4CCC28665}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{8C170164-C4E6-4BEE-9C24-D1E4CCC28665}.Debug|x86.ActiveCfg = Debug|x86
 		{8C170164-C4E6-4BEE-9C24-D1E4CCC28665}.Debug|x86.Build.0 = Debug|x86
+		{8C170164-C4E6-4BEE-9C24-D1E4CCC28665}.Release|Any CPU.ActiveCfg = Release|x86
 		{8C170164-C4E6-4BEE-9C24-D1E4CCC28665}.Release|x86.ActiveCfg = Release|x86
 		{8C170164-C4E6-4BEE-9C24-D1E4CCC28665}.Release|x86.Build.0 = Release|x86
+		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Debug|x86.ActiveCfg = Debug|x86
 		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Debug|x86.Build.0 = Debug|x86
+		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Release|Any CPU.ActiveCfg = Release|x86
 		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Release|x86.ActiveCfg = Release|x86
 		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Release|x86.Build.0 = Release|x86
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|x86.Build.0 = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|x86.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|x86.Build.0 = Release|Any CPU
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Debug|x86.ActiveCfg = Debug|x86
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Debug|x86.Build.0 = Debug|x86
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|Any CPU.ActiveCfg = Release|x86
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|x86.ActiveCfg = Release|x86
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8C170164-C4E6-4BEE-9C24-D1E4CCC28665} = {DDC08767-AB91-4181-94BB-0B11193A3D09}
+		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9} = {DDC08767-AB91-4181-94BB-0B11193A3D09}
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {DDC08767-AB91-4181-94BB-0B11193A3D09}
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {DDC08767-AB91-4181-94BB-0B11193A3D09}
 	EndGlobalSection
 EndGlobal

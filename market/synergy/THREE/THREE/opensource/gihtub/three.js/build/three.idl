@@ -232,6 +232,9 @@ interface THREE.OrthographicCamera :  THREE.Camera
 
 // File:src/cameras/PerspectiveCamera.js
 // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLMD2MorphtargetExample\WebGLMD2MorphtargetExample\Application.cs
+// http://threejs.org/docs/#Reference/Cameras/PerspectiveCamera
+// "Camera with perspective projection."
+// X:\jsc.svn\examples\javascript\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\Library\ZeProperties.cs
 [Constructor(double fov, double aspect, double near, double far)]
 interface THREE.PerspectiveCamera :  THREE.Camera
 {
@@ -561,7 +564,7 @@ interface THREE.MeshLambertMaterial
 
 
 
-
+// http://threejs.org/docs/#Reference/Core/Object3D
 // http://sharpkit.net/help/SharpKit.Three/THREE/Object3D/
 // File:src/core/Object3D.js
 [Constructor()]

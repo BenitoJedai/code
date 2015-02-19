@@ -17,6 +17,7 @@ using System.Xml.Linq;
 using WebGLRah66Comanche;
 using WebGLRah66Comanche.Design;
 using WebGLRah66Comanche.HTML.Pages;
+using WebGLRah66Comanche.Library;
 
 namespace WebGLRah66Comanche
 {
@@ -128,8 +129,6 @@ namespace WebGLRah66Comanche
                     camera.position = controls.center.clone();
 
                     renderer.render(scene, camera);
-
-
                 };
 
             Native.window.onresize +=
@@ -143,6 +142,7 @@ namespace WebGLRah66Comanche
                 };
             #endregion
 
+            #region THREE_ColladaAsset
             // why isnt it being found?
             new global::WebGLColladaExperiment.THREE_ColladaAsset(
 
@@ -165,6 +165,19 @@ namespace WebGLRah66Comanche
 
                 }
             );
+            #endregion
+
+
+            var f = new ZeProperties();
+
+            f.Show();
+
+
+            f.Add(nameof(controls), () => controls);
+
+            //f.treeView1.Nodes.Add("controls : " + typeof(THREE.OrbitControls)).Tag = controls;
+
+
         }
 
     }

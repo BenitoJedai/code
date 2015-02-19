@@ -281,7 +281,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.SizeChanged +=
                 delegate
                 {
-                    Console.WriteLine("__SplitContainer SizeChanged");
+                    //Console.WriteLine("__SplitContainer SizeChanged");
 
 
                     AtUpdate();

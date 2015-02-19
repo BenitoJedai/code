@@ -7,6 +7,9 @@
  Constructor(any camera)]
 interface THREE.OrbitControls
 { 
+	
+	attribute any object;
+
 	attribute THREE.Vector3 center;
 
 	void update();

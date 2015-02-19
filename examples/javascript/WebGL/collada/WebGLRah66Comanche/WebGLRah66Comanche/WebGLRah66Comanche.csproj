@@ -128,6 +128,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\ZeProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Library\ZeProperties.Designer.cs">
+      <DependentUpon>ZeProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
@@ -138,6 +144,9 @@
     </Compile>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <EmbeddedResource Include="Library\ZeProperties.resx">
+      <DependentUpon>ZeProperties.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="web\assets\WebGLRah66Comanche\RAH-66-Comanche-by-decten.dae" />
     <None Include="Warehouse\RAH-66-Comanche-by-decten.skp" />
     <None Include="Warehouse\RAH-66_2.skp" />
