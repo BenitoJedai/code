@@ -230,26 +230,31 @@ interface THREE.OrthographicCamera :  THREE.Camera
 	attribute THREE.Vector3  up;
 };
 
+
+
+
 // File:src/cameras/PerspectiveCamera.js
 // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLMD2MorphtargetExample\WebGLMD2MorphtargetExample\Application.cs
 // http://threejs.org/docs/#Reference/Cameras/PerspectiveCamera
 // "Camera with perspective projection."
 // X:\jsc.svn\examples\javascript\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\Library\ZeProperties.cs
+//[Constructor(attribute double fov, double aspect, double near, double far)]
 [Constructor(double fov, double aspect, double near, double far)]
 interface THREE.PerspectiveCamera :  THREE.Camera
 {
+	attribute double fov;
 	attribute double aspect;
+	attribute double near;
+	attribute double far;
 
 	void updateProjectionMatrix();
 
-	void add(any e);
-
-	attribute double  fov;
-	attribute double  far;
+	//void add(any e);
 
 
-	attribute THREE.Vector3  position;
-	attribute THREE.Vector3  up;
+
+	//attribute THREE.Vector3  position;
+	//attribute THREE.Vector3  up;
 
 
 
@@ -383,6 +388,7 @@ interface THREE.Fog
 
 
 // File:src/lights/Light.js
+//[Constructor(), Constructor(attribute long color)]
 [Constructor(), Constructor(long color)]
 interface THREE.Light : THREE.Object3D
 {
@@ -528,9 +534,15 @@ interface THREE.Vector4
 	THREE.Vector4 applyMatrix4(THREE.Matrix4 m);
 };
 
+
+
+// File:src/math/Matrix4.js
 [Constructor()]
 interface THREE.Matrix4
 {
+	attribute sequence<double>        elements;
+	
+
 	any makePerspective(double fov, double xy, long a, long b);
 	any makeRotationX(double value);
 
@@ -593,6 +605,13 @@ interface THREE.Object3D
 	attribute THREE.Vector3  rotation;
 	attribute THREE.Quaternion  quaternion;
 
+	// When this is set, it calculates the matrix of position, (rotation or quaternion) and scale every frame and also recalculates the matrixWorld property
+	attribute boolean        matrixAutoUpdate;
+	attribute boolean        useQuaternion;
+
+
+	attribute any        userData;
+
 	void add(any mesh);
 	void remove(any mesh);
 	// tested by?
@@ -633,18 +652,16 @@ interface THREE.Quaternion
 
 // File:src/objects/Mesh.js
 // X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuTPS\WebGLYomotsuTPS\Application.cs
+// http://threejs.org/docs/#Reference/Objects/Mesh
 [Constructor(), Constructor(any geometry),
 Constructor(any geometry, any material)]
 interface THREE.Mesh : THREE.Object3D
 {
 	// ? X:\jsc.svn\examples\javascript\WebGL\WebGLOBJExperiment\WebGLOBJExperiment\Application.cs
 	attribute THREE.MeshBasicMaterial  material;
-
-
 	attribute THREE.Geometry geometry;
 
-	attribute boolean        matrixAutoUpdate;
-	attribute boolean        useQuaternion;
+
 
 	void rotateOnAxis(THREE.Vector3 vect, double angle);
 	void lookAt(THREE.Vector3 target);
@@ -686,10 +703,13 @@ interface THREE.MorphAnimMesh
 
 
 // File:src/renderers/WebGLRenderer.js
-
+// http://threejs.org/docs/#Reference/Renderers/WebGLRenderer
 [Constructor(), Constructor(any args)]
 interface THREE.WebGLRenderer
 {
+	// INodeConvertible?
+	attribute Element domElement;
+
 	attribute long shadowMapType;
 
 	attribute boolean        shadowMapEnabled;
@@ -697,7 +717,6 @@ interface THREE.WebGLRenderer
 	attribute boolean        autoClear;
 	attribute boolean        sortObjects;
 
-	attribute Element domElement;
 
 
 	// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\Application.cs

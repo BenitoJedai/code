@@ -55,6 +55,7 @@ namespace WebGLRah66Comanche
             var scene = new THREE.Scene();
 
             var ambient = new THREE.AmbientLight(0x101030);
+            // addTrace?
             scene.add(ambient);
 
             var directionalLight = new THREE.DirectionalLight(0xffeedd);
@@ -108,7 +109,7 @@ namespace WebGLRah66Comanche
             //        mouseY = e.CursorY - Native.window.Height / 2;
             //    };
 
-            var controls = new THREE.OrbitControls(camera);
+            var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
             Native.window.onframe +=
                 delegate
@@ -155,7 +156,7 @@ namespace WebGLRah66Comanche
                 dae =>
                 {
 
-                    dae.position.y = -40;
+                    //dae.position.y = -40;
                     //dae.position.z = 280;
                     scene.add(dae);
                     oo.Add(dae);
@@ -173,7 +174,9 @@ namespace WebGLRah66Comanche
             f.Show();
 
 
+            f.Add(nameof(renderer), () => renderer);
             f.Add(nameof(controls), () => controls);
+            f.Add(nameof(scene), () => scene);
 
             //f.treeView1.Nodes.Add("controls : " + typeof(THREE.OrbitControls)).Tag = controls;
 
