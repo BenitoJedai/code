@@ -63,6 +63,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
 
+
+        // what about drag n drop?
+
         public bool IsSelected { get; set; }
 
         public __TreeNode(string text) : this(text, null) { }
