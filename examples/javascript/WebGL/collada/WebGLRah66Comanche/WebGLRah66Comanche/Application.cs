@@ -31,6 +31,8 @@ namespace WebGLRah66Comanche
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            Native.body.style.overflow = IStyle.OverflowEnum.hidden;
+
             // https://3dwarehouse.sketchup.com/model.html?id=e78dca4863e8572d86ea4fa6bd93bc43
             // https://3dwarehouse.sketchup.com/model.html?id=38d1045b8de1cf12b08e958a32ef3184
 
@@ -58,6 +60,33 @@ namespace WebGLRah66Comanche
             directionalLight.position.set(0, 0, 1);
             scene.add(directionalLight);
 
+
+
+
+
+
+            var planeGeometry = new THREE.CubeGeometry(512, 512, 1);
+            var plane = new THREE.Mesh(planeGeometry,
+                    new THREE.MeshPhongMaterial(new { ambient = 0x101010, color = 0xA26D41, specular = 0xA26D41, shininess = 1 })
+
+                );
+            plane.receiveShadow = true;
+
+
+            {
+
+                var parent = new THREE.Object3D();
+                parent.add(plane);
+                parent.rotation.x = -Math.PI / 2;
+                parent.scale.set(10, 10, 10);
+
+                // where the fk is it?
+                scene.add(parent);
+            }
+
+
+
+
             var renderer = new THREE.WebGLRenderer();
             renderer.setSize(window.Width, window.Height);
 
@@ -65,34 +94,38 @@ namespace WebGLRah66Comanche
             renderer.domElement.style.SetLocation(0, 0);
 
 
-            var mouseX = 0;
-            var mouseY = 0;
-            var st = new Stopwatch();
-            st.Start();
+            //var mouseX = 0;
+            //var mouseY = 0;
+            //var st = new Stopwatch();
+            //st.Start();
 
 
-            Native.window.document.onmousemove +=
-                e =>
-                {
-                    mouseX = e.CursorX - Native.window.Width / 2;
-                    mouseY = e.CursorY - Native.window.Height / 2;
-                };
+            //Native.window.document.onmousemove +=
+            //    e =>
+            //    {
+            //        mouseX = e.CursorX - Native.window.Width / 2;
+            //        mouseY = e.CursorY - Native.window.Height / 2;
+            //    };
 
+            var controls = new THREE.OrbitControls(camera);
 
             Native.window.onframe +=
                 delegate
                 {
 
-                    oo.WithEach(
-                        x =>
-                            x.rotation.y = (st.ElapsedMilliseconds + mouseX * 100) * 0.00001
-                    );
+                    //oo.WithEach(
+                    //    x =>
+                    //        x.rotation.y = (st.ElapsedMilliseconds + mouseX * 100) * 0.00001
+                    //);
 
 
-                    camera.position.x += (mouseX - camera.position.x) * .05;
-                    camera.position.y += (-mouseY - camera.position.y) * .05;
+                    //camera.position.x += (mouseX - camera.position.x) * .05;
+                    //camera.position.y += (-mouseY - camera.position.y) * .05;
 
-                    camera.lookAt(scene.position);
+                    //camera.lookAt(scene.position);
+
+                    controls.update();
+                    camera.position = controls.center.clone();
 
                     renderer.render(scene, camera);
 

@@ -12,6 +12,8 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Sprite : DisplayObjectContainer
     {
+        // http://blogs.adobe.com/flashplayer/
+
         // http://news.slashdot.org/story/15/01/27/2217258/youtube-ditches-flash-for-html5-video-by-default
         // would jsc be able to dynamically update/patch running apps on the LAN?
 

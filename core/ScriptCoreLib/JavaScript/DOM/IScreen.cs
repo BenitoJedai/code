@@ -10,6 +10,18 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IScreen
     {
+        // http://www.cnet.com/how-to/how-to-record-your-screen-on-android-4-4-kitkat/
+
+        // https://code.msdn.microsoft.com/windowsdesktop/Magnification-API-Sample-14269fd2
+        // https://msdn.microsoft.com/en-us/library/windows/desktop/ms692402(v=vs.85).aspx
+
+        // color inversion for a secondary virtual desktop?
+        // https://msdn.microsoft.com/en-us/librarY/ms692402%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
+
+        // http://blogs.msdn.com/b/oldnewthing/archive/2012/09/11/10347998.aspx
+        // http://winaero.com/blog/task-view-is-a-virtual-desktops-feature-in-windows-10/
+        // win10 team will work on it?
+
         // PPAPI to enable virtual desktop for special fullscreen mode?
         // https://nullpwd.wordpress.com/2013/05/25/writing-a-virtual-desktop-system-in-cs-with-winapi/
         // http://stackoverflow.com/questions/472161/moving-applications-between-desktops-in-windows
