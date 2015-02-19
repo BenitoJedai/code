@@ -16,6 +16,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
     [Script(Implements = typeof(global::System.Security.Cryptography.RSA))]
     internal class __RSA : __AsymmetricAlgorithm
     {
+        // did we not implement rsa via webcrypto?
+        // http://stackoverflow.com/questions/14026768/library-for-rsa-implementation-in-pure-c
+        // https://polarssl.org/source-code
+        // https://polarssl.org/rsa-source-code
+
         // https://en.wikipedia.org/wiki/RSA_(cryptosystem)
 
 

@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.WebAudio
     [Script(HasNoPrototype = true, ExternalTarget = "AudioContext")]
     public class AudioContext
     {
+        // https://msdn.microsoft.com/en-us/library/aa376846.aspx?f=255&MSPPError=-2147217396
+
         // http://forestmist.org/share/web-audio-api-demo/
         // http://caniuse.com/#feat=audio-api
         // http://www.w3.org/2011/audio/wiki/Basic-Examples#Looping_Sounds_Without_Gaps
