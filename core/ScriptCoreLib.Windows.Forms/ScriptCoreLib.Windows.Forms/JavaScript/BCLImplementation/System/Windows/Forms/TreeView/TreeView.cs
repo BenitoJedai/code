@@ -66,6 +66,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     };
                 }
 
+                if (AfterSelect != null)
+                {
+                    AfterSelect(this, new TreeViewEventArgs(this.InternalSelectedNode));
+
+
+                }
             }
         }
 
@@ -151,6 +157,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return this.InternalElement;
             }
         }
+
+
+
+
+
+        public event TreeViewEventHandler AfterSelect;
 
         public event TreeNodeMouseClickEventHandler NodeMouseClick;
 

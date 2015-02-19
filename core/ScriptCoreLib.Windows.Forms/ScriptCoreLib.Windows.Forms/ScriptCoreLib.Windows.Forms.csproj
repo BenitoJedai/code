@@ -67,6 +67,8 @@
     </Compile>
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Application.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\PropertyGrid\PropertyGrid.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeViewEventHandler.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeViewEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeNodeMouseClickEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeNodeMouseClickEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeNodeCollection.cs" />

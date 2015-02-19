@@ -30,6 +30,8 @@ namespace TestMissingNativeIsInstance
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        // X:\jsc.svn\examples\javascript\Test\TestIsInstNestedExternalTarget\TestIsInstNestedExternalTarget\Class1.cs
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
