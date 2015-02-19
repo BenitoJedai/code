@@ -103,13 +103,35 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             return x.Result;
         }
 
-        public static implicit operator Task<ISVGSVGElement>(IHTMLDiv ref_div)
+        public static implicit operator Task<ISVGSVGElement>(IHTMLDiv refdiv)
         {
+            // X:\jsc.svn\examples\javascript\canvas\FormsSVGTreeView\FormsSVGTreeView\Application.cs
             // X:\jsc.svn\examples\javascript\WebGL\WebGLSVGSprite\WebGLSVGSprite\Application.cs
 
             //System.Console.WriteLine("Task<ISVGSVGElement> <- IHTMLDiv");
 
-            var div = (IHTMLDiv)ref_div.cloneNode(true);
+            var w = refdiv.clientWidth;
+            var h = refdiv.clientHeight;
+
+            #region need to measure
+            if (refdiv.parentNode == null)
+            {
+                Console.WriteLine("ISVGSVGElement <- IHTMLDiv .. need to measure");
+
+                var hidden = new IHTMLDiv { }.AttachTo(Native.document.documentElement);
+                hidden.style.visibility = IStyle.VisibilityEnum.hidden;
+                refdiv.AttachTo(hidden);
+
+                w = refdiv.clientWidth;
+                h = refdiv.clientHeight;
+
+                // cleanup
+                refdiv.Orphanize();
+                hidden.Orphanize();
+            }
+            #endregion
+
+            var clonediv = (IHTMLDiv)refdiv.cloneNode(true);
             // keep monitoring?
 
             // Error	101	'ScriptCoreLib.JavaScript.DOM.SVG.ISVGSVGElement.explicit operator ScriptCoreLib.JavaScript.DOM.SVG.ISVGSVGElement(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement)': user-defined conversions to or from a base class are not allowed	X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\SVG\ISVGSVGElement.cs	40	23	ScriptCoreLib
@@ -118,36 +140,42 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             // X:\jsc.svn\examples\javascript\svg\SVGHTMLElement\SVGHTMLElement\Application.cs
 
-            var s = new ISVGSVGElement
+            var svg = new ISVGSVGElement
             {
 
             };
 
-            var f = new ISVGForeignObject().AttachTo(s);
+            var svgf = new ISVGForeignObject().AttachTo(svg);
+            var svgfdiv = new IHTMLDiv().AttachTo(svgf);
 
-            var fdiv = new IHTMLDiv().AttachTo(f);
 
-            fdiv.style.fontFamily = IStyle.FontFamilyEnum.Verdana;
+
+            // wont help us?
+            //new IHTMLStyle { innerHTML = "style { display: none; }" }.AttachTo(svgfdiv);
+
+            svgfdiv.style.fontFamily = IStyle.FontFamilyEnum.Verdana;
 
             // we need to serialize styles now
             // svg wont have any default html css styles at all
-            fdiv.style.fontSize = "12px";
+            svgfdiv.style.fontSize = "12px";
 
 
-            var hidden = new IHTMLDiv { }.AttachTo(Native.document.documentElement);
-            hidden.style.position = IStyle.PositionEnum.@fixed;
-            hidden.style.visibility = IStyle.VisibilityEnum.hidden;
-            //hidden.style.display = IStyle.DisplayEnum.none;
+
+            //var hidden = new IHTMLDiv { }.AttachTo(Native.document.documentElement);
+            //hidden.style.position = IStyle.PositionEnum.@fixed;
+            //hidden.style.visibility = IStyle.VisibilityEnum.hidden;
+            ////hidden.style.display = IStyle.DisplayEnum.none;
 
 
-            div.style.display = IStyle.DisplayEnum.inline_block;
-            div.AttachTo(hidden);
+            //clonediv.style.display = IStyle.DisplayEnum.inline_block;
+            //clonediv.AttachTo(hidden);
 
             var t = new TaskCompletionSource<ISVGSVGElement>();
 
-            var i = new List<Task<IHTMLImage>>();
+            #region images
+            var images = new List<Task<IHTMLImage>>();
 
-            foreach (var q in div.ImageElements())
+            foreach (var q in clonediv.ImageElements())
             {
                 var ix = new TaskCompletionSource<IHTMLImage>();
                 //Console.WriteLine("await " + new { q.src, q.complete });
@@ -162,30 +190,36 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 );
 
                 if (!ix.Task.IsCompleted)
-                    i.Add(ix.Task);
+                    images.Add(ix.Task);
             }
+            #endregion
+
 
             Action yield = delegate
             {
-                //Console.WriteLine(new { div.clientWidth, div.clientHeight });
+                //ISVGSVGElement <- IHTMLDiv { counter = 1, w = 173, h = 676, clientWidth = 173, clientHeight = 676 }
+                //2015-02-19 19:32:31.533 view-source:49619 10:139ms ISVGSVGElement <- IHTMLDiv { clientWidth = 0, clientHeight = 0 }
 
-                s.setAttribute("width", div.clientWidth + 0);
-                s.setAttribute("height", div.clientHeight + 0);
-                div.AttachTo(fdiv);
-                hidden.Orphanize();
+                Console.WriteLine("177: ISVGSVGElement <- IHTMLDiv " + new { w, h });
+
+                svg.setAttribute("width", w);
+                svg.setAttribute("height", h);
+
+                clonediv.AttachTo(svgfdiv);
+                //hidden.Orphanize();
 
 
-                t.SetResult(s);
+                t.SetResult(svg);
             };
 
-            if (i.Count == 0)
+            if (images.Count == 0)
             {
                 yield();
             }
             else
             {
                 // .net 4.0 does not yet even define what we want to use
-                __Task.WhenAll(i.AsEnumerable()).ContinueWith(
+                __Task.WhenAll(images.AsEnumerable()).ContinueWith(
                     delegate
                     {
                         yield();

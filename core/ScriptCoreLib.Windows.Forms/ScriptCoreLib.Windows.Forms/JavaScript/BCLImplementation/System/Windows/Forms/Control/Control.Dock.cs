@@ -250,16 +250,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 //41:1223ms { Name = ApplicationForm } ApplicationControl_SizeChanged
                 //41:1232ms { Name = ApplicationForm, SiblingsTop = 0, __Top = 0, SiblingsBottom = 0, __Bottom = 0 }
 
-                Console.WriteLine(
-                    new
-                {
-                    __c.Name,
-                    SiblingsTop = SiblingsTop.Length,
-                    __Top,
-                    SiblingsBottom = SiblingsBottom.Length,
-                    __Bottom
-                }
-                    );
+                //Console.WriteLine(
+                //    new
+                //{
+                //    __c.Name,
+                //    SiblingsTop = SiblingsTop.Length,
+                //    __Top,
+                //    SiblingsBottom = SiblingsBottom.Length,
+                //    __Bottom
+                //}
+                //    );
 
                 __c.outer_style.top = __Top + "px";
 

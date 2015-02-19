@@ -121,6 +121,7 @@ namespace ScriptCoreLib.JavaScript
                 // to be used in chrome extensions?
                 // X:\jsc.svn\examples\javascript\Test\TestShadowSelectByClass\TestShadowSelectByClass\Application.cs
                 // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionShadowExperiment\ChromeExtensionShadowExperiment\Application.cs
+                // X:\jsc.svn\examples\javascript\canvas\FormsSVGTreeView\FormsSVGTreeView\Application.cs
 
                 return Native.document.documentElement.shadow;
             }
