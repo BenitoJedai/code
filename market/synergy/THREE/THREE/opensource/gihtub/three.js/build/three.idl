@@ -283,10 +283,19 @@ interface THREE.LineBasicMaterial
 {
 };
 
-[Constructor(any geometry, any material)]
-[Constructor(any geometry, any material, any mode)]
+
+
+
+
+// File:src/objects/Line.js
+[Constructor(any geometry, any material),
+Constructor(any geometry, any material, any mode)]
+//[Constructor(any geometry, any material)]
+//[Constructor(any geometry, any material, any mode)]
 interface THREE.Line  : THREE.Object3D
 {
+	// X:\jsc.svn\examples\javascript\WebGL\HeatZeekerRTSOrto\HeatZeekerRTSOrto\Application.cs
+
 	attribute long type;
 };
 

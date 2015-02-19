@@ -20,6 +20,17 @@ namespace ScriptCoreLibNative.SystemHeaders
     [Script(IsNative = true, Header = "process.h", IsSystemHeader = true)]
     public static class process_h
     {
+        // http://security.stackexchange.com/questions/58009/ways-to-inject-malicious-dlls-to-exe-file-and-run-it
+        // You can list a dll under HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\AppInit_DLLs and it will be loaded into every (new) process that links to user32.dll (i.e. pretty much every user-mode process)
+        // could we await into a exe?
+        // how would we communicate with the new exe?
+        // http://migeel.sk/programming/pe-inject/
+        // http://www.codeproject.com/Articles/4610/Three-Ways-to-Inject-Your-Code-into-Another-Proces
+        // https://support.google.com/chrome/answer/2898334?p=ib_download_blocked&hl=en&rd=2
+        // https://micksmix.wordpress.com/2014/05/01/psexec-now-encrypts-all-communication/
+        // http://migeel.sk/blog/2007/07/30/injecting-code-into-executables-with-c/
+
+
         // http://msdn.microsoft.com/en-us/magazine/cc163327.aspx
         // http://msdn.microsoft.com/en-us/library/windows/desktop/ms682456(v=vs.85).aspx
         // X:\jsc.svn\examples\c\Test\TestThreadStart\TestThreadStart\Program.cs
