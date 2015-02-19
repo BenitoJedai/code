@@ -12,5 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         // didnt we implement a property grid in vb in 1999?
         // can we connect a property grid from chrome into android via udp yet?
 
+        // datagrid view implements resizers
+        // split implements resizers.
+        // do we have enough RTTI available?
     }
 }

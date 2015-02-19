@@ -65,7 +65,9 @@
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Application.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\PropertyGrid\TreeView.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\PropertyGrid\PropertyGrid.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeNodeCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeNode.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeView.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\BaseCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Button.cs" />
