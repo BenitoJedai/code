@@ -53,7 +53,9 @@ namespace HybridOculusVrActivity.OVRNDK
 
 
 
-            log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "exit HybridOculusVrActivity");
+            log.__android_log_print(
+                log.android_LogPriority.ANDROID_LOG_INFO, 
+                "xNativeActivity", "exit HybridOculusVrActivity");
 
 
 

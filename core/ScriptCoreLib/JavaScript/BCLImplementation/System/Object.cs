@@ -18,6 +18,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
+        // http://blogs.msdn.com/b/dsyme/archive/2012/06/26/some-more-net-c-generics-research-project-history.aspx
+        // http://blogs.msdn.com/b/dsyme/archive/2012/07/05/more-c-net-generics-history-the-msr-white-paper-from-mid-1999.aspx
+
         // at what point would jsc be able to track, test and import updated CLR code, the redux way? 
         // https://github.com/dotnet/coreclr/blob/master/Documentation/intro-to-clr.md
 

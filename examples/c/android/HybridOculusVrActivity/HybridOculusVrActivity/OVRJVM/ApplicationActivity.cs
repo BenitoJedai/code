@@ -13,6 +13,12 @@ using android.widget;
 // notice the different namespace
 namespace HybridOculusVrActivity.OVRJVM
 {
+    //jsc.jvmi { TargetAndroidRuntime = True, FullName = ScriptCoreLib.SwitchToCLRContextAttribute
+    //}
+    //1bc8:01:04 CreateToJARImportNatives { FileNameString = :jcsneape\\nri\yrdclsrciiyHbiOuuVAtvt\i\tgn.sesirr\uptjv\yrdclsrciiyAstLbayjr }
+    //1bc8:01:04 CreateToJARImportNatives { CreateToJARImportNativesCandidate = :jcsneape\\nri\yrdclsrciiyHbiOuuVAtvt\i\tgn.sesirr\uptjv\yrdclsrciiyAstLbayjr }
+    //1bc8:01:04 CreateToJARImportNatives Cache { FileNameString = :jcsneape\\nri\yrdclsrciiyHbiOuuVAtvt\i\tgn.sesirr\uptjv\yrdclsrciiyAstLbayjr, Input = :jcsneape\\nri\yrdclsrciiyHbiOuuVAtvt\i\tgn.sesirr\uptjv\yrdclsrciiyAstLbayjr }
+
     // "X:\opensource\ovr_mobile_sdk_20141111\sdcard\oculus\tuscany.ovrscene"
 
     //X:\opensource\ovr_mobile_sdk_20141111\VRLib\src\com\oculusvr\vrlib\PassThroughCamera.java:49: error: cannot find symbol
@@ -105,12 +111,12 @@ namespace HybridOculusVrActivity.OVRJVM
         // X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\GlGeometry.cpp
 
 
-//I/DEBUG   (  122):     #01  pc 000adf30  /data/app-lib/HybridOculusVrActivity.OVRJVM-2/libHybridOculusVrActivity.so (OVR::GlGeometry::Create(OVR::VertexAttribs const&, OVR::Array<unsigned short, OVR::ArrayDefaultPolicy> const&)+88)
-//I/DEBUG   (  122):     #02  pc 000af96c  /data/app-lib/HybridOculusVrActivity.OVRJVM-2/libHybridOculusVrActivity.so (OVR::BuildTesselatedQuad(int, int)+1100)
-//I/DEBUG   (  122):     #03  pc 000bb0ac  /data/app-lib/HybridOculusVrActivity.OVRJVM-2/libHybridOculusVrActivity.so (OVR::AppLocal::InitGlObjects()+376)
-//I/DEBUG   (  122):     #04  pc 000bb230  /data/app-lib/HybridOculusVrActivity.OVRJVM-2/libHybridOculusVrActivity.so (OVR::AppLocal::InitVrThread()+196)
-//I/DEBUG   (  122):     #05  pc 000bdbf0  /data/app-lib/HybridOculusVrActivity.OVRJVM-2/libHybridOculusVrActivity.so (OVR::AppLocal::VrThreadFunction()+48)
-//I/DEBUG   (  122):     #06  pc 000be48c  /data/app-lib/HybridOculusVrActivity.OVRJVM-2/libHybridOculusVrActivity.so (OVR::AppLocal::ThreadStarter(void*)+4)
+        //I/DEBUG   (  122):     #01  pc 000adf30  /data/app-lib/HybridOculusVrActivity.OVRJVM-2/libHybridOculusVrActivity.so (OVR::GlGeometry::Create(OVR::VertexAttribs const&, OVR::Array<unsigned short, OVR::ArrayDefaultPolicy> const&)+88)
+        //I/DEBUG   (  122):     #02  pc 000af96c  /data/app-lib/HybridOculusVrActivity.OVRJVM-2/libHybridOculusVrActivity.so (OVR::BuildTesselatedQuad(int, int)+1100)
+        //I/DEBUG   (  122):     #03  pc 000bb0ac  /data/app-lib/HybridOculusVrActivity.OVRJVM-2/libHybridOculusVrActivity.so (OVR::AppLocal::InitGlObjects()+376)
+        //I/DEBUG   (  122):     #04  pc 000bb230  /data/app-lib/HybridOculusVrActivity.OVRJVM-2/libHybridOculusVrActivity.so (OVR::AppLocal::InitVrThread()+196)
+        //I/DEBUG   (  122):     #05  pc 000bdbf0  /data/app-lib/HybridOculusVrActivity.OVRJVM-2/libHybridOculusVrActivity.so (OVR::AppLocal::VrThreadFunction()+48)
+        //I/DEBUG   (  122):     #06  pc 000be48c  /data/app-lib/HybridOculusVrActivity.OVRJVM-2/libHybridOculusVrActivity.so (OVR::AppLocal::ThreadStarter(void*)+4)
 
         protected override void onResume()
         {
