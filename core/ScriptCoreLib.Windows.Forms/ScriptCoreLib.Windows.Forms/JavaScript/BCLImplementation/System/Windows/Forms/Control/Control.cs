@@ -17,6 +17,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     using DOMHandler = global::System.Action<DOM.IEvent>;
     using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms;
     using ScriptCoreLib.JavaScript.DOM;
+    using ScriptCoreLib.JavaScript.DOM.HTML;
 
 
 
@@ -27,7 +28,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public A Event;
         public B EventInternal;
 
-        public static implicit operator bool(InternalHandler<A, B> e)
+        public static implicit operator bool (InternalHandler<A, B> e)
         {
             if (e.Event == null)
                 return false;
@@ -44,13 +45,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
     // http://referencesource.microsoft.com/#System.Windows.Forms/winforms/Managed/System/WinForms/Control.cs,9884211b7ff61817
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
-    public partial class __Control : __Component, __IBindableComponent
+    public partial class __Control : __Component, __IBindableComponent,
+
+        // enable attachto?
+        INodeConvertible<DOM.HTML.IHTMLElement>
     {
         // X:\jsc.svn\core\ScriptCoreLibJava.Windows.Forms\ScriptCoreLibJava.Windows.Forms\BCLImplementation\System\Windows\Forms\Control.cs
 
         #region name
         public string InternalName;
-        public string Name { get { return InternalName; } set { InternalName = value; if (InternalNameChanged != null)InternalNameChanged(); } }
+        public string Name { get { return InternalName; } set { InternalName = value; if (InternalNameChanged != null) InternalNameChanged(); } }
 
         public event Action InternalNameChanged;
         #endregion
@@ -256,8 +260,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         // WebBrowser
         public virtual void Refresh()
-        { 
-        
+        {
+
         }
 
         public event EventHandler Resize;
@@ -1309,6 +1313,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             return p as Form;
         }
 
+        public IHTMLElement InternalAsNode()
+        {
+            // 20150219
+            return this.HTMLTargetContainerRef;
+        }
+
+
 
 
 
@@ -1336,7 +1347,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.MaximumSize = DefaultMaximumSize;
 
 
-   
+
         }
 
 

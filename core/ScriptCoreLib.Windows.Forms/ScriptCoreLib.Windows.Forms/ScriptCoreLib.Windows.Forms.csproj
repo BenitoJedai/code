@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -66,6 +67,8 @@
     </Compile>
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Application.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\PropertyGrid\PropertyGrid.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeNodeMouseClickEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeNodeMouseClickEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeNodeCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeNode.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeView.cs" />

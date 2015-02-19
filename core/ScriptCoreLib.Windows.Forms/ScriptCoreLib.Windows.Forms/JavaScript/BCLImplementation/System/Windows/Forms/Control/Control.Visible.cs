@@ -48,6 +48,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
+                // X:\jsc.svn\examples\javascript\canvas\FormsSVGTreeView\FormsSVGTreeView\Application.cs
+
                 this.SetVisibleCore(value);
             }
         }
@@ -86,6 +88,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event EventHandler VisibleChanged;
 
+
+        // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeView.cs
         // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\Application.cs
         public event Action InternalAtAfterVisibleChanged;
 

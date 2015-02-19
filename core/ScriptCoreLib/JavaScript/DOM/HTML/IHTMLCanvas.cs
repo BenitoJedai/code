@@ -122,50 +122,84 @@ interface HTMLCanvasElement : HTMLElement {
 
 
         // implicit?
-        public static explicit operator IHTMLCanvas(IHTMLDiv l)
+        public static explicit operator IHTMLCanvas(IHTMLDiv refdiv)
         {
+            // X:\jsc.svn\examples\javascript\canvas\FormsSVGTreeView\FormsSVGTreeView\Application.cs
             // X:\jsc.svn\examples\javascript\WebGL\WebGLSVGSprite\WebGLSVGSprite\Application.cs
             // X:\jsc.svn\examples\javascript\canvas\AsCanvasExperiment\AsCanvasExperiment\Application.cs
 
-            var w = l.clientWidth;
-            var h = l.clientHeight;
+            var w = refdiv.clientWidth;
+            var h = refdiv.clientHeight;
 
-            if (l.parentNode == null)
+            #region need to measure
+            if (refdiv.parentNode == null)
             {
+                Console.WriteLine("IHTMLCanvas <- IHTMLDiv .. need to measure");
+
                 var hidden = new IHTMLDiv { }.AttachTo(Native.document.documentElement);
                 hidden.style.visibility = IStyle.VisibilityEnum.hidden;
-                l.AttachTo(hidden);
+                refdiv.AttachTo(hidden);
 
-                w = l.clientWidth;
-                h = l.clientHeight;
+                w = refdiv.clientWidth;
+                h = refdiv.clientHeight;
 
                 // cleanup
-                l.Orphanize();
+                refdiv.Orphanize();
                 hidden.Orphanize();
             }
+            #endregion
+
+            Console.WriteLine("IHTMLCanvas <- IHTMLDiv CanvasRenderingContext2D " + new { w, h, refdiv.clientWidth, refdiv.clientHeight });
+
+            //10:126ms IHTMLCanvas <- IHTMLDiv CanvasRenderingContext2D { w = 173, h = 676 }
+            //2015-02-19 19:02:30.487 view-source:49616 10:172ms IHTMLCanvas <- IHTMLDiv drawImage { width = 300, height = 150 }
+
 
             var c = new CanvasRenderingContext2D(w, h);
 
             #region yield
+            var counter = 0;
             var yield = default(Action);
 
             yield = delegate
            {
-               Task<ISVGSVGElement> n = l;
+               counter++;
+
+               Console.WriteLine("168: ISVGSVGElement <- IHTMLDiv " + new { counter, w, h, refdiv.clientWidth, refdiv.clientHeight });
+
+               Task<ISVGSVGElement> n = refdiv;
+
                n.ContinueWith(
                    svg_t =>
                    {
                        var svg = svg_t.Result;
 
+                       // should we know which part was updated, invalidated?
                        IHTMLImage i = svg;
+
+
+                       if (i.width != c.canvas.width)
+                           if (i.height != c.canvas.height)
+                           {
+                               // resize!
+
+                               c.canvas.width = i.width;
+                               c.canvas.height = i.height;
+
+                           }
 
                        //c.cle
                        c.clearRect(0, 0, c.canvas.width, c.canvas.height);
+
+                       Console.WriteLine("IHTMLCanvas <- IHTMLDiv drawImage " + new { counter, w, h, refdiv.clientWidth, refdiv.clientHeight, i.width, i.height });
+
                        c.drawImage(i, 0, 0, c.canvas.width, c.canvas.height);
+
+                       // what if content gets resized?
                    }
                );
 
-               l.async.onmutation.ContinueWith(
+               refdiv.async.onmutation.ContinueWith(
                    delegate
                    {
                        yield();

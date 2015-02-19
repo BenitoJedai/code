@@ -115,6 +115,12 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
             {
+                // X:\jsc.svn\examples\javascript\canvas\FormsSVGTreeView\FormsSVGTreeView\Application.cs
+                System.Console.WriteLine("IHTMLImage <- Task<ISVGSVGElement> " + new { s.width, s.height, s.clientWidth, s.clientHeight });
+
+                //10:113ms ISVGSVGElement <- IHTMLDiv { counter = 1, w = 173, h = 676, clientWidth = 173, clientHeight = 676 }
+                //2015-02-19 19:22:05.326 view-source:49619 10:121ms IHTMLImage <- Task<ISVGSVGElement> { width = 0, height = 0, clientWidth = 0, clientHeight = 0 }
+
 
                 // https://bugzilla.mozilla.org/show_bug.cgi?id=368437
                 var xml = new XElement("xml", s.AsXElement()).Elements().First();
@@ -140,6 +146,9 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 r =>
                 {
                     var s = r.Result;
+
+                    // X:\jsc.svn\examples\javascript\canvas\FormsSVGTreeView\FormsSVGTreeView\Application.cs
+                    System.Console.WriteLine("IHTMLImage <- Task<ISVGSVGElement> " + new { s.width, s.height, s.clientWidth, s.clientHeight });
 
                     // https://bugzilla.mozilla.org/show_bug.cgi?id=368437
                     var xml = new XElement("xml", s.AsXElement()).Elements().First();

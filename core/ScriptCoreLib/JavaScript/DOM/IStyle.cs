@@ -74,6 +74,19 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
+
+        public IStyle(IStyle e)
+        {
+            // InternalConstructor
+        }
+
+        static IStyle InternalConstructor(IStyle e)
+        {
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeView.cs
+            return e;
+        }
+
+
         public IStyle(IHTMLElement.HTMLElementEnum e)
         {
             // InternalConstructor
@@ -448,6 +461,9 @@ namespace ScriptCoreLib.JavaScript.DOM
             lowercase
         }
         public TextTransformEnum textTransform;
+        //http://www.w3schools.com/cssref/pr_text_text-indent.asp
+        // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeView.cs
+        public string textIndent;
 
         public string verticalAlign;
 

@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}</ProjectGuid>
+    <ProjectGuid>{02F60678-6AE6-4B09-970C-C6836C0D25DF}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestShadowSpan</RootNamespace>
-    <AssemblyName>TestShadowSpan</AssemblyName>
+    <RootNamespace>FormsSVGTreeView</RootNamespace>
+    <AssemblyName>FormsSVGTreeView</AssemblyName>
     <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>TestShadowSpan.Program</StartupObject>
+    <StartupObject>FormsSVGTreeView.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -114,8 +114,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="TestShadowSpan.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\TestShadowSpan.AssetsLibrary.dll</HintPath>
+    <Reference Include="FormsSVGTreeView.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FormsSVGTreeView.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
@@ -125,13 +125,32 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="ApplicationWebService.cs" />
-    <Compile Include="Application.cs" />
+    <Compile Include="ApplicationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ApplicationControl.Designer.cs">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationWebService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ApplicationWebService.Designer.cs">
+      <DependentUpon>ApplicationWebService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application.cs">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <SubType>component</SubType>
+    </Compile>
     <Compile Include="Program.cs">
-      <DependentUpon>Application.cs</DependentUpon>
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ApplicationControl.resx">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
