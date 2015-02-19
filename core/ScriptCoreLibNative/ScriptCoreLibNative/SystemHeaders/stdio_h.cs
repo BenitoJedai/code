@@ -14,6 +14,9 @@ namespace ScriptCoreLibNative.SystemHeaders
     [Script(IsNative = true, Header = "stdio.h", IsSystemHeader = true)]
     public static class stdio_h
     {
+        // https://developer.chrome.com/extensions/nativeMessaging#native-messaging-host
+        // https://msdn.microsoft.com/en-us/library/tw4k6df8.aspx?f=255&MSPPError=-2147217396
+
         // X:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\crt\src\appcrt\_file.cpp
         // #define 	stdout   (__iob[1])
         //public static object[] __iob;

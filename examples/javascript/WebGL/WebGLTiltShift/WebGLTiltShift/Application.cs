@@ -861,7 +861,6 @@ namespace WebGLTiltShift
                 {
                     ////var delta = clock.getDelta();
 
-                    controls.update();
 
 
 
@@ -877,6 +876,7 @@ namespace WebGLTiltShift
                         THREE.AnimationHandler.update(stepSize);
                     }
 
+                    controls.update();
                     camera.position = controls.center.clone();
 
                     composer.render(0.1);
