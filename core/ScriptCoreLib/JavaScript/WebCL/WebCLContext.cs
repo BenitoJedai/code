@@ -55,6 +55,8 @@ namespace ScriptCoreLib.JavaScript.WebCL
     [Script(HasNoPrototype = true, InternalConstructor = true)]
     public class WebCL
     {
+        // http://www.gabrielecocco.it/fscl/what-is-fscl/
+
         // "X:\opensource\googlecode\ocltoys\juliagpu\rendering_kernel.cl"
         // jsc, hows your C generation skills? ready for kernel code? what about outputting GLSL yet?
         // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Object.cs

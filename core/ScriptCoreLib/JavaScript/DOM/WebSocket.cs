@@ -17,6 +17,9 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public class WebSocket
     {
+        // http://www.websocket.org/quantum.html
+        // http://stackoverflow.com/questions/14703627/websockets-protocol-vs-http
+
         // https://developer.mozilla.org/en-US/docs/WebSockets/Writing_WebSocket_servers
         // http://caniuse.com/#feat=websockets
 
