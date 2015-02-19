@@ -59,6 +59,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             IsExpanded = true;
 
             this.InternalElementContent.Show();
+
+            ((__TreeView)this.TreeView).RaiseAfterExpand(
+                new TreeViewEventArgs(this)
+            );
         }
         #endregion
 
@@ -91,12 +95,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalElementHeader.onclick +=
                 e =>
                 {
-                    if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
-                    {
-                        e.preventDefault();
-                        this.Toggle();
-                        return;
-                    }
+                    //if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+                    //{
+                    //    e.stopPropagation();
+                    //    e.preventDefault();
+                    //    this.Toggle();
+                    //    return;
+                    //}
 
                     this.TreeView.SelectedNode = this;
 
@@ -108,14 +113,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 };
 
-            //this.InternalElementHeader.ondblclick +=
-            //    e =>
-            //    {
-            //        //this.TreeView
-
-            //        e.preventDefault();
-            //        this.Toggle();
-            //    };
+            this.InternalElementHeader.ondblclick +=
+                e =>
+                {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    this.Toggle();
+                    return;
+                };
 
 
             this.InternalElementContent.AttachTo(this.InternalElement);

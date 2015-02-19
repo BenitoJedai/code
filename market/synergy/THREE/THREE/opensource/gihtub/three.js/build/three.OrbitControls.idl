@@ -4,12 +4,14 @@
 
 
 [Constructor(),
- Constructor(any camera)]
+Constructor(any camera),
+Constructor(any camera, any domElement)]
 interface THREE.OrbitControls
 { 
 	
 	attribute any object;
-
+	attribute any domElement;
+	
 	attribute THREE.Vector3 center;
 
 	void update();

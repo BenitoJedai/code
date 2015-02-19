@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THREE", "..\..\..\..\..\market\synergy\THREE\THREE\THREE.csproj", "{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Drawing", "..\..\..\..\..\core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.csproj", "{053C4547-E32B-458E-B295-1E3640BE96E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,14 @@ Global
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|Any CPU.ActiveCfg = Release|x86
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|x86.ActiveCfg = Release|x86
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|x86.Build.0 = Release|x86
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Debug|x86.Build.0 = Debug|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Release|x86.ActiveCfg = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,5 +78,6 @@ Global
 		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9} = {DDC08767-AB91-4181-94BB-0B11193A3D09}
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {DDC08767-AB91-4181-94BB-0B11193A3D09}
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {DDC08767-AB91-4181-94BB-0B11193A3D09}
+		{053C4547-E32B-458E-B295-1E3640BE96E9} = {DDC08767-AB91-4181-94BB-0B11193A3D09}
 	EndGlobalSection
 EndGlobal

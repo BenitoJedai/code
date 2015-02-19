@@ -32,7 +32,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         //public IHTMLDiv InternalElement = new IHTMLDiv();
         public IHTMLDiv InternalElement = typeof(__TreeView);
 
-
+        #region SelectedNode
         public __TreeNode InternalSelectedNode;
         public TreeNode SelectedNode
         {
@@ -74,10 +74,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
             }
         }
+        #endregion
+
 
         public __TreeView()
         {
             this.InternalElement.style.backgroundColor = "yellow";
+
+            // for svg renderer we would want full view?
+            this.InternalElement.style.overflow = IStyle.OverflowEnum.auto;
+
 
             // can it work for shadow elements too?
 
@@ -162,6 +168,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
+        public void RaiseAfterExpand(TreeViewEventArgs  args)
+        {
+            if (AfterExpand != null)
+                AfterExpand(this, args);
+        }
+
+        public event TreeViewEventHandler AfterExpand;
         public event TreeViewEventHandler AfterSelect;
 
         public event TreeNodeMouseClickEventHandler NodeMouseClick;

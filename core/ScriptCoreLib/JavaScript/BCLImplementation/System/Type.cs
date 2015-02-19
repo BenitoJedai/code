@@ -48,11 +48,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return null;
         }
 
-        //Implementation not found for type import :
-        //type: System.Type
-        //method: Boolean get_IsEnum()
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
         public virtual bool IsEnum
         {
             get
@@ -66,10 +61,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public override string ToString()
         {
+            // set by?
             if (IsNative)
                 return "[native] " + this.Name;
 
-            return this.FullName;
+            // X:\jsc.svn\examples\javascript\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\Library\ZeProperties.cs
+            // mimic nameof?
+            return this.Name;
         }
 
         [Script]
@@ -220,8 +218,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 //dynamic constructor = AsExpando().constructor;
 
                 //return constructor.TypeName;
-                return (string)Expando.InternalGetMember(
-                    AsExpando().constructor, "TypeName");
+
+                var n = (string)Expando.InternalGetMember(
+                    AsExpando().constructor,
+                    "TypeName"
+                );
+
+                // X:\jsc.svn\examples\javascript\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\Library\ZeProperties.cs
+                if (string.IsNullOrEmpty(n))
+                    return "?";
+
+                return n;
             }
         }
 
