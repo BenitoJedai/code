@@ -808,6 +808,8 @@ interface THREE.Sphere
 [Constructor]
 interface THREE.Geometry
 {
+	attribute string type;
+
 	attribute boolean dynamic;
 	attribute boolean verticesNeedUpdate;
 
@@ -991,6 +993,7 @@ interface THREE.Material
 {
 	// set by initMaterial
 	attribute any program;
+	attribute any type;
 
 };
 
@@ -1037,9 +1040,18 @@ interface THREE.MeshBasicMaterial : THREE.Material
 };
 
 
+// http://threejs.org/docs/#Reference/Materials/MeshPhongMaterial
 [Constructor(any e)]
 interface THREE.MeshPhongMaterial : THREE.Material
 {
+	attribute THREE.Color color;
+	attribute THREE.Color ambient;
+	attribute THREE.Color specular;
+	
+	attribute double shininess;
+	attribute boolean metal;
+
+
 	// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLMD2MorphtargetExample\WebGLMD2MorphtargetExample\Application.cs
 	attribute THREE.Texture map;
 };

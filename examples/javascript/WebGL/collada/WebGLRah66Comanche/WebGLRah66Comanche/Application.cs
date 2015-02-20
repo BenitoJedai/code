@@ -42,25 +42,44 @@ namespace WebGLRah66Comanche
             #region scene
             var window = Native.window;
 
-            var camera = new THREE.PerspectiveCamera(
-                45,
-                window.aspect,
-                1,
-                10000
-                );
-            camera.position.z = 400;
+
 
             // scene
 
             var scene = new THREE.Scene();
 
-            var ambient = new THREE.AmbientLight(0x101030);
-            // addTrace?
-            scene.add(ambient);
+            //var ambient = new THREE.AmbientLight(0x101030);
+            //// addTrace?
+            //scene.add(ambient);
+            scene.add(new THREE.AmbientLight(0x101030));
+            var lightOffset = new THREE.Vector3(0, 1000, 1000.0);
 
-            var directionalLight = new THREE.DirectionalLight(0xffeedd);
-            directionalLight.position.set(0, 0, 1);
-            scene.add(directionalLight);
+            var light = new THREE.DirectionalLight(0xffffff, 1.0);
+            //var light = new THREE.DirectionalLight(0xffffff, 1.0);
+            //var light = new THREE.DirectionalLight(0xffffff, 2.5);
+            //var light = new THREE.DirectionalLight(0xffffff, 1.5);
+            light.position.copy(lightOffset);
+
+            light.castShadow = true;
+
+            var xlight = light as dynamic;
+            xlight.shadowMapWidth = 4096;
+            xlight.shadowMapHeight = 2048;
+
+            xlight.shadowDarkness = 0.3;
+            //xlight.shadowDarkness = 0.5;
+
+            xlight.shadowCameraNear = 10;
+            xlight.shadowCameraFar = 10000;
+            xlight.shadowBias = 0.00001;
+            xlight.shadowCameraRight = 4000;
+            xlight.shadowCameraLeft = -4000;
+            xlight.shadowCameraTop = 4000;
+            xlight.shadowCameraBottom = -4000;
+
+            xlight.shadowCameraVisible = true;
+
+            scene.add(light);
 
 
 
@@ -68,10 +87,12 @@ namespace WebGLRah66Comanche
 
 
             var planeGeometry = new THREE.CubeGeometry(512, 512, 1);
-            var plane = new THREE.Mesh(planeGeometry,
-                    new THREE.MeshPhongMaterial(new { ambient = 0x101010, color = 0xA26D41, specular = 0xA26D41, shininess = 1 })
 
-                );
+            var plane = new THREE.Mesh(
+                planeGeometry,
+                material: new THREE.MeshPhongMaterial(new { ambient = 0x101010, color = 0xA26D41, specular = 0xA26D41, shininess = 1 })
+            );
+
             plane.receiveShadow = true;
 
 
@@ -95,6 +116,8 @@ namespace WebGLRah66Comanche
             renderer.domElement.AttachToDocument();
             renderer.domElement.style.SetLocation(0, 0);
 
+            renderer.shadowMapEnabled = true;
+            renderer.shadowMapType = THREE.PCFSoftShadowMap;
 
             //var mouseX = 0;
             //var mouseY = 0;
@@ -108,6 +131,21 @@ namespace WebGLRah66Comanche
             //        mouseX = e.CursorX - Native.window.Width / 2;
             //        mouseY = e.CursorY - Native.window.Height / 2;
             //    };
+
+            var camera = new THREE.PerspectiveCamera(
+                //40,
+                20,
+                //10,
+
+                Native.window.aspect, 2,
+
+                // how far out do we want to zoom?
+                200000
+                //9000
+                );
+            camera.position.set(-1200, 800, -3200);
+
+            scene.add(camera);
 
             var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
@@ -145,14 +183,7 @@ namespace WebGLRah66Comanche
 
             #region THREE_ColladaAsset
             // why isnt it being found?
-            new global::WebGLColladaExperiment.THREE_ColladaAsset(
-
-                // we get purple small thingy
-                "assets/WebGLRah66Comanche/RAH-66-Comanche-by-decten.dae"
-
-            // maybe sketchup doesnt know how to export colors?
-            //"assets/WebGLHeatZeekerColladaExperiment/sam_site.dae"
-            ).Source.Task.ContinueWithResult(
+            new Comanche().Source.Task.ContinueWithResult(
                 dae =>
                 {
 
@@ -161,9 +192,27 @@ namespace WebGLRah66Comanche
                     scene.add(dae);
                     oo.Add(dae);
 
-                    // this wont work!?
-                    //dae.scale = new THREE.Vector3(40, 40, 40);
+                    // wont do it
+                    //dae.castShadow = true;
 
+                    dae.children[0].children[0].children.WithEach(x => x.castShadow = true);
+
+
+                    // the rotors?
+                    dae.children[0].children[0].children.Last().children.WithEach(x => x.castShadow = true);
+
+
+                    dae.scale.set(0.5, 0.5, 0.5);
+
+                    var sw = Stopwatch.StartNew();
+
+                    //Native.window.onframe += delegate
+                    //{
+                    //    //dae.children[0].children[0].children.Last().al
+                    //    //dae.children[0].children[0].children.Last().rotation.z = sw.ElapsedMilliseconds * 0.01;
+                    //    //dae.children[0].children[0].children.Last().rotation.x = sw.ElapsedMilliseconds * 0.01;
+                    //    dae.children[0].children[0].children.Last().rotation.y = sw.ElapsedMilliseconds * 0.01;
+                    //};
                 }
             );
             #endregion
@@ -183,5 +232,22 @@ namespace WebGLRah66Comanche
 
         }
 
+    }
+
+    public class Comanche : global::WebGLColladaExperiment.THREE_ColladaAsset
+
+    // we get purple small thingy
+
+    // maybe sketchup doesnt know how to export colors?
+    //"assets/WebGLHeatZeekerColladaExperiment/sam_site.dae"
+
+    {
+        public Comanche() : base(
+                "assets/WebGLRah66Comanche/RAH-66-Comanche-by-decten.dae"
+
+            )
+        {
+
+        }
     }
 }

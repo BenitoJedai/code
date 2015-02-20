@@ -90,7 +90,7 @@ namespace WebGLVRHZTeaser
 
 
             //scene.add(new THREE.AmbientLight(0xaaaaaa));
-            scene.add(new THREE.AmbientLight(0xffffff));
+            scene.add(new THREE.AmbientLight(0x101030));
             #endregion
 
 
@@ -114,7 +114,7 @@ namespace WebGLVRHZTeaser
             xlight.shadowMapWidth = 4096;
             xlight.shadowMapHeight = 2048;
 
-            xlight.shadowDarkness = 0.3;
+            xlight.shadowDarkness = 0.1;
             //xlight.shadowDarkness = 0.5;
 
             xlight.shadowCameraNear = 10;
@@ -207,6 +207,44 @@ namespace WebGLVRHZTeaser
 
             effect.setSize(1920, 1080);
 
+            #region WebGLRah66Comanche
+            // why isnt it being found?
+            new global::WebGLRah66Comanche.Comanche(
+            ).Source.Task.ContinueWithResult(
+                dae =>
+                {
+
+                    //dae.position.y = -40;
+                    //dae.position.z = 280;
+                    scene.add(dae);
+                    //oo.Add(dae);
+
+                    // wont do it
+                    //dae.castShadow = true;
+
+                    dae.children[0].children[0].children.WithEach(x => x.castShadow = true);
+
+
+                    // the rotors?
+                    dae.children[0].children[0].children.Last().children.WithEach(x => x.castShadow = true);
+
+
+                    dae.scale.set(0.5, 0.5, 0.5);
+                    dae.position.x = -1000;
+                    dae.position.x = -900;
+
+                    //var sw = Stopwatch.StartNew();
+
+                    //Native.window.onframe += delegate
+                    //{
+                    //    //dae.children[0].children[0].children.Last().al
+                    //    //dae.children[0].children[0].children.Last().rotation.z = sw.ElapsedMilliseconds * 0.01;
+                    //    //dae.children[0].children[0].children.Last().rotation.x = sw.ElapsedMilliseconds * 0.01;
+                    //    dae.children[0].children[0].children.Last().rotation.y = sw.ElapsedMilliseconds * 0.01;
+                    //};
+                }
+            );
+            #endregion
 
             #region create field
 
@@ -499,6 +537,10 @@ namespace WebGLVRHZTeaser
                      }
                  );
             #endregion
+
+
+           
+
 
 
             var lon0 = -45.0;
