@@ -382,6 +382,10 @@ namespace WebGLRah66Comanche.Library
             var n = Nodes.Add("\{name} : \{nameof(THREE.Color)}(r,g,b)");
             await n.AsyncAfterExpand();
             var x = get_subject();
+
+            // looking at audio/color
+            // X:\jsc.svn\examples\javascript\ColorPickerExperiment\ColorPickerExperiment\Library\ColorPicker.cs
+
             Add(nameof(THREE.Color.r), () => x.r, n.Nodes);
             Add(nameof(THREE.Color.g), () => x.g, n.Nodes);
             Add(nameof(THREE.Color.b), () => x.b, n.Nodes);
