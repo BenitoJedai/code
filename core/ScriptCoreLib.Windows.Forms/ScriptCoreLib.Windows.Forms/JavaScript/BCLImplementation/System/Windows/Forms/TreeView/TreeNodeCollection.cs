@@ -60,6 +60,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public virtual void Clear()
+        {
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLDashedLines\WebGLDashedLines\Application.cs
+
+            if (that__TreeView != null)
+            {
+                that__TreeView.AsNode().Clear();
+            }
+
+            if (that__TreeNode != null)
+            {
+                that__TreeNode.InternalElementContent.Clear();
+            }
+
+            this.InternalList.Clear();
+
+        }
 
         public static implicit operator TreeNodeCollection(__TreeNodeCollection e)
         {

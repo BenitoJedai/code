@@ -123,6 +123,12 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLRah66Comanche.AssetsLibrary">
+      <HintPath>..\..\collada\WebGLRah66Comanche\WebGLRah66Comanche\bin\staging.AssetsLibrary\WebGLRah66Comanche.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLColladaExperiment.AssetsLibrary">
+      <HintPath>..\..\WebGLColladaExperiment\WebGLColladaExperiment\bin\staging.AssetsLibrary\WebGLColladaExperiment.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,6 +151,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="web\assets\WebGLOBJExperiment\fence.obj" />
     <EmbeddedResource Include="web\assets\WebGLOBJExperiment\sack_of_gold2.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\collada\WebGLRah66Comanche\WebGLRah66Comanche\WebGLRah66Comanche.csproj">
+      <Project>{5a75fa08-3af1-4d27-a726-20b58b6cd608}</Project>
+      <Name>WebGLRah66Comanche</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

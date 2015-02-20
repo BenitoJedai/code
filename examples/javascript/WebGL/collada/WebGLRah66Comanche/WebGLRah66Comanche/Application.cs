@@ -88,27 +88,25 @@ namespace WebGLRah66Comanche
 
 
 
-
-            var planeGeometry = new THREE.CubeGeometry(512, 512, 1);
-
-            var plane = new THREE.Mesh(
-                planeGeometry,
-                material: new THREE.MeshPhongMaterial(new { ambient = 0x101010, color = 0xA26D41, specular = 0xA26D41, shininess = 1 })
-            );
-
-            plane.receiveShadow = true;
-
-
             {
 
-                var parent = new THREE.Object3D();
-                plane.AttachTo(parent);
+                var planeGeometry = new THREE.CubeGeometry(512, 512, 1);
+
+                var plane = new THREE.Mesh(
+                    planeGeometry,
+                    material: new THREE.MeshPhongMaterial(new { ambient = 0x101010, color = 0xA26D41, specular = 0xA26D41, shininess = 1 })
+                );
+
+                plane.receiveShadow = true;
 
 
-                parent.rotation.x = -Math.PI / 2;
-                parent.scale.set(10, 10, 10);
+                var ZeFloor = new THREE.Object3D();
+                plane.AttachTo(ZeFloor);
 
-                parent.AttachTo(scene);
+                ZeFloor.rotation.x = -Math.PI / 2;
+                ZeFloor.scale.set(10, 10, 10);
+
+                ZeFloor.AttachTo(scene);
             }
 
 
@@ -188,17 +186,17 @@ namespace WebGLRah66Comanche
             #region THREE_ColladaAsset
             // why isnt it being found?
             new Comanche().Source.Task.ContinueWithResult(
-                dae =>
+                Comanche =>
                 {
 
-                    dae.position.y = 200;
+                    Comanche.position.y = 200;
 
                     //dae.position.z = 280;
 
-                    dae.AttachTo(scene);
+                    Comanche.AttachTo(scene);
 
                     //scene.add(dae);
-                    oo.Add(dae);
+                    oo.Add(Comanche);
 
                     // wont do it
                     //dae.castShadow = true;
@@ -209,14 +207,14 @@ namespace WebGLRah66Comanche
                     //// If you want a visible bounding box
                     //scene.add(helper);
 
-                    dae.children[0].children[0].children.WithEach(x => x.castShadow = true);
+                    Comanche.children[0].children[0].children.WithEach(x => x.castShadow = true);
 
 
                     // the rotors?
-                    dae.children[0].children[0].children.Last().children.WithEach(x => x.castShadow = true);
+                    Comanche.children[0].children[0].children.Last().children.WithEach(x => x.castShadow = true);
 
 
-                    dae.scale.set(0.5, 0.5, 0.5);
+                    Comanche.scale.set(0.5, 0.5, 0.5);
                     //helper.scale.set(0.5, 0.5, 0.5);
 
                     var sw = Stopwatch.StartNew();
@@ -228,7 +226,7 @@ namespace WebGLRah66Comanche
                         //dae.children[0].children[0].children.Last().rotation.x = sw.ElapsedMilliseconds * 0.01;
                         //rotation.y = sw.ElapsedMilliseconds * 0.01;
 
-                        dae.children[0].children[0].children.Last().rotation.y = sw.ElapsedMilliseconds * 0.001;
+                        Comanche.children[0].children[0].children.Last().rotation.y = sw.ElapsedMilliseconds * 0.001;
 
                         //dae.children[0].children[0].children.Last().app
                     };
@@ -237,14 +235,14 @@ namespace WebGLRah66Comanche
             #endregion
 
 
-            var f = new ZeProperties();
+            var ze = new ZeProperties();
 
-            f.Show();
+            ze.Show();
 
 
-            f.Add(nameof(renderer), () => renderer);
-            f.Add(nameof(controls), () => controls);
-            f.Add(nameof(scene), () => scene);
+            ze.Add(nameof(renderer), () => renderer);
+            ze.Add(nameof(controls), () => controls);
+            ze.Add(nameof(scene), () => scene);
 
             //f.treeView1.Nodes.Add("controls : " + typeof(THREE.OrbitControls)).Tag = controls;
 

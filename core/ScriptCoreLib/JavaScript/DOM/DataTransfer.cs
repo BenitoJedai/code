@@ -13,6 +13,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class DataTransfer
     {
+        // tested by?
+
         public string dropEffect;
         public string effectAllowed;
         public readonly FileList files;

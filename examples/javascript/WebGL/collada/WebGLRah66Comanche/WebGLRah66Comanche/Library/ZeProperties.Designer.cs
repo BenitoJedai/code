@@ -28,18 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("root: Scene");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("root: Renderer");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("root: Scene");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("root: Renderer");
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -57,7 +59,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.flowLayoutPanel1);
             this.splitContainer1.Size = new System.Drawing.Size(346, 582);
-            this.splitContainer1.SplitterDistance = 528;
+            this.splitContainer1.SplitterDistance = 424;
             this.splitContainer1.TabIndex = 0;
             // 
             // treeView1
@@ -65,14 +67,14 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode5.Name = "Node0";
-            treeNode5.Text = "root: Scene";
-            treeNode6.Name = "Node1";
-            treeNode6.Text = "root: Renderer";
+            treeNode1.Name = "Node0";
+            treeNode1.Text = "root: Scene";
+            treeNode2.Name = "Node1";
+            treeNode2.Text = "root: Renderer";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
-            this.treeView1.Size = new System.Drawing.Size(346, 528);
+            treeNode1,
+            treeNode2});
+            this.treeView1.Size = new System.Drawing.Size(346, 424);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
@@ -87,27 +89,37 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(346, 50);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(346, 154);
             this.flowLayoutPanel1.TabIndex = 0;
             this.flowLayoutPanel1.WrapContents = false;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(323, 147);
+            this.groupBox1.Size = new System.Drawing.Size(323, 150);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
             // 
             // groupBox2
             // 
-            this.groupBox2.Location = new System.Drawing.Point(3, 156);
+            this.groupBox2.Location = new System.Drawing.Point(3, 159);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(323, 120);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Location = new System.Drawing.Point(3, 16);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(317, 131);
+            this.textBox1.TabIndex = 0;
             // 
             // ZeProperties
             // 
@@ -126,6 +138,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -137,5 +151,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         public System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
