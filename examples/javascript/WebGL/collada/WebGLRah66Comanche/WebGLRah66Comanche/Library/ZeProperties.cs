@@ -210,8 +210,8 @@ namespace WebGLRah66Comanche.Library
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add("base", () => (THREE.Object3D)x, n.Nodes);
-            Add(nameof(THREE.Mesh.geometry), () => x.geometry, n.Nodes);
-            Add(nameof(THREE.Mesh.material), () => x.material, n.Nodes);
+            Add(nameof(THREE.Mesh.geometry), () => (object)x.geometry, n.Nodes);
+            Add(nameof(THREE.Mesh.material), () => (object)x.material, n.Nodes);
         }
 
         async void Add(string name, Func<THREE.Scene> get_subject, TreeNodeCollection Nodes = null)
@@ -222,6 +222,68 @@ namespace WebGLRah66Comanche.Library
             Add("base", () => (THREE.Object3D)x, n.Nodes);
             Add(nameof(THREE.Scene.fog), () => x.fog, n.Nodes);
         }
+
+        async void Add(string name, Func<THREE.Quaternion> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(THREE.Quaternion)}");
+            await n.AsyncAfterExpand();
+            var x = get_subject();
+            //Add("base", () => (THREE.Object3D)x, n.Nodes);
+            //Add(nameof(THREE.Scene.fog), () => x.fog, n.Nodes);
+        }
+        //THREE.Quaternion
+
+        // http://threejs.org/docs/#Reference/Materials/MeshPhongMaterial
+        async void Add(string name, Func<THREE.MeshPhongMaterial> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(THREE.MeshPhongMaterial)}");
+            await n.AsyncAfterExpand();
+            var x = get_subject();
+            Add("base", () => (THREE.Material)x, n.Nodes);
+            Add(nameof(THREE.MeshPhongMaterial.color), () => x.color, n.Nodes);
+            Add(nameof(THREE.MeshPhongMaterial.ambient), () => x.ambient, n.Nodes);
+            Add(nameof(THREE.MeshPhongMaterial.specular), () => x.specular, n.Nodes);
+            Add(nameof(THREE.MeshPhongMaterial.shininess), () => x.shininess, n.Nodes);
+            Add(nameof(THREE.MeshPhongMaterial.map), () => x.map, n.Nodes);
+        }
+
+        async void Add(string name, Func<THREE.Material> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(THREE.Material)}");
+            await n.AsyncAfterExpand();
+            var x = get_subject();
+            Add(nameof(THREE.Material.program), () => x.program, n.Nodes);
+            Add(nameof(THREE.Material.type), () => x.type, n.Nodes);
+        }
+
+        async void Add(string name, Func<THREE.BoxGeometry> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(THREE.BoxGeometry)}");
+            await n.AsyncAfterExpand();
+            var x = get_subject();
+            Add("base", () => (THREE.Geometry)x, n.Nodes);
+        }
+
+        async void Add(string name, Func<THREE.Geometry> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(THREE.Geometry)}");
+            await n.AsyncAfterExpand();
+            var x = get_subject();
+            Add(nameof(THREE.Geometry.dynamic), () => x.dynamic, n.Nodes);
+            Add(nameof(THREE.Geometry.type), () => x.type, n.Nodes);
+        }
+
+        async void Add(string name, Func<THREE.Color> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(THREE.Color)}");
+            await n.AsyncAfterExpand();
+            var x = get_subject();
+            Add(nameof(THREE.Color.r), () => x.r, n.Nodes);
+            Add(nameof(THREE.Color.g), () => x.g, n.Nodes);
+            Add(nameof(THREE.Color.b), () => x.b, n.Nodes);
+            //Add(nameof(THREE.Color.a), () => x.a, n.Nodes);
+        }
+
 
         public async void Add(string name, Func<object> get_subject, TreeNodeCollection Nodes = null)
         {
@@ -267,6 +329,56 @@ namespace WebGLRah66Comanche.Library
             }
             #endregion
 
+            var xstring = subject as string;
+            if (xstring != null)
+            {
+                Nodes.Add("\{name} = '\{xstring}'");
+                return;
+            }
+
+            var xColor = subject as THREE.Color;
+            if (xColor != null)
+            {
+                Add(name, () => xColor, Nodes);
+                return;
+            }
+
+            var xQuaternion = subject as THREE.Quaternion;
+            if (xQuaternion != null)
+            {
+                Add(name, () => xQuaternion, Nodes);
+                return;
+            }
+
+
+            var xBoxGeometry = subject as THREE.BoxGeometry;
+            if (xBoxGeometry != null)
+            {
+                Add(name, () => xBoxGeometry, Nodes);
+                return;
+            }
+
+
+            var xGeometry = subject as THREE.Geometry;
+            if (xGeometry != null)
+            {
+                Add(name, () => xGeometry, Nodes);
+                return;
+            }
+
+            var xMeshPhongMaterial = subject as THREE.MeshPhongMaterial;
+            if (xMeshPhongMaterial != null)
+            {
+                Add(name, () => xMeshPhongMaterial, Nodes);
+                return;
+            }
+
+            var xMaterial = subject as THREE.Material;
+            if (xMaterial != null)
+            {
+                Add(name, () => xMaterial, Nodes);
+                return;
+            }
 
             var xMesh = subject as THREE.Mesh;
             if (xMesh != null)
