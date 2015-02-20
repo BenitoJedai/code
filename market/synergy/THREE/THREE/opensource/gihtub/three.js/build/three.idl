@@ -304,7 +304,12 @@ interface THREE.Line  : THREE.Object3D
 {
 	// X:\jsc.svn\examples\javascript\WebGL\HeatZeekerRTSOrto\HeatZeekerRTSOrto\Application.cs
 
-	attribute long type;
+	//attribute long type;
+	
+	attribute THREE.Geometry geometry;
+	attribute THREE.Material material;
+
+	attribute int mode;
 };
 
 
@@ -379,8 +384,8 @@ interface THREE.Fog
 	attribute long        near;
 	attribute long        far;
 
-
-	attribute long        color;
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLDashedLines\WebGLDashedLines\Application.cs
+	attribute THREE.Color        color;
 
 };
 
@@ -624,6 +629,9 @@ interface THREE.Object3D
 	void translateX(any delta);
 	void translateY(any delta);
 	void translateZ(any delta);
+
+
+	string toJSON();
 };
 
 [Constructor()]

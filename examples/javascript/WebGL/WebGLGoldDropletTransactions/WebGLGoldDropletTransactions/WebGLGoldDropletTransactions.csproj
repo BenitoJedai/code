@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebGLGoldDropletTransactions</RootNamespace>
     <AssemblyName>WebGLGoldDropletTransactions</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>WebGLGoldDropletTransactions.Program</StartupObject>
     <TargetFrameworkProfile />

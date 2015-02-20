@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.CompilerServices;
+using System.Runtime.CompilerServices;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace WebGLRah66Comanche.Library
 {
@@ -29,12 +31,27 @@ namespace WebGLRah66Comanche.Library
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            //this.groupBox1.Text = new { e.Node.Text, e.Node.Tag }.ToString();
             this.groupBox1.Text = new { e.Node.Text, e.Node.Tag }.ToString();
+
+            var xObject3D = e.Node.Tag as THREE.Object3D;
+            if (xObject3D != null)
+            {
+                // can we drag n drop yet?
+                textBox1.Text = JSON.stringify(xObject3D.toJSON());
+            }
 
         }
 
         private void ZeProperties_Load(object sender, EventArgs e)
         {
+
+        }
+
+        public async void Add(string name, Func<bool> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} <- \{get_subject()}");
+
 
         }
 
@@ -80,10 +97,10 @@ namespace WebGLRah66Comanche.Library
         {
             // overload seems to work nicely. yet we have to do manual base types /RTTI 
 
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Object3D)}");
-
             var x = get_subject();
-            n.Text += " '\{x.name}' (\{x.children.Length})";
+
+            var n = Nodes.Add("\{name} : \{nameof(THREE.Object3D)} '\{x.name}' (\{x.children.Length})");
+            n.Tag = x;
 
             await n.AsyncAfterExpand();
 
@@ -105,6 +122,7 @@ namespace WebGLRah66Comanche.Library
 
             Add(nameof(THREE.Object3D.matrix), () => x.matrix, n.Nodes);
             Add(nameof(THREE.Object3D.quaternion), () => x.quaternion, n.Nodes);
+
             Add(nameof(THREE.Object3D.visible), () => x.visible, n.Nodes);
 
             Add(nameof(THREE.Object3D.castShadow), () => x.castShadow, n.Nodes);
@@ -113,6 +131,24 @@ namespace WebGLRah66Comanche.Library
             Add(nameof(THREE.Object3D.matrixWorld), () => x.matrixWorld, n.Nodes);
 
             Add(nameof(THREE.Object3D.children), () => x.children, n.Nodes);
+
+        }
+
+        async void Add(string name, Func<THREE.Line> get_subject, TreeNodeCollection Nodes = null)
+        {
+            // RTTi we have idl, and KnownTypes approach. also theres the linq approach.
+
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLDashedLines\WebGLDashedLines\Application.cs
+            var x = get_subject();
+            var n = Nodes.Add("\{name} : \{nameof(THREE.Line)} '\{x.name}' [\{x.geometry.vertices.Length}]");
+            await n.AsyncAfterExpand();
+
+            Add("base", () => (THREE.Object3D)x, n.Nodes);
+            Add(nameof(THREE.Line.geometry), () => x.geometry, n.Nodes);
+            Add(nameof(THREE.Line.material), () => x.material, n.Nodes);
+
+            // can we get enum strings yet?
+            Add(nameof(THREE.Line.mode), () => x.mode, n.Nodes);
         }
 
 
@@ -168,22 +204,14 @@ namespace WebGLRah66Comanche.Library
             Add(nameof(THREE.OrthographicCamera.top), () => xPerspectiveCamera.top, n.Nodes);
         }
 
-        async void Add(string name, Func<THREE.Line> get_subject, TreeNodeCollection Nodes = null)
-        {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Line)}");
-            await n.AsyncAfterExpand();
 
-            var x = get_subject();
-            Add("base", () => (THREE.Object3D)x, n.Nodes);
-
-        }
 
         async void Add(string name, Func<THREE.Vector3> get_subject, TreeNodeCollection Nodes = null)
         {
             // overload seems to work nicely. yet we have to do manual base types /RTTI 
 
             var n = Nodes.Add(
-                "\{name} : \{nameof(THREE.Vector3)}"
+                "\{name} : \{nameof(THREE.Vector3)}(x,y,z)"
             );
 
             await n.AsyncAfterExpand();
@@ -351,7 +379,7 @@ namespace WebGLRah66Comanche.Library
 
         async void Add(string name, Func<THREE.Color> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Color)}");
+            var n = Nodes.Add("\{name} : \{nameof(THREE.Color)}(r,g,b)");
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add(nameof(THREE.Color.r), () => x.r, n.Nodes);
@@ -360,6 +388,34 @@ namespace WebGLRah66Comanche.Library
             //Add(nameof(THREE.Color.a), () => x.a, n.Nodes);
         }
 
+
+        async void Add(string name, Func<THREE.Fog> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(THREE.Fog)}");
+            await n.AsyncAfterExpand();
+            var x = get_subject();
+            Add(nameof(THREE.Fog.color), () => x.color, n.Nodes);
+            Add(nameof(THREE.Fog.far), () => x.far, n.Nodes);
+            Add(nameof(THREE.Fog.near), () => x.near, n.Nodes);
+
+            //Add(nameof(THREE.Color.a), () => x.a, n.Nodes);
+        }
+
+
+        public void Add(Func<object> get_subject,
+                // https://msdn.microsoft.com/en-us/library/hh534540.aspx
+                [CallerFilePath] string sourceFilePath = "",
+                [CallerLineNumber] int sourceLineNumber = 0,
+                [CallerFileLine] string sourceFileLine = ""
+            )
+        {
+            Add(
+                // could we reuse our IDL parser to parse inline C#?
+                name: sourceLineNumber + "\t" + sourceFileLine.SkipUntilOrEmpty("=>").TakeUntilOrEmpty(")"),
+                get_subject: get_subject,
+                Nodes: null
+            );
+        }
 
         public async void Add(string name, Func<object> get_subject, TreeNodeCollection Nodes = null)
         {
@@ -411,6 +467,16 @@ namespace WebGLRah66Comanche.Library
                 Nodes.Add("\{name} = '\{xstring}'");
                 return;
             }
+
+
+
+            var xFog = subject as THREE.Fog;
+            if (xFog != null)
+            {
+                Add(name, () => xFog, Nodes);
+                return;
+            }
+
 
             var xGroup = subject as THREE.Group;
             if (xGroup != null)

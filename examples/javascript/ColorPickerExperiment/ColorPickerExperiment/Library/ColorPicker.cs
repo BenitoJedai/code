@@ -12,6 +12,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
 using ColorPickerExperiment.HTML.Images.FromAssets;
+using System;
 
 namespace ColorPicker.source.js.Controls
 {
@@ -51,7 +52,7 @@ namespace ColorPicker.source.js.Controls
 
 
             layer.onmousemove +=
-                delegate(IEvent ev)
+                delegate (IEvent ev)
                 {
 
                     System.Console.WriteLine("" + ev.OffsetPosition + ", x " + layer.Bounds);
@@ -61,7 +62,7 @@ namespace ColorPicker.source.js.Controls
                     if (ev.OffsetX > 260)
                     {
 
-                        var lum = (byte)System.Math.Round((double)(240 - ev.OffsetY / 260 * 240));
+                        var lum = (byte)System.Math.Round((double)(240 - ev.OffsetY / 260.0 * 240));
 
                         System.Console.WriteLine("lum: " + lum);
 
@@ -69,17 +70,20 @@ namespace ColorPicker.source.js.Controls
                     }
                     else
                     {
-                        var hue = (byte)System.Math.Round((double)(ev.OffsetX / 260 * 240));
-                        var lum = (byte)System.Math.Round((double)(240 - ev.OffsetY / 260 * 240));
+                        var hue = (byte)System.Math.Round((double)(ev.OffsetX / 260.0 * 240));
+                        var lum = (byte)System.Math.Round((double)(240 - ev.OffsetY / 260.0 * 240));
 
-                        Native.Document.body.style.backgroundColor = JSColor.FromHLS(hue, lum, 240);
+                        var backgroundColor = JSColor.FromHLS(hue, lum, 240);
+
+                        Console.WriteLine(new { hue, lum, backgroundColor });
+                        Native.body.style.backgroundColor = backgroundColor;
                     }
 
                 };
         }
 
 
-      
+
     }
 
 

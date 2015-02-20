@@ -45,6 +45,11 @@ namespace ScriptCoreLib.Extensions
                 sourceFileLine = sourceFileLine
             };
 
+
+            // can we guess our name?
+            // would be nice if we had some roslyn baked analysis on the this pointer
+            r.name = sourceFileLine.Trim().TakeUntilOrEmpty(".AttachTo(");
+
             c.add(r);
 
             return r;

@@ -17,6 +17,7 @@ using System.Xml.Linq;
 using WebGLDashedLines;
 using WebGLDashedLines.Design;
 using WebGLDashedLines.HTML.Pages;
+using WebGLRah66Comanche.Library;
 
 namespace WebGLDashedLines
 {
@@ -84,21 +85,22 @@ namespace WebGLDashedLines
             geometrySpline.computeLineDistances();
 
             {
-                var o = new THREE.Line(geometrySpline, new THREE.LineDashedMaterial(
+                var ogeometrySpline = new THREE.Line(geometrySpline, new THREE.LineDashedMaterial(
                     new { color = 0xffffff, dashSize = 1, gapSize = 0.5 }
                     ), THREE.LineStrip);
 
-                objects.Add(o);
-                scene.add(o);
+                objects.Add(ogeometrySpline);
+                scene.add(ogeometrySpline);
+                ogeometrySpline.AttachTo(scene);
             }
             {
 
-                var o = new THREE.Line(geometryCube, new THREE.LineDashedMaterial(
+                var ogeometryCube = new THREE.Line(geometryCube, new THREE.LineDashedMaterial(
                     new { color = 0xffaa00, dashSize = 3, gapSize = 1, linewidth = 2 }
                     ), THREE.LinePieces);
 
-                objects.Add(o);
-                scene.add(o);
+                objects.Add(ogeometryCube);
+                ogeometryCube.AttachTo(scene);
             }
 
             {
@@ -111,12 +113,13 @@ namespace WebGLDashedLines
                 };
 
 
-                var o = new THREE.Line(geometry, new THREE.LineDashedMaterial(
+                var oline = new THREE.Line(geometry, new THREE.LineDashedMaterial(
                     new { color = 0x00aaff, dashSize = 3, gapSize = 3, linewidth = 20 }
                     ), THREE.LinePieces);
 
-                objects.Add(o);
-                scene.add(o);
+                objects.Add(oline);
+                //scene.add(o);
+                oline.AttachTo(scene);
             }
 
             var renderer = new THREE.WebGLRenderer(new { antialias = true });
@@ -131,27 +134,47 @@ namespace WebGLDashedLines
             renderer.domElement.AttachToDocument();
 
 
+            var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
             var sw = Stopwatch.StartNew();
 
             Native.window.onframe +=
                 delegate
                 {
-                    var time = sw.ElapsedMilliseconds * 0.001;
+                    //var time = sw.ElapsedMilliseconds * 0.001;
 
-                    for (var i = 0; i < objects.Count; i++)
-                    {
+                    //for (var i = 0; i < objects.Count; i++)
+                    //{
 
-                        var o = objects[i];
+                    //    var o = objects[i];
 
-                        //object.rotation.x = 0.25 * time * ( i%2 == 1 ? 1 : -1);
-                        o.rotation.x = 0.25 * time;
-                        o.rotation.y = 0.25 * time;
+                    //    //object.rotation.x = 0.25 * time * ( i%2 == 1 ? 1 : -1);
+                    //    o.rotation.x = 0.25 * time;
+                    //    o.rotation.y = 0.25 * time;
 
-                    }
+                    //}
+
+
+                    controls.update();
+                    camera.position = controls.center.clone();
 
                     renderer.render(scene, camera);
                 };
+
+
+
+            var ze = new ZeProperties
+            {
+                //() => renderer
+            };
+
+            ze.Show();
+
+            ze.treeView1.Nodes.Clear();
+
+            ze.Add(() => renderer);
+            ze.Add(() => controls);
+            ze.Add(() => scene);
         }
 
 

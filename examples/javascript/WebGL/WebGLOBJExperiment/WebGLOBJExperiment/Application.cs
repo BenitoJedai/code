@@ -17,6 +17,7 @@ using System.Xml.Linq;
 using WebGLOBJExperiment;
 using WebGLOBJExperiment.Design;
 using WebGLOBJExperiment.HTML.Pages;
+using WebGLRah66Comanche.Library;
 
 namespace WebGLOBJExperiment
 {
@@ -75,10 +76,10 @@ namespace WebGLOBJExperiment
             renderer.domElement.style.SetLocation(0, 0);
 
 
-            var mouseX = 0;
-            var mouseY = 0;
-            var st = new Stopwatch();
-            st.Start();
+
+            var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            var st = Stopwatch.StartNew();
 
             Native.window.onframe +=
                 delegate
@@ -90,10 +91,8 @@ namespace WebGLOBJExperiment
                     );
 
 
-                    camera.position.x += (mouseX - camera.position.x) * .05;
-                    camera.position.y += (-mouseY - camera.position.y) * .05;
-
-                    camera.lookAt(scene.position);
+                    controls.update();
+                    camera.position = controls.center.clone();
 
                     renderer.render(scene, camera);
 
@@ -122,14 +121,16 @@ namespace WebGLOBJExperiment
                  new HTML.Images.FromAssets.texture_palm(),
                    "assets/WebGLOBJExperiment/palm.obj"
             ).Source.Task.ContinueWithResult(
-                o =>
+                palm =>
                 {
-                    o.position.y = -80;
-                    scene.add(o);
-                    oo.Add(o);
+                    palm.position.y = -80;
+                    //scene.add(palm);
+                    palm.AttachTo(scene);
 
-                    o.position.x = -200;
-                    o.scale = new THREE.Vector3(5, 5, 5);
+                    oo.Add(palm);
+
+                    palm.position.x = -200;
+                    palm.scale = new THREE.Vector3(5, 5, 5);
                 }
             );
 
@@ -137,14 +138,14 @@ namespace WebGLOBJExperiment
                   new HTML.Images.FromAssets.texture_palm(),
                     "assets/WebGLOBJExperiment/palm.obj"
              ).Source.Task.ContinueWithResult(
-                 o =>
+                 palm2 =>
                  {
-                     o.position.y = -80;
-                     scene.add(o);
-                     oo.Add(o);
+                     palm2.position.y = -80;
+                     palm2.AttachTo(scene);
+                     oo.Add(palm2);
 
-                     o.position.x = 200;
-                     o.scale = new THREE.Vector3(5, 5, 5);
+                     palm2.position.x = 200;
+                     palm2.scale = new THREE.Vector3(5, 5, 5);
                  }
              );
 
@@ -152,27 +153,28 @@ namespace WebGLOBJExperiment
                  new HTML.Images.FromAssets.Fence_texture3(),
                    "assets/WebGLOBJExperiment/fence.obj"
             ).Source.Task.ContinueWithResult(
-                o =>
+                fence =>
                 {
-                    o.position.y = -80;
-                    scene.add(o);
-                    oo.Add(o);
+                    fence.position.y = -80;
+                    fence.AttachTo(scene);
+                    //scene.add(fence);
+                    oo.Add(fence);
 
-                    o.position.x = -100;
-                    o.scale = new THREE.Vector3(0.2, 0.2, 0.2);
+                    fence.position.x = -100;
+                    fence.scale = new THREE.Vector3(0.2, 0.2, 0.2);
                 }
             );
 
             new sack_of_gold2().Source.Task.ContinueWithResult(
-               o =>
+               sack_of_gold2 =>
                {
-                   o.position.y = -80;
-                   scene.add(o);
-                   oo.Add(o);
+                   sack_of_gold2.position.y = -80;
+                   sack_of_gold2.AttachTo(scene);
+                   oo.Add(sack_of_gold2);
 
-                   o.position.x = 70;
-                   o.position.z = 100;
-                   o.scale = new THREE.Vector3(0.5, 0.5, 0.5);
+                   sack_of_gold2.position.x = 70;
+                   sack_of_gold2.position.z = 100;
+                   sack_of_gold2.scale = new THREE.Vector3(0.5, 0.5, 0.5);
                }
            );
 
@@ -203,6 +205,20 @@ namespace WebGLOBJExperiment
                     //o.scale = new THREE.Vector3(5, 5, 5);
                 }
             );
+
+
+            var ze = new ZeProperties
+            {
+                //() => renderer
+            };
+
+            ze.Show();
+
+            ze.treeView1.Nodes.Clear();
+
+            ze.Add(() => renderer);
+            ze.Add(() => controls);
+            ze.Add(() => scene);
         }
 
     }
@@ -233,8 +249,8 @@ namespace WebGLOBJExperiment
                     await i;
 
                     var texture = new THREE.Texture(
-                        //new HTML.Images.FromAssets.ash_uvgrid01()
-                        //new HTML.Images.FromAssets.texture_palm()
+                         //new HTML.Images.FromAssets.ash_uvgrid01()
+                         //new HTML.Images.FromAssets.texture_palm()
                          i
                     );
                     texture.needsUpdate = true;
@@ -278,7 +294,7 @@ namespace WebGLOBJExperiment
                                 this.Source.SetResult(o);
                             }
                         )
-                        //, null, null
+                    //, null, null
                     );
 
                     //
