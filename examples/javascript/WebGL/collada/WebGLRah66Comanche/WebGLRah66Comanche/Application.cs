@@ -51,7 +51,10 @@ namespace WebGLRah66Comanche
             //var ambient = new THREE.AmbientLight(0x101030);
             //// addTrace?
             //scene.add(ambient);
-            scene.add(new THREE.AmbientLight(0x101030));
+
+            // should jsc package c# source code along here for code lense like peeking?
+            new THREE.AmbientLight(0x101030).AttachTo(scene);
+
             var lightOffset = new THREE.Vector3(0, 1000, 1000.0);
 
             var light = new THREE.DirectionalLight(0xffffff, 1.0);
@@ -79,7 +82,7 @@ namespace WebGLRah66Comanche
 
             xlight.shadowCameraVisible = true;
 
-            scene.add(light);
+            light.AttachTo(scene);
 
 
 
@@ -99,12 +102,13 @@ namespace WebGLRah66Comanche
             {
 
                 var parent = new THREE.Object3D();
-                parent.add(plane);
+                plane.AttachTo(parent);
+
+
                 parent.rotation.x = -Math.PI / 2;
                 parent.scale.set(10, 10, 10);
 
-                // where the fk is it?
-                scene.add(parent);
+                parent.AttachTo(scene);
             }
 
 
@@ -145,7 +149,7 @@ namespace WebGLRah66Comanche
                 );
             camera.position.set(-1200, 800, -3200);
 
-            scene.add(camera);
+            camera.AttachTo(scene);
 
             var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
@@ -187,13 +191,23 @@ namespace WebGLRah66Comanche
                 dae =>
                 {
 
-                    //dae.position.y = -40;
+                    dae.position.y = 200;
+
                     //dae.position.z = 280;
-                    scene.add(dae);
+
+                    dae.AttachTo(scene);
+
+                    //scene.add(dae);
                     oo.Add(dae);
 
                     // wont do it
                     //dae.castShadow = true;
+
+                    // http://stackoverflow.com/questions/15492857/any-way-to-get-a-bounding-box-from-a-three-js-object3d
+                    //var helper = new THREE.BoundingBoxHelper(dae, 0xff0000);
+                    //helper.update();
+                    //// If you want a visible bounding box
+                    //scene.add(helper);
 
                     dae.children[0].children[0].children.WithEach(x => x.castShadow = true);
 
@@ -203,16 +217,21 @@ namespace WebGLRah66Comanche
 
 
                     dae.scale.set(0.5, 0.5, 0.5);
+                    //helper.scale.set(0.5, 0.5, 0.5);
 
                     var sw = Stopwatch.StartNew();
 
-                    //Native.window.onframe += delegate
-                    //{
-                    //    //dae.children[0].children[0].children.Last().al
-                    //    //dae.children[0].children[0].children.Last().rotation.z = sw.ElapsedMilliseconds * 0.01;
-                    //    //dae.children[0].children[0].children.Last().rotation.x = sw.ElapsedMilliseconds * 0.01;
-                    //    dae.children[0].children[0].children.Last().rotation.y = sw.ElapsedMilliseconds * 0.01;
-                    //};
+                    Native.window.onframe += delegate
+                    {
+                        //dae.children[0].children[0].children.Last().al
+                        //dae.children[0].children[0].children.Last().rotation.z = sw.ElapsedMilliseconds * 0.01;
+                        //dae.children[0].children[0].children.Last().rotation.x = sw.ElapsedMilliseconds * 0.01;
+                        //rotation.y = sw.ElapsedMilliseconds * 0.01;
+
+                        dae.children[0].children[0].children.Last().rotation.y = sw.ElapsedMilliseconds * 0.001;
+
+                        //dae.children[0].children[0].children.Last().app
+                    };
                 }
             );
             #endregion

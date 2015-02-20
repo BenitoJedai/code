@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("root: Scene");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("root: Renderer");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("root: Scene");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("root: Renderer");
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -47,6 +47,7 @@
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
@@ -55,8 +56,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.flowLayoutPanel1);
-            this.splitContainer1.Size = new System.Drawing.Size(574, 313);
-            this.splitContainer1.SplitterDistance = 378;
+            this.splitContainer1.Size = new System.Drawing.Size(346, 582);
+            this.splitContainer1.SplitterDistance = 528;
             this.splitContainer1.TabIndex = 0;
             // 
             // treeView1
@@ -64,17 +65,18 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "Node0";
-            treeNode1.Text = "root: Scene";
-            treeNode2.Name = "Node1";
-            treeNode2.Text = "root: Renderer";
+            treeNode5.Name = "Node0";
+            treeNode5.Text = "root: Scene";
+            treeNode6.Name = "Node1";
+            treeNode6.Text = "root: Renderer";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
-            this.treeView1.Size = new System.Drawing.Size(378, 313);
+            treeNode5,
+            treeNode6});
+            this.treeView1.Size = new System.Drawing.Size(346, 528);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
+            this.treeView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyUp);
             // 
             // flowLayoutPanel1
             // 
@@ -85,7 +87,7 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(192, 313);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(346, 50);
             this.flowLayoutPanel1.TabIndex = 0;
             this.flowLayoutPanel1.WrapContents = false;
             // 
@@ -111,11 +113,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(574, 313);
+            this.ClientSize = new System.Drawing.Size(346, 582);
             this.Controls.Add(this.splitContainer1);
             this.Name = "ZeProperties";
-            this.Text = "Document Outline";
+            this.Opacity = 0.7D;
+            this.Text = "Document Outline (akin ildasm)";
             this.Load += new System.EventHandler(this.ZeProperties_Load);
+            this.MouseEnter += new System.EventHandler(this.ZeProperties_MouseEnter);
+            this.MouseLeave += new System.EventHandler(this.ZeProperties_MouseLeave);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

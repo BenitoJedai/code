@@ -567,12 +567,8 @@ interface THREE.Matrix4
 	any setPosition(any vec3);
 };
 
-[Constructor(any x)]
-interface THREE.MeshLambertMaterial
-{
-	attribute long        color;
-	attribute THREE.Texture map;
-};
+
+
 
 
 
@@ -582,13 +578,20 @@ interface THREE.MeshLambertMaterial
 [Constructor()]
 interface THREE.Object3D
 {
+	attribute string name;
+	attribute string type;
+
 	attribute boolean castShadow;
 	attribute boolean receiveShadow;
 	attribute boolean visible;
 
 	// X:\jsc.svn\examples\javascript\WebGL\HeatZeekerRTSOrto\HeatZeekerRTSOrto\Application.cs
-	// object3D , used by THREE.Bone
+	// indexer
 	attribute sequence<THREE.Object3D> children;
+
+	// operator +
+	void add(any mesh);
+	void remove(any mesh);
 
 	attribute THREE.Object3D  parent;
 
@@ -612,8 +615,8 @@ interface THREE.Object3D
 
 	attribute any        userData;
 
-	void add(any mesh);
-	void remove(any mesh);
+
+
 	// tested by?
 	void traverse(function<any> mesh);
 
@@ -623,8 +626,10 @@ interface THREE.Object3D
 	void translateZ(any delta);
 };
 
-
-
+[Constructor()]
+interface THREE.Group : THREE.Object3D
+{
+};
 
 
 [Constructor()]
@@ -682,7 +687,7 @@ interface THREE.SkinnedMesh :  THREE.Mesh
 
 
 [Constructor(any geometry, any material)]
-interface THREE.MorphAnimMesh
+interface THREE.MorphAnimMesh  :  THREE.Mesh
 {
 	attribute THREE.Vector3  position;
 	attribute THREE.Vector3  rotation;
@@ -699,7 +704,11 @@ interface THREE.MorphAnimMesh
 
 };
 
-
+[Constructor(THREE.Object3D object, long color)]
+interface THREE.BoundingBoxHelper :  THREE.Mesh
+{
+	void update();
+};
 
 
 // File:src/renderers/WebGLRenderer.js
@@ -995,6 +1004,16 @@ interface THREE.Material
 	attribute any program;
 	attribute any type;
 
+};
+
+// http://threejs.org/docs/#Reference/Materials/MeshLambertMaterial
+[Constructor(any x)]
+interface THREE.MeshLambertMaterial : THREE.Material
+{
+	attribute THREE.Color color;
+	attribute THREE.Color ambient;
+	attribute THREE.Color emissive;
+	attribute THREE.Texture map;
 };
 
 

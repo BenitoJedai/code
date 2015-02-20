@@ -89,6 +89,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // this wont render in svg!
             //new IHTMLInput { type = Shared.HTMLInputTypeEnum.checkbox }.AttachTo(this.InternalElementHeader);
 
+
+            // explorer hides em without mouse hover
+            //var ToggleButton = new IHTMLSpan { "[-]" }.AttachTo(this.InternalElementHeader);
+
+            //ToggleButton.style.marginLeft = "-1em";
+
+            // https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow
+            this.InternalElementHeaderText.style.textOverflow = "ellipsis";
+            this.InternalElementHeaderText.style.whiteSpace = IStyle.WhiteSpaceEnum.nowrap;
+            this.InternalElementHeaderText.style.overflow = IStyle.OverflowEnum.hidden;
+
+
             this.InternalElementHeaderText.AttachTo(this.InternalElementHeader);
 
             // either add onclick to all nodes or listen on control level?
@@ -159,7 +171,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // wont render?
             //this.InternalElementHeaderText.style.textIndent = (this.Level * 2) + "em";
             //this.InternalElementHeaderText.style.paddingLeft = (this.Level * 2) + "em";
-            this.InternalElementHeaderText.style.marginLeft = (this.Level * 2) + "em";
+            this.InternalElementHeaderText.style.marginLeft = ((this.Level + 1) * 2) + "em";
 
             foreach (var item in ((__TreeNodeCollection)this.Nodes).InternalList)
             {

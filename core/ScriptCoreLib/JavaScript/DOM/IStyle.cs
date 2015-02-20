@@ -465,6 +465,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\TreeView\TreeView.cs
         public string textIndent;
 
+        // https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow
+        public string textOverflow;
+
         public string verticalAlign;
 
         public int zIndex;

@@ -57,6 +57,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\..\..\..\examples\javascript\WebGL\collada\WebGLRah66Comanche\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
@@ -181,6 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="opensource\gihtub\three.js\build\renderers\" />
