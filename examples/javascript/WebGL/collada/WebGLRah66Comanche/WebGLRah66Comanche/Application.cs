@@ -183,8 +183,7 @@ namespace WebGLRah66Comanche
                 };
             #endregion
 
-            #region THREE_ColladaAsset
-            // why isnt it being found?
+            #region Comanche
             new Comanche().Source.Task.ContinueWithResult(
                 Comanche =>
                 {
@@ -240,9 +239,10 @@ namespace WebGLRah66Comanche
             ze.Show();
 
 
-            ze.Add(nameof(renderer), () => renderer);
-            ze.Add(nameof(controls), () => controls);
-            ze.Add(nameof(scene), () => scene);
+            ze.Add(() => renderer);
+            ze.Add(() => controls);
+            ze.Add(() => scene);
+            ze.Left = 0;
 
             //f.treeView1.Nodes.Add("controls : " + typeof(THREE.OrbitControls)).Tag = controls;
 

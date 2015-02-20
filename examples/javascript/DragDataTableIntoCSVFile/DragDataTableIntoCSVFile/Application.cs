@@ -97,6 +97,8 @@ namespace DragDataTableIntoCSVFile
                     page.Csv.ondragstart +=
                           e =>
                           {
+                              Console.WriteLine("ondragstart");
+
                               // public void addElement(IHTMLElement element);
                               //e.dataTransfer.addElement(
                               // http://help.dottoro.com/ljxfefku.php
@@ -107,7 +109,7 @@ namespace DragDataTableIntoCSVFile
                               e.dataTransfer.setData(
 
                                    typeof(DataTable).Name
-                                  //"jsc/datatable"
+                                    //"jsc/datatable"
                                     ,
                                     DataTable_xml
 
@@ -117,6 +119,9 @@ namespace DragDataTableIntoCSVFile
                               // view-source:29615
                               //{ type = jsc/datatable } 
 
+                              Console.WriteLine("setDownloadURL");
+                              // http://www.thecssninja.com/html5/gmail-dragout
+                              // Unfortunately it doesn’t work anymore in any browser, not also in chrome
 
                               // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer#setData.28.29
                               e.dataTransfer.setDownloadURL(

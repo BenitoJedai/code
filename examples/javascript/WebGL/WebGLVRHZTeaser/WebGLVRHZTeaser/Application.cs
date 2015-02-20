@@ -230,8 +230,11 @@ namespace WebGLVRHZTeaser
 
 
                     dae.scale.set(0.5, 0.5, 0.5);
-                    dae.position.x = -1000;
                     dae.position.x = -900;
+                    dae.position.z = +900;
+
+                    // raise it up
+                    dae.position.y = 400;
 
                     //var sw = Stopwatch.StartNew();
 
@@ -244,6 +247,47 @@ namespace WebGLVRHZTeaser
                     //};
                 }
             );
+            #endregion
+
+
+
+            #region tree
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLGodRay\WebGLGodRay\Application.cs
+
+            var materialScene = new THREE.MeshBasicMaterial(new { color = 0x000000, shading = THREE.FlatShading });
+            var tloader = new THREE.JSONLoader();
+
+            // http://stackoverflow.com/questions/16539736/do-not-use-system-runtime-compilerservices-dynamicattribute-use-the-dynamic
+            // https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.dynamicattribute%28v=vs.110%29.aspx
+            //System.Runtime.CompilerServices.DynamicAttribute
+
+            tloader.load(
+
+                new WebGLGodRay.Models.tree().Content.src,
+
+                new Action<THREE.Geometry>(
+                xgeometry =>
+                {
+
+                    var treeMesh = new THREE.Mesh(xgeometry, materialScene);
+                    treeMesh.position.set(0, -150, -150);
+                    treeMesh.position.x = -900;
+                    treeMesh.position.z = -900;
+
+                    treeMesh.position.y = 25;
+
+                    var tsc = 400;
+                    treeMesh.scale.set(tsc, tsc, tsc);
+
+                    treeMesh.matrixAutoUpdate = false;
+                    treeMesh.updateMatrix();
+
+
+                    treeMesh.AttachTo(scene);
+
+                }
+                )
+                );
             #endregion
 
             #region create field

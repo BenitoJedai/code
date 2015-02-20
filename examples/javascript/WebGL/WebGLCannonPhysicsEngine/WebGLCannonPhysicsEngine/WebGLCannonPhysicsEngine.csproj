@@ -128,6 +128,12 @@
     <Reference Include="WebGLCannonPhysicsEngine.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLCannonPhysicsEngine.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLRah66Comanche.AssetsLibrary">
+      <HintPath>..\..\collada\WebGLRah66Comanche\WebGLRah66Comanche\bin\staging.AssetsLibrary\WebGLRah66Comanche.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLColladaExperiment.AssetsLibrary">
+      <HintPath>..\..\WebGLColladaExperiment\WebGLColladaExperiment\bin\staging.AssetsLibrary\WebGLColladaExperiment.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\App.css" />
@@ -146,6 +152,12 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\collada\WebGLRah66Comanche\WebGLRah66Comanche\WebGLRah66Comanche.csproj">
+      <Project>{5a75fa08-3af1-4d27-a726-20b58b6cd608}</Project>
+      <Name>WebGLRah66Comanche</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

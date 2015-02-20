@@ -123,6 +123,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         )
                     );
 
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return;
                 };
 
             this.InternalElementHeader.ondblclick +=
