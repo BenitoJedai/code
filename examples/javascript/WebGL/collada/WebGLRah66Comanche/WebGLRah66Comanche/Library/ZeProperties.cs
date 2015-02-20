@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.CompilerServices;
+
 namespace WebGLRah66Comanche.Library
 {
     public partial class ZeProperties : Form
@@ -61,44 +63,56 @@ namespace WebGLRah66Comanche.Library
             // would calling self do a tail/jump?
         }
 
+        async void Add(string name, Func<THREE.Group> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(THREE.Group)}");
+            var x = get_subject();
+            n.Text += " '\{x.name}' (\{x.children.Length})";
+
+            await n.AsyncAfterExpand();
+
+
+            Add("base", () => (THREE.Object3D)x, n.Nodes);
+        }
+
 
         async void Add(string name, Func<THREE.Object3D> get_subject, TreeNodeCollection Nodes = null)
         {
             // overload seems to work nicely. yet we have to do manual base types /RTTI 
 
-            var n = Nodes.Add("+ \{name} : \{nameof(THREE.Object3D)}");
+            var n = Nodes.Add("\{name} : \{nameof(THREE.Object3D)}");
+
+            var x = get_subject();
+            n.Text += " '\{x.name}' (\{x.children.Length})";
 
             await n.AsyncAfterExpand();
-
-            n.Text = "\{name} : \{nameof(THREE.Object3D)}";
-
-
-            var xObject3D = get_subject();
 
 
             //Add(nameof(THREE.Camera.matrixWorld), () => xCamera.projectionMatrix, n.Nodes);
 
 
-
             // check type?
-            Add(nameof(THREE.Object3D.parent), () => (object)xObject3D.parent, n.Nodes);
+            Add(nameof(THREE.Object3D.name), () => (object)x.name, n.Nodes);
+            Add(nameof(THREE.Object3D.userData), () => x.userData, n.Nodes);
+            Add(nameof(THREE.Object3D.type), () => (object)x.type, n.Nodes);
+
+            Add(nameof(THREE.Object3D.parent), () => (object)x.parent, n.Nodes);
 
 
-            Add(nameof(THREE.Object3D.position), () => xObject3D.position, n.Nodes);
-            Add(nameof(THREE.Object3D.rotation), () => xObject3D.rotation, n.Nodes);
-            Add(nameof(THREE.Object3D.scale), () => xObject3D.scale, n.Nodes);
+            Add(nameof(THREE.Object3D.position), () => x.position, n.Nodes);
+            Add(nameof(THREE.Object3D.rotation), () => x.rotation, n.Nodes);
+            Add(nameof(THREE.Object3D.scale), () => x.scale, n.Nodes);
 
-            Add(nameof(THREE.Object3D.matrix), () => xObject3D.matrix, n.Nodes);
-            Add(nameof(THREE.Object3D.quaternion), () => xObject3D.quaternion, n.Nodes);
-            Add(nameof(THREE.Object3D.visible), () => xObject3D.visible, n.Nodes);
+            Add(nameof(THREE.Object3D.matrix), () => x.matrix, n.Nodes);
+            Add(nameof(THREE.Object3D.quaternion), () => x.quaternion, n.Nodes);
+            Add(nameof(THREE.Object3D.visible), () => x.visible, n.Nodes);
 
-            Add(nameof(THREE.Object3D.castShadow), () => xObject3D.castShadow, n.Nodes);
-            Add(nameof(THREE.Object3D.receiveShadow), () => xObject3D.receiveShadow, n.Nodes);
+            Add(nameof(THREE.Object3D.castShadow), () => x.castShadow, n.Nodes);
+            Add(nameof(THREE.Object3D.receiveShadow), () => x.receiveShadow, n.Nodes);
 
-            Add(nameof(THREE.Object3D.matrixWorld), () => xObject3D.matrixWorld, n.Nodes);
-            Add(nameof(THREE.Object3D.userData), () => xObject3D.userData, n.Nodes);
+            Add(nameof(THREE.Object3D.matrixWorld), () => x.matrixWorld, n.Nodes);
 
-            Add(nameof(THREE.Object3D.children), () => xObject3D.children, n.Nodes);
+            Add(nameof(THREE.Object3D.children), () => x.children, n.Nodes);
         }
 
 
@@ -107,6 +121,7 @@ namespace WebGLRah66Comanche.Library
             // overload seems to work nicely. yet we have to do manual base types /RTTI 
 
             var n = Nodes.Add("\{name} : \{nameof(THREE.Camera)}");
+            await n.AsyncAfterExpand();
 
             var xCamera = get_subject();
 
@@ -116,19 +131,63 @@ namespace WebGLRah66Comanche.Library
             Add(nameof(THREE.Camera.projectionMatrix), () => xCamera.projectionMatrix, n.Nodes);
         }
 
+        // http://threejs.org/docs/#Reference/Cameras/PerspectiveCamera
+        async void Add(string name, Func<THREE.PerspectiveCamera> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(THREE.PerspectiveCamera)}");
+            await n.AsyncAfterExpand();
 
+            var xPerspectiveCamera = get_subject();
+            Add("base", () => (THREE.Camera)xPerspectiveCamera, n.Nodes);
+
+            //n.Nodes.Add("base : \{nameof(THREE.Camera)} : \{nameof(THREE.Object3D)}");
+            // cant add margin in winfors?
+
+
+            Add(nameof(THREE.PerspectiveCamera.aspect), () => xPerspectiveCamera.aspect, n.Nodes);
+            Add(nameof(THREE.PerspectiveCamera.fov), () => xPerspectiveCamera.fov, n.Nodes);
+            Add(nameof(THREE.PerspectiveCamera.far), () => xPerspectiveCamera.far, n.Nodes);
+            Add(nameof(THREE.PerspectiveCamera.near), () => xPerspectiveCamera.near, n.Nodes);
+
+            //Add(nameof(THREE.PerspectiveCamera.up), () => xPerspectiveCamera.up, n.Nodes);
+            //Add(nameof(THREE.PerspectiveCamera.position), () => xPerspectiveCamera.position, n.Nodes);
+
+        }
+
+        async void Add(string name, Func<THREE.OrthographicCamera> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(THREE.OrthographicCamera)}");
+            await n.AsyncAfterExpand();
+
+            var xPerspectiveCamera = get_subject();
+            Add("base", () => (THREE.Camera)xPerspectiveCamera, n.Nodes);
+
+            Add(nameof(THREE.OrthographicCamera.bottom), () => xPerspectiveCamera.bottom, n.Nodes);
+            Add(nameof(THREE.OrthographicCamera.left), () => xPerspectiveCamera.left, n.Nodes);
+            Add(nameof(THREE.OrthographicCamera.right), () => xPerspectiveCamera.right, n.Nodes);
+            Add(nameof(THREE.OrthographicCamera.top), () => xPerspectiveCamera.top, n.Nodes);
+        }
+
+        async void Add(string name, Func<THREE.Line> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(THREE.Line)}");
+            await n.AsyncAfterExpand();
+
+            var x = get_subject();
+            Add("base", () => (THREE.Object3D)x, n.Nodes);
+
+        }
 
         async void Add(string name, Func<THREE.Vector3> get_subject, TreeNodeCollection Nodes = null)
         {
             // overload seems to work nicely. yet we have to do manual base types /RTTI 
 
             var n = Nodes.Add(
-                "+ \{name} : \{nameof(THREE.Vector3)}"
+                "\{name} : \{nameof(THREE.Vector3)}"
             );
 
             await n.AsyncAfterExpand();
 
-            n.Text = "\{name} : \{nameof(THREE.Vector3)}";
 
             var xVector3 = get_subject();
 
@@ -207,8 +266,10 @@ namespace WebGLRah66Comanche.Library
         async void Add(string name, Func<THREE.Mesh> get_subject, TreeNodeCollection Nodes = null)
         {
             var n = Nodes.Add("\{name} : \{nameof(THREE.Mesh)}");
-            await n.AsyncAfterExpand();
             var x = get_subject();
+            n.Text += " '\{x.name}' (\{x.children.Length})";
+
+            await n.AsyncAfterExpand();
             Add("base", () => (THREE.Object3D)x, n.Nodes);
             Add(nameof(THREE.Mesh.geometry), () => (object)x.geometry, n.Nodes);
             Add(nameof(THREE.Mesh.material), () => (object)x.material, n.Nodes);
@@ -247,6 +308,19 @@ namespace WebGLRah66Comanche.Library
             Add(nameof(THREE.MeshPhongMaterial.map), () => x.map, n.Nodes);
         }
 
+        async void Add(string name, Func<THREE.MeshLambertMaterial> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(THREE.MeshLambertMaterial)}");
+            await n.AsyncAfterExpand();
+            var x = get_subject();
+            Add("base", () => (THREE.Material)x, n.Nodes);
+            Add(nameof(THREE.MeshLambertMaterial.color), () => x.color, n.Nodes);
+            Add(nameof(THREE.MeshLambertMaterial.ambient), () => x.ambient, n.Nodes);
+            Add(nameof(THREE.MeshLambertMaterial.emissive), () => x.emissive, n.Nodes);
+            Add(nameof(THREE.MeshLambertMaterial.map), () => x.map, n.Nodes);
+        }
+
+
         async void Add(string name, Func<THREE.Material> get_subject, TreeNodeCollection Nodes = null)
         {
             var n = Nodes.Add("\{name} : \{nameof(THREE.Material)}");
@@ -271,6 +345,8 @@ namespace WebGLRah66Comanche.Library
             var x = get_subject();
             Add(nameof(THREE.Geometry.dynamic), () => x.dynamic, n.Nodes);
             Add(nameof(THREE.Geometry.type), () => x.type, n.Nodes);
+            Add(nameof(THREE.Geometry.vertices), () => x.vertices, n.Nodes);
+            Add(nameof(THREE.Geometry.faces), () => x.faces, n.Nodes);
         }
 
         async void Add(string name, Func<THREE.Color> get_subject, TreeNodeCollection Nodes = null)
@@ -336,6 +412,13 @@ namespace WebGLRah66Comanche.Library
                 return;
             }
 
+            var xGroup = subject as THREE.Group;
+            if (xGroup != null)
+            {
+                Add(name, () => xGroup, Nodes);
+                return;
+            }
+
             var xColor = subject as THREE.Color;
             if (xColor != null)
             {
@@ -366,6 +449,13 @@ namespace WebGLRah66Comanche.Library
                 return;
             }
 
+            var xMeshLambertMaterial = subject as THREE.MeshLambertMaterial;
+            if (xMeshLambertMaterial != null)
+            {
+                Add(name, () => xMeshLambertMaterial, Nodes);
+                return;
+            }
+
             var xMeshPhongMaterial = subject as THREE.MeshPhongMaterial;
             if (xMeshPhongMaterial != null)
             {
@@ -384,6 +474,13 @@ namespace WebGLRah66Comanche.Library
             if (xMesh != null)
             {
                 Add(name, () => xMesh, Nodes);
+                return;
+            }
+
+            var xLine = subject as THREE.Line;
+            if (xLine != null)
+            {
+                Add(name, () => xLine, Nodes);
                 return;
             }
 
@@ -429,31 +526,20 @@ namespace WebGLRah66Comanche.Library
             }
             #endregion
 
+            #region xOrthographicCamera      
+            var xOrthographicCamera = subject as THREE.OrthographicCamera;
+            if (xOrthographicCamera != null)
+            {
+                Add(name, () => xOrthographicCamera, Nodes);
+                return;
+            }
+            #endregion
 
             #region xPerspectiveCamera      
-            // http://threejs.org/docs/#Reference/Cameras/PerspectiveCamera
             var xPerspectiveCamera = subject as THREE.PerspectiveCamera;
             if (xPerspectiveCamera != null)
             {
-                // EE
-
-                // what about base props?
-                var n = Nodes.Add("\{name} : \{nameof(THREE.PerspectiveCamera)}");
-
-                Add("base", () => (THREE.Camera)xPerspectiveCamera, n.Nodes);
-
-                //n.Nodes.Add("base : \{nameof(THREE.Camera)} : \{nameof(THREE.Object3D)}");
-                // cant add margin in winfors?
-
-
-                Add(nameof(THREE.PerspectiveCamera.aspect), () => xPerspectiveCamera.aspect, n.Nodes);
-                Add(nameof(THREE.PerspectiveCamera.fov), () => xPerspectiveCamera.fov, n.Nodes);
-                Add(nameof(THREE.PerspectiveCamera.far), () => xPerspectiveCamera.far, n.Nodes);
-                Add(nameof(THREE.PerspectiveCamera.near), () => xPerspectiveCamera.near, n.Nodes);
-
-                //Add(nameof(THREE.PerspectiveCamera.up), () => xPerspectiveCamera.up, n.Nodes);
-                //Add(nameof(THREE.PerspectiveCamera.position), () => xPerspectiveCamera.position, n.Nodes);
-
+                Add(name, () => xPerspectiveCamera, Nodes);
                 return;
             }
             #endregion
@@ -474,6 +560,13 @@ namespace WebGLRah66Comanche.Library
             }
             #endregion
 
+            var xVector3 = subject as THREE.Vector3;
+            if (xVector3 != null)
+            {
+                Add(name, () => xVector3, Nodes);
+                return;
+            }
+
             var xObject3D = subject as THREE.Object3D;
             if (xObject3D != null)
             {
@@ -481,7 +574,41 @@ namespace WebGLRah66Comanche.Library
                 return;
             }
 
+            var xCallerFileLineAttribute = subject as CallerFileLineAttribute;
+            if (xCallerFileLineAttribute != null)
+            {
+                var n = Nodes.Add("\{name} : \{nameof(CallerFileLineAttribute)}");
+                await n.AsyncAfterExpand();
+                Add(nameof(CallerFileLineAttribute.sourceFilePath), () => xCallerFileLineAttribute.sourceFilePath, n.Nodes);
+                Add(nameof(CallerFileLineAttribute.sourceLineNumber), () => xCallerFileLineAttribute.sourceLineNumber, n.Nodes);
+                Add(nameof(CallerFileLineAttribute.sourceFileLine), () => xCallerFileLineAttribute.sourceFileLine, n.Nodes);
+
+                return;
+            }
+
+
             Nodes.Add("\{name} : \{subject.GetType()} = \{subject}");
+        }
+
+        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+
+        }
+
+        private void treeView1_KeyUp(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine(new { e.KeyCode });
+
+        }
+
+        private void ZeProperties_MouseEnter(object sender, EventArgs e)
+        {
+            this.Opacity = 0.9;
+        }
+
+        private void ZeProperties_MouseLeave(object sender, EventArgs e)
+        {
+            this.Opacity = 0.7;
         }
     }
 }

@@ -125,6 +125,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompilerServices\CallerFileLineAttribute.cs" />
     <Compile Include="Extensions\ControlBindingsCollectionExtensions.cs" />
     <Compile Include="Extensions\FormAsyncExtensions.cs" />
     <Compile Include="Extensions\TaskAsyncExtensions.cs" />
