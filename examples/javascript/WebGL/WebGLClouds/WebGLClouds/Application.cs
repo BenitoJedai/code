@@ -9,6 +9,7 @@ using WebGLClouds.Shaders;
 
 namespace WebGLClouds
 {
+    using WebGLRah66Comanche.Library;
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
 
@@ -138,6 +139,8 @@ namespace WebGLClouds
             //var fog = new THREE.Fog(0x4584b4, -100, 3000);
             var fog = new THREE.Fog(FogColor, -100, 3000);
 
+
+            // what about sprites?
             var material = new THREE.ShaderMaterial(
 
                 new
@@ -240,20 +243,14 @@ namespace WebGLClouds
 
 
 
-            //#region requestFullscreen
-            //Native.document.body.ondblclick +=
-            //    delegate
-            //    {
-            //        if (IsDisposed)
-            //            return;
+            var ze = new ZeProperties();
 
-            //        // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
-
-            //        Native.document.body.requestFullscreen();
+            ze.Show();
 
 
-            //    };
-            //#endregion
+            ze.Add(() => renderer);
+            //ze.Add(() => controls);
+            ze.Add(() => scene);
 
         }
         public Action Dispose;

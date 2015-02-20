@@ -18,6 +18,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace WebGLCannonPhysicsEngine
 {
+    using WebGLRah66Comanche.Library;
     using f = Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
 
@@ -59,16 +60,7 @@ namespace WebGLCannonPhysicsEngine
             var time = Date_now();
 
 
-            #region havePointerLock
-
-            Native.document.body.onclick +=
-                delegate
-                {
-                    Native.document.body.requestPointerLock();
-                };
-
-
-            #endregion
+         
 
 
 
@@ -291,6 +283,8 @@ namespace WebGLCannonPhysicsEngine
             var dt = 1.0 / 60;
             controls.enabled = true;
 
+            // vr and tilt shift?
+
             Native.window.onframe += delegate
             {
 
@@ -324,9 +318,18 @@ namespace WebGLCannonPhysicsEngine
 
 
 
+            #region havePointerLock
+
+            renderer.domElement.onclick +=
+                delegate
+                {
+                    renderer.domElement.requestPointerLock();
+                };
 
 
-            Native.document.onmousedown +=
+            #endregion
+
+            renderer.domElement.onmousedown +=
                 e =>
                 {
                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
@@ -341,8 +344,8 @@ namespace WebGLCannonPhysicsEngine
                         }
 
                         Console.WriteLine("requestFullscreen");
-                        Native.document.body.requestFullscreen();
-                        Native.document.body.requestPointerLock();
+                        renderer.domElement.requestFullscreen();
+                        renderer.domElement.requestPointerLock();
                         return;
                     }
 
@@ -396,6 +399,17 @@ namespace WebGLCannonPhysicsEngine
                     ballMesh.position.set(x, y, z);
                     //ballMesh.useQuaternion = true;
                 };
+
+
+            var ze = new ZeProperties();
+
+            ze.Show();
+
+            ze.Left = 0;
+
+            ze.Add(() => renderer);
+            ze.Add(() => controls);
+            ze.Add(() => scene);
         }
 
     }

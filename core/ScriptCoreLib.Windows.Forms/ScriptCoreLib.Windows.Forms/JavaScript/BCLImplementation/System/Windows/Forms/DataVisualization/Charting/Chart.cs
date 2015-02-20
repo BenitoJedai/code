@@ -18,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
     [Script(Implements = typeof(global::System.Windows.Forms.DataVisualization.Charting.Chart))]
     public class __Chart : __Control, ISupportInitialize
     {
+        // will it show in vr/svg?
         public IHTMLDiv InternalElement = typeof(__Chart);
 
 

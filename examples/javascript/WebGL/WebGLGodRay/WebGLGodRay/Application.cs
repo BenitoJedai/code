@@ -17,6 +17,8 @@ using System.Xml.Linq;
 using WebGLGodRay;
 using WebGLGodRay.Design;
 using WebGLGodRay.HTML.Pages;
+using WebGLRah66Comanche;
+using WebGLRah66Comanche.Library;
 
 namespace WebGLGodRay
 {
@@ -64,11 +66,11 @@ namespace WebGLGodRay
 
             var materialDepth = new THREE.MeshDepthMaterial();
 
+
+            #region tree
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLGodRay\WebGLGodRay\Application.cs
+
             var materialScene = new THREE.MeshBasicMaterial(new { color = 0x000000, shading = THREE.FlatShading });
-
-            // tree
-
-
             var loader = new THREE.JSONLoader();
 
             // http://stackoverflow.com/questions/16539736/do-not-use-system-runtime-compilerservices-dynamicattribute-use-the-dynamic
@@ -92,11 +94,13 @@ namespace WebGLGodRay
                     treeMesh.matrixAutoUpdate = false;
                     treeMesh.updateMatrix();
 
-                    scene.add(treeMesh);
+
+                    treeMesh.AttachTo(scene);
 
                 }
                 )
                 );
+            #endregion
 
             // sphere
 
@@ -278,9 +282,63 @@ namespace WebGLGodRay
 
 
 
+
+            #region Comanche
+            new Comanche().Source.Task.ContinueWithResult(
+                Comanche =>
+                {
+
+                    Comanche.position.y = 200;
+
+                    //dae.position.z = 280;
+
+                    Comanche.AttachTo(scene);
+
+                    //scene.add(dae);
+                    //oo.Add(Comanche);
+
+                    // wont do it
+                    //dae.castShadow = true;
+
+                    // http://stackoverflow.com/questions/15492857/any-way-to-get-a-bounding-box-from-a-three-js-object3d
+                    //var helper = new THREE.BoundingBoxHelper(dae, 0xff0000);
+                    //helper.update();
+                    //// If you want a visible bounding box
+                    //scene.add(helper);
+
+                    Comanche.children[0].children[0].children.WithEach(x => x.castShadow = true);
+
+
+                    // the rotors?
+                    Comanche.children[0].children[0].children.Last().children.WithEach(x => x.castShadow = true);
+
+
+                    Comanche.scale.set(0.5, 0.5, 0.5);
+                    //helper.scale.set(0.5, 0.5, 0.5);
+
+                    var s2w = Stopwatch.StartNew();
+
+                    Native.window.onframe += delegate
+                    {
+                        //dae.children[0].children[0].children.Last().al
+                        //dae.children[0].children[0].children.Last().rotation.z = sw.ElapsedMilliseconds * 0.01;
+                        //dae.children[0].children[0].children.Last().rotation.x = sw.ElapsedMilliseconds * 0.01;
+                        //rotation.y = sw.ElapsedMilliseconds * 0.01;
+
+                        Comanche.children[0].children[0].children.Last().rotation.y = s2w.ElapsedMilliseconds * 0.001;
+
+                        //dae.children[0].children[0].children.Last().app
+                    };
+                }
+            );
+            #endregion
+
+
+
+
             var sw = Stopwatch.StartNew();
 
-            var controls = new THREE.OrbitControls(camera);
+            var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
             Native.window.onframe +=
                 delegate
@@ -440,6 +498,16 @@ namespace WebGLGodRay
                 }
             );
 
+            var ze = new ZeProperties();
+
+            ze.Show();
+
+            ze.treeView1.Nodes.Clear();
+
+            ze.Add(() => renderer);
+            ze.Add(() => controls);
+            ze.Add(() => scene);
+            ze.Left = 0;
 
 
         }

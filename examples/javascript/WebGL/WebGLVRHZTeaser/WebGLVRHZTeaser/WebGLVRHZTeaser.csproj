@@ -135,6 +135,9 @@
     <Reference Include="WebGLColladaExperiment.AssetsLibrary">
       <HintPath>..\..\WebGLColladaExperiment\WebGLColladaExperiment\bin\staging.AssetsLibrary\WebGLColladaExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLGodRay.AssetsLibrary">
+      <HintPath>..\..\WebGLGodRay\WebGLGodRay\bin\staging.AssetsLibrary\WebGLGodRay.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -161,6 +164,10 @@
     <ProjectReference Include="..\..\WebGLColladaExperiment\WebGLColladaExperiment\WebGLColladaExperiment.csproj">
       <Project>{5d093f42-02cc-4ed6-bd9f-3ac636479fb9}</Project>
       <Name>WebGLColladaExperiment</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebGLGodRay\WebGLGodRay\WebGLGodRay.csproj">
+      <Project>{64f527cc-aa24-434a-b632-99aadd3b085a}</Project>
+      <Name>WebGLGodRay</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WebGLHZBlendCharacter\WebGLHZBlendCharacter\WebGLHZBlendCharacter.csproj">
       <Project>{a5de484d-54a0-4418-ad41-84b77f5ae4e8}</Project>

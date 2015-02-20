@@ -22,6 +22,7 @@ namespace WebGLTiltShift
 {
     using ScriptCoreLib.JavaScript.DOM.SVG;
     using System.Diagnostics;
+    using WebGLRah66Comanche.Library;
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
 
@@ -226,12 +227,12 @@ namespace WebGLTiltShift
 
 
             //scene.add(new THREE.AmbientLight(0xaaaaaa));
-            scene.add(new THREE.AmbientLight(0xffffff));
+            new THREE.AmbientLight(0x101030).AttachTo(scene);
 
 
             //var light = new THREE.DirectionalLight(0xffffff, 1.0);
             #region light
-            var light = new THREE.DirectionalLight(0xffffff, 2.5);
+            var light = new THREE.DirectionalLight(0xffffff, 1.5);
             //var light = new THREE.DirectionalLight(0xffffff, 2.5);
             //var light = new THREE.DirectionalLight(0xffffff, 1.5);
             //var lightOffset = new THREE.Vector3(0, 1000, 2500.0);
@@ -249,7 +250,7 @@ namespace WebGLTiltShift
             xlight.shadowMapWidth = 4096;
             xlight.shadowMapHeight = 2048;
 
-            xlight.shadowDarkness = 0.3;
+            xlight.shadowDarkness = 0.1;
             //xlight.shadowDarkness = 0.5;
 
             xlight.shadowCameraNear = 10;
@@ -406,6 +407,7 @@ namespace WebGLTiltShift
 
 
 
+
             // "X:\opensource\github\three.js\examples\js\shaders\VerticalTiltShiftShader.js"
             // http://stackoverflow.com/questions/20899326/how-do-i-stop-effectcomposer-from-destroying-my-transparent-background
 
@@ -443,6 +445,90 @@ namespace WebGLTiltShift
 
             composer.addPass(hblur);
             composer.addPass(vblur);
+            #endregion
+
+
+            #region WebGLRah66Comanche
+            // why isnt it being found?
+            new global::WebGLRah66Comanche.Comanche(
+            ).Source.Task.ContinueWithResult(
+                dae =>
+                {
+
+                    //dae.position.y = -40;
+                    //dae.position.z = 280;
+                    scene.add(dae);
+                    //oo.Add(dae);
+
+                    // wont do it
+                    //dae.castShadow = true;
+
+                    dae.children[0].children[0].children.WithEach(x => x.castShadow = true);
+
+
+                    // the rotors?
+                    dae.children[0].children[0].children.Last().children.WithEach(x => x.castShadow = true);
+
+
+                    dae.scale.set(0.5, 0.5, 0.5);
+                    dae.position.x = -900;
+                    dae.position.z = +900;
+
+                    // raise it up
+                    dae.position.y = 400;
+
+                    //var sw = Stopwatch.StartNew();
+
+                    //Native.window.onframe += delegate
+                    //{
+                    //    //dae.children[0].children[0].children.Last().al
+                    //    //dae.children[0].children[0].children.Last().rotation.z = sw.ElapsedMilliseconds * 0.01;
+                    //    //dae.children[0].children[0].children.Last().rotation.x = sw.ElapsedMilliseconds * 0.01;
+                    //    dae.children[0].children[0].children.Last().rotation.y = sw.ElapsedMilliseconds * 0.01;
+                    //};
+                }
+            );
+            #endregion
+
+
+
+            #region tree
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLGodRay\WebGLGodRay\Application.cs
+
+            var materialScene = new THREE.MeshBasicMaterial(new { color = 0x000000, shading = THREE.FlatShading });
+            var tloader = new THREE.JSONLoader();
+
+            // http://stackoverflow.com/questions/16539736/do-not-use-system-runtime-compilerservices-dynamicattribute-use-the-dynamic
+            // https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.dynamicattribute%28v=vs.110%29.aspx
+            //System.Runtime.CompilerServices.DynamicAttribute
+
+            tloader.load(
+
+                new WebGLGodRay.Models.tree().Content.src,
+
+                new Action<THREE.Geometry>(
+                xgeometry =>
+                {
+
+                    var treeMesh = new THREE.Mesh(xgeometry, materialScene);
+                    treeMesh.position.set(0, -150, -150);
+                    treeMesh.position.x = -900;
+                    treeMesh.position.z = -900;
+
+                    treeMesh.position.y = 25;
+
+                    var tsc = 400;
+                    treeMesh.scale.set(tsc, tsc, tsc);
+
+                    treeMesh.matrixAutoUpdate = false;
+                    treeMesh.updateMatrix();
+
+
+                    treeMesh.AttachTo(scene);
+
+                }
+                )
+                );
             #endregion
 
 
@@ -804,6 +890,9 @@ namespace WebGLTiltShift
 
             #endregion
 
+
+
+
             #region virtual webview.requestFullscreen
             Console.WriteLine("? awaiting to go fullscreen");
 
@@ -911,6 +1000,18 @@ namespace WebGLTiltShift
             );
             #endregion
 
+
+
+            //var ze = new ZeProperties();
+
+            //ze.Show();
+
+            //ze.treeView1.Nodes.Clear();
+
+            //ze.Add(() => renderer);
+            //ze.Add(() => controls);
+            //ze.Add(() => scene);
+            //ze.Left = 0;
 
         }
 
