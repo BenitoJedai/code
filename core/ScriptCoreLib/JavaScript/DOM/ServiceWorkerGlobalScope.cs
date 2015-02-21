@@ -23,6 +23,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorkerGlobalScope : WorkerGlobalScope
     {
+        // http://src.chromium.org/viewvc/blink/trunk/Source/modules/websockets/CloseEventInit.idl
+
         //  what about event source?
 
         // X:\jsc.svn\examples\javascript\test\TestServiceWorker\TestServiceWorker\Application.cs

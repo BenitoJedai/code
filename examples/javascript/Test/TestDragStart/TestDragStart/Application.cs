@@ -30,9 +30,14 @@ namespace TestDragStart
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //http://en.wikipedia.org/wiki/Magnet_URI_scheme
+
             page.Header.ondragstart +=
                 e =>
                 {
+
+                    // what other mime types are available?
+
                     e.dataTransfer.setData("text/uri-list", "http://my.jsc-solutions.net");
 
                 };

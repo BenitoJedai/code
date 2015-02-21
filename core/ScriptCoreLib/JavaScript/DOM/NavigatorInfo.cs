@@ -17,8 +17,18 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.Navigator
 
     // rename to INavigator ?
+
     [Script]
-    public partial class NavigatorInfo
+    public partial class Navigator
+    {
+        // http://src.chromium.org/viewvc/blink/trunk/Source/modules/gamepad/NavigatorGamepad.idl
+        // http://src.chromium.org/viewvc/blink/trunk/Source/modules/gamepad/Gamepad.idl
+
+        // http://src.chromium.org/viewvc/blink/trunk/Source/modules/beacon/NavigatorBeacon.idl
+    }
+
+    [Script]
+    public partial class NavigatorInfo : Navigator
     {
         // http://www.w3.org/TR/geolocation-API/
         public readonly Geolocation geolocation;
