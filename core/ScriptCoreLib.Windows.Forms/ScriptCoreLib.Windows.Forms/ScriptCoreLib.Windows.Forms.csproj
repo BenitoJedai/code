@@ -67,6 +67,8 @@
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Application.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.AllowDrop.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ItemDragEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ItemDragEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\PropertyGrid\PropertyGrid.cs" />

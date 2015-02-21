@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.Extensions;
 
 namespace FormsTreeViewDrag
 {
@@ -32,19 +33,36 @@ namespace FormsTreeViewDrag
 
             Console.WriteLine("treeView1_ItemDrag"); ;
 
+            // http://stackoverflow.com/questions/1772102/c-sharp-drag-and-drop-from-my-custom-app-to-notepad
+            var x = new DataObject(
+                "treeView1_ItemDrag " + new { e.Item }
+            );
+
+
+            x.SetData("text/nodes/0", "hello");
+
+            // https://msdn.microsoft.com/en-us/library/system.windows.forms.control.dodragdrop(v=vs.110).aspx
             //this.DoDragDrop("treeView1_ItemDrag " + new { e.Item }, DragDropEffects.Copy);
-            treeView1.DoDragDrop("treeView1_ItemDrag " + new { e.Item }, DragDropEffects.Copy);
+            treeView1.DoDragDrop(x, DragDropEffects.Copy);
 
         }
 
-        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.Control.add_DragEnter(System.Windows.Forms.DragEventHandler)]
         private void treeView1_DragEnter(object sender, DragEventArgs e)
         {
+            foreach (var item in e.Data.GetFormats())
+            {
+                Console.WriteLine(new { item });
+
+            }
+
+            Console.WriteLine("treeView1_DragOver " + new { data = e.Data.GetData(typeof(string)) });
+
             e.Effect = DragDropEffects.Copy;
         }
 
         private void treeView1_DragDrop(object sender, DragEventArgs e)
         {
+            // http://www.codemag.com/Article/0407031
             Console.WriteLine("treeView1_DragDrop " + new { data = e.Data.GetData(typeof(string)) });
 
 
@@ -59,14 +77,27 @@ namespace FormsTreeViewDrag
             //    NewNode.Remove();
             //}
 
-            var text = e.Data.GetData(typeof(string)) as string;
+            //var text = e.Data.GetData(typeof(string)) as string;
+            var xDataObject = e.Data as DataObject;
 
-            treeView1.Nodes.Add(text);
+            var n = treeView1.Nodes.Add(xDataObject.GetText());
+
+            xDataObject.GetData("text/nodes/0").With(x =>
+                n.Nodes.Add("" + x)
+            );
         }
 
         private void treeView1_DragOver(object sender, DragEventArgs e)
         {
+            foreach (var item in e.Data.GetFormats())
+            {
+                Console.WriteLine(new { item });
+
+            }
+
             Console.WriteLine("treeView1_DragOver " + new { data = e.Data.GetData(typeof(string)) });
+
+
 
             e.Effect = DragDropEffects.Copy;
         }
