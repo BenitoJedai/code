@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/netinfo/NetworkInformation.idl
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/NetworkInformation.webidl
 
     [Script(InternalConstructor = true)]

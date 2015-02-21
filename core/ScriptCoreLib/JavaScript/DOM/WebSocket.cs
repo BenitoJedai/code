@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/websockets/WebSocket.idl
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/WebSocket.webidl
     // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/WebSocket/
 

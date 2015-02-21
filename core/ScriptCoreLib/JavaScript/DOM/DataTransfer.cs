@@ -26,6 +26,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         public void addElement(IHTMLElement element) { throw null; }
         public void clearData(string format) { throw null; }
         public string getData(string format) { throw null; }
+
+        // X:\jsc.svn\examples\javascript\Test\TestDragStart\TestDragStart\Application.cs
         public void setData(string format, string data) { throw null; }
         public void setDragImage(IHTMLElement image, int x, int y) { throw null; } 
     }
