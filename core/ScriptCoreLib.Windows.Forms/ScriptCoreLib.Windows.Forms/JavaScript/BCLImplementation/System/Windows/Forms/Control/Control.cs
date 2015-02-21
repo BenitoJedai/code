@@ -1141,8 +1141,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         var MissingDoDragDrop = true;
 
-                        this.InternalDoDragDrop =
-                            (data, effects) =>
+                        InternalUIDoDragDrop =
+                            (that, data, effects) =>
                             {
                                 //Console.WriteLine("InternalDoDragDrop");
 
@@ -1170,7 +1170,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         value(this, a);
 
-                        this.InternalDoDragDrop = null;
+                        InternalUIDoDragDrop = null;
 
                         // can we abort?
                         if (MissingDoDragDrop)
@@ -1205,19 +1205,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-        Action<object, DragDropEffects> InternalDoDragDrop;
+
+
+
+        // x:\jsc.svn\examples\javascript\forms\formstreeviewdrag\formstreeviewdrag\applicationcontrol.cs
+        //protected Action<object, DragDropEffects> InternalDoDragDrop;
+        public static Action<Control, object, DragDropEffects> InternalUIDoDragDrop;
 
         public DragDropEffects DoDragDrop(object data, DragDropEffects allowedEffects)
         {
+            Console.WriteLine("enter DoDragDrop " + new { InternalUIDoDragDrop });
+
+
             // tested by?
 
             // .AllowDrop?
             // X:\jsc.svn\examples\javascript\forms\FormsTreeViewDrag\FormsTreeViewDrag\ApplicationControl.cs
 
-            if (InternalDoDragDrop != null)
-                InternalDoDragDrop(data, allowedEffects);
+            if (InternalUIDoDragDrop != null)
+                InternalUIDoDragDrop(this, data, allowedEffects);
 
 
+            Console.WriteLine("exit DoDragDrop");
             return allowedEffects;
         }
 
@@ -1274,6 +1283,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             remove { }
         }
 
+
+        // ?
+        public event DragEventHandler DragEnter;
 
         public event DragEventHandler DragOver
         {

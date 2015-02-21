@@ -24,5 +24,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             return default(object);
         }
+
+        // https://archive.org/help/wayback_api.php
     }
 }
