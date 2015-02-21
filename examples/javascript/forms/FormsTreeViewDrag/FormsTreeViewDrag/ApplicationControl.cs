@@ -39,12 +39,16 @@ namespace FormsTreeViewDrag
             );
 
 
+            // like props/ reg keys/ version nodes
             x.SetData("text/nodes/0", "hello");
+            x.SetData("text/nodes/1", "world");
 
             // https://msdn.microsoft.com/en-us/library/system.windows.forms.control.dodragdrop(v=vs.110).aspx
             //this.DoDragDrop("treeView1_ItemDrag " + new { e.Item }, DragDropEffects.Copy);
             treeView1.DoDragDrop(x, DragDropEffects.Copy);
 
+            // https://code.google.com/p/chromium/issues/detail?id=31037
+            // https://searchcode.com/codesearch/view/32985148/
         }
 
         private void treeView1_DragEnter(object sender, DragEventArgs e)
@@ -82,20 +86,19 @@ namespace FormsTreeViewDrag
 
             var n = treeView1.Nodes.Add(xDataObject.GetText());
 
-            xDataObject.GetData("text/nodes/0").With(x =>
-                n.Nodes.Add("" + x)
-            );
+            xDataObject.GetData("text/nodes/0").With(x => n.Nodes.Add("" + x));
+            xDataObject.GetData("text/nodes/1").With(x => n.Nodes.Add("" + x));
         }
 
         private void treeView1_DragOver(object sender, DragEventArgs e)
         {
-            foreach (var item in e.Data.GetFormats())
-            {
-                Console.WriteLine(new { item });
+            //foreach (var item in e.Data.GetFormats())
+            //{
+            //    Console.WriteLine(new { item });
 
-            }
+            //}
 
-            Console.WriteLine("treeView1_DragOver " + new { data = e.Data.GetData(typeof(string)) });
+            //Console.WriteLine("treeView1_DragOver " + new { data = e.Data.GetData(typeof(string)) });
 
 
 
