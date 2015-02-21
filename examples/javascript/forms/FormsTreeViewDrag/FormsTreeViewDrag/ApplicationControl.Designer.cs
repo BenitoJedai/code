@@ -38,6 +38,8 @@ namespace FormsTreeViewDrag
             this.treeView1.Size = new System.Drawing.Size(400, 300);
             this.treeView1.TabIndex = 0;
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
+            this.treeView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView1_DragDrop);
+            this.treeView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView1_DragEnter);
             // 
             // ApplicationControl
             // 
