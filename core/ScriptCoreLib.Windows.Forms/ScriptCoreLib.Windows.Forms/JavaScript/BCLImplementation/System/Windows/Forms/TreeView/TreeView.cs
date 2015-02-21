@@ -242,13 +242,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 // hope its a string?
 
                                 // http://msdn.microsoft.com/en-us/library/ie/ms536744(v=vs.85).aspx
-
+                                // https://msdn.microsoft.com/en-us/library/637ys738(v=vs.110).aspx
                                 var dataTransfer = e.dataTransfer;
-                                var text = "" + data;
 
-                                // SCRIPT65535: Unexpected call to method or property access. 
-                                //dataTransfer.setData("text/plain", text);
-                                dataTransfer.setData("Text", text);
+                                // InternalUIDoDragDrop {{ xDataObject = null }}
+                                var xDataObject = data as __DataObject;
+
+                                Console.WriteLine("InternalUIDoDragDrop " + new { xDataObject });
+
+                                if (xDataObject != null)
+                                {
+                                    xDataObject.AtDataTransfer(dataTransfer);
+                                }
+                                else
+                                {
+
+                                    var text = "" + data;
+
+                                    // SCRIPT65535: Unexpected call to method or property access. 
+                                    //dataTransfer.setData("text/plain", text);
+                                    dataTransfer.setData("Text", text);
+                                }
+                                // http://blogs.msdn.com/b/adamroot/archive/2008/02/19/shell-style-drag-and-drop-in-net-part-3.aspx
+                                // http://help.dottoro.com/ljxfefku.php
+                                // https://code.google.com/p/chromium/issues/detail?id=95631
+                                //dataTransfer.addElement(
+                                //    ((__TreeNode)this.SelectedNode).InternalElementHeader
+                                //);
+
 
                                 // Uncaught TypeError: Failed to execute 'setDragImage' on 'DataTransfer': setDragImage: Invalid first argument
                                 //dataTransfer.setDragImage(null, 0, 0);
