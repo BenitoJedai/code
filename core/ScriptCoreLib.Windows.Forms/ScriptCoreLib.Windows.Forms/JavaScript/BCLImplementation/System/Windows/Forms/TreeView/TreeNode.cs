@@ -104,7 +104,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalElementHeaderText.AttachTo(this.InternalElementHeader);
 
             // either add onclick to all nodes or listen on control level?
-            this.InternalElementHeader.onclick +=
+            //this.InternalElementHeader.onclick +=
+            this.InternalElementHeader.onmousedown +=
                 e =>
                 {
                     //if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
@@ -123,8 +124,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         )
                     );
 
-                    e.stopPropagation();
-                    e.preventDefault();
+
+                    // this would stop ondrag?
+                    //e.stopPropagation();
+                    //e.preventDefault();
                     return;
                 };
 
@@ -228,5 +231,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         public object Tag { get; set; }
+
+
+
+
+        public override string ToString()
+        {
+            return new { this.Text }.ToString();
+        }
     }
 }

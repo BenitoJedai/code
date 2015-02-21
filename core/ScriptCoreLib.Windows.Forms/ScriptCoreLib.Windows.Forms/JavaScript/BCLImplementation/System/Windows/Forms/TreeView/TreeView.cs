@@ -168,7 +168,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-        public void RaiseAfterExpand(TreeViewEventArgs  args)
+        public void RaiseAfterExpand(TreeViewEventArgs args)
         {
             if (AfterExpand != null)
                 AfterExpand(this, args);
@@ -191,5 +191,90 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             return (TreeView)(object)e;
         }
 
+
+        public ItemDragEventHandler InternalItemDrag;
+
+        public event ItemDragEventHandler ItemDrag
+        {
+            // for dynamic code patching of a lve app
+            // jsc should also be able to deduce how to undo an add?
+            remove { }
+
+            add
+            {
+                //Console.WriteLine("add ItemDrag");
+
+
+                InternalItemDrag += value;
+
+                // this would select a wrong element as image?
+                // need to reactiveate ondrag for each row separatly instead?
+
+                // for current and future elements +=
+
+                //this.InternalElement[".x"].ondragstart +=
+
+                this.InternalElement.ondragstart +=
+                    e =>
+                    {
+                        //Console.WriteLine("ondragstart");
+
+                        //var Buttons = e.GetMouseButton();
+
+                        //Console.WriteLine("ondragstart " + new { Buttons });
+
+                        //var a = e.GetMouseEventHandler(Buttons);
+                        var a = new __ItemDragEventArgs(MouseButtons.Left, this.SelectedNode);
+
+                        var MissingDoDragDrop = true;
+
+                        InternalUIDoDragDrop =
+                            (that, data, effects) =>
+                            {
+                                //Console.WriteLine("enter InternalDoDragDrop");
+
+
+                                MissingDoDragDrop = false;
+
+                                // X:\jsc.internal.svn\compiler\jsx.reflector\ReflectorWindow.AddNode.cs
+                                // X:\jsc.svn\examples\javascript\DragIntoCRX\DragIntoCRX\Application.cs
+
+                                // hope its a string?
+
+                                // http://msdn.microsoft.com/en-us/library/ie/ms536744(v=vs.85).aspx
+
+                                var dataTransfer = e.dataTransfer;
+                                var text = "" + data;
+
+                                // SCRIPT65535: Unexpected call to method or property access. 
+                                //dataTransfer.setData("text/plain", text);
+                                dataTransfer.setData("Text", text);
+
+                                // Uncaught TypeError: Failed to execute 'setDragImage' on 'DataTransfer': setDragImage: Invalid first argument
+                                //dataTransfer.setDragImage(null, 0, 0);
+                                // c# where is the non null op?
+
+
+                                //Uncaught TypeError: setDragImageFromElement: Invalid first argument 
+                                //e.dataTransfer.setDragImage(null, 0, 0);
+
+                            };
+
+                        //Console.WriteLine("before raise ItemDrag " + new { InternalUIDoDragDrop });
+                        value(this, a);
+                        //Console.WriteLine("after raise ItemDrag " + new { MissingDoDragDrop });
+
+                        InternalUIDoDragDrop = null;
+
+                        // can we abort?
+                        if (MissingDoDragDrop)
+                        {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+                    };
+            }
+
+        }
     }
 }
