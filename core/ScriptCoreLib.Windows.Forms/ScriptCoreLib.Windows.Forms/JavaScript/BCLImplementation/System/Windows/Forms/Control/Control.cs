@@ -1044,6 +1044,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 if (format == "FileDrop")
                 {
+                    // tested by?
+
                     var files = this.InternalData.dataTransfer.files;
 
                     return Enumerable.Range(
@@ -1098,6 +1100,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             public void SetData(object data)
             {
+                // X:\jsc.svn\examples\javascript\Test\TestDragStart\TestDragStart\Application.cs
+
                 throw new NotImplementedException();
             }
 
@@ -1205,6 +1209,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public DragDropEffects DoDragDrop(object data, DragDropEffects allowedEffects)
         {
+            // tested by?
+
+            // .AllowDrop?
+            // X:\jsc.svn\examples\javascript\forms\FormsTreeViewDrag\FormsTreeViewDrag\ApplicationControl.cs
+
             if (InternalDoDragDrop != null)
                 InternalDoDragDrop(data, allowedEffects);
 

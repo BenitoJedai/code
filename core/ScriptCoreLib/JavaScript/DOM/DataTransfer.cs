@@ -27,8 +27,13 @@ namespace ScriptCoreLib.JavaScript.DOM
         public void clearData(string format) { throw null; }
         public string getData(string format) { throw null; }
 
+        // did we test it in forms?
+        // x:\jsc.svn\core\scriptcorelib.windows.forms\scriptcorelib.windows.forms\javascript\bclimplementation\system\windows\forms\control\control.cs
+        // https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Recommended_Drag_Types
+
         // X:\jsc.svn\examples\javascript\Test\TestDragStart\TestDragStart\Application.cs
         public void setData(string format, string data) { throw null; }
+
         public void setDragImage(IHTMLElement image, int x, int y) { throw null; } 
     }
 }
