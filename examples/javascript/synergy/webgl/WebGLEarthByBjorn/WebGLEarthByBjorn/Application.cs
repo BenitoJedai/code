@@ -18,7 +18,7 @@ using WebGLEarthByBjorn.Design;
 using WebGLEarthByBjorn.HTML.Images.FromAssets;
 using WebGLEarthByBjorn.HTML.Pages;
 using ScriptCoreLib.Lambda;
-
+using WebGLRah66Comanche.Library;
 
 namespace WebGLEarthByBjorn
 {
@@ -504,7 +504,15 @@ namespace WebGLEarthByBjorn
                     renderer.setSize();
             };
 
+            var ze = new ZeProperties();
 
+            ze.Show();
+            ze.treeView1.Nodes.Clear();
+
+            ze.Add(() => renderer);
+            //ze.Add(() => controls);
+            ze.Add(() => scene);
+            ze.Left = 0;
             //new IStyle(this.canvas.css.before)
             //{
             //    content = "'do a middle click to maximize the earth dashboard'",

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using THREELibrary.HTML.Pages;
+using THREE;
 
 namespace THREELibrary
 {
@@ -36,6 +37,9 @@ namespace THREELibrary
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            Native.body.Clear();
+            Native.body.style.margin = "0px";
+
             // http://www.highlander.co.uk/blog/2011/09/23/learning-three-js/
 
             //this sets the canvas size.
@@ -50,9 +54,9 @@ namespace THREELibrary
 
             var renderer = new THREE.WebGLRenderer();
             //I am choosing the WebGL renderer here, but you have others to choose from
-            var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+            var camera = new PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
             //these variables have been set at the top of  our script
-            var scene = new THREE.Scene(); //create a new scene
+            var scene = new Scene(); //create a new scene
             // the camera starts at 0,0,0 so we need to pull back
             camera.position.z = 200;
             // start the renderer
@@ -70,14 +74,14 @@ namespace THREELibrary
             var radius = 50;
             var segments = 16;
             var rings = 16;
-            var mesh = new THREE.Mesh(new THREE.SphereGeometry(radius, segments, rings), material);
+            var mesh = new Mesh(new SphereGeometry(radius, segments, rings), material).AttachTo(scene);
             //scene.addChild(mesh);
             scene.add(mesh);
 
 
             renderer.domElement.AttachToDocument();
 
-            var pointLight = new THREE.PointLight(0xFFFFFF);
+            var pointLight = new PointLight(0xFFFFFF);
             // set its position
             pointLight.position.x = 50;
             pointLight.position.y = 50;

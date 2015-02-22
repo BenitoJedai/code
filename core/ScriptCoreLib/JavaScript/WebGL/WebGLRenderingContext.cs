@@ -30,6 +30,7 @@ namespace ScriptCoreLib.JavaScript.WebGL
     public class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
     // : WebGLRenderingContextBase
     {
+        // https://msdn.microsoft.com/en-us/library/windows/hardware/dn265449(v=vs.85).aspx
         // http://gogoat.com/pixelbox/example7.html
 
         // http://cabbi.bo/PhysicsRenderer/

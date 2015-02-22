@@ -234,6 +234,7 @@ namespace WebGLRah66Comanche
             #endregion
 
 
+            #region ZeProperties
             var ze = new ZeProperties();
 
             ze.Show();
@@ -243,6 +244,7 @@ namespace WebGLRah66Comanche
             ze.Add(() => controls);
             ze.Add(() => scene);
             ze.Left = 0;
+            #endregion
 
             //f.treeView1.Nodes.Add("controls : " + typeof(THREE.OrbitControls)).Tag = controls;
 

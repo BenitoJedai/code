@@ -13,7 +13,9 @@ namespace ScriptCoreLib.Ultra.IDL
 
         public NumberStyles Style = NumberStyles.Integer;
 
+        // whatif its double?
         public int Int32Value;
+        public double DoubleValue;
 
         public override string ToString()
         {
