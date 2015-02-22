@@ -130,7 +130,10 @@ interface RTCDataChannel : EventTarget {
 	attribute EventHandler        onerror;
 	attribute EventHandler        onclose;
 	void close ();
+	
+	// http://www.w3.org/TR/webrtc/#event-datachannel-message
 	attribute EventHandler        onmessage;
+
 	attribute DOMString           binaryType;
 	void send (DOMString data);
 	void send (Blob data);
