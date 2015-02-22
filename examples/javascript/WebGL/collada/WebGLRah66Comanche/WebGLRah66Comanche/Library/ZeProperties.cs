@@ -310,6 +310,16 @@ namespace WebGLRah66Comanche.Library
             Add(nameof(THREE.Mesh.material), () => (object)x.material, n.Nodes);
         }
 
+        async void Add(string name, Func<MorphAnimMesh> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var x = get_subject();
+            var n = Nodes.Add("\{name} : \{nameof(MorphAnimMesh)} '\{x.name}' (\{x.geometry.morphTargets.Length} morphTargets)");
+            n.Tag = x;
+            await n.AsyncAfterExpand();
+            Add("base", () => (Mesh)x, n.Nodes);
+            //Add(nameof(THREE.MorphAnimMesh.duaration), () => x.duaration, n.Nodes);
+            Add(nameof(THREE.MorphAnimMesh.time), () =>  x.time, n.Nodes);
+        }
         async void Add(string name, Func<Scene> get_subject, TreeNodeCollection Nodes = null)
         {
             var x = get_subject();
@@ -374,15 +384,16 @@ namespace WebGLRah66Comanche.Library
             Add("base", () => (THREE.Geometry)x, n.Nodes);
         }
 
-        async void Add(string name, Func<THREE.Geometry> get_subject, TreeNodeCollection Nodes = null)
+        async void Add(string name, Func<Geometry> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Geometry)}");
+            var n = Nodes.Add("\{name} : \{nameof(Geometry)}");
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add(nameof(THREE.Geometry.dynamic), () => x.dynamic, n.Nodes);
             Add(nameof(THREE.Geometry.type), () => x.type, n.Nodes);
             Add(nameof(THREE.Geometry.vertices), () => x.vertices, n.Nodes);
             Add(nameof(THREE.Geometry.faces), () => x.faces, n.Nodes);
+            Add(nameof(THREE.Geometry.morphTargets), () => x.morphTargets, n.Nodes);
         }
 
         async void Add(string name, Func<THREE.Color> get_subject, TreeNodeCollection Nodes = null)
@@ -562,6 +573,14 @@ namespace WebGLRah66Comanche.Library
                 Add(name, () => xMaterial, Nodes);
                 return;
             }
+
+            var xMorphAnimMesh = subject as THREE.MorphAnimMesh;
+            if (xMorphAnimMesh != null)
+            {
+                Add(name, () => xMorphAnimMesh, Nodes);
+                return;
+            }
+
 
             var xMesh = subject as THREE.Mesh;
             if (xMesh != null)

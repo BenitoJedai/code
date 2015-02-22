@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using WebGLRah66Comanche.Library;
 //using WebGLYomotsuMD2Model.Design;
 using WebGLYomotsuMD2Model.HTML.Pages;
 
@@ -337,7 +338,15 @@ namespace WebGLYomotsuMD2Model
             );
 
 
+            var ze = new ZeProperties();
 
+            ze.Show();
+            ze.treeView1.Nodes.Clear();
+
+            ze.Add(() => renderer);
+            //ze.Add(() => controls);
+            ze.Add(() => scene);
+            ze.Left = 0;
 
 
         }
