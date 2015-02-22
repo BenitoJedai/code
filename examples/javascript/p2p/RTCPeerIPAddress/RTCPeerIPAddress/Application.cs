@@ -32,10 +32,10 @@ namespace RTCPeerIPAddress
         {
             //http://codepen.io/crackerboy/pen/kDnoB?editors=001
             // X:\jsc.svn\examples\javascript\test\TestPeerConnection\TestPeerConnection\Application.cs
-            #region fix RTCPeerConnection
-            var w = Native.window as dynamic;
-            w.RTCPeerConnection = w.webkitRTCPeerConnection;
-            #endregion
+            //#region fix RTCPeerConnection
+            //var w = Native.window as dynamic;
+            //w.RTCPeerConnection = w.webkitRTCPeerConnection;
+            //#endregion
 
 
             //var rtc = new RTCPeerConnection({ iceServers:[] });
@@ -60,6 +60,7 @@ namespace RTCPeerIPAddress
                 }
             );
 
+            // await?
             rtc.createOffer(
                 (RTCSessionDescription x) =>
                 {

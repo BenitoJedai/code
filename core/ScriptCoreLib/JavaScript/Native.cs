@@ -82,7 +82,7 @@ namespace ScriptCoreLib.JavaScript
         {
             get
             {
-                return delegate(IEvent e)
+                return delegate (IEvent e)
                 {
                     e.PreventDefault();
                     e.StopPropagation();
@@ -185,7 +185,22 @@ namespace ScriptCoreLib.JavaScript
 
         }
 
+        static void __RTCPeerConnection()
+        {
+            // X:\jsc.svn\examples\javascript\p2p\RTCPeerIPAddress\RTCPeerIPAddress\Application.cs
 
+            // fix RTCPeerConnection
+            var w = self as dynamic;
+
+            // is it available for service workers?
+
+            if ((object)w.RTCPeerConnection == null)
+            {
+                w.RTCPeerConnection = w.webkitRTCPeerConnection;
+
+            }
+
+        }
 
         static Native()
         {
@@ -194,6 +209,9 @@ namespace ScriptCoreLib.JavaScript
             //at ScriptCoreLib.JavaScript.Native..cctor() in x:\jsc.svn\core\ScriptCoreLib\JavaScript\Native.cs:line 185
 
             __Uint8ClampedArray();
+
+
+            __RTCPeerConnection();
 
 
             // what is it?
@@ -316,7 +334,7 @@ namespace ScriptCoreLib.JavaScript
                     delegate
                     {
                         Native.document.getElementsByClassName(id).ForEach(
-                            delegate(IHTMLElement e)
+                            delegate (IHTMLElement e)
                             {
                                 System.Console.WriteLine("spawn: {" + id + "}");
 
@@ -343,7 +361,7 @@ namespace ScriptCoreLib.JavaScript
 
 
                     Native.document.getElementsByClassName(id).ForEach(
-                        delegate(IHTMLElement v)
+                        delegate (IHTMLElement v)
                         {
                             System.Console.WriteLine("spawn: {" + id + "}");
 
