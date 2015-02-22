@@ -107,10 +107,18 @@ namespace RTCDataChannelExperiment
                             new IHTMLPre { "enter  remotePeerConnection.ondatachannel " }.AttachTo(yellow);
 
 
+                            var data = default(object);
+                            var counter = 0;
+
+                            new IHTMLPre { () => "onmessage: " + new { data, counter } }.AttachTo(yellow);
+
+                            //Native.document.title
+
                             e.channel.onmessage = new Action<MessageEvent>(
                                 m =>
                                 {
-                                    new IHTMLPre { "onmessage " + new { m.data } }.AttachTo(yellow);
+                                    counter++;
+                                    data = m.data;
                                 }
                             );
 
@@ -270,12 +278,35 @@ namespace RTCDataChannelExperiment
 
 
                     sendChannel.onopen = new Action(
-                        delegate
+                        async delegate
                         {
                             new IHTMLPre { "sendChannel.onopen" }.AttachToDocument();
 
 
                             sendChannel.send("hi!");
+
+                            await new IHTMLButton("pointerlock").AttachToDocument().async.onclick;
+
+                            new IHTMLPre { "requestPointerLock" }.AttachToDocument();
+
+                            Native.body.requestPointerLock();
+
+                            var counter = 0;
+
+                            Native.body.onmousemove +=
+                                e =>
+                                {
+                                    if (Native.document.pointerLockElement != Native.body) return;
+
+                                    counter++;
+
+                                    sendChannel.send(
+                                        new { counter, e.movementX, e.movementY }.ToString()
+
+                                        );
+
+
+                                };
                         }
                     );
 
