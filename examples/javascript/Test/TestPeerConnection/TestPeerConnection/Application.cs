@@ -73,6 +73,9 @@ namespace TestPeerConnection
 
             // wtf chrome? stop prefixing
             var w = Native.window as dynamic;
+
+            Console.WriteLine(new { w.RTCPeerConnection });
+
             w.RTCPeerConnection = w.webkitRTCPeerConnection;
             // Uncaught TypeError: Failed to construct 'RTCPeerConnection': 1 argument required, but only 0 present.
 
@@ -87,7 +90,7 @@ namespace TestPeerConnection
 
             // http://chimera.labs.oreilly.com/books/1230000000545/ch18.html#_tracking_ice_gathering_and_connectivity_status
             var peer = new RTCPeerConnection(
-                new { iceServers = new object[0]},
+                new { iceServers = new object[0] },
                 null
 
             // https://groups.google.com/forum/#!topic/discuss-webrtc/y2A97iCByTU
@@ -122,13 +125,13 @@ namespace TestPeerConnection
 
 
 
-peer.addIceCandidate(e.candidate,
-                            new Action(
-                                delegate
-                        {
-                            new IHTMLPre { "addIceCandidate" }.AttachToDocument();
-                        }
-                                ));
+                        peer.addIceCandidate(e.candidate,
+                                                    new Action(
+                                                        delegate
+                                                {
+                                                    new IHTMLPre { "addIceCandidate" }.AttachToDocument();
+                                                }
+                                                        ));
                     }
                 }
             );
@@ -143,15 +146,15 @@ peer.addIceCandidate(e.candidate,
 
                         new IHTMLPre { "after createOffer " + new { x.sdp } }.AttachToDocument();
 
-peer.setLocalDescription(x,
-                            new Action(
-                                delegate
-                        {
-                            // // send the offer to a server that can negotiate with a remote client
-                            new IHTMLPre { "after setLocalDescription " }.AttachToDocument();
-                        }
-                            )
-                        );
+                        peer.setLocalDescription(x,
+                                                    new Action(
+                                                        delegate
+                                                {
+                                                    // // send the offer to a server that can negotiate with a remote client
+                                                    new IHTMLPre { "after setLocalDescription " }.AttachToDocument();
+                                                }
+                                                    )
+                                                );
 
                         peer.setRemoteDescription(x,
                               new Action(
@@ -191,15 +194,15 @@ peer.setLocalDescription(x,
                     //Console.WriteLine("ondatachannel");
                     new IHTMLPre { "ondatachannel" }.AttachToDocument();
 
-var c = e.channel;
+                    var c = e.channel;
 
-c.onmessage = new Action<MessageEvent>(
-                        (MessageEvent ee) =>
-                        {
-                            new IHTMLPre { new { ee.data } }.AttachToDocument();
+                    c.onmessage = new Action<MessageEvent>(
+                                            (MessageEvent ee) =>
+                                            {
+                                                new IHTMLPre { new { ee.data } }.AttachToDocument();
 
-                        }
-                    );
+                                            }
+                                        );
 
 
                 }
@@ -209,37 +212,37 @@ c.onmessage = new Action<MessageEvent>(
             RTCDataChannel dc = peer.createDataChannel("label1", null);
 
 
-// {{ id = 65535, label = label1, readyState = connecting }}
-new IHTMLPre { new { dc.id, dc.label, dc.readyState } }.AttachToDocument();
+            // {{ id = 65535, label = label1, readyState = connecting }}
+            new IHTMLPre { new { dc.id, dc.label, dc.readyState } }.AttachToDocument();
 
-new IHTMLButton { "awaiting to open..." }.AttachToDocument().With(
-     button =>
-                {
-
-    // !!! can our IDL compiler generate events and async at the same time?
-    dc.onopen = new Action<IEvent>(
-        async ee =>
-                        {
-
-
-                            button.innerText = "send";
-
-                            while (true)
+            new IHTMLButton { "awaiting to open..." }.AttachToDocument().With(
+                 button =>
                             {
-                                await button.async.onclick;
 
-                                new IHTMLPre { "send" }.AttachToDocument();
+                                // !!! can our IDL compiler generate events and async at the same time?
+                                dc.onopen = new Action<IEvent>(
+                                    async ee =>
+                                                    {
 
-                                // Failed to execute 'send' on 'RTCDataChannel': RTCDataChannel.readyState is not 'open'
-                                dc.send("data to send");
+
+                                                        button.innerText = "send";
+
+                                                        while (true)
+                                                        {
+                                                            await button.async.onclick;
+
+                                                            new IHTMLPre { "send" }.AttachToDocument();
+
+                                                // Failed to execute 'send' on 'RTCDataChannel': RTCDataChannel.readyState is not 'open'
+                                                dc.send("data to send");
+                                                        }
+
+                                                    }
+                                );
+
+
                             }
-
-                        }
-    );
-
-
-}
-            );
+                        );
 
             //connection.createOffer
         }

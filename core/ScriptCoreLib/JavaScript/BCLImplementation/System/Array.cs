@@ -63,37 +63,37 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return new __Enumerator { Target = (object[])(object)this };
         }
 
-		public static int IndexOf<T>(T[] array, T value)
-		{
-			return ((IArray<T>)(object)(array)).indexOf(value);
-		}
+        public static int IndexOf<T>(T[] array, T value)
+        {
+            return ((IArray<T>)(object)(array)).indexOf(value);
+        }
 
-		[Script(OptimizedCode = "d[i] = s[i];")]
-		internal static void InternalCopyElement(global::System.Array s, global::System.Array d, int i)
-		{
-		}
+        [Script(OptimizedCode = "d[i] = s[i];")]
+        internal static void InternalCopyElement(global::System.Array s, global::System.Array d, int i)
+        {
+        }
 
-		[Script(OptimizedCode = "d[di] = s[si];")]
-		internal static void InternalCopyElement(global::System.Array s, int si, global::System.Array d, int di)
-		{
-		}
+        [Script(OptimizedCode = "d[di] = s[si];")]
+        internal static void InternalCopyElement(global::System.Array s, int si, global::System.Array d, int di)
+        {
+        }
 
 
-		public static void Copy(global::System.Array sourceArray, global::System.Array destinationArray, int length)
-		{
-			for (int i = 0; i < length; i++)
-			{
-				InternalCopyElement(sourceArray, destinationArray, i);
-			}
-		}
+        public static void Copy(global::System.Array sourceArray, global::System.Array destinationArray, int length)
+        {
+            for (int i = 0; i < length; i++)
+            {
+                InternalCopyElement(sourceArray, destinationArray, i);
+            }
+        }
 
-		public static void Copy(global::System.Array sourceArray, int sourceOffset, global::System.Array destinationArray, int destinationOffset, int length)
-		{
-			for (int i = 0; i < length; i++)
-			{
-				InternalCopyElement(sourceArray, i + sourceOffset, destinationArray, i + destinationOffset);
-			}
-		}
+        public static void Copy(global::System.Array sourceArray, int sourceOffset, global::System.Array destinationArray, int destinationOffset, int length)
+        {
+            for (int i = 0; i < length; i++)
+            {
+                InternalCopyElement(sourceArray, i + sourceOffset, destinationArray, i + destinationOffset);
+            }
+        }
 
 
         /*
@@ -106,8 +106,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
         }*/
 
+
         public static void Sort<T>(T[] array, Comparison<T> c)
         {
+            // tested by?
+            // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\OrderedEnumerable.cs
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111/redux
+
             ((IArray<T>)(object)(array)).sort((a, b) => c(a, b));
         }
 
@@ -116,12 +121,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             Sort(array, comparer.Compare);
         }
 
-		public static global::System.Array CreateInstance(Type elementType, int length)
-		{
+        public static global::System.Array CreateInstance(Type elementType, int length)
+        {
             // .MakeArray with GetElementType
-			var a = new object[length];
+            var a = new object[length];
 
-			return (global::System.Array)a;
-		}
+            return (global::System.Array)a;
+        }
     }
 }

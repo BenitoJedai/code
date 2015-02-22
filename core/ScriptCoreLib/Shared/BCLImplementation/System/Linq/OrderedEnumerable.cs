@@ -116,6 +116,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
         public IEnumerator<TSource> GetEnumerator()
         {
+            // X:\jsc.svn\examples\javascript\test\TestOrderedEnumerable1\TestOrderedEnumerable1\Application.cs
+
             var p = this;
 
             while (p.prev != null) p = p.prev;
@@ -127,6 +129,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             Array.Sort(array,
                 (a, b) =>
                 {
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150222
                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111/redux
                     // X:\jsc.svn\examples\javascript\Test\Test453WhileBreak\Test453WhileBreak\Program.cs
 

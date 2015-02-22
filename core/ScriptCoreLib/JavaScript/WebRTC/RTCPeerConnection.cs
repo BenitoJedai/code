@@ -11,6 +11,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "RTCPeerConnection")]
     public class RTCPeerConnection
     {
+        // http://www.w3.org/TR/webrtc/
         // http://xsockets.net/docs/3/webrtc
         // http://stackoverflow.com/questions/15806617/creating-a-webrtc-receiver
 
@@ -22,6 +23,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // how does this relate to UDP / encrypted UDP
 
         // can we do LAN to LAN yet?
+        // will need it for VR!
 
         // http://apps.playcanvas.com/max/tanky/colorTanks
 
@@ -31,6 +33,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // tested by
         // X:\jsc.svn\examples\javascript\Test\TestPeerConnection\TestPeerConnection\Application.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150222
 
     }
 }
