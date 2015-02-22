@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLYomotsuMD2Model", "WebGLYomotsuMD2Model\WebGLYomotsuMD2Model.csproj", "{A2DC1F34-0057-4359-BA70-B574E3267762}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {7B5C94C5-F6AA-42BA-815B-34DD472A47AC}
@@ -12,6 +14,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{F5F23BC5-9398-4686-A3A9-36EB33B58574}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagnosticsConsole", "..\DiagnosticsConsole\DiagnosticsConsole\DiagnosticsConsole.csproj", "{979239DB-60D4-45A3-A236-27F2D984AE17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLRah66Comanche", "..\collada\WebGLRah66Comanche\WebGLRah66Comanche\WebGLRah66Comanche.csproj", "{5A75FA08-3AF1-4D27-A726-20B58B6CD608}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +35,10 @@ Global
 		{979239DB-60D4-45A3-A236-27F2D984AE17}.Debug|x86.Build.0 = Debug|x86
 		{979239DB-60D4-45A3-A236-27F2D984AE17}.Release|x86.ActiveCfg = Release|x86
 		{979239DB-60D4-45A3-A236-27F2D984AE17}.Release|x86.Build.0 = Release|x86
+		{5A75FA08-3AF1-4D27-A726-20B58B6CD608}.Debug|x86.ActiveCfg = Debug|x86
+		{5A75FA08-3AF1-4D27-A726-20B58B6CD608}.Debug|x86.Build.0 = Debug|x86
+		{5A75FA08-3AF1-4D27-A726-20B58B6CD608}.Release|x86.ActiveCfg = Release|x86
+		{5A75FA08-3AF1-4D27-A726-20B58B6CD608}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,5 +46,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {F5F23BC5-9398-4686-A3A9-36EB33B58574}
 		{979239DB-60D4-45A3-A236-27F2D984AE17} = {F5F23BC5-9398-4686-A3A9-36EB33B58574}
+		{5A75FA08-3AF1-4D27-A726-20B58B6CD608} = {F5F23BC5-9398-4686-A3A9-36EB33B58574}
 	EndGlobalSection
 EndGlobal

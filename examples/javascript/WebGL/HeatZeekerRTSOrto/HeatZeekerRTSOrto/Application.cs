@@ -18,6 +18,8 @@ using HeatZeekerRTSOrto.Design;
 using HeatZeekerRTSOrto.HTML.Pages;
 using System.Diagnostics;
 using System.Windows.Forms;
+using WebGLRah66Comanche.Library;
+using WebGLRah66Comanche;
 
 namespace HeatZeekerRTSOrto
 {
@@ -79,7 +81,7 @@ namespace HeatZeekerRTSOrto
 
 
             var camera = new THREE.OrthographicCamera(
-                Native.window.Width / -2, Native.window.Width / 2, 
+                Native.window.Width / -2, Native.window.Width / 2,
                 Native.window.Height / 2, Native.window.Height / -2
                 ,
                 // if we change these values what will change?
@@ -348,48 +350,109 @@ namespace HeatZeekerRTSOrto
             //window.addEventListener( 'resize', onWindowResize, false );
 
 
+            #region Comanche
+            new Comanche().Source.Task.ContinueWithResult(
+                Comanche =>
+                {
 
-            #region ee
-            // X:\jsc.svn\examples\javascript\forms\NumericTextBox\NumericTextBox\ApplicationControl.cs
-            // can we restile the window as the pin window in IDE?
-            var ee = new Form { Left = 0, StartPosition = FormStartPosition.Manual };
-            var ee_camera_y = new TextBox { Dock = DockStyle.Fill, Text = camera.position.y + "" }.AttachTo(ee);
-            //ee.AutoSize = AutoSizeMode.
+                    Comanche.position.y = 200;
 
-            //ee.ClientSize = new System.Drawing.Size(ee_camera_y.Width, ee_camera_y.Height);
-            ee.ClientSize = new System.Drawing.Size(200, 24);
+                    //dae.position.z = 280;
 
-            ee.Show();
+                    Comanche.AttachTo(scene);
 
-            //ee_camera_y.
-            ee_camera_y.TextChanged += delegate
-            {
-                camera.position.y = double.Parse(ee_camera_y.Text);
-            };
+                    //scene.add(dae);
+                    //oo.Add(Comanche);
+
+                    // wont do it
+                    //dae.castShadow = true;
+
+                    // http://stackoverflow.com/questions/15492857/any-way-to-get-a-bounding-box-from-a-three-js-object3d
+                    //var helper = new THREE.BoundingBoxHelper(dae, 0xff0000);
+                    //helper.update();
+                    //// If you want a visible bounding box
+                    //scene.add(helper);
+
+                    Comanche.children[0].children[0].children.WithEach(x => x.castShadow = true);
+
+
+                    // the rotors?
+                    Comanche.children[0].children[0].children.Last().children.WithEach(x => x.castShadow = true);
+
+
+                    Comanche.scale.set(0.5, 0.5, 0.5);
+                    //helper.scale.set(0.5, 0.5, 0.5);
+
+                    var sw = Stopwatch.StartNew();
+
+                    Native.window.onframe += delegate
+                    {
+                        //dae.children[0].children[0].children.Last().al
+                        //dae.children[0].children[0].children.Last().rotation.z = sw.ElapsedMilliseconds * 0.01;
+                        //dae.children[0].children[0].children.Last().rotation.x = sw.ElapsedMilliseconds * 0.01;
+                        //rotation.y = sw.ElapsedMilliseconds * 0.01;
+
+                        Comanche.children[0].children[0].children.Last().rotation.y = sw.ElapsedMilliseconds * 0.001;
+
+                        //dae.children[0].children[0].children.Last().app
+                    };
+                }
+            );
             #endregion
 
+
+            //#region ee
+            //// X:\jsc.svn\examples\javascript\forms\NumericTextBox\NumericTextBox\ApplicationControl.cs
+            //// can we restile the window as the pin window in IDE?
+            //var ee = new Form { Left = 0, StartPosition = FormStartPosition.Manual };
+            //var ee_camera_y = new TextBox { Dock = DockStyle.Fill, Text = camera.position.y + "" }.AttachTo(ee);
+            ////ee.AutoSize = AutoSizeMode.
+
+            ////ee.ClientSize = new System.Drawing.Size(ee_camera_y.Width, ee_camera_y.Height);
+            //ee.ClientSize = new System.Drawing.Size(200, 24);
+
+            //ee.Show();
+
+            ////ee_camera_y.
+            //ee_camera_y.TextChanged += delegate
+            //{
+            //    camera.position.y = double.Parse(ee_camera_y.Text);
+            //};
+            //#endregion
+
             var s = Stopwatch.StartNew();
+            var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
             Native.window.onframe +=
                 e =>
                 {
                     // jsc, when can we have the edit and continue already?
                     //var timer = s.ElapsedMilliseconds * 0.1;
-                    var timer = s.ElapsedMilliseconds * 0.0001;
+                    //var timer = s.ElapsedMilliseconds * 0.0001;
 
-                    camera.position.x = Math.Cos(timer) * 200;
-                    camera.position.z = Math.Sin(timer) * 200;
+                    //camera.position.x = Math.Cos(timer) * 200;
+                    //camera.position.z = Math.Sin(timer) * 200;
 
 
                     // camera.position.z = 200;
                     //camera.position.y = 100;
                     //camera.position.y = Math.Sin(timer * 0.1) * 200;
 
-                    camera.lookAt(scene.position);
+                    controls.update();
+                    camera.position = controls.center.clone();
 
                     renderer.render(scene, camera);
                 };
 
+            var ze = new ZeProperties();
+
+            ze.Show();
+            ze.treeView1.Nodes.Clear();
+
+            ze.Add(() => renderer);
+            //ze.Add(() => controls);
+            ze.Add(() => scene);
+            ze.Left = 0;
 
             // view-source:http://mrdoob.github.io/three.js/examples/webgl_interactive_voxelpainter.html
             //var mouse2D = new THREE.Vector3(0, 10000, 0.5);

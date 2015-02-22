@@ -694,18 +694,21 @@ interface THREE.SkinnedMesh :  THREE.Mesh
 };
 
 
+
+// X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuMD2Model\WebGLYomotsuMD2Model\Application.cs
+// File:src/objects/MorphAnimMesh.js
 [Constructor(any geometry, any material)]
 interface THREE.MorphAnimMesh  :  THREE.Mesh
 {
-	attribute THREE.Vector3  position;
-	attribute THREE.Vector3  rotation;
-	attribute THREE.Vector3  scale;
+	//attribute THREE.Vector3  position;
+	//attribute THREE.Vector3  rotation;
+	//attribute THREE.Vector3  scale;
 	attribute long duration;
 	attribute long time;
 	attribute long currentKeyframe;
 
-	attribute boolean castShadow;
-	attribute boolean receiveShadow;
+	//attribute boolean castShadow;
+	//attribute boolean receiveShadow;
 
 	void updateAnimation(double delta);
 	void setFrameRange(long animMin, long animMax);
@@ -837,7 +840,8 @@ interface THREE.Geometry
 
 	attribute sequence<THREE.Geometry>        faces;
 	attribute sequence<THREE.Color>        vertexColors;
-
+	attribute sequence<any>        morphTargets;
+	
 	// http://stackoverflow.com/questions/22348843/three-js-what-does-computecentroids-do
 	// um. collada thingy wants to use computeCentroids.
 
