@@ -47,15 +47,59 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         public void createOffer(Action<RTCSessionDescription> successCallback) { }
+
+
+        public void setRemoteDescription(RTCSessionDescription description, IFunction successCallback) { }
+
+        public void createAnswer(Action<RTCSessionDescription> successCallback) { }
+
+        public void setLocalDescription(RTCSessionDescription description, IFunction successCallback) { }
+
+        public void addIceCandidate(RTCIceCandidate candidate, IFunction successCallback, Action<object> failureCallback) { }
     }
 
+
+    [Script]
     public static class RTCPeerConnectionExtensions
     {
+        // X:\jsc.svn\examples\javascript\p2p\RTCICELobby\RTCICELobby\Application.cs
+
         public static Task<RTCSessionDescription> createOffer(this RTCPeerConnection that)
         {
             var x = new TaskCompletionSource<RTCSessionDescription>();
-
             that.createOffer(successCallback: x.SetResult);
+            return x.Task;
+        }
+
+        public static Task setRemoteDescription(this RTCPeerConnection that, RTCSessionDescription description)
+        {
+            var x = new TaskCompletionSource<object>();
+            that.setRemoteDescription(description, successCallback: new Action(delegate { x.SetResult(null); }));
+            return x.Task;
+        }
+
+
+        public static Task<RTCSessionDescription> createAnswer(this RTCPeerConnection that)
+        {
+            var x = new TaskCompletionSource<RTCSessionDescription>();
+            that.createAnswer(successCallback: x.SetResult);
+            return x.Task;
+        }
+
+        public static Task setLocalDescription(this RTCPeerConnection that, RTCSessionDescription description)
+        {
+            var x = new TaskCompletionSource<object>();
+            that.setLocalDescription(description, successCallback: new Action(delegate { x.SetResult(null); }));
+            return x.Task;
+        }
+
+        public static Task addIceCandidate(this RTCPeerConnection that, RTCIceCandidate candidate)
+        {
+            var x = new TaskCompletionSource<object>();
+            that.addIceCandidate(candidate,
+                successCallback: new Action(delegate { x.SetResult(null); }),
+                failureCallback: err => { throw new Exception(new { err }.ToString()); }
+            );
 
             return x.Task;
         }

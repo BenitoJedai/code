@@ -20,6 +20,10 @@ namespace ScriptCoreLibNative.SystemHeaders
     [Script(IsNative = true, Header = "process.h", IsSystemHeader = true)]
     public static class process_h
     {
+        // http://blogs.msdn.com/b/winsdk/archive/2009/07/14/launching-an-interactive-process-from-windows-service-in-windows-vista-and-later.aspx
+        // http://stackoverflow.com/questions/4278373/how-to-start-a-process-from-windows-service-into-currently-logged-in-users-sess
+        // http://programmer2000.blogspot.com/2008/04/create-process-in-another-session.html
+
         // http://security.stackexchange.com/questions/58009/ways-to-inject-malicious-dlls-to-exe-file-and-run-it
         // You can list a dll under HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\AppInit_DLLs and it will be loaded into every (new) process that links to user32.dll (i.e. pretty much every user-mode process)
         // could we await into a exe?

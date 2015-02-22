@@ -18,21 +18,76 @@ namespace RTCICELobby
     /// </summary>
     public class ApplicationWebService
     {
-        /// <summary>
-        /// The static content defined in the HTML file will be update to the dynamic content once application is running.
-        /// </summary>
-        public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
+        public string sdp;
+        public List<string> sdpCandidates = new List<string>();
 
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
+        public async Task Offer()
         {
-            // Send it back to the caller.
-            y(e);
+            Console.WriteLine(new { sdp });
+
+            Memory.AllAvailableOffers.Add(sdp);
         }
+
+        public string sdpAnwser;
+        public List<string> sdpAnwserCandidates = new List<string>();
+
+        public async Task CheckAnswer()
+        {
+            // copy anwser for sdp, if there is one...
+            var x = Memory.AllAvailableAnwsers.FirstOrDefault(z => z.sdpOffer == this.sdp);
+
+            this.sdpAnwser = x.sdpAnwser;
+            this.sdpAnwserCandidates = x.sdpAnwserCandidates;
+
+            // and now remove from memory? 
+            // pairing complete
+        }
+
+        public string sdpOffer;
+
+        public async Task GetOffer()
+        {
+            // if there is an offer available already, lets make it known...
+
+
+            sdpOffer = Memory.AllAvailableOffers.FirstOrDefault();
+        }
+
+        public async Task Anwser()
+        {
+            foreach (var sdpAnwserCandidate in sdpAnwserCandidates)
+            {
+                Console.WriteLine(new { sdpAnwserCandidate });
+            }
+            Console.WriteLine(new { sdpAnwser });
+            Console.WriteLine(new { sdpOffer });
+
+            Memory.AllAvailableAnwsers.Add(
+                new AnwserToOffer
+                {
+                    sdpOffer = sdpOffer,
+                    sdpAnwser = sdpAnwser,
+
+                    sdpAnwserCandidates = sdpAnwserCandidates.ToList()
+                }
+            );
+        }
+    }
+
+    public class AnwserToOffer
+    {
+        public string sdpOffer;
+
+        public string sdpAnwser;
+        public List<string> sdpAnwserCandidates;
+    }
+
+    public static class Memory
+    {
+        public static List<string> AllAvailableOffers = new List<string>();
+
+        public static List<AnwserToOffer> AllAvailableAnwsers = new List<AnwserToOffer>();
+
 
     }
 }
