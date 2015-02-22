@@ -423,6 +423,18 @@ namespace HeatZeekerRTSOrto
             var s = Stopwatch.StartNew();
             var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
+            // http://stackoverflow.com/questions/26497903/nested-webglrendertargets-in-three-js
+            //   var effect = new THREE.OculusRiftEffect(
+            //renderer, new
+            //{
+            //    worldScale = 100,
+
+            //           //HMD
+            //       }
+            //);
+
+            //   effect.setSize(1920, 1080);
+
             Native.window.onframe +=
                 e =>
                 {
@@ -442,6 +454,7 @@ namespace HeatZeekerRTSOrto
                     camera.position = controls.center.clone();
 
                     renderer.render(scene, camera);
+                    //effect.render(scene, camera);
                 };
 
             var ze = new ZeProperties();

@@ -146,6 +146,8 @@ interface THREE.ImageUtilsType
 
 
 
+
+// http://threejs.org/docs/#Reference/Textures/Texture
 // File:src/textures/Texture.js
 [Constructor(),
 Constructor(html::HTMLImageElement c),
@@ -204,7 +206,7 @@ interface THREE.Animation
 };
 
 
-
+// http://threejs.org/docs/#Reference/Cameras/Camera
 interface THREE.Camera : THREE.Object3D
 {
 	attribute THREE.Matrix4  projectionMatrix;
@@ -215,19 +217,28 @@ interface THREE.Camera : THREE.Object3D
 };
 
 
+
+// http://threejs.org/docs/#Reference/Cameras/OrthographicCamera
 // File:src/cameras/OrthographicCamera.js
 // X:\jsc.svn\examples\javascript\WebGL\HeatZeekerRTSOrto\HeatZeekerRTSOrto\Application.cs
-[Constructor(double  left, double right, double top, double bottom),
-Constructor(double  left, double right, double top, double bottom, double near, double far)]
+[
+	// Constructor(double  left, double right, double top, double bottom),
+	Constructor(
+	attribute double  left,
+	attribute double right,
+	attribute double top,
+	attribute double bottom,
+	attribute double near,
+	attribute double far)]
 interface THREE.OrthographicCamera :  THREE.Camera
 {
-	attribute double  left;
-	attribute double  right;
-	attribute double  top;
-	attribute double  bottom;
+	//attribute double  left;
+	//attribute double  right;
+	//attribute double  top;
+	//attribute double  bottom;
 
 	void updateProjectionMatrix();
-	attribute THREE.Vector3  up;
+	//attribute THREE.Vector3  up;
 };
 
 
@@ -238,14 +249,19 @@ interface THREE.OrthographicCamera :  THREE.Camera
 // http://threejs.org/docs/#Reference/Cameras/PerspectiveCamera
 // "Camera with perspective projection."
 // X:\jsc.svn\examples\javascript\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\Library\ZeProperties.cs
-//[Constructor(attribute double fov, double aspect, double near, double far)]
-[Constructor(double fov, double aspect, double near, double far)]
+[Constructor(
+	attribute double fov,
+	attribute double aspect,
+	attribute double near,
+	attribute double far
+	)]
+//[Constructor(double fov, double aspect, double near, double far)]
 interface THREE.PerspectiveCamera :  THREE.Camera
 {
-	attribute double fov;
-	attribute double aspect;
-	attribute double near;
-	attribute double far;
+	//attribute double fov;
+	//attribute double aspect;
+	//attribute double near;
+	//attribute double far;
 
 	void updateProjectionMatrix();
 
@@ -263,11 +279,13 @@ interface THREE.PerspectiveCamera :  THREE.Camera
 
 
 
+// http://threejs.org/docs/#Reference/Scenes/Scene
 // // File:src/scenes/Scene.js
 [Constructor()]
 interface THREE.Scene  : THREE.Object3D
 {
-	attribute any         fog;
+	attribute boolean	autoUpdate;
+	attribute THREE.Fog	fog;
 
 
 	// x:\jsc.svn\examples\javascript\webgl\WebGLGodRay\WebGLGodRay\Application.cs
@@ -285,9 +303,10 @@ interface THREE.Scene  : THREE.Object3D
 
 
 
+// http://threejs.org/docs/#Reference/Materials/LineBasicMaterial
 // X:\jsc.svn\examples\javascript\WebGL\WebGLOrthographicCamera\WebGLOrthographicCamera\Application.cs
 [Constructor(any parameters)]
-interface THREE.LineBasicMaterial
+interface THREE.LineBasicMaterial : THREE.Material
 {
 };
 
@@ -295,22 +314,7 @@ interface THREE.LineBasicMaterial
 
 
 
-// File:src/objects/Line.js
-[Constructor(any geometry, any material),
-Constructor(any geometry, any material, any mode)]
-//[Constructor(any geometry, any material)]
-//[Constructor(any geometry, any material, any mode)]
-interface THREE.Line  : THREE.Object3D
-{
-	// X:\jsc.svn\examples\javascript\WebGL\HeatZeekerRTSOrto\HeatZeekerRTSOrto\Application.cs
 
-	//attribute long type;
-	
-	attribute THREE.Geometry geometry;
-	attribute THREE.Material material;
-
-	attribute int mode;
-};
 
 
 
@@ -323,6 +327,7 @@ interface THREE.ShaderMaterial : THREE.Material
 
 
 
+// http://threejs.org/docs/#Reference/Math/Color
 // File:src/math/Color.js
 [Constructor(long color)]
 interface THREE.Color
@@ -338,6 +343,7 @@ interface THREE.Color
 };
 
 
+// http://threejs.org/docs/#Reference/Math/Plane
 [Constructor(long x, long y)]
 interface THREE.Plane
 {
@@ -351,6 +357,9 @@ interface THREE.Raycaster_intersectObject
 	attribute THREE.Mesh object;
 };
 
+
+
+// http://threejs.org/docs/#Reference/Core/Raycaster
 [Constructor,
 Constructor(THREE.Vector3 position, THREE.Vector3 target)
 ]
@@ -368,15 +377,23 @@ interface THREE.Raycaster
 };
 
 
+
+// http://threejs.org/docs/#Reference/Scenes/FogExp2
 // File:src/scenes/FogExp2.js
-[Constructor(long color, double a)]
+[Constructor(
+	long color,
+	attribute double density
+	)]
 interface THREE.FogExp2
 {
+	// tested by?
 };
 
 
+
+// http://threejs.org/docs/#Reference/Scenes/Fog
 // File:src/scenes/Fog.js
-[Constructor(long color, long y, long z)]
+[Constructor(long color, long near, long far)]
 interface THREE.Fog
 {
 	// tested by X:\jsc.svn\examples\javascript\WebGLClouds\WebGLClouds\Application.cs
@@ -392,6 +409,7 @@ interface THREE.Fog
 
 
 
+// http://threejs.org/docs/#Reference/Lights/Light
 // File:src/lights/Light.js
 //[Constructor(), Constructor(attribute long color)]
 [Constructor(), Constructor(long color)]
@@ -402,8 +420,12 @@ interface THREE.Light : THREE.Object3D
 };
 
 
+
+// http://threejs.org/docs/#Reference/Lights/DirectionalLight
 // File:src/lights/DirectionalLight.js
-[Constructor(long x), Constructor(long x, double y)]
+[Constructor(
+	long hex,
+	attribute double intensity = 1.0)]
 interface THREE.DirectionalLight : THREE.Light
 {
 	attribute boolean        castShadow;
@@ -414,37 +436,52 @@ interface THREE.DirectionalLight : THREE.Light
 
 
 
-
+// http://threejs.org/docs/#Reference/Lights/PointLight
 // File:src/lights/PointLight.js
-[Constructor(long x),
-Constructor(long  color, double intensity),
-Constructor(long  color, double intensity, long distance)]
+[Constructor(
+	long  color,
+	attribute double intensity = 1.0,
+	attribute double distance = 0.0
+	)]
 interface THREE.PointLight : THREE.Light
 {
 	attribute THREE.Vector3  position;
 };
 
 
+// http://threejs.org/docs/#Reference/Lights/HemisphereLight
 // File:src/lights/HemisphereLight.js
-[Constructor(long x, double y, double z)]
+[Constructor(
+	long color,
+	long groundColor,
+	attribute double intensity
+	)]
 interface THREE.HemisphereLight : THREE.Light
 {
+	// tested by?
+
 	attribute THREE.Vector3  position;
 };
 
 
+// http://threejs.org/docs/#Reference/Lights/AmbientLight
 // File:src/lights/AmbientLight.js
-[Constructor(long x)]
-interface THREE.AmbientLight : THREE.Light
-{
-};
+[Constructor(long hex)]
+interface THREE.AmbientLight : THREE.Light;
 
 
 
+
+// http://threejs.org/docs/#Reference/Lights/SpotLight
 // File:src/lights/SpotLight.js
-[Constructor(long color), Constructor(long color, double intensity)]
+[Constructor(
+	long color,
+	attribute double intensity
+	)]
 interface THREE.SpotLight : THREE.Light
 {
+	// tested by?
+
 	attribute THREE.Vector3  position;
 	attribute THREE.Object3D target;
 
@@ -461,6 +498,8 @@ interface THREE.SpotLight : THREE.Light
 	attribute long        shadowMapHeight;
 };
 
+
+// http://threejs.org/docs/#Reference/Extras.Geometries/PlaneGeometry
 [Constructor(long x, long y),
 Constructor(long x, long y, long z, long q)]
 interface THREE.PlaneGeometry
@@ -472,16 +511,10 @@ interface THREE.PlaneGeometry
 
 
 
-[Constructor(), Constructor(double x, double y)]
-interface THREE.Vector2
-{
-	attribute double x;
-	attribute double y;
-
-	THREE.Vector2  set(double x, double y);
-};
 
 
+
+// http://threejs.org/docs/#Reference/Math/Euler
 [Constructor(), Constructor(double x, double y, double z)]
 interface THREE.Euler
 {
@@ -489,14 +522,26 @@ interface THREE.Euler
 
 
 
+// http://threejs.org/docs/#Reference/Math/Vector2
+[Constructor(
+	attribute double x = 0,
+	attribute double y = 0
+	)]
+interface THREE.Vector2
+{
+	THREE.Vector2  set(double x, double y);
+};
+
+
+// http://threejs.org/docs/#Reference/Math/Vector3
 // // File:src/math/Vector3.js
-[Constructor(), Constructor(double x, double y, double z)]
+[Constructor(
+	attribute double x = 0,
+	attribute double y = 0,
+	attribute double z = 0
+	)]
 interface THREE.Vector3
 {
-	attribute double x;
-	attribute double y;
-	attribute double z;
-
 	THREE.Vector3  fromArray(sequence<double> array);
 
 	THREE.Vector3  set(double x, double y, double z);
@@ -529,24 +574,39 @@ interface THREE.Vector3
 	THREE.Vector3 clone();
 };
 
-[Constructor(), Constructor(double x, double y, double z, double q)]
+// http://threejs.org/docs/#Reference/Math/Vector4
+[Constructor(
+	attribute double x,
+	attribute double y,
+	attribute double z,
+	attribute double w
+	)]
 interface THREE.Vector4
 {
-	attribute double x;
-	attribute double y;
-	attribute double z;
-
 	THREE.Vector4 applyMatrix4(THREE.Matrix4 m);
 };
 
 
+// http://threejs.org/docs/#Reference/Math/Quaternion
+[Constructor(
+	attribute double x,
+	attribute double y,
+	attribute double z,
+	attribute double w
+	)]
+interface THREE.Quaternion
+{
+	void copy(any  p);
 
+};
+
+// http://threejs.org/docs/#Reference/Math/Matrix4
 // File:src/math/Matrix4.js
 [Constructor()]
 interface THREE.Matrix4
 {
 	attribute sequence<double>        elements;
-	
+
 
 	any makePerspective(double fov, double xy, long a, long b);
 	any makeRotationX(double value);
@@ -595,6 +655,7 @@ interface THREE.Object3D
 	attribute sequence<THREE.Object3D> children;
 
 	// operator +
+	// attachTo
 	void add(any mesh);
 	void remove(any mesh);
 
@@ -634,27 +695,24 @@ interface THREE.Object3D
 	string toJSON();
 };
 
+
+// not documented?
 [Constructor()]
 interface THREE.Group : THREE.Object3D
 {
 };
 
 
+// http://threejs.org/docs/#Reference/Objects/Bone
 [Constructor()]
 interface THREE.Bone : THREE.Object3D
 {
 	attribute THREE.Matrix4 skinMatrix;
-
+	attribute THREE.SkinnedMesh skin;
 };
 
 
 
-[Constructor()]
-interface THREE.Quaternion
-{
-	void copy(any  p);
-
-};
 
 
 
@@ -682,9 +740,10 @@ interface THREE.Mesh : THREE.Object3D
 
 
 
+// http://threejs.org/docs/#Reference/Objects/SkinnedMesh
 // // File:src/objects/SkinnedMesh.js
-[Constructor(), Constructor(any mesh, any name)]
-interface THREE.SkinnedMesh :  THREE.Mesh
+[Constructor(), Constructor(any geometry, any name)]
+interface THREE.SkinnedMesh :  THREE.Object3D
 {
 
 
@@ -693,16 +752,14 @@ interface THREE.SkinnedMesh :  THREE.Mesh
 
 };
 
-
-
+// https://github.com/mrdoob/three.js/issues/5311
+// docs are out of date?
+// http://threejs.org/docs/#Reference/Objects/MorphAnimMesh
 // X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuMD2Model\WebGLYomotsuMD2Model\Application.cs
 // File:src/objects/MorphAnimMesh.js
 [Constructor(any geometry, any material)]
-interface THREE.MorphAnimMesh  :  THREE.Mesh
+interface THREE.MorphAnimMesh  : THREE.Mesh
 {
-	//attribute THREE.Vector3  position;
-	//attribute THREE.Vector3  rotation;
-	//attribute THREE.Vector3  scale;
 	attribute long duration;
 	attribute long time;
 	attribute long currentKeyframe;
@@ -715,7 +772,12 @@ interface THREE.MorphAnimMesh  :  THREE.Mesh
 
 };
 
-[Constructor(THREE.Object3D object, long color)]
+
+// http://threejs.org/docs/#Reference/Extras.Helpers/BoundingBoxHelper
+[Constructor(
+	attribute THREE.Object3D object,
+	long color
+	)]
 interface THREE.BoundingBoxHelper :  THREE.Mesh
 {
 	void update();
@@ -771,6 +833,9 @@ interface THREE.WebGLRenderer
 
 };
 
+
+
+// http://threejs.org/docs/#Reference/Renderers/WebGLRenderTarget
 // File:src/renderers/WebGLRenderTarget.js
 [Constructor(long width, long height, any options)]
 interface THREE.WebGLRenderTarget
@@ -782,6 +847,8 @@ interface THREE.WebGLRenderTarget
 	void setSize(long width, long height);
 };
 
+
+// http://threejs.org/docs/#Reference/Renderers/CanvasRenderer
 [Constructor(), Constructor(any args)]
 interface THREE.CanvasRenderer
 {
@@ -811,10 +878,11 @@ interface THREE.CanvasRenderer
 
 
 
-
+// http://threejs.org/docs/#Reference/Math/Sphere
 [Constructor]
 interface THREE.Sphere
 {
+	// tested by?
 	attribute double  radius;
 
 };
@@ -830,18 +898,23 @@ interface THREE.Geometry
 {
 	attribute string type;
 
+	attribute string name;
+	attribute sequence<THREE.Vector3>        vertices;
+	attribute sequence<THREE.Color>        colors;
+	attribute sequence<THREE.Face3>        faces;
+	attribute sequence<any>        morphTargets;
+	attribute sequence<THREE.Color>        morphColors;
+
+	attribute THREE.Sphere boundingSphere;
 	attribute boolean dynamic;
 	attribute boolean verticesNeedUpdate;
 
-	attribute THREE.Sphere boundingSphere;
 
 	// X:\jsc.svn\examples\javascript\WebGL\WebGLDashedLines\WebGLDashedLines\Application.cs
-	attribute sequence<THREE.Vector3>        vertices;
 
-	attribute sequence<THREE.Geometry>        faces;
+	// 
 	attribute sequence<THREE.Color>        vertexColors;
-	attribute sequence<any>        morphTargets;
-	
+
 	// http://stackoverflow.com/questions/22348843/three-js-what-does-computecentroids-do
 	// um. collada thingy wants to use computeCentroids.
 
@@ -856,15 +929,28 @@ interface THREE.Geometry
 
 
 
+// http://threejs.org/docs/#Reference/Core/BufferGeometry
 // // File:src/core/BufferGeometry.js
 [Constructor()]
 interface THREE.BufferGeometry
 {
+	// tested by?
+
 	attribute any attributes;
 	attribute sequence<any> drawcalls;
 	any computeBoundingSphere();
 };
 
+// http://threejs.org/docs/#Reference/Core/Face3
+[Constructor]
+interface THREE.Face3
+{
+	attribute THREE.Color        color;
+
+
+};
+
+// not documented?
 [Constructor]
 interface THREE.Face4
 {
@@ -882,53 +968,79 @@ interface THREE.PlaneBufferGeometry : THREE.BufferGeometry
 };
 
 
-[Constructor(double radius),
-Constructor(double size, double arg1, double arg2),
-Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5),
-Constructor(double size, double arg1, double arg2, double arg3, double arg4, double arg5, double arg6)]
-interface THREE.SphereGeometry
-{
-	attribute sequence<THREE.Face4>        faces;
 
-};
+// http://threejs.org/docs/#Reference/Extras.Geometries/SphereGeometry
+// File:src/extras/geometries/SphereGeometry.js
+[Constructor(double radius, int widthSegments, int heightSegments),
+ Constructor(
+	// all attribute args should be optional
+	// tested by?
 
-[Constructor(double size, double arg1, double arg2, double arg3)]
-interface THREE.CylinderGeometry
-{
-	void applyMatrix(any value);
+	attribute double radius,
+	attribute int widthSegments,
+	attribute int heightSegments,
 
-};
+	attribute double phiStart,
+	attribute double phiLength,
+	attribute double thetaStart,
 
-//radius, segments, thetaStart, thetaLength
+	// idl value/expression compiler knows π ?
+	// can we do pi * 2 here yet?
+	attribute double thetaLength)]
+interface THREE.SphereGeometry : THREE.Geometry;
+
+// http://threejs.org/docs/#Reference/Extras.Geometries/CylinderGeometry
 
 // tested by?
-[Constructor(double radius, double segments)]
-interface THREE.CircleGeometry
-{
-	void applyMatrix(any value);
+[Constructor(
+	attribute double radiusTop,
+	attribute double radiusBottom,
+	attribute double height,
+	attribute int radiusSegments,
+	attribute int heightSegments,
+	attribute boolean openEnded)]
+interface THREE.CylinderGeometry  : THREE.Geometry;
 
-};
+
+// http://threejs.org/docs/#Reference/Extras.Geometries/CircleGeometry
+// tested by?
+[Constructor(
+	attribute double radius,
+	attribute double segments,
+	attribute double thetaStart,
+	attribute double thetaLength
+	)]
+interface THREE.CircleGeometry  : THREE.Geometry;
 
 
+
+// http://threejs.org/docs/#Reference/Extras.Geometries/TorusGeometry
 // X:\jsc.svn\examples\javascript\WebGL\WebGLCelShader\WebGLCelShader\Application.cs
 // File:src/extras/geometries/TorusGeometry.js
-[Constructor(double radius, double tube, double radialSegments, double tubularSegments)]
-interface THREE.TorusGeometry :  THREE.Geometry
-{
+[Constructor(
+	attribute double radius,
+	attribute double tube,
+	attribute int radialSegments,
+	attribute int tubularSegments,
+	attribute double arc
+	)]
+interface THREE.TorusGeometry :  THREE.Geometry;
 
-};
 
-
+// http://threejs.org/docs/#Reference/Extras.Geometries/TorusKnotGeometry
 // tested by?
-[Constructor(double radius, double tube, double radialSegments, double tubularSegments, double p, double q, double heightSegments)]
-interface THREE.TorusKnotGeometry
-{
-	void applyMatrix(any value);
-};
+[Constructor(
+	attribute double radius,
+	attribute double tube,
+	attribute double radialSegments,
+	attribute double tubularSegments,
+	attribute double p,
+	attribute double q,
+	attribute double heightSegments)]
+interface THREE.TorusKnotGeometry : THREE.Geometry;
 
-//THREE.TorusKnotGeometry = function ( radius, tube, radialSegments, tubularSegments, p, q, heightScale ) {
 
-
+// not documented?
 [Constructor()]
 interface THREE.Projector
 {
@@ -939,14 +1051,21 @@ interface THREE.Projector
 
 
 
-
+// http://threejs.org/docs/#Reference/Extras.Geometries/BoxGeometry
 // X:\jsc.svn\examples\javascript\WebGL\WebGLInteractiveCubes\WebGLInteractiveCubes\Application.cs
-[Constructor(double x, double y, double z)]
+[Constructor(
+	attribute double x,
+	attribute double y,
+	attribute double z
+	)
+]
 interface THREE.BoxGeometry : THREE.Geometry
 {
+
 };
 
 
+// http://threejs.org/docs/#Reference/Extras.Geometries/CubeGeometry
 // obsolete
 [Constructor(double x, double y, double z),
 Constructor(double x, double y, double z, double cx, double cy, double cz)]
@@ -959,12 +1078,17 @@ interface THREE.CubeGeometry
 	void applyMatrix(THREE.Matrix4 m);
 };
 
-[Constructor(any position, any n)]
+
+// http://threejs.org/docs/#Reference/Math/Ray
+[Constructor(
+	attribute THREE.Vector3 origin,
+	attribute THREE.Vector3 direction
+	)]
 interface THREE.Ray
 {
-	attribute THREE.Vector3  direction;
 };
 
+// not documented?
 [Constructor(any geometry, any material)]
 interface THREE.ParticleSystem : THREE.Object3D
 {
@@ -972,19 +1096,24 @@ interface THREE.ParticleSystem : THREE.Object3D
 
 };
 
+
+
+// http://threejs.org/docs/#Reference/Objects/Sprite
 // // File:src/objects/Sprite.js
-[Constructor(any a)]
+[Constructor(
+	attribute THREE.SpriteMaterial material
+	)]
 interface THREE.Sprite : THREE.Object3D
 {
 	// X:\jsc.svn\examples\javascript\webgl\WebGLVRCreativeLeadership\WebGLVRCreativeLeadership\Application.cs
 
-	// attribute THREE.Vector3  position;
-	// attribute double  rotation;
 
 };
 
 
 
+
+// http://threejs.org/docs/#Reference/Loaders/Loader
 interface THREE.Loader
 {
 
@@ -1000,6 +1129,7 @@ interface THREE.ObjectLoader : THREE.Loader
 	THREE.Object3D parse(any json);
 };
 
+// http://threejs.org/docs/#Reference/Loaders/JSONLoader
 // File:src/loaders/JSONLoader.js
 [Constructor()]
 interface THREE.JSONLoader : THREE.Loader
@@ -1021,10 +1151,19 @@ interface THREE.JSONLoader : THREE.Loader
 
 
 
+
+// http://threejs.org/docs/#Reference/Materials/Material
 // File:src/materials/Material.js
 [Constructor()]
 interface THREE.Material
 {
+	attribute double opacity;
+	attribute boolean transparent;
+	attribute int blending;
+	attribute boolean visible;
+	attribute boolean needsUpdate;
+
+
 	// set by initMaterial
 	attribute any program;
 	attribute any type;
@@ -1042,24 +1181,28 @@ interface THREE.MeshLambertMaterial : THREE.Material
 };
 
 
+
+// http://threejs.org/docs/#Reference/Materials/SpriteMaterial
 // File:src/materials/SpriteMaterial.js
 [Constructor(any parameters)]
 interface THREE.SpriteMaterial : THREE.Material
 {
-
+	attribute boolean fog;
 };
 
 
 
+// http://threejs.org/docs/#Reference/Materials/MeshDepthMaterial
 // File:src/materials/MeshDepthMaterial.js
 // x:\jsc.svn\examples\javascript\webgl\WebGLGodRay\WebGLGodRay\Application.cs
-[Constructor()]
+[Constructor(any parameters)]
 interface THREE.MeshDepthMaterial : THREE.Material
 {
 
 };
 
 
+// not documented?
 [Constructor(any e)]
 interface THREE.ParticleSystemMaterial : THREE.Material
 {
@@ -1067,15 +1210,17 @@ interface THREE.ParticleSystemMaterial : THREE.Material
 };
 
 
+
+// http://threejs.org/docs/#Reference/Materials/MeshFaceMaterial
 // File:src/materials/MeshFaceMaterial.js
-[Constructor, Constructor(any e)]
-interface THREE.MeshFaceMaterial : THREE.Material
-{
-	attribute sequence<any> materials;
+[Constructor(
+	attribute sequence<any> materials
+	)]
+interface THREE.MeshFaceMaterial; // : THREE.Material
 
-};
 
-[Constructor(any e)]
+// http://threejs.org/docs/#Reference/Materials/MeshBasicMaterial
+[Constructor(any parameters)]
 interface THREE.MeshBasicMaterial : THREE.Material
 {
 	// X:\jsc.svn\examples\javascript\WebGL\WebGLOBJExperiment\WebGLOBJExperiment\Application.cs
@@ -1091,7 +1236,7 @@ interface THREE.MeshPhongMaterial : THREE.Material
 	attribute THREE.Color color;
 	attribute THREE.Color ambient;
 	attribute THREE.Color specular;
-	
+
 	attribute double shininess;
 	attribute boolean metal;
 
@@ -1102,6 +1247,7 @@ interface THREE.MeshPhongMaterial : THREE.Material
 
 
 
+// http://threejs.org/docs/#Reference/Core/Clock
 // File:src/core/Clock.js
 // x:\jsc.svn\examples\webgl\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter\Application.cs
 [Constructor()]
@@ -1111,6 +1257,19 @@ interface THREE.Clock
 
 };
 
+
+
+
+// http://threejs.org/docs/#Reference/Objects/Line
+// File:src/objects/Line.js
+//	// X:\jsc.svn\examples\javascript\WebGL\HeatZeekerRTSOrto\HeatZeekerRTSOrto\Application.cs
+[Constructor(
+	attribute THREE.Geometry geometry,
+	attribute THREE.Material material,
+	attribute int mode
+	)
+]
+interface THREE.Line  : THREE.Object3D;
 
 
 // File:src/math/Spline.js
@@ -1123,6 +1282,8 @@ interface THREE.Spline
 };
 
 
+
+// http://threejs.org/docs/#Reference/Materials/LineDashedMaterial
 // File:src/materials/LineDashedMaterial.js
 [Constructor(any parameters)]
 interface THREE.LineDashedMaterial : THREE.Material

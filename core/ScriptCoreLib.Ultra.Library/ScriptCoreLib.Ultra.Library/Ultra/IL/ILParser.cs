@@ -10,6 +10,8 @@ namespace ScriptCoreLib.Ultra.IL
     {
         public static ILAssembly ToAssemblyWithMethods(this IDLParserToken t)
         {
+            // used by?
+
             var a = new ILAssembly();
 
             var q = t;

@@ -7,10 +7,16 @@ namespace ScriptCoreLib.Ultra.IDL
 {
     public class IDLParameter
     {
+        public IDLParserToken KeywordAttribute;
+
         public IDLParserToken KeywordIn;
         public IDLParserToken KeywordOptional;
         public IDLTypeReference ParameterType;
         public IDLParserToken Name;
+
+        public IDLParserToken KeywordAssignment;
+
+        public IDLNumericLiteral DefaultValue;
 
         public override string ToString()
         {

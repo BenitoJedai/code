@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using WebGLEquirectangularPanorama.HTML.Images.FromAssets;
+using WebGLRah66Comanche.Library;
 using WebGLSVGSprite;
 using WebGLSVGSprite.Design;
 using WebGLSVGSprite.HTML.Pages;
@@ -748,6 +749,18 @@ namespace WebGLSVGSprite
                 };
             // https://developer.android.com/training/system-ui/immersive.html
 
+
+
+
+            var ze = new ZeProperties();
+
+            ze.Show();
+            ze.treeView1.Nodes.Clear();
+
+            ze.Add(() => renderer);
+            //ze.Add(() => controls);
+            ze.Add(() => scene);
+            ze.Left = 0;
         }
 
     }

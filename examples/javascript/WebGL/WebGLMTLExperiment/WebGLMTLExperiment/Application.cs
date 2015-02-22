@@ -16,6 +16,9 @@ using System.Xml.Linq;
 using WebGLMTLExperiment;
 using WebGLMTLExperiment.Design;
 using WebGLMTLExperiment.HTML.Pages;
+using WebGLRah66Comanche.Library;
+
+using THREE;
 
 namespace WebGLMTLExperiment
 {
@@ -105,72 +108,75 @@ namespace WebGLMTLExperiment
             );
 
 
-            //
-            Native.document.body.Orphanize();
-            Native.window.requestAnimationFrame +=
+
+
+
+
+            var renderer = new THREE.WebGLRenderer();
+            //renderer.setSize();
+
+            // why are we getting offset?
+            renderer.setSize(Native.window.Width, Native.window.Height);
+
+            //Native.document.body.Clear();
+
+
+            renderer.domElement.AttachToDocument();
+            //renderer.domElement.AttachTo(Native.document.documentElement);
+
+            //window.addEventListener( 'resize', onWindowResize, false );
+
+            //}
+
+            //function onWindowResize() {
+
+            //    windowHalfX = window.innerWidth / 2;
+            //    windowHalfY = window.innerHeight / 2;
+
+            //    camera.aspect = window.innerWidth / window.innerHeight;
+            //    camera.updateProjectionMatrix();
+
+            //    renderer.setSize( window.innerWidth, window.innerHeight );
+
+            //}
+
+            var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+
+            ////
+
+            //function animate() {
+
+            //    requestAnimationFrame( animate );
+            //    render();
+
+            //}
+
+            Native.window.onframe +=
                 delegate
                 {
 
-                    var renderer = new THREE.WebGLRenderer();
-                    //renderer.setSize();
 
-                    // why are we getting offset?
-                    renderer.setSize(Native.window.Width - 32, Native.window.Height - 32);
+                    controls.update();
+                    camera.position = controls.center.clone();
 
-                    //Native.document.body.Clear();
+                    renderer.render(scene, camera);
 
-
-                    //renderer.domElement.AttachToDocument();
-                    renderer.domElement.AttachTo(Native.document.documentElement);
-
-                    //window.addEventListener( 'resize', onWindowResize, false );
-
-                    //}
-
-                    //function onWindowResize() {
-
-                    //    windowHalfX = window.innerWidth / 2;
-                    //    windowHalfY = window.innerHeight / 2;
-
-                    //    camera.aspect = window.innerWidth / window.innerHeight;
-                    //    camera.updateProjectionMatrix();
-
-                    //    renderer.setSize( window.innerWidth, window.innerHeight );
-
-                    //}
-
-                    Native.document.onmousemove +=
-                        e =>
-                        {
-
-                            mouseX = (e.CursorX - Native.window.Width / 2) / 2;
-                            mouseY = (e.CursorY - Native.window.Height / 2) / 2;
-
-                        };
-
-                    ////
-
-                    //function animate() {
-
-                    //    requestAnimationFrame( animate );
-                    //    render();
-
-                    //}
-
-                    Native.window.onframe +=
-                        delegate
-                        {
-
-
-                            camera.position.x += (mouseX - camera.position.x) * .05;
-                            camera.position.y += (-mouseY - camera.position.y) * .05;
-
-                            camera.lookAt(scene.position);
-
-                            renderer.render(scene, camera);
-
-                        };
                 };
+
+
+
+            #region ZeProperties
+            var ze = new ZeProperties();
+
+            ze.Show();
+            ze.treeView1.Nodes.Clear();
+
+            ze.Add(() => renderer);
+            ze.Add(() => controls);
+            ze.Add(() => scene);
+            ze.Left = 0;
+            #endregion
 
 
         }

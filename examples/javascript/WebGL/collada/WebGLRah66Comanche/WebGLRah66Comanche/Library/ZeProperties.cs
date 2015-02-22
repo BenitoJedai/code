@@ -46,8 +46,31 @@ namespace WebGLRah66Comanche.Library
         public async void Add(string name, Func<bool> get_subject, TreeNodeCollection Nodes = null)
         {
             var n = Nodes.Add("\{name} <- \{get_subject()}");
+        }
+
+        public async void Add(string name, Func<int> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add(name);
+
+            var frame = 0;
+            do
+            {
+                frame++;
+
+                var v = get_subject();
+
+                //n.Text = "\{name} = \{v} #\{frame}";
+                n.Text = "\{name} = \{v}";
+
+                await Task.Delay(1000 / 5);
 
 
+
+                // until parent is detached?
+            }
+            while (true);
+
+            // would calling self do a tail/jump?
         }
 
         public async void Add(string name, Func<double> get_subject, TreeNodeCollection Nodes = null)
@@ -87,6 +110,19 @@ namespace WebGLRah66Comanche.Library
             Add("base", () => (THREE.Object3D)x, n.Nodes);
         }
 
+        async void Add(string name, Func<Sprite> get_subject, TreeNodeCollection Nodes = null)
+        {
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLSVGSprite\WebGLSVGSprite\Application.cs
+
+            var x = get_subject();
+            var n = Nodes.Add("\{name} : \{nameof(Sprite)} '\{x.name}' (\{x.children.Length})");
+            n.Tag = x;
+
+            await n.AsyncAfterExpand();
+
+
+            Add("base", () => (THREE.Object3D)x, n.Nodes);
+        }
 
         async void Add(string name, Func<Object3D> get_subject, TreeNodeCollection Nodes = null)
         {
@@ -318,7 +354,7 @@ namespace WebGLRah66Comanche.Library
             await n.AsyncAfterExpand();
             Add("base", () => (Mesh)x, n.Nodes);
             //Add(nameof(THREE.MorphAnimMesh.duaration), () => x.duaration, n.Nodes);
-            Add(nameof(THREE.MorphAnimMesh.time), () =>  x.time, n.Nodes);
+            Add(nameof(THREE.MorphAnimMesh.time), () => x.time, n.Nodes);
         }
         async void Add(string name, Func<Scene> get_subject, TreeNodeCollection Nodes = null)
         {
@@ -376,12 +412,13 @@ namespace WebGLRah66Comanche.Library
             Add(nameof(THREE.Material.type), () => x.type, n.Nodes);
         }
 
-        async void Add(string name, Func<THREE.BoxGeometry> get_subject, TreeNodeCollection Nodes = null)
+        async void Add(string name, Func<BoxGeometry> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.BoxGeometry)}");
+            var n = Nodes.Add("\{name} : \{nameof(BoxGeometry)}");
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add("base", () => (THREE.Geometry)x, n.Nodes);
+            Add(nameof(THREE.BoxGeometry.x), () => x.dynamic, n.Nodes);
         }
 
         async void Add(string name, Func<Geometry> get_subject, TreeNodeCollection Nodes = null)
@@ -593,6 +630,13 @@ namespace WebGLRah66Comanche.Library
             if (xLine != null)
             {
                 Add(name, () => xLine, Nodes);
+                return;
+            }
+
+            var xSprite = subject as THREE.Sprite;
+            if (xSprite != null)
+            {
+                Add(name, () => xSprite, Nodes);
                 return;
             }
 

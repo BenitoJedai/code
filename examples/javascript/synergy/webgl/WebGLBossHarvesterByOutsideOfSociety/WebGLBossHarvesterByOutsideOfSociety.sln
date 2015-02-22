@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLBossHarvesterByOutsideOfSociety", "WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety.csproj", "{2DC51F7F-A815-4DBF-9015-8AEA1E229B87}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {7B5C94C5-F6AA-42BA-815B-34DD472A47AC}
@@ -9,6 +11,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THREE", "..\..\..\..\..\market\synergy\THREE\THREE\THREE.csproj", "{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{FEBAEFA6-10D5-4975-9AE2-C321982DD51D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLRah66Comanche", "..\..\..\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\WebGLRah66Comanche.csproj", "{5A75FA08-3AF1-4D27-A726-20B58B6CD608}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLColladaExperiment", "..\..\..\WebGL\WebGLColladaExperiment\WebGLColladaExperiment\WebGLColladaExperiment.csproj", "{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,11 +30,21 @@ Global
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Debug|x86.Build.0 = Debug|x86
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|x86.ActiveCfg = Release|x86
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|x86.Build.0 = Release|x86
+		{5A75FA08-3AF1-4D27-A726-20B58B6CD608}.Debug|x86.ActiveCfg = Debug|x86
+		{5A75FA08-3AF1-4D27-A726-20B58B6CD608}.Debug|x86.Build.0 = Debug|x86
+		{5A75FA08-3AF1-4D27-A726-20B58B6CD608}.Release|x86.ActiveCfg = Release|x86
+		{5A75FA08-3AF1-4D27-A726-20B58B6CD608}.Release|x86.Build.0 = Release|x86
+		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Debug|x86.ActiveCfg = Debug|x86
+		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Debug|x86.Build.0 = Debug|x86
+		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Release|x86.ActiveCfg = Release|x86
+		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {FEBAEFA6-10D5-4975-9AE2-C321982DD51D}
+		{5A75FA08-3AF1-4D27-A726-20B58B6CD608} = {FEBAEFA6-10D5-4975-9AE2-C321982DD51D}
+		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9} = {FEBAEFA6-10D5-4975-9AE2-C321982DD51D}
 	EndGlobalSection
 EndGlobal

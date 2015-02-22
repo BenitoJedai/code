@@ -19,8 +19,12 @@ using WebGLDashedLines.Design;
 using WebGLDashedLines.HTML.Pages;
 using WebGLRah66Comanche.Library;
 
+using THREE;
+
 namespace WebGLDashedLines
 {
+    using Math = System.Math;
+
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
@@ -49,12 +53,12 @@ namespace WebGLDashedLines
 
             scene.fog = new THREE.Fog(0x111111, 150, 200);
 
-            var root = new THREE.Object3D();
+            var root = new Object3D();
 
             var subdivisions = 6;
             var recursion = 1;
 
-            var points = hilbert3D(new THREE.Vector3(0, 0, 0), 25.0, recursion, 0, 1, 2, 3, 4, 5, 6, 7);
+            var points = hilbert3D(new Vector3(), 25.0, recursion, 0, 1, 2, 3, 4, 5, 6, 7);
 
             Console.WriteLine(
                 new { points.Length }
@@ -104,11 +108,11 @@ namespace WebGLDashedLines
             }
 
             {
-                var geometry = new THREE.Geometry
+                var geometry = new Geometry
                 {
                     vertices = new[] {
-                        new THREE.Vector3(0, 0, 0),
-                        new THREE.Vector3(100, 0, 0)
+                        new Vector3(0, 0, 0),
+                        new Vector3(100, 0, 0)
                     }
                 };
 
@@ -122,7 +126,7 @@ namespace WebGLDashedLines
                 oline.AttachTo(scene);
             }
 
-            var renderer = new THREE.WebGLRenderer(new { antialias = true });
+            var renderer = new WebGLRenderer(new { antialias = true });
             renderer.setClearColor(0x111111);
             //renderer.setPixelRatio( window.devicePixelRatio );
             renderer.setSize(
@@ -175,6 +179,9 @@ namespace WebGLDashedLines
             ze.Add(() => renderer);
             ze.Add(() => controls);
             ze.Add(() => scene);
+
+            ze.Left = 0;
+
         }
 
 

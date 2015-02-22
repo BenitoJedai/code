@@ -16,8 +16,13 @@ using WebGLBossHarvesterByOutsideOfSociety.Design;
 using WebGLBossHarvesterByOutsideOfSociety.HTML.Pages;
 using System.Diagnostics;
 
+using THREE;
+using WebGLRah66Comanche.Library;
+
 namespace WebGLBossHarvesterByOutsideOfSociety
 {
+    using Math = System.Math;
+
 
 
     /// <summary>
@@ -86,6 +91,10 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             //OwnerMethod <.ctor > b__5
             //Offset 005b
             // did the problem just dissapear?
+
+
+            var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
 
             #region harvester_md5mesh
             new THREE.JSONLoader().load(
@@ -241,10 +250,14 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                             };
 
 
-                            camera.position.x = 800.0 * Math.Sin(time / 3000.0);
-                            camera.position.z = cameraTarget.z + 800.0 * Math.Cos(time / 3000.0);
+                            //camera.position.x = 800.0 * Math.Sin(time / 3000.0);
+                            //camera.position.z = cameraTarget.z + 800.0 * Math.Cos(time / 3000.0);
 
-                            camera.lookAt(cameraTarget);
+                            //camera.lookAt(cameraTarget);
+
+                            controls.update();
+                            camera.position = controls.center.clone();
+
 
 
                             renderer.render(scene, camera);
@@ -264,7 +277,9 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
             // lights
             var pointLight = new THREE.PointLight(0xffffff, 1.0, 0);
-            camera.add(pointLight);
+
+
+            pointLight.AttachTo(camera);
 
 
 
@@ -288,29 +303,41 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             Console.WriteLine("renderer ready!");
 
 
-            #region onmousedown
-            Native.document.onmousedown +=
-                 e =>
-                 {
-                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
-                     {
-                         if (Native.document.pointerLockElement == Native.document.body)
-                         {
-                             // cant requestFullscreen while pointerLockElement
-                             Console.WriteLine("exitPointerLock");
-                             Native.document.exitPointerLock();
-                             //Native.document.exitFullscreen();
-                             return;
-                         }
+            //#region onmousedown
+            //Native.document.onmousedown +=
+            //     e =>
+            //     {
+            //         if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+            //         {
+            //             if (Native.document.pointerLockElement == Native.document.body)
+            //             {
+            //                 // cant requestFullscreen while pointerLockElement
+            //                 Console.WriteLine("exitPointerLock");
+            //                 Native.document.exitPointerLock();
+            //                 //Native.document.exitFullscreen();
+            //                 return;
+            //             }
 
-                         Console.WriteLine("requestFullscreen");
-                         //Native.document.body.requestFullscreen();
-                         Native.document.body.requestPointerLock();
-                         return;
-                     }
-                 };
+            //             Console.WriteLine("requestFullscreen");
+            //             //Native.document.body.requestFullscreen();
+            //             Native.document.body.requestPointerLock();
+            //             return;
+            //         }
+            //     };
+            //#endregion
+
+
+            #region ZeProperties
+            var ze = new ZeProperties();
+
+            ze.Show();
+            ze.treeView1.Nodes.Clear();
+
+            ze.Add(() => renderer);
+            ze.Add(() => controls);
+            ze.Add(() => scene);
+            ze.Left = 0;
             #endregion
-
 
 
 
