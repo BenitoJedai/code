@@ -84,17 +84,17 @@ namespace RTCDataChannelExperiment
 
 
                             // onicecandidate: {{ sdpMLineIndex = 0, candidate = candidate:630834096 1 tcp 1518214911 192.168.43.252 0 typ host tcptype active generation 0 }}
-                            //new IHTMLPre { "remotePeerConnection.onicecandidate: " + new {
 
 
-                            //    e.candidate.candidate,
+                            new IHTMLPre { "remotePeerConnection.onicecandidate: " + new { e.candidate.sdpMLineIndex, e.candidate.sdpMid } }.AttachTo(yellow);
 
-                            //    e.candidate.sdpMLineIndex,
+                            new IHTMLTextArea
+                            {
+                                value = e.candidate.candidate,
 
-                            //     e.candidate.sdpMid
-                            //} }.AttachTo(yellow);
+                                title = "for local addIceCandidate"
 
-                            new IHTMLPre { "remotePeerConnection.onicecandidate" }.AttachTo(yellow);
+                            }.AttachTo(yellow);
 
                         }
                     );
@@ -102,9 +102,17 @@ namespace RTCDataChannelExperiment
 
                     #region ondatachannel
                     remotePeerConnection.ondatachannel = new Action<RTCDataChannelEvent>(
-                        e =>
+                        (RTCDataChannelEvent e) =>
                         {
                             new IHTMLPre { "enter  remotePeerConnection.ondatachannel " }.AttachTo(yellow);
+
+
+                            e.channel.onmessage = new Action<MessageEvent>(
+                                m =>
+                                {
+                                    new IHTMLPre { "onmessage " + new { m.data } }.AttachTo(yellow);
+                                }
+                            );
 
                         }
                     );
@@ -264,8 +272,10 @@ namespace RTCDataChannelExperiment
                     sendChannel.onopen = new Action(
                         delegate
                         {
-
                             new IHTMLPre { "sendChannel.onopen" }.AttachToDocument();
+
+
+                            sendChannel.send("hi!");
                         }
                     );
 
@@ -300,12 +310,52 @@ namespace RTCDataChannelExperiment
                                         localPeerConnection.setRemoteDescription(
                                             new RTCSessionDescription(new { sdp = z.value, type = "answer" }),
                                             new Action(
-                                                delegate
+                                                async delegate
                                                 {
                                                     new IHTMLPre { "? done" }.AttachToDocument();
 
-                                                    // ncaught InvalidStateError: Failed to execute 'send' on 'RTCDataChannel': RTCDataChannel.readyState is not 'open'
-                                                    sendChannel.send("hi?");
+                                                    //// ncaught InvalidStateError: Failed to execute 'send' on 'RTCDataChannel': RTCDataChannel.readyState is not 'open'
+                                                    //sendChannel.send("hi?");
+
+
+                                                    //remotePeerConnection.addIceCandidate(event.candidate);
+                                                    var xcandidate = new IHTMLTextArea { }.AttachToDocument();
+
+                                                    await new IHTMLButton { "addIceCandidate" }.AttachToDocument().async.onclick;
+
+
+                                                    var candidate = new RTCIceCandidate(new { candidate = xcandidate.value, sdpMLineIndex = 0, sdpMid = "data" });
+
+                                                    #region   remotePeerConnection.addIceCandidate
+                                                    // http://stackoverflow.com/questions/23325510/not-able-to-add-remote-ice-candidate-in-webrtc
+                                                    // ??? wtf
+
+                                                    new IHTMLPre { "before localPeerConnection.addIceCandidate" }.AttachToDocument();
+
+                                                    // TypeError: Failed to execute 'addIceCandidate' on 'RTCPeerConnection': Valid arities are: [1, 3], but 2 arguments provided.
+                                                    localPeerConnection.addIceCandidate(
+                                                        candidate,
+                                                        new Action(
+                                                            delegate
+                                                            {
+                                                                new IHTMLPre { "at  localPeerConnection.addIceCandidate" }.AttachToDocument();
+
+                                                            }
+                                                        ),
+                                                        new Action<object>(
+                                                            err =>
+                                                            {
+                                                                // All callback-based methods have been moved to a legacy section, and replaced by same-named overloads using Promises instead
+                                                                // err  remotePeerConnection.addIceCandidate {{ err = Error processing ICE candidate }}
+
+                                                                new IHTMLPre { "err  localPeerConnection.addIceCandidate " + new { err } }.AttachToDocument();
+
+                                                            }
+                                                        )
+                                                    );
+
+                                                    new IHTMLPre { "after localPeerConnection.addIceCandidate" }.AttachToDocument();
+                                                    #endregion
 
                                                 }
                                             )
