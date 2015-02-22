@@ -11,6 +11,12 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "RTCPeerConnection")]
     public class RTCPeerConnection
     {
+        // chrome://webrtc-internals/
+        // http://www.html5rocks.com/en/tutorials/webrtc/datachannels/
+        // http://www.html5rocks.com/en/tutorials/webrtc/basics/#toc-rtcdatachannel
+
+        // https://bloggeek.me/webrtc-data-channel-uses/
+
         // http://www.w3.org/TR/webrtc/
         // http://xsockets.net/docs/3/webrtc
         // http://stackoverflow.com/questions/15806617/creating-a-webrtc-receiver

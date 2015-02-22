@@ -8,42 +8,11 @@
 
 // https://bugzilla.mozilla.org/buglist.cgi?product=Core&component=WebRTC%3A%20Networking&resolution=---
 
-interface RTCError {
-	readonly    attribute DOMString  name;
-	readonly    attribute DOMString? message;
-};
-
-interface RTCSdpError : RTCError {
-	readonly    attribute long sdpLineNumber;
-};
-
-//[Constructor (optional RTCSessionDescriptionInit descriptionInitDict)]
-[Constructor (optional any descriptionInitDict)]
-interface RTCSessionDescription {
-	//attribute RTCSdpType? type;
-	attribute DOMString?  sdp;
-	//serializer = {attribute};
-};
-
-//[Constructor (optional RTCIceCandidateInit candidateInitDict)]
-[Constructor (optional any candidateInitDict)]
-interface RTCIceCandidate {
-	attribute DOMString?      candidate;
-	attribute DOMString?      sdpMid;
-	attribute unsigned short? sdpMLineIndex;
-	//serializer = {attribute};
-};
-
-//[Constructor(DOMString type, RTCPeerConnectionIceEventInit eventInitDict)]
-[Constructor(DOMString type, any eventInitDict)]
-interface RTCPeerConnectionIceEvent : Event {
-	readonly    attribute RTCIceCandidate candidate;
-};
-
-
-
 
 // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/RTCPeerConnection.webidl
+
+// does jsc already know about callbacks/delegates?
+//callback RTCSessionDescriptionCallback = void(RTCSessionDescription sdp);
 
 //partial 
 // X:\jsc.svn\examples\javascript\test\TestPeerConnection\TestPeerConnection\Application.cs
@@ -92,7 +61,8 @@ interface RTCPeerConnection {
 	        attribute EventHandler           onnegotiationneeded;
 
 			// X:\jsc.svn\examples\javascript\p2p\RTCPeerIPAddress\RTCPeerIPAddress\Application.cs
-			attribute EventHandler<RTCPeerConnectionIceEvent> onicecandidate;
+			//attribute EventHandler<RTCPeerConnectionIceEvent> onicecandidate;
+			attribute EventHandler onicecandidate;
 
 	//void                  addIceCandidate (RTCIceCandidate candidate, VoidFunction successCallback, RTCPeerConnectionErrorCallback failureCallback);
 	void                  addIceCandidate (RTCIceCandidate candidate, function successCallback);
@@ -103,6 +73,43 @@ interface RTCPeerConnection {
                 attribute EventHandler           oniceconnectionstatechange;
 
 };
+
+
+
+interface RTCError {
+	readonly    attribute DOMString  name;
+	readonly    attribute DOMString? message;
+};
+
+interface RTCSdpError : RTCError {
+	readonly    attribute long sdpLineNumber;
+};
+
+//[Constructor (optional RTCSessionDescriptionInit descriptionInitDict)]
+[Constructor (optional any descriptionInitDict)]
+interface RTCSessionDescription {
+	//attribute RTCSdpType? type;
+	attribute DOMString?  sdp;
+	//serializer = {attribute};
+};
+
+//[Constructor (optional RTCIceCandidateInit candidateInitDict)]
+[Constructor (optional any candidateInitDict)]
+interface RTCIceCandidate {
+	attribute DOMString?      candidate;
+	attribute DOMString?      sdpMid;
+	attribute unsigned short? sdpMLineIndex;
+	//serializer = {attribute};
+};
+
+//[Constructor(DOMString type, RTCPeerConnectionIceEventInit eventInitDict)]
+[Constructor(DOMString type, any eventInitDict)]
+interface RTCPeerConnectionIceEvent : Event {
+	readonly    attribute RTCIceCandidate candidate;
+};
+
+
+
 
 interface RTCDataChannel : EventTarget {
 	readonly    attribute DOMString           label;

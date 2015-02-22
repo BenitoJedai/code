@@ -20,7 +20,7 @@ namespace ScriptCoreLib.Ultra.IDL
 
         public override string ToString()
         {
-            return Name.Text;
+            return Name.Text + " : " + ParameterType.Name.Text;
         }
     }
 }
