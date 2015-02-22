@@ -6,12 +6,13 @@ using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Extensions;
+using System.Collections;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
 
     [Script(Implements = typeof(global::System.Windows.Forms.TreeNodeCollection))]
-    internal class __TreeNodeCollection
+    internal class __TreeNodeCollection : IEnumerable
     {
         // X:\jsc.svn\examples\javascript\forms\Test\TestTreeView\TestTreeView\ApplicationControl.cs
 
@@ -76,6 +77,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             this.InternalList.Clear();
 
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return ((IEnumerable)InternalList).GetEnumerator();
         }
 
         public static implicit operator TreeNodeCollection(__TreeNodeCollection e)

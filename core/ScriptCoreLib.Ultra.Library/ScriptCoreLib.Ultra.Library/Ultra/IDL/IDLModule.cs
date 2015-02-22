@@ -12,8 +12,13 @@ namespace ScriptCoreLib.Ultra.IDL
 
         public readonly IDLParserTokenPair ModuleBody = new IDLParserTokenPair();
 
+        
+        
         public readonly List<IDLTypeDefinition> TypeDefinitions = new List<IDLTypeDefinition>();
+
+        // set by?
         public readonly List<IDLInterface> Interfaces = new List<IDLInterface>();
+
         public readonly List<IDLModule> NestedModules = new List<IDLModule>();
 
         public static implicit operator IDLModule(string source)

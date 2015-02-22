@@ -11,7 +11,7 @@
 
 // will the IDL compiler work as chrome app too?
 
-interface THREE
+static interface THREE
 {
 	static attribute string REVISION;
 
@@ -983,6 +983,17 @@ interface THREE.Sprite : THREE.Object3D
 
 interface THREE.Loader
 {
+
+};
+
+
+// File:src/loaders/ObjectLoader.js
+// http://threejs.org/docs/#Reference/Loaders/ObjectLoader
+[Constructor()]
+interface THREE.ObjectLoader : THREE.Loader
+{
+	// x:\jsc.svn\examples\javascript\webgl\collada\webglrah66comanche\webglrah66comanche\library\zeproperties.cs
+	THREE.Object3D parse(any json);
 };
 
 // File:src/loaders/JSONLoader.js
@@ -995,6 +1006,8 @@ interface THREE.JSONLoader : THREE.Loader
 
 	//void load(any src, any handler);
 	void load(any url, function<any> callback);
+
+	any parse(string json, string texturePath);
 
 	// jsc does not yet do the Action<> 
 	//void load(any src, function<any,any> handler);

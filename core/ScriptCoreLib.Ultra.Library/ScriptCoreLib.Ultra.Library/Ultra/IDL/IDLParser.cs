@@ -180,10 +180,22 @@ namespace ScriptCoreLib.Ultra.IDL
                     }
                     #endregion
 
+                    #region static
+                    var KeywordStatic = default(IDLParserToken);
+                    if (p.Text == "static")
+                    {
+                        KeywordStatic = p;
+                        p = p.SkipTo();
+                    }
+                    #endregion
+
                     #region interface
                     if (p.Text == "interface")
                     {
                         var i = ToInterface(p);
+
+                        // where are we rendering the IL?
+                        i.KeywordStatic = KeywordStatic;
 
                         i.Members.AddRange(AnnotationArray.Items);
 
@@ -302,6 +314,7 @@ namespace ScriptCoreLib.Ultra.IDL
                      if (pp.Text == "}")
                          return pp;
 
+                     // used by?
                      #region const
                      if (pp.Text == "const")
                      {
@@ -386,7 +399,7 @@ namespace ScriptCoreLib.Ultra.IDL
                      }
                      #endregion
 
-          
+
 
                      #region static
                      var KeywordStatic = default(IDLParserToken);

@@ -28,5 +28,25 @@ namespace WebGLRah66Comanche.Library
 
             return t.Task;
         }
+
+        public static Task<TreeNode> AsyncAfterCollapse(this TreeNode n)
+        {
+            var t = new TaskCompletionSource<TreeNode>();
+
+            n.Collapse();
+
+            n.TreeView.AfterCollapse+=
+                (sender, args) =>
+                {
+                    if (args.Node == n)
+                    {
+                        t.SetResult(n);
+                        n = null;
+                    }
+
+                };
+
+            return t.Task;
+        }
     }
 }

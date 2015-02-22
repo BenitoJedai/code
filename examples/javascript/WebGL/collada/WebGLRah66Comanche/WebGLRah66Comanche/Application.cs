@@ -237,7 +237,7 @@ namespace WebGLRah66Comanche
             var ze = new ZeProperties();
 
             ze.Show();
-
+            ze.treeView1.Nodes.Clear();
 
             ze.Add(() => renderer);
             ze.Add(() => controls);

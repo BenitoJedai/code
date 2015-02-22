@@ -16,11 +16,14 @@ using System.Collections.Generic;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.Runtime;
 
+using THREE;
+
 namespace WebGLCannonPhysicsEngine
 {
     using WebGLRah66Comanche.Library;
     using f = Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using Math = System.Math;
 
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -60,7 +63,7 @@ namespace WebGLCannonPhysicsEngine
             var time = Date_now();
 
 
-         
+
 
 
 
@@ -116,13 +119,13 @@ namespace WebGLCannonPhysicsEngine
 
             var camera = new THREE.PerspectiveCamera(75, Native.window.aspect, 0.1, 1000);
 
-            var scene = new THREE.Scene();
-            scene.fog = new THREE.Fog(0x000000, 0, 500);
+            var scene = new Scene();
+            scene.fog = new Fog(0x000000, 0, 500);
 
-            var ambient = new THREE.AmbientLight(0x111111);
+            var ambient = new AmbientLight(0x111111);
             scene.add(ambient);
 
-            var light = new THREE.SpotLight(0xffffff);
+            var light = new SpotLight(0xffffff);
             light.position.set(10, 30, 20);
             light.target.position.set(0, 0, 0);
             //    if(true){
@@ -164,7 +167,7 @@ namespace WebGLCannonPhysicsEngine
 
             //    
 
-            var mesh = new THREE.Mesh(geometry, material)
+            var mesh = new Mesh(geometry, material)
             {
                 castShadow = true,
                 receiveShadow = true
@@ -181,6 +184,9 @@ namespace WebGLCannonPhysicsEngine
             renderer.domElement.style.backgroundColor = JSColor.Black;
             renderer.domElement.AttachToDocument();
 
+
+
+            #region onresize
             Action AtResize = delegate
             {
                 camera.aspect = Native.window.aspect;
@@ -194,6 +200,7 @@ namespace WebGLCannonPhysicsEngine
               };
 
             AtResize();
+            #endregion
 
 
             var r = new Random();
@@ -329,6 +336,9 @@ namespace WebGLCannonPhysicsEngine
 
             #endregion
 
+
+
+            #region onmousedown
             renderer.domElement.onmousedown +=
                 e =>
                 {
@@ -378,6 +388,7 @@ namespace WebGLCannonPhysicsEngine
                     var y = controls_sphereBody.position.y;
                     var z = controls_sphereBody.position.z;
 
+                    // could we attach physics via binding list?
                     var ballBody = new CANNON.RigidBody(1, ballShape);
                     var ballMesh = new THREE.Mesh(ballGeometry, material);
                     world.add(ballBody);
@@ -399,6 +410,8 @@ namespace WebGLCannonPhysicsEngine
                     ballMesh.position.set(x, y, z);
                     //ballMesh.useQuaternion = true;
                 };
+            #endregion
+
 
 
             var ze = new ZeProperties();

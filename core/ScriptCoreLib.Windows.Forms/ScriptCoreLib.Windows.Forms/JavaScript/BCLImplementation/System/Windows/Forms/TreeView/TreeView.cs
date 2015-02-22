@@ -165,7 +165,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
-
+        public void RaiseAfterCollapse(TreeViewEventArgs args)
+        {
+            if (AfterCollapse != null)
+                AfterCollapse(this, args);
+        }
 
 
         public void RaiseAfterExpand(TreeViewEventArgs args)
@@ -174,6 +178,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 AfterExpand(this, args);
         }
 
+        public event TreeViewEventHandler AfterCollapse;
         public event TreeViewEventHandler AfterExpand;
         public event TreeViewEventHandler AfterSelect;
 
