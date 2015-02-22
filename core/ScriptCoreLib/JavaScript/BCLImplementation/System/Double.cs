@@ -12,6 +12,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(double))]
     internal class __Double
     {
+        // double[]
+        // X:\jsc.svn\examples\javascript\test\TestDoubleArray\TestDoubleArray\Class1.cs
+
+
         #region OptimizedCode
         [Script(OptimizedCode = "return parseFloat(e);")]
         static public int parseFloat(string e)
@@ -61,7 +65,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return default(__Double);
         }
 
-    
+
 
         [Script(OptimizedCode = "return isNaN(d);")]
         public static bool IsNaN(double d)

@@ -18,6 +18,8 @@ using WebGLTiltShift.Design;
 //using THREE = WebGLTiltShift.Design.THREE;
 using System.Threading.Tasks;
 
+using THREE;
+
 namespace WebGLTiltShift
 {
     using ScriptCoreLib.JavaScript.DOM.SVG;
@@ -25,6 +27,7 @@ namespace WebGLTiltShift
     using WebGLRah66Comanche.Library;
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using Math = System.Math;
 
 
 
@@ -1002,16 +1005,16 @@ namespace WebGLTiltShift
 
 
 
-            //var ze = new ZeProperties();
+            var ze = new ZeProperties();
 
-            //ze.Show();
+            ze.Show();
 
-            //ze.treeView1.Nodes.Clear();
+            ze.treeView1.Nodes.Clear();
 
-            //ze.Add(() => renderer);
-            //ze.Add(() => controls);
-            //ze.Add(() => scene);
-            //ze.Left = 0;
+            ze.Add(() => renderer);
+            ze.Add(() => controls);
+            ze.Add(() => scene);
+            ze.Left = 0;
 
         }
 

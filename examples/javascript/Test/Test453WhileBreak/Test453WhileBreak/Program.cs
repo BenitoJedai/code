@@ -27,6 +27,8 @@ namespace Test453WhileBreak
 
         int Foo(Program a, Program b)
         {
+            // X:\jsc.svn\examples\javascript\test\TestArraySort\TestArraySort\Application.cs
+
             var p = this;
             {
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111/while-break
@@ -59,6 +61,8 @@ namespace Test453WhileBreak
 
         static void Main(string[] args)
         {
+            //no implementation for System.Attribute 1765714b - e628 - 34c3 - b66f - 7686faf462da
+            //script: error JSC1000: No implementation found for this native method, please implement[System.Attribute..ctor()]
         }
     }
 }
