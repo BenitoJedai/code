@@ -30,6 +30,8 @@ namespace TestPeerConnection
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection
+
             // https://github.com/cjb/serverless-webrtc
 
             // https://github.com/XSockets/WebRTC
@@ -119,9 +121,9 @@ namespace TestPeerConnection
                 {
                     if (e.candidate != null)
                     {
-                        new IHTMLPre { "onicecandidate: " + new { e.candidate.candidate
-    }
-}.AttachToDocument();
+                        new IHTMLPre {
+                            "onicecandidate: " + new { e.candidate.candidate }
+                        }.AttachToDocument();
 
 
 
@@ -140,8 +142,8 @@ namespace TestPeerConnection
             // http://www.skylinetechnologies.com/Blog/Article/48/Peer-to-Peer-Media-Streaming-with-WebRTC-and-SignalR.aspx
 
             peer.createOffer(
-    new Action<RTCSessionDescription>(
-        (RTCSessionDescription x) =>
+                new Action<RTCSessionDescription>(
+                    (RTCSessionDescription x) =>
                     {
 
                         new IHTMLPre { "after createOffer " + new { x.sdp } }.AttachToDocument();
@@ -157,17 +159,17 @@ namespace TestPeerConnection
                                                 );
 
                         peer.setRemoteDescription(x,
-                              new Action(
-                                  delegate
+                                new Action(
+                                    delegate
                         {
                             // // send the offer to a server that can negotiate with a remote client
                             new IHTMLPre { "after setRemoteDescription " }.AttachToDocument();
                         }
-                              )
-                          );
+                                )
+                            );
                     }
-    )
-);
+                )
+            );
 
 
 
@@ -233,8 +235,8 @@ namespace TestPeerConnection
 
                                                             new IHTMLPre { "send" }.AttachToDocument();
 
-                                                // Failed to execute 'send' on 'RTCDataChannel': RTCDataChannel.readyState is not 'open'
-                                                dc.send("data to send");
+                                                            // Failed to execute 'send' on 'RTCDataChannel': RTCDataChannel.readyState is not 'open'
+                                                            dc.send("data to send");
                                                         }
 
                                                     }
