@@ -65,7 +65,8 @@ interface RTCPeerConnection {
 			attribute EventHandler onicecandidate;
 
 	//void                  addIceCandidate (RTCIceCandidate candidate, VoidFunction successCallback, RTCPeerConnectionErrorCallback failureCallback);
-	void                  addIceCandidate (RTCIceCandidate candidate, function successCallback);
+			void                  addIceCandidate(RTCIceCandidate candidate, function successCallback, function<any> failureCallback);
+
 
                 attribute EventHandler           onsignalingstatechange;
                 attribute EventHandler           onaddstream;
