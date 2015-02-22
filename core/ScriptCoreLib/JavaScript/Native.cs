@@ -187,6 +187,7 @@ namespace ScriptCoreLib.JavaScript
 
         static void __RTCPeerConnection()
         {
+            // http://src.chromium.org/viewvc/blink/trunk/Source/modules/mediastream/WindowMediaStream.idl
             // X:\jsc.svn\examples\javascript\p2p\RTCPeerIPAddress\RTCPeerIPAddress\Application.cs
 
             // fix RTCPeerConnection

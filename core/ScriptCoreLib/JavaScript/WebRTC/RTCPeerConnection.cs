@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/RTCPeerConnection.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/modules/mediastream/RTCPeerConnection.idl
+    // 20150222 - spec has been updated to promises. when will chrome follow?
 
     [Script(HasNoPrototype = true, ExternalTarget = "RTCPeerConnection")]
     public class RTCPeerConnection
@@ -43,5 +45,19 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150222
 
+
+        public void createOffer(Action<RTCSessionDescription> successCallback) { }
+    }
+
+    public static class RTCPeerConnectionExtensions
+    {
+        public static Task<RTCSessionDescription> createOffer(this RTCPeerConnection that)
+        {
+            var x = new TaskCompletionSource<RTCSessionDescription>();
+
+            that.createOffer(successCallback: x.SetResult);
+
+            return x.Task;
+        }
     }
 }
