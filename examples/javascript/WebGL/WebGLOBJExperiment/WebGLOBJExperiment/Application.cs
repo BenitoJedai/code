@@ -18,6 +18,7 @@ using WebGLOBJExperiment;
 using WebGLOBJExperiment.Design;
 using WebGLOBJExperiment.HTML.Pages;
 using WebGLRah66Comanche.Library;
+using THREE;
 
 namespace WebGLOBJExperiment
 {
@@ -60,10 +61,9 @@ namespace WebGLOBJExperiment
 
             // scene
 
-            var scene = new THREE.Scene();
+            var scene = new Scene();
 
-            var ambient = new THREE.AmbientLight(0x101030);
-            scene.add(ambient);
+            new AmbientLight(0x101030).AttachTo(scene);
 
             var directionalLight = new THREE.DirectionalLight(0xffeedd);
             directionalLight.position.set(0, 0, 1);
@@ -219,6 +219,8 @@ namespace WebGLOBJExperiment
             ze.Add(() => renderer);
             ze.Add(() => controls);
             ze.Add(() => scene);
+
+            ze.Left = 0;
         }
 
     }

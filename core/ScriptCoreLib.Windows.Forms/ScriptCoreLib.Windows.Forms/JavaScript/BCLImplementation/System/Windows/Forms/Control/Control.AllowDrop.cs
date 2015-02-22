@@ -28,6 +28,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public DragDropEffects DoDragDrop(object data, DragDropEffects allowedEffects)
         {
+            // https://github.com/adobe/chromium/blob/master/webkit/glue/webdropdata.cc
+            // http://src.chromium.org/viewvc/chrome/trunk/src/webkit/glue/webdropdata.cc?pathrev=128579
+            //e.dataTransfer.setData("text/uri-list", "http://my.jsc-solutions.net");
+
             //Console.WriteLine("enter DoDragDrop " + new { InternalUIDoDragDrop });
 
 

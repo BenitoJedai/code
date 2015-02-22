@@ -17,6 +17,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         // fixme: shared BCL is not the way to go!  or is it?
 
+        // what about magnet links?
+        //
+
+
         //public static readonly string SchemeDelimiter = "://";
 
         public string OriginalString { get; set; }

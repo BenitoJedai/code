@@ -11,6 +11,8 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.CompilerServices;
 using System.Runtime.CompilerServices;
 using ScriptCoreLib.JavaScript.DOM;
+using System.Diagnostics;
+using THREE;
 
 namespace WebGLRah66Comanche.Library
 {
@@ -33,13 +35,6 @@ namespace WebGLRah66Comanche.Library
         {
             //this.groupBox1.Text = new { e.Node.Text, e.Node.Tag }.ToString();
             this.groupBox1.Text = new { e.Node.Text, e.Node.Tag }.ToString();
-
-            var xObject3D = e.Node.Tag as THREE.Object3D;
-            if (xObject3D != null)
-            {
-                // can we drag n drop yet?
-                textBox1.Text = JSON.stringify(xObject3D.toJSON());
-            }
 
         }
 
@@ -80,11 +75,11 @@ namespace WebGLRah66Comanche.Library
             // would calling self do a tail/jump?
         }
 
-        async void Add(string name, Func<THREE.Group> get_subject, TreeNodeCollection Nodes = null)
+        async void Add(string name, Func<Group> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Group)}");
             var x = get_subject();
-            n.Text += " '\{x.name}' (\{x.children.Length})";
+            var n = Nodes.Add("\{name} : \{nameof(Group)} '\{x.name}' (\{x.children.Length})");
+            n.Tag = x;
 
             await n.AsyncAfterExpand();
 
@@ -93,16 +88,18 @@ namespace WebGLRah66Comanche.Library
         }
 
 
-        async void Add(string name, Func<THREE.Object3D> get_subject, TreeNodeCollection Nodes = null)
+        async void Add(string name, Func<Object3D> get_subject, TreeNodeCollection Nodes = null)
         {
             // overload seems to work nicely. yet we have to do manual base types /RTTI 
 
             var x = get_subject();
 
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Object3D)} '\{x.name}' (\{x.children.Length})");
+            var n = Nodes.Add(
+                "\{name} : \{nameof(Object3D)} '\{x.name}' (\{x.children.Length})"
+                );
             n.Tag = x;
 
-            await n.AsyncAfterExpand();
+            retry: await n.AsyncAfterExpand();
 
 
             //Add(nameof(THREE.Camera.matrixWorld), () => xCamera.projectionMatrix, n.Nodes);
@@ -132,15 +129,26 @@ namespace WebGLRah66Comanche.Library
 
             Add(nameof(THREE.Object3D.children), () => x.children, n.Nodes);
 
+            await n.AsyncAfterCollapse();
+            Console.WriteLine("AsyncAfterCollapse");
+            n.Text =
+                "\{name} : \{nameof(Object3D)} '\{x.name}' (\{x.children.Length})";
+
+            n.Nodes.Clear();
+
+            goto retry;
+
         }
 
-        async void Add(string name, Func<THREE.Line> get_subject, TreeNodeCollection Nodes = null)
+        async void Add(string name, Func<Line> get_subject, TreeNodeCollection Nodes = null)
         {
             // RTTi we have idl, and KnownTypes approach. also theres the linq approach.
 
             // X:\jsc.svn\examples\javascript\WebGL\WebGLDashedLines\WebGLDashedLines\Application.cs
             var x = get_subject();
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Line)} '\{x.name}' [\{x.geometry.vertices.Length}]");
+            var n = Nodes.Add("\{name} : \{nameof(Line)} '\{x.name}' [\{x.geometry.vertices.Length}]");
+            n.Tag = x;
+
             await n.AsyncAfterExpand();
 
             Add("base", () => (THREE.Object3D)x, n.Nodes);
@@ -291,23 +299,23 @@ namespace WebGLRah66Comanche.Library
             Add(nameof(THREE.DirectionalLight.position), () => x.position, n.Nodes);
         }
 
-        async void Add(string name, Func<THREE.Mesh> get_subject, TreeNodeCollection Nodes = null)
+        async void Add(string name, Func<Mesh> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Mesh)}");
             var x = get_subject();
-            n.Text += " '\{x.name}' (\{x.children.Length})";
-
+            var n = Nodes.Add("\{name} : \{nameof(Mesh)} '\{x.name}' (\{x.geometry.vertices.Length} vertices)");
+            n.Tag = x;
             await n.AsyncAfterExpand();
-            Add("base", () => (THREE.Object3D)x, n.Nodes);
+            Add("base", () => (Object3D)x, n.Nodes);
             Add(nameof(THREE.Mesh.geometry), () => (object)x.geometry, n.Nodes);
             Add(nameof(THREE.Mesh.material), () => (object)x.material, n.Nodes);
         }
 
-        async void Add(string name, Func<THREE.Scene> get_subject, TreeNodeCollection Nodes = null)
+        async void Add(string name, Func<Scene> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Scene)}");
-            await n.AsyncAfterExpand();
             var x = get_subject();
+            var n = Nodes.Add("\{name} : \{nameof(Scene)} '\{x.name}' (\{x.children.Length})");
+            n.Tag = x;
+            await n.AsyncAfterExpand();
             Add("base", () => (THREE.Object3D)x, n.Nodes);
             Add(nameof(THREE.Scene.fog), () => x.fog, n.Nodes);
         }
@@ -404,6 +412,21 @@ namespace WebGLRah66Comanche.Library
 
             //Add(nameof(THREE.Color.a), () => x.a, n.Nodes);
         }
+
+        async void Add(string name, Func<WebGLRenderer> get_subject, TreeNodeCollection Nodes = null)
+        {
+            var n = Nodes.Add("\{name} : \{nameof(WebGLRenderer)}");
+            await n.AsyncAfterExpand();
+            var x = get_subject();
+            Add(nameof(THREE.WebGLRenderer.domElement), () => x.domElement, n.Nodes);
+            Add(nameof(THREE.WebGLRenderer.autoClear), () => x.autoClear, n.Nodes);
+            Add(nameof(THREE.WebGLRenderer.shadowMapEnabled), () => x.shadowMapEnabled, n.Nodes);
+            Add(nameof(THREE.WebGLRenderer.shadowMapType), () => x.shadowMapType, n.Nodes);
+
+
+            //Add(nameof(THREE.Color.a), () => x.a, n.Nodes);
+        }
+
 
 
         public void Add(Func<object> get_subject,
@@ -585,13 +608,7 @@ namespace WebGLRah66Comanche.Library
             var xWebGLRenderer = subject as THREE.WebGLRenderer;
             if (xWebGLRenderer != null)
             {
-                var n = Nodes.Add("\{name} : \{nameof(THREE.WebGLRenderer)}");
-
-                Add(nameof(THREE.WebGLRenderer.domElement), () => xWebGLRenderer.domElement, n.Nodes);
-                Add(nameof(THREE.WebGLRenderer.autoClear), () => xWebGLRenderer.autoClear, n.Nodes);
-                Add(nameof(THREE.WebGLRenderer.shadowMapEnabled), () => xWebGLRenderer.shadowMapEnabled, n.Nodes);
-                Add(nameof(THREE.WebGLRenderer.shadowMapType), () => xWebGLRenderer.shadowMapType, n.Nodes);
-
+                Add(name, () => xWebGLRenderer, Nodes);
                 return;
             }
             #endregion
@@ -679,6 +696,118 @@ namespace WebGLRah66Comanche.Library
         private void ZeProperties_MouseLeave(object sender, EventArgs e)
         {
             this.Opacity = 0.7;
+        }
+
+        private void treeView1_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            var n = e.Item as TreeNode;
+
+
+
+            //Could not load file or assembly 'ScriptCoreLib.Ultra.Library' or one of its dependencies.The parameter is incorrect. (Exception from HRESULT: 0x80070057(E_INVALIDARG))
+
+            var xObject3D = n.Tag as THREE.Object3D;
+            if (xObject3D != null)
+            {
+                // can we drag n drop yet?
+                var json = JSON.stringify(xObject3D.toJSON());
+
+                var x = new DataObject(
+                   nameof(THREE.Object3D)
+               );
+
+
+                // like props/ reg keys/ version nodes
+                x.SetData("text/nodes/0", "hello");
+
+                // http://stackoverflow.com/questions/477816/what-is-the-correct-json-content-type
+                // http://stackoverflow.com/questions/477816/what-is-the-correct-json-content-type
+                // application/json
+                //x.SetData("text/x-json", json);
+                //x.SetData("application/json", json);
+
+                // this is visible to external apps
+                x.SetData("text/html", json);
+
+                //"text/uri-list", "http://my.jsc-solutions.net");
+
+
+                var sw = Stopwatch.StartNew();
+                //var b64 = global::System.Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
+
+                //Console.WriteLine(new { b64.Length, sw.ElapsedMilliseconds });
+                Console.WriteLine(new { json.Length, sw.ElapsedMilliseconds });
+
+                // https://code.google.com/p/chromium/issues/detail?id=239745
+                //x.SetData(
+                //    "text/uri-list",
+
+                ////"http://example.com/1\nhttp://example.com/2"
+
+                //// {{ Length = 1743404, ElapsedMilliseconds = 571 }}
+                ////"data:application/json;base64," + b64
+                // too big, wont show up?
+                ////"data:application/json;" + json
+                //);
+
+                // https://msdn.microsoft.com/en-us/library/system.windows.forms.control.dodragdrop(v=vs.110).aspx
+                //this.DoDragDrop("treeView1_ItemDrag " + new { e.Item }, DragDropEffects.Copy);
+                treeView1.DoDragDrop(x, DragDropEffects.Copy);
+            }
+
+        }
+
+        private void treeView1_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        private void treeView1_DragDrop(object sender, DragEventArgs e)
+        {
+            foreach (var item in e.Data.GetFormats())
+            {
+                Console.WriteLine(new { item });
+
+            }
+
+            //x.SetData("text/html", json);
+
+            e.Data.GetData("text/html").With(
+                x =>
+                {
+                    var sz = (string)x;
+
+                    Console.WriteLine(new { sz.Length });
+                    // http://stackoverflow.com/questions/24492809/three-js-export-import-object3d-json
+
+                    var json = JSON.parse(sz);
+                    var o = new ObjectLoader();
+
+                    var z = o.parse(json);
+
+
+                    Add("?", () => (object)z);
+
+                    //new THREE.JSONLoader().parse
+
+                    //this.treeView1.Nodes.
+
+                    foreach (TreeNode item in this.treeView1.Nodes)
+                    {
+                        var xScene = item.Tag as Scene;
+                        if (xScene != null)
+                        {
+                            // we like shadows
+                            z.castShadow = true;
+
+                            z.AttachTo(xScene);
+                            Console.WriteLine("added to scene. can you see it?");
+                        }
+                    }
+
+                }
+            );
+
         }
     }
 }

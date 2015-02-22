@@ -52,6 +52,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             IsExpanded = false;
             // will it render on svg?
             this.InternalElementContent.Hide();
+
+            ((__TreeView)this.TreeView).RaiseAfterCollapse(
+               new TreeViewEventArgs(this)
+           );
         }
 
         public void Expand()

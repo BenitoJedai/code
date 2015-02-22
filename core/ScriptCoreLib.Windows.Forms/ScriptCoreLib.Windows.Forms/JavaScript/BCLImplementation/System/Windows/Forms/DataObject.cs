@@ -137,12 +137,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void SetData(string format, object data)
         {
+            // https://github.com/adobe/chromium/blob/master/webkit/glue/webdropdata.cc
+            // http://src.chromium.org/viewvc/chrome/trunk/src/webkit/glue/webdropdata.cc?pathrev=128579
+
             // http://stackoverflow.com/questions/1772102/c-sharp-drag-and-drop-from-my-custom-app-to-notepad
+
             var text = "" + data;
 
             AtDataTransfer += (DataTransfer x) =>
             {
-                Console.WriteLine("AtDataTransfer " + new { format, text });
+                //Console.WriteLine("AtDataTransfer " + new { format, text });
 
                 x.setData(format, text);
             };

@@ -7,6 +7,9 @@ namespace ScriptCoreLib.Ultra.IDL
 {
     public class IDLInterface
     {
+        // 20150221 
+        // lets mark THREE as static to make use of the C# using static type feature.
+        public IDLParserToken KeywordStatic;
 
         public IDLParserToken Keyword;
         public IDLParserToken Name;

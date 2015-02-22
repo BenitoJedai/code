@@ -14,6 +14,7 @@ using System.Text;
 using System.Xml.Linq;
 using WebGLFireballExplosion.Design;
 using WebGLFireballExplosion.HTML.Pages;
+using WebGLRah66Comanche.Library;
 
 namespace WebGLFireballExplosion
 {
@@ -262,7 +263,15 @@ namespace WebGLFireballExplosion
 
 
 
+            var ze = new ZeProperties();
 
+            ze.Show();
+            ze.treeView1.Nodes.Clear();
+
+            ze.Add(() => renderer);
+            //ze.Add(() => controls);
+            ze.Add(() => scene);
+            ze.Left = 0;
 
 
 

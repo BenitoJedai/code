@@ -17,10 +17,13 @@ using WebGLInteractiveCubes;
 using WebGLInteractiveCubes.Design;
 using WebGLInteractiveCubes.HTML.Pages;
 using ScriptCoreLib.Lambda;
-
+using THREE;
 
 namespace WebGLInteractiveCubes
 {
+    using WebGLRah66Comanche.Library;
+    using Math = System.Math;
+
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
@@ -37,14 +40,14 @@ namespace WebGLInteractiveCubes
         public Application(IApp page)
         {
 
-            var camera = new THREE.PerspectiveCamera(70, Native.window.aspect, 1, 10000);
+            var camera = new PerspectiveCamera(70, Native.window.aspect, 1, 10000);
             camera.position.set(0, 300, 500);
 
-            var scene = new THREE.Scene();
+            var scene = new Scene();
 
-            var geometry = new THREE.BoxGeometry(100, 100, 100);
+            var geometry = new BoxGeometry(100, 100, 100);
 
-            Random random = new Random();
+            var random = new Random();
 
             objects = new THREE.Mesh[10];
             for (var i = 0; i < 10; i++)
@@ -199,6 +202,15 @@ namespace WebGLInteractiveCubes
 
             });
 
+            var ze = new ZeProperties();
+
+            ze.Show();
+            ze.treeView1.Nodes.Clear();
+
+            ze.Add(() => renderer);
+            //ze.Add(() => controls);
+            ze.Add(() => scene);
+            ze.Left = 0;
 
         }
     }

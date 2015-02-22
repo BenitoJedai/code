@@ -19,9 +19,12 @@ using WebGLGodRay.Design;
 using WebGLGodRay.HTML.Pages;
 using WebGLRah66Comanche;
 using WebGLRah66Comanche.Library;
+using THREE;
 
 namespace WebGLGodRay
 {
+    using Math = System.Math;
+
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
@@ -57,10 +60,10 @@ namespace WebGLGodRay
             var bgColor = 0x000511;
             var sunColor = 0xffee00;
 
-            var camera = new THREE.PerspectiveCamera(70, Native.window.aspect, 1, 3000);
+            var camera = new PerspectiveCamera(70, Native.window.aspect, 1, 3000);
             camera.position.z = 200;
 
-            var scene = new THREE.Scene();
+            var scene = new Scene();
 
             //
 
@@ -70,8 +73,8 @@ namespace WebGLGodRay
             #region tree
             // X:\jsc.svn\examples\javascript\WebGL\WebGLGodRay\WebGLGodRay\Application.cs
 
-            var materialScene = new THREE.MeshBasicMaterial(new { color = 0x000000, shading = THREE.FlatShading });
-            var loader = new THREE.JSONLoader();
+            var materialScene = new MeshBasicMaterial(new { color = 0x000000, shading = THREE.FlatShading });
+            var loader = new JSONLoader();
 
             // http://stackoverflow.com/questions/16539736/do-not-use-system-runtime-compilerservices-dynamicattribute-use-the-dynamic
             // https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.dynamicattribute%28v=vs.110%29.aspx
@@ -81,7 +84,7 @@ namespace WebGLGodRay
 
                 new Models.tree().Content.src,
 
-                new Action<THREE.Geometry>(
+                new Action<Geometry>(
                 xgeometry =>
                 {
 
@@ -339,6 +342,9 @@ namespace WebGLGodRay
             var sw = Stopwatch.StartNew();
 
             var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            // Show Details	Severity	Code	Description	Project	File	Line
+            //Error CS0229  Ambiguity between 'THREE.Math' and 'Math'   WebGLGodRay Application.cs  238
 
             Native.window.onframe +=
                 delegate
