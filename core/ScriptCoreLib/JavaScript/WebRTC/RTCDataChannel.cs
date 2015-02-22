@@ -9,10 +9,24 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://src.chromium.org/viewvc/blink/trunk/Source/modules/mediastream/RTCDataChannel.idl
 
     [Script(HasNoPrototype = true, ExternalTarget = "RTCDataChannel")]
-    public class RTCDataChannel
+    public class RTCDataChannel : IEventTarget
     {
         // X:\jsc.svn\examples\javascript\p2p\RTCDataChannelExperiment\RTCDataChannelExperiment\Application.cs
 
-
+        #region event onmessage
+        public event Action<MessageEvent> onmessage
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "message");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "message");
+            }
+        }
+        #endregion
     }
 }

@@ -114,13 +114,12 @@ namespace RTCDataChannelExperiment
 
                             //Native.document.title
 
-                            e.channel.onmessage = new Action<MessageEvent>(
+                            e.channel.onmessage +=
                                 m =>
                                 {
                                     counter++;
                                     data = m.data;
-                                }
-                            );
+                                };
 
                         }
                     );
@@ -285,12 +284,6 @@ namespace RTCDataChannelExperiment
 
                             sendChannel.send("hi!");
 
-                            await new IHTMLButton("pointerlock").AttachToDocument().async.onclick;
-
-                            new IHTMLPre { "requestPointerLock" }.AttachToDocument();
-
-                            Native.body.requestPointerLock();
-
                             var counter = 0;
 
                             Native.body.onmousemove +=
@@ -300,13 +293,28 @@ namespace RTCDataChannelExperiment
 
                                     counter++;
 
+                                    // rpc switchTo
                                     sendChannel.send(
                                         new { counter, e.movementX, e.movementY }.ToString()
 
                                         );
 
-
+                                    //await for new message to continue?
+                                    // webrtc meets async
                                 };
+
+
+                            var btn = new IHTMLButton("pointerlock").AttachToDocument();
+
+
+                            while (await btn.async.onclick)
+                            {
+
+                                new IHTMLPre { "requestPointerLock" }.AttachToDocument();
+
+                                Native.body.requestPointerLock();
+                            }
+
                         }
                     );
 
