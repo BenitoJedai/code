@@ -118,6 +118,7 @@
     <Compile Include="JavaScript\WebGL\WebGLTransformFeedback.cs" />
     <Compile Include="JavaScript\WebGL\WebGLSync.cs" />
     <Compile Include="JavaScript\WebGL\WebGLSampler.cs" />
+    <Compile Include="JavaScript\WebRTC\RTCDataChannel.cs" />
     <Compile Include="JavaScript\WebRTC\RTCPeerConnection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Numerics\Vector4.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\AsyncTaskMethodBuilder.cs" />

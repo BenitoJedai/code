@@ -41,6 +41,9 @@ namespace RTCPeerIPAddress
             //var rtc = new RTCPeerConnection({ iceServers:[] });
             var rtc = new RTCPeerConnection(null, null);
 
+            // Uncaught TypeError: Failed to construct 'RTCPeerConnection': 1 argument required, but only 0 present.
+            //var rtc = new RTCPeerConnection();
+
             //if (window.mozRTCPeerConnection) {      // FF needs a channel/stream to proceed
             //    rtc.createDataChannel('', {reliable:false});
             //};
@@ -58,24 +61,21 @@ namespace RTCPeerIPAddress
             );
 
             rtc.createOffer(
-                new Action<RTCSessionDescription>(
-                    (RTCSessionDescription x) =>
-                    {
+                (RTCSessionDescription x) =>
+                {
+                    new IHTMLPre { "after createOffer " + new { x.sdp } }.AttachToDocument();
 
-                        new IHTMLPre { "after createOffer " + new { x.sdp } }.AttachToDocument();
+                    rtc.setLocalDescription(x,
+                        new Action(
+                            delegate
+                            {
+                                // // send the offer to a server that can negotiate with a remote client
+                                new IHTMLPre { "after setLocalDescription " + new { x.sdp } }.AttachToDocument();
+                            }
+                        )
+                    );
 
-                        rtc.setLocalDescription(x,
-                            new Action(
-                                delegate
-                                {
-                                    // // send the offer to a server that can negotiate with a remote client
-                                    new IHTMLPre { "after setLocalDescription " + new { x.sdp } }.AttachToDocument();
-                                }
-                            )
-                        );
-
-                    }
-                )
+                }
             );
 
         }
