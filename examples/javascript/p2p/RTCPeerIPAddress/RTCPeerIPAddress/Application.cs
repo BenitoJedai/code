@@ -45,6 +45,8 @@ namespace RTCPeerIPAddress
             //    rtc.createDataChannel('', {reliable:false});
             //};
 
+            //IFunction<>
+
             rtc.onicecandidate = new Action<RTCPeerConnectionIceEvent>(
                 (RTCPeerConnectionIceEvent e) =>
                 {

@@ -57,6 +57,7 @@ interface RTCPeerConnection {
 	//void                  createOffer (RTCSessionDescriptionCallback successCallback);
 	//void                  createOffer (function<RTCSessionDescription sdp> successCallback);
 
+	// X:\jsc.svn\examples\javascript\p2p\RTCPeerIPAddress\RTCPeerIPAddress\Application.cs
 	void                  createOffer (function<RTCSessionDescription> successCallback);
 	//void                  createAnswer (RTCSessionDescriptionCallback successCallback, RTCPeerConnectionErrorCallback failureCallback, optional RTCOfferAnswerOptions options);
 
@@ -91,7 +92,8 @@ interface RTCPeerConnection {
 	        attribute EventHandler           onnegotiationneeded;
 
 			// X:\jsc.svn\examples\javascript\p2p\RTCPeerIPAddress\RTCPeerIPAddress\Application.cs
-                attribute EventHandler           onicecandidate;
+			attribute EventHandler<RTCPeerConnectionIceEvent> onicecandidate;
+
 	//void                  addIceCandidate (RTCIceCandidate candidate, VoidFunction successCallback, RTCPeerConnectionErrorCallback failureCallback);
 	void                  addIceCandidate (RTCIceCandidate candidate, function successCallback);
 
