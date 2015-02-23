@@ -13,13 +13,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using RTCICELobby;
-using RTCICELobby.Design;
-using RTCICELobby.HTML.Pages;
+using AndroidRTC;
+using AndroidRTC.Design;
+using AndroidRTC.HTML.Pages;
+using AndroidRTC.HTML.Images.FromAssets;
 using System.Diagnostics;
-using RTCICELobby.HTML.Images.FromAssets;
 
-namespace RTCICELobby
+namespace AndroidRTC
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -240,6 +240,5 @@ namespace RTCICELobby
 
 
         }
-
     }
 }

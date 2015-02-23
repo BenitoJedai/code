@@ -11,13 +11,40 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace RTCICELobby
+namespace AndroidRTC
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
     public class ApplicationWebService
     {
+        //0001 020001c5 ScriptCoreLib::ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProvider
+        //script: error JSC1000: Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
+        //internal compiler error at method
+        // assembly: C:\util\jsc\bin\ScriptCoreLib.dll at
+        // type: ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood, ScriptCoreLib, Version=4.6.0.0, Culture=neutral, PublicKeyToken=null
+        // method: CreatePaddedBuffer
+        // Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
+
+
+        //       WriteMethodLocalVariables { DeclaringType = AndroidRTC.Activities.ApplicationWebServiceActivity+<>c__DisplayClass24, Name = <CreateServer>b__29, LocalIndex = 83, Count = 84 }
+        //   script: error JSC1000: Java :
+        //BCL needs another method, please define it.
+        //Cannot call type without script attribute :
+        //System.Threading.Monitor for Void Enter(System.Object, Boolean ByRef) used at
+        //AndroidRTC.Activities.ApplicationWebServiceActivity+<>c__DisplayClass24.<CreateServer>b__29 at offset 0018.
+        //If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements = typeof(...)] set.You may have mistyped it.
+
+        //        I/System.Console(27031): #10 POST /xml/GetOffer HTTP/1.1 error:
+        //I/System.Console(27031): #10 java.lang.ArrayIndexOutOfBoundsException: length=1079; index=1079
+        //I/System.Console(27031): #10 java.lang.ArrayIndexOutOfBoundsException: length=1079; index=1079
+        //I/System.Console(27031):        at ScriptCoreLib.Shared.BCLImplementation.System.__Convert.ToBase64String(__Convert.java:177)
+        //I/System.Console(27031):        at ScriptCoreLib.Library.StringConversions.UTF8ToBase64StringOrDefault(StringConversions.java:131)
+        //I/System.Console(27031):        at AndroidRTC.Global.Invoke(Global.java:259)
+        //I/System.Console(27031):        at ScriptCoreLib.Ultra.WebService.InternalGlobalExtensions.InternalApplication_BeginRequest(InternalGlobalExtensions.java:345)
+        //I/System.Console(27031):        at AndroidRTC.Global.Application_BeginRequest(Global.java:50)
+        //I/System.Console(27031):        at AndroidRTC.Activities.ApplicationWebServiceActivity___c__DisplayClass25._CreateServer_b__20(ApplicationWebServiceActivity___c__DisplayClass25.java:399)
+
         public string sdp;
         public List<string> sdpCandidates = new List<string>();
 
