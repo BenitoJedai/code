@@ -262,7 +262,9 @@ namespace WebGLRah66Comanche
 
     {
         public Comanche() : base(
-                "assets/WebGLRah66Comanche/RAH-66-Comanche-by-decten.dae"
+
+            Data.RAH66ComancheByDecten.DefaultSource
+                //"assets/WebGLRah66Comanche/RAH-66-Comanche-by-decten.dae"
 
             )
         {

@@ -18,8 +18,9 @@ namespace FakeWindowsLoginExperiment.Library.Designers
         IRootDesigner
     {
 
-        jsc.meta.Library.ScriptResourceWriter ref1;
-        global::jsc.Library.VirtualDictionaryBase ref2;
+        //jsc.meta.Library.ScriptResourceWriter ref1;
+        //global::jsc.Library.VirtualDictionaryBase ref2;
+
         ScriptCoreLib.Ultra.Components.Volatile.Avalon.Images.Google_Chrome ref0 = new ScriptCoreLib.Ultra.Components.Volatile.Avalon.Images.Google_Chrome();
 
 

@@ -18,6 +18,8 @@ using WebGLColladaExperiment;
 using WebGLColladaExperiment.Design;
 using WebGLColladaExperiment.HTML.Pages;
 
+using THREE;
+
 namespace WebGLColladaExperiment
 {
     /// <summary>
@@ -84,6 +86,9 @@ namespace WebGLColladaExperiment
             var st = new Stopwatch();
             st.Start();
 
+
+            var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
             Native.window.onframe +=
                 delegate
                 {
@@ -93,7 +98,6 @@ namespace WebGLColladaExperiment
                     //camera.aspect = window.aspect;
                     //camera.aspect = canvas.clientWidth / (double)canvas.clientHeight;
                     //camera.aspect = canvas.aspect;
-                    camera.updateProjectionMatrix();
 
 
                     oo.WithEach(
@@ -102,10 +106,8 @@ namespace WebGLColladaExperiment
                     );
 
 
-                    camera.position.x += (mouseX - camera.position.x) * .05;
-                    camera.position.y += (-mouseY - camera.position.y) * .05;
-
-                    camera.lookAt(scene.position);
+                    controls.update();
+                    camera.position = controls.center.clone();
 
                     renderer.render(scene, camera);
 
@@ -161,7 +163,7 @@ namespace WebGLColladaExperiment
             //        dae.scale.z = 3;
 
             //        dae.position.y = -80;
-          
+
             //        scene.add(dae);
             //        oo.Add(dae);
 
@@ -178,7 +180,8 @@ namespace WebGLColladaExperiment
     {
         public truck()
             : base(
-                "assets/WebGLColladaExperiment/truck.dae"
+                  Data.Truck.DefaultSource
+                //"assets/WebGLColladaExperiment/truck.dae"
                 )
         {
 
@@ -190,7 +193,8 @@ namespace WebGLColladaExperiment
     {
         public skpBOX()
             : base(
-                "assets/WebGLColladaExperiment/skpBOX.dae"
+                  Data.SkpBOX.DefaultSource
+                //"assets/WebGLColladaExperiment/skpBOX.dae"
                 )
         {
 

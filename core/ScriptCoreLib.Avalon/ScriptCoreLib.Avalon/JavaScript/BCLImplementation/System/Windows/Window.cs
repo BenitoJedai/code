@@ -10,6 +10,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
     [Script(Implements = typeof(global::System.Windows.Window))]
     internal class __Window : __FrameworkElement
     {
+        // tested by?
+        // can we render avalon window in webgl?
+
         public bool? ShowDialog()
         {
             throw new NotSupportedException();

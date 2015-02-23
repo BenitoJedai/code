@@ -22,12 +22,7 @@ namespace AsyncWebMethod
         // what about properties and indexers?
 
 
-        //Additional information: '.', hexadecimal value 0x00, is an invalid character. Line 1, position 1.
-
-        //    AsyncWebMethod.ApplicationWebService.exe!AsyncWebMethod.Global.Invoke() + 0xf3 bytes	
-        //>	ScriptCoreLib.Ultra.Library.dll!ScriptCoreLib.Ultra.WebService.InternalGlobalExtensions.InternalApplication_BeginRequest(ScriptCoreLib.Ultra.WebService.InternalGlobal g) + 0x93f bytes	
-        //    AsyncWebMethod.ApplicationWebService.exe!AsyncWebMethod.Global.Application_BeginRequest() + 0x23 bytes	
-
+        // %5EY%E0%DF%25%ADD
 
         public async Task<data> WebMethod16(string e, Action<data> y)
         {

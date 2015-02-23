@@ -417,7 +417,6 @@ namespace WebGLSpadeWarrior
 
                     var u = ego_z + ego_za * (elapsed) / 1000.0f;
 
-                    // script: error JSC1000: No implementation found for this native method, please implement [static System.Math.Min(System.Single, System.Single)]
 
                     if (u < 0)
                         ego_z = (float)Math.Min(ego_z, 0);
@@ -1131,17 +1130,17 @@ namespace WebGLSpadeWarrior
 
 
 
-            new IHTMLAnchor { "drag me to my.jsc-solutions.net" }.AttachToDocument().With(
-                dragme =>
-                {
-                    dragme.style.position = IStyle.PositionEnum.@fixed;
-                    dragme.style.left = "1em";
-                    dragme.style.bottom = "1em";
-                    dragme.style.color = "yellow";
+            //new IHTMLAnchor { "drag me to my.jsc-solutions.net" }.AttachToDocument().With(
+            //    dragme =>
+            //    {
+            //        dragme.style.position = IStyle.PositionEnum.@fixed;
+            //        dragme.style.left = "1em";
+            //        dragme.style.bottom = "1em";
+            //        dragme.style.color = "yellow";
 
-                    dragme.AllowToDragAsApplicationPackage();
-                }
-            );
+            //        dragme.AllowToDragAsApplicationPackage();
+            //    }
+            //);
         }
 
         public bool IsDisposed;

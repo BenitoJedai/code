@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5A75FA08-3AF1-4D27-A726-20B58B6CD608}</ProjectGuid>
+    <ProjectGuid>{76843B5B-EB0A-4E49-8B36-037969E0545F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebGLRah66Comanche</RootNamespace>
@@ -148,12 +148,12 @@
     <EmbeddedResource Include="Library\ZeProperties.resx">
       <DependentUpon>ZeProperties.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="web\assets\WebGLRah66Comanche\RAH-66-Comanche-by-decten.dae" />
+    <None Include="Warehouse\collada\RAH-66-Comanche-by-decten.dae" />
     <None Include="Warehouse\RAH-66-Comanche-by-decten.skp" />
     <None Include="Warehouse\RAH-66_2.skp" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Warehouse\collada\" />
+    <Folder Include="web\assets\WebGLRah66Comanche\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\WebGLColladaExperiment\WebGLColladaExperiment\WebGLColladaExperiment.csproj">

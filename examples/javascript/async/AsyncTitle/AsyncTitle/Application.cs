@@ -29,16 +29,12 @@ namespace AsyncTitle
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+    
 
             new IHTMLButton { "get new title " }.AttachToDocument().WhenClicked(
                 async button =>
                 {
+                    // Uncaught URIError: URI malformed
                     var Title = await service.Title;
 
                     Title.ToDocumentTitle();
@@ -48,7 +44,7 @@ namespace AsyncTitle
             new IHTMLButton { "get other title " }.AttachToDocument().WhenClicked(
                 async button =>
                 {
-                    await service.OtherTitle.ToDocumentTitle();
+                    (await service.OtherTitle).ToDocumentTitle();
 
 
                     //Title.ToDocumentTitle();

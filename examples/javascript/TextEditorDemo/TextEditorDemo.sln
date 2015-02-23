@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextEditorDemo", "TextEditorDemo\TextEditorDemo.csproj", "{73DAA9E0-2765-4875-B912-CBB98ADFF5C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.TextEditor", "..\..\..\market\Abstractatech.JavaScript.TextEditor\Abstractatech.JavaScript.TextEditor\Abstractatech.JavaScript.TextEditor.csproj", "{9122FB76-35CE-41C7-8894-4E58D1BA94BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{73DAA9E0-2765-4875-B912-CBB98ADFF5C4}.Debug|x86.Build.0 = Debug|x86
 		{73DAA9E0-2765-4875-B912-CBB98ADFF5C4}.Release|x86.ActiveCfg = Release|x86
 		{73DAA9E0-2765-4875-B912-CBB98ADFF5C4}.Release|x86.Build.0 = Release|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Debug|x86.ActiveCfg = Debug|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Debug|x86.Build.0 = Debug|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Release|x86.ActiveCfg = Release|x86
+		{9122FB76-35CE-41C7-8894-4E58D1BA94BD}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

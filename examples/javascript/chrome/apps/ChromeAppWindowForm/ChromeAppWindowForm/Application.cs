@@ -63,62 +63,61 @@ namespace ChromeAppWindowForm
 
 
                     // pass thru
+                    return;
+
                 }
-                else
+                // should jsc send a copresence udp message?
+
+
+                chrome.app.runtime.Launched += async delegate
                 {
-                    // should jsc send a copresence udp message?
+                    // 0:12094ms chrome.app.window.create {{ href = chrome-extension://aemlnmcokphbneegoefdckonejmknohh/_generated_background_page.html }}
+                    Console.WriteLine("chrome.app.window.create " + new { Native.document.location.href });
+
+                    new chrome.Notification(title: "Launched2");
+
+                    // https://code.google.com/p/chromium/issues/detail?id=177706
+
+                    var o = new object();
+                    var hidden = o == o;
+                    var alphaEnabled = o == o;
+                    var alwaysOnTop = o == o;
 
 
-                    chrome.app.runtime.Launched += async delegate
+                    var options = new
                     {
-                        // 0:12094ms chrome.app.window.create {{ href = chrome-extension://aemlnmcokphbneegoefdckonejmknohh/_generated_background_page.html }}
-                        Console.WriteLine("chrome.app.window.create " + new { Native.document.location.href });
+                        //allow webkitAppRegion
+                        frame = "none",
+                        hidden,
+                        alphaEnabled,
+                        alwaysOnTop
+                    };
 
-                        new chrome.Notification(title: "Launched2");
+                    // The URL used for window creation must be local for security reasons.
 
-                        // https://code.google.com/p/chromium/issues/detail?id=177706
-
-                        var o = new object();
-                        var hidden = o == o;
-                        var alphaEnabled = o == o;
-                        var alwaysOnTop = o == o;
-
-
-                        var options = new
-                        {
-                            //allow webkitAppRegion
-                            frame = "none",
-                            hidden,
-                            alphaEnabled,
-                            alwaysOnTop
-                        };
-
-                        // The URL used for window creation must be local for security reasons.
-
-                        var xappwindow = await chrome.app.window.create(
+                    var xappwindow = await chrome.app.window.create(
                            Native.document.location.pathname,
                            //Native.document.location.pathname + "#http://example.com", 
                            options
                     );
 
-                        //xappwindow.set
+                    //xappwindow.set
 
-                        // can we prevent the white page from appearing?
-                        await xappwindow.contentWindow.async.onload;
+                    // can we prevent the white page from appearing?
+                    await xappwindow.contentWindow.async.onload;
 
-                        xappwindow.contentWindow.document.title = "http://example.com";
+                    xappwindow.contentWindow.document.title = "http://example.com";
 
-                        await Task.Delay(100);
-                        //await Task.Delay(200);
+                    await Task.Delay(100);
+                    //await Task.Delay(200);
 
-                        xappwindow.show();
+                    xappwindow.show();
 
-                        Console.WriteLine("chrome.app.window loaded!");
-                    };
+                    Console.WriteLine("chrome.app.window loaded!");
+                };
 
 
-                    return;
-                }
+                return;
             }
             #endregion
 

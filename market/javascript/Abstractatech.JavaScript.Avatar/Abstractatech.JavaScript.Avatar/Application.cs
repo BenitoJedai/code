@@ -163,7 +163,7 @@ namespace Abstractatech.JavaScript.Avatar
 
 
             var retry = 0;
-        retry:
+            retry:
             retry++;
 
             Console.WriteLine(new { retry });
@@ -208,7 +208,8 @@ namespace Abstractatech.JavaScript.Avatar
                         // until orphanized
                         while (c.parentNode != null)
                         {
-                            await Native.window.requestAnimationFrameAsync;
+                            //await Native.window.requestAnimationFrameAsync;
+                            await Native.window.async.onframe;
 
                             var a = (Math.Cos(s.ElapsedMilliseconds * 0.001) + 1) / 2.0;
 
@@ -321,8 +322,8 @@ namespace Abstractatech.JavaScript.Avatar
                     var bytes = frames.Select(x => x.bytes.Result).ToArray().AsEnumerable();
 
                     //bytes = bytes.Concat(bytes.Skip(1).Reverse().Skip(1)).ToArray().AsEnumerable();
-                    
-                        // build it
+
+                    // build it
                     new GIFEncoderWorker(
                          96,
                          96,
@@ -345,22 +346,22 @@ namespace Abstractatech.JavaScript.Avatar
                             Console.WriteLine(
                                 // { Avatar640x480 = 54843, Avatar96gif = 54734 } 
                                 new
-                            {
-                                Avatar640x480 = base64.Length,
-                                Avatar96gif = gif.Length
-                            }
+                                {
+                                    Avatar640x480 = base64.Length,
+                                    Avatar96gif = gif.Length
+                                }
                             );
 
 
                             if (yield != null)
                                 yield(
                                     new WebCamAvatarsSheet1Row
-                                {
-                                    Avatar640x480 = base64,
-                                    Avatar96frame1 = Native.window.localStorage[localStorageKeys.frames[0]],
-                                    // do we want to report frames?
-                                    Avatar96gif = gif
-                                }
+                                    {
+                                        Avatar640x480 = base64,
+                                        Avatar96frame1 = Native.window.localStorage[localStorageKeys.frames[0]],
+                                        // do we want to report frames?
+                                        Avatar96gif = gif
+                                    }
                                 );
 
 

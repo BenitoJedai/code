@@ -41,6 +41,9 @@ namespace CanvasMarchinAntsExperiment
             new CanvasRenderingContext2D(500, 400).With(
                async ctx =>
                 {
+                    // "X:\jsc.svn\examples\javascript\WebGL\WebGLDashedLines\WebGLDashedLines.sln"
+
+                    // using?
                     ctx.canvas.AttachToDocument();
 
                     // no longer works?
@@ -58,6 +61,7 @@ namespace CanvasMarchinAntsExperiment
                         ctx.lineDashOffset = antOffset;  // Animate the lines
                         ctx.lineJoin = "round";
                         ctx.lineWidth = 3;
+
                         ctx.strokeStyle = "blue";
                         ctx.strokeRect(5, 5, 300, 250);
                         ctx.strokeStyle = "red";

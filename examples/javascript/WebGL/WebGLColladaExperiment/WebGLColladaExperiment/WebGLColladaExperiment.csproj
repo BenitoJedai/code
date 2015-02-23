@@ -135,10 +135,13 @@
     </Compile>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <EmbeddedResource Include="web\assets\WebGLColladaExperiment\truck.dae">
+    <None Include="Models\truck.dae">
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="web\assets\WebGLColladaExperiment\skpBOX.dae" />
+    </None>
+    <None Include="Models\skpBOX.dae" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="web\assets\WebGLColladaExperiment\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

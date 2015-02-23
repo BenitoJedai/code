@@ -68,8 +68,8 @@ namespace FakeWindowsLoginExperiment
 
             //Error	2	The call is ambiguous between the following methods or properties: 'ScriptCoreLib.JavaScript.Windows.Forms.FormAsPopupExtensions.PopupInsteadOfClosing<System.Windows.Forms.Form>(System.Windows.Forms.Form)' and 'ScriptCoreLib.Extensions.FormAsPopupExtensionsForConsoleFormPackage.PopupInsteadOfClosing<System.Windows.Forms.Form>(System.Windows.Forms.Form)'	X:\jsc.svn\examples\javascript\forms\FakeWindowsLoginExperiment\FakeWindowsLoginExperiment\Application.cs	47	21	FakeWindowsLoginExperiment
 
-            //Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensionsForConsoleFormPackage.PopupInsteadOfClosing(
-            ScriptCoreLib.Extensions.FormAsPopupExtensionsForConsoleFormPackage.PopupInsteadOfClosing(
+            Abstractatech.JavaScript.FormAsPopup.FormAsPopupExtensionsForConsoleFormPackage.PopupInsteadOfClosing(
+            //ScriptCoreLib.Extensions.FormAsPopupExtensionsForConsoleFormPackage.PopupInsteadOfClosing(
                 taskManagerForm1
                 );
 

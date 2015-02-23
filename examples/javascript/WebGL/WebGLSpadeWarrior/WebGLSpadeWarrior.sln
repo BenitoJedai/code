@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLSpadeWarrior", "WebGLSpadeWarrior\WebGLSpadeWarrior.csproj", "{5A2E0E9D-2173-4A53-B3FB-EA681DCF0F5C}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLSpadeWarrior", "WebGLS
 		{979239DB-60D4-45A3-A236-27F2D984AE17} = {979239DB-60D4-45A3-A236-27F2D984AE17}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "glMatrixLibrary", "..\..\..\market\synergy\javascript\glMatrixLibrary\glMatrixLibrary\glMatrixLibrary.csproj", "{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{8A9FBC00-5653-4409-A8E3-4889794C5D9F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagnosticsConsole", "..\DiagnosticsConsole\DiagnosticsConsole\DiagnosticsConsole.csproj", "{979239DB-60D4-45A3-A236-27F2D984AE17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "glMatrixLibrary", "..\..\..\..\market\synergy\javascript\glMatrixLibrary\glMatrixLibrary\glMatrixLibrary.csproj", "{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,20 +25,20 @@ Global
 		{5A2E0E9D-2173-4A53-B3FB-EA681DCF0F5C}.Debug|x86.Build.0 = Debug|x86
 		{5A2E0E9D-2173-4A53-B3FB-EA681DCF0F5C}.Release|x86.ActiveCfg = Release|x86
 		{5A2E0E9D-2173-4A53-B3FB-EA681DCF0F5C}.Release|x86.Build.0 = Release|x86
-		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Debug|x86.ActiveCfg = Debug|x86
-		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Debug|x86.Build.0 = Debug|x86
-		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Release|x86.ActiveCfg = Release|x86
-		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Release|x86.Build.0 = Release|x86
 		{979239DB-60D4-45A3-A236-27F2D984AE17}.Debug|x86.ActiveCfg = Debug|x86
 		{979239DB-60D4-45A3-A236-27F2D984AE17}.Debug|x86.Build.0 = Debug|x86
 		{979239DB-60D4-45A3-A236-27F2D984AE17}.Release|x86.ActiveCfg = Release|x86
 		{979239DB-60D4-45A3-A236-27F2D984AE17}.Release|x86.Build.0 = Release|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Debug|x86.ActiveCfg = Debug|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Debug|x86.Build.0 = Debug|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Release|x86.ActiveCfg = Release|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37} = {8A9FBC00-5653-4409-A8E3-4889794C5D9F}
 		{979239DB-60D4-45A3-A236-27F2D984AE17} = {8A9FBC00-5653-4409-A8E3-4889794C5D9F}
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37} = {8A9FBC00-5653-4409-A8E3-4889794C5D9F}
 	EndGlobalSection
 EndGlobal

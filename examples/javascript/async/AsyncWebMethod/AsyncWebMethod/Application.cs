@@ -29,8 +29,8 @@ namespace AsyncWebMethod
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            new IHTMLButton { innerText = "invoke with data" }.AttachToDocument().WhenClicked(
-                  async delegate
+            new IHTMLButton { innerText = "invoke with data" }.AttachToDocument().onclick +=
+                async e =>
                   {
 
                       new IHTMLPre { "will call service" }.AttachToDocument();
@@ -48,10 +48,9 @@ namespace AsyncWebMethod
                       new IHTMLPre { "done! " + new { y.text } }.AttachToDocument();
 
 
-                  }
-              );
+                  };
 
-            new IHTMLButton { innerText = "invoke with result" }.AttachToDocument().WhenClicked(
+            new IHTMLButton { innerText = "invoke with result" }.AttachToDocument().onclick +=
                 async delegate
                 {
 
@@ -70,10 +69,10 @@ namespace AsyncWebMethod
                     new IHTMLPre { "will call service done" }.AttachToDocument();
 
 
-                }
-            );
+                };
 
-            new IHTMLButton { innerText = "invoke" }.AttachToDocument().WhenClicked(
+
+            new IHTMLButton { innerText = "invoke" }.AttachToDocument().onclick +=
                  async delegate
                  {
 
@@ -92,8 +91,7 @@ namespace AsyncWebMethod
                      new IHTMLPre { "will call service done" }.AttachToDocument();
 
 
-                 }
-             );
+                 };
 
 
 

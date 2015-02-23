@@ -1,4 +1,6 @@
-﻿using ScriptCoreLib.JavaScript;
+﻿extern alias xglobal;
+
+using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Extensions;
 using System;
@@ -177,7 +179,7 @@ namespace chrome
 
                     // https://github.com/darwin/chromium-src-chrome-browser/blob/master/notifications/notification.cc
                     // https://github.com/darwin/chromium-src-chrome-browser/blob/master/notifications/notification.h
-                    chrome.notifications.create(
+                    xglobal::chrome.notifications.create(
                         this.Key,
                         new NotificationOptions
                         {
@@ -192,7 +194,7 @@ namespace chrome
 
                             #region Closed
                             //chrome.notifications.onClosed.addListener(
-                            chrome.notifications.Closed +=
+                            xglobal::chrome.notifications.Closed +=
                                 //new Action<string, bool>(
                                      (__notificationId, __byUser) =>
                                      {
@@ -212,7 +214,7 @@ namespace chrome
                             #endregion
 
                             #region Clicked
-                            chrome.notifications.Clicked +=
+                            xglobal::chrome.notifications.Clicked +=
                                 (__notificationId) =>
                                 {
                                     if (__notificationId != this.Key)
@@ -248,7 +250,7 @@ namespace chrome
 
                             this.update = async delegate
                             {
-                                var wasUpdated = await chrome.notifications.update(
+                                var wasUpdated = await xglobal::chrome.notifications.update(
                                     this.Key,
                                     new NotificationOptions
                                     {

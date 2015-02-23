@@ -29,6 +29,8 @@ namespace ServerSideEventExperiment
 
         public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
         {
+            // webrtc!
+
             // http://www.sitepoint.com/server-sent-events/
             //Object '/d07dea9a_2384_49f8_8c01_270582d093dc/rwqwygw27obp9zsviyqgjhqt_27.rem' has been disconnected or does not exist at the server.
 

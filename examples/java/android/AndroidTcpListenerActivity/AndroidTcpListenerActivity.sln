@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Web Developer Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidTcpListenerActivity", "AndroidTcpListenerActivity\AndroidTcpListenerActivity.csproj", "{0E0E6222-8D1C-4D53-B06C-C7B9F2921B5B}"
 EndProject
 Global
