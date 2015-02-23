@@ -11,7 +11,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     // 20150222 - spec has been updated to promises. when will chrome follow?
 
     [Script(HasNoPrototype = true, ExternalTarget = "RTCPeerConnection")]
-    public class RTCPeerConnection
+    public class RTCPeerConnection : IEventTarget
     {
         // chrome://webrtc-internals/
         // http://www.html5rocks.com/en/tutorials/webrtc/datachannels/
@@ -56,6 +56,23 @@ namespace ScriptCoreLib.JavaScript.DOM
         public void setLocalDescription(RTCSessionDescription description, IFunction successCallback) { }
 
         public void addIceCandidate(RTCIceCandidate candidate, IFunction successCallback, Action<object> failureCallback) { }
+
+
+        #region event onicecandidate
+        public event Action<RTCPeerConnectionIceEvent> onicecandidate
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "icecandidate");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "icecandidate");
+            }
+        }
+        #endregion
     }
 
 

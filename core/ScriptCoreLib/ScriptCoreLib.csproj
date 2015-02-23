@@ -118,6 +118,7 @@
     <Compile Include="JavaScript\WebGL\WebGLTransformFeedback.cs" />
     <Compile Include="JavaScript\WebGL\WebGLSync.cs" />
     <Compile Include="JavaScript\WebGL\WebGLSampler.cs" />
+    <Compile Include="JavaScript\WebRTC\RTCPeerConnectionIceEvent.cs" />
     <Compile Include="JavaScript\WebRTC\RTCIceCandidate.cs" />
     <Compile Include="JavaScript\WebRTC\RTCSessionDescription.cs" />
     <Compile Include="JavaScript\WebRTC\RTCDataChannel.cs" />

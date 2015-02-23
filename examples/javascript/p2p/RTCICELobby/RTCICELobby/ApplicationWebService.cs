@@ -23,6 +23,12 @@ namespace RTCICELobby
 
         public async Task Offer()
         {
+            if (string.IsNullOrEmpty(sdp))
+            {
+                Console.WriteLine("(sdp is null)");
+                return;
+            }
+
             Console.WriteLine(new { sdp });
 
             Memory.AllAvailableOffers.Add(sdp);
@@ -32,15 +38,31 @@ namespace RTCICELobby
         public List<string> sdpAnwserCandidates = new List<string>();
 
         public async Task CheckAnswer()
+        //public Task CheckAnswer()
         {
-            // copy anwser for sdp, if there is one...
-            var x = Memory.AllAvailableAnwsers.FirstOrDefault(z => z.sdpOffer == this.sdp);
+            //at RTCICELobby.ApplicationWebService.<CheckAnswer>d__1.MoveNext()
+            //if (Memory.AllAvailableAnwsers == null)
+            //{
+            //    Console.WriteLine("(Memory.AllAvailableAnwsers is null)");
+            //    return Task.FromResult(default(object));
+            //}
 
-            this.sdpAnwser = x.sdpAnwser;
-            this.sdpAnwserCandidates = x.sdpAnwserCandidates;
+            // copy anwser for sdp, if there is one...
+
+            Memory.AllAvailableAnwsers.FirstOrDefault(z => z.sdpOffer == this.sdp).With(
+                x =>
+                {
+
+                    this.sdpAnwser = x.sdpAnwser;
+                    this.sdpAnwserCandidates = x.sdpAnwserCandidates;
+                }
+            );
+
 
             // and now remove from memory? 
             // pairing complete
+
+            //return Task.FromResult(default(object));
         }
 
         public string sdpOffer;
