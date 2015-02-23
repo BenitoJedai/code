@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilder", "TestSolutionBuilder\TestSolutionBuilder.csproj", "{FB1141C7-9014-497D-B6AA-57428D0BBC35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilderWithSave", "TestSolutionBuilderWithSave\TestSolutionBuilderWithSave.csproj", "{902E8E46-673B-4342-864C-407DA62B04C9}"
@@ -18,7 +20,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilderV1", "TestSolutionBuilderV1\TestSolutionBuilderV1.csproj", "{A07DE0E4-E126-30A4-5F40-8F412172C72E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{132EB43F-19B4-42AC-8025-3249B129867A} = {132EB43F-19B4-42AC-8025-3249B129867A}
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {F32D7675-1193-4DA7-98C8-C8B010C608D9}
+		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {5EC1743F-043B-44E8-A635-72331EEE81D8}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilder.NewProjectWindow", "TestSolutionBuilder.NewProjectWindow\TestSolutionBuilder.NewProjectWindow.csproj", "{96A35E19-61ED-4376-B4AA-C3CAAB0126E4}"
@@ -37,7 +39,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Compone
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components.Volatile", "..\..\..\..\core\ScriptCoreLib.Ultra.Components.Volatile\ScriptCoreLib.Ultra.Components.Volatile\ScriptCoreLib.Ultra.Components.Volatile.csproj", "{8B8C61EA-D890-403D-9B40-3ACCB679BB20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{F32D7675-1193-4DA7-98C8-C8B010C608D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{5EC1743F-043B-44E8-A635-72331EEE81D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -241,26 +243,27 @@ Global
 		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.Release|x86.ActiveCfg = Release|Any CPU
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Assets|Any CPU.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Assets|Mixed Platforms.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Assets|Mixed Platforms.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Assets|x86.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Assets|x86.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.Build.0 = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Any CPU.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Assets|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{FB1141C7-9014-497D-B6AA-57428D0BBC35} = {31632AA0-5494-4130-9044-E8C02E488B4D}
 		{902E8E46-673B-4342-864C-407DA62B04C9} = {31632AA0-5494-4130-9044-E8C02E488B4D}
 		{5C199F89-85A6-401F-9349-35523DB187A1} = {31632AA0-5494-4130-9044-E8C02E488B4D}
 		{C348C8C7-C144-EE96-FE0D-4E543D556268} = {31632AA0-5494-4130-9044-E8C02E488B4D}
@@ -268,12 +271,11 @@ Global
 		{E6196EDC-527A-73CB-9755-60E4CD8215EC} = {31632AA0-5494-4130-9044-E8C02E488B4D}
 		{83DFFBE0-EAE7-36D6-F758-E52C384CF52B} = {31632AA0-5494-4130-9044-E8C02E488B4D}
 		{96A35E19-61ED-4376-B4AA-C3CAAB0126E4} = {31632AA0-5494-4130-9044-E8C02E488B4D}
-		{FB1141C7-9014-497D-B6AA-57428D0BBC35} = {31632AA0-5494-4130-9044-E8C02E488B4D}
 		{132EB43F-19B4-42AC-8025-3249B129867A} = {241E69F6-F125-4111-B29C-DA66A7419241}
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F} = {241E69F6-F125-4111-B29C-DA66A7419241}
 		{9CF379F4-DC30-4793-B379-653AF2E2F0FA} = {241E69F6-F125-4111-B29C-DA66A7419241}
 		{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0} = {241E69F6-F125-4111-B29C-DA66A7419241}
 		{8B8C61EA-D890-403D-9B40-3ACCB679BB20} = {241E69F6-F125-4111-B29C-DA66A7419241}
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {241E69F6-F125-4111-B29C-DA66A7419241}
+		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {241E69F6-F125-4111-B29C-DA66A7419241}
 	EndGlobalSection
 EndGlobal

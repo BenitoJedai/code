@@ -13,7 +13,9 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public void WriteTo(SolutionFile File, SolutionProjectLanguage Language, SolutionBuilder Context)
 		{
-			if (this.IsActiveFilter != null)
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\Studio\SolutionFileComment.cs
+            // broken in roslyn?
+            if (this.IsActiveFilter != null)
 				if (!this.IsActiveFilter(Context))
 					return;
 
