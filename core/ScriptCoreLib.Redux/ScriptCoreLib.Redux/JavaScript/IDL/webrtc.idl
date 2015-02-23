@@ -62,7 +62,7 @@ interface RTCPeerConnection {
 
 			// X:\jsc.svn\examples\javascript\p2p\RTCPeerIPAddress\RTCPeerIPAddress\Application.cs
 			//attribute EventHandler<RTCPeerConnectionIceEvent> onicecandidate;
-			attribute EventHandler onicecandidate;
+			//attribute EventHandler onicecandidate;
 
 	//void                  addIceCandidate (RTCIceCandidate candidate, VoidFunction successCallback, RTCPeerConnectionErrorCallback failureCallback);
 			void                  addIceCandidate(RTCIceCandidate candidate, function successCallback, function<any> failureCallback);

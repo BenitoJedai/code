@@ -17,6 +17,7 @@ using RTCICELobby;
 using RTCICELobby.Design;
 using RTCICELobby.HTML.Pages;
 using System.Diagnostics;
+using RTCICELobby.HTML.Images.FromAssets;
 
 namespace RTCICELobby
 {
@@ -50,26 +51,20 @@ namespace RTCICELobby
 
                         #region onicecandidate
                         // onICE: It returns locally generated ICE candidates; so you can share them with other peer(s).
-                        remotePeerConnection.onicecandidate = new Action<RTCPeerConnectionIceEvent>(
-                            (RTCPeerConnectionIceEvent e) =>
-                            {
-                                if (e.candidate == null)
-                                    return;
+                        remotePeerConnection.onicecandidate += e =>
+                        {
+                            if (e.candidate == null)
+                                return;
+                            // onicecandidate: {{ sdpMLineIndex = 0, candidate = candidate:630834096 1 tcp 1518214911 192.168.43.252 0 typ host tcptype active generation 0 }}
+                            new IHTMLPre { "remotePeerConnection.onicecandidate: " + new {
 
+                                e.candidate.candidate,
+                                e.candidate.sdpMLineIndex,
+                                e.candidate.sdpMid
+                            } }.AttachToDocument();
 
-                                // onicecandidate: {{ sdpMLineIndex = 0, candidate = candidate:630834096 1 tcp 1518214911 192.168.43.252 0 typ host tcptype active generation 0 }}
-
-
-                                new IHTMLPre { "remotePeerConnection.onicecandidate: " + new {
-
-                                    e.candidate.candidate,
-                                    e.candidate.sdpMLineIndex,
-                                    e.candidate.sdpMid
-                                } }.AttachToDocument();
-
-                                base.sdpAnwserCandidates.Add(e.candidate.candidate);
-                            }
-                        );
+                            base.sdpAnwserCandidates.Add(e.candidate.candidate);
+                        };
                         #endregion
 
                         #region ondatachannel
@@ -77,13 +72,25 @@ namespace RTCICELobby
                             (RTCDataChannelEvent e) =>
                             {
                                 var mcounter = 0;
-                                var data = default(object);
+                                var data = default(XElement);
                                 new IHTMLPre { () => "enter  remotePeerConnection.ondatachannel " + new { e.channel.label, mcounter, data } }.AttachToDocument();
+
+                                var cur = new MyCursor();
+                                cur.AttachToDocument();
 
                                 e.channel.onmessage += ee =>
                                 {
                                     mcounter++;
-                                    data = ee.data;
+                                    data = XElement.Parse("" + ee.data);
+
+                                    var CursorX = (int)data.Attribute(nameof(IEvent.CursorX));
+                                    var CursorY = (int)data.Attribute(nameof(IEvent.CursorY));
+
+                                    cur.style.SetLocation(
+                                        CursorX,
+                                        CursorY
+                                       );
+
                                 };
 
 
@@ -124,39 +131,33 @@ namespace RTCICELobby
 
                     #region onicecandidate
                     // onICE: It returns locally generated ICE candidates; so you can share them with other peer(s).
-                    localPeerConnection.onicecandidate = new Action<RTCPeerConnectionIceEvent>(
-                        (RTCPeerConnectionIceEvent e) =>
-                        {
-                            if (e.candidate == null)
-                                return;
+                    localPeerConnection.onicecandidate += e =>
+                    {
+                        if (e.candidate == null)
+                            return;
 
-
-                            // onicecandidate: {{ sdpMLineIndex = 0, candidate = candidate:630834096 1 tcp 1518214911 192.168.43.252 0 typ host tcptype active generation 0 }}
-                            new IHTMLPre { "localPeerConnection.onicecandidate: " + new {
-
-
-
+                        // onicecandidate: {{ sdpMLineIndex = 0, candidate = candidate:630834096 1 tcp 1518214911 192.168.43.252 0 typ host tcptype active generation 0 }}
+                        new IHTMLPre { "localPeerConnection.onicecandidate: " + new {
                                 e.candidate.candidate,
-
                                 e.candidate.sdpMLineIndex,
-
                                  e.candidate.sdpMid
                             } }.AttachToDocument();
 
-
-                            base.sdpCandidates.Add(e.candidate.candidate);
-                        }
-                    );
+                        base.sdpCandidates.Add(e.candidate.candidate);
+                    };
                     #endregion
+
+
 
                     var sendChannel = localPeerConnection.createDataChannel("sendDataChannel", new { reliable = false });
 
+                    // await async.onopen
                     sendChannel.onopen = new Action(
                         async delegate
                         {
-                            new IHTMLPre { "sendChannel.onopen" }.AttachToDocument();
+                            new IHTMLPre { () => "sendChannel.onopen " + new { sendChannel.label } }.AttachToDocument();
 
-                            sendChannel.send("hi!");
+                            //sendChannel.send("hi!");
 
                             var mmcounter = 0;
 
@@ -166,7 +167,13 @@ namespace RTCICELobby
                                     mmcounter++;
 
                                     sendChannel.send(
-                                        new { mmcounter, e.CursorX, e.CursorY }.ToString()
+                                        new XElement("sendDataChannel",
+                                            new XAttribute(nameof(mmcounter), mmcounter),
+                                            new XAttribute(nameof(IEvent.CursorX), e.CursorX),
+                                            new XAttribute(nameof(IEvent.CursorY), e.CursorY)
+                                        ).ToString()
+
+                                    //new { mmcounter, e.CursorX, e.CursorY }.ToString()
                                     );
                                 };
                         }
@@ -223,7 +230,7 @@ namespace RTCICELobby
 
                         await localPeerConnection.addIceCandidate(c);
                     }
-                    new IHTMLPre { "addIceCandidate... done" }.AttachToDocument();
+                    new IHTMLPre { "addIceCandidate... done. sendChannel" }.AttachToDocument();
                 }
             );
 

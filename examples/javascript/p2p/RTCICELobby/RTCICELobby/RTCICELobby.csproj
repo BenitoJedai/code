@@ -130,6 +130,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Textures\MyCursor.svg" />
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

@@ -17,7 +17,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
         public string InternalValue;
 
-      
+
 
         public void Remove()
         {
@@ -59,7 +59,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         }
 
 
-        public static explicit operator bool(__XAttribute attribute)
+        // X:\jsc.svn\examples\javascript\p2p\RTCICELobby\RTCICELobby\Application.cs
+        public static explicit operator int (__XAttribute attribute)
+        {
+            if (attribute == null)
+                return default(int);
+
+
+            return Convert.ToInt32(attribute.Value);
+        }
+
+        public static explicit operator bool (__XAttribute attribute)
         {
             return Convert.ToBoolean(attribute.Value);
         }
