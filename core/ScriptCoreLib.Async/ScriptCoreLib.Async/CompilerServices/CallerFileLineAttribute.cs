@@ -29,5 +29,6 @@ namespace ScriptCoreLib.CompilerServices
 
         // X:\jsc.svn\market\synergy\THREE\THREE\Extensions\THREEExtensions.cs
         // X:\jsc.svn\examples\merge\Test\TestCallerFileLineAttribute\TestCallerFileLineAttribute\Program.cs
+        // X:\jsc.svn\examples\javascript\forms\FakeWindowsLoginExperiment\FakeWindowsLoginExperiment.AssetsLibrary.Extensions\ScriptCoreLib\Extensions\Generic\Trace.cs
     }
 }

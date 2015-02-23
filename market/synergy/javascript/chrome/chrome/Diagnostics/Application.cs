@@ -1,5 +1,5 @@
+extern alias xglobal;
 
-using chromelabs.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -12,7 +12,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-
+using xglobal::chromelabs.HTML.Pages;
 
 namespace chromelabs
 {

@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.WebAudio
     [Script(HasNoPrototype = true, ExternalTarget = "AudioContext")]
     public class AudioContext
     {
+        // "X:\jsc.svn\market\synergy\javascript\MIDI\MIDI.sln"
+
         // https://msdn.microsoft.com/en-us/library/aa376846.aspx?f=255&MSPPError=-2147217396
 
         // http://forestmist.org/share/web-audio-api-demo/

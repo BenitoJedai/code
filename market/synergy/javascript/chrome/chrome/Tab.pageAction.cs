@@ -1,9 +1,14 @@
-﻿using ScriptCoreLib;
+﻿extern alias xglobal;
+
+using ScriptCoreLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using xglobal::chrome;
+
 
 namespace chrome
 {
@@ -33,7 +38,7 @@ namespace chrome
                 // show our icon?
                 pageAction.Tab.id.show();
 
-                chrome.pageAction.Clicked +=
+                xglobal::chrome.pageAction.Clicked +=
                     xtab =>
                     {
                         if (xtab.id != pageAction.Tab.id)
@@ -75,7 +80,7 @@ namespace chrome
 
         // extensions for android in 2015?
 
-        public TabIdInteger id;
+        public xglobal.chrome.TabIdInteger id;
 
         // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
 

@@ -36,6 +36,8 @@ namespace WebGLDashedLines
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\CanvasMarchinAntsExperiment\CanvasMarchinAntsExperiment\Application.cs
+
             Native.body.Clear();
             Native.body.style.margin = "0px";
             Native.body.style.overflow = IStyle.OverflowEnum.hidden;

@@ -48,12 +48,7 @@ namespace JVMCLRHopToThreadPool
                typeof(object).AssemblyQualifiedName
             );
 
-            //           Implementation not found for type import :
-            //type: System.Threading.Tasks.Task
-            //           method: System.Threading.Tasks.Task Run(System.Action)
-            //           Did you forget to add the[Script] attribute?
-            //           Please double check the signature!
-
+        
 
             //            0001 0200001c JVMCLRHopToThreadPool__i__d.jvm::< module >.SHA1e753615830d7e1078fa8bbc34fd2a916a7ff550f@2144380672$000000da
             //              - javac

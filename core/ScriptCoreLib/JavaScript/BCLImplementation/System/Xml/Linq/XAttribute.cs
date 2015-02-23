@@ -71,6 +71,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
         public static explicit operator bool (__XAttribute attribute)
         {
+            // does jsc resolver also look at the retun type?
+
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView..ctor.cs
+            // X:\jsc.svn\examples\javascript\forms\FakeWindowsLoginExperiment\FakeWindowsLoginExperiment\Application.cs
+            // X:\jsc.svn\examples\javascript\xml\test\TestXAttributeOp\TestXAttributeOp\Application.cs
+            // X:\jsc.svn\examples\javascript\xml\test\TestBCLImplementationResolveByReturnType\TestBCLImplementationResolveByReturnType\Class1.cs
+
             return Convert.ToBoolean(attribute.Value);
         }
 

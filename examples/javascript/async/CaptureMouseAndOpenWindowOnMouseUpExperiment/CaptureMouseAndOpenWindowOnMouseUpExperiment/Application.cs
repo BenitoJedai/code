@@ -35,7 +35,9 @@ namespace CaptureMouseAndOpenWindowOnMouseUpExperiment
                     e.CaptureMouse();
                     page.DragMe.style.color = "red";
 
-                    await page.DragMe.async.onmouseup;
+                    //new IHTMLPre { () => await page.DragMe.async.onmousemove }.AttachToDocument();
+
+                    var up = await page.DragMe.async.onmouseup;
 
                     page.DragMe.style.color = "";
 
@@ -46,8 +48,8 @@ namespace CaptureMouseAndOpenWindowOnMouseUpExperiment
                     w.document.title = "new IWindow";
 
                     w.moveTo(
-                        e.CursorX,
-                        e.CursorY
+                        up.CursorX,
+                        up.CursorY
                     );
 
 

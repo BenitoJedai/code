@@ -16,9 +16,9 @@ namespace FakeWindowsLoginExperiment.Library.Designers
     //public class RootDesignerView : UserControl
     public class RootDesignerView : UserControl
     {
-        jsc.meta.Library.ScriptResourceWriter ref1;
+        //jsc.meta.Library.ScriptResourceWriter ref1;
 
-        global::jsc.Library.VirtualDictionaryBase ref2;
+        //global::jsc.Library.VirtualDictionaryBase ref2;
 
         ScriptCoreLib.Ultra.Components.Volatile.Avalon.Images.Google_Chrome ref0 = new ScriptCoreLib.Ultra.Components.Volatile.Avalon.Images.Google_Chrome();
 

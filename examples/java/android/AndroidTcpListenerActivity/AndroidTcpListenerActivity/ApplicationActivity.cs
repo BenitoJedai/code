@@ -61,7 +61,8 @@ namespace AndroidTcpListenerActivity.Activities
 
                     Toast.makeText(
                           this,
-                          "connect to this web server"
+                          "connect to this web server", 
+                          Toast.LENGTH_LONG
                       ).show();
 
                     var ipa = Dns.GetHostAddresses(ip)[0];

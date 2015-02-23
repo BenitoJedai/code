@@ -77,7 +77,7 @@ namespace SVGHTMLElement
             div.AttachTo(hidden);
 
             new IHTMLButton { "do " + new { div.PageContainer.clientWidth, div.PageContainer.clientHeight } }.AttachToDocument().WhenClicked(
-               button =>
+               async button =>
                {
 
                    //div.querySelectorAll("img").WithEach(
@@ -96,6 +96,11 @@ namespace SVGHTMLElement
 
                    // Uncaught SecurityError: Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported.
                    IHTMLImage i = s;
+                   //Task<IHTMLCanvas> ic = s;
+
+                   //var c = await ic;
+
+
                    //var ii = i.toDataURL();
 
                    page.body.css.after.contentImage = i;

@@ -9,6 +9,8 @@ namespace ScriptCoreLib.Extensions
 {
     public static class Trace
     {
+        // X:\jsc.svn\examples\javascript\forms\FakeWindowsLoginExperiment\FakeWindowsLoginExperiment.AssetsLibrary.Extensions\ScriptCoreLib\Extensions\Generic\Trace.cs
+
         // extensions to use T or object
         // shall be in a special Generic namespace?
 
@@ -17,7 +19,9 @@ namespace ScriptCoreLib.Extensions
         public static T ToTrace<T>(this T message,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
-        [CallerLineNumber] int sourceLineNumber = 0)
+        [CallerLineNumber] int sourceLineNumber = 0
+        , [global::ScriptCoreLib.CompilerServices.CallerFileLineAttribute] string sourceFileLine = ""
+        )
         {
             // move to ScriptCoreLib.Extensions
             // TpyeForwarding to be used to also support .NET 4 ?
@@ -26,7 +30,9 @@ namespace ScriptCoreLib.Extensions
                 "message: " + message
                 + "\nmember name: " + memberName
                 + "\nsource file path: " + sourceFilePath
-                + "\nsource line number: " + sourceLineNumber);
+                + "\nsource line number: " + sourceLineNumber
+                + "\nsource file line: " + sourceFileLine
+                );
 
             return message;
         }

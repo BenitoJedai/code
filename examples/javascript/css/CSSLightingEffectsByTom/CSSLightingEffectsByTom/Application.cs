@@ -31,10 +31,8 @@ namespace CSSLightingEffectsByTom
             Native.Document.body.onmousemove +=
                 e =>
                 {
-                    //var horizontal = e.pageX / $(document).width();
-                    var horizontal = e.CursorX / Native.window.Width;
-                    //var vertical = e.pageY / $(document).height();
-                    var vertical = e.CursorY / Native.window.Height;
+                    var horizontal = e.CursorX / (double)Native.window.Width;
+                    var vertical = e.CursorY / (double)Native.window.Height;
 
 
                     //$('.ipad').css({
