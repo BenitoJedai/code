@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.WebAudio
     // http://webaudio.github.io/web-audio-api/
     // http://webaudio.github.io/web-audio-api/#idl-def-AudioNode
     // http://dan.nea.me/audiolandscape/
+    // http://www.javascripture.com/AudioNode
 
     [Script(HasNoPrototype = true, ExternalTarget = "AudioNode")]
     public class AudioNode : IEventTarget

@@ -41,7 +41,13 @@ namespace TestDelegateInvokeDisplayName
 
                 new IHTMLPre { "err \{err.Message} \{err.StackTrace}" }.AttachToDocument();
 
-                Debugger.Break();
+                //Debugger.Break();
+
+                //at RxUABqEShzuSUuAZjYIdtQ (https://192.168.43.252:14143/view-source:49162:55)
+                //at J9xaqDBRVzu6LS4YGERkUQ.type$J9xaqDBRVzu6LS4YGERkUQ.dAAABjBRVzu6LS4YGERkUQ (https://192.168.43.252:14143/view-source:74897:32)
+                //at sWnMahyPGzqCgqhEzVVovA.type$sWnMahyPGzqCgqhEzVVovA.bAAABhyPGzqCgqhEzVVovA (https://192.168.43.252:14143/view-source:74839:34)
+                //at CGz_ba38Q4ziOT_bWdSsG76g.type$CGz_ba38Q4ziOT_bWdSsG76g.cAAABn8Q4ziOT_bWdSsG76g (https://192.168.43.252:14143/view-source:74866:12)
+                //at HTMLDocument.<anonymous> (https://192.168.43.252:14143/view-source:17851:84)
             };
 
             Native.document.onclick += delegate { y(); };
