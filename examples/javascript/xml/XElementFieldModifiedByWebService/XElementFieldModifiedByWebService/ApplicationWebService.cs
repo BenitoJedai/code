@@ -24,6 +24,9 @@ namespace XElementFieldModifiedByWebService
 
         public Task<string> Modify()
         {
+            // couuld we be interacting with svg/collada
+            // could we be doing it via webrtc?
+
             Content.ReplaceNodes(
 
                 new XElement(
