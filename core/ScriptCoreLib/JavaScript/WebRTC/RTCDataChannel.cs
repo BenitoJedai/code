@@ -11,6 +11,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "RTCDataChannel")]
     public class RTCDataChannel : IEventTarget
     {
+        // https://groups.google.com/forum/#!topic/discuss-webrtc/Z7hMshWun78
+
         // http://xsockets.net/docs/3/webrtc
         // https://software.intel.com/en-us/blogs/2014/12/15/meshcentral-webrtc-data-stack-for-native-applications
 
