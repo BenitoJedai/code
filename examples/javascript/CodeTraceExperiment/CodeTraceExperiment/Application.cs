@@ -21,6 +21,21 @@ using System.Diagnostics;
 
 namespace CodeTraceExperiment
 {
+    public delegate Task<T> interactive<T>(
+        T value,
+
+        // jsc what are the args here?
+        // need .Async to be restored
+
+        // could the attribute not serve as a type too?
+
+        //Error CS4021  The CallerFilePathAttribute may only be applied to parameters with default values CodeTraceExperiment Application.cs  28
+
+        [CallerFilePath] string filepath = "",
+        [CallerLineNumber] int linenumber = 0,
+        [ScriptCoreLib.CompilerServices.CallerFileLine] string fileline = ""
+    );
+
     public delegate Task trace(
     // jsc what are the args here?
     // need .Async to be restored
@@ -70,30 +85,7 @@ namespace CodeTraceExperiment
                 var debugged = new IHTMLPre { }.AttachToDocument();
 
 
-                // [static System.Environment.get_StackTrace()]
-                new IHTMLDiv { Environment.StackTrace }.AttachTo(debugged).With(
-                    async e =>
-                    {
-                        Error
-                            //at vRQABqEShzuSUuAZjYIdtQ(https://192.168.43.252:13078/view-source:48647:54)
-                            //at VRQABg5AqDywb0pxayUQLA(https://192.168.43.252:13078/view-source:49101:13)
-                            //at _3AAABign_bj2W47U_adfGttA(https://192.168.43.252:13078/view-source:76145:38)
-                            //at _2wAABign_bj2W47U_adfGttA(https://192.168.43.252:13078/view-source:76114:11)
-                            //at _0wAABign_bj2W47U_adfGttA(https://192.168.43.252:13078/view-source:75964:13)
-                            //at _0gAABign_bj2W47U_adfGttA(https://192.168.43.252:13078/view-source:75912:5)
-                            //at Aq_afTERoTzCRSXcBCi_akMQ.type$Aq_afTERoTzCRSXcBCi_akMQ.qgAABkRoTzCRSXcBCi_akMQ(https://192.168.43.252:13078/view-source:75171:32)
-                            //at j4ixnFMrbDms_aLzz6LSBPQ.type$j4ixnFMrbDms_aLzz6LSBPQ.Ow0ABlMrbDms_aLzz6LSBPQ(https://192.168.43.252:13078/view-source:27902:7)
-                            //at P7IKGSZsXzW2IKjT9fKVIw.type$P7IKGSZsXzW2IKjT9fKVIw.kAAABiZsXzW2IKjT9fKVIw(https://192.168.43.252:13078/view-source:74824:7)
-                            //at _5pao_av8MFzWfHA2iCW_bctg.type$_5pao_av8MFzWfHA2iCW_bctg.tgAABv8MFzWfHA2iCW_bctg(https://192.168.43.252:13078/view-source:75393:38)
 
-                        // should we try to resolve the displayName too?
-                        // could use worker to decrypt secondary apps?
-
-                        e.Hide();
-                        await debugged.async.onclick;
-                        e.Show();
-                    }
-                );
 
                 // should we allow chaning constants?
                 // by patching const load opcodes?
@@ -128,17 +120,27 @@ namespace CodeTraceExperiment
                 c.style.backgroundColor = "";
             };
 
+            interactive<string> __string = async (string data, string filepath, int linenumber, string line) =>
+            {
+                var i = new IHTMLInput { value = data }.AttachToDocument();
+
+                await Next_onclick();
+
+                return i.value;
+            };
+
+
             //Func<>
             Func<string, Task<string>> program =
-                // a simulaton of a program
-                async data =>
-                {
-                    await trace(); new IHTMLPre { "hello" }.AttachToDocument();
-                    await trace(); new IHTMLPre { "world" }.AttachToDocument();
+            // a simulaton of a program
+            async data =>
+            {
+                await trace(); new IHTMLPre { await __string("hello") }.AttachToDocument();
+                await trace(); new IHTMLPre { await __string("world") }.AttachToDocument();
 
 
-                    await trace(); return "done!";
-                };
+                await trace(); return "done!";
+            };
 
             new IHTMLButton { "Step Into" }.AttachToDocument().onclick +=
                 async e =>

@@ -15,6 +15,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "Function")]
     public class IFunction
     {
+        // X:\jsc.svn\examples\javascript\test\TestChromeStackFrames\TestChromeStackFrames\Application.cs
+        // while jsc uses tokens as function names, it does save the IL name for debugging
+        public string displayName;
+
         public Expando prototype;
 
         #region ctor
@@ -112,6 +116,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static Task<IFunction> ByName(string name, object target = null)
         {
+            // X:\jsc.svn\examples\javascript\test\TestChromeStackFrames\TestChromeStackFrames\Application.cs
+
             // X:\jsc.svn\examples\javascript\Test\TestHistoryForwardEvent\TestHistoryForwardEvent\Application.cs
             Console.WriteLine("enter IFunction.ByName " + new { name });
 
