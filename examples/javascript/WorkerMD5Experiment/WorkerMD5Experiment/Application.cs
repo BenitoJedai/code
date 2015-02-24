@@ -34,6 +34,10 @@ namespace WorkerMD5Experiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // http://link.springer.com/chapter/10.1007%2F978-3-319-02726-5_20
+            // roslyn broke worker support?
+            // Uncaught TypeError: c._3BYABlqcAz6k53tGgDEanQ is not a function
+
             var gl = new WebGLRenderingContext();
 
             // http://webglreport.com/

@@ -57,5 +57,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 return "\r\n";
             }
         }
+
+        public static string StackTrace
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\CodeTraceExperiment\CodeTraceExperiment\Application.cs
+                // X:\jsc.svn\examples\javascript\Test\TestDelegateInvokeDisplayName\TestDelegateInvokeDisplayName\Application.cs
+
+                // can we provide some good caller intel yet?
+                // for code patching?
+                var value = default(string);
+
+                try
+                {
+                    //--TypeError: Cannot read property 'stack' of null
+                    //throw null;
+                    throw new Exception();
+                }
+                catch (Exception err)
+                {
+                    value = err.StackTrace;
+                }
+
+                return value;
+            }
+        }
     }
 }
