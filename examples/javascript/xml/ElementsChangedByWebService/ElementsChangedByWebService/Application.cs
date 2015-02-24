@@ -30,33 +30,37 @@ namespace ElementsChangedByWebService
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            var frame = new IHTMLIFrame();
 
-            frame.AttachToDocument();
 
-            frame.onload +=
-                delegate
+            new { }.With(
+                async delegate
                 {
+
+                    var frame = new IHTMLIFrame();
+
+                    frame.AttachToDocument();
+
+                    frame.src = "about:blank";
+
+                    await frame.async.onload;
+
                     frame.contentWindow.document.DesignMode = true;
 
-                    // 
                     // Additional information: The 'link' start tag on line 3 position 6 does not match the end tag of 'body'. Line 12, position 38.
                     this.content = frame.contentWindow.document.body;
 
+                    while (await page.Yield.async.onclick)
+                    {
 
-                    page.Yield.onclick +=
-                        delegate
-                        {
-                            Console.WriteLine(
-                                new { this.content }
-                                );
+                        Console.WriteLine(
+                            new { this.content }
+                            );
 
-                            this.yield();
-                        };
+                        await this.yield();
+                    }
+                }
+            );
 
-                };
-
-            frame.src = "about:blank";
 
 
         }
