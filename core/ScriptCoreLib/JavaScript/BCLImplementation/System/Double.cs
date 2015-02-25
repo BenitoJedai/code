@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     // http://referencesource.microsoft.com/#mscorlib/system/double.cs
     // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Double.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Double.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Double.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Double.cs
 
     [Script(Implements = typeof(double))]
     internal class __Double
@@ -34,7 +36,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
-        // script: error JSC1000: No implementation found for this native method, please implement [static System.Double.TryParse(System.String, System.Double&)]
         [Script(DefineAsStatic = true)]
         static public bool TryParse(string e, out double result)
         {

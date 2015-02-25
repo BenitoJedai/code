@@ -12,6 +12,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
     [Script(Implements = typeof(global::System.Threading.WaitHandle))]
     internal class __WaitHandle
     {
+        // tested by?
+
         public virtual bool WaitOne(int millisecondsTimeout)
         {
             return false;

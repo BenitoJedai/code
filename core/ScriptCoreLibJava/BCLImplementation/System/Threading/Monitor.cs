@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using ScriptCoreLib;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System
+namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 {
     // http://referencesource.microsoft.com/#mscorlib/system/threading/monitor.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading/Monitor.cs
@@ -24,7 +26,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static void Enter(object obj, ref bool lockTaken)
         {
-        
+
             // since we sync the console and static strings with background threads.
             // how about providing support for lock objects too?
         }
@@ -35,6 +37,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static void Exit(object obj)
         {
+            // wait
+
         }
     }
 }
