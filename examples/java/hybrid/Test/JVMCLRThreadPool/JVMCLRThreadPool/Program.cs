@@ -19,6 +19,14 @@ namespace JVMCLRThreadPool
 
     static class Program
     {
+        //0001 020001c5 ScriptCoreLib::ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProvider
+        //script: error JSC1000: Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
+        //internal compiler error at method
+        // assembly: C:\util\jsc\bin\ScriptCoreLib.dll at
+        // type: ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood, ScriptCoreLib, Version=4.6.0.0, Culture=neutral, PublicKeyToken=null
+        // method: CreatePaddedBuffer
+        // Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
+
 
         // jsc should keep volatile in sync between threads
         // while threadLocal would not be in sync

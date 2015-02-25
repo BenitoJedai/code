@@ -8,8 +8,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     // http://referencesource.microsoft.com/#mscorlib/system/byte.cs
     // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Byte.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Byte.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Byte.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Byte.cs
 
-	[Script(Implements = typeof(global::System.Byte))]
+    [Script(Implements = typeof(global::System.Byte))]
 	internal class __Byte
 	{
         // shared Memory between threads?
