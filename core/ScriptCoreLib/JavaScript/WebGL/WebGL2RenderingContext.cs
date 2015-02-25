@@ -8,12 +8,16 @@ namespace ScriptCoreLib.JavaScript.WebGL
 {
     // http://dxr.mozilla.org/mozilla-central/source/dom/webidl/WebGL2RenderingContext.webidl
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/WebGL2RenderingContext.webidl
+    // https://www.khronos.org/registry/webgl/specs/latest/2.0/webgl2.idl
+
     [Script(HasNoPrototype = true, InternalConstructor = true)]
     [Obsolete("for future reference")]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class WebGL2RenderingContext
     {
-        
+        // https://code.google.com/p/chromium/issues/detail?id=295792#c13
+        // https://code.google.com/p/chromium/issues/detail?id=295792&q=WebGL2&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
+
         // http://en.wikipedia.org/wiki/Metaverse
         // https://wemo.io/google-chrome-and-the-future-of-virtual-reality-interview-with-531
         // http://gamedev.stackexchange.com/questions/62164/opengl-what-are-the-adoption-rates-of-the-various-versions-and-whats-a-reason
@@ -29,7 +33,6 @@ namespace ScriptCoreLib.JavaScript.WebGL
 
         // https://wiki.mozilla.org/Platform/GFX/WebGL2
 
-        // https://code.google.com/p/chromium/issues/detail?id=295792&q=WebGL2&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
 
         // http://blog.tojicode.com/2013/09/whats-coming-in-webgl-20.html
 
