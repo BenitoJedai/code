@@ -402,6 +402,15 @@ namespace VRTurbanPhotosphere
             //[javac] found:    int
             #endregion
 
+            //-compile:
+            //    [javac] Compiling 727 source files to T:\bin\classes
+            //    [javac] T:\src\ScriptCoreLib\Android\CoreAndroidWebServiceActivity.java:64: error: bad operand types for binary operator '>'
+            //    [javac]         if (((this.__04000090__ActivityResult > null)))
+            //    [javac]                                               ^
+            //    [javac]   first type:  __Action_3<Integer,Integer,Intent>
+            //    [javac]   second type: <null>
+
+            // still on roslyn compiler?
 
         }
 

@@ -160,7 +160,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             Console.WriteLine("exit __Convert.FromBase64String " + new { value.Length });
 
             if (input.Length == 84)
-                if (input.Length != 63)
+                if (value.Length != 63)
                     throw new Exception("bugcheck  __Convert.FromBase64String");
 
             return value;
