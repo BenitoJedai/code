@@ -97,6 +97,11 @@ namespace AndroidRTC
             // if there is an offer available already, lets make it known...
 
             sdpOffer = Memory.AllAvailableOffers.FirstOrDefault();
+
+            if (sdpOffer == null)
+                Console.WriteLine("GetOffer sdpOffer is null");
+            else
+                Console.WriteLine("GetOffer " + new { sdpOffer });
         }
 
         public async Task Anwser()
