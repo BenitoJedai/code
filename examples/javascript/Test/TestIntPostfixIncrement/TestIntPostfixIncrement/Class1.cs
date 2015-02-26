@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace TestIntPostfixIncrement
 {
-    public class Class1
+    public static class Class1
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150226
         // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Convert.FromBase64String.cs
 
         public static void FromBase64String(byte[] input)
@@ -28,9 +29,12 @@ namespace TestIntPostfixIncrement
             //c = (((e + 1)));
             //d = AgAABmVvpzSgZUB5TmcESg(b[e]);
 
-            // v11
+            // v11 broken
             //c = (((c++ + 1)));
             //d = AgAABmVvpzSgZUB5TmcESg(b[c++]);
+
+            // v11 fixed
+            // d = AgAABmVvpzSgZUB5TmcESg(b[c++]);
 
         }
 
