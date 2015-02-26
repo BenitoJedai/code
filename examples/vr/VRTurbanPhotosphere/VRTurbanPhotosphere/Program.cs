@@ -1,5 +1,6 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using System;
+using System.Text;
 
 namespace VRTurbanPhotosphere
 {
@@ -10,6 +11,12 @@ namespace VRTurbanPhotosphere
     {
         public static void Main(string[] args)
         {
+            var x = new ApplicationWebService();
+            var xml = x.Header.ToString();
+            var bytes = Encoding.UTF8.GetBytes(xml);
+            var base64 = Convert.ToBase64String(bytes);
+
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

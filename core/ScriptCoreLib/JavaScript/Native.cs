@@ -175,9 +175,16 @@ namespace ScriptCoreLib.JavaScript
 
         public static void __ToBase64String()
         {
+            return;
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150226
+            Console.WriteLine("__ToBase64String");
+
             // X:\jsc.svn\examples\javascript\test\TestPackageAsApplication\TestPackageAsApplication\Application.cs
+            // x:\jsc.svn\examples\javascript\test\testutf8frombase64stringordefault\testutf8frombase64stringordefault\application.cs
 
             // use .self instead for workers?
+            // is our version broken?
             __Convert.InternalToBase64String =
                 x => (string)new IFunction("return window.btoa(this);").apply(
                         __String.__fromCharCode(x)

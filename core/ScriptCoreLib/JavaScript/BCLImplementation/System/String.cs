@@ -130,6 +130,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static string __fromCharCode(byte[] bytes)
         {
+            // http://stackoverflow.com/questions/20700393/urierror-malformed-uri-sequence
+            // X:\jsc.svn\examples\vr\VRTurbanPhotosphere\VRTurbanPhotosphere\ApplicationWebService.cs
+            Console.WriteLine("enter __String.__fromCharCode " + new { bytes.Length });
+
             // X:\jsc.svn\examples\javascript\Test\TestUTF8GetStringPerformance\TestUTF8GetStringPerformance\Application.cs
             // UTF8.GetString { Length = 1989731 }
 
@@ -152,7 +156,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             //var a = (IArray<byte>)(object)bytes;
             //a.
-            //Console.WriteLine("GetString " + new { bytes.Length });
 
             // { ElapsedMilliseconds = 20, Length = 65536 }
 
@@ -175,7 +178,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                     cm.Write(chunk, 0, len);
 
                     //Console.WriteLine("GetString chunk " + new { cm.Length });
-                    Console.WriteLine("GetString  " + new { s.Length });
+                    //Console.WriteLine("GetString  " + new { s.Length });
 
 
                     var args = (object[])(object)cm.ToArray();
@@ -192,6 +195,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                     ok = false;
                 }
             }
+
+            Console.WriteLine("exit __String.__fromCharCode " + new { s });
 
             return s;
         }
