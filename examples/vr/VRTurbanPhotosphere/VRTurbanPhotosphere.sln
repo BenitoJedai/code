@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRTurbanPhotosphere", "VRTurbanPhotosphere\VRTurbanPhotosphere.csproj", "{76843B5B-EB0A-4E49-8B36-037969E0545F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLTurbanPhotosphere", "..\..\javascript\WebGL\WebGLTurbanPhotosphere\WebGLTurbanPhotosphere\WebGLTurbanPhotosphere.csproj", "{37426D72-1B54-4BD8-B4F4-E0B487348B33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLVRCreativeLeadership", "..\..\javascript\WebGL\WebGLVRCreativeLeadership\WebGLVRCreativeLeadership\WebGLVRCreativeLeadership.csproj", "{30943C78-5241-47E4-AD9F-DACE68FD1B8E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{5E54A961-9D25-4495-AE53-3E00B2672BE2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|x86.ActiveCfg = Debug|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|x86.Build.0 = Debug|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.ActiveCfg = Release|x86
+		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.Build.0 = Release|x86
+		{37426D72-1B54-4BD8-B4F4-E0B487348B33}.Debug|x86.ActiveCfg = Debug|x86
+		{37426D72-1B54-4BD8-B4F4-E0B487348B33}.Debug|x86.Build.0 = Debug|x86
+		{37426D72-1B54-4BD8-B4F4-E0B487348B33}.Release|x86.ActiveCfg = Release|x86
+		{37426D72-1B54-4BD8-B4F4-E0B487348B33}.Release|x86.Build.0 = Release|x86
+		{30943C78-5241-47E4-AD9F-DACE68FD1B8E}.Debug|x86.ActiveCfg = Debug|x86
+		{30943C78-5241-47E4-AD9F-DACE68FD1B8E}.Debug|x86.Build.0 = Debug|x86
+		{30943C78-5241-47E4-AD9F-DACE68FD1B8E}.Release|x86.ActiveCfg = Release|x86
+		{30943C78-5241-47E4-AD9F-DACE68FD1B8E}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{37426D72-1B54-4BD8-B4F4-E0B487348B33} = {5E54A961-9D25-4495-AE53-3E00B2672BE2}
+		{30943C78-5241-47E4-AD9F-DACE68FD1B8E} = {5E54A961-9D25-4495-AE53-3E00B2672BE2}
+	EndGlobalSection
+EndGlobal
