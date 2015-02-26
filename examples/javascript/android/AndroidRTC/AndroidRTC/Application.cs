@@ -57,9 +57,18 @@ namespace AndroidRTC
                     #region GetOffer
                     await base.GetOffer();
 
-                    if (sdpOffer != null)
+                    if (base.sdpOffer != null)
+                        if (base.sdpOffer.sdp == null)
+                        {
+                            new IHTMLPre { "bugcheck. invalid offer? " }.AttachToDocument();
+                            base.sdpOffer = null;
+                        }
+
+                    if (base.sdpOffer != null)
                     {
-                        new IHTMLPre { "anwsering and offer......" }.AttachToDocument();
+                        new IHTMLPre { "anwsering and offer...... " }.AttachToDocument();
+                        //new IHTMLPre { "anwsering and offer...... " + new { base.sdpOffer.sdp, base.sdpOffer.sdpCandidates.Count } }.AttachToDocument();
+                        new IHTMLPre { "anwsering and offer...... " + new { base.sdpOffer.sdpCandidates.Count } }.AttachToDocument();
 
                         var remotePeerConnection = new RTCPeerConnection(null, null);
 
@@ -96,60 +105,6 @@ namespace AndroidRTC
                         };
                         #endregion
 
-                        #region onopen
-                        var sendDataChannel2 = remotePeerConnection.createDataChannel("sendDataChannel2", new { reliable = false });
-
-                        // await async.onopen
-                        sendDataChannel2.onopen = new Action(
-                            async delegate
-                            {
-                                new IHTMLPre { () => "sendDataChannel2.onopen " + new { sendDataChannel2.label } }.AttachToDocument();
-
-                                //sendChannel.send("hi!");
-
-                                var mmcounter = 0;
-
-
-
-                                Native.document.body.ontouchmove +=
-                                        e =>
-                                        {
-                                            var n = new { e.touches[0].clientX, e.touches[0].clientY };
-
-                                            e.preventDefault();
-
-                                            mmcounter++;
-
-                                            sendDataChannel2.send(
-                                                new XElement("sendDataChannel2",
-                                                    new XAttribute(nameof(mmcounter), mmcounter),
-                                                    new XAttribute(nameof(IEvent.CursorX), "" + n.clientX),
-                                                    new XAttribute(nameof(IEvent.CursorY), "" + n.clientY)
-                                                ).ToString()
-                                            );
-
-
-                                        };
-
-
-                                Native.document.onmousemove +=
-                                    e =>
-                                    {
-                                        mmcounter++;
-
-                                        sendDataChannel2.send(
-                                            new XElement("sendDataChannel2",
-                                                new XAttribute(nameof(mmcounter), mmcounter),
-                                                new XAttribute(nameof(IEvent.CursorX), "" + e.CursorX),
-                                                new XAttribute(nameof(IEvent.CursorY), "" + e.CursorY)
-                                            ).ToString()
-
-                                        //new { mmcounter, e.CursorX, e.CursorY }.ToString()
-                                        );
-                                    };
-                            }
-                        );
-                        #endregion
 
                         #region ondatachannel
                         remotePeerConnection.ondatachannel = new Action<RTCDataChannelEvent>(
@@ -177,14 +132,73 @@ namespace AndroidRTC
 
                                 };
 
+                                #region onopen
+
+                                // http://stackoverflow.com/questions/15324500/creating-webrtc-data-channels-after-peerconnection-established
+
+                                new IHTMLPre { "remotePeerConnection.createDataChannel sendDataChannel2...... " }.AttachToDocument();
+
+                                var sendDataChannel2 = remotePeerConnection.createDataChannel("sendDataChannel2", new { reliable = false });
+
+                                // await async.onopen
+                                sendDataChannel2.onopen = new Action(
+                                    async delegate
+                                    {
+                                        new IHTMLPre { () => "sendDataChannel2.onopen " + new { sendDataChannel2.label } }.AttachToDocument();
+
+                                        //sendChannel.send("hi!");
+
+                                        var mmcounter = 0;
+
+
+
+                                        Native.document.body.ontouchmove +=
+                                                re =>
+                                                {
+                                                    var n = new { re.touches[0].clientX, re.touches[0].clientY };
+
+                                                    re.preventDefault();
+
+                                                    mmcounter++;
+
+                                                    sendDataChannel2.send(
+                                                        new XElement("sendDataChannel2",
+                                                            new XAttribute(nameof(mmcounter), mmcounter),
+                                                            new XAttribute(nameof(IEvent.CursorX), "" + n.clientX),
+                                                            new XAttribute(nameof(IEvent.CursorY), "" + n.clientY)
+                                                        ).ToString()
+                                                    );
+
+
+                                                };
+
+
+                                        Native.document.onmousemove +=
+                                            re =>
+                                            {
+                                                mmcounter++;
+
+                                                sendDataChannel2.send(
+                                                    new XElement("sendDataChannel2",
+                                                        new XAttribute(nameof(mmcounter), mmcounter),
+                                                        new XAttribute(nameof(IEvent.CursorX), "" + re.CursorX),
+                                                        new XAttribute(nameof(IEvent.CursorY), "" + re.CursorY)
+                                                    ).ToString()
+
+                                                //new { mmcounter, e.CursorX, e.CursorY }.ToString()
+                                                );
+                                            };
+                                    }
+                                );
+                                #endregion
 
                             }
                         );
                         #endregion
 
-                        var desc = new RTCSessionDescription(new { sdp = sdpOffer, type = "offer" });
+                        var desc = new RTCSessionDescription(new { sdp = sdpOffer.sdp, type = "offer" });
 
-                        new IHTMLPre { "setRemoteDescription..." }.AttachToDocument();
+                        new IHTMLPre { "remotePeerConnection setRemoteDescription..." }.AttachToDocument();
                         await remotePeerConnection.setRemoteDescription(desc);
 
                         new IHTMLPre { "createAnswer..." }.AttachToDocument();
