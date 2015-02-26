@@ -310,6 +310,8 @@ namespace com.abstractatech.vr
 
             // x:\jsc.svn\examples\javascript\synergy\comanchebysiorki\comanchebysiorki\application.cs
 
+
+            #region onresize
             new { }.With(
                      async delegate
                      {
@@ -325,6 +327,9 @@ namespace com.abstractatech.vr
                          goto retry;
                      }
                    );
+            #endregion
+
+
 
             //#region onresize
             //Native.window.onresize +=
@@ -366,8 +371,6 @@ namespace com.abstractatech.vr
 
             var phi = 0.0;
             var theta = 0.0;
-
-            //var controls = new THREE.OrbitControls(camera);
 
             var camera_rotation_z = 0.0;
 
@@ -542,6 +545,7 @@ namespace com.abstractatech.vr
             #endregion
 
 
+            #region NotificationLayout
             add(
                 new NotificationLayout
                 {
@@ -581,7 +585,7 @@ namespace com.abstractatech.vr
                    {
                        // keep attributes around?
                        // like we do with XElement sync?
-                       Icon = new  _371_28122014_2045510F2F7974319A9F7E9F4B39DF07().With(
+                       Icon = new _371_28122014_2045510F2F7974319A9F7E9F4B39DF07().With(
                            x =>
                            {
                                x.style.width = "96px";
@@ -591,6 +595,9 @@ namespace com.abstractatech.vr
                        Message = "Mind Wall. by Sumit Goski"
                    }
                  );
+            #endregion
+
+
 
 
             #region lines
@@ -630,7 +637,7 @@ namespace com.abstractatech.vr
                 {
 
                     // look we are having html in 3D in VR!
-            
+
 
 
                     //if (Native.document.pointerLockElement == Native.document.body)
@@ -649,11 +656,6 @@ namespace com.abstractatech.vr
                     target.x = 500 * Math.Sin(phi) * Math.Cos(theta);
                     target.y = 500 * Math.Cos(phi);
                     target.z = 500 * Math.Sin(phi) * Math.Sin(theta);
-
-
-                    //controls.update();
-                    //camera.position = controls.center.clone();
-
 
                     camera.lookAt(target);
                     camera.rotation.z += camera_rotation_z;

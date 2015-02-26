@@ -34,6 +34,8 @@ namespace WebGLTurbanPhotosphere
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            body.style.background = "black";
+
             body.style.margin = "0px";
             body.style.overflow = IStyle.OverflowEnum.hidden;
             body.Clear();
@@ -46,8 +48,7 @@ namespace WebGLTurbanPhotosphere
 
 
             var renderer = new THREE.WebGLRenderer();
-            renderer.setSize(1920, 1080);
-            //renderer.setSize(Native.window.Width, Native.window.Height);
+            renderer.setSize(Native.window.Width, Native.window.Height);
             // the thing you attach to dom
             renderer.domElement.AttachToDocument();
 
@@ -70,32 +71,9 @@ namespace WebGLTurbanPhotosphere
             var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 
-            var effect = new THREE.OculusRiftEffect(
-          renderer, new
-          {
-              worldScale = 100,
-
-              //HMD
-          }
-          );
-
-            effect.setSize(1920, 1080);
-
-            new { }.With(
-                 async delegate
-                 {
-                     retry:
-
-                     var s = (double)Native.window.Width / 1920.0;
 
 
-                     Native.document.body.style.transform = "scale(" + s + ")";
-                     Native.document.body.style.transformOrigin = "0% 0%";
 
-                     await Native.window.async.onresize;
-                     goto retry;
-                 }
-               );
 
             window.onframe +=
                 delegate
@@ -103,23 +81,24 @@ namespace WebGLTurbanPhotosphere
                     controls.update();
                     camera.position = controls.center.clone();
 
-                    //renderer.render(scene, camera);
+                    renderer.render(scene, camera);
 
-                    effect.render(scene, camera);
 
                 };
 
 
 
-            //window.onresize +=
-            //  delegate
-            //  {
-            //      camera.aspect = window.aspect;
-            //      camera.updateProjectionMatrix();
+            window.onresize +=
+              delegate
+              {
+                  camera.aspect = window.aspect;
+                  camera.updateProjectionMatrix();
 
-            //      renderer.setSize(window.Width, window.Height);
+                  renderer.setSize(window.Width, window.Height);
 
-            //  };
+              };
+
+            // http://www.visualstudio.com/en-us/news/vs2015-vs
         }
 
     }
