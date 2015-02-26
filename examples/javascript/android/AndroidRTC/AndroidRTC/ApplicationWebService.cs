@@ -46,7 +46,7 @@ namespace AndroidRTC
         //I/System.Console(27031):        at AndroidRTC.Activities.ApplicationWebServiceActivity___c__DisplayClass25._CreateServer_b__20(ApplicationWebServiceActivity___c__DisplayClass25.java:399)
 
         public string sdp;
-        public List<string> sdpCandidates = new List<string>();
+        public List<DataRTCIceCandidate> sdpCandidates = new List<DataRTCIceCandidate>();
 
         public async Task Offer()
         {
@@ -58,17 +58,25 @@ namespace AndroidRTC
 
             Console.WriteLine(new { sdp });
 
-            Memory.AllAvailableOffers.Add(sdp);
+            Memory.AllAvailableOffers.Add(
+
+                new DataOffer
+                {
+                    sdp = sdp,
+                    sdpCandidates = sdpCandidates.ToList()
+                }
+            );
         }
 
         public string sdpAnwser;
-        public List<string> sdpAnwserCandidates = new List<string>();
+        // RTCIceCandidate
+        public List<DataRTCIceCandidate> sdpAnwserCandidates = new List<DataRTCIceCandidate>();
 
         public async Task CheckAnswer()
         {
             // copy anwser for sdp, if there is one...
 
-            Memory.AllAvailableAnwsers.FirstOrDefault(z => z.sdpOffer == this.sdp).With(
+            Memory.AllAvailableAnwsers.FirstOrDefault(z => z.sdpOffer.sdp == this.sdp).With(
                 x =>
                 {
 
@@ -82,7 +90,7 @@ namespace AndroidRTC
 
         }
 
-        public string sdpOffer;
+        public DataOffer sdpOffer;
 
         public async Task GetOffer()
         {
@@ -112,17 +120,33 @@ namespace AndroidRTC
         }
     }
 
+
+    public sealed class DataRTCIceCandidate
+    {
+        public string candidate;
+        public string sdpMid;
+        //public ushort sdpMLineIndex;
+        public int sdpMLineIndex;
+    }
+
     public class AnwserToOffer
     {
-        public string sdpOffer;
+        public DataOffer sdpOffer;
 
         public string sdpAnwser;
-        public List<string> sdpAnwserCandidates;
+        public List<DataRTCIceCandidate> sdpAnwserCandidates;
+    }
+
+    public sealed class DataOffer
+    {
+
+        public string sdp;
+        public List<DataRTCIceCandidate> sdpCandidates = new List<DataRTCIceCandidate>();
     }
 
     public static class Memory
     {
-        public static List<string> AllAvailableOffers = new List<string>();
+        public static List<DataOffer> AllAvailableOffers = new List<DataOffer>();
 
         public static List<AnwserToOffer> AllAvailableAnwsers = new List<AnwserToOffer>();
 
