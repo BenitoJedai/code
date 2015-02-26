@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{37426D72-1B54-4BD8-B4F4-E0B487348B33}</ProjectGuid>
+    <ProjectGuid>{76843B5B-EB0A-4E49-8B36-037969E0545F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebGLTurbanPhotosphere</RootNamespace>
-    <AssemblyName>WebGLTurbanPhotosphere</AssemblyName>
+    <RootNamespace>VRTurbanPhotosphere</RootNamespace>
+    <AssemblyName>VRTurbanPhotosphere</AssemblyName>
     <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>WebGLTurbanPhotosphere.Program</StartupObject>
+    <StartupObject>VRTurbanPhotosphere.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -117,11 +117,14 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLTurbanPhotosphere.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\WebGLTurbanPhotosphere.AssetsLibrary.dll</HintPath>
+    <Reference Include="VRTurbanPhotosphere.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\VRTurbanPhotosphere.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLTurbanPhotosphere.AssetsLibrary">
+      <HintPath>..\..\..\javascript\WebGL\WebGLTurbanPhotosphere\WebGLTurbanPhotosphere\bin\staging.AssetsLibrary\WebGLTurbanPhotosphere.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +136,14 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Textures\stolanuten.jpg" />
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\javascript\WebGL\WebGLTurbanPhotosphere\WebGLTurbanPhotosphere\WebGLTurbanPhotosphere.csproj">
+      <Project>{37426d72-1b54-4bd8-b4f4-e0b487348b33}</Project>
+      <Name>WebGLTurbanPhotosphere</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
