@@ -34,6 +34,18 @@ namespace AndroidRTC
         {
             // X:\jsc.svn\examples\javascript\p2p\RTCDataChannelExperiment\RTCDataChannelExperiment\Application.cs
 
+            // http://caniuse.com/#feat=rtcpeerconnection
+            // http://iswebrtcreadyyet.com/
+
+            new IHTMLPre
+            {
+                new { flightcheck = "are you using chrome40? open on android first?",
+                Native.window.navigator.userAgent
+                }
+            }.AttachToDocument();
+
+            // X:\jsc.svn\examples\javascript\p2p\RTCDataChannelExperiment\RTCDataChannelExperiment\Application.cs
+
             new { }.With(
                 async delegate
                 {
@@ -45,7 +57,7 @@ namespace AndroidRTC
                     #region GetOffer
                     await base.GetOffer();
 
-                    if (!string.IsNullOrEmpty(sdpOffer))
+                    if (sdpOffer != null)
                     {
                         new IHTMLPre { "anwsering and offer......" }.AttachToDocument();
 
@@ -65,8 +77,78 @@ namespace AndroidRTC
                                 e.candidate.sdpMid
                             } }.AttachToDocument();
 
-                            base.sdpAnwserCandidates.Add(e.candidate.candidate);
+
+
+                            //remotePeerConnection.onicecandidate: { { candidate = candidate:3890619490 1 udp 2122255103 2001::9d38:6abd: 1474:3b35: 3f57:d403 52152 typ host generation 0, sdpMLineIndex = 0, sdpMid = audio } }
+                            //remotePeerConnection.onicecandidate: { { candidate = candidate:3890619490 1 udp 2122255103 2001::9d38:6abd: 1474:3b35: 3f57:d403 52152 typ host generation 0, sdpMLineIndex = 1, sdpMid = data } }
+                            //remotePeerConnection.onicecandidate: { { candidate = candidate:1796882240 1 udp 2122194687 192.168.43.252 52153 typ host generation 0, sdpMLineIndex = 0, sdpMid = audio } }
+                            //remotePeerConnection.onicecandidate: { { candidate = candidate:1796882240 1 udp 2122194687 192.168.43.252 52153 typ host generation 0, sdpMLineIndex = 1, sdpMid = data } }
+
+                            base.sdpAnwserCandidates.Add(
+                                // need to send all 3 fields over..
+                                new DataRTCIceCandidate
+                                {
+                                    candidate = e.candidate.candidate,
+                                    sdpMLineIndex = e.candidate.sdpMLineIndex,
+                                    sdpMid = e.candidate.sdpMid
+                                }
+                            );
                         };
+                        #endregion
+
+                        #region onopen
+                        var sendDataChannel2 = remotePeerConnection.createDataChannel("sendDataChannel2", new { reliable = false });
+
+                        // await async.onopen
+                        sendDataChannel2.onopen = new Action(
+                            async delegate
+                            {
+                                new IHTMLPre { () => "sendDataChannel2.onopen " + new { sendDataChannel2.label } }.AttachToDocument();
+
+                                //sendChannel.send("hi!");
+
+                                var mmcounter = 0;
+
+
+
+                                Native.document.body.ontouchmove +=
+                                        e =>
+                                        {
+                                            var n = new { e.touches[0].clientX, e.touches[0].clientY };
+
+                                            e.preventDefault();
+
+                                            mmcounter++;
+
+                                            sendDataChannel2.send(
+                                                new XElement("sendDataChannel2",
+                                                    new XAttribute(nameof(mmcounter), mmcounter),
+                                                    new XAttribute(nameof(IEvent.CursorX), "" + n.clientX),
+                                                    new XAttribute(nameof(IEvent.CursorY), "" + n.clientY)
+                                                ).ToString()
+                                            );
+
+
+                                        };
+
+
+                                Native.document.onmousemove +=
+                                    e =>
+                                    {
+                                        mmcounter++;
+
+                                        sendDataChannel2.send(
+                                            new XElement("sendDataChannel2",
+                                                new XAttribute(nameof(mmcounter), mmcounter),
+                                                new XAttribute(nameof(IEvent.CursorX), "" + e.CursorX),
+                                                new XAttribute(nameof(IEvent.CursorY), "" + e.CursorY)
+                                            ).ToString()
+
+                                        //new { mmcounter, e.CursorX, e.CursorY }.ToString()
+                                        );
+                                    };
+                            }
+                        );
                         #endregion
 
                         #region ondatachannel
@@ -124,6 +206,32 @@ namespace AndroidRTC
 
                         new IHTMLPre { "Anwser... done. await ondatachannel?" }.AttachToDocument();
 
+                        #region addIceCandidate
+                        new IHTMLPre { "addIceCandidate..." }.AttachToDocument();
+                        foreach (var c in base.sdpOffer.sdpCandidates)
+                        {
+                            var cc = new RTCIceCandidate(new { c.candidate, c.sdpMLineIndex, c.sdpMid });
+
+                            //if (c.sdpMid == "audio" || c.candidate.Contains("::"))
+                            if (c.sdpMid == "audio")
+                            {
+                                new IHTMLPre { "skip audio remotePeerConnection addIceCandidate... " + new { c.candidate, c.sdpMLineIndex, c.sdpMid } }.AttachToDocument();
+                            }
+                            else if (c.candidate.Contains("::"))
+                            {
+                                new IHTMLPre { "skip ip6 remotePeerConnection addIceCandidate... " + new { c.candidate, c.sdpMLineIndex, c.sdpMid } }.AttachToDocument();
+                            }
+                            else
+                            {
+                                new IHTMLPre { "remotePeerConnection addIceCandidate... " + new { c.candidate, c.sdpMLineIndex, c.sdpMid } }.AttachToDocument();
+                                await remotePeerConnection.addIceCandidate(cc);
+                            }
+
+                        }
+                        new IHTMLPre { "addIceCandidate... done. awaiting sendChannel.onopen.." }.AttachToDocument();
+                        #endregion
+
+
                         await new TaskCompletionSource<object>().Task;
                     }
                     #endregion
@@ -146,12 +254,28 @@ namespace AndroidRTC
                                  e.candidate.sdpMid
                             } }.AttachToDocument();
 
-                        base.sdpCandidates.Add(e.candidate.candidate);
+
+
+                        //remotePeerConnection.onicecandidate: { { candidate = candidate:3890619490 1 udp 2122255103 2001::9d38:6abd: 1474:3b35: 3f57:d403 52152 typ host generation 0, sdpMLineIndex = 0, sdpMid = audio } }
+                        //remotePeerConnection.onicecandidate: { { candidate = candidate:3890619490 1 udp 2122255103 2001::9d38:6abd: 1474:3b35: 3f57:d403 52152 typ host generation 0, sdpMLineIndex = 1, sdpMid = data } }
+                        //remotePeerConnection.onicecandidate: { { candidate = candidate:1796882240 1 udp 2122194687 192.168.43.252 52153 typ host generation 0, sdpMLineIndex = 0, sdpMid = audio } }
+                        //remotePeerConnection.onicecandidate: { { candidate = candidate:1796882240 1 udp 2122194687 192.168.43.252 52153 typ host generation 0, sdpMLineIndex = 1, sdpMid = data } }
+
+                        base.sdpCandidates.Add(
+                            // need to send all 3 fields over..
+                            new DataRTCIceCandidate
+                            {
+                                candidate = e.candidate.candidate,
+                                sdpMLineIndex = e.candidate.sdpMLineIndex,
+                                sdpMid = e.candidate.sdpMid
+                            }
+                        );
                     };
                     #endregion
 
 
 
+                    #region onopen
                     var sendChannel = localPeerConnection.createDataChannel("sendDataChannel", new { reliable = false });
 
                     // await async.onopen
@@ -163,6 +287,29 @@ namespace AndroidRTC
                             //sendChannel.send("hi!");
 
                             var mmcounter = 0;
+
+
+
+                            Native.document.body.ontouchmove +=
+                                    e =>
+                                    {
+                                        var n = new { e.touches[0].clientX, e.touches[0].clientY };
+
+                                        e.preventDefault();
+
+                                        mmcounter++;
+
+                                        sendChannel.send(
+                                            new XElement("sendDataChannel",
+                                                new XAttribute(nameof(mmcounter), mmcounter),
+                                                new XAttribute(nameof(IEvent.CursorX), "" + n.clientX),
+                                                new XAttribute(nameof(IEvent.CursorY), "" + n.clientY)
+                                            ).ToString()
+                                        );
+
+
+                                    };
+
 
                             Native.document.onmousemove +=
                                 e =>
@@ -181,7 +328,38 @@ namespace AndroidRTC
                                 };
                         }
                     );
+                    #endregion
 
+                    #region ondatachannel
+                    localPeerConnection.ondatachannel = new Action<RTCDataChannelEvent>(
+                        (RTCDataChannelEvent e) =>
+                        {
+                            var mcounter = 0;
+                            var data = default(XElement);
+                            new IHTMLPre { () => "enter  localPeerConnection.ondatachannel " + new { e.channel.label, mcounter, data } }.AttachToDocument();
+
+                            var cur = new MyCursor();
+                            cur.AttachToDocument();
+
+                            e.channel.onmessage += ee =>
+                            {
+                                mcounter++;
+                                data = XElement.Parse("" + ee.data);
+
+                                var CursorX = (int)data.Attribute(nameof(IEvent.CursorX));
+                                var CursorY = (int)data.Attribute(nameof(IEvent.CursorY));
+
+                                cur.style.SetLocation(
+                                    CursorX,
+                                    CursorY
+                                   );
+
+                            };
+
+
+                        }
+                    );
+                    #endregion
 
                     new IHTMLPre { "createOffer..." }.AttachToDocument();
                     var o = await localPeerConnection.createOffer();
@@ -201,7 +379,7 @@ namespace AndroidRTC
 
                     await base.Offer();
 
-                    new IHTMLPre { "letting the server know we made a new offer... done. open a new tab!" }.AttachToDocument();
+                    new IHTMLPre { "letting the server know we made a new offer... done. open a new tab! even on android?" }.AttachToDocument();
 
 
                     var sw = Stopwatch.StartNew();
@@ -226,17 +404,33 @@ namespace AndroidRTC
 
                     await localPeerConnection.setRemoteDescription(new RTCSessionDescription(new { sdp = base.sdpAnwser, type = "answer" }));
 
+                    #region addIceCandidate
                     new IHTMLPre { "addIceCandidate..." }.AttachToDocument();
-                    foreach (var candidate in base.sdpAnwserCandidates)
+                    foreach (var c in base.sdpAnwserCandidates)
                     {
-                        var c = new RTCIceCandidate(new { candidate, sdpMLineIndex = 0, sdpMid = "data" });
+                        var cc = new RTCIceCandidate(new { c.candidate, c.sdpMLineIndex, c.sdpMid });
 
-                        await localPeerConnection.addIceCandidate(c);
+                        //if (c.sdpMid == "audio" || c.candidate.Contains("::"))
+                        if (c.sdpMid == "audio")
+                        {
+                            new IHTMLPre { "skip audio localPeerConnection addIceCandidate... " + new { c.candidate, c.sdpMLineIndex, c.sdpMid } }.AttachToDocument();
+                        }
+                        else if (c.candidate.Contains("::"))
+                        {
+                            new IHTMLPre { "skip ip6 localPeerConnection addIceCandidate... " + new { c.candidate, c.sdpMLineIndex, c.sdpMid } }.AttachToDocument();
+                        }
+                        else
+                        {
+                            new IHTMLPre { "localPeerConnection addIceCandidate... " + new { c.candidate, c.sdpMLineIndex, c.sdpMid } }.AttachToDocument();
+                            await localPeerConnection.addIceCandidate(cc);
+                        }
+
                     }
-                    new IHTMLPre { "addIceCandidate... done. sendChannel" }.AttachToDocument();
+                    new IHTMLPre { "addIceCandidate... done. awaiting sendChannel.onopen.." }.AttachToDocument();
+                    #endregion
+
                 }
             );
-
 
 
         }

@@ -47,6 +47,10 @@ namespace RTCICELobby
 
                     this.sdpAnwser = x.sdpAnwser;
                     this.sdpAnwserCandidates = x.sdpAnwserCandidates;
+
+                    Console.WriteLine("pairing complete? await for datachannel open?");
+
+                    Memory.AllAvailableAnwsers.Clear();
                 }
             );
 

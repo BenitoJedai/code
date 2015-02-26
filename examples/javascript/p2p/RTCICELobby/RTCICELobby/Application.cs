@@ -32,6 +32,16 @@ namespace RTCICELobby
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // http://caniuse.com/#feat=rtcpeerconnection
+            // http://iswebrtcreadyyet.com/
+
+            new IHTMLPre
+            {
+                new { flightcheck = "are you using chrome40? open on android first?",
+                Native.window.navigator.userAgent
+                }
+            }.AttachToDocument();
+
             // X:\jsc.svn\examples\javascript\p2p\RTCDataChannelExperiment\RTCDataChannelExperiment\Application.cs
 
             new { }.With(
@@ -155,6 +165,7 @@ namespace RTCICELobby
                     var sendChannel = localPeerConnection.createDataChannel("sendDataChannel", new { reliable = false });
 
                     // await async.onopen
+                    #region onopen
                     sendChannel.onopen = new Action(
                         async delegate
                         {
@@ -163,6 +174,29 @@ namespace RTCICELobby
                             //sendChannel.send("hi!");
 
                             var mmcounter = 0;
+
+
+
+                            Native.document.body.ontouchmove +=
+                                    e =>
+                                    {
+                                        var n = new { e.touches[0].clientX, e.touches[0].clientY };
+
+                                        e.preventDefault();
+
+                                        mmcounter++;
+
+                                        sendChannel.send(
+                                            new XElement("sendDataChannel",
+                                                new XAttribute(nameof(mmcounter), mmcounter),
+                                                new XAttribute(nameof(IEvent.CursorX), "" + n.clientX),
+                                                new XAttribute(nameof(IEvent.CursorY), "" + n.clientY)
+                                            ).ToString()
+                                        );
+
+
+                                    };
+
 
                             Native.document.onmousemove +=
                                 e =>
@@ -181,6 +215,7 @@ namespace RTCICELobby
                                 };
                         }
                     );
+                    #endregion
 
 
                     new IHTMLPre { "createOffer..." }.AttachToDocument();
@@ -201,7 +236,7 @@ namespace RTCICELobby
 
                     await base.Offer();
 
-                    new IHTMLPre { "letting the server know we made a new offer... done. open a new tab!" }.AttachToDocument();
+                    new IHTMLPre { "letting the server know we made a new offer... done. open a new tab! even on android?" }.AttachToDocument();
 
 
                     var sw = Stopwatch.StartNew();
@@ -231,9 +266,11 @@ namespace RTCICELobby
                     {
                         var c = new RTCIceCandidate(new { candidate, sdpMLineIndex = 0, sdpMid = "data" });
 
+                        new IHTMLPre { "addIceCandidate... " + new { candidate } }.AttachToDocument();
+
                         await localPeerConnection.addIceCandidate(c);
                     }
-                    new IHTMLPre { "addIceCandidate... done. sendChannel" }.AttachToDocument();
+                    new IHTMLPre { "addIceCandidate... done. awaiting sendChannel.onopen.." }.AttachToDocument();
                 }
             );
 
