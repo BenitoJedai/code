@@ -18,15 +18,61 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
     {
         public override string GetString(byte[] bytes)
         {
+            // bytes from FromBase64String ?
+            // UTF8FromBase64StringOrDefault
+
+            // X:\jsc.svn\examples\vr\VRTurbanPhotosphere\VRTurbanPhotosphere\ApplicationWebService.cs
+            Console.WriteLine("enter __UTF8Encoding.GetString before __fromCharCode " + new { bytes.Length });
+
+
             // tested again?
             var s = __String.__fromCharCode(bytes);
 
             if (string.IsNullOrEmpty(s))
                 return s;
 
+            Console.WriteLine("__UTF8Encoding.GetString after __fromCharCode, before escape " + new { s });
+
+
+            #region roslyn_
+            //StringConversions.UTF8FromBase64StringOrDefault {{ Length = 84, e = PGgxPkpTQyAtIFRoZSAuTkVUIGNyb3NzY29tcGlsZXIgZm9yIHdlYiBwbGF0Zm9ybXMuIHJlYWR5LjwvaDE+ }}
+            //StringConversions.UTF8FromBase64StringOrDefault before Convert.FromBase64String 
+            //enter __Convert.FromBase64String {{ Length = 84 }}
+
+            //exit __Convert.FromBase64String {{ Length = 63 }}
+
+            //StringConversions.UTF8FromBase64StringOrDefault before Encoding.UTF8.GetString {{ Length = 63 }}
+
+            //enter __UTF8Encoding.GetString before __fromCharCode {{ Length = 63 }}
+            //enter __String.__fromCharCode {{ Length = 63 }}
+            //exit __String.__fromCharCode {{ s = <h1>JSC - The .NET crosscompiler for web platforms. ready.</h1> }}
+            //__UTF8Encoding.GetString after __fromCharCode, before escape {{ s = <h1>JSC - The .NET crosscompiler for web platforms. ready.</h1> }}
+            #endregion
+
+            #region preroslyn
+
+            //enter StringConversions.UTF8FromBase64StringOrDefault {{ Length = 84, e = PGgxPkpTQyAtIFRoZSAuTkVUIGNyb3NzY29tcGlsZXIgZm9yIHdlYiBwbGF0Zm9ybXMuIHJlYWR5LjwvaDE+ }}
+            // StringConversions.UTF8FromBase64StringOrDefault before Convert.FromBase64String 
+            // enter __Convert.FromBase64String { Length = 84 }
+
+            // exit __Convert.FromBase64String { Length = 31 }
+
+            // StringConversions.UTF8FromBase64StringOrDefault before Encoding.UTF8.GetString {{ Length = 31 }}
+            // enter __UTF8Encoding.GetString before __fromCharCode { Length = 31 }
+            // enter __String.__fromCharCode { Length = 31 }
+            // exit __String.__fromCharCode { s = ÊÑhJé-óÚÑ¬^	²X°I²^áå[ï }
+            // __UTF8Encoding.GetString after __fromCharCode, before escape { s = ÊÑhJé-óÚÑ¬^	²X°I²^áå[ï }
+            // __UTF8Encoding.GetString after escape, before decodeURIComponent { ss = %1B%19%13%CA%D1hJ%E9%14%1B-%F3%DA%D1%AC%5E%09%B2%1EX%B0%1BI%B2%5E%E1%E5%5B%98%EF%0F }
+
+            #endregion
+
             var ss = Native.escape(s);
 
-            return Native.decodeURIComponent(ss);
+            Console.WriteLine("__UTF8Encoding.GetString after escape, before decodeURIComponent " + new { ss });
+
+            var value = Native.decodeURIComponent(ss);
+
+            return value;
 
         }
 

@@ -53,13 +53,17 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
     {
         public static byte[] FromBase64String(string input)
         {
+            // X:\jsc.svn\examples\javascript\test\TestIntPostfixIncrement\TestIntPostfixIncrement\Class1.cs
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150226
+
             // X:\jsc.svn\examples\javascript\synergy\WebServicePDFGenerator\WebServicePDFGenerator\ApplicationWebService.cs
             // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
             // X:\jsc.svn\examples\java\JVMCLRBase64\JVMCLRBase64\Program.cs
             // X:\jsc.svn\examples\java\hybrid\JVMCLRBase64\
 
-            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140101
-            //Console.WriteLine("enter FromBase64String!");
+            Console.WriteLine("enter __Convert.FromBase64String " + new { input.Length });
+            // preroslyn broken?
 
             var FromBase64String_while_timeout = Stopwatch.StartNew();
 
@@ -151,8 +155,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
                     b = i < length;
                 }
 
-            //Console.WriteLine("FromBase64String m.ToArray");
-            return m.ToArray();
+            var value = m.ToArray();
+
+            Console.WriteLine("exit __Convert.FromBase64String " + new { value.Length });
+
+            if (input.Length == 84)
+                if (input.Length != 63)
+                    throw new Exception("bugcheck  __Convert.FromBase64String");
+
+            return value;
             //return m_inline_array;
             //return mm.m_inline_array;
         }

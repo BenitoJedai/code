@@ -30,7 +30,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         // Example: styleObj.setProperty('color', 'red', 'important')
         public void setProperty(string propertyName,
                                 string value,
-                                string priority) { }
+                                string priority)
+        { }
     }
 
     namespace HTML
@@ -244,6 +245,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             get
             {
+                // x:\jsc.svn\examples\javascript\test\testutf8frombase64stringordefault\testutf8frombase64stringordefault\application.cs
+                // could we be called before cctor was called?
+
+                // currentMethodName ?
+                Console.WriteLine("ScriptCoreLib.JavaScript.DOM.IStyleSheet.get_all");
+
                 // X:\jsc.svn\examples\javascript\CSS\Test\CSSHistoric\CSSHistoric\Application.cs
 
                 if (InternalHistoryAwareSheets.Count == 0)

@@ -102,6 +102,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
+        #region Beep
         static WebAudio.AudioContext __AudioContext;
         public static void Beep(int frequency, int duration)
         {
@@ -141,6 +142,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             // does it still work? :P
             SystemSounds.Beep.Play();
         }
+        #endregion
+
+
 
         // X:\jsc.svn\examples\javascript\VisualConsole\VisualConsole\Application.cs
         public static string Title
@@ -191,7 +195,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
                     //w = Native.css
                     // start reporting how many .css rules we have
-                    ww = IStyleSheet.all.Rules.Length + ":";
+
+                    // should not invoke other members, which would end up printing to console!
+                    // x:\jsc.svn\examples\javascript\test\testutf8frombase64stringordefault\testutf8frombase64stringordefault\application.cs
+
+                    //ww = IStyleSheet.all.Rules.Length + ":";
 
                 }
 
@@ -221,6 +229,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                     var old = new { Console.BackgroundColor };
                     Console.BackgroundColor = ConsoleColor.Yellow;
 
+                    // what does it do?
                     new IFunction("text", "if (this.console && this.console.timeStamp) this.console.timeStamp(text);").apply(
                          Native.window,
                          value
@@ -235,18 +244,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 // what about web workers?
                 if (Native.document != null)
                 {
-                    if (IStyleSheet.all.Rules.Length == oldRuleCount)
-                    {
-                        var old = new { Console.ForegroundColor };
-                        Console.ForegroundColor = ConsoleColor.Gray;
+                    // should not invoke other members, which would end up printing to console!
+                    // x:\jsc.svn\examples\javascript\test\testutf8frombase64stringordefault\testutf8frombase64stringordefault\application.cs
 
-                        __BrowserConsole.WriteLine(GetPrefix() + value);
-                        Console.ForegroundColor = old.ForegroundColor;
+                    //////if (IStyleSheet.all.Rules.Length == oldRuleCount)
+                    //////{
+                    //////    var old = new { Console.ForegroundColor };
+                    //////    Console.ForegroundColor = ConsoleColor.Gray;
+
+                    //////    __BrowserConsole.WriteLine(GetPrefix() + value);
+                    //////    Console.ForegroundColor = old.ForegroundColor;
 
 
-                        return;
-                    }
-                    oldRuleCount = IStyleSheet.all.Rules.Length;
+                    //////    return;
+                    //////}
+                    //////oldRuleCount = IStyleSheet.all.Rules.Length;
                 }
 
 

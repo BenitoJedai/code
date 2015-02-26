@@ -12,16 +12,20 @@ namespace ScriptCoreLib.Library
 {
     public static partial class StringConversions
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Ultra\Library\StringConversions.StringArray.cs
+
+
         // used by JVM/CLR 
         // X:\jsc.internal.svn\compiler\jsc.internal\jsc.internal\meta\Library\ILStringConversions.cs
 
         public static string UTF8FromBase64StringOrDefault(string e)
         {
+            // X:\jsc.svn\examples\vr\VRTurbanPhotosphere\VRTurbanPhotosphere\ApplicationWebService.cs
             // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140101
 
             var o = default(string);
 
-            //Console.WriteLine("enter UTF8FromBase64StringOrDefault");
+            Console.WriteLine("enter StringConversions.UTF8FromBase64StringOrDefault " + new { e.Length, e,  });
 
             //before call NewGlobalInvokeMethod { Name = Insert }
             //enter { ConvertTypeName = Abstractatech.JavaScript.Avatar.ConvertToString$2$<0200001c> }
@@ -34,15 +38,20 @@ namespace ScriptCoreLib.Library
             // allow 0 char do be sent
             if (e != null)
             {
+
                 //Console.WriteLine("before Convert.FromBase64String");
+                Console.WriteLine("StringConversions.UTF8FromBase64StringOrDefault before Convert.FromBase64String ");
                 var bytes = Convert.FromBase64String(e);
+                // bytes = {byte[63]}
 
                 //Console.WriteLine("before Encoding.UTF8.GetString");
+                Console.WriteLine("StringConversions.UTF8FromBase64StringOrDefault before Encoding.UTF8.GetString " + new { bytes.Length });
                 o = Encoding.UTF8.GetString(bytes);
             }
 
             //Console.WriteLine("exit UTF8FromBase64StringOrDefault");
 
+            // next call will be ConvertStringToXElement
             return o;
         }
 
