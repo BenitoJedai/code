@@ -20,6 +20,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Delegate))]
     internal class __Delegate
     {
+        // https://github.com/dotnet/coreclr/blob/master/Documentation/method-descriptor.md
+        // EEImpl
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130825
 
         // script: error JSC1000: No implementation found for this native method, please implement [static System.Delegate.op_Equality(System.Delegate, System.Delegate)]

@@ -18,6 +18,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // X:\jsc.svn\examples\javascript\p2p\RTCDataChannelExperiment\RTCDataChannelExperiment\Application.cs
 
+
+        public IFunction onopen;
+
+
         #region event onmessage
         public event Action<MessageEvent> onmessage
         {

@@ -187,6 +187,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
         public static XElement Parse(string text)
         {
+            // X:\jsc.svn\examples\javascript\test\TestNullObjectFromWebService\TestNullObjectFromWebService\Application.cs
+
+            if (text == null)
+                throw new ArgumentNullException("XElement.Parse text is null");
+
+            if (text == "")
+                throw new ArgumentNullException("XElement.Parse Root element is missing.");
+
             // xml still is not yet correclty available for service workers.
 
             // X:\jsc.svn\examples\javascript\test\TestServiceWorkerFetchHTML\TestServiceWorkerFetchHTML\Application.cs
@@ -248,7 +256,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
 
         // script: error JSC1000: No implementation found for this native method, please implement [static System.Xml.Linq.XElement.op_Explicit(System.Xml.Linq.XElement)]
-        public static explicit operator string (__XElement element)
+        public static explicit operator string(__XElement element)
         {
             // X:\jsc.svn\examples\javascript\linq\VBWebSQLXElement\VBWebSQLXElement\Application.vb
 

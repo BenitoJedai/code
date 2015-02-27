@@ -108,7 +108,7 @@ namespace AndroidRTC
 
                         #region ondatachannel
                         remotePeerConnection.ondatachannel = new Action<RTCDataChannelEvent>(
-                            (RTCDataChannelEvent e) =>
+                            async (RTCDataChannelEvent e) =>
                             {
                                 var mcounter = 0;
                                 var data = default(XElement);
@@ -138,58 +138,53 @@ namespace AndroidRTC
 
                                 new IHTMLPre { "remotePeerConnection.createDataChannel sendDataChannel2...... " }.AttachToDocument();
 
-                                var sendDataChannel2 = remotePeerConnection.createDataChannel("sendDataChannel2", new { reliable = false });
+                                //var sendDataChannel2 = remotePeerConnection.createDataChannel("sendDataChannel2", new { reliable = false });
+                                var sendDataChannel2 = await remotePeerConnection.openDataChannel("sendDataChannel2", new { reliable = false });
 
-                                // await async.onopen
-                                sendDataChannel2.onopen = new Action(
-                                    async delegate
+                                new IHTMLPre { () => "sendDataChannel2.onopen " + new { sendDataChannel2.label } }.AttachToDocument();
+
+                                //sendChannel.send("hi!");
+
+                                var mmmcounter = 0;
+
+
+
+                                Native.document.body.ontouchmove +=
+                                        re =>
+                                        {
+                                            var n = new { re.touches[0].clientX, re.touches[0].clientY };
+
+                                            re.preventDefault();
+
+                                            mmmcounter++;
+
+                                            sendDataChannel2.send(
+                                                new XElement("sendDataChannel2",
+                                                    new XAttribute(nameof(mmmcounter), "" + mmmcounter),
+                                                    new XAttribute(nameof(IEvent.CursorX), "" + n.clientX),
+                                                    new XAttribute(nameof(IEvent.CursorY), "" + n.clientY)
+                                                ).ToString()
+                                            );
+
+
+                                        };
+
+
+                                Native.document.onmousemove +=
+                                    re =>
                                     {
-                                        new IHTMLPre { () => "sendDataChannel2.onopen " + new { sendDataChannel2.label } }.AttachToDocument();
+                                        mmmcounter++;
 
-                                        //sendChannel.send("hi!");
+                                        sendDataChannel2.send(
+                                            new XElement("sendDataChannel2",
+                                                new XAttribute(nameof(mmmcounter), "" + mmmcounter),
+                                                new XAttribute(nameof(IEvent.CursorX), "" + re.CursorX),
+                                                new XAttribute(nameof(IEvent.CursorY), "" + re.CursorY)
+                                            ).ToString()
 
-                                        var mmcounter = 0;
-
-
-
-                                        Native.document.body.ontouchmove +=
-                                                re =>
-                                                {
-                                                    var n = new { re.touches[0].clientX, re.touches[0].clientY };
-
-                                                    re.preventDefault();
-
-                                                    mmcounter++;
-
-                                                    sendDataChannel2.send(
-                                                        new XElement("sendDataChannel2",
-                                                            new XAttribute(nameof(mmcounter), mmcounter),
-                                                            new XAttribute(nameof(IEvent.CursorX), "" + n.clientX),
-                                                            new XAttribute(nameof(IEvent.CursorY), "" + n.clientY)
-                                                        ).ToString()
-                                                    );
-
-
-                                                };
-
-
-                                        Native.document.onmousemove +=
-                                            re =>
-                                            {
-                                                mmcounter++;
-
-                                                sendDataChannel2.send(
-                                                    new XElement("sendDataChannel2",
-                                                        new XAttribute(nameof(mmcounter), mmcounter),
-                                                        new XAttribute(nameof(IEvent.CursorX), "" + re.CursorX),
-                                                        new XAttribute(nameof(IEvent.CursorY), "" + re.CursorY)
-                                                    ).ToString()
-
-                                                //new { mmcounter, e.CursorX, e.CursorY }.ToString()
-                                                );
-                                            };
-                                    }
-                                );
+                                        //new { mmcounter, e.CursorX, e.CursorY }.ToString()
+                                        );
+                                    };
                                 #endregion
 
                             }
@@ -209,7 +204,7 @@ namespace AndroidRTC
 
                         base.sdpAnwser = a.sdp;
 
-                        new IHTMLPre { () => "awaiting for any sdpAnwserCandidates... " + new { base.sdpAnwserCandidates.Count } }.AttachToDocument();
+                        new IHTMLPre { () => "awaiting for any sdpAnwserCandidates... " + new { base.sdpAnwserCandidates.Count } + " atleast connect to local hotspot" }.AttachToDocument();
 
                         while (!base.sdpAnwserCandidates.Any())
                             await Task.Delay(1000 / 15);
@@ -287,62 +282,7 @@ namespace AndroidRTC
                     };
                     #endregion
 
-
-
-                    #region onopen
-                    var sendChannel = localPeerConnection.createDataChannel("sendDataChannel", new { reliable = false });
-
-                    // await async.onopen
-                    sendChannel.onopen = new Action(
-                        async delegate
-                        {
-                            new IHTMLPre { () => "sendChannel.onopen " + new { sendChannel.label } }.AttachToDocument();
-
-                            //sendChannel.send("hi!");
-
-                            var mmcounter = 0;
-
-
-
-                            Native.document.body.ontouchmove +=
-                                    e =>
-                                    {
-                                        var n = new { e.touches[0].clientX, e.touches[0].clientY };
-
-                                        e.preventDefault();
-
-                                        mmcounter++;
-
-                                        sendChannel.send(
-                                            new XElement("sendDataChannel",
-                                                new XAttribute(nameof(mmcounter), mmcounter),
-                                                new XAttribute(nameof(IEvent.CursorX), "" + n.clientX),
-                                                new XAttribute(nameof(IEvent.CursorY), "" + n.clientY)
-                                            ).ToString()
-                                        );
-
-
-                                    };
-
-
-                            Native.document.onmousemove +=
-                                e =>
-                                {
-                                    mmcounter++;
-
-                                    sendChannel.send(
-                                        new XElement("sendDataChannel",
-                                            new XAttribute(nameof(mmcounter), mmcounter),
-                                            new XAttribute(nameof(IEvent.CursorX), "" + e.CursorX),
-                                            new XAttribute(nameof(IEvent.CursorY), "" + e.CursorY)
-                                        ).ToString()
-
-                                    //new { mmcounter, e.CursorX, e.CursorY }.ToString()
-                                    );
-                                };
-                        }
-                    );
-                    #endregion
+                    var asendchannel = localPeerConnection.openDataChannel("sendDataChannel", new { reliable = false });
 
                     #region ondatachannel
                     localPeerConnection.ondatachannel = new Action<RTCDataChannelEvent>(
@@ -384,8 +324,9 @@ namespace AndroidRTC
 
                     base.sdp = o.sdp;
 
-                    new IHTMLPre { () => "awaiting for any sdpCandidates... " + new { base.sdpCandidates.Count } }.AttachToDocument();
+                    new IHTMLPre { () => "awaiting for any sdpCandidates... " + new { base.sdpCandidates.Count } + " (atleast connect to local hotspot, openDataChannel)" }.AttachToDocument();
 
+                    // cannot wait for candidates before we do openDataChannel
                     while (!base.sdpCandidates.Any())
                         await Task.Delay(1000 / 15);
 
@@ -440,7 +381,59 @@ namespace AndroidRTC
                         }
 
                     }
-                    new IHTMLPre { "addIceCandidate... done. awaiting sendChannel.onopen.." }.AttachToDocument();
+                    new IHTMLPre { "awaiting localPeerConnection.openDataChannel.." }.AttachToDocument();
+                    #endregion
+
+
+                    #region onopen
+                    //var sendChannel = localPeerConnection.createDataChannel("sendDataChannel", new { reliable = false });
+                    var sendChannel = await asendchannel;
+
+                    // await async.onopen
+                    new IHTMLPre { () => "sendChannel.onopen " + new { sendChannel.label } }.AttachToDocument();
+
+                    //sendChannel.send("hi!");
+
+                    var mmcounter = 0;
+
+
+
+                    Native.document.body.ontouchmove +=
+                            e =>
+                            {
+                                var n = new { e.touches[0].clientX, e.touches[0].clientY };
+
+                                e.preventDefault();
+
+                                mmcounter++;
+
+                                sendChannel.send(
+                                    new XElement("sendDataChannel",
+                                        new XAttribute(nameof(mmcounter), mmcounter),
+                                        new XAttribute(nameof(IEvent.CursorX), "" + n.clientX),
+                                        new XAttribute(nameof(IEvent.CursorY), "" + n.clientY)
+                                    ).ToString()
+                                );
+
+
+                            };
+
+
+                    Native.document.onmousemove +=
+                        e =>
+                        {
+                            mmcounter++;
+
+                            sendChannel.send(
+                                new XElement("sendDataChannel",
+                                    new XAttribute(nameof(mmcounter), mmcounter),
+                                    new XAttribute(nameof(IEvent.CursorX), "" + e.CursorX),
+                                    new XAttribute(nameof(IEvent.CursorY), "" + e.CursorY)
+                                ).ToString()
+
+                            //new { mmcounter, e.CursorX, e.CursorY }.ToString()
+                            );
+                        };
                     #endregion
 
                 }

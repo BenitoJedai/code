@@ -81,6 +81,11 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
         #endregion
+
+        public RTCDataChannel createDataChannel(string label, object dataChannelDict)
+        {
+            return default(RTCDataChannel);
+        }
     }
 
 
@@ -128,5 +133,23 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             return x.Task;
         }
+
+        // X:\jsc.svn\examples\javascript\android\AndroidRTC\AndroidRTC\Application.cs
+        public static Task<RTCDataChannel> openDataChannel(this RTCPeerConnection that, string label, object dataChannelDict)
+        {
+            var x = new TaskCompletionSource<RTCDataChannel>();
+
+            var s = that.createDataChannel(label, dataChannelDict);
+
+            s.onopen = new Action(
+                delegate
+                {
+                    x.SetResult(s);
+                }
+            );
+
+            return x.Task;
+        }
+
     }
 }
