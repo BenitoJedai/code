@@ -134,26 +134,33 @@ namespace ScriptCoreLib.Ultra.WebService
                     var c = new HttpCookie("InternalFields");
                     // X:\jsc.svn\examples\javascript\Test\TestWebServiceTaskFields\TestWebServiceTaskFields\ApplicationWebService.cs
 
+                    // X:\jsc.svn\examples\javascript\test\TestNullObjectFromWebService\TestNullObjectFromWebService\ApplicationWebService.cs
 
                     foreach (string InternalFieldName in x.InternalFields.Keys.ToArray())
                     {
-                        //Console.WriteLine(new { InternalFieldName });
 
-                        // for /xml post
-                        if (Context.Request.HttpMethod == "POST")
+                        var value = x.InternalFields[InternalFieldName];
+
+                        Console.WriteLine(new { InternalFieldName, value });
+
+                        if (value != null)
                         {
-                            // GetParameterValue: { key = _0600000e_field_elapsed }
+                            // for /xml post
+                            if (Context.Request.HttpMethod == "POST")
+                            {
+                                // GetParameterValue: { key = _0600000e_field_elapsed }
 
-                            that.Context.Response.AddHeader(
-                                ".field " + InternalFieldName,
-                                x.InternalFields[InternalFieldName]
-                            );
-                        }
-                        else
-                        {
+                                that.Context.Response.AddHeader(
+                                    ".field " + InternalFieldName,
+                                    value
+                                );
+                            }
+                            else
+                            {
 
-                            // for / get
-                            c[InternalFieldName] = x.InternalFields[InternalFieldName];
+                                // for / get
+                                c[InternalFieldName] = value;
+                            }
                         }
                     }
 
@@ -489,7 +496,7 @@ namespace ScriptCoreLib.Ultra.WebService
             if (Context.Request.HttpMethod == "POST")
             {
                 // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\WebClient.cs
-                
+
                 // who sets WebMethodMetadataToken ?
                 // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\JavaScript\Remoting\InternalWebMethodRequest.cs
                 // C:\Users\Arvo\AppData\Local\Temp\6796$ScriptCoreLib.Ultra.dll$v4.0.30319$NoDynamic\ScriptCoreLib.JavaScript.Remoting.InternalWebMethodRequest.cs

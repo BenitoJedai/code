@@ -33,6 +33,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     // IReflect ??
     {
 
+        // https://github.com/dotnet/coreclr/blob/master/Documentation/type-loader.md
+
         // http://developers.slashdot.org/story/15/02/21/0142230/the-robots-that-will-put-coders-out-of-work
         //Strong AI is the first "computer program" that has the potential to automate the act of creativity.Everything less can be a compiler, a pattern recognizer, an Uber driver, and in general a tool that does what it is told.
 

@@ -159,10 +159,11 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
         public NameValueCollection InternalFields;
 
+        // called by?
         [Description("note that jsc is implicitly using base64 and xml")]
         public static string GetInternalFieldValue(InternalWebMethodRequest that, string FieldName)
         {
-            //Console.WriteLine("GetInternalFieldValue " + new { FieldName });
+            Console.WriteLine("enter GetInternalFieldValue " + new { FieldName });
 
             var FieldValue = default(string);
 
@@ -175,7 +176,10 @@ namespace ScriptCoreLib.JavaScript.Remoting
                 FieldValue = that.InternalFields[FieldName];
             }
 
-            //Console.WriteLine("GetInternalFieldValue " + new { FieldName, FieldValue });
+
+
+            // X:\jsc.svn\examples\javascript\test\TestNullObjectFromWebService\TestNullObjectFromWebService\Application.cs
+            Console.WriteLine("exit GetInternalFieldValue " + new { FieldName, FieldValue });
             return FieldValue;
         }
 
@@ -216,8 +220,15 @@ namespace ScriptCoreLib.JavaScript.Remoting
             }
         }
 
+
+
+        // called by
+        // returns to
         public static NameValueCollection GetInternalFields(object r = null, WebClient c = null)
         {
+            Console.WriteLine("enter GetInternalFields");
+
+            // X:\jsc.svn\examples\javascript\test\TestNullObjectFromWebService\TestNullObjectFromWebService\Application.cs
             // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.InternalApplication_BeginRequest.cs
 
             //.field field_elapsed:<Stopwatch ElapsedMilliseconds="1204" IsRunning="True" />
@@ -236,7 +247,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
                         var FieldValue = c.ResponseHeaders[k];
 
-                        //Console.WriteLine("GetInternalFields " + new { FieldName, FieldValue });
+                        Console.WriteLine("GetInternalFields " + new { FieldName, FieldValue });
 
 
                         value[FieldName] = FieldValue;
@@ -253,6 +264,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
             // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
             var InternalFieldsCookie = new globalscl::ScriptCoreLib.JavaScript.Runtime.Cookie("InternalFields");
             var InternalFieldsCookieValue = InternalFieldsCookie.Value;
+            Console.WriteLine("GetInternalFields " + new { InternalFieldsCookieValue });
             var InternalFields = InternalFieldsCookie.Values;
 
             // tested by
@@ -290,6 +302,8 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
         static InternalWebMethodRequest()
         {
+            // X:\jsc.svn\examples\javascript\test\TestNullObjectFromWebService\TestNullObjectFromWebService\Application.cs
+
             Console.WriteLine("InternalFieldsFromTypeInitializer");
             InternalFieldsFromTypeInitializer = GetInternalFields();
         }
@@ -315,7 +329,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
 
 
-//#if FPOPERROR
+            //#if FPOPERROR
             // http://stackoverflow.com/questions/3574659/how-to-get-status-code-from-webclient
 
             // were we getting 204 or 304?
@@ -451,7 +465,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
                 //}
             }
-//#endif
+            //#endif
         }
 
 
