@@ -142,10 +142,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             //  new { reliable = false }
 
-            var adataChannelDict = new { reliable = false };
-            dataChannelDict = adataChannelDict;
+            //var adataChannelDict = new { reliable = false };
+            //dataChannelDict = adataChannelDict;
 
-            Console.WriteLine("enter openDataChannel " + new { adataChannelDict });
+            Console.WriteLine("enter openDataChannel " + new { dataChannelDict });
             // does it work?
 
             var x = new TaskCompletionSource<RTCDataChannel>();
@@ -166,6 +166,17 @@ namespace ScriptCoreLib.JavaScript.DOM
                     x.SetResult(s);
                 }
             );
+
+            //s.on
+
+            Native.setInterval(
+                delegate
+                {
+                    Console.WriteLine(".. openDataChannel " + new { s.readyState, s.reliable });
+                },
+                500
+            );
+
 
             Console.WriteLine("exit openDataChannel " + new { s.readyState, s.reliable });
             return x.Task;

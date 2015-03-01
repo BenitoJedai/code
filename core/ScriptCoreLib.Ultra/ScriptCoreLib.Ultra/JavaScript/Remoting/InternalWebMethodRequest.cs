@@ -78,7 +78,8 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
         public static void Invoke(InternalWebMethodRequest that)
         {
-            Console.WriteLine("InternalWebMethodRequest.Invoke");
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/20150301
+            //Console.WriteLine("InternalWebMethodRequest.Invoke");
 
 
             var w = new System.Net.WebClient();
@@ -146,7 +147,8 @@ namespace ScriptCoreLib.JavaScript.Remoting
             // description?
             var Target = "/xml/" + that.Name;
 
-            Console.WriteLine("InternalWebMethodRequest.Invoke WebClient UploadValuesAsync");
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/20150301
+            //Console.WriteLine("InternalWebMethodRequest.Invoke WebClient UploadValuesAsync");
 
 
             w.UploadValuesAsync(
@@ -163,7 +165,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
         [Description("note that jsc is implicitly using base64 and xml")]
         public static string GetInternalFieldValue(InternalWebMethodRequest that, string FieldName)
         {
-            Console.WriteLine("enter GetInternalFieldValue " + new { FieldName });
+            //Console.WriteLine("enter GetInternalFieldValue " + new { FieldName });
 
             var FieldValue = default(string);
 
@@ -179,7 +181,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
 
             // X:\jsc.svn\examples\javascript\test\TestNullObjectFromWebService\TestNullObjectFromWebService\Application.cs
-            Console.WriteLine("exit GetInternalFieldValue " + new { FieldName, FieldValue });
+            //Console.WriteLine("exit GetInternalFieldValue " + new { FieldName, FieldValue });
             return FieldValue;
         }
 
@@ -226,7 +228,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
         // returns to
         public static NameValueCollection GetInternalFields(object r = null, WebClient c = null)
         {
-            Console.WriteLine("enter GetInternalFields");
+            //Console.WriteLine("enter GetInternalFields");
 
             // X:\jsc.svn\examples\javascript\test\TestNullObjectFromWebService\TestNullObjectFromWebService\Application.cs
             // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.InternalApplication_BeginRequest.cs
@@ -247,7 +249,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
                         var FieldValue = c.ResponseHeaders[k];
 
-                        Console.WriteLine("GetInternalFields " + new { FieldName, FieldValue });
+                        //Console.WriteLine("GetInternalFields " + new { FieldName, FieldValue });
 
 
                         value[FieldName] = FieldValue;
@@ -264,7 +266,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
             // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
             var InternalFieldsCookie = new globalscl::ScriptCoreLib.JavaScript.Runtime.Cookie("InternalFields");
             var InternalFieldsCookieValue = InternalFieldsCookie.Value;
-            Console.WriteLine("GetInternalFields " + new { InternalFieldsCookieValue });
+            //Console.WriteLine("GetInternalFields " + new { InternalFieldsCookieValue });
             var InternalFields = InternalFieldsCookie.Values;
 
             // tested by
@@ -287,7 +289,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
                 }
                 else
                 {
-                    Console.WriteLine("GetInternalFields save to localstorage! " + new { InternalFieldsCookieValue });
+                    //Console.WriteLine("GetInternalFields save to localstorage! " + new { InternalFieldsCookieValue });
 
 
                     Native.window.localStorage["InternalFields"] = InternalFieldsCookieValue;
@@ -304,7 +306,7 @@ namespace ScriptCoreLib.JavaScript.Remoting
         {
             // X:\jsc.svn\examples\javascript\test\TestNullObjectFromWebService\TestNullObjectFromWebService\Application.cs
 
-            Console.WriteLine("InternalFieldsFromTypeInitializer");
+            //Console.WriteLine("InternalFieldsFromTypeInitializer");
             InternalFieldsFromTypeInitializer = GetInternalFields();
         }
         #endregion

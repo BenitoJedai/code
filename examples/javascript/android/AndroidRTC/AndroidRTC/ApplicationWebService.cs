@@ -64,8 +64,6 @@ namespace AndroidRTC
         }
 
         public DataWithCandidates sdpAnwser;
-        // RTCIceCandidate
-        //public List<DataRTCIceCandidate> sdpAnwserCandidates = new List<DataRTCIceCandidate>();
 
         public async Task CheckAnswer()
         {
@@ -75,11 +73,8 @@ namespace AndroidRTC
                 x =>
                 {
 
-                    this.sdpAnwser = new DataWithCandidates
-                    {
-                        sdp = x.sdpAnwser,
-                        sdpCandidates = x.sdpAnwserCandidates
-                    };
+                    this.sdpAnwser = x.sdpAnwser;
+
 
                 }
             );
@@ -113,12 +108,10 @@ namespace AndroidRTC
             Console.WriteLine(new { sdpOffer });
 
             Memory.AllAvailableAnwsers.Add(
-                new AnwserToOffer
+                new DataAnwserToOffer
                 {
                     sdpOffer = sdpOffer,
-                    sdpAnwser = sdpAnwser.sdp,
-
-                    sdpAnwserCandidates = sdpAnwser.sdpCandidates.ToList()
+                    sdpAnwser = sdpAnwser,
                 }
             );
         }
@@ -133,13 +126,7 @@ namespace AndroidRTC
         public int sdpMLineIndex;
     }
 
-    public class AnwserToOffer
-    {
-        public DataWithCandidates sdpOffer;
 
-        public string sdpAnwser;
-        public List<DataRTCIceCandidate> sdpAnwserCandidates;
-    }
 
     public sealed class DataWithCandidates
     {
@@ -148,11 +135,20 @@ namespace AndroidRTC
         public List<DataRTCIceCandidate> sdpCandidates = new List<DataRTCIceCandidate>();
     }
 
+    public class DataAnwserToOffer
+    {
+        public DataWithCandidates sdpOffer;
+
+        // DataWithCandidates
+        public DataWithCandidates sdpAnwser;
+        //public List<DataRTCIceCandidate> sdpAnwserCandidates;
+    }
+
     public static class Memory
     {
         public static List<DataWithCandidates> AllAvailableOffers = new List<DataWithCandidates>();
 
-        public static List<AnwserToOffer> AllAvailableAnwsers = new List<AnwserToOffer>();
+        public static List<DataAnwserToOffer> AllAvailableAnwsers = new List<DataAnwserToOffer>();
 
 
     }
