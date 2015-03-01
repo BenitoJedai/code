@@ -22,7 +22,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
             // UTF8FromBase64StringOrDefault
 
             // X:\jsc.svn\examples\vr\VRTurbanPhotosphere\VRTurbanPhotosphere\ApplicationWebService.cs
-            Console.WriteLine("enter __UTF8Encoding.GetString before __fromCharCode " + new { bytes.Length });
+            //Console.WriteLine("enter __UTF8Encoding.GetString before __fromCharCode " + new { bytes.Length });
 
 
             // tested again?
@@ -31,7 +31,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
             if (string.IsNullOrEmpty(s))
                 return s;
 
-            Console.WriteLine("__UTF8Encoding.GetString after __fromCharCode, before escape " + new { s });
+            //Console.WriteLine("__UTF8Encoding.GetString after __fromCharCode, before escape " + new { s });
 
 
             #region roslyn_
@@ -68,7 +68,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 
             var ss = Native.escape(s);
 
-            Console.WriteLine("__UTF8Encoding.GetString after escape, before decodeURIComponent " + new { ss });
+            //Console.WriteLine("__UTF8Encoding.GetString after escape, before decodeURIComponent " + new { ss });
 
             var value = Native.decodeURIComponent(ss);
 

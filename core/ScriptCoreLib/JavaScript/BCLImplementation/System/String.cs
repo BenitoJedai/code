@@ -132,7 +132,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             // http://stackoverflow.com/questions/20700393/urierror-malformed-uri-sequence
             // X:\jsc.svn\examples\vr\VRTurbanPhotosphere\VRTurbanPhotosphere\ApplicationWebService.cs
-            Console.WriteLine("enter __String.__fromCharCode " + new { bytes.Length });
+            //Console.WriteLine("enter __String.__fromCharCode " + new { bytes.Length });
 
             // X:\jsc.svn\examples\javascript\Test\TestUTF8GetStringPerformance\TestUTF8GetStringPerformance\Application.cs
             // UTF8.GetString { Length = 1989731 }
@@ -196,7 +196,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 }
             }
 
-            Console.WriteLine("exit __String.__fromCharCode " + new { s });
+            //Console.WriteLine("exit __String.__fromCharCode " + new { s });
 
             return s;
         }
