@@ -137,17 +137,37 @@ namespace ScriptCoreLib.JavaScript.DOM
         // X:\jsc.svn\examples\javascript\android\AndroidRTC\AndroidRTC\Application.cs
         public static Task<RTCDataChannel> openDataChannel(this RTCPeerConnection that, string label, object dataChannelDict)
         {
+            // reliable: true
+            // reliable: 0 ?
+
+            //  new { reliable = false }
+
+            var adataChannelDict = new { reliable = false };
+            dataChannelDict = adataChannelDict;
+
+            Console.WriteLine("enter openDataChannel " + new { adataChannelDict });
+            // does it work?
+
             var x = new TaskCompletionSource<RTCDataChannel>();
 
             var s = that.createDataChannel(label, dataChannelDict);
 
+
+            //readyState: "connecting"
+            //reliable: true
+
+            // never called? something wrong with redux rebuild?
             s.onopen = new Action(
                 delegate
                 {
+                    Console.WriteLine("enter openDataChannel onopen");
+
+                    // does it fire?
                     x.SetResult(s);
                 }
             );
 
+            Console.WriteLine("exit openDataChannel " + new { s.readyState, s.reliable });
             return x.Task;
         }
 

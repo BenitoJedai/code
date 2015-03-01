@@ -1,4 +1,4 @@
-using ScriptCoreLib;
+﻿using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
@@ -53,22 +53,35 @@ namespace AndroidRTC
 
                     new IHTMLPre { "preparing..." }.AttachToDocument();
 
+                    await new IHTMLButton { "lets go" }.AttachToDocument().async.onclick;
+
                     // first check if we can just anwser and offer?
-                    #region GetOffer
+                    #region GetOffer remotePeerConnection
                     await base.GetOffer();
 
                     if (base.sdpOffer != null)
-                        if (base.sdpOffer.sdp == null)
-                        {
-                            new IHTMLPre { "bugcheck. invalid offer? " }.AttachToDocument();
-                            base.sdpOffer = null;
-                        }
-
-                    if (base.sdpOffer != null)
                     {
-                        new IHTMLPre { "anwsering and offer...... " }.AttachToDocument();
-                        //new IHTMLPre { "anwsering and offer...... " + new { base.sdpOffer.sdp, base.sdpOffer.sdpCandidates.Count } }.AttachToDocument();
-                        new IHTMLPre { "anwsering and offer...... " + new { base.sdpOffer.sdpCandidates.Count } }.AttachToDocument();
+                        #region backgroundColor
+                        // indexer this case lets be blue
+
+                        //Native.body.style.backgroundColor = "#‎747D9C‬";
+                        // cannot set background color via hex? wtf?
+                        //Native.body.style.background = "#‎747D9C‬";
+
+                        // X:\jsc.svn\examples\javascript\css\test\TestBackgroundBlu\TestBackgroundBlu\Application.cs
+                        var rgb = new { r = 0x74, g = 0x7d, b = 0x9c };
+
+                        var background = "rgba(\{rgb.r}, \{rgb.g}, \{rgb.b}, 1.0)";
+                        new IHTMLPre { new { background } }.AttachToDocument();
+
+                        //Native.body.style.background = "rgb(\{(0x‎74)}, \{0x7D}, \{0x9C})‬";
+                        //Native.body.style.background = background;
+                        Native.body.style.backgroundColor = background;
+                        #endregion
+
+
+                        //new IHTMLPre { "anwsering to offer...... " }.AttachToDocument();
+                        new IHTMLPre { "anwsering to offer...... " + new { sdpCandidates = base.sdpOffer.sdpCandidates.Count } }.AttachToDocument();
 
                         var remotePeerConnection = new RTCPeerConnection(null, null);
 
@@ -93,7 +106,7 @@ namespace AndroidRTC
                             //remotePeerConnection.onicecandidate: { { candidate = candidate:1796882240 1 udp 2122194687 192.168.43.252 52153 typ host generation 0, sdpMLineIndex = 0, sdpMid = audio } }
                             //remotePeerConnection.onicecandidate: { { candidate = candidate:1796882240 1 udp 2122194687 192.168.43.252 52153 typ host generation 0, sdpMLineIndex = 1, sdpMid = data } }
 
-                            base.sdpAnwserCandidates.Add(
+                            base.sdpAnwser.sdpCandidates.Add(
                                 // need to send all 3 fields over..
                                 new DataRTCIceCandidate
                                 {
@@ -106,7 +119,7 @@ namespace AndroidRTC
                         #endregion
 
 
-                        #region ondatachannel
+                        #region remotePeerConnection.ondatachannel
                         remotePeerConnection.ondatachannel = new Action<RTCDataChannelEvent>(
                             async (RTCDataChannelEvent e) =>
                             {
@@ -119,6 +132,7 @@ namespace AndroidRTC
 
                                 e.channel.onmessage += ee =>
                                 {
+                                    // will we ever get a message?
                                     mcounter++;
                                     data = XElement.Parse("" + ee.data);
 
@@ -132,15 +146,17 @@ namespace AndroidRTC
 
                                 };
 
-                                #region onopen
+                                // we should now get the data?
+                                return;
 
                                 // http://stackoverflow.com/questions/15324500/creating-webrtc-data-channels-after-peerconnection-established
-
+                                // too late?
                                 new IHTMLPre { "remotePeerConnection.createDataChannel sendDataChannel2...... " }.AttachToDocument();
 
                                 //var sendDataChannel2 = remotePeerConnection.createDataChannel("sendDataChannel2", new { reliable = false });
                                 var sendDataChannel2 = await remotePeerConnection.openDataChannel("sendDataChannel2", new { reliable = false });
 
+                                // will it be opened? seems so. what about the other one?
                                 new IHTMLPre { () => "sendDataChannel2.onopen " + new { sendDataChannel2.label } }.AttachToDocument();
 
                                 //sendChannel.send("hi!");
@@ -149,6 +165,7 @@ namespace AndroidRTC
 
 
 
+                                #region onmousemove
                                 Native.document.body.ontouchmove +=
                                         re =>
                                         {
@@ -199,17 +216,23 @@ namespace AndroidRTC
                         new IHTMLPre { "createAnswer..." }.AttachToDocument();
                         var a = await remotePeerConnection.createAnswer();
 
+                        base.sdpAnwser = new DataWithCandidates
+                        {
+                            sdp = a.sdp
+                        };
+
+
+
                         new IHTMLPre { "setLocalDescription..." }.AttachToDocument();
                         await remotePeerConnection.setLocalDescription(a);
 
-                        base.sdpAnwser = a.sdp;
 
-                        new IHTMLPre { () => "awaiting for any sdpAnwserCandidates... " + new { base.sdpAnwserCandidates.Count } + " atleast connect to local hotspot" }.AttachToDocument();
+                        new IHTMLPre { () => "awaiting for any sdpAnwserCandidates... " + new { base.sdpAnwser.sdpCandidates.Count } + " atleast connect to local hotspot" }.AttachToDocument();
 
-                        while (!base.sdpAnwserCandidates.Any())
+                        while (!base.sdpAnwser.sdpCandidates.Any())
                             await Task.Delay(1000 / 15);
 
-                        new IHTMLPre { "Anwser... " + new { base.sdpAnwserCandidates.Count } }.AttachToDocument();
+                        new IHTMLPre { "Anwser... " + new { base.sdpAnwser.sdpCandidates.Count } }.AttachToDocument();
 
                         await base.Anwser();
 
@@ -282,7 +305,123 @@ namespace AndroidRTC
                     };
                     #endregion
 
-                    var asendchannel = localPeerConnection.openDataChannel("sendDataChannel", new { reliable = false });
+
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/20150301
+                    var options = new { reliable = false };
+
+                    new IHTMLPre { "localPeerConnection.openDataChannel... sendDataChannel " + new { options.reliable } }.AttachToDocument();
+
+                    localPeerConnection.openDataChannel("sendDataChannel", options).ContinueWithResult(
+                        sendChannel =>
+                        {
+                            // await async.onopen
+                            new IHTMLPre { () => "sendChannel.onopen " + new { sendChannel.label } }.AttachToDocument();
+
+                            //sendChannel.send("hi!");
+
+                            var mmcounter = 0;
+
+
+
+                            #region onmousemove
+                            Native.document.body.ontouchmove +=
+                                    e =>
+                                    {
+                                        var n = new { e.touches[0].clientX, e.touches[0].clientY };
+
+                                        e.preventDefault();
+
+                                        mmcounter++;
+
+                                        sendChannel.send(
+                                            new XElement("sendDataChannel",
+                                                new XAttribute(nameof(mmcounter), "" + mmcounter),
+                                                new XAttribute(nameof(IEvent.CursorX), "" + n.clientX),
+                                                new XAttribute(nameof(IEvent.CursorY), "" + n.clientY)
+                                            ).ToString()
+                                        );
+
+
+                                    };
+
+
+                            Native.document.onmousemove +=
+                                e =>
+                                {
+                                    mmcounter++;
+
+                                    sendChannel.send(
+                                        new XElement("sendDataChannel",
+                                            new XAttribute(nameof(mmcounter), "" + mmcounter),
+                                            new XAttribute(nameof(IEvent.CursorX), "" + e.CursorX),
+                                            new XAttribute(nameof(IEvent.CursorY), "" + e.CursorY)
+                                        ).ToString()
+
+                                    //new { mmcounter, e.CursorX, e.CursorY }.ToString()
+                                    );
+                                };
+                            #endregion
+                        }
+                    );
+
+                    //{
+                    //    var sendChannel = localPeerConnection.createDataChannel("sendDataChannel", new { reliable = false });
+
+                    //    new IHTMLPre { () => "after createDataChannel " + new { sendChannel.readyState, sendChannel.reliable } }.AttachToDocument();
+
+                    //    sendChannel.onopen = new Action(
+                    //        delegate
+                    //        {
+                    //            // await async.onopen
+                    //            new IHTMLPre { () => "sendChannel.onopen " + new { sendChannel.label } }.AttachToDocument();
+
+                    //            //sendChannel.send("hi!");
+
+                    //            var mmcounter = 0;
+
+
+
+                    //            #region onmousemove
+                    //            Native.document.body.ontouchmove +=
+                    //                    e =>
+                    //                    {
+                    //                        var n = new { e.touches[0].clientX, e.touches[0].clientY };
+
+                    //                        e.preventDefault();
+
+                    //                        mmcounter++;
+
+                    //                        sendChannel.send(
+                    //                            new XElement("sendDataChannel",
+                    //                                new XAttribute(nameof(mmcounter), "" + mmcounter),
+                    //                                new XAttribute(nameof(IEvent.CursorX), "" + n.clientX),
+                    //                                new XAttribute(nameof(IEvent.CursorY), "" + n.clientY)
+                    //                            ).ToString()
+                    //                        );
+
+
+                    //                    };
+
+
+                    //            Native.document.onmousemove +=
+                    //                e =>
+                    //                {
+                    //                    mmcounter++;
+
+                    //                    sendChannel.send(
+                    //                        new XElement("sendDataChannel",
+                    //                            new XAttribute(nameof(mmcounter), "" + mmcounter),
+                    //                            new XAttribute(nameof(IEvent.CursorX), "" + e.CursorX),
+                    //                            new XAttribute(nameof(IEvent.CursorY), "" + e.CursorY)
+                    //                        ).ToString()
+
+                    //                    //new { mmcounter, e.CursorX, e.CursorY }.ToString()
+                    //                    );
+                    //                };
+                    //            #endregion
+                    //        }
+                    //    );
+                    //}
 
                     #region ondatachannel
                     localPeerConnection.ondatachannel = new Action<RTCDataChannelEvent>(
@@ -315,14 +454,14 @@ namespace AndroidRTC
                     );
                     #endregion
 
-                    new IHTMLPre { "createOffer..." }.AttachToDocument();
+                    new IHTMLPre { "localPeerConnection.createOffer..." }.AttachToDocument();
                     var o = await localPeerConnection.createOffer();
 
-                    new IHTMLPre { "setLocalDescription..." }.AttachToDocument();
+                    new IHTMLPre { "localPeerConnection.setLocalDescription..." }.AttachToDocument();
 
                     await localPeerConnection.setLocalDescription(o);
 
-                    base.sdp = o.sdp;
+                    base.sdpAdvert = o.sdp;
 
                     new IHTMLPre { () => "awaiting for any sdpCandidates... " + new { base.sdpCandidates.Count } + " (atleast connect to local hotspot, openDataChannel)" }.AttachToDocument();
 
@@ -346,7 +485,7 @@ namespace AndroidRTC
                     new IHTMLPre { () => "awaiting for answer " + new { counter, sw.Elapsed } }.AttachToDocument();
 
                     // now poll the server, for any other offers?
-                    while (string.IsNullOrEmpty(this.sdpAnwser))
+                    while (this.sdpAnwser == null)
                     {
                         await Task.Delay(5000);
                         await base.CheckAnswer();
@@ -355,13 +494,13 @@ namespace AndroidRTC
 
                     // end using
 
-                    new IHTMLPre { "setRemoteDescription..." }.AttachToDocument();
+                    new IHTMLPre { "localPeerConnection.setRemoteDescription..." }.AttachToDocument();
 
-                    await localPeerConnection.setRemoteDescription(new RTCSessionDescription(new { sdp = base.sdpAnwser, type = "answer" }));
+                    await localPeerConnection.setRemoteDescription(new RTCSessionDescription(new { base.sdpAnwser.sdp, type = "answer" }));
 
                     #region addIceCandidate
                     new IHTMLPre { "addIceCandidate..." }.AttachToDocument();
-                    foreach (var c in base.sdpAnwserCandidates)
+                    foreach (var c in base.sdpAnwser.sdpCandidates)
                     {
                         var cc = new RTCIceCandidate(new { c.candidate, c.sdpMLineIndex, c.sdpMid });
 
@@ -381,60 +520,18 @@ namespace AndroidRTC
                         }
 
                     }
-                    new IHTMLPre { "awaiting localPeerConnection.openDataChannel.." }.AttachToDocument();
                     #endregion
 
 
-                    #region onopen
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/20150301
+                    new IHTMLPre { "awaiting localPeerConnection.openDataChannel... will it get stuck?" }.AttachToDocument().style.color = "red";
+
+                    //Task.WaitAny
+
                     //var sendChannel = localPeerConnection.createDataChannel("sendDataChannel", new { reliable = false });
-                    var sendChannel = await asendchannel;
-
-                    // await async.onopen
-                    new IHTMLPre { () => "sendChannel.onopen " + new { sendChannel.label } }.AttachToDocument();
-
-                    //sendChannel.send("hi!");
-
-                    var mmcounter = 0;
+                    //var sendChannel = await asendchannel;
 
 
-
-                    Native.document.body.ontouchmove +=
-                            e =>
-                            {
-                                var n = new { e.touches[0].clientX, e.touches[0].clientY };
-
-                                e.preventDefault();
-
-                                mmcounter++;
-
-                                sendChannel.send(
-                                    new XElement("sendDataChannel",
-                                        new XAttribute(nameof(mmcounter), mmcounter),
-                                        new XAttribute(nameof(IEvent.CursorX), "" + n.clientX),
-                                        new XAttribute(nameof(IEvent.CursorY), "" + n.clientY)
-                                    ).ToString()
-                                );
-
-
-                            };
-
-
-                    Native.document.onmousemove +=
-                        e =>
-                        {
-                            mmcounter++;
-
-                            sendChannel.send(
-                                new XElement("sendDataChannel",
-                                    new XAttribute(nameof(mmcounter), mmcounter),
-                                    new XAttribute(nameof(IEvent.CursorX), "" + e.CursorX),
-                                    new XAttribute(nameof(IEvent.CursorY), "" + e.CursorY)
-                                ).ToString()
-
-                            //new { mmcounter, e.CursorX, e.CursorY }.ToString()
-                            );
-                        };
-                    #endregion
 
                 }
             );
@@ -442,4 +539,14 @@ namespace AndroidRTC
 
         }
     }
+
+
+    //    will restore sdpCandidates
+    //2015-03-01 11:44:09.094 :16224/view-source:50206 49ms Elements { name = i0 }
+    //2015-03-01 11:44:09.096 :16224/view-source:50206 51ms Elements { name = i0, LocalName = parsererror }
+    //2015-03-01 11:44:09.096 :16224/view-source:50206 51ms Elements { name = i0, LocalName = i0 }
+    //2015-03-01 11:44:09.097 :16224/view-source:50206 52ms enter { ConvertTypeName = AndroidRTC.ConvertFromString1$<02000011> }
+    //2015-03-01 11:44:09.097 :16224/view-source:50206 52ms before xml parse { ConvertTypeName = AndroidRTC.ConvertFromString1$<02000011> }
+    //2015-03-01 11:44:09.099 :16224/view-source:33859 Uncaught Error: ArgumentNullException: XElement.Parse Root element is missing.
+
 }

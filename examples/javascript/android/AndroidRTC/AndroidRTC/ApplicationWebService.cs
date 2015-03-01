@@ -45,43 +45,42 @@ namespace AndroidRTC
         //I/System.Console(27031):        at AndroidRTC.Global.Application_BeginRequest(Global.java:50)
         //I/System.Console(27031):        at AndroidRTC.Activities.ApplicationWebServiceActivity___c__DisplayClass25._CreateServer_b__20(ApplicationWebServiceActivity___c__DisplayClass25.java:399)
 
-        public string sdp;
+        // an advertisement.
+        // DataWithCandidates
+        public string sdpAdvert;
         public List<DataRTCIceCandidate> sdpCandidates = new List<DataRTCIceCandidate>();
 
         public async Task Offer()
         {
-            if (string.IsNullOrEmpty(sdp))
-            {
-                Console.WriteLine("(sdp is null)");
-                return;
-            }
-
-            Console.WriteLine(new { sdp });
+            Console.WriteLine(new { sdpAdvert });
 
             Memory.AllAvailableOffers.Add(
-
-                new DataOffer
+                new DataWithCandidates
                 {
-                    sdp = sdp,
+                    sdp = sdpAdvert,
                     sdpCandidates = sdpCandidates.ToList()
                 }
             );
         }
 
-        public string sdpAnwser;
+        public DataWithCandidates sdpAnwser;
         // RTCIceCandidate
-        public List<DataRTCIceCandidate> sdpAnwserCandidates = new List<DataRTCIceCandidate>();
+        //public List<DataRTCIceCandidate> sdpAnwserCandidates = new List<DataRTCIceCandidate>();
 
         public async Task CheckAnswer()
         {
             // copy anwser for sdp, if there is one...
 
-            Memory.AllAvailableAnwsers.FirstOrDefault(z => z.sdpOffer.sdp == this.sdp).With(
+            Memory.AllAvailableAnwsers.FirstOrDefault(z => z.sdpOffer.sdp == this.sdpAdvert).With(
                 x =>
                 {
 
-                    this.sdpAnwser = x.sdpAnwser;
-                    this.sdpAnwserCandidates = x.sdpAnwserCandidates;
+                    this.sdpAnwser = new DataWithCandidates
+                    {
+                        sdp = x.sdpAnwser,
+                        sdpCandidates = x.sdpAnwserCandidates
+                    };
+
                 }
             );
 
@@ -90,7 +89,7 @@ namespace AndroidRTC
 
         }
 
-        public DataOffer sdpOffer;
+        public DataWithCandidates sdpOffer;
 
         public async Task GetOffer()
         {
@@ -106,7 +105,7 @@ namespace AndroidRTC
 
         public async Task Anwser()
         {
-            foreach (var sdpAnwserCandidate in sdpAnwserCandidates)
+            foreach (var sdpAnwserCandidate in sdpAnwser.sdpCandidates)
             {
                 Console.WriteLine(new { sdpAnwserCandidate });
             }
@@ -117,9 +116,9 @@ namespace AndroidRTC
                 new AnwserToOffer
                 {
                     sdpOffer = sdpOffer,
-                    sdpAnwser = sdpAnwser,
+                    sdpAnwser = sdpAnwser.sdp,
 
-                    sdpAnwserCandidates = sdpAnwserCandidates.ToList()
+                    sdpAnwserCandidates = sdpAnwser.sdpCandidates.ToList()
                 }
             );
         }
@@ -136,13 +135,13 @@ namespace AndroidRTC
 
     public class AnwserToOffer
     {
-        public DataOffer sdpOffer;
+        public DataWithCandidates sdpOffer;
 
         public string sdpAnwser;
         public List<DataRTCIceCandidate> sdpAnwserCandidates;
     }
 
-    public sealed class DataOffer
+    public sealed class DataWithCandidates
     {
 
         public string sdp;
@@ -151,7 +150,7 @@ namespace AndroidRTC
 
     public static class Memory
     {
-        public static List<DataOffer> AllAvailableOffers = new List<DataOffer>();
+        public static List<DataWithCandidates> AllAvailableOffers = new List<DataWithCandidates>();
 
         public static List<AnwserToOffer> AllAvailableAnwsers = new List<AnwserToOffer>();
 

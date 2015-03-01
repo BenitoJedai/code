@@ -62,7 +62,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             // X:\jsc.svn\examples\java\JVMCLRBase64\JVMCLRBase64\Program.cs
             // X:\jsc.svn\examples\java\hybrid\JVMCLRBase64\
 
-            Console.WriteLine("enter __Convert.FromBase64String " + new { input.Length });
+            //Console.WriteLine("enter __Convert.FromBase64String " + new { input.Length });
             // preroslyn broken?
 
             var FromBase64String_while_timeout = Stopwatch.StartNew();
@@ -157,7 +157,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
             var value = m.ToArray();
 
-            Console.WriteLine("exit __Convert.FromBase64String " + new { value.Length });
+            //Console.WriteLine("exit __Convert.FromBase64String " + new { value.Length });
 
             if (input.Length == 84)
                 if (value.Length != 63)

@@ -21,6 +21,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public IFunction onopen;
 
+        public string readyState;
+        public bool reliable;
+
 
         #region event onmessage
         public event Action<MessageEvent> onmessage

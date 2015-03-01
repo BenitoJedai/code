@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 	[Script(InternalConstructor = true)]
 	public class IHTMLApplet : IHTMLElement
 	{
+        // https://twitter.com/wjarek/status/571549576412327936/photo/1
+
         // http://www.robovm.com/
         // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/shadow/PluginPlaceholderElement.idl
 

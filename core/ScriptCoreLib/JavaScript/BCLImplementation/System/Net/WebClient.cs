@@ -31,7 +31,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 
         public void UploadValuesAsync(Uri address, NameValueCollection data)
         {
-            Console.WriteLine("enter WebClient.UploadValuesAsync");
+            //Console.WriteLine("enter WebClient.UploadValuesAsync");
+
             // called by
             // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\JavaScript\Remoting\InternalWebMethodRequest.cs
 
@@ -165,7 +166,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
             x.responseType = "arraybuffer";
 
 
-            Console.WriteLine("WebClient.UploadValuesAsync IXMLHttpRequest " + new { xFormDataString });
+            //Console.WriteLine("WebClient.UploadValuesAsync IXMLHttpRequest " + new { xFormDataString });
             x.send(xFormDataString);
 
 
@@ -176,7 +177,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
         {
             // X:\jsc.svn\examples\javascript\Test\Test453ForEachStringArray\Test453ForEachStringArray\Class1.cs
             // X:\jsc.svn\examples\javascript\css\Test\TestLongWebMethod\TestLongWebMethod\Application.cs
-            Console.WriteLine("enter WebClient.ToFormDataString " + new { data.Count });
+            //Console.WriteLine("enter WebClient.ToFormDataString " + new { data.Count });
 
             #region AllKeys
             var xx = "";
@@ -184,7 +185,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
             // for (e = 0; e; e++)
             foreach (var item in data.AllKeys)
             {
-                Console.WriteLine("WebClient.ToFormDataString " + new { item });
+                //Console.WriteLine("WebClient.ToFormDataString " + new { item });
 
 
                 if (xx != "")
