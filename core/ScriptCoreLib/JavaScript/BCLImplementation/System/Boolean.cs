@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Boolean))]
     internal class __Boolean
     {
+        // X:\jsc.svn\examples\javascript\test\TestLdcBooleanFalse\TestLdcBooleanFalse\Class1.cs
+
         [Script(OptimizedCode=@"return !!e;")]
         public static __Boolean Parse(string e)
         {

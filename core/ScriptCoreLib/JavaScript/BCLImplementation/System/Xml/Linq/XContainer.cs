@@ -269,12 +269,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         {
             // X:\jsc.svn\examples\javascript\Test\TestXElementAdd\TestXElementAdd\Application.cs
 
-            Console.WriteLine("Elements " + new { name });
+            //Console.WriteLine("Elements " + new { name });
 
             return this.Elements().Where(
                 k =>
                 {
-                    Console.WriteLine("Elements " + new { name, k.Name.LocalName });
+                    //Console.WriteLine("Elements " + new { name, k.Name.LocalName });
 
                     return k.Name.LocalName == name.LocalName;
                 }

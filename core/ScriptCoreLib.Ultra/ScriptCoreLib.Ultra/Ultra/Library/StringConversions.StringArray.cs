@@ -20,12 +20,13 @@ namespace ScriptCoreLib.Library
 
         public static string UTF8FromBase64StringOrDefault(string e)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/20150301
             // X:\jsc.svn\examples\vr\VRTurbanPhotosphere\VRTurbanPhotosphere\ApplicationWebService.cs
             // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140101
 
             var o = default(string);
 
-            Console.WriteLine("enter StringConversions.UTF8FromBase64StringOrDefault " + new { e.Length, e,  });
+            //Console.WriteLine("enter StringConversions.UTF8FromBase64StringOrDefault " + new { e.Length, e,  });
 
             //before call NewGlobalInvokeMethod { Name = Insert }
             //enter { ConvertTypeName = Abstractatech.JavaScript.Avatar.ConvertToString$2$<0200001c> }
@@ -40,12 +41,12 @@ namespace ScriptCoreLib.Library
             {
 
                 //Console.WriteLine("before Convert.FromBase64String");
-                Console.WriteLine("StringConversions.UTF8FromBase64StringOrDefault before Convert.FromBase64String ");
+                //Console.WriteLine("StringConversions.UTF8FromBase64StringOrDefault before Convert.FromBase64String ");
                 var bytes = Convert.FromBase64String(e);
                 // bytes = {byte[63]}
 
                 //Console.WriteLine("before Encoding.UTF8.GetString");
-                Console.WriteLine("StringConversions.UTF8FromBase64StringOrDefault before Encoding.UTF8.GetString " + new { bytes.Length });
+                //Console.WriteLine("StringConversions.UTF8FromBase64StringOrDefault before Encoding.UTF8.GetString " + new { bytes.Length });
                 o = Encoding.UTF8.GetString(bytes);
             }
 
