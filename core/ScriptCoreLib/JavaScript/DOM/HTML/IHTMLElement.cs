@@ -1230,7 +1230,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
-        static string[] InternalCaptureMouseEvents = new string[] { 
+        static string[] InternalCaptureMouseEvents = new string[] {
             "click", "mousedown", "mouseup", "mousemove", "mouseover", "mouseout" };
 
         static System.Action InternalCaptureMouse(IHTMLElement self)
@@ -1255,7 +1255,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             bool flag = false;
 
             System.Action<IEvent> _capture =
-                delegate(IEvent e)
+                delegate (IEvent e)
                 {
                     if (flag)
                         return;
@@ -1338,6 +1338,31 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         [Script(DefineAsStatic = true)]
         public void requestFullscreen()
         {
+            // https://chromium.googlesource.com/experimental/chromium/blink/+/refs/wip/bajones/webvr%5E%21/#F20
+
+            // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+            // tested by X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\Application.cs
+            __requestFullscreen(this);
+        }
+
+
+        //        +dictionary FullscreenOptions
+        //        {
+        //+    HMDVRDevice vrDisplay = null;
+        //+    boolean vrDistortion = true;
+        //+    boolean vrTimewarp = true;
+        //+};
+
+        [Script(DefineAsStatic = true)]
+        public void requestFullscreen(object vrFullscreenOptions)
+        {
+            // 20150302 . how many days until we can test it on a HUD?
+
+            //https://chromium.googlesource.com/experimental/chromium/blink/+/refs/wip/bajones/webvr/Source/core/dom/FullscreenOptions.idl
+            // https://chromium.googlesource.com/experimental/chromium/blink/+/refs/wip/bajones/webvr/Source/core/dom/ElementFullscreen.idl
+            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150302
+            // https://chromium.googlesource.com/experimental/chromium/blink/+/refs/wip/bajones/webvr%5E%21/#F20
+
             // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
             // tested by X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\Application.cs
             __requestFullscreen(this);
