@@ -105,16 +105,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
 
 
-        // NET45
-        public Task<Socket> AcceptSocketAsync()
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<TcpClient> AcceptTcpClientAsync()
-        {
-            throw new NotImplementedException();
-        }
 
         public Socket AcceptSocket()
         {
@@ -139,10 +130,32 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
         public TcpClient AcceptTcpClient()
         {
+			// tested by?
+
             var s = AcceptSocket();
             var r = new __TcpClient(s);
 
             return (TcpClient)(object)r;
         }
-    }
+
+
+		// NET45
+		public Task<Socket> AcceptSocketAsync()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<TcpClient> AcceptTcpClientAsync()
+		{
+			// return Task<TcpClient>.Factory.FromAsync(BeginAcceptTcpClient, EndAcceptTcpClient, null);
+
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/2010303
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150304
+
+			// webrtc?
+			// http://referencesource.microsoft.com/#System/net/System/Net/Sockets/UDPClient.cs
+
+			throw new NotImplementedException();
+		}
+	}
 }

@@ -22,9 +22,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
     [Script(Implements = typeof(global::System.Text.StringBuilder))]
     internal class __StringBuilder
     {
-        // anonymous types no longer use it?
+		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/stringbuffer.cpp
+		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/stringbuffer.h
 
-        public __StringBuilder()
+		// anonymous types no longer use it?
+
+		public __StringBuilder()
         {
 
         }

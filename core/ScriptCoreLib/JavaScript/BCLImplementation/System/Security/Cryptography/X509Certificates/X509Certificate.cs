@@ -24,38 +24,41 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
     [Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.X509Certificate))]
     internal class __X509Certificate
     {
-        // "C:\Program Files (x86)\SketchUp\SketchUp 2014\Tools\RubyStdLib\openssl\x509.rb"
+		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/cryptography/x509certificate.cpp
+		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/cryptography/x509certificate.h
 
-        // Digital certificates provide no actual security for electronic commerce; it's a complete sham.”
-        // http://jim.com/security/
+		// "C:\Program Files (x86)\SketchUp\SketchUp 2014\Tools\RubyStdLib\openssl\x509.rb"
 
-        // can we parse .cer/it in a drag n drop?
-        // A .cer or .crt file contains only the certificate, and not a private key.
+		// Digital certificates provide no actual security for electronic commerce; it's a complete sham.”
+		// http://jim.com/security/
 
-        // http://unmitigatedrisk.com/?p=426
-        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\SubtleCrypto.cs
+		// can we parse .cer/it in a drag n drop?
+		// A .cer or .crt file contains only the certificate, and not a private key.
 
-        // Certificate: paper establishing an ownership claim
+		// http://unmitigatedrisk.com/?p=426
+		// X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\SubtleCrypto.cs
 
-
-        // X:\jsc.svn\examples\java\hybrid\JVMCLRRSA\JVMCLRRSA\Program.cs
-
-        // X:\jsc.svn\core\ScriptCoreLibJava\java\security\cert\X509Certificate.cs
-        // will .cer help us with securing our hybrid apps?
-        // http://www.sparxeng.com/blog/software/x-509-self-signed-certificate-for-cryptography-in-net
+		// Certificate: paper establishing an ownership claim
 
 
-        // http://webserver.codeplex.com/wikipage?title=HTTPS&referringTitle=Home
-        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\ServiceWorker.cs
+		// X:\jsc.svn\examples\java\hybrid\JVMCLRRSA\JVMCLRRSA\Program.cs
 
-        // https://developer.chrome.com/extensions/enterprise_platformKeys
-        // chrome.enterprise.platformKeys API
-        // http://www.w3.org/TR/WebCryptoAPI/
+		// X:\jsc.svn\core\ScriptCoreLibJava\java\security\cert\X509Certificate.cs
+		// will .cer help us with securing our hybrid apps?
+		// http://www.sparxeng.com/blog/software/x-509-self-signed-certificate-for-cryptography-in-net
 
-        // http://webserver.codeplex.com/wikipage?title=HTTPS&referringTitle=Home
 
-        // X:\opensource\codeplex\webserver\HttpServer\SecureHttpListener.cs
-        // X:\opensource\codeplex\webserver\HttpServer\Transports\ClientCertificate.cs
+		// http://webserver.codeplex.com/wikipage?title=HTTPS&referringTitle=Home
+		// X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\ServiceWorker.cs
 
-    }
+		// https://developer.chrome.com/extensions/enterprise_platformKeys
+		// chrome.enterprise.platformKeys API
+		// http://www.w3.org/TR/WebCryptoAPI/
+
+		// http://webserver.codeplex.com/wikipage?title=HTTPS&referringTitle=Home
+
+		// X:\opensource\codeplex\webserver\HttpServer\SecureHttpListener.cs
+		// X:\opensource\codeplex\webserver\HttpServer\Transports\ClientCertificate.cs
+
+	}
 }

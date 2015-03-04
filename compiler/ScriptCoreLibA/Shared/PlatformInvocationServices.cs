@@ -10,14 +10,17 @@ namespace ScriptCoreLib.Shared
 	/// </summary>
 	public class PlatformInvocationServices
 	{
-        // tested by?
-        // jni for android NDK?
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201409/20140902
-        // X:\jsc.svn\examples\java\hybrid\JVMCLRLoadLibrary\JVMCLRLoadLibrary\Program.cs
-        // X:\jsc.svn\core\ScriptCoreLibJava.jni\BCLImplementation\ScriptCoreLib\Shared\PlatformInvocationServices.cs
+		// https://github.com/dotnet/coreclr/blob/master/src/vm/dllimport.h
+		// https://github.com/dotnet/coreclr/blob/master/src/vm/dllimport.cpp
+
+		// tested by?
+		// jni for android NDK?
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201409/20140902
+		// X:\jsc.svn\examples\java\hybrid\JVMCLRLoadLibrary\JVMCLRLoadLibrary\Program.cs
+		// X:\jsc.svn\core\ScriptCoreLibJava.jni\BCLImplementation\ScriptCoreLib\Shared\PlatformInvocationServices.cs
 
 
-        public static object StringOrNullCPtr(string e)
+		public static object StringOrNullCPtr(string e)
         {
             return default(object);
         }

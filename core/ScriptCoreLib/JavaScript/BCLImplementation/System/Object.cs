@@ -18,29 +18,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
-        // http://blogs.msdn.com/b/dsyme/archive/2012/06/26/some-more-net-c-generics-research-project-history.aspx
-        // http://blogs.msdn.com/b/dsyme/archive/2012/07/05/more-c-net-generics-history-the-msr-white-paper-from-mid-1999.aspx
+		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/objectnative.h
+		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/objectnative.cpp
 
-        // at what point would jsc be able to track, test and import updated CLR code, the redux way? 
-        // https://github.com/dotnet/coreclr/blob/master/Documentation/intro-to-clr.md
+		// http://blogs.msdn.com/b/dsyme/archive/2012/06/26/some-more-net-c-generics-research-project-history.aspx
+		// http://blogs.msdn.com/b/dsyme/archive/2012/07/05/more-c-net-generics-history-the-msr-white-paper-from-mid-1999.aspx
+
+		// at what point would jsc be able to track, test and import updated CLR code, the redux way? 
+		// https://github.com/dotnet/coreclr/blob/master/Documentation/intro-to-clr.md
 
 
-        // http://www.hanselman.com/blog/GettingReadyForTheFutureWithTheMicrosoftNETPortabilityAnalyzer.aspx
+		// http://www.hanselman.com/blog/GettingReadyForTheFutureWithTheMicrosoftNETPortabilityAnalyzer.aspx
 
-        // http://channel9.msdn.com/Blogs/Charles/From-the-Archives-Erik-Meijer-and-Mark-Shields-Compiling-MSIL-to-JS
-        // http://channel9.msdn.com/Forums/Coffeehouse/Volta-Dead-or-Alive
+		// http://channel9.msdn.com/Blogs/Charles/From-the-Archives-Erik-Meijer-and-Mark-Shields-Compiling-MSIL-to-JS
+		// http://channel9.msdn.com/Forums/Coffeehouse/Volta-Dead-or-Alive
 
-        // http://www.dotnetfoundation.org/netcore5
-        // .NET Core has two major components. It includes a small runtime that is built from the same codebase as the .NET Framework CLR. 
-        // The .NET Core runtime includes the same GC and JIT (RyuJIT), but doesn’t include features like Application Domains or Code Access Security. 
-        // The runtime is delivered on NuGet, via the Microsoft.CoreCLR package.
+		// http://www.dotnetfoundation.org/netcore5
+		// .NET Core has two major components. It includes a small runtime that is built from the same codebase as the .NET Framework CLR. 
+		// The .NET Core runtime includes the same GC and JIT (RyuJIT), but doesn’t include features like Application Domains or Code Access Security. 
+		// The runtime is delivered on NuGet, via the Microsoft.CoreCLR package.
 
-        // http://ask.slashdot.org/story/14/12/20/2331202/ask-slashdot-is-an-open-source-net-up-to-the-job
-        // Of late, .NET Native is an interesting piece of tech that precompiles .NET apps using VC++ compiler backend. 
-        // When you are offering a system that can fire up nodes and destroy them dynamically and on-demand, its just not worth it to 
-        // have to keep track of some piece of that being commercially licensed and all the restrictions you end up with on your freedom to fire up new nodes on demand
+		// http://ask.slashdot.org/story/14/12/20/2331202/ask-slashdot-is-an-open-source-net-up-to-the-job
+		// Of late, .NET Native is an interesting piece of tech that precompiles .NET apps using VC++ compiler backend. 
+		// When you are offering a system that can fire up nodes and destroy them dynamically and on-demand, its just not worth it to 
+		// have to keep track of some piece of that being commercially licensed and all the restrictions you end up with on your freedom to fire up new nodes on demand
 
-        public static bool ReferenceEquals(object objA, object objB)
+		public static bool ReferenceEquals(object objA, object objB)
         {
             return Expando.ReferenceEquals(objA, objB);
         }

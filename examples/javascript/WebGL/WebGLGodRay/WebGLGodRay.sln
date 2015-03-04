@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22310.1
+VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLGodRay", "WebGLGodRay\WebGLGodRay.csproj", "{64F527CC-AA24-434A-B632-99AADD3B085A}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -17,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLRah66Comanche", "..\collada\WebGLRah66Comanche\WebGLRah66Comanche\WebGLRah66Comanche.csproj", "{5A75FA08-3AF1-4D27-A726-20B58B6CD608}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLColladaExperiment", "..\WebGLColladaExperiment\WebGLColladaExperiment\WebGLColladaExperiment.csproj", "{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Async", "..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\ScriptCoreLib.Async.csproj", "{88C3C260-D1DA-4FB3-A53D-79462913E80C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Debug|x86.Build.0 = Debug|x86
 		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Release|x86.ActiveCfg = Release|x86
 		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9}.Release|x86.Build.0 = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|x86.ActiveCfg = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|x86.Build.0 = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|x86.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,5 +59,6 @@ Global
 		{A5DE484D-54A0-4418-AD41-84B77F5AE4E8} = {2663C683-76C3-4603-BD5E-E60782C34F01}
 		{5A75FA08-3AF1-4D27-A726-20B58B6CD608} = {2663C683-76C3-4603-BD5E-E60782C34F01}
 		{5D093F42-02CC-4ED6-BD9F-3AC636479FB9} = {2663C683-76C3-4603-BD5E-E60782C34F01}
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {2663C683-76C3-4603-BD5E-E60782C34F01}
 	EndGlobalSection
 EndGlobal
