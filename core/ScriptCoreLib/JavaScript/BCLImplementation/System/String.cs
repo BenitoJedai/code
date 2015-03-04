@@ -96,6 +96,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 			return x;
 		}
+
+
+		// x:\jsc.svn\examples\javascript\test\test46anonymoustypetostring\test46anonymoustypetostring\class1.cs
+		// 4.6	
+		public static string Format(IFormatProvider provider, string format, object[] args)
+		{
+			return Format(format, args);
+		}
+
 		#endregion
 
 
