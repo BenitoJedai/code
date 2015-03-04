@@ -14,8 +14,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Array))]
     internal class __Array
     {
-        // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
-        public void SetValue(object value, int index)
+		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arraynative.h
+		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/arraynative.cpp
+
+
+		// X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+		public void SetValue(object value, int index)
         {
             ScriptCoreLib.JavaScript.Runtime.Expando.InternalSetMember(this, index, value);
         }

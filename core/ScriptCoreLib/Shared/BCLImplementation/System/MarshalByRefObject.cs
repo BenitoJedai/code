@@ -11,6 +11,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
     [Script(Implements = typeof(global::System.MarshalByRefObject))]
 	public class __MarshalByRefObject
 	{
+		// https://github.com/dotnet/coreclr/blob/master/src/vm/remoting.h
+		// https://github.com/dotnet/coreclr/blob/master/src/vm/remoting.cpp
 
 	}
 }
