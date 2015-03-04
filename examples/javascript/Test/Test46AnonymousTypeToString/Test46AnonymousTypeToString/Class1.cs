@@ -29,10 +29,21 @@ namespace Test46AnonymousTypeToString
 	[Script(Implements = typeof(global::System.String), InternalConstructor = true)]
 	internal class __String
 	{
+		public static string Format(IFormatProvider provider, string format, object[] args)
+		{
+			return "";
+		}
+
 		public static string Format(string format, params object[] b)
 		{
 			return "";
 		}
 
+
+		//		Implementation not found for type import :
+		// type: System.String
+		// method: System.String Format(System.IFormatProvider, System.String, System.Object[])
+		// Did you forget to add the[Script] attribute?
+		//Please double check the signature!
 	}
 }
