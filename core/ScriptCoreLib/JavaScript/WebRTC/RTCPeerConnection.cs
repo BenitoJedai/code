@@ -13,6 +13,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "RTCPeerConnection")]
     public class RTCPeerConnection : IEventTarget
     {
+        // https://plus.google.com/111685604459987664747/posts/ZcVmFATp1B8
         // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerVisualizedScreens\TestServiceWorkerVisualizedScreens\Application.cs
 
         // X:\jsc.svn\examples\javascript\UIAutomationEvents\UIAutomationEvents\Application.cs
