@@ -16,340 +16,357 @@ using System.Threading.Tasks;
 using ScriptCoreLib.JavaScript.Runtime;
 using chrome;
 using ScriptCoreLib.JavaScript.WebGL;
-using WebGLSpiral.Shaders;
+//using WebGLSpiral.Shaders;
 
 namespace ChromeNotificationExperiment
 {
-    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using System.Diagnostics;
-    /// <summary>
-    /// Your client side code running inside a web browser as JavaScript.
-    /// </summary>
-    public sealed class Application
-        : ISurface
-    {
-        public readonly ApplicationWebService service = new ApplicationWebService();
+	using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+	using System.Diagnostics;
+	/// <summary>
+	/// Your client side code running inside a web browser as JavaScript.
+	/// </summary>
+	public sealed class Application
+	//: ISurface
+	{
+		public readonly ApplicationWebService service = new ApplicationWebService();
 
 
-        #region ISurface
-        public event Action onframe;
 
-        public event Action<int, int> onresize;
+		//414: erase { SourceMethod = Void.ctor(ChromeNotificationExperiment.HTML.Pages.IApp), offset = 6, x = [0x00d6]
+		//		stsfld     +0 -1 }
+		//..197c:02:01 RewriteToAssembly error: System.ArgumentException: Empty name is not legal.
+		//Parameter name: fieldName
+		//   at System.Reflection.Emit.FieldBuilder..ctor(TypeBuilder typeBuilder, String fieldName, Type type, Type[] requiredCustomModifiers, Type[] optionalCustomModifiers, FieldAttributes attributes)
+		//   at System.Reflection.Emit.TypeBuilder.DefineFieldNoLock(String fieldName, Type type, Type[] requiredCustomModifiers, Type[] optionalCustomModifiers, FieldAttributes attributes)
+		//   at System.Reflection.Emit.TypeBuilder.DefineField(String fieldName, Type type, Type[] requiredCustomModifiers, Type[] optionalCustomModifiers, FieldAttributes attributes)
+		//   at System.Reflection.Emit.TypeBuilder.DefineField(String fieldName, Type type, FieldAttributes attributes)
+		//   at jsc.meta.Commands.Rewrite.RewriteToAssembly.<>c__DisplayClass112_0.<InternalInvoke>b__165(FieldInfo SourceField) in X:\jsc.internal.git\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.cs:line 2763
+
+
+		//define field<>f__AnonymousType$302$$48$1`2[<Key>j__TPar,<wasUpdated>j__TPar].<wasUpdated>i__Field
+		//0c08:01:01 RewriteToAssembly error: System.IndexOutOfRangeException: Index was outside the bounds of the array.
+		// at jsc.ILBlock.<>c__DisplayClass29_1.<.ctor>b__0(ILInstruction i, Int32 iindex) in X:\jsc.internal.git\compiler\jsc\CodeModel\ILBlock.cs:line 533
+		// at ScriptCoreLib.Extensions.LinqExtensions.WithEachIndex[T](IEnumerable`1 collection, Action`2 h) in X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\LinqExtensions.cs:line 160
 
-        public event Action<gl> onsurface;
-        #endregion
+		//#region ISurface
+		//public event Action onframe;
 
+		//public event Action<int, int> onresize;
 
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
-        {
-            // Additional information: Could not load file or assembly 'TestPackageAsApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies.
+		//public event Action<gl> onsurface;
+		//#endregion
 
-            // { Message = Method 'InternalAsNode' in type 'WebGLTetrahedron.HTML.Images.FromAssets.Preview' from assembly 'WebGLTetrahedron, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation. }
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140604/chrome
 
-            Console.WriteLine("Application loading... ");
+		/// <summary>
+		/// This is a javascript application.
+		/// </summary>
+		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+		public Application(IApp page)
+		{
+			// Additional information: Could not load file or assembly 'TestPackageAsApplication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies.
 
-            //Application loading... { Document = [object HTMLDocument], Window = [object Window], app = [object Object] }
+			// { Message = Method 'InternalAsNode' in type 'WebGLTetrahedron.HTML.Images.FromAssets.Preview' from assembly 'WebGLTetrahedron, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation. }
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140604/chrome
 
-            Console.WriteLine("Application loading... " + new
-            {
-                Native.Document,
-                Native.Document.location.href,
-                Native.Document.location.pathname,
-                Native.window,
-                Native.window.opener,
-                Native.window.navigator.userAgent,
-                //chrome.app,
-                //chrome.app.runtime,
-                //chrome.app.isInstalled,
-                //chrome.app.window,
-            });
+			Console.WriteLine("Application loading... ");
 
-            // what are we running as?e
-            // in browser by default?
-            // in a web socket?
-            // as a chrome application script? as _generated_background_page.html
+			//Application loading... { Document = [object HTMLDocument], Window = [object Window], app = [object Object] }
 
+			Console.WriteLine("Application loading... " + new
+			{
+				Native.Document,
+				Native.Document.location.href,
+				Native.Document.location.pathname,
+				Native.window,
+				Native.window.opener,
+				Native.window.navigator.userAgent,
+				//chrome.app,
+				//chrome.app.runtime,
+				//chrome.app.isInstalled,
+				//chrome.app.window,
+			});
 
-            #region switch to chrome AppWindow
+			// what are we running as?e
+			// in browser by default?
+			// in a web socket?
+			// as a chrome application script? as _generated_background_page.html
 
-            //var ischrome = typeof(chrome.app.runtime) != null;
-            if (Expando.InternalIsMember(Native.self, "chrome"))
-            {
-                //The JavaScript context calling chrome.app.window.current() has no associated AppWindow. 
-                //Console.WriteLine("appwindow loading... " + new { current = chrome.app.window.current() });
 
-                // no HTML layout yet
+			#region switch to chrome AppWindow
 
-                if (Native.window.opener == null)
-                    if (Native.window.parent == Native.window.self)
-                    {
-                        chrome.app.runtime.Launched +=
-                            async delegate
-                        {
-                            // runtime will launch only once?
+			//var ischrome = typeof(chrome.app.runtime) != null;
+			if (Expando.InternalIsMember(Native.self, "chrome"))
+			{
+				//The JavaScript context calling chrome.app.window.current() has no associated AppWindow. 
+				//Console.WriteLine("appwindow loading... " + new { current = chrome.app.window.current() });
 
-                            // http://developer.chrome.com/apps/app.window.html
-                            // do we even need index?
+				// no HTML layout yet
 
-                            // https://code.google.com/p/chromium/issues/detail?id=148857
-                            // https://developer.mozilla.org/en-US/docs/data_URIs
+				if (Native.window.opener == null)
+					if (Native.window.parent == Native.window.self)
+					{
+						chrome.app.runtime.Launched +=
+							async delegate
+						{
+							// runtime will launch only once?
 
-                            // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
-                            var appwindow = await chrome.app.window.create(
+							// http://developer.chrome.com/apps/app.window.html
+							// do we even need index?
 
-                                url: Native.Document.location.pathname,
-                                options: null
-                            );
+							// https://code.google.com/p/chromium/issues/detail?id=148857
+							// https://developer.mozilla.org/en-US/docs/data_URIs
 
+							// chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
+							var appwindow = await chrome.app.window.create(
 
-                            Console.WriteLine("appwindow loading... " + new { appwindow });
-                            Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
+								url: Native.Document.location.pathname,
+								options: null
+							);
 
 
-                            appwindow.contentWindow.onload +=
-                                delegate
-                            {
-                                Console.WriteLine("appwindow contentWindow onload");
-                            };
-                        };
+							Console.WriteLine("appwindow loading... " + new { appwindow });
+							Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
 
-                        return;
-                    }
 
-                // if we are in a window lets add layout
-                new App().Container.AttachToDocument();
-            }
-            #endregion
+							appwindow.contentWindow.onload +=
+								delegate
+							{
+								Console.WriteLine("appwindow contentWindow onload");
+							};
+						};
 
+						return;
+					}
 
-            var c = 0;
+				// if we are in a window lets add layout
+				new App().Container.AttachToDocument();
+			}
+			#endregion
 
-            //#region gl
-            //var gl = new WebGLRenderingContext(alpha: false, preserveDrawingBuffer: true);
 
-            //gl.canvas.width = 96;
-            //gl.canvas.height = 96;
+			var c = 0;
 
-            //var s = new SpiralSurface(this);
+			//#region gl
+			//var gl = new WebGLRenderingContext(alpha: false, preserveDrawingBuffer: true);
 
-            //this.onsurface(gl);
-            //this.onresize(gl.canvas.width, gl.canvas.height);
-            //#endregion
+			//gl.canvas.width = 96;
+			//gl.canvas.height = 96;
 
-            var st = new Stopwatch();
-            st.Start();
+			//var s = new SpiralSurface(this);
 
-            // are we running out of memory?
-            //Native.window.onframe += delegate
-            //{
-            //    s.ucolor_1 = (float)Math.Sin(st.ElapsedMilliseconds * 0.001) * 0.5f + 0.5f;
+			//this.onsurface(gl);
+			//this.onresize(gl.canvas.width, gl.canvas.height);
+			//#endregion
 
-            //    this.onframe();
-            //};
+			var st = new Stopwatch();
+			st.Start();
 
-            new chrome.Notification
-            {
-                Title = "ChromeNotificationExperiment",
-                Message = "activated!",
-                //IconCanvas = new WebGLTetrahedron.Application().gl.canvas
-            };
+			// are we running out of memory?
+			//Native.window.onframe += delegate
+			//{
+			//    s.ucolor_1 = (float)Math.Sin(st.ElapsedMilliseconds * 0.001) * 0.5f + 0.5f;
 
-            //#region notify  with spiral
-            //new IHTMLButton { innerText = "notify with WebGLTetrahedron" }.AttachToDocument().WhenClicked(
-            // async delegate
-            //{
-            //    Console.WriteLine("enter WhenClicked");
+			//    this.onframe();
+			//};
 
-            //    var n = new Notification
-            //    {
-            //        Title = "WebGLTetrahedron",
-            //        Message = "energy!",
+			new chrome.Notification
+			{
+				Title = "ChromeNotificationExperiment",
+				Message = "activated!",
+				//IconCanvas = new WebGLTetrahedron.Application().gl.canvas
+			};
 
-            //        // this locks up chrome nowadays. why? are we doing something wrong?
-            //        //IconCanvas = new WebGLTetrahedron.Application().gl.canvas
-            //    };
-
-            //    Console.WriteLine("at WhenClicked 175");
-
-            //    n.Clicked +=
-            //        delegate
-            //    {
-            //        Console.WriteLine("Clicked");
-            //    };
-
-            //    Console.WriteLine("at WhenClicked 183");
-
-            //    n.Closed +=
-            //        byUser =>
-            //         {
-            //             Console.WriteLine("Closed " + new { byUser });
-            //         };
+			//#region notify  with spiral
+			//new IHTMLButton { innerText = "notify with WebGLTetrahedron" }.AttachToDocument().WhenClicked(
+			// async delegate
+			//{
+			//    Console.WriteLine("enter WhenClicked");
 
+			//    var n = new Notification
+			//    {
+			//        Title = "WebGLTetrahedron",
+			//        Message = "energy!",
 
-            //    Console.WriteLine("at WhenClicked 192");
+			//        // this locks up chrome nowadays. why? are we doing something wrong?
+			//        //IconCanvas = new WebGLTetrahedron.Application().gl.canvas
+			//    };
 
-            //    // and now it blows up. why?
-            //}
-            //);
-            //#endregion
-
-            #region notify 
-            new IHTMLButton { innerText = "notify" }.AttachToDocument().WhenClicked(
-             async delegate
-            {
-                c++;
-
-                var n = new chrome.Notification
-                {
-                    Message = "Primary message to display",
-                    //IconCanvas = gl.canvas
-                };
+			//    Console.WriteLine("at WhenClicked 175");
 
-                n.Clicked +=
-                    delegate
-                {
-                    Console.WriteLine("Clicked");
-                };
+			//    n.Clicked +=
+			//        delegate
+			//    {
+			//        Console.WriteLine("Clicked");
+			//    };
 
-                n.Closed +=
-                    byUser =>
-                     {
-                         Console.WriteLine("Closed " + new { byUser });
-                     };
+			//    Console.WriteLine("at WhenClicked 183");
 
+			//    n.Closed +=
+			//        byUser =>
+			//         {
+			//             Console.WriteLine("Closed " + new { byUser });
+			//         };
 
 
-            }
-            );
-            #endregion
+			//    Console.WriteLine("at WhenClicked 192");
 
+			//    // and now it blows up. why?
+			//}
+			//);
+			//#endregion
 
-            #region notify 2
-            new IHTMLButton { innerText = "notify 2" }.AttachToDocument().WhenClicked(
-             async delegate
-            {
-                c++;
+			#region notify 
+			new IHTMLButton { innerText = "notify" }.AttachToDocument().WhenClicked(
+			 async delegate
+			{
+				c++;
 
-                var n = new chrome.Notification("foo" + c,
-                   message: "Primary message to display"
-                );
+				var n = new chrome.Notification
+				{
+					Message = "Primary message to display",
+					//IconCanvas = gl.canvas
+				};
 
-                n.Clicked +=
-                    delegate
-                {
-                    Console.WriteLine("Clicked");
-                };
+				n.Clicked +=
+					delegate
+				{
+					Console.WriteLine("Clicked");
+				};
 
-                n.Closed +=
-                    byUser =>
-                     {
-                         Console.WriteLine("Closed " + new { byUser });
-                     };
+				n.Closed +=
+					byUser =>
+					 {
+						 Console.WriteLine("Closed " + new { byUser });
+					 };
 
 
-                n.Message = "Primary message to display [3]";
-                await Task.Delay(500);
-                n.Message = "Primary message to display [2]";
-                await Task.Delay(500);
-                n.Message = "Primary message to display [1]";
-            }
-            );
-            #endregion
 
+			}
+			);
+			#endregion
 
-            //#region notify
-            //new IHTMLButton { innerText = "notify" }.AttachToDocument().WhenClicked(
-            //    async delegate
-            //    {
-            //        // http://developer.chrome.com/extensions/notifications.html#type-NotificationOptions
-            //        c++;
 
-            //        //default(TaskCompletionSource<string>).SetResult
-            //        var notificationId = await chrome.notifications.create(
-            //            "foo" + c,
-            //            new NotificationOptions
-            //            {
-            //                type = "basic",
-            //                title = "Primary Title",
-            //                message = "Primary message to display",
+			#region notify 2
+			new IHTMLButton { innerText = "notify 2" }.AttachToDocument().WhenClicked(
+			 async delegate
+			{
+				c++;
 
+				var n = new chrome.Notification("foo" + c,
+				   message: "Primary message to display"
+				);
 
-            //                iconUrl = "assets/ScriptCoreLib/jsc.png"
-            //                //Invalid value for argument 2. Property 'iconUrl': Property is required. 
-            //                // Unable to download all specified images. 
-            //            }
-            //        );
+				n.Clicked +=
+					delegate
+				{
+					Console.WriteLine("Clicked");
+				};
 
+				n.Closed +=
+					byUser =>
+					 {
+						 Console.WriteLine("Closed " + new { byUser });
+					 };
 
 
-            //        Console.WriteLine("create " + new { notificationId });
+				n.Message = "Primary message to display [3]";
+				await Task.Delay(500);
+				n.Message = "Primary message to display [2]";
+				await Task.Delay(500);
+				n.Message = "Primary message to display [1]";
+			}
+			);
+			#endregion
 
-            //        chrome.notifications.onClosed.addListener(
-            //            new Action<string, bool>(
-            //                (__notificationId, __byUser) =>
-            //                {
-            //                    Console.WriteLine("onClosed " + new { __notificationId, __byUser });
-            //                }
-            //            )
-            //        );
 
-            //        chrome.notifications.onClicked.addListener(
-            //                new Action<string>(
-            //                    (__notificationId) =>
-            //                    {
-            //                        Console.WriteLine("onClicked " + new { __notificationId });
+			//#region notify
+			//new IHTMLButton { innerText = "notify" }.AttachToDocument().WhenClicked(
+			//    async delegate
+			//    {
+			//        // http://developer.chrome.com/extensions/notifications.html#type-NotificationOptions
+			//        c++;
 
+			//        //default(TaskCompletionSource<string>).SetResult
+			//        var notificationId = await chrome.notifications.create(
+			//            "foo" + c,
+			//            new NotificationOptions
+			//            {
+			//                type = "basic",
+			//                title = "Primary Title",
+			//                message = "Primary message to display",
 
 
-            //                        // 'tabs' is only allowed for extensions and legacy packaged apps, and this is a packaged app.
+			//                iconUrl = "assets/ScriptCoreLib/jsc.png"
+			//                //Invalid value for argument 2. Property 'iconUrl': Property is required. 
+			//                // Unable to download all specified images. 
+			//            }
+			//        );
 
-            //                        //dynamic createProperties = new object();
 
-            //                        //createProperties.url = "http://example.com";
 
-            //                        //chrome.tabs.create(createProperties,
+			//        Console.WriteLine("create " + new { notificationId });
 
-            //                        //   new Action<Tab>(
-            //                        //       tab =>
-            //                        //       {
-            //                        //           Console.WriteLine("tab " + new { tab.id, tab.windowId });
-            //                        //       }
-            //                        //   )
-            //                        //);
+			//        chrome.notifications.onClosed.addListener(
+			//            new Action<string, bool>(
+			//                (__notificationId, __byUser) =>
+			//                {
+			//                    Console.WriteLine("onClosed " + new { __notificationId, __byUser });
+			//                }
+			//            )
+			//        );
 
+			//        chrome.notifications.onClicked.addListener(
+			//                new Action<string>(
+			//                    (__notificationId) =>
+			//                    {
+			//                        Console.WriteLine("onClicked " + new { __notificationId });
 
-            //                        Native.window.open("http://example.com", "_blank");
-            //                    }
-            //                )
-            //            );
 
 
-            //        chrome.notifications.onButtonClicked.addListener(
-            //                new Action<string, int>(
-            //                    (__notificationId, __buttonIndex) =>
-            //                    {
-            //                        Console.WriteLine("onButtonClicked " + new { __notificationId });
-            //                    }
-            //                )
-            //            );
+			//                        // 'tabs' is only allowed for extensions and legacy packaged apps, and this is a packaged app.
 
+			//                        //dynamic createProperties = new object();
 
+			//                        //createProperties.url = "http://example.com";
 
-            //    }
-            //);
-            //#endregion
+			//                        //chrome.tabs.create(createProperties,
 
+			//                        //   new Action<Tab>(
+			//                        //       tab =>
+			//                        //       {
+			//                        //           Console.WriteLine("tab " + new { tab.id, tab.windowId });
+			//                        //       }
+			//                        //   )
+			//                        //);
 
 
+			//                        Native.window.open("http://example.com", "_blank");
+			//                    }
+			//                )
+			//            );
 
 
+			//        chrome.notifications.onButtonClicked.addListener(
+			//                new Action<string, int>(
+			//                    (__notificationId, __buttonIndex) =>
+			//                    {
+			//                        Console.WriteLine("onButtonClicked " + new { __notificationId });
+			//                    }
+			//                )
+			//            );
 
-        }
 
-    }
+
+			//    }
+			//);
+			//#endregion
+
+
+
+
+
+
+		}
+
+	}
 }
