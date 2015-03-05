@@ -30,10 +30,11 @@ namespace Test46HTMLAsset
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
-			// X:\jsc.svn\examples\javascript\chrome\apps\ChromeAppWindowMouseCapture\ChromeAppWindowMouseCapture\Application.cs
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150305/assets
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeAppWindowMouseCapture\ChromeAppWindowMouseCapture\Application.cs
 
 
-			new MyShadow { }
+            new MyShadow { }
 
 			// how did it ever work?
 			.AttachToDocument();
