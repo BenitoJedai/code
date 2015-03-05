@@ -13,49 +13,51 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "RTCPeerConnection")]
     public class RTCPeerConnection : IEventTarget
     {
-        // https://plus.google.com/111685604459987664747/posts/ZcVmFATp1B8
-        // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerVisualizedScreens\TestServiceWorkerVisualizedScreens\Application.cs
+		// X:\jsc.svn\examples\java\hybrid\JVMCLRNIC\JVMCLRNIC\Program.cs
 
-        // X:\jsc.svn\examples\javascript\UIAutomationEvents\UIAutomationEvents\Application.cs
-        // X:\jsc.svn\examples\javascript\forms\FormsForSecondaryScreen\FormsForSecondaryScreen\Application.cs
+		// https://plus.google.com/111685604459987664747/posts/ZcVmFATp1B8
+		// X:\jsc.svn\examples\javascript\Test\TestServiceWorkerVisualizedScreens\TestServiceWorkerVisualizedScreens\Application.cs
 
-        // X:\opensource\other\WebRTC-Stack-Sample\WebRTC C Sample\Microstack\ILibWebRTC.c
-        // X:\opensource\other\WebRTC-Stack-Sample\WebRTC C# Sample\MainForm.cs
+		// X:\jsc.svn\examples\javascript\UIAutomationEvents\UIAutomationEvents\Application.cs
+		// X:\jsc.svn\examples\javascript\forms\FormsForSecondaryScreen\FormsForSecondaryScreen\Application.cs
 
-        // chrome://webrtc-internals/
-        // http://www.html5rocks.com/en/tutorials/webrtc/datachannels/
-        // http://www.html5rocks.com/en/tutorials/webrtc/basics/#toc-rtcdatachannel
+		// X:\opensource\other\WebRTC-Stack-Sample\WebRTC C Sample\Microstack\ILibWebRTC.c
+		// X:\opensource\other\WebRTC-Stack-Sample\WebRTC C# Sample\MainForm.cs
 
-        // https://bloggeek.me/webrtc-data-channel-uses/
+		// chrome://webrtc-internals/
+		// http://www.html5rocks.com/en/tutorials/webrtc/datachannels/
+		// http://www.html5rocks.com/en/tutorials/webrtc/basics/#toc-rtcdatachannel
 
-        // http://www.w3.org/TR/webrtc/
-        // http://xsockets.net/docs/3/webrtc
-        // http://stackoverflow.com/questions/15806617/creating-a-webrtc-receiver
+		// https://bloggeek.me/webrtc-data-channel-uses/
 
-        // http://caniuse.com/#feat=rtcpeerconnection
-        // http://blog.salemove.com/webrtc-vs-flash-not-much-of-a-competition/
+		// http://www.w3.org/TR/webrtc/
+		// http://xsockets.net/docs/3/webrtc
+		// http://stackoverflow.com/questions/15806617/creating-a-webrtc-receiver
 
-        // http://googletesting.blogspot.se/2014/08/chrome-firefox-webrtc-interop-test-pt-1.html
+		// http://caniuse.com/#feat=rtcpeerconnection
+		// http://blog.salemove.com/webrtc-vs-flash-not-much-of-a-competition/
 
-        // how does this relate to UDP / encrypted UDP
+		// http://googletesting.blogspot.se/2014/08/chrome-firefox-webrtc-interop-test-pt-1.html
 
-        // can we do LAN to LAN yet?
-        // will need it for VR!
+		// how does this relate to UDP / encrypted UDP
 
-        // http://apps.playcanvas.com/max/tanky/colorTanks
+		// can we do LAN to LAN yet?
+		// will need it for VR!
 
-        // http://www.tokbox.com/blog/announcing-the-end-of-life-of-the-opentok-1-0-platform/
+		// http://apps.playcanvas.com/max/tanky/colorTanks
 
-        // https://bugzilla.mozilla.org/show_bug.cgi?id=922363
+		// http://www.tokbox.com/blog/announcing-the-end-of-life-of-the-opentok-1-0-platform/
 
-        // tested by
-        // X:\jsc.svn\examples\javascript\Test\TestPeerConnection\TestPeerConnection\Application.cs
-        // X:\jsc.svn\examples\javascript\p2p\RTCPeerIPAddress\RTCPeerIPAddress\Application.cs
+		// https://bugzilla.mozilla.org/show_bug.cgi?id=922363
 
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150222
+		// tested by
+		// X:\jsc.svn\examples\javascript\Test\TestPeerConnection\TestPeerConnection\Application.cs
+		// X:\jsc.svn\examples\javascript\p2p\RTCPeerIPAddress\RTCPeerIPAddress\Application.cs
+
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150222
 
 
-        public void createOffer(Action<RTCSessionDescription> successCallback) { }
+		public void createOffer(Action<RTCSessionDescription> successCallback) { }
 
 
         public void setRemoteDescription(RTCSessionDescription description, IFunction successCallback) { }
