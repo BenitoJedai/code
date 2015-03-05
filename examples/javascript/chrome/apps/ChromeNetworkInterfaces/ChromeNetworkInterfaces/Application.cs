@@ -79,40 +79,42 @@ namespace ChromeNetworkInterfaces
 			#endregion
 
 
-			//			DeclareMethods {
-			//				SourceMethod = Int32 < 0126 > ldarg.0.try(< MoveNext > 06000022, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.NetworkInterface[]] ByRef, << -ctor > b__0_2 > d ByRef) }
-			//script: error JSC1000: if block not detected correctly, opcode was { Branch = [0x0018] blt.s + 0 - 2{[0x0006]
-			//		ldfld      +1 -1{[0x0001]
-			//		ldfld      +1 -1{[0x0000]
-			//		ldarg.0    +1 -0}
-			//} } {[0x0017]
-			//conv.i4    +1 -1{[0x0016]
-			//ldlen      +1 -1{[0x0011]
-			//ldfld      +1 -1{[0x000c]
-			//ldfld      +1 -1{[0x000b]
-			//ldarg.0    +1 -0} } } } } , Location =
-			// assembly: W:\ChromeNetworkInterfaces.Application.exe
-			// type: ChromeNetworkInterfaces.Application+<>c+<<-ctor>b__0_2>d+<MoveNext>06000022, ChromeNetworkInterfaces.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-			// offset: 0x0018
-			//  method:Int32<0126> ldarg.0.try(<MoveNext>06000022, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.NetworkInterface[]] ByRef, <<-ctor>b__0_2>d ByRef) }
-			//*** Compiler cannot continue... press enter to quit.
-
-
-
+			//{{ Length = 4 }}
+			//{{ prefixLength = 64, name = {D7020941-742E-4570-93B2-C0372D3D870F}, address = fe80::88c0:f0a:9ccf:cba0 }}
+			//{{ prefixLength = 24, name = {D7020941-742E-4570-93B2-C0372D3D870F}, address = 192.168.43.28 }}
+			//{{ prefixLength = 64, name = {A8657A4E-8BFA-41CC-87BE-6847E33E1A81}, address = 2001:0:9d38:6abd:20a6:2815:3f57:d4e3 }}
+			//{{ prefixLength = 64, name = {A8657A4E-8BFA-41CC-87BE-6847E33E1A81}, address = fe80::20a6:2815:3f57:d4e3 }}
 
 			new { }.With(
 				async delegate
 				{
+					// http://css-infos.net/property/-webkit-user-select
+					// http://caniuse.com/#feat=user-select-none
+					//(Native.body.style as dynamic).userSelect = "auto";
+					(Native.body.style as dynamic).webkitUserSelect = "text";
+
+					// https://css-tricks.com/almanac/properties/u/user-select/
+					//Native.body.style.setProperty(
 					// X:\jsc.svn\examples\java\hybrid\JVMCLRNIC\JVMCLRNIC\Program.cs
 					// clr does not have it async. 
-					var n = await chrome.socket.getNetworkList();
 
-					new IHTMLPre { new { n.Length } }.AttachToDocument();
-
-					foreach (var item in n)
+					var refresh = new IHTMLButton { "refresh" }.AttachToDocument();
+					do
 					{
-						new IHTMLPre { new { item.name, item.address } }.AttachToDocument();
+						new IHTMLHorizontalRule { }.AttachToDocument();
+
+
+						var n = await chrome.socket.getNetworkList();
+
+						new IHTMLPre { new { n.Length } }.AttachToDocument();
+
+						foreach (var item in n)
+						{
+							new IHTMLPre { new { item.prefixLength, item.name, item.address } }.AttachToDocument();
+						}
 					}
+					while (await refresh.async.onclick);
+
 				}
 			);
 		}

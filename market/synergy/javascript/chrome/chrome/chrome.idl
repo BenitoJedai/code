@@ -555,10 +555,12 @@ interface chrome.socket
 };
 
 // http://developer.chrome.com/trunk/apps/socket.html#type-NetworkInterface
+// https://developer.chrome.com/apps/socket#method-getNetworkList
 interface chrome.NetworkInterface 
 {
 	attribute DOMString name ;
 	attribute DOMString address ;
+	attribute int prefixLength;
 };
 
 
