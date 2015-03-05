@@ -110,7 +110,11 @@ namespace ChromeExtensionContextMenu
                         };
 
 
-                    new[] { "page", "frame", "link", "editable", "image", "video", "audio", "launcher" }.WithEach(
+                    new[] { "page", "frame", "link", "editable", "image", "video", "audio",
+
+						// Unchecked runtime.lastError while running contextMenus.create: Only packaged apps are allowed to use 'launcher' context
+						// "launcher"
+					}.WithEach(
                         async context =>
                     {
 
