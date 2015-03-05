@@ -11,6 +11,7 @@ namespace ChromeAppWindowFrameNoneExperiment
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
+	[System.ComponentModel.DesignerCategory("Code")]
     public sealed partial class ApplicationWebService : Component
     {
         /// <summary>
