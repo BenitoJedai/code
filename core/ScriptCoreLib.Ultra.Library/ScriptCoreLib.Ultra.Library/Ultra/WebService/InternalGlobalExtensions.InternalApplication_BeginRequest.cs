@@ -678,7 +678,8 @@ namespace ScriptCoreLib.Ultra.WebService
             #region WriteCacheManifest
             if (Path == "/" + WebApplicationCacheManifest.ManifestName)
             {
-                // <html manifest="cache-manifest">
+                // <html manifest="cache-manifest">
+
                 //WriteCacheManifest(g, that, WriteLine);
 
                 Context.Response.StatusCode = 404;

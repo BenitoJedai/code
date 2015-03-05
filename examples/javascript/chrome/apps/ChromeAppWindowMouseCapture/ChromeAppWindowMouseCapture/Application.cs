@@ -98,24 +98,12 @@ namespace ChromeAppWindowMouseCapture
 			// back in the vb days we made one.
 			// time to do one?
 
-			new IHTMLButton { "ready" }.AttachToDocument().onclick +=
+			new IHTMLButton { "ready1" }.AttachToDocument().onclick +=
 				//async
 				delegate
 				{
-					// shadow missing? no
 
-					//			// ChromeAppWindowMouseCapture.HTML.Pages.MyShadow..ctor
-					//			type$DYgpBcT5oj_acSgE9wL86_bg.eAEABsT5oj_acSgE9wL86_bg = function()
-					//{
-					//				var a = [this], b;
-
-					//				eQEABsT5oj_acSgE9wL86_bg();
-					//				b = egEABsT5oj_acSgE9wL86_bg(a[0], null);
-
-					new MyShadow { }
-
-					// how did it ever work?
-					.AttachTo(Native.shadow);
+					new MyShadow { }.AttachTo(Native.shadow);
 
 					// shadow will select div from chldren
 					var div = new IHTMLDiv { }.AttachTo(Native.document.documentElement);

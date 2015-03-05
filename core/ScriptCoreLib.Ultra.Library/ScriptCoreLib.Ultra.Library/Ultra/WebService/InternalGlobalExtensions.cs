@@ -128,7 +128,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
 
 
-
+		[Obsolete]
         private static void WriteCacheManifest(InternalGlobal g, System.Web.HttpApplication that, StringAction WriteLine)
         {
             // should the app be able to control manifest on its own?
