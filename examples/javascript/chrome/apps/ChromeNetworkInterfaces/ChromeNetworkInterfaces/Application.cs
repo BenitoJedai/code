@@ -78,6 +78,7 @@ namespace ChromeNetworkInterfaces
 			}
 			#endregion
 
+			// X:\jsc.svn\examples\javascript\chrome\apps\ChromeNetworkInterfaces\ChromeNetworkInterfaces\Application.cs
 
 			//{{ Length = 4 }}
 			//{{ prefixLength = 64, name = {D7020941-742E-4570-93B2-C0372D3D870F}, address = fe80::88c0:f0a:9ccf:cba0 }}

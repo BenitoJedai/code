@@ -29,22 +29,6 @@ namespace ChromeTCPServer
 	/// </summary>
 	public sealed class Application
 	{
-		//		DeclareMethods { SourceMethod = Int32<00a8> ldarg.0.try(<MoveNext>060000b5, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.CreateInfo]
-		//		ByRef, <<InvokeAsync>b__11>d ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[System.Int32]
-		//		ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.AcceptInfo]
-		//		ByRef, System.Runtime.CompilerServices.TaskAwaiter ByRef) }
-		//	script: error JSC1000: if block not detected correctly, opcode was { Branch = [0x0018]
-		//	blt.s      +0 -2{[0x0006]
-		//	ldfld      +1 -1{[0x0001]
-		//	ldfld      +1 -1{[0x0000]
-		//	ldarg.0    +1 -0} } } {[0x0017]
-		//conv.i4    +1 -1{[0x0016]
-		//ldlen      +1 -1{[0x0011]
-		//ldfld      +1 -1{[0x000c]
-		//ldfld      +1 -1{[0x000b]
-		//ldarg.0    +1 -0} } } } } , Location =
-		// assembly: W:\ChromeTCPServer.Application.exe
-		// type: ChromeTCPServer.TheServer+<>c__DisplayClass4_0+<<InvokeAsync>b__11>d+<MoveNext>060000b5, ChromeTCPServer.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 		public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -414,20 +398,6 @@ namespace ChromeTCPServer
 		}
 
 
-		//{ SourceMethod = Int32<0083> ldloc.s.try(<MoveNext>060000b7, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.CreateInfo] ByRef, <<InvokeAsync>b__34>d__0 ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[System.Int32] ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.AcceptInfo] ByRef, System.Runtime.CompilerServices.TaskAwaiter ByRef)
-		//script: error JSC1000: if block not detected correctly, opcode was { Branch = [0x000e]
-		//        blt        +0 -2{[0x0001]
-		//        ldfld      +1 -1{[0x0000]
-		//        ldarg.0    +1 -0}
-		//} {[0x000d]
-		//conv.i4    +1 -1{[0x000c]
-		//ldlen      +1 -1{[0x0007]
-		//ldfld      +1 -1{[0x0006]
-		//ldarg.0    +1 -0} } } } , Location =
-		// assembly: W:\ChromeTCPServerAppWindow.Application.exe
-		// type: ChromeTCPServer.TheServer+<>c__DisplayClass10+<<InvokeAsync>b__34>d__0+<MoveNext>060000b7, ChromeTCPServerAppWindow.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-		// offset: 0x000e
-		//  method:Int32<0083> ldloc.s.try(<MoveNext>060000b7, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.CreateInfo] ByRef, <<InvokeAsync>b__34>d__0 ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[System.Int32] ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.AcceptInfo] ByRef, System.Runtime.CompilerServices.TaskAwaiter ByRef) }
 
 		public static void InvokeAsync(
 			string __PageSource,
