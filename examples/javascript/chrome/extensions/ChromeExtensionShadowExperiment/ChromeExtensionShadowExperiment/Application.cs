@@ -71,7 +71,7 @@ namespace ChromeExtensionShadowExperiment
                 chrome.tabs.Created +=
                     async (z) =>
                     {
-                        var n = new Notification
+                        var n = new chrome.Notification
                         {
                             Message = "Created! " + new { z.id }
                         };
@@ -80,7 +80,7 @@ namespace ChromeExtensionShadowExperiment
                 chrome.tabs.Activated +=
                     async (z) =>
                     {
-                        var n = new Notification
+                        var n = new chrome.Notification
                         {
                             Message = "Activated! " + new { z }
                         };
@@ -110,7 +110,7 @@ namespace ChromeExtensionShadowExperiment
                         // inject?
 
                         // what if we sent the uri to our android tab?
-                        var n = new Notification
+                        var n = new chrome.Notification
                         {
                             Message = "Updated! " + new { tab.id, tab.url }
                         };
@@ -121,7 +121,7 @@ namespace ChromeExtensionShadowExperiment
 
                         await tab.pageAction.async.onclick;
 
-                        var nn = new Notification
+                        var nn = new chrome.Notification
                         {
                             Message = "Clicked " + new { tab.id, tab.url }
                         };

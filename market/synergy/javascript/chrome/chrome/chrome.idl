@@ -501,6 +501,8 @@ interface chrome.socketId
 
 };
 
+// https://developer.chrome.com/apps/sockets_tcpServer
+// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150305/chrome
 
 [Obsolete]
 interface chrome.socket
@@ -534,16 +536,22 @@ interface chrome.socket
 
 
 
-	// tested by?
-	// this looks like a property!
-	// Task<NetworkInterface[]> NetworkList
-	async static void getNetworkList(function<sequence<chrome.NetworkInterface>> callback);
 
 	async static extension void read(chrome.socketId socketId, function<chrome.ReadInfo> callback);
 	async static extension void read(chrome.socketId socketId, int bufferSize, function<chrome.ReadInfo> callback);
 
 
 	async static extension void write(chrome.socketId socketId, ArrayBuffer data, function<chrome.WriteInfo> callback);
+
+
+	// tested by?
+	// this looks like a property!
+	// Task<NetworkInterface[]> NetworkList
+	//  Note: Starting with Chrome 33, this API is deprecated in favor of the sockets.udp, sockets.tcp 
+	// tested by?
+	// X:\jsc.svn\examples\javascript\chrome\apps\ChromeNetworkInterfaces\ChromeNetworkInterfaces\Application.cs
+	async static void getNetworkList(function<sequence<chrome.NetworkInterface>> callback);
+
 };
 
 // http://developer.chrome.com/trunk/apps/socket.html#type-NetworkInterface
@@ -608,6 +616,7 @@ interface chrome.contextMenus
 // Permission 'systemIndicator' is unknown or URL pattern is malformed.
 interface chrome.systemIndicator 
 {
+	// dropped?
 	// tested by?
 
 	static void enable();
