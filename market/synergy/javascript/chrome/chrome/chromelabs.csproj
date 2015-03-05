@@ -8,7 +8,7 @@
     <ProjectGuid>{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>chrome</RootNamespace>
+    <RootNamespace>xchrome</RootNamespace>
     <AssemblyName>chromelabs</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -132,6 +132,7 @@
     </Content>
     <Content Include="Diagnostics\Design\App.css" />
     <Content Include="Diagnostics\Design\App.htm" />
+    <Compile Include="BCLImplementation\System\Net\Sockets\TcpListener.cs" />
     <Compile Include="chrome.cs">
       <DependentUpon>chrome.idl</DependentUpon>
     </Compile>
@@ -149,6 +150,7 @@
     <None Include="packages.config" />
     <Compile Include="Tab.pageAction.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
