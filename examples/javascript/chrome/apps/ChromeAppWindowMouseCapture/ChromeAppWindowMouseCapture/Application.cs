@@ -19,121 +19,138 @@ using ChromeAppWindowMouseCapture.HTML.Pages;
 
 namespace ChromeAppWindowMouseCapture
 {
-    /// <summary>
-    /// Your client side code running inside a web browser as JavaScript.
-    /// </summary>
-    public sealed class Application : ApplicationWebService
-    {
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
-        {
-            // how are we to make this into a chrome app?
-            // "X:\jsc.svn\examples\javascript\chrome\apps\ChomeAlphaAppWindow\ChomeAlphaAppWindow.sln"
+	/// <summary>
+	/// Your client side code running inside a web browser as JavaScript.
+	/// </summary>
+	public sealed class Application : ApplicationWebService
+	{
+		/// <summary>
+		/// This is a javascript application.
+		/// </summary>
+		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+		public Application(IApp page)
+		{
+			// how are we to make this into a chrome app?
+			// "X:\jsc.svn\examples\javascript\chrome\apps\ChomeAlphaAppWindow\ChomeAlphaAppWindow.sln"
 
-            // since now jsc shows ssl support
-            // how about packaging the view-source for chrome too?
+			// since now jsc shows ssl support
+			// how about packaging the view-source for chrome too?
 
-            // nuget, add chrome.
+			// nuget, add chrome.
 
-            #region += Launched chrome.app.window
-            dynamic self = Native.self;
-            dynamic self_chrome = self.chrome;
-            object self_chrome_socket = self_chrome.socket;
+			#region += Launched chrome.app.window
+			dynamic self = Native.self;
+			dynamic self_chrome = self.chrome;
+			object self_chrome_socket = self_chrome.socket;
 
-            if (self_chrome_socket != null)
-            {
-                if (!(Native.window.opener == null && Native.window.parent == Native.window.self))
-                {
-                    Console.WriteLine("chrome.app.window.create, is that you?");
+			if (self_chrome_socket != null)
+			{
+				if (!(Native.window.opener == null && Native.window.parent == Native.window.self))
+				{
+					Console.WriteLine("chrome.app.window.create, is that you?");
 
-                    // pass thru
-                }
-                else
-                {
-                    // should jsc send a copresence udp message?
-                    chrome.runtime.UpdateAvailable += delegate
-                    {
-                        new chrome.Notification(title: "UpdateAvailable");
+					// pass thru
+				}
+				else
+				{
+					// should jsc send a copresence udp message?
+					chrome.runtime.UpdateAvailable += delegate
+					{
+						new chrome.Notification(title: "UpdateAvailable");
 
-                    };
+					};
 
-                    chrome.app.runtime.Launched += async delegate
-                    {
-                        // 0:12094ms chrome.app.window.create {{ href = chrome-extension://aemlnmcokphbneegoefdckonejmknohh/_generated_background_page.html }}
-                        Console.WriteLine("chrome.app.window.create " + new { Native.document.location.href });
+					chrome.app.runtime.Launched += async delegate
+					{
+						// 0:12094ms chrome.app.window.create {{ href = chrome-extension://aemlnmcokphbneegoefdckonejmknohh/_generated_background_page.html }}
+						Console.WriteLine("chrome.app.window.create " + new { Native.document.location.href });
 
-                        new chrome.Notification(title: "Launched2");
+						new chrome.Notification(title: "Launched2");
 
-                        var xappwindow = await chrome.app.window.create(
-                               Native.document.location.pathname, options: null
-                        );
+						var xappwindow = await chrome.app.window.create(
+							   Native.document.location.pathname, options: null
+						);
 
-                        //xappwindow.setAlwaysOnTop
+						//xappwindow.setAlwaysOnTop
 
-                        xappwindow.show();
+						xappwindow.show();
 
-                        await xappwindow.contentWindow.async.onload;
+						await xappwindow.contentWindow.async.onload;
 
-                        Console.WriteLine("chrome.app.window loaded!");
-                    };
-
-
-                    return;
-                }
-            }
-            #endregion
+						Console.WriteLine("chrome.app.window loaded!");
+					};
 
 
-            // can we also test the shadow DOM ?
-            // how does it work again?
+					return;
+				}
+			}
+			#endregion
 
 
-            // now we have to update our alpha window/server window
-            // to be in the correct context.
-
-            // what about property window
-            // back in the vb days we made one.
-            // time to do one?
-
-            new MyShadow { }.AttachTo(Native.shadow);
-
-            // shadow will select div from chldren
-            var div = new IHTMLDiv { }.AttachTo(Native.document.documentElement);
+			// can we also test the shadow DOM ?
+			// how does it work again?
 
 
-            new IHTMLPre { "drag me" }.AttachTo(div);
-            var xy = new IHTMLPre { "{}" }.AttachTo(div);
+			// now we have to update our alpha window/server window
+			// to be in the correct context.
 
-            div.css.style.backgroundColor = "transparent";
-            div.css.style.transition = "background 500ms linear";
+			// what about property window
+			// back in the vb days we made one.
+			// time to do one?
 
-            div.css.active.style.backgroundColor = "yellow";
+			new IHTMLButton { "ready" }.AttachToDocument().onclick +=
+				//async
+				delegate
+				{
+					// shadow missing?
 
-            Native.document.documentElement.style.cursor = IStyle.CursorEnum.move;
+					//			// ChromeAppWindowMouseCapture.HTML.Pages.MyShadow..ctor
+					//			type$DYgpBcT5oj_acSgE9wL86_bg.eAEABsT5oj_acSgE9wL86_bg = function()
+					//{
+					//				var a = [this], b;
 
-            div.onmousemove +=
-                e =>
-                {
-                    // we could tilt the svg cursor
-                    // like we do on heat zeeker:D
+					//				eQEABsT5oj_acSgE9wL86_bg();
+					//				b = egEABsT5oj_acSgE9wL86_bg(a[0], null);
+
+					new MyShadow { }
+					.AttachTo(Native.shadow);
+
+					// shadow will select div from chldren
+					var div = new IHTMLDiv { }.AttachTo(Native.document.documentElement);
 
 
-                    //Native.document.title = new { e.CursorX, e.CursorY }.ToString();
-                    xy.innerText = new { e.CursorX, e.CursorY }.ToString();
+					new IHTMLPre { "drag me" }.AttachTo(div);
+					var xy = new IHTMLPre { "{}" }.AttachTo(div);
 
-                };
+					div.css.style.backgroundColor = "transparent";
+					div.css.style.transition = "background 500ms linear";
 
-            div.onmousedown +=
-                async e =>
-                {
-                    e.CaptureMouse();
+					div.css.active.style.backgroundColor = "yellow";
 
-                    await div.async.onmouseup;
-                };
-        }
+					Native.document.documentElement.style.cursor = IStyle.CursorEnum.move;
 
-    }
+					div.onmousemove +=
+						e =>
+						{
+							// we could tilt the svg cursor
+							// like we do on heat zeeker:D
+
+
+							//Native.document.title = new { e.CursorX, e.CursorY }.ToString();
+							xy.innerText = new { e.CursorX, e.CursorY }.ToString();
+
+						};
+
+					div.onmousedown +=
+						async e =>
+						{
+							e.CaptureMouse();
+
+							await div.async.onmouseup;
+						};
+				};
+
+		}
+
+	}
 }
