@@ -102,7 +102,7 @@ namespace ChromeAppWindowMouseCapture
 				//async
 				delegate
 				{
-					// shadow missing?
+					// shadow missing? no
 
 					//			// ChromeAppWindowMouseCapture.HTML.Pages.MyShadow..ctor
 					//			type$DYgpBcT5oj_acSgE9wL86_bg.eAEABsT5oj_acSgE9wL86_bg = function()
@@ -113,6 +113,8 @@ namespace ChromeAppWindowMouseCapture
 					//				b = egEABsT5oj_acSgE9wL86_bg(a[0], null);
 
 					new MyShadow { }
+
+					// how did it ever work?
 					.AttachTo(Native.shadow);
 
 					// shadow will select div from chldren
