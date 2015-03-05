@@ -102,6 +102,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 		// 4.6	
 		public static string Format(IFormatProvider provider, string format, object[] args)
 		{
+			// called by anonymous type tostring
 			return Format(format, args);
 		}
 
