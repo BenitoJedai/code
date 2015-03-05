@@ -11,14 +11,16 @@ using System.Threading.Tasks;
 namespace Test46AnonymousTypeToString
 {
 
-	public class Class1
+	public static class Class1
 	{
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150305
 		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/2010303
 		static string foo() => new
 		{
 
-			foo = 1,
-			foo2 = 2,
+			//foo = 1,
+			//foo2 = 2,
+
 			foo3 = "3"
 		}.ToString();
 
@@ -27,7 +29,7 @@ namespace Test46AnonymousTypeToString
 
 
 	[Script(Implements = typeof(global::System.String), InternalConstructor = true)]
-	internal class __String
+	internal static class __String
 	{
 		public static string Format(IFormatProvider provider, string format, object[] args)
 		{
