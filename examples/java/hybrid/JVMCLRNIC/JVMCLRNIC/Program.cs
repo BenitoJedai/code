@@ -19,11 +19,13 @@ namespace JVMCLRNIC
 	static class Program
 	{
 
-		//	internal compiler error at method
-		//assembly: C:\util\jsc\bin\ScriptCoreLibJava.dll at
-		//type: ScriptCoreLibJava.BCLImplementation.System.Threading.__EventWaitHandle, ScriptCoreLibJava, Version=4.5.0.0, Culture=neutral, PublicKeyToken=null
-		//method: Set
-		//Java : unable to emit call at 'ScriptCoreLibJava.BCLImplementation.System.Threading.__EventWaitHandle.Set'#000d: Java : failure at ScriptCoreLibJava.BCLImplementation.System.Threading.__Monitor.Enter : { ParameterType = System.Boolean&, p = [0x000d] call       +0 -2{[0x000a] ldloc.0    +1 -0} {[0x000b] ldloca.s   +1 -0} , _method = Void Enter(System.Object, Boolean ByRef) }
+		//0001 02000019 JVMCLRNIC__i__d.jvm::<module>.SHA1d3b54695720f67f966b3500605984503bad3dead@516397784$000000e3
+		//- javac
+		//"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRNIC\Program.java
+		//1af4:02:01 after worker yield...
+
+		//Unhandled Exception: System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.ComponentModel.Win32Exception: The system cannot find the file specified
+		//   at System.Diagnostics.Process.StartWithCreateProcess(ProcessStartInfo startInfo)
 
 		/// <summary>
 		/// The main entry point for the application.
