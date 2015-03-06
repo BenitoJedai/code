@@ -21,25 +21,25 @@ using chrome;
 
 using ChromeUDPNotification.HTML.Images.FromAssets;
 
-using a.analysis;
+//using a.analysis;
 
-namespace a
-{
-    static class analysis
-    {
-        public class i
-        {
-            public string name;
-        }
-        public static i caller
-        {
-            get
-            {
-                return null;
-            }
-        }
-    }
-}
+//namespace a
+//{
+//    static class analysis
+//    {
+//        public class i
+//        {
+//            public string name;
+//        }
+//        public static i caller
+//        {
+//            get
+//            {
+//                return null;
+//            }
+//        }
+//    }
+//}
 
 namespace ChromeUDPNotification
 {

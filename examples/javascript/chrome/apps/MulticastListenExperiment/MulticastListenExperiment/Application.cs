@@ -789,6 +789,7 @@ namespace MulticastListenExperiment
                 async e =>
                 {
                     // this aint defined for chrme38???
+					// not available for c43 either.
 
                     // http://wefixbugs.com/blog/How-to-do-UDP-broadcast-using-chromesocketsudp-API-55233.html#.U8Krqm0wqCg
                     // https://developer.chrome.com/apps/app_network
