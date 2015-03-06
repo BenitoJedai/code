@@ -132,6 +132,7 @@
     </Content>
     <Content Include="Diagnostics\Design\App.css" />
     <Content Include="Diagnostics\Design\App.htm" />
+    <Compile Include="BCLImplementation\System\Net\Sockets\TcpClient.cs" />
     <Compile Include="BCLImplementation\System\Net\Sockets\TcpListener.cs" />
     <Compile Include="chrome.cs">
       <DependentUpon>chrome.idl</DependentUpon>

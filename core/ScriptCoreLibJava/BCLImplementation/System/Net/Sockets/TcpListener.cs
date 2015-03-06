@@ -109,7 +109,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
 
 
-
+		[Obsolete]
         public Socket AcceptSocket()
         {
             if (InternalSocket == null)
@@ -131,6 +131,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             return (Socket)(object)r;
         }
 
+		[Obsolete]
         public TcpClient AcceptTcpClient()
         {
 			// tested by?

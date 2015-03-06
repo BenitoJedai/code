@@ -11,9 +11,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
     [Script(Implements = typeof(global::System.Text.Encoding))]
     internal abstract class __Encoding
     {
-        // https://github.com/dotnet/corefx/tree/master/src/System.Text.Encoding.CodePages/src/System/Text
+		// https://github.com/dotnet/corefx/tree/master/src/System.Text.Encoding.CodePages/src/System/Text
 
-        public virtual string GetString(byte[] bytes)
+		public virtual string GetString(byte[] bytes, int index, int count)
+		{
+			// X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAsync\ChromeTCPServerAsync\Application.cs
+
+			return default(string);
+		}
+
+		public virtual string GetString(byte[] bytes)
         {
             return default(string);
         }

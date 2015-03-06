@@ -93,9 +93,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static void Copy(global::System.Array sourceArray, int sourceOffset, global::System.Array destinationArray, int destinationOffset, int length)
         {
-            for (int i = 0; i < length; i++)
+			// can Uint8ClampedArray copy be made any faster?
+
+			for (int i = 0; i < length; i++)
             {
-                InternalCopyElement(sourceArray, i + sourceOffset, destinationArray, i + destinationOffset);
+				// x:\jsc.svn\market\synergy\javascript\chrome\chrome\bclimplementation\system\net\sockets\tcplistener.cs
+
+				InternalCopyElement(sourceArray, i + sourceOffset, destinationArray, i + destinationOffset);
             }
         }
 
