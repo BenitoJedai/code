@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ChromeGalaxyS</RootNamespace>
     <AssemblyName>ChromeGalaxyS</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>ChromeGalaxyS.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -132,7 +133,7 @@
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
     <Reference Include="WebGLGalaxyS.AssetsLibrary">
-      <HintPath>..\..\..\..\WebGL\WebGLGalaxyS\WebGLGalaxyS\bin\staging.AssetsLibrary\WebGLGalaxyS.AssetsLibrary.dll</HintPath>
+      <HintPath>..\..\..\..\..\WebGL\collada\WebGLGalaxyS\WebGLGalaxyS\bin\staging.AssetsLibrary\WebGLGalaxyS.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -147,24 +148,21 @@
     <Content Include="Textures\x128.png" />
     <Content Include="Textures\x440x280.png" />
     <Content Include="Textures\x640x400.png" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="staging\ChromeGalaxyS.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\WebGL\WebGLGalaxyS\WebGLGalaxyS\WebGLGalaxyS.csproj">
+    <ProjectReference Include="..\..\..\..\..\WebGL\collada\WebGLGalaxyS\WebGLGalaxyS\WebGLGalaxyS.csproj">
       <Project>{0214b1f1-e85e-4939-b952-f64db0c0a658}</Project>
       <Name>WebGLGalaxyS</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-		if $(ConfigurationName)==Release (
-		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
-		)</PostBuildEvent>
+    <PostBuildEvent>start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /xAttachDebugger:true  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /AssociateDriveForChrome:A</PostBuildEvent>
     <PreBuildEvent>start /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
 		</PreBuildEvent>
   </PropertyGroup>

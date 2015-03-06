@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebGLGalaxyS</RootNamespace>
     <AssemblyName>WebGLGalaxyS</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>WebGLGalaxyS.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -133,6 +134,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="web\assets\WebGLGalaxyS\Samsung-Galaxy-s_Final_Samsung_Galaxy_S_Front_Side_Back.jpg_1_.jpg" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <EmbeddedResource Include="web\assets\WebGLGalaxyS\Samsung-Galaxy-s.dae" />
     <None Include="web\assets\WebGLGalaxyS\Samsung-Galaxy-s.skp" />

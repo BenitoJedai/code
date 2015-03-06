@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.30324.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeNexus7", "ChromeNexus7\ChromeNexus7.csproj", "{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLNexus7", "..\..\..\WebGL\WebGLNexus7\WebGLNexus7\WebGLNexus7.csproj", "{C072D820-0808-40C8-AF3A-B965B715BC81}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeNexus7", "ChromeNexus7\ChromeNexus7.csproj", "{9ED000E7-CC80-409A-829E-CFA4C20298F1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{00B94FBC-93F3-4CF6-B575-E753A584DF2F}"
 EndProject
@@ -15,20 +13,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeGalaxyS", "..\ChromeG
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLNexus7", "..\..\..\..\WebGL\collada\WebGLNexus7\WebGLNexus7\WebGLNexus7.csproj", "{C072D820-0808-40C8-AF3A-B965B715BC81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Debug|x86.ActiveCfg = Debug|x86
-		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Debug|x86.Build.0 = Debug|x86
-		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Release|x86.ActiveCfg = Release|x86
-		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Release|x86.Build.0 = Release|x86
-		{C072D820-0808-40C8-AF3A-B965B715BC81}.Debug|x86.ActiveCfg = Debug|x86
-		{C072D820-0808-40C8-AF3A-B965B715BC81}.Debug|x86.Build.0 = Debug|x86
-		{C072D820-0808-40C8-AF3A-B965B715BC81}.Release|x86.ActiveCfg = Release|x86
-		{C072D820-0808-40C8-AF3A-B965B715BC81}.Release|x86.Build.0 = Release|x86
+		{9ED000E7-CC80-409A-829E-CFA4C20298F1}.Debug|x86.ActiveCfg = Debug|x86
+		{9ED000E7-CC80-409A-829E-CFA4C20298F1}.Debug|x86.Build.0 = Debug|x86
+		{9ED000E7-CC80-409A-829E-CFA4C20298F1}.Release|x86.ActiveCfg = Release|x86
+		{9ED000E7-CC80-409A-829E-CFA4C20298F1}.Release|x86.Build.0 = Release|x86
 		{E76457BB-A5F3-40AE-80B6-CA03FA0CE272}.Debug|x86.ActiveCfg = Debug|x86
 		{E76457BB-A5F3-40AE-80B6-CA03FA0CE272}.Debug|x86.Build.0 = Debug|x86
 		{E76457BB-A5F3-40AE-80B6-CA03FA0CE272}.Release|x86.ActiveCfg = Release|x86
@@ -41,14 +37,18 @@ Global
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.Build.0 = Debug|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.ActiveCfg = Release|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.Build.0 = Release|x86
+		{C072D820-0808-40C8-AF3A-B965B715BC81}.Debug|x86.ActiveCfg = Debug|x86
+		{C072D820-0808-40C8-AF3A-B965B715BC81}.Debug|x86.Build.0 = Debug|x86
+		{C072D820-0808-40C8-AF3A-B965B715BC81}.Release|x86.ActiveCfg = Release|x86
+		{C072D820-0808-40C8-AF3A-B965B715BC81}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C072D820-0808-40C8-AF3A-B965B715BC81} = {00B94FBC-93F3-4CF6-B575-E753A584DF2F}
 		{E76457BB-A5F3-40AE-80B6-CA03FA0CE272} = {00B94FBC-93F3-4CF6-B575-E753A584DF2F}
 		{39EA13D0-9719-4DA7-903B-15D277C2EB9F} = {00B94FBC-93F3-4CF6-B575-E753A584DF2F}
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {00B94FBC-93F3-4CF6-B575-E753A584DF2F}
+		{C072D820-0808-40C8-AF3A-B965B715BC81} = {00B94FBC-93F3-4CF6-B575-E753A584DF2F}
 	EndGlobalSection
 EndGlobal
