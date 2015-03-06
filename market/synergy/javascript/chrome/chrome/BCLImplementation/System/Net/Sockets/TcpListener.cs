@@ -13,7 +13,7 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 	// x:\jsc.svn\core\scriptcorelibjava\bclimplementation\system\net\sockets\tcplistener.cs
 
 	[Script(Implements = typeof(global::System.Net.Sockets.TcpListener))]
-	internal class __TcpListener
+	public class __TcpListener
 	{
 	}
 }
