@@ -93,6 +93,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static void Copy(global::System.Array sourceArray, int sourceOffset, global::System.Array destinationArray, int destinationOffset, int length)
         {
+			// http://stackoverflow.com/questions/7110666/il-instructions-not-exposed-by-c-sharp
+			// http://referencesource.microsoft.com/#mscorlib/system/buffer.cs,570e88af5685d024
 			// can Uint8ClampedArray copy be made any faster?
 
 			for (int i = 0; i < length; i++)
