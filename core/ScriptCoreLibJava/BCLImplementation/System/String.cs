@@ -575,6 +575,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return x;
         }
 
-    }
+
+		// x:\jsc.svn\examples\javascript\test\test46anonymoustypetostring\test46anonymoustypetostring\class1.cs
+		// 4.6	
+		public static string Format(IFormatProvider provider, string format, object[] args)
+		{
+			// called by anonymous type tostring
+			return Format(format, args);
+		}
+
+	}
 
 }
