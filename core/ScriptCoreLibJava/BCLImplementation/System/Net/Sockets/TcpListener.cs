@@ -18,13 +18,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 	[Script(Implements = typeof(global::System.Net.Sockets.TcpListener))]
     internal class __TcpListener
     {
-        // what about AIR for iOS ?
+		// what about AIR for iOS ?
+		// X:\jsc.svn\examples\actionscript\air\AIRServerSocketExperiment\AIRServerSocketExperiment\ApplicationSprite.cs
 
-        // tested by ?
-        // when can we do Android, CLR and Chrome webservers via SSL ?
+		// tested by ?
+		// when can we do Android, CLR and Chrome webservers via SSL ?
 
 
-        public global::java.net.ServerSocket InternalSocket;
+		public global::java.net.ServerSocket InternalSocket;
         public __IPAddress localaddr;
         public int port;
 

@@ -19,6 +19,7 @@ using ChromeTCPServerAsync.HTML.Pages;
 using chrome;
 using ScriptCoreLib.JavaScript.WebGL;
 using System.Net.Sockets;
+using xchrome.BCLImplementation.System.Net.Sockets;
 
 namespace ChromeTCPServerAsync
 {
@@ -138,7 +139,7 @@ namespace ChromeTCPServerAsync
 
 		private async void Application_onclick(IEvent<IHTMLButton> btn)
 		{
-			new IHTMLPre { "create..." }.AttachToDocument();
+			Message();
 
 			//var l = new TcpListener();
 			//l.Start();
@@ -170,6 +171,14 @@ namespace ChromeTCPServerAsync
 				yield(accept);
 			}
 
+		}
+
+		private static void Message()
+		{
+			new IHTMLPre { "create... " + typeof(TcpListener) }.AttachToDocument();
+			//new IHTMLPre { "create... " + typeof(__TcpListener) }.AttachToDocument();
+
+			// create... TcpListener
 		}
 
 		private async void yield(AcceptInfo accept)
