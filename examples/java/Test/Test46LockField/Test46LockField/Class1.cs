@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace Test46LockField
 {
-    public class Class1
-    {
+	public class Class1
+	{
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150306/lock
+
 		object Context = new object();
 
 		public bool Set()
@@ -27,6 +29,12 @@ namespace Test46LockField
 
 			return false;
 		}
+
+		//flag1 = false;
+		//      synchronized(this.Context)
+		//{
+		//	this.notify();
+		//}
 
 		private void notify()
 		{

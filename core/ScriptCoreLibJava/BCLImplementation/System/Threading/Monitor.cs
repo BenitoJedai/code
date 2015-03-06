@@ -26,12 +26,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 
         public static void Enter(object obj, ref bool lockTaken)
         {
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150306/lock
+			// since we sync the console and static strings with background threads.
+			// how about providing support for lock objects too?
+		}
 
-            // since we sync the console and static strings with background threads.
-            // how about providing support for lock objects too?
-        }
-
-        public static void Enter(object e)
+		public static void Enter(object e)
         {
         }
 
