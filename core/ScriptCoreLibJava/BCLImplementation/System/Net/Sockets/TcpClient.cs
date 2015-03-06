@@ -8,10 +8,12 @@ using System.Net.Sockets;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 {
-    // http://referencesource.microsoft.com/#System/net/System/Net/Sockets/TcpClient.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net.Sockets/TcpClient.cs
+	// http://referencesource.microsoft.com/#System/net/System/Net/Sockets/TcpClient.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/System/System.Net.Sockets/TcpClient.cs
+	// x:\jsc.svn\core\scriptcorelibjava\bclimplementation\system\net\sockets\tcpclient.cs
+	// X:\jsc.svn\market\synergy\javascript\chrome\chrome\BCLImplementation\System\Net\Sockets\TcpClient.cs
 
-    [Script(Implements = typeof(global::System.Net.Sockets.TcpClient))]
+	[Script(Implements = typeof(global::System.Net.Sockets.TcpClient))]
     internal class __TcpClient : IDisposable
     {
         // what comes after tcp?

@@ -20,6 +20,7 @@ using chrome;
 using ScriptCoreLib.JavaScript.WebGL;
 using System.Net.Sockets;
 using xchrome.BCLImplementation.System.Net.Sockets;
+using System.Net;
 
 namespace ChromeTCPServerAsync
 {
@@ -96,8 +97,8 @@ namespace ChromeTCPServerAsync
 					// http://css-infos.net/property/-webkit-user-select
 					// http://caniuse.com/#feat=user-select-none
 					//(Native.body.style as dynamic).userSelect = "auto";
-					(Native.body.style as dynamic).webkitUserSelect = "auto";
-					Native.body.style.overflow = IStyle.OverflowEnum.auto;
+					(Native.document.body.style as dynamic).webkitUserSelect = "auto";
+					Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
 
 					new IHTMLPre
 					{
@@ -126,7 +127,8 @@ namespace ChromeTCPServerAsync
 
 						foreach (var item in n24)
 						{
-							new IHTMLButton { new { item.prefixLength, item.name, item.address } }.AttachToDocument().onclick += Application_onclick;
+							new IHTMLButton { "chrome API " + new { item.prefixLength, item.name, item.address } }.AttachToDocument().onclick += Application_onclick;
+							new IHTMLButton { "CLR API " + new { item.prefixLength, item.name, item.address } }.AttachToDocument().onclick += CLRApplication_onclick;
 
 
 						}
@@ -137,13 +139,64 @@ namespace ChromeTCPServerAsync
 			);
 		}
 
+		private async void CLRApplication_onclick(IEvent<IHTMLButton> btn)
+		{
+			new IHTMLPre { "create... " + typeof(TcpListener) }.AttachToDocument();
+			new IHTMLPre { "create... " + typeof(TcpClient) }.AttachToDocument();
+			new IHTMLPre { "create... " + typeof(NetworkStream) }.AttachToDocument();
+
+
+			var l = new TcpListener(IPAddress.Any, 8080);
+
+			l.Start();
+
+			new IHTMLAnchor
+			{
+
+				target = "_blank",
+				href = "http://127.0.0.1:8080",
+				innerText = "accept.. "
+			}.AttachToDocument();
+
+			while (true)
+			{
+				var c = await l.AcceptTcpClientAsync();
+
+				new IHTMLPre { "accept " + new { c } }.AttachToDocument();
+
+				yield(c);
+
+
+			}
+		}
+
+		private async void yield(TcpClient c)
+		{
+			var s = c.GetStream();
+
+			// could we switch into a worker thread?
+			// jsc would need to split the stream object tho
+
+			var buffer = new byte[1024];
+			// why no implict buffer?
+			var count = await s.ReadAsync(buffer, 0, buffer.Length);
+
+			var input = Encoding.UTF8.GetString(buffer, 0, count);
+
+			new IHTMLPre { new { input } }.AttachToDocument();
+
+
+			var outputString = "HTTP/1.0 200 OK \r\nConnection: close\r\n\r\nhello world. jvm clr android async tcp? udp?\r\n";
+			var obuffer = Encoding.UTF8.GetBytes(outputString);
+
+			await s.WriteAsync(obuffer, 0, obuffer.Length);
+
+			c.Close();
+		}
+
 		private async void Application_onclick(IEvent<IHTMLButton> btn)
 		{
-			Message();
 
-			//var l = new TcpListener();
-			//l.Start();
-			//var lc = l.AcceptTcpClientAsync();
 
 			var ix = await chrome.socket.create("tcp", null);
 			var isocket = ix.socketId;
@@ -173,13 +226,6 @@ namespace ChromeTCPServerAsync
 
 		}
 
-		private static void Message()
-		{
-			new IHTMLPre { "create... " + typeof(TcpListener) }.AttachToDocument();
-			//new IHTMLPre { "create... " + typeof(__TcpListener) }.AttachToDocument();
-
-			// create... TcpListener
-		}
 
 		private async void yield(AcceptInfo accept)
 		{

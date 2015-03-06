@@ -88,6 +88,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Concurrent\ConcurrentStack.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteCommand.InternalCreateStatement.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Net\IPAddress.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Net\Sockets\NetworkStream.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Interlocked.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAny.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />

@@ -8,10 +8,12 @@ using System.Net.Sockets;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {
-    // http://referencesource.microsoft.com/#System/net/System/Net/IPAddress.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net/IPAddress.cs
+	// http://referencesource.microsoft.com/#System/net/System/Net/IPAddress.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/System/System.Net/IPAddress.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\IPAddress.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\IPAddress.cs
 
-    [Script(Implements = typeof(global::System.Net.IPAddress))]
+	[Script(Implements = typeof(global::System.Net.IPAddress))]
     public class __IPAddress
     {
         public AddressFamily AddressFamily { get; set; }

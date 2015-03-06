@@ -16,18 +16,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.Stream))]
 	public abstract class __Stream : __MarshalByRefObject, IDisposable
 	{
+		// virtual is the new abstract
+
+
 		public virtual int ReadTimeout { get; set; }
 
+		public virtual long Seek(long offset, SeekOrigin origin) { return default(long); }
 
-		public abstract long Seek(long offset, SeekOrigin origin);
+		public virtual void SetLength(long value) { }
 
-		public abstract void SetLength(long value);
+		public virtual long Length { get; set; }
 
-		public abstract long Length { get; }
+		public virtual long Position { get; set; }
 
-		public abstract long Position { get; set; }
-
-		public abstract void Flush();
+		public virtual void Flush() { }
 
 		public virtual void Close()
 		{
@@ -38,13 +40,16 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
 
 
 		#region Read
-		public virtual Task<int> ReadAsync(Byte[] buffer, int offset, int count)
+		public Func<Byte[], int, int, Task<int>> VirtualReadAsync;
+
+		public virtual Task<int> ReadAsync(byte[] buffer, int offset, int count)
 		{
+			// X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAsync\ChromeTCPServerAsync\Application.cs
 			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150304
-			throw new NotImplementedException();
+			return VirtualReadAsync(buffer, offset, count);
 		}
 
-		public abstract int Read(byte[] buffer, int offset, int count);
+		public virtual int Read(byte[] buffer, int offset, int count) { return default(int); }
 
 		public virtual int ReadByte()
 		{
@@ -59,12 +64,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
 		#endregion
 
 		#region Write
-		public Task WriteAsync(Byte[] buffer, int offset, int count)
+		public Func<byte[], int, int, Task> VirtualWriteAsync;
+
+		public virtual Task WriteAsync(byte[] buffer, int offset, int count)
 		{
-			throw new NotImplementedException();
+			// x:\jsc.svn\market\synergy\javascript\chrome\chrome\bclimplementation\system\net\sockets\tcplistener.cs
+			return VirtualWriteAsync(buffer, offset, count);
 		}
 
-		public abstract void Write(byte[] buffer, int offset, int count);
+		public virtual void Write(byte[] buffer, int offset, int count) { }
 
 		public virtual void WriteByte(byte value)
 		{
