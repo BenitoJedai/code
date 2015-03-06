@@ -54,8 +54,8 @@ namespace StandardOscillator
 
                     new IHTMLLabel {
                         () =>
-                            "frequency: \{ o.frequency.value }Hz"
-                            + " type: \{ o.type }"
+                            $"frequency: { o.frequency.value }Hz"
+                            + $" type: { o.type }"
                     }.AttachToDocument();
 
 
@@ -107,7 +107,7 @@ namespace StandardOscillator
 
                       };
 
-                    new IHTMLButton { () => "Console.Beep(\{ o.frequency.value }Hz, 300)" }.AttachToDocument().onclick +=
+                    new IHTMLButton { () => $"Console.Beep({ o.frequency.value }Hz, 300)" }.AttachToDocument().onclick +=
                       delegate
                       {
                           Console.Beep(frequency: (int)o.frequency.value, duration: 300);

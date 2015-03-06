@@ -39,8 +39,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public double currentTime;
         public double volume;
 
-        // IE 9 will fault on this
-        public void load()
+
+		// X:\jsc.svn\examples\javascript\chrome\apps\ChromeAudioPlaybackRate\ChromeAudioPlaybackRate\Application.cs
+		// https://developer.mozilla.org/en-US/Apps/Build/Audio_and_video_delivery/WebAudio_playbackRate_explained
+		public double playbackRate;
+
+		// IE 9 will fault on this
+		public void load()
         {
 
         }
