@@ -12,14 +12,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
     [Script(Implements = typeof(global::System.Net.Security.AuthenticatedStream))]
     internal abstract class __AuthenticatedStream : __Stream
     {
-        // could it be used for service worker fetch?
+		// http://referencesource.microsoft.com/#System/net/System/Net/SecureProtocols/_NegoStream.cs
+		// could it be used for service worker fetch?
 
-        // what about CryptoStream?
-        // used by
-        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\Security\SslStream.cs
+		// what about CryptoStream?
+		// used by
+		// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\Security\SslStream.cs
 
 
-        public abstract bool IsMutuallyAuthenticated { get; set; }
+		public abstract bool IsMutuallyAuthenticated { get; set; }
 
         public override long Seek(long offset, global::System.IO.SeekOrigin origin)
         {

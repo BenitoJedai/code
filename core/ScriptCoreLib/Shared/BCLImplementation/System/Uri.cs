@@ -13,17 +13,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
     [Script(Implements = typeof(global::System.Uri))]
     public class __Uri
     {
-        // see: http://blogs.msdn.com/ncl/archive/2010/02/23/system-uri-f-a-q.aspx
+		// http://referencesource.microsoft.com/#System/net/System/_UriSyntax.cs
+		// http://referencesource.microsoft.com/#System/net/System/GenericUriParser.cs
 
-        // fixme: shared BCL is not the way to go!  or is it?
+		// see: http://blogs.msdn.com/ncl/archive/2010/02/23/system-uri-f-a-q.aspx
 
-        // what about magnet links?
-        //
+		// fixme: shared BCL is not the way to go!  or is it?
+
+		// what about magnet links?
+		//
 
 
-        //public static readonly string SchemeDelimiter = "://";
+		//public static readonly string SchemeDelimiter = "://";
 
-        public string OriginalString { get; set; }
+		public string OriginalString { get; set; }
 
         public string Scheme { get; set; }
 

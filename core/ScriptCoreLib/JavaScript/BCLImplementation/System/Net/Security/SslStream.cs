@@ -6,11 +6,12 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
 {
-    // http://msdn.microsoft.com/en-us/library/system.net.security.sslstream.aspx
-    // http://referencesource.microsoft.com/#System/net/System/Net/SecureProtocols/SslStream.cs
-    // https://github.com/mono/mono/tree/master/mcs/class/System/System.Net.Security/SslStream.cs
+	// http://referencesource.microsoft.com/#System/net/System/Net/SecureProtocols/_SslStream.cs
+	// http://msdn.microsoft.com/en-us/library/system.net.security.sslstream.aspx
+	// http://referencesource.microsoft.com/#System/net/System/Net/SecureProtocols/SslStream.cs
+	// https://github.com/mono/mono/tree/master/mcs/class/System/System.Net.Security/SslStream.cs
 
-    [Script(Implements = typeof(global::System.Net.Security.SslStream))]
+	[Script(Implements = typeof(global::System.Net.Security.SslStream))]
     internal class __SslStream : __AuthenticatedStream
     {
         // 0x16

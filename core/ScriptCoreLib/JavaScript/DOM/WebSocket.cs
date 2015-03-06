@@ -5,17 +5,18 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/websockets/WebSocket.idl
-    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/WebSocket.webidl
-    // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/WebSocket/
+	// http://src.chromium.org/viewvc/blink/trunk/Source/modules/websockets/WebSocket.idl
+	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/WebSocket.webidl
+	// http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/WebSocket/
 
-    // http://referencesource.microsoft.com/#System/net/System/Net/WebSockets/WebSocket.cs
-    // http://referencesource.microsoft.com/#System/net/System/Net/WebSockets/ServerWebSocket.cs
-    // http://referencesource.microsoft.com/#System/net/System/Net/WebSockets/WebSocketProtocolComponent.cs
+	// http://referencesource.microsoft.com/#System/net/System/Net/WebSockets/WebSocket.cs
+	// http://referencesource.microsoft.com/#System/net/System/Net/WebSockets/ServerWebSocket.cs
+	// http://referencesource.microsoft.com/#System/net/System/Net/WebSockets/WebSocketProtocolComponent.cs
+	// http://referencesource.microsoft.com/#System/net/System/Net/WebSockets/ClientWebSocket.cs
 
-    // http://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.WebSocket
+	// http://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.WebSocket
 
-    [Script(InternalConstructor = true)]
+	[Script(InternalConstructor = true)]
     public class WebSocket
     {
         // http://www.websocket.org/quantum.html

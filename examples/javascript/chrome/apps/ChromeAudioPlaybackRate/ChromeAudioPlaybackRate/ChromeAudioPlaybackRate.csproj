@@ -1,20 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}</ProjectGuid>
+    <ProjectGuid>{426A9419-9287-4880-979F-29F29D3F2A22}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>xchrome</RootNamespace>
-    <AssemblyName>chromelabs</AssemblyName>
+    <RootNamespace>ChromeAudioPlaybackRate</RootNamespace>
+    <AssemblyName>ChromeAudioPlaybackRate</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>chromelabs.Program</StartupObject>
+    <StartupObject>ChromeAudioPlaybackRate.Program</StartupObject>
     <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\..\..\jsc.smokescreen.svn\core\javascript\com.abstractatech.analytics\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,7 +25,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -37,9 +35,11 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Chrome Web Store">
+      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -57,9 +57,6 @@
     <Reference Include="ScriptCoreLib">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Async">
-      <HintPath>..\..\..\..\..\examples\javascript\chrome\apps\ChromeCSVFileHandler\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <SpecificVersion>False</SpecificVersion>
@@ -120,49 +117,38 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="chromelabs.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\chromelabs.AssetsLibrary.dll</HintPath>
-      <Aliases>xglobal</Aliases>
+    <Reference Include="ChromeAudioPlaybackRate.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ChromeAudioPlaybackRate.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="RoosterAudioExample.AssetsLibrary">
+      <HintPath>..\..\..\..\audio\RoosterAudioExample\RoosterAudioExample\bin\staging.AssetsLibrary\RoosterAudioExample.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="chrome.idl" />
-    <Content Include="chrome.htm">
-      <DependentUpon>chrome.idl</DependentUpon>
-    </Content>
-    <Content Include="Diagnostics\Design\App.css" />
-    <Content Include="Diagnostics\Design\App.htm" />
-    <Compile Include="BCLImplementation\System\Net\Sockets\TcpClient.cs" />
-    <Compile Include="BCLImplementation\System\Net\Sockets\TcpListener.cs" />
-    <Compile Include="BCLImplementation\System\Net\Sockets\UdpReceiveResult.cs" />
-    <Compile Include="BCLImplementation\System\Net\Sockets\UdpClient.cs" />
-    <Compile Include="chrome.cs">
-      <DependentUpon>chrome.idl</DependentUpon>
-    </Compile>
-    <Compile Include="DOM\DataTransferExtensions.cs" />
-    <Compile Include="NotificationOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Diagnostics\ApplicationWebService.cs" />
-    <Compile Include="Diagnostics\Application.cs" />
-    <Compile Include="Diagnostics\Program.cs">
+    <Content Include="Design\App.css" />
+    <Content Include="Design\App.htm" />
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <Compile Include="Tab.pageAction.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\audio\RoosterAudioExample\RoosterAudioExample\RoosterAudioExample.csproj">
+      <Project>{895271ba-faa8-4763-a1fb-1e9c7525d130}</Project>
+      <Name>RoosterAudioExample</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMergeExtension:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget /PackageID:"Chrome.Web.Store" /OutputName:"Chrome Web Store"
-
-if $(ConfigurationName)==Release (
-rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
-)</PostBuildEvent>
+    <PostBuildEvent>start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /xAttachDebugger:true  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /AssociateDriveForChrome:A /InferChromeAppManifest:true</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
-		</PreBuildEvent>
+		            </PreBuildEvent>
   </PropertyGroup>
 </Project>
