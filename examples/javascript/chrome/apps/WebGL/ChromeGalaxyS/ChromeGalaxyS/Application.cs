@@ -65,7 +65,8 @@ namespace ChromeGalaxyS
                 ChromeTCPServer.TheServerWithStyledForm.Invoke(
                     AppSource.Text,
                     //AtFormCreated: FormStyler.AtFormCreated
-                    AtFormCreated: FormStylerLikeFloat.LikeFloat,
+                    //AtFormCreated: FormStylerLikeFloat.LikeFloat,
+                    AtFormCreated: FormStyler.LikeVisualStudioMetro,
 
                     transparentBackground: true,
                     resizable: false

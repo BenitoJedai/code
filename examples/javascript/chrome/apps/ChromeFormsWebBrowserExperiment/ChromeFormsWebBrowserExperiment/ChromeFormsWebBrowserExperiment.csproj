@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0EDDC8EE-B098-4C59-BDE4-9B27823D53A0}</ProjectGuid>
+    <ProjectGuid>{DE796BB4-5F38-4B7C-81E7-483DC4CF4837}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ChromeFormsWebBrowserExperiment</RootNamespace>

@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using THREELibrary.HTML.Pages;
-using THREE;
+//using THREE;
 
 namespace THREELibrary
 {
@@ -20,14 +20,6 @@ namespace THREELibrary
     /// </summary>
     public sealed class Application
     {
-
-        //RewriteToAssembly error: System.ArgumentNullException: Value cannot be null.
-        //Parameter name: namedProperties[0]
-        //   at System.Reflection.Emit.CustomAttributeBuilder.InitCustomAttributeBuilder(ConstructorInfo con, Object[] constructorArgs, PropertyInfo[] namedProperties, Object[] propertyValues, FieldInfo[] namedFields, Object[] fieldValues)
-        //   at System.Reflection.Emit.CustomAttributeBuilder..ctor(ConstructorInfo con, Object[] constructorArgs, PropertyInfo[] namedProperties, Object[] propertyValues)
-        //   at jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins.IDLCompiler.<>c__DisplayClass52.<>c__DisplayClass60.<>c__DisplayClass69.<>c__DisplayClass6b.<Define>b__48(IDLParserToken param0)
-        //   at ScriptCoreLib.Extensions.LinqExtensions.With[T](T e, Action`1 h) in x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\LinqExtensions.cs:line 21
-        //   at jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins.IDLCompiler.<>c__DisplayClass52.<>c__DisplayClass60.<>c__DisplayClass69.<Define>b__45(IDLMemberAttribute SourceAttribute)
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -54,9 +46,9 @@ namespace THREELibrary
 
             var renderer = new THREE.WebGLRenderer();
             //I am choosing the WebGL renderer here, but you have others to choose from
-            var camera = new PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+            var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
             //these variables have been set at the top of  our script
-            var scene = new Scene(); //create a new scene
+            var scene = new THREE.Scene(); //create a new scene
             // the camera starts at 0,0,0 so we need to pull back
             camera.position.z = 200;
             // start the renderer
@@ -74,14 +66,14 @@ namespace THREELibrary
             var radius = 50;
             var segments = 16;
             var rings = 16;
-            var mesh = new Mesh(new SphereGeometry(radius, segments, rings), material).AttachTo(scene);
+            var mesh = new THREE.Mesh(new THREE.SphereGeometry(radius, segments, rings), material).AttachTo(scene);
             //scene.addChild(mesh);
             scene.add(mesh);
 
 
             renderer.domElement.AttachToDocument();
 
-            var pointLight = new PointLight(0xFFFFFF);
+            var pointLight = new THREE.PointLight(0xFFFFFF);
             // set its position
             pointLight.position.x = 50;
             pointLight.position.y = 50;

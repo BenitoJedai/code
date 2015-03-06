@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ChromeNexus7</RootNamespace>
     <AssemblyName>ChromeNexus7</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>ChromeNexus7.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -131,11 +132,11 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLNexus7.AssetsLibrary">
-      <HintPath>..\..\..\..\WebGL\WebGLNexus7\WebGLNexus7\bin\staging.AssetsLibrary\WebGLNexus7.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="TestShadowFlipForForm.AssetsLibrary">
       <HintPath>..\..\..\..\Test\TestShadowFlipForForm\TestShadowFlipForForm\bin\staging.AssetsLibrary\TestShadowFlipForForm.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLNexus7.AssetsLibrary">
+      <HintPath>..\..\..\..\..\WebGL\collada\WebGLNexus7\WebGLNexus7\bin\staging.AssetsLibrary\WebGLNexus7.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -150,12 +151,17 @@
     <Content Include="Textures\x128.png" />
     <Content Include="Textures\x440x280.png" />
     <Content Include="Textures\x640x400.png" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="staging\ChromeNexus7.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\WebGL\collada\WebGLNexus7\WebGLNexus7\WebGLNexus7.csproj">
+      <Project>{c072d820-0808-40c8-af3a-b965b715bc81}</Project>
+      <Name>WebGLNexus7</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Test\TestShadowFlipForForm\TestShadowFlipForForm\TestShadowFlipForForm.csproj">
       <Project>{e76457bb-a5f3-40ae-80b6-ca03fa0ce272}</Project>
       <Name>TestShadowFlipForForm</Name>
@@ -163,10 +169,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-		if $(ConfigurationName)==Release (
-		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
-		)</PostBuildEvent>
+    <PostBuildEvent>start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /xAttachDebugger:true  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /AssociateDriveForChrome:A</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
 		</PreBuildEvent>
   </PropertyGroup>

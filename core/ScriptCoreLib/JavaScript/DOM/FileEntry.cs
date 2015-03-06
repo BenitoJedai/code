@@ -10,7 +10,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     // .WebFileSystem
     // .IOFileSystem ?
     [Script(HasNoPrototype = true, ExternalTarget = "")]
-    public class FileEntry
+    public class FileEntry : Entry
     {
         // 35	    void file(FileCallback successCallback, optional ErrorCallback errorCallback);
         // hide it?

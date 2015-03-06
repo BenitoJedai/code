@@ -1,14 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.30324.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeGalaxyS", "ChromeGalaxyS\ChromeGalaxyS.csproj", "{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeGalaxyS", "ChromeGalaxyS\ChromeGalaxyS.csproj", "{39EA13D0-9719-4DA7-903B-15D277C2EB9F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {DF763FAD-6D74-47A6-80C3-EA7B444C81BF}
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLGalaxyS", "..\..\..\WebGL\WebGLGalaxyS\WebGLGalaxyS\WebGLGalaxyS.csproj", "{0214B1F1-E85E-4939-B952-F64DB0C0A658}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{2457563D-E755-4240-95C7-A3FB2FBBCC37}"
 EndProject
@@ -18,20 +16,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeAppWindowFrameNoneExp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerWithFrameNone", "..\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone.csproj", "{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLGalaxyS", "..\..\..\..\WebGL\collada\WebGLGalaxyS\WebGLGalaxyS\WebGLGalaxyS.csproj", "{0214B1F1-E85E-4939-B952-F64DB0C0A658}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Debug|x86.ActiveCfg = Debug|x86
-		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Debug|x86.Build.0 = Debug|x86
-		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Release|x86.ActiveCfg = Release|x86
-		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Release|x86.Build.0 = Release|x86
-		{0214B1F1-E85E-4939-B952-F64DB0C0A658}.Debug|x86.ActiveCfg = Debug|x86
-		{0214B1F1-E85E-4939-B952-F64DB0C0A658}.Debug|x86.Build.0 = Debug|x86
-		{0214B1F1-E85E-4939-B952-F64DB0C0A658}.Release|x86.ActiveCfg = Release|x86
-		{0214B1F1-E85E-4939-B952-F64DB0C0A658}.Release|x86.Build.0 = Release|x86
+		{39EA13D0-9719-4DA7-903B-15D277C2EB9F}.Debug|x86.ActiveCfg = Debug|x86
+		{39EA13D0-9719-4DA7-903B-15D277C2EB9F}.Debug|x86.Build.0 = Debug|x86
+		{39EA13D0-9719-4DA7-903B-15D277C2EB9F}.Release|x86.ActiveCfg = Release|x86
+		{39EA13D0-9719-4DA7-903B-15D277C2EB9F}.Release|x86.Build.0 = Release|x86
 		{B23791BC-BBED-49D9-9808-08B230B69C55}.Debug|x86.ActiveCfg = Debug|x86
 		{B23791BC-BBED-49D9-9808-08B230B69C55}.Debug|x86.Build.0 = Debug|x86
 		{B23791BC-BBED-49D9-9808-08B230B69C55}.Release|x86.ActiveCfg = Release|x86
@@ -44,14 +40,18 @@ Global
 		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|x86.Build.0 = Debug|x86
 		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|x86.ActiveCfg = Release|x86
 		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|x86.Build.0 = Release|x86
+		{0214B1F1-E85E-4939-B952-F64DB0C0A658}.Debug|x86.ActiveCfg = Debug|x86
+		{0214B1F1-E85E-4939-B952-F64DB0C0A658}.Debug|x86.Build.0 = Debug|x86
+		{0214B1F1-E85E-4939-B952-F64DB0C0A658}.Release|x86.ActiveCfg = Release|x86
+		{0214B1F1-E85E-4939-B952-F64DB0C0A658}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{0214B1F1-E85E-4939-B952-F64DB0C0A658} = {2457563D-E755-4240-95C7-A3FB2FBBCC37}
 		{B23791BC-BBED-49D9-9808-08B230B69C55} = {2457563D-E755-4240-95C7-A3FB2FBBCC37}
 		{0EDDC8EE-B098-4C59-BDE4-9B27823D53A0} = {2457563D-E755-4240-95C7-A3FB2FBBCC37}
 		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {2457563D-E755-4240-95C7-A3FB2FBBCC37}
+		{0214B1F1-E85E-4939-B952-F64DB0C0A658} = {2457563D-E755-4240-95C7-A3FB2FBBCC37}
 	EndGlobalSection
 EndGlobal

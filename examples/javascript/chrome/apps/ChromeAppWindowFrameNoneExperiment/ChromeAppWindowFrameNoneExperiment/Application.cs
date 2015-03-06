@@ -329,7 +329,7 @@ namespace ChromeAppWindowFrameNoneExperiment
 
                 };
 
-            new Abstractatech.ConsoleFormPackage.Library.ConsoleForm { }.InitializeConsoleFormWriter().Show();
+            //new Abstractatech.ConsoleFormPackage.Library.ConsoleForm { }.InitializeConsoleFormWriter().Show();
             #endregion
 
             Console.WriteLine("hello console!");

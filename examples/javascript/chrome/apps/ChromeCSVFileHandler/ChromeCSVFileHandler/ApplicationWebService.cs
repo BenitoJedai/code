@@ -13,9 +13,7 @@ using System.Xml.Linq;
 
 namespace ChromeCSVFileHandler
 {
-    /// <summary>
-    /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
-    /// </summary>
+    [DesignerCategory("Code")]
     public partial class ApplicationWebService : Component
     {
         /// <summary>
