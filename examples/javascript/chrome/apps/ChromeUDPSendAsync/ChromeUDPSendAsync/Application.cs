@@ -140,11 +140,16 @@ namespace ChromeUDPSendAsync
 
 						// http://stackoverflow.com/questions/13691119/chrome-packaged-app-udp-sockets-not-working
 
-						new IHTMLPre { "about to bind... " }.AttachToDocument();
+						// chrome likes 0 too.
+						var port = 0;
+
+						new IHTMLPre { "about to bind... " + new { port } }.AttachToDocument();
 
 						// where is bind async?
 						socket.Client.Bind(
-							new IPEndPoint(IPAddress.Any, port: 40000)
+							
+							//new IPEndPoint(IPAddress.Any, port: 40000)
+							new IPEndPoint(IPAddress.Any, port)
 						);
 
 

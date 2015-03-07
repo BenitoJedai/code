@@ -851,7 +851,9 @@ namespace MulticastListenExperiment
                     new IHTMLButton { innerText = "send data" }.AttachToDocument().WhenClicked(
                         async delegate
                         {
-                            var data = new ScriptCoreLib.JavaScript.WebGL.Uint8Array(
+							// x:\jsc.svn\examples\javascript\chrome\apps\chromeudpsendasync\chromeudpsendasync\application.cs
+
+							var data = new ScriptCoreLib.JavaScript.WebGL.Uint8Array(
                                 40, 41, 42
                             );
 
