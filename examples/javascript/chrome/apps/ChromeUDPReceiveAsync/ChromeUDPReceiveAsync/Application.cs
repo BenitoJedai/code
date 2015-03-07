@@ -13,13 +13,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using ChromeUDPSendAsync;
-using ChromeUDPSendAsync.Design;
-using ChromeUDPSendAsync.HTML.Pages;
+using ChromeUDPReceiveAsync;
+using ChromeUDPReceiveAsync.Design;
+using ChromeUDPReceiveAsync.HTML.Pages;
 using System.Net.Sockets;
 using System.Net;
 
-namespace ChromeUDPSendAsync
+namespace ChromeUDPReceiveAsync
 {
 	/// <summary>
 	/// Your client side code running inside a web browser as JavaScript.
@@ -109,21 +109,8 @@ namespace ChromeUDPSendAsync
 					// X:\jsc.svn\examples\java\hybrid\JVMCLRNIC\JVMCLRNIC\Program.cs
 					// clr does not have it async. 
 
-					#region xml
-
-					var nmessage = "hello world";
-					var Host = "";
-					var PublicPort = "";
-
-					var message =
-						new XElement("string",
-							new XAttribute("c", "" + 1),
-							new XAttribute("n", nmessage),
-							"Visit me at " + Host + ":" + PublicPort
-						).ToString();
-
-					#endregion
-					var refresh = new IHTMLButton { "send" }.AttachToDocument();
+					
+					var refresh = new IHTMLButton { "recvFrom" }.AttachToDocument();
 
 					// experimental until ref count 33?
 					while (await refresh.async.onclick)
@@ -134,13 +121,7 @@ namespace ChromeUDPSendAsync
 
 
 						var socket = new UdpClient();
-
-						// bind?
-
-						var data = Encoding.UTF8.GetBytes(message);	   //creates a variable b of type byte
-
-						// http://stackoverflow.com/questions/13691119/chrome-packaged-app-udp-sockets-not-working
-
+					
 						// chrome likes 0 too.
 						var port = 0;
 
@@ -148,26 +129,34 @@ namespace ChromeUDPSendAsync
 
 						// where is bind async?
 						socket.Client.Bind(
-							
 							//new IPEndPoint(IPAddress.Any, port: 40000)
 							new IPEndPoint(IPAddress.Any, port)
 						);
 
 
-						new IHTMLPre { "about to send... " }.AttachToDocument();
+						// https://msdn.microsoft.com/en-us/library/system.net.sockets.udpclient.joinmulticastgroup%28v=vs.110%29.aspx
+						new IHTMLPre { "about to joinGroup... " }.AttachToDocument();
 
-						// X:\jsc.svn\examples\javascript\chrome\apps\ChromeUDPNotification\ChromeUDPNotification\Application.cs
-						var s = await socket.SendAsync(
-							data,
-							data.Length,
-							hostname: "239.1.2.3",
-							port: 40804
+						socket.JoinMulticastGroup(
+							IPAddress.Parse("239.1.2.3")
 						);
 
-						//socket.ReceiveAsync
-                        socket.Close();
+						// not clicked?
+						while (true)
+						{
+							new IHTMLPre { "about to recvFrom... " }.AttachToDocument();
 
-						new IHTMLPre { $"sent: {s}" }.AttachToDocument();
+							// X:\jsc.svn\examples\javascript\chrome\apps\ChromeUDPNotification\ChromeUDPNotification\Application.cs
+							// X:\jsc.svn\examples\javascript\chrome\apps\ChromeUDPNotification\ChromeUDPNotification\Application.cs
+							var s = await socket.ReceiveAsync();
+
+							new IHTMLPre { $"recvFrom: {s.Buffer.Length}" }.AttachToDocument();
+
+						}
+
+						//socket.ReceiveAsync
+						socket.Close();
+
 
 					}
 

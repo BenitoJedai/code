@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ScriptCoreLib.Extensions;
 using xglobal::chrome;
 using System.Net;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Net;
 
 namespace xchrome.BCLImplementation.System.Net.Sockets
 {
@@ -34,8 +35,41 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 			var afterbind = new TaskCompletionSource<int>();
 
 
+			#region vJoinMulticastGroup
+			this.vJoinMulticastGroup = async (IPAddress multicastAddr) =>
+			{
+				__IPAddress a = multicastAddr;
+
+				var isocket = await isocket_after_create;
+
+				var value_joinGroup = await isocket.socketId.joinGroup(a.ipString);
+
+				Console.WriteLine("UdpClient.vJoinMulticastGroup " + new { value_joinGroup });
+			};
+			#endregion
+
+
+			#region vReceiveAsync
+			this.vReceiveAsync = async delegate
+			{
+				var isocket = await isocket_after_create;
+
+				var result = await isocket.socketId.recvFrom(1048576);
+
+				byte[] buffer = new ScriptCoreLib.JavaScript.WebGL.Uint8ClampedArray(result.data);
+
+				return new UdpReceiveResult(
+					buffer,
+					remoteEndPoint: default(IPEndPoint)
+				);
+			};
+
+			#endregion
+
+
 			this.Client = new __Socket
 			{
+				#region vBind
 				vBind = async (EndPoint localEP) =>
 				{
 					var isocket = await isocket_after_create;
@@ -48,11 +82,16 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 							port: v4.Port
 						);
 
-						Console.WriteLine("UdpClient.Client.vBind " + new { bind });
+						Console.WriteLine("UdpClient.Client.vBind " + new
+						{
+							bind
+						});
 
 						afterbind.SetResult(bind);
 					}
 				}
+				#endregion
+
 			};
 
 			#region vClose
@@ -101,10 +140,13 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 		public Action vClose;
 		public void Close() => vClose();
 
-		public Task<UdpReceiveResult> ReceiveAsync()
-		{
-			return null;
-		}
+		public Func<Task<UdpReceiveResult>> vReceiveAsync;
+		public Task<UdpReceiveResult> ReceiveAsync() => vReceiveAsync();
+
+
+		public Action<IPAddress> vJoinMulticastGroup;
+		public void JoinMulticastGroup(IPAddress multicastAddr) => vJoinMulticastGroup(multicastAddr);
+
 
 		public SendAsyncDelegate vSendAsync;
 		public delegate Task<int> SendAsyncDelegate(byte[] datagram, int bytes, string hostname, int port);

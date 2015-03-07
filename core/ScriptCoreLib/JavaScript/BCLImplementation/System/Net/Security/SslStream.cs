@@ -14,45 +14,48 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
 	[Script(Implements = typeof(global::System.Net.Security.SslStream))]
     internal class __SslStream : __AuthenticatedStream
     {
-        // 0x16
-        // 20141019
-        // jsc now has ssl port rewriter in place for CLR
+		// could we do it on chrome yet?
+		// use workers for encryption?
+
+		// 0x16
+		// 20141019
+		// jsc now has ssl port rewriter in place for CLR
 
 
-        // http://www.herongyang.com/JDK/SSL-Socket-Server-Example-SslReverseEchoer.html
-        // http://www.jguru.com/faq/view.jsp?EID=32388
-        // http://exampledepot.8waytrips.com/egs/javax.net.ssl/Server.html
+		// http://www.herongyang.com/JDK/SSL-Socket-Server-Example-SslReverseEchoer.html
+		// http://www.jguru.com/faq/view.jsp?EID=32388
+		// http://exampledepot.8waytrips.com/egs/javax.net.ssl/Server.html
 
-        // https://www.simple-talk.com/dotnet/.net-framework/tlsssl-and-.net-framework-4.0/
-        // http://stackoverflow.com/questions/6720275/c-sharp-ssl-tcplistener-tcpclient
-        // http://www.dib0.nl/code/343-using-ssl-over-tcp-as-client-and-server-with-c
-        // pfx
+		// https://www.simple-talk.com/dotnet/.net-framework/tlsssl-and-.net-framework-4.0/
+		// http://stackoverflow.com/questions/6720275/c-sharp-ssl-tcplistener-tcpclient
+		// http://www.dib0.nl/code/343-using-ssl-over-tcp-as-client-and-server-with-c
+		// pfx
 
-        // MonoCipherAlgorithmType.Rijndael
-        // CipherAlgorithmType.Aes256
-        // HashAlgorithmType.Sha1;
-        // SslProtocols.Tls
+		// MonoCipherAlgorithmType.Rijndael
+		// CipherAlgorithmType.Aes256
+		// HashAlgorithmType.Sha1;
+		// SslProtocols.Tls
 
 
-        // PKI and SSL needs to be obsoleted and replaced. 
-        // http://jim.com/security/
+		// PKI and SSL needs to be obsoleted and replaced. 
+		// http://jim.com/security/
 
-        // DTLS
+		// DTLS
 
-        // http://jim.com/security/replacing_TCP.html
-        // http://security.stackexchange.com/questions/51590/how-do-ssl-authenticated-users-prove-authenticity-through-udp-packets
+		// http://jim.com/security/replacing_TCP.html
+		// http://security.stackexchange.com/questions/51590/how-do-ssl-authenticated-users-prove-authenticity-through-udp-packets
 
-        // see
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140831
-        // "X:\jsc.svn\core\ScriptCoreLibJava\javax\net\ssl\SSLServerSocket.cs"
+		// see
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140831
+		// "X:\jsc.svn\core\ScriptCoreLibJava\javax\net\ssl\SSLServerSocket.cs"
 
-        // can the webserivce return sslstream?
+		// can the webserivce return sslstream?
 
-        // http://stackoverflow.com/questions/8086790/streaming-image-over-ssl-socket-doesnt-come-across-correctly
+		// http://stackoverflow.com/questions/8086790/streaming-image-over-ssl-socket-doesnt-come-across-correctly
 
-        // how would CLR or Android send out a custom stream and have it signed?
+		// how would CLR or Android send out a custom stream and have it signed?
 
-        public virtual X509Certificate LocalCertificate { get; set; }
+		public virtual X509Certificate LocalCertificate { get; set; }
         public virtual X509Certificate RemoteCertificate { get; set; }
 
         // every web request shall expect a callback against its new key
