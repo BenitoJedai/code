@@ -26,6 +26,11 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 			return null;
 		}
 
+		public Task<int> SendAsync(byte[] datagram, int bytes, string hostname, int port)
+		{
+			return null;
+		}
+
 		public Task<int> SendAsync(byte[] datagram, int bytes)
 		{
 			return null;

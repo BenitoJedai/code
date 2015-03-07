@@ -113,6 +113,7 @@
     <Compile Include="BCLImplementation\System\Data\MySQL\MySQLConnectionStringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Data\MySQL\MySQLDataAdapter.cs" />
     <Compile Include="BCLImplementation\System\Data\MySQL\MySQLDataReader.cs" />
+    <Compile Include="BCLImplementation\System\Net\Sockets\UdpClient.cs" />
     <Compile Include="BCLImplementation\System\Reflection\PropertyInfo.cs" />
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\CryptoStream.cs" />
