@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace ScriptCoreLibJava.BCLImplementation.System.Net
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Net
 {
     // http://referencesource.microsoft.com/#System/net/System/Net/EndPoint.cs
     // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net/EndPoint.cs

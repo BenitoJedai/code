@@ -17,6 +17,7 @@ using ChromeUDPSendAsync;
 using ChromeUDPSendAsync.Design;
 using ChromeUDPSendAsync.HTML.Pages;
 using System.Net.Sockets;
+using System.Net;
 
 namespace ChromeUDPSendAsync
 {
@@ -31,6 +32,9 @@ namespace ChromeUDPSendAsync
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
+			// reload on idle?
+			// edit and continue over udp?
+
 			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150306/udp
 
 			#region += Launched chrome.app.window
@@ -98,20 +102,26 @@ namespace ChromeUDPSendAsync
 					(Native.document.body.style as dynamic).webkitUserSelect = "auto";
 					Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
 
-					new IHTMLPre
-					{
-						// {{ sockets = null }}
-						//new { (Native.window as dynamic).chrome.sockets }
-						// {{ socket = [object Object] }}
-						new { (Native.window as dynamic).chrome.socket }
-						//new { (Native.window as dynamic).sockets.tcpServer  }
-					}.AttachToDocument();
 
 					// https://css-tricks.com/almanac/properties/u/user-select/
 					//Native.body.style.setProperty(
 					// X:\jsc.svn\examples\java\hybrid\JVMCLRNIC\JVMCLRNIC\Program.cs
 					// clr does not have it async. 
 
+					#region xml
+
+					var nmessage = "hello world";
+					var Host = "";
+					var PublicPort = "";
+
+					var message =
+						new XElement("string",
+							new XAttribute("c", "" + 1),
+							new XAttribute("n", nmessage),
+							"Visit me at " + Host + ":" + PublicPort
+						).ToString();
+
+					#endregion
 					var refresh = new IHTMLButton { "send" }.AttachToDocument();
 
 					// experimental until ref count 33?
@@ -126,12 +136,32 @@ namespace ChromeUDPSendAsync
 
 						// bind?
 
-						var data = Encoding.UTF8.GetBytes("hello world");	   //creates a variable b of type byte
+						var data = Encoding.UTF8.GetBytes(message);	   //creates a variable b of type byte
+
+						// http://stackoverflow.com/questions/13691119/chrome-packaged-app-udp-sockets-not-working
+
+						new IHTMLPre { "about to bind... " }.AttachToDocument();
+
+						// where is bind async?
+						socket.Client.Bind(
+							new IPEndPoint(IPAddress.Any, port: 40000)
+						);
+
+
+						new IHTMLPre { "about to send... " }.AttachToDocument();
 
 						// X:\jsc.svn\examples\javascript\chrome\apps\ChromeUDPNotification\ChromeUDPNotification\Application.cs
-						var s = await socket.SendAsync(data, data.Length, hostname: "239.1.2.3", port:  40804);
+						var s = await socket.SendAsync(
+							data,
+							data.Length,
+							hostname: "239.1.2.3",
+							port: 40804
+						);
 
 						socket.Close();
+
+						new IHTMLPre { $"sent: {s}" }.AttachToDocument();
+
 					}
 
 				}
