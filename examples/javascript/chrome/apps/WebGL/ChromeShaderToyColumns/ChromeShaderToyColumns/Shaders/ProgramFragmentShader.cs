@@ -9,6 +9,8 @@ namespace ChromeShaderToyColumns.Shaders
 {
     class __ProgramFragmentShader : FragmentShader
     {
+        // all fields are inferred to be uniform?
+
         [uniform]
         vec3 iResolution;           // viewport resolution (in pixels)
         [uniform]
@@ -93,7 +95,7 @@ namespace ChromeShaderToyColumns.Shaders
         //------------------------------------------------------------------------
         float doModel(vec3 p)
         {
-            vec3 idx = vec3(floor(abs(p.xz - 0.5)), 0.5);
+            vec3 idx = vec3(floor(abs(p.xz - 0.5f)), 0.5f);
             p.xz = mod(p.xz + 0.5f, 1.0f) - 0.5f;
             float h = sin(length(idx.xy * 0.5f) + iGlobalTime * 1.5f) * 0.6f;
             float d = sdBox(p, vec3(0.05f, h, 0.05f));
