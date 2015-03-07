@@ -18,9 +18,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 
 		public static readonly IPAddress Any = new __IPAddress();
 
+		public string ipString;
 
-
-
+		// X:\jsc.svn\examples\javascript\chrome\apps\ChromeUDPReceiveAsync\ChromeUDPReceiveAsync\Application.cs
+		public static IPAddress Parse(string ipString)
+		{
+			return new __IPAddress { ipString = ipString };
+		}
 
 
 
