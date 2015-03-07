@@ -7,14 +7,21 @@ namespace ScriptCoreLib.GLSL
 {
     public class FragmentShader : Shader
     {
-        [mediump]
+		// https://www.khronos.org/opengles/sdk/docs/man31/html/gl_FragCoord.xhtml
+		[mediump]
         protected vec4 gl_FragCoord;
-        protected bool gl_FrontFacing;
+
+		// https://www.khronos.org/opengles/sdk/docs/man31/html/gl_FrontFacing.xhtml
+		protected bool gl_FrontFacing;
+
+
         [mediump]
         protected vec4 gl_FragColor;
         [mediump]
         protected vec4[] gl_FragData = new vec4[gl_MaxDrawBuffers];
-        [mediump]
+
+		// https://www.khronos.org/opengles/sdk/docs/man31/html/gl_PointCoord.xhtml
+		[mediump]
         protected vec2 gl_PointCoord;
     }
 }
