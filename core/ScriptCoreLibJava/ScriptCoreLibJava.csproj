@@ -214,9 +214,6 @@
     <Compile Include="BCLImplementation\System\Net\Dns.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Net\EndPoint.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\Net\IPAddress.cs">
       <SubType>Code</SubType>
     </Compile>

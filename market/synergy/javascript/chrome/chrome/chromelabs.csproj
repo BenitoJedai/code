@@ -134,6 +134,7 @@
     <Content Include="Diagnostics\Design\App.htm" />
     <Compile Include="BCLImplementation\System\Net\Sockets\TcpClient.cs" />
     <Compile Include="BCLImplementation\System\Net\Sockets\TcpListener.cs" />
+    <Compile Include="BCLImplementation\System\Net\Sockets\Socket.cs" />
     <Compile Include="BCLImplementation\System\Net\Sockets\UdpReceiveResult.cs" />
     <Compile Include="BCLImplementation\System\Net\Sockets\UdpClient.cs" />
     <Compile Include="chrome.cs">

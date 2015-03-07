@@ -7,8 +7,9 @@ using System.Net;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {
-    // http://referencesource.microsoft.com/#System/net/System/Net/IPEndPoint.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net/IPEndPoint.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/System/System.Net/IPEndPoint.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\IPEndPoint.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\IPEndPoint.cs
 
 	[Script(Implements = typeof(global::System.Net.IPEndPoint))]
 	internal class __IPEndPoint : __EndPoint

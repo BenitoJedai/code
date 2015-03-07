@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ScriptCoreLib.Extensions;
 using xglobal::chrome;
+using System.Net;
 
 namespace xchrome.BCLImplementation.System.Net.Sockets
 {
@@ -26,12 +27,52 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 
 		public __UdpClient()
 		{
-			var isocket_after_create = socket.create("udp", new object());
+			// x:\jsc.svn\examples\javascript\chrome\apps\chromeudpsendasync\chromeudpsendasync\application.cs
 
+			// async ctors?
+			var isocket_after_create = socket.create("udp", new object());
+			var afterbind = new TaskCompletionSource<int>();
+
+
+			this.Client = new __Socket
+			{
+				vBind = async (EndPoint localEP) =>
+				{
+					var isocket = await isocket_after_create;
+
+					var v4 = localEP as IPEndPoint;
+					if (v4 != null)
+					{
+						var bind = await isocket.socketId.bind(
+							address: "0.0.0.0",
+							port: v4.Port
+						);
+
+						Console.WriteLine("UdpClient.Client.vBind " + new { bind });
+
+						afterbind.SetResult(bind);
+					}
+				}
+			};
+
+			#region vClose
+			this.vClose = async delegate
+			{
+				var isocket = await isocket_after_create;
+
+				isocket.socketId.disconnect();
+				isocket.socketId.destroy();
+			};
+			#endregion
+
+			#region vSendAsync
 			this.vSendAsync = async (byte[] datagram, int bytes, string hostname, int port) =>
 			{
 				// now we need it
 				var isocket = await isocket_after_create;
+
+				// are we bound?
+				await afterbind.Task;
 
 				var data = new ScriptCoreLib.JavaScript.WebGL.Uint8Array(datagram);
 
@@ -41,13 +82,24 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 						 port
 					 );
 
+				// sent: -15 no bind?
+				Console.WriteLine("UdpClient.vSendAsync " + new { result.bytesWritten });
 
-				return 0;
+				return result.bytesWritten;
 			};
+			#endregion
 
 
 
 		}
+
+
+
+		public Socket Client { get; set; }
+
+
+		public Action vClose;
+		public void Close() => vClose();
 
 		public Task<UdpReceiveResult> ReceiveAsync()
 		{

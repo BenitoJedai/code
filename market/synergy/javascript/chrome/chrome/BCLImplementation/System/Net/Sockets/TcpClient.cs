@@ -22,15 +22,8 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 		{
 		}
 
-		public static implicit operator global::System.Net.Sockets.TcpClient(__TcpClient i)
-		{
-			return (global::System.Net.Sockets.TcpClient)(object)i;
-		}
-
-		public static implicit operator __TcpClient(global::System.Net.Sockets.TcpClient i)
-		{
-			return (__TcpClient)(object)i;
-		}
+		public static implicit operator global::System.Net.Sockets.TcpClient(__TcpClient i) => (global::System.Net.Sockets.TcpClient)(object)i;
+		public static implicit operator __TcpClient(global::System.Net.Sockets.TcpClient i) => (__TcpClient)(object)i;
 
 		// X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAsync\ChromeTCPServerAsync\Application.cs
 		// object not ready to be inspected yet?
