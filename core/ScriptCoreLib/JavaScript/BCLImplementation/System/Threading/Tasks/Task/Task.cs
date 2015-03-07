@@ -35,10 +35,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
     public partial class __Task
     {
-        // X:\jsc.svn\examples\javascript\Test\Test453NamedParameter\Test453NamedParameter\Class1.cs
+		// http://blogs.msdn.com/b/vcblog/archive/2014/11/12/resumable-functions-in-c.aspx
+		// X:\jsc.svn\examples\javascript\Test\Test453NamedParameter\Test453NamedParameter\Class1.cs
 
 
-        public override string ToString()
+		public override string ToString()
         {
             return new { IsCompleted }.ToString();
         }
