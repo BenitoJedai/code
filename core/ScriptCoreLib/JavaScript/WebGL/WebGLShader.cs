@@ -12,6 +12,10 @@ namespace ScriptCoreLib.JavaScript.WebGL
     [Script(HasNoPrototype = true)]
     public class WebGLShader
     {
+		// https://www.facebook.com/Shadertoy/posts/190170644463245
+		// while()" doesn't exist. Please use only loops of the form "for( int i=0; i<CONSTANT; i++)". remember, 
+		// "while" doesn't exist in GLSL. See here: http://www.khronos.org/opengles/sdk/docs/manglsl/
+
 		// http://hothardware.com/news/amd-tackles-virtual-reality-with-liquidvr-sdk-at-gdc
 
 		//  Creating and destroying GPU resources is one of the slowest things you can do on a per frame basis. 

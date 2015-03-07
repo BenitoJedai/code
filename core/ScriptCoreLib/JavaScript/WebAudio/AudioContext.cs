@@ -14,15 +14,18 @@ namespace ScriptCoreLib.JavaScript.WebAudio
     [Script(HasNoPrototype = true, ExternalTarget = "AudioContext")]
     public class AudioContext
     {
-        // "X:\jsc.svn\market\synergy\javascript\MIDI\MIDI.sln"
+		// https://www.shadertoy.com/view/Xds3Rr
+		// http://webaudio.github.io/web-audio-api/#the-stereopannernode-interface
 
-        // https://msdn.microsoft.com/en-us/library/aa376846.aspx?f=255&MSPPError=-2147217396
+		// "X:\jsc.svn\market\synergy\javascript\MIDI\MIDI.sln"
 
-        // http://forestmist.org/share/web-audio-api-demo/
-        // http://caniuse.com/#feat=audio-api
-        // http://www.w3.org/2011/audio/wiki/Basic-Examples#Looping_Sounds_Without_Gaps
+		// https://msdn.microsoft.com/en-us/library/aa376846.aspx?f=255&MSPPError=-2147217396
 
-        public readonly AudioDestinationNode destination;
+		// http://forestmist.org/share/web-audio-api-demo/
+		// http://caniuse.com/#feat=audio-api
+		// http://www.w3.org/2011/audio/wiki/Basic-Examples#Looping_Sounds_Without_Gaps
+
+		public readonly AudioDestinationNode destination;
 
         // https://developer.apple.com/library/iad/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/PlayingandSynthesizingSounds/PlayingandSynthesizingSounds.html
         // http://typedarray.org/from-microphone-to-wav-with-getusermedia-and-web-audio/

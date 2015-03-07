@@ -27,23 +27,25 @@ namespace ScriptCoreLib.JavaScript
     // C# 6 shall import this static type and make members available!
     public static partial class Native
     {
-        // http://www.zdnet.com/article/microsoft-is-building-a-new-browser-as-part-of-its-windows-10-push/
-        // http://www.zdnet.com/article/microsoft-ready-to-show-off-windows-10-mobile-sku-on-january-21/
+		// http://blogs.msdn.com/b/ie/archive/2015/02/18/bringing-asm-js-to-the-chakra-javascript-engine-in-windows-10.aspx
 
-        // http://jim.com/security/replacing_TCP.html
-        //According google research 400 milliseconds reduces usage by 0.76%, or roughly two percent per second of delay
+		// http://www.zdnet.com/article/microsoft-is-building-a-new-browser-as-part-of-its-windows-10-push/
+		// http://www.zdnet.com/article/microsoft-ready-to-show-off-windows-10-mobile-sku-on-january-21/
 
-        //#region window
-        //[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        //[Obsolete("window", true)]
-        //[Script(ExternalTarget = "window")]
-        //static public IWindow Window;
+		// http://jim.com/security/replacing_TCP.html
+		//According google research 400 milliseconds reduces usage by 0.76%, or roughly two percent per second of delay
 
-        //// web worker will not have this. this is the global this object
-        //#endregion
+		//#region window
+		//[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+		//[Obsolete("window", true)]
+		//[Script(ExternalTarget = "window")]
+		//static public IWindow Window;
 
-        // 60 issues to deal with before we can recompile
-        const bool error = false;
+		//// web worker will not have this. this is the global this object
+		//#endregion
+
+		// 60 issues to deal with before we can recompile
+		const bool error = false;
 
         #region document
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]

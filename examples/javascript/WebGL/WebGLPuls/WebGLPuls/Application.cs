@@ -61,7 +61,56 @@ namespace WebGLPuls
 
         private void InitializeContent(IDefault page = null)
         {
-            var canvas = new IHTMLCanvas().AttachToDocument();
+			#region += Launched chrome.app.window
+			dynamic self = Native.self;
+			dynamic self_chrome = self.chrome;
+			object self_chrome_socket = self_chrome.socket;
+
+			if (self_chrome_socket != null)
+			{
+				if (!(Native.window.opener == null && Native.window.parent == Native.window.self))
+				{
+					Console.WriteLine("chrome.app.window.create, is that you?");
+
+					// pass thru
+				}
+				else
+				{
+					// should jsc send a copresence udp message?
+					chrome.runtime.UpdateAvailable += delegate
+					{
+						new chrome.Notification(title: "UpdateAvailable");
+
+					};
+
+					chrome.app.runtime.Launched += async delegate
+					{
+						// 0:12094ms chrome.app.window.create {{ href = chrome-extension://aemlnmcokphbneegoefdckonejmknohh/_generated_background_page.html }}
+						Console.WriteLine("chrome.app.window.create " + new { Native.document.location.href });
+
+						new chrome.Notification(title: "ChromeUDPSendAsync");
+
+						var xappwindow = await chrome.app.window.create(
+							   Native.document.location.pathname, options: null
+						);
+
+						//xappwindow.setAlwaysOnTop
+
+						xappwindow.show();
+
+						await xappwindow.contentWindow.async.onload;
+
+						Console.WriteLine("chrome.app.window loaded!");
+					};
+
+
+					return;
+				}
+			}
+			#endregion
+
+
+			var canvas = new IHTMLCanvas().AttachToDocument();
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
