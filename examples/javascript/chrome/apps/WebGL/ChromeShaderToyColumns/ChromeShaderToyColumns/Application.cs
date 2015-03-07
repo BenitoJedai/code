@@ -42,6 +42,12 @@ namespace ChromeShaderToyColumns
 			// x:\jsc.svn\examples\javascript\webgl\webglchocolux\webglchocolux\application.cs
 
 			// it looks there are no channels.
+
+			// is it a vert or frag?
+			//  fragColor = vec4( col, 1.0 );
+			// must be a frag
+
+			// https://www.shadertoy.com/js/effect.js
 		}
 
 	}
