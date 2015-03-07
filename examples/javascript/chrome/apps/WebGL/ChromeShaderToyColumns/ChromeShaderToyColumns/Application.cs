@@ -30,24 +30,26 @@ namespace ChromeShaderToyColumns
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
-			// https://www.shadertoy.com/view/Xls3WS
-			// view-source:https://www.shadertoy.com/view/Xls3WS
-			// https://www.shadertoy.com/api
-			// https://www.shadertoy.com/js/cmRenderUtils.js
-			// https://www.shadertoy.com/js/cmGeneral.js
-			// https://www.shadertoy.com/js/cmPreview.js
+            // https://www.shadertoy.com/view/Xls3WS
+            // view-source:https://www.shadertoy.com/view/Xls3WS
+            // https://www.shadertoy.com/api
+            // https://www.shadertoy.com/js/cmRenderUtils.js
+            // https://www.shadertoy.com/js/cmGeneral.js
+            // https://www.shadertoy.com/js/cmPreview.js
 
-			// what does it take to import those nice shaders into jsc world?
+            // what does it take to import those nice shaders into jsc world?
 
-			// x:\jsc.svn\examples\javascript\webgl\webglchocolux\webglchocolux\application.cs
+            // x:\jsc.svn\examples\javascript\webgl\webglchocolux\webglchocolux\application.cs
 
-			// it looks there are no channels.
+            // it looks there are no channels.
 
-			// is it a vert or frag?
-			//  fragColor = vec4( col, 1.0 );
-			// must be a frag
+            // is it a vert or frag?
+            //  fragColor = vec4( col, 1.0 );
+            // must be a frag
 
-			// https://www.shadertoy.com/js/effect.js
+            // https://www.shadertoy.com/js/effect.js
+
+            var fs = new Shaders.ProgramFragmentShader();
 		}
 
 	}
