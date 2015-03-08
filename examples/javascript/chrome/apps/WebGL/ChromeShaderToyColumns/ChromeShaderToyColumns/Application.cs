@@ -23,20 +23,25 @@ namespace ChromeShaderToyColumns
 {
 	using gl = WebGLRenderingContext;
 
+	//		Create Partial Type: ChromeShaderToyColumns.Application+RefreshTexturThumbailDelegate
+	//0930:02:01 RewriteToAssembly error: System.NotSupportedException: Parent does not have a default constructor.The default constructor must be explicitly defined.
+
+	delegate void RefreshTexturThumbailDelegate(
+		object myself,
+		int slot,
+		object img,
+		bool forceFrame,
+		bool gui,
+		int guiID,
+		int time
+		);
+
 	/// <summary>
 	/// Your client side code running inside a web browser as JavaScript.
 	/// </summary>
 	public sealed class Application : ApplicationWebService
 	{
-		delegate void RefreshTexturThumbailDelegate(
-			object myself,
-			int slot,
-			object img,
-			bool forceFrame,
-			bool gui,
-			int guiID,
-			int time
-			);
+	
 
 
 
@@ -149,7 +154,26 @@ namespace ChromeShaderToyColumns
 
 			public Action MakeHeader_Image;
 
-			public Action NewShader_Image;
+			public Action<gl, string> NewShader_Image;
+
+
+			public delegate void Paint_ImageDelegate(
+				AudioContext wa,
+				gl gl,
+
+				// uniform1f
+				float time,
+
+				// uniform4fv
+				float mouseOriX,
+				float mouseOriY,
+				float mousePosX,
+				float mousePosY,
+
+				int xres,
+				int yres);
+			public Paint_ImageDelegate Paint_Image;
+
 
 			public EffectPass(
 				string precission,
@@ -158,15 +182,17 @@ namespace ChromeShaderToyColumns
 				object obj,
 				bool forceMuted,
 				bool forcePaused,
+
+				// ARRAY_BUFFER
 				WebGLBuffer quadVBO,
 				GainNode outputGainNode
 				)
 			{
 				var mInputs = new object[4];
 
-				#region MakeHeader_Image
 				this.MakeHeader_Image = delegate
 				{
+					#region MakeHeader_Image
 					var header = precission;
 					var headerlength = 3;
 
@@ -203,15 +229,89 @@ namespace ChromeShaderToyColumns
 						"color.w = 1.0;" +
 						"gl_FragColor = color;" +
 					"}";
+					#endregion
 
 
-
-					NewShader_Image = delegate
+					this.NewShader_Image = (gl0, shaderCode) =>
 					{
+						#region NewShader_Image
+						var vsSource = "attribute vec2 pos; void main() { gl_Position = vec4(pos.xy,0.0,1.0); }";
+						var res = CreateShader(gl0, vsSource, header + shaderCode + mImagePassFooter, false);
 
+						var mProgram = res.mProgram;
+						#endregion
+
+						// used by?
+						var mFrame = 0;
+
+						#region calledby
+						//EffectPass.Paint_Image(effect.js:724)
+						//EffectPass.Paint(effect.js:1038)
+						//Effect.Paint(effect.js:1247)
+						//renderLoop2(pgWatch.js:404)
+						//ShaderToy.startRendering(pgWatch.js:420)
+						//watchInit(pgWatch.js:1386)
+						//onload(Xls3WS: 78)
+						#endregion
+						this.Paint_Image = (wa, gl, time, mouseOriX, mouseOriY, mousePosX, mousePosY, xres, yres) =>
+						{
+							#region Paint_Image
+							gl.viewport(0, 0, xres, yres);
+
+							gl.useProgram(mProgram);
+
+							// uniform4fv
+							var mouse = new[] { mousePosX, mousePosY, mouseOriX, mouseOriY };
+
+							var l2 = gl.getUniformLocation(mProgram, "iGlobalTime"); if (l2 != null) gl.uniform1f(l2, time);
+							var l3 = gl.getUniformLocation(mProgram, "iResolution"); if (l3 != null) gl.uniform3f(l3, xres, yres, 1.0f);
+							var l4 = gl.getUniformLocation(mProgram, "iMouse"); if (l4 != null) gl.uniform4fv(l4, mouse);
+							//var l7 = gl.getUniformLocation(this.mProgram, "iDate"); if (l7 != null) gl.uniform4fv(l7, dates);
+							//var l9 = gl.getUniformLocation(this.mProgram, "iSampleRate"); if (l9 != null) gl.uniform1f(l9, this.mSampleRate);
+
+							var ich0 = gl.getUniformLocation(mProgram, "iChannel0"); if (ich0 != null) gl.uniform1i(ich0, 0);
+							var ich1 = gl.getUniformLocation(mProgram, "iChannel1"); if (ich1 != null) gl.uniform1i(ich1, 1);
+							var ich2 = gl.getUniformLocation(mProgram, "iChannel2"); if (ich2 != null) gl.uniform1i(ich2, 2);
+							var ich3 = gl.getUniformLocation(mProgram, "iChannel3"); if (ich3 != null) gl.uniform1i(ich3, 3);
+
+							// using ?
+							var l1 = (uint)gl.getAttribLocation(mProgram, "pos");
+							gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
+							gl.vertexAttribPointer(l1, 2, gl.FLOAT, false, 0, 0);
+							gl.enableVertexAttribArray(l1);
+
+
+							for (var i = 0; i < mInputs.Length; i++)
+							{
+								var inp = mInputs[i];
+
+								gl.activeTexture((uint)(gl.TEXTURE0 + i));
+
+								if (inp == null)
+								{
+									gl.bindTexture(gl.TEXTURE_2D, null);
+								}
+							}
+
+							var times = new[] { 0.0f, 0.0f, 0.0f, 0.0f };
+							var l5 = gl.getUniformLocation(mProgram, "iChannelTime");
+							if (l5 != null) gl.uniform1fv(l5, times);
+
+							var resos = new float[12] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+							var l8 = gl.getUniformLocation(mProgram, "iChannelResolution");
+							if (l8 != null) gl.uniform3fv(l8, resos);
+
+
+							gl.drawArrays(gl.TRIANGLES, 0, 6);
+							gl.disableVertexAttribArray(l1);
+							#endregion
+
+							mFrame++;
+
+							// first frame is now visible
+						};
 					};
 				};
-				#endregion
 
 			}
 		}
@@ -255,7 +355,15 @@ namespace ChromeShaderToyColumns
 				for (var i = 0; i < 2; i++)
 				{
 					this.mPasses[i] = new EffectPass(
-						precision, supportsDerivatives, callback, obj, forceMuted, forcePaused, this.mQuadVBO, this.mGainNode);
+						precision,
+						supportsDerivatives,
+						callback,
+						obj,
+						forceMuted,
+						forcePaused,
+						this.mQuadVBO,
+						this.mGainNode
+						);
 				}
 			}
 
@@ -265,6 +373,57 @@ namespace ChromeShaderToyColumns
 
 		public Application(IApp page)
 		{
+
+
+			#region += Launched chrome.app.window
+			dynamic self = Native.self;
+			dynamic self_chrome = self.chrome;
+			object self_chrome_socket = self_chrome.socket;
+
+			if (self_chrome_socket != null)
+			{
+				if (!(Native.window.opener == null && Native.window.parent == Native.window.self))
+				{
+					Console.WriteLine("chrome.app.window.create, is that you?");
+
+					// pass thru
+				}
+				else
+				{
+					// should jsc send a copresence udp message?
+					chrome.runtime.UpdateAvailable += delegate
+					{
+						new chrome.Notification(title: "UpdateAvailable");
+
+					};
+
+					chrome.app.runtime.Launched += async delegate
+					{
+						// 0:12094ms chrome.app.window.create {{ href = chrome-extension://aemlnmcokphbneegoefdckonejmknohh/_generated_background_page.html }}
+						Console.WriteLine("chrome.app.window.create " + new { Native.document.location.href });
+
+						new chrome.Notification(title: "ChromeUDPSendAsync");
+
+						var xappwindow = await chrome.app.window.create(
+							   Native.document.location.pathname, options: null
+						);
+
+						//xappwindow.setAlwaysOnTop
+
+						xappwindow.show();
+
+						await xappwindow.contentWindow.async.onload;
+
+						Console.WriteLine("chrome.app.window loaded!");
+					};
+
+
+					return;
+				}
+			}
+			#endregion
+
+
 			// view-source:https://www.shadertoy.com/view/Xls3WS
 			// https://www.shadertoy.com/api
 
@@ -3587,8 +3746,7 @@ namespace ChromeShaderToyColumns
 			// <body onload="watchInit()" 
 
 
-			//public class ProgramFragmentShader : FragmentShader
-			var fs = new Shaders.ProgramFragmentShader();
+
 
 			//  res = loadShader( gShaderID );
 			// updatepage( jsn );
@@ -3598,8 +3756,31 @@ namespace ChromeShaderToyColumns
 			// var shaderStr = rpass.code;
 			// EffectPass.prototype.NewShader = function( gl, shaderCode )
 			// EffectPass.prototype.NewShader_Image = function( gl, shaderCode )
+			// Effect.prototype.ResetTime = function()
+
+			new { }.With(
+				async delegate
+				{
+					new IHTMLPre { "init..." }.AttachToDocument();
 
 
+					//public class ProgramFragmentShader : FragmentShader
+					var fs = new Shaders.ProgramFragmentShader();
+
+
+					//Native.window.onframe +=
+					//delegate
+					//{
+					// ShaderToy.prototype.startRendering = function()
+
+					// Effect.prototype.Paint = function(time, mouseOriX, mouseOriY, mousePosX, mousePosY, isPaused)
+					// EffectPass.prototype.Paint = function( wa, gl, time, mouseOriX, mouseOriY, mousePosX, mousePosY, xres, yres, isPaused )
+					// EffectPass.prototype.Paint_Image = function( wa, gl, time, mouseOriX, mouseOriY, mousePosX, mousePosY, xres, yres )
+
+					//me.mEffect.Paint(ltime / 1000.0, me.mMouseOriX, me.mMouseOriY, me.mMousePosX, me.mMousePosY, me.mIsPaused);
+					//  me.mGLContext.flush();
+				}
+			);
 		}
 
 	}
