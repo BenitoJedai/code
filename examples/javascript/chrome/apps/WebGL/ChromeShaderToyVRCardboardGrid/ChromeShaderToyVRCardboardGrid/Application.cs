@@ -91,7 +91,7 @@ namespace ChromeShaderToyVRCardboardGrid
 				async vs =>
 				{
 					Native.body.style.margin = "0px";
-					Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
+					//Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
 
 					var mAudioContext = new AudioContext();
 					var gl = new WebGLRenderingContext(alpha: true);
@@ -129,7 +129,7 @@ namespace ChromeShaderToyVRCardboardGrid
 					var mMousePosX = 0;
 					var mMousePosY = 0;
 
-					c.onmousedown += ev =>
+					c.onmousedown += async ev =>
 					{
 						mMouseOriX = ev.CursorX;
 						mMouseOriY = ev.CursorY;
@@ -138,8 +138,15 @@ namespace ChromeShaderToyVRCardboardGrid
 
 						// why aint it canvas?
 						//ev.Element
-						ev.Element.requestPointerLock();
 						//ev.CaptureMouse();
+
+						// using ?
+						ev.Element.requestPointerLock();
+						await ev.Element.async.onmouseup;
+						Native.document.exitPointerLock();
+
+						mMouseOriX = -Math.Abs(mMouseOriX);
+						mMouseOriY = -Math.Abs(mMouseOriY);
 					};
 
 					c.onmousemove += ev =>
@@ -151,14 +158,6 @@ namespace ChromeShaderToyVRCardboardGrid
 						}
 					};
 
-
-					c.onmouseup += ev =>
-					{
-						Native.document.exitPointerLock();
-						mMouseOriX = -Math.Abs(mMouseOriX);
-						mMouseOriY = -Math.Abs(mMouseOriY);
-
-					};
 					#endregion
 
 
@@ -174,7 +173,8 @@ namespace ChromeShaderToyVRCardboardGrid
 							do
 							{
 								c.width = Native.window.Width;
-								c.height = Native.window.Height / 2;
+								//c.height = Native.window.Height / 2;
+								c.height = Native.window.Height;
 								c.style.SetSize(c.width, c.height);
 							}
 							while (await Native.window.async.onresize);
