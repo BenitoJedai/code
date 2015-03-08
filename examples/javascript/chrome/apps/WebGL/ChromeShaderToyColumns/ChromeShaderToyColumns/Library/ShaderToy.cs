@@ -400,6 +400,106 @@ namespace ChromeShaderToyColumns.Library
 
 		}
 
+		public static async void AttachToDocument(FragmentShader vs)
+		{
+			Native.body.style.margin = "0px";
 
+
+			var mAudioContext = new AudioContext();
+			var gl = new WebGLRenderingContext(alpha: true);
+			var c = gl.canvas.AttachToDocument();
+
+			#region onresize
+			new { }.With(
+				async delegate
+				{
+					do
+					{
+						c.width = Native.window.Width;
+						c.height = Native.window.Height;
+						c.style.SetSize(c.width, c.height);
+					}
+					while (await Native.window.async.onresize);
+				}
+			);
+			#endregion
+
+
+
+
+			#region CaptureMouse
+			var mMouseOriX = 0;
+			var mMouseOriY = 0;
+			var mMousePosX = 0;
+			var mMousePosY = 0;
+
+			c.onmousedown += ev =>
+			{
+				mMouseOriX = ev.CursorX;
+				mMouseOriY = ev.CursorY;
+				mMousePosX = mMouseOriX;
+				mMousePosY = mMouseOriY;
+
+				ev.CaptureMouse();
+			};
+
+			c.onmousemove += ev =>
+			{
+				if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
+				{
+					mMousePosX = ev.CursorX;
+					mMousePosY = c.height - ev.CursorY;
+				}
+			};
+
+
+			c.onmouseup += ev =>
+			{
+				mMouseOriX = -Math.Abs(mMouseOriX);
+				mMouseOriY = -Math.Abs(mMouseOriY);
+			};
+			#endregion
+
+			var mEffect = new ChromeShaderToyColumns.Library.ShaderToy.Effect(
+				mAudioContext,
+				gl,
+
+				c.width,
+				c.height,
+				callback: delegate
+				{
+					new IHTMLPre { "at callback" }.AttachToDocument();
+
+				},
+				obj: null,
+				forceMuted: false,
+				forcePaused: false
+			);
+
+			mEffect.mPasses[0].MakeHeader_Image();
+			mEffect.mPasses[0].NewShader_Image(vs);
+
+			var sw = Stopwatch.StartNew();
+			do
+			{
+				mEffect.mPasses[0].Paint_Image(
+					sw.ElapsedMilliseconds / 1000.0f,
+
+					mMouseOriX,
+					mMouseOriY,
+					mMousePosX,
+					mMousePosY,
+
+					xres: c.width,
+					yres: c.height
+				);
+
+				// what does it do?
+				gl.flush();
+
+			}
+			while (await Native.window.async.onframe);
+
+		}
 	}
 }
