@@ -21,8 +21,21 @@ namespace ScriptCoreLib.JavaScript.DOM
         public class FrameEvent
         {
             public int counter;
+
+			// is it too costly to do for each frame?
             public Stopwatch delay = Stopwatch.StartNew();
-        }
+
+
+			public static implicit operator bool (FrameEvent e)
+			{
+				// future C# may allow if (obj)
+				// but for now booleans are needed
+
+				// enable 
+				// while (await Native.window.async.onresize);
+				return ((object)e != null);
+			}
+		}
 
 
         [System.Obsolete("jsc experience")]
