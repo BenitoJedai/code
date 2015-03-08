@@ -32,6 +32,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		public HTMLInputTypeEnum type;
 		public string value;
 
+		// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyPrograms\ChromeShaderToyPrograms\Application.cs
+		public string list;
 
 
 

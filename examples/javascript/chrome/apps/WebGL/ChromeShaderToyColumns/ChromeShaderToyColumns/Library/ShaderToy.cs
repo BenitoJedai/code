@@ -43,7 +43,7 @@ namespace ChromeShaderToyColumns.Library
 	{
 		// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToySeascapeByTDM\ChromeShaderToySeascapeByTDM\Application.cs
 
-		static WebGLBuffer createQuadVBO(gl gl)
+		public static WebGLBuffer createQuadVBO(gl gl)
 		{
 			//new IHTMLPre { "enter createQuadVBO" }.AttachToDocument();
 
@@ -142,7 +142,7 @@ namespace ChromeShaderToyColumns.Library
 			return new CreateShaderResult { mSuccess = true, mProgram = p };
 		}
 
-		static string DetermineShaderPrecission(WebGLRenderingContext gl)
+		public static string DetermineShaderPrecission(WebGLRenderingContext gl)
 		{
 			//new IHTMLPre { "enter DetermineShaderPrecission" }.AttachToDocument();
 
@@ -188,10 +188,9 @@ namespace ChromeShaderToyColumns.Library
 				float mouseOriX,
 				float mouseOriY,
 				float mousePosX,
-				float mousePosY,
+				float mousePosY
 
-				int xres,
-				int yres);
+				);
 			public Paint_ImageDelegate Paint_Image;
 
 
@@ -293,8 +292,11 @@ namespace ChromeShaderToyColumns.Library
 						//watchInit(pgWatch.js:1386)
 						//onload(Xls3WS: 78)
 						#endregion
-						this.Paint_Image = (time, mouseOriX, mouseOriY, mousePosX, mousePosY, xres, yres) =>
+						this.Paint_Image = (time, mouseOriX, mouseOriY, mousePosX, mousePosY) =>
 						{
+							var xres = gl.canvas.width;
+							var yres = gl.canvas.height;
+
 							#region Paint_Image
 							//new IHTMLPre { "enter Paint_Image" }.AttachToDocument();
 
@@ -501,10 +503,9 @@ namespace ChromeShaderToyColumns.Library
 					mMouseOriX,
 					mMouseOriY,
 					mMousePosX,
-					mMousePosY,
+					mMousePosY
 
-					xres: c.width,
-					yres: c.height
+				
 				);
 
 				// what does it do?

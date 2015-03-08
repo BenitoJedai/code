@@ -25,7 +25,7 @@ namespace ChromeShaderToyColumns
 	using System.Diagnostics;
 	using gl = WebGLRenderingContext;
 
-	
+
 	/// <summary>
 	/// Your client side code running inside a web browser as JavaScript.
 	/// </summary>
@@ -89,7 +89,7 @@ namespace ChromeShaderToyColumns
 			// https://www.shadertoy.com/view/Xls3WS
 			// https://www.shadertoy.com/js/cmRenderUtils.js
 			// https://www.shadertoy.com/js/effect.js
-		
+
 			// what does it take to import those nice shaders into jsc world?
 
 			// x:\jsc.svn\examples\javascript\webgl\webglchocolux\webglchocolux\application.cs
@@ -131,32 +131,32 @@ namespace ChromeShaderToyColumns
 					var mMousePosY = 0;
 
 					// 308
-					var mEffect = new Library.ShaderToy.Effect(
-						mAudioContext,
-						gl,
+					//var mEffect = new Library.ShaderToy.Effect(
+					//	mAudioContext,
+					//	gl,
 
-						callback: delegate
-						{
-							new IHTMLPre { "at callback" }.AttachToDocument();
+					//	callback: delegate
+					//	{
+					//		new IHTMLPre { "at callback" }.AttachToDocument();
 
-						},
-						obj: null,
-						forceMuted: false,
-						forcePaused: false
-					);
+					//	},
+					//	obj: null,
+					//	forceMuted: false,
+					//	forcePaused: false
+					//);
 
 
-					//mEffect.mPasses[0].NewTexture
-					// EffectPass.prototype.NewTexture = function( wa, gl, slot, url )
-					// this.mPasses[j].Create( rpass.type, this.mAudioContext, this.mGLContext );
-					// EffectPass.prototype.MakeHeader_Image = function( precission, supportDerivatives )
-					mEffect.mPasses[0].MakeHeader_Image();
+					////mEffect.mPasses[0].NewTexture
+					//// EffectPass.prototype.NewTexture = function( wa, gl, slot, url )
+					//// this.mPasses[j].Create( rpass.type, this.mAudioContext, this.mGLContext );
+					//// EffectPass.prototype.MakeHeader_Image = function( precission, supportDerivatives )
+					//mEffect.mPasses[0].MakeHeader_Image();
 
-					// EffectPass.prototype.NewShader = function( gl, shaderCode )
-					// EffectPass.prototype.NewShader_Image = function( gl, shaderCode )
-					mEffect.mPasses[0].NewShader_Image(vs);
+					//// EffectPass.prototype.NewShader = function( gl, shaderCode )
+					//// EffectPass.prototype.NewShader_Image = function( gl, shaderCode )
+					//mEffect.mPasses[0].NewShader_Image(vs);
 
-					// ShaderToy.prototype.resetTime = function()
+					//// ShaderToy.prototype.resetTime = function()
 					// Effect.prototype.ResetTime = function()
 
 					// ShaderToy.prototype.startRendering = function()
@@ -164,19 +164,32 @@ namespace ChromeShaderToyColumns
 					// EffectPass.prototype.Paint = function( wa, gl, time, mouseOriX, mouseOriY, mousePosX, mousePosY, xres, yres, isPaused )
 					// EffectPass.prototype.Paint_Image = function( wa, gl, time, mouseOriX, mouseOriY, mousePosX, mousePosY, xres, yres )
 
+					var pass = new Library.ShaderToy.EffectPass(
+						mAudioContext,
+						gl,
+						precission: Library.ShaderToy.DetermineShaderPrecission(gl),
+						supportDerivatives: gl.getExtension("OES_standard_derivatives") != null,
+						callback: null,
+						obj: null,
+						forceMuted: false,
+						forcePaused: false,
+						quadVBO: Library.ShaderToy.createQuadVBO(gl),
+						outputGainNode: null
+					);
+					pass.MakeHeader_Image();
+					pass.NewShader_Image(vs);
+
 					var sw = Stopwatch.StartNew();
 
 					do
 					{
-						mEffect.mPasses[0].Paint_Image(
+						pass.Paint_Image(
 							sw.ElapsedMilliseconds / 1000.0f,
+
 							mMouseOriX,
 							mMouseOriY,
 							mMousePosX,
-							mMousePosY,
-
-							xres: c.width,
-							yres: c.height
+							mMousePosY
 						);
 
 						// what does it do?

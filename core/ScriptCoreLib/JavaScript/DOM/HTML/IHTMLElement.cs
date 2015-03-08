@@ -150,6 +150,22 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 			}
 		}
 		#endregion
+
+		#region event onchange
+		public event System.Action<IEvent<TTargetElement>> onchange
+		{
+			[Script(DefineAsStatic = true)]
+			add
+			{
+				base.InternalEvent(true, value, "change");
+			}
+			[Script(DefineAsStatic = true)]
+			remove
+			{
+				base.InternalEvent(false, value, "change");
+			}
+		}
+		#endregion
 	}
 
 
