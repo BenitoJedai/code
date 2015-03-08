@@ -13,14 +13,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using ChromeShaderToySeascapeByTDM;
-using ChromeShaderToySeascapeByTDM.Design;
-using ChromeShaderToySeascapeByTDM.HTML.Pages;
-using System.Diagnostics;
+using ChromeShaderToyPrimitivesByQuilez;
+using ChromeShaderToyPrimitivesByQuilez.Design;
+using ChromeShaderToyPrimitivesByQuilez.HTML.Pages;
 using ScriptCoreLib.JavaScript.WebAudio;
 using ScriptCoreLib.JavaScript.WebGL;
+using System.Diagnostics;
 
-namespace ChromeShaderToySeascapeByTDM
+namespace ChromeShaderToyPrimitivesByQuilez
 {
 	/// <summary>
 	/// Your client side code running inside a web browser as JavaScript.
@@ -33,6 +33,8 @@ namespace ChromeShaderToySeascapeByTDM
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
+			// https://www.shadertoy.com/view/Xds3zN
+
 			// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyColumns\ChromeShaderToyColumns\Application.cs
 			// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToySeascapeByTDM\ChromeShaderToySeascapeByTDM\Application.cs
 
