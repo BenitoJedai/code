@@ -191,10 +191,7 @@ namespace ChromeShaderToyVRCardboardGrid
 							mMouseOriX,
 							mMouseOriY,
 							mMousePosX,
-							mMousePosY,
-
-							xres: c.width,
-							yres: c.height
+							mMousePosY
 						);
 
 

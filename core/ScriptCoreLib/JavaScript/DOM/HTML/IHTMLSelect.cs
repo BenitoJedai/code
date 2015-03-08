@@ -12,11 +12,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     /// http://www.htmlcodetutorial.com/forms/_SELECT.html
     /// </summary>
     [Script(InternalConstructor = true)]
-    public class IHTMLSelect : IHTMLElement
+    public class IHTMLSelect : IHTMLElement<IHTMLSelect>
     {
         public bool @readOnly;
         public int size;
-        public int selectedIndex;
+
+		public int selectedIndex;
+
         public bool disabled;
         public bool multiple;
 
