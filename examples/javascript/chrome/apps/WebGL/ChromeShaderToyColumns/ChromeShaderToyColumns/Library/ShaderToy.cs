@@ -28,7 +28,7 @@ namespace ChromeShaderToyColumns.Library
 	//		Create Partial Type: ChromeShaderToyColumns.Application+RefreshTexturThumbailDelegate
 	//0930:02:01 RewriteToAssembly error: System.NotSupportedException: Parent does not have a default constructor.The default constructor must be explicitly defined.
 
-	delegate void RefreshTexturThumbailDelegate(
+	public delegate void RefreshTexturThumbailDelegate(
 		object myself,
 		int slot,
 		object img,
@@ -39,8 +39,10 @@ namespace ChromeShaderToyColumns.Library
 		);
 
 
-	class ShaderToy
+	public class ShaderToy
 	{
+		// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToySeascapeByTDM\ChromeShaderToySeascapeByTDM\Application.cs
+
 		static WebGLBuffer createQuadVBO(gl gl)
 		{
 			new IHTMLPre { "enter createQuadVBO" }.AttachToDocument();
