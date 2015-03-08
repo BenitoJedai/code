@@ -95,13 +95,22 @@ namespace ScriptCoreLib.JavaScript.DOM
             #endregion
 
             #region onframe
-            public Task onframe
+            public Task<FrameEvent> onframe
             {
                 [Script(DefineAsStatic = true)]
                 get
                 {
-                    var x = new TaskCompletionSource<object>();
-                    that.requestAnimationFrame += () => x.SetResult(null);
+					// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyColumns\ChromeShaderToyColumns\Application.cs
+					var e = new FrameEvent();
+
+					var x = new TaskCompletionSource<FrameEvent>();
+					that.requestAnimationFrame +=
+						delegate
+						{
+							x.SetResult(e);
+						};
+
+
                     return x.Task;
                 }
             }

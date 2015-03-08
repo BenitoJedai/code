@@ -128,6 +128,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shaders\ProgramFragmentShader.cs" />
+    <Content Include="Design\UIKeepRendering.htm" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="ApplicationWebService.cs" />

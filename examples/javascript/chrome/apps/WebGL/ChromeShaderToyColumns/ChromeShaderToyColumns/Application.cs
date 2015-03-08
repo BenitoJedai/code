@@ -21,6 +21,7 @@ using ScriptCoreLib.JavaScript.WebAudio;
 
 namespace ChromeShaderToyColumns
 {
+	using System.Diagnostics;
 	using gl = WebGLRenderingContext;
 
 	//		Create Partial Type: ChromeShaderToyColumns.Application+RefreshTexturThumbailDelegate
@@ -41,13 +42,15 @@ namespace ChromeShaderToyColumns
 	/// </summary>
 	public sealed class Application : ApplicationWebService
 	{
-	
+
 
 
 
 
 		static WebGLBuffer createQuadVBO(gl gl)
 		{
+			new IHTMLPre { "enter createQuadVBO" }.AttachToDocument();
+
 			var vertices = new Float32Array(new float[]
 				{ -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f }
 				);
@@ -69,8 +72,16 @@ namespace ChromeShaderToyColumns
 			public WebGLProgram mProgram;
 		}
 
-		static CreateShaderResult CreateShader(WebGLRenderingContext gl, string tvs, string tfs, bool nativeDebug)
+		static CreateShaderResult CreateShader(
+			WebGLRenderingContext gl,
+			string tvs,
+			string tfs,
+			bool nativeDebug
+			)
 		{
+			new IHTMLPre { "enter CreateShader" }.AttachToDocument();
+
+			//new WebGLProgram(gl);
 			var tmpProgram = gl.createProgram();
 
 			var vs = gl.createShader(gl.VERTEX_SHADER);
@@ -82,17 +93,19 @@ namespace ChromeShaderToyColumns
 			gl.compileShader(vs);
 			gl.compileShader(fs);
 
-			if (gl.getShaderParameter(vs, gl.COMPILE_STATUS) != null)
+			if (gl.getShaderParameter(vs, gl.COMPILE_STATUS) == null)
 			{
 				var infoLog = gl.getShaderInfoLog(vs);
 				gl.deleteProgram(tmpProgram);
+				new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
 				return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
 			}
 
-			if (gl.getShaderParameter(fs, gl.COMPILE_STATUS) != null)
+			if (gl.getShaderParameter(fs, gl.COMPILE_STATUS) == null)
 			{
 				var infoLog = gl.getShaderInfoLog(fs);
 				gl.deleteProgram(tmpProgram);
+				new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
 				return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
 			}
 
@@ -109,15 +122,17 @@ namespace ChromeShaderToyColumns
 			gl.attachShader(tmpProgram, vs);
 			gl.attachShader(tmpProgram, fs);
 
+			// using dispose?
 			gl.deleteShader(vs);
 			gl.deleteShader(fs);
 
 			gl.linkProgram(tmpProgram);
 
-			if (gl.getProgramParameter(tmpProgram, gl.LINK_STATUS) != null)
+			if (gl.getProgramParameter(tmpProgram, gl.LINK_STATUS) == null)
 			{
 				var infoLog = gl.getProgramInfoLog(tmpProgram);
 				gl.deleteProgram(tmpProgram);
+				new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
 				return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
 			}
 
@@ -126,6 +141,8 @@ namespace ChromeShaderToyColumns
 
 		static string DetermineShaderPrecission(WebGLRenderingContext gl)
 		{
+			new IHTMLPre { "enter DetermineShaderPrecission" }.AttachToDocument();
+
 			var h1 = "#ifdef GL_ES\n" +
 					 "precision highp float;\n" +
 					 "#endif\n";
@@ -188,11 +205,19 @@ namespace ChromeShaderToyColumns
 				GainNode outputGainNode
 				)
 			{
+				new IHTMLPre { "enter EffectPass" }.AttachToDocument();
+
 				var mInputs = new object[4];
+
+				// used by?
+				var mFrame = 0;
 
 				this.MakeHeader_Image = delegate
 				{
 					#region MakeHeader_Image
+					new IHTMLPre { "enter MakeHeader_Image" }.AttachToDocument();
+
+
 					var header = precission;
 					var headerlength = 3;
 
@@ -235,14 +260,15 @@ namespace ChromeShaderToyColumns
 					this.NewShader_Image = (gl0, shaderCode) =>
 					{
 						#region NewShader_Image
+						new IHTMLPre { "enter NewShader_Image" }.AttachToDocument();
+
+
 						var vsSource = "attribute vec2 pos; void main() { gl_Position = vec4(pos.xy,0.0,1.0); }";
 						var res = CreateShader(gl0, vsSource, header + shaderCode + mImagePassFooter, false);
 
 						var mProgram = res.mProgram;
 						#endregion
 
-						// used by?
-						var mFrame = 0;
 
 						#region calledby
 						//EffectPass.Paint_Image(effect.js:724)
@@ -256,6 +282,9 @@ namespace ChromeShaderToyColumns
 						this.Paint_Image = (wa, gl, time, mouseOriX, mouseOriY, mousePosX, mousePosY, xres, yres) =>
 						{
 							#region Paint_Image
+							new IHTMLPre { "enter Paint_Image" }.AttachToDocument();
+
+
 							gl.viewport(0, 0, xres, yres);
 
 							gl.useProgram(mProgram);
@@ -303,12 +332,12 @@ namespace ChromeShaderToyColumns
 
 
 							gl.drawArrays(gl.TRIANGLES, 0, 6);
+							// first frame is now visible
 							gl.disableVertexAttribArray(l1);
 							#endregion
 
 							mFrame++;
 
-							// first frame is now visible
 						};
 					};
 				};
@@ -319,7 +348,7 @@ namespace ChromeShaderToyColumns
 		class Effect
 		{
 			private GainNode mGainNode;
-			private EffectPass[] mPasses;
+			public EffectPass[] mPasses;
 			private WebGLBuffer mQuadVBO;
 			private bool mSupportTextureFloat;
 
@@ -333,6 +362,7 @@ namespace ChromeShaderToyColumns
 				bool forceMuted,
 				bool forcePaused)
 			{
+				new IHTMLPre { "enter Effect" }.AttachToDocument();
 
 				var ext = gl.getExtension("OES_standard_derivatives");
 				var supportsDerivatives = (ext != null);
@@ -3741,44 +3771,107 @@ namespace ChromeShaderToyColumns
 			// must be a frag
 
 
-			// 308
-			// this.mEffect = new Effect( this.mAudioContext, this.mGLContext, this.mCanvas.width, this.mCanvas.height, this.RefreshTexturThumbail, this, false, false );
 			// <body onload="watchInit()" 
 
-
-
-
-			//  res = loadShader( gShaderID );
-			// updatepage( jsn );
-			//  gRes = gShaderToy.newScriptJSON( jsnShader[0] )
-			// EffectPass.prototype.NewTexture = function( wa, gl, slot, url )
-			// EffectPass.prototype.MakeHeader_Image = function( precission, supportDerivatives )
-			// var shaderStr = rpass.code;
-			// EffectPass.prototype.NewShader = function( gl, shaderCode )
-			// EffectPass.prototype.NewShader_Image = function( gl, shaderCode )
-			// Effect.prototype.ResetTime = function()
 
 			new { }.With(
 				async delegate
 				{
 					new IHTMLPre { "init..." }.AttachToDocument();
 
+					// function ShaderToy( parentElement, editorParent, passParent )
+					// function buildInputsUI( me )
 
-					//public class ProgramFragmentShader : FragmentShader
-					var fs = new Shaders.ProgramFragmentShader();
+					//  this.mGLContext = createGlContext( this.mCanvas, false, true );
+					//  {alpha: useAlpha, depth: false, antialias: false, stencil: true, premultipliedAlpha: false, preserveDrawingBuffer: usePreserveBuffer } 
+					var mGLContext = new WebGLRenderingContext();
+
+					var mCanvas = mGLContext.canvas.AttachToDocument();
+					mCanvas.style.SetSize(460, 237);
+					mCanvas.width = 460;
+					mCanvas.height = 237;
+
+					var mMouseOriX = 0;
+					var mMouseOriY = 0;
+					var mMousePosX = 0;
+					var mMousePosY = 0;
 
 
-					//Native.window.onframe +=
-					//delegate
-					//{
+					var mAudioContext = new AudioContext();
+
+
+					// 308
+					var mEffect = new Effect(
+						mAudioContext,
+						mGLContext,
+						mCanvas.width,
+						mCanvas.height,
+						callback: delegate
+						{
+							new IHTMLPre { "at callback" }.AttachToDocument();
+
+						},
+						obj: null,
+						forceMuted: false,
+						forcePaused: false);
+
+					//  res = loadShader( gShaderID );
+
+					//  gRes = gShaderToy.newScriptJSON( jsnShader[0] )
+
+					var rpass = new
+					{
+						code = new Shaders.ProgramFragmentShader().ToString()
+
+					};
+
+					//mEffect.mPasses[0].NewTexture
+					// EffectPass.prototype.NewTexture = function( wa, gl, slot, url )
+
+					// this.mPasses[j].Create( rpass.type, this.mAudioContext, this.mGLContext );
+					// EffectPass.prototype.MakeHeader_Image = function( precission, supportDerivatives )
+					mEffect.mPasses[0].MakeHeader_Image();
+
+					// EffectPass.prototype.NewShader = function( gl, shaderCode )
+					// EffectPass.prototype.NewShader_Image = function( gl, shaderCode )
+					mEffect.mPasses[0].NewShader_Image(mGLContext, rpass.code);
+
+					// ShaderToy.prototype.resetTime = function()
+					// Effect.prototype.ResetTime = function()
+
 					// ShaderToy.prototype.startRendering = function()
 
 					// Effect.prototype.Paint = function(time, mouseOriX, mouseOriY, mousePosX, mousePosY, isPaused)
 					// EffectPass.prototype.Paint = function( wa, gl, time, mouseOriX, mouseOriY, mousePosX, mousePosY, xres, yres, isPaused )
 					// EffectPass.prototype.Paint_Image = function( wa, gl, time, mouseOriX, mouseOriY, mousePosX, mousePosY, xres, yres )
 
-					//me.mEffect.Paint(ltime / 1000.0, me.mMouseOriX, me.mMouseOriY, me.mMousePosX, me.mMousePosY, me.mIsPaused);
-					//  me.mGLContext.flush();
+
+					var sw = Stopwatch.StartNew();
+					var u = new UIKeepRendering().AttachToDocument();
+
+					do
+					{
+						mEffect.mPasses[0].Paint_Image(
+						mAudioContext,
+						mGLContext,
+						sw.ElapsedMilliseconds / 1000.0f,
+						mMouseOriX,
+						mMouseOriY,
+						mMousePosX,
+						mMousePosY,
+
+						xres: mCanvas.width,
+						yres: mCanvas.height
+						);
+
+						// what does it do?
+						mGLContext.flush();
+
+						//await u.animate.async.ch
+						//await u.animate.
+					}
+					while (await Native.window.async.onframe);
+
 				}
 			);
 		}
