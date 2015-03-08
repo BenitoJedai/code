@@ -14,6 +14,9 @@ namespace ScriptCoreLib.JavaScript.WebAudio
     [Script(HasNoPrototype = true, ExternalTarget = "AudioContext")]
     public class AudioContext
     {
+		// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyColumns\ChromeShaderToyColumns\Application.cs
+		// createGain
+
 		// https://www.shadertoy.com/view/Xds3Rr
 		// http://webaudio.github.io/web-audio-api/#the-stereopannernode-interface
 
@@ -42,7 +45,13 @@ namespace ScriptCoreLib.JavaScript.WebAudio
             return default(OscillatorNode);
         }
 
-        public IPromise close()
+
+		public GainNode createGain()
+		{
+            return default(GainNode);
+		}
+
+		public IPromise close()
         {
 
             return null;
