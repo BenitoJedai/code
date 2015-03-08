@@ -42,7 +42,7 @@ namespace ScriptCoreLib.JavaScript.Controls
         System.Action<IEvent> ondocumentmousemove;
         System.Action<IEvent> ondocumentmouseup;
 
-        System.Action<IMouseDownEvent> onmousedown;
+        System.Action<IMouseDownEvent<IHTMLElement>> onmousedown;
         System.Action<TouchEvent> ontouchstart;
 
         System.Action<TouchEvent> ontouchmove;

@@ -59,6 +59,10 @@ namespace ChromeShaderToyColumns.Library
 			return vbo;
 		}
 
+		public class samplerCube
+		{
+
+		}
 
 		class CreateShaderResult
 		{
@@ -75,10 +79,10 @@ namespace ChromeShaderToyColumns.Library
 			bool nativeDebug
 			)
 		{
-			//new IHTMLPre { "enter CreateShader" }.AttachToDocument();
+			new IHTMLPre { "enter CreateShader" }.AttachToDocument();
 
 			//new WebGLProgram(gl);
-			var tmpProgram = gl.createProgram();
+			var p = gl.createProgram();
 
 			var vs = gl.createShader(gl.VERTEX_SHADER);
 			var fs = gl.createShader(gl.FRAGMENT_SHADER);
@@ -92,7 +96,7 @@ namespace ChromeShaderToyColumns.Library
 			if (gl.getShaderParameter(vs, gl.COMPILE_STATUS) == null)
 			{
 				var infoLog = gl.getShaderInfoLog(vs);
-				gl.deleteProgram(tmpProgram);
+				gl.deleteProgram(p);
 				new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
 				return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
 			}
@@ -100,7 +104,7 @@ namespace ChromeShaderToyColumns.Library
 			if (gl.getShaderParameter(fs, gl.COMPILE_STATUS) == null)
 			{
 				var infoLog = gl.getShaderInfoLog(fs);
-				gl.deleteProgram(tmpProgram);
+				gl.deleteProgram(p);
 				new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
 				return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
 			}
@@ -115,24 +119,27 @@ namespace ChromeShaderToyColumns.Library
 				}
 			}
 
-			gl.attachShader(tmpProgram, vs);
-			gl.attachShader(tmpProgram, fs);
+			gl.attachShader(p, vs);
+			gl.attachShader(p, fs);
 
 			// using dispose?
 			gl.deleteShader(vs);
 			gl.deleteShader(fs);
 
-			gl.linkProgram(tmpProgram);
+			gl.linkProgram(p);
 
-			if (gl.getProgramParameter(tmpProgram, gl.LINK_STATUS) == null)
+			if (gl.getProgramParameter(p, gl.LINK_STATUS) == null)
 			{
-				var infoLog = gl.getProgramInfoLog(tmpProgram);
-				gl.deleteProgram(tmpProgram);
+				var infoLog = gl.getProgramInfoLog(p);
+				gl.deleteProgram(p);
 				new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
 				return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
 			}
 
-			return new CreateShaderResult { mSuccess = true, mProgram = tmpProgram };
+			// https://msdn.microsoft.com/en-us/library/ie/dn302415(v=vs.85).aspx
+			new IHTMLPre { "exit CreateShader" }.AttachToDocument();
+
+			return new CreateShaderResult { mSuccess = true, mProgram = p };
 		}
 
 		static string DetermineShaderPrecission(WebGLRenderingContext gl)
@@ -164,6 +171,7 @@ namespace ChromeShaderToyColumns.Library
 
 		public class EffectPass
 		{
+			public object[] mInputs = new object[4];
 
 			public Action MakeHeader_Image;
 
@@ -205,7 +213,6 @@ namespace ChromeShaderToyColumns.Library
 			{
 				//new IHTMLPre { "enter EffectPass" }.AttachToDocument();
 
-				var mInputs = new object[4];
 
 				// used by?
 				var mFrame = 0;
@@ -213,7 +220,7 @@ namespace ChromeShaderToyColumns.Library
 				this.MakeHeader_Image = delegate
 				{
 					#region MakeHeader_Image
-					//new IHTMLPre { "enter MakeHeader_Image" }.AttachToDocument();
+					new IHTMLPre { "enter MakeHeader_Image" }.AttachToDocument();
 
 
 					var header = precission;
@@ -234,11 +241,20 @@ namespace ChromeShaderToyColumns.Library
 					{
 						var inp = mInputs[i];
 
+						// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyVRCardboardGrid\ChromeShaderToyVRCardboardGrid\Application.cs
+
 						//if (inp != null && inp.mInfo.mType == "cubemap")
-						if (inp != null)
+						if (inp is samplerCube)
+						{
+							new IHTMLPre { "add MakeHeader_Image samplerCube" }.AttachToDocument();
 							header += "uniform samplerCube iChannel" + i + ";\n";
+						}
 						else
+						{
+							new IHTMLPre { "add MakeHeader_Image sampler2D" }.AttachToDocument();
 							header += "uniform sampler2D iChannel" + i + ";\n";
+						}
+
 						headerlength++;
 					}
 
@@ -258,7 +274,7 @@ namespace ChromeShaderToyColumns.Library
 					this.NewShader_Image = (fs) =>
 					{
 						#region NewShader_Image
-						//new IHTMLPre { "enter NewShader_Image" }.AttachToDocument();
+						new IHTMLPre { "enter NewShader_Image" }.AttachToDocument();
 						var shaderCode = fs.ToString();
 
 						var vsSource = "attribute vec2 pos; void main() { gl_Position = vec4(pos.xy,0.0,1.0); }";
@@ -285,6 +301,7 @@ namespace ChromeShaderToyColumns.Library
 
 							gl.viewport(0, 0, xres, yres);
 
+							// useProgram: program not valid
 							gl.useProgram(mProgram);
 
 							// uniform4fv
@@ -353,14 +370,12 @@ namespace ChromeShaderToyColumns.Library
 			public Effect(
 				AudioContext ac,
 				WebGLRenderingContext gl,
-				int xres,
-				int yres,
 				RefreshTexturThumbailDelegate callback,
 				object obj,
 				bool forceMuted,
 				bool forcePaused)
 			{
-				//new IHTMLPre { "enter Effect" }.AttachToDocument();
+				new IHTMLPre { "enter Effect" }.AttachToDocument();
 
 				var ext = gl.getExtension("OES_standard_derivatives");
 				var supportsDerivatives = (ext != null);
@@ -464,8 +479,6 @@ namespace ChromeShaderToyColumns.Library
 				mAudioContext,
 				gl,
 
-				c.width,
-				c.height,
 				callback: delegate
 				{
 					new IHTMLPre { "at callback" }.AttachToDocument();

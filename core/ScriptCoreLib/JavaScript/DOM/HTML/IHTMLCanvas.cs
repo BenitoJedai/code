@@ -31,17 +31,19 @@ interface HTMLCanvasElement : HTMLElement {
 };
 ")]
     [Script(InternalConstructor = true)]
-    public class IHTMLCanvas : IHTMLElement
-    {
-        #region toDataURL
-        /// <summary>
-        /// http://my.jsc-solutions.net/toDataURL
-        /// or
-        /// <see cref="http://my.jsc-solutions.net/toDataURL" />
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public string toDataURL(string type)
+    public class IHTMLCanvas : IHTMLElement<IHTMLCanvas>
+	{
+		// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyVRCardboardGrid\ChromeShaderToyVRCardboardGrid\Application.cs
+
+		#region toDataURL
+		/// <summary>
+		/// http://my.jsc-solutions.net/toDataURL
+		/// or
+		/// <see cref="http://my.jsc-solutions.net/toDataURL" />
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		public string toDataURL(string type)
         {
             return default(string);
         }

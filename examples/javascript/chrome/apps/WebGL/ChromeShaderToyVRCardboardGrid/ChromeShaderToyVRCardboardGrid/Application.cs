@@ -1,4 +1,4 @@
-﻿using ScriptCoreLib;
+using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
@@ -13,27 +13,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using ChromeShaderToyColumns;
-using ChromeShaderToyColumns.Design;
-using ChromeShaderToyColumns.HTML.Pages;
-using ScriptCoreLib.JavaScript.WebGL;
+using ChromeShaderToyVRCardboardGrid;
+using ChromeShaderToyVRCardboardGrid.Design;
+using ChromeShaderToyVRCardboardGrid.HTML.Pages;
 using ScriptCoreLib.JavaScript.WebAudio;
+using ScriptCoreLib.JavaScript.WebGL;
+using System.Diagnostics;
 
-namespace ChromeShaderToyColumns
+namespace ChromeShaderToyVRCardboardGrid
 {
-	using ScriptCoreLib.GLSL;
-	using System.Diagnostics;
-	using gl = WebGLRenderingContext;
-
-	
 	/// <summary>
 	/// Your client side code running inside a web browser as JavaScript.
 	/// </summary>
 	public sealed class Application : ApplicationWebService
 	{
-
+		/// <summary>
+		/// This is a javascript application.
+		/// </summary>
+		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
+			// how does this work on android?
+
+			// https://www.shadertoy.com/view/MdfSRj#
+
+
 			#region += Launched chrome.app.window
 			dynamic self = Native.self;
 			dynamic self_chrome = self.chrome;
@@ -83,26 +87,11 @@ namespace ChromeShaderToyColumns
 			#endregion
 
 
-			// view-source:https://www.shadertoy.com/view/Xls3WS
-			// https://www.shadertoy.com/api
-
-			// https://www.shadertoy.com/view/Xls3WS
-			// https://www.shadertoy.com/js/cmRenderUtils.js
-			// https://www.shadertoy.com/js/effect.js
-		
-			// what does it take to import those nice shaders into jsc world?
-
-			// x:\jsc.svn\examples\javascript\webgl\webglchocolux\webglchocolux\application.cs
-			// it looks there are no channels.
-			// is it a vert or frag?
-			//  fragColor = vec4( col, 1.0 );
-			// must be a frag
-			// <body onload="watchInit()" 
-
-			new { }.With(
-				async delegate
+			new Shaders.ProgramFragmentShader().With(
+				async vs =>
 				{
-					var vs = new Shaders.ProgramFragmentShader();
+					Native.body.style.margin = "0px";
+					Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
 
 					var mAudioContext = new AudioContext();
 					var gl = new WebGLRenderingContext(alpha: true);
@@ -112,29 +101,9 @@ namespace ChromeShaderToyColumns
 					c.width = 460;
 					c.height = 237;
 
-					var u = new UIKeepRendering
-					{
-						animate = true
-					}.AttachToDocument();
-
-					//new IHTMLPre { "init..." }.AttachToDocument();
-
-					// function ShaderToy( parentElement, editorParent, passParent )
-					// function buildInputsUI( me )
-
-					//  this.mGLContext = createGlContext( this.mCanvas, false, true );
-					//  {alpha: useAlpha, depth: false, antialias: false, stencil: true, premultipliedAlpha: false, preserveDrawingBuffer: usePreserveBuffer } 
-
-					var mMouseOriX = 0;
-					var mMouseOriY = 0;
-					var mMousePosX = 0;
-					var mMousePosY = 0;
-
-					// 308
-					var mEffect = new Library.ShaderToy.Effect(
+					var mEffect = new ChromeShaderToyColumns.Library.ShaderToy.Effect(
 						mAudioContext,
 						gl,
-
 						callback: delegate
 						{
 							new IHTMLPre { "at callback" }.AttachToDocument();
@@ -146,30 +115,79 @@ namespace ChromeShaderToyColumns
 					);
 
 
-					//mEffect.mPasses[0].NewTexture
-					// EffectPass.prototype.NewTexture = function( wa, gl, slot, url )
-					// this.mPasses[j].Create( rpass.type, this.mAudioContext, this.mGLContext );
-					// EffectPass.prototype.MakeHeader_Image = function( precission, supportDerivatives )
-					mEffect.mPasses[0].MakeHeader_Image();
 
-					// EffectPass.prototype.NewShader = function( gl, shaderCode )
-					// EffectPass.prototype.NewShader_Image = function( gl, shaderCode )
+
+
+
+
+
+
+
+					#region CaptureMouse
+					var mMouseOriX = 0;
+					var mMouseOriY = 0;
+					var mMousePosX = 0;
+					var mMousePosY = 0;
+
+					c.onmousedown += ev =>
+					{
+						mMouseOriX = ev.CursorX;
+						mMouseOriY = ev.CursorY;
+						mMousePosX = mMouseOriX;
+						mMousePosY = mMouseOriY;
+
+						// why aint it canvas?
+						//ev.Element
+						ev.Element.requestPointerLock();
+						//ev.CaptureMouse();
+					};
+
+					c.onmousemove += ev =>
+					{
+						if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
+						{
+							mMousePosX += ev.movementX;
+							mMousePosY += ev.movementY;
+						}
+					};
+
+
+					c.onmouseup += ev =>
+					{
+						Native.document.exitPointerLock();
+						mMouseOriX = -Math.Abs(mMouseOriX);
+						mMouseOriY = -Math.Abs(mMouseOriY);
+
+					};
+					#endregion
+
+
+					mEffect.mPasses[0].mInputs[0] = new ChromeShaderToyColumns.Library.ShaderToy.samplerCube { };
+
+					mEffect.mPasses[0].MakeHeader_Image();
 					mEffect.mPasses[0].NewShader_Image(vs);
 
-					// ShaderToy.prototype.resetTime = function()
-					// Effect.prototype.ResetTime = function()
-
-					// ShaderToy.prototype.startRendering = function()
-					// Effect.prototype.Paint = function(time, mouseOriX, mouseOriY, mousePosX, mousePosY, isPaused)
-					// EffectPass.prototype.Paint = function( wa, gl, time, mouseOriX, mouseOriY, mousePosX, mousePosY, xres, yres, isPaused )
-					// EffectPass.prototype.Paint_Image = function( wa, gl, time, mouseOriX, mouseOriY, mousePosX, mousePosY, xres, yres )
+					#region onresize
+					new { }.With(
+						async delegate
+						{
+							do
+							{
+								c.width = Native.window.Width;
+								c.height = Native.window.Height / 2;
+								c.style.SetSize(c.width, c.height);
+							}
+							while (await Native.window.async.onresize);
+						}
+					);
+					#endregion
 
 					var sw = Stopwatch.StartNew();
-
 					do
 					{
 						mEffect.mPasses[0].Paint_Image(
 							sw.ElapsedMilliseconds / 1000.0f,
+
 							mMouseOriX,
 							mMouseOriY,
 							mMousePosX,
@@ -179,15 +197,14 @@ namespace ChromeShaderToyColumns
 							yres: c.height
 						);
 
+
 						// what does it do?
 						gl.flush();
 
-						await u.animate.async.@checked;
 					}
 					while (await Native.window.async.onframe);
-
 				}
-			);
+		);
 		}
 
 	}
