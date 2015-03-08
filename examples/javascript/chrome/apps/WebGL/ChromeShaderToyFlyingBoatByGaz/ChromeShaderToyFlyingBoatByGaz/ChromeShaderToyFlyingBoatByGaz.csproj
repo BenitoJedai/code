@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7BAB9333-88DD-4994-BB02-12E9C389F89C}</ProjectGuid>
+    <ProjectGuid>{431148FA-C0A9-4240-9380-655B10DE0C08}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChromeShaderToyHetchyScketchyByXbe</RootNamespace>
-    <AssemblyName>ChromeShaderToyHetchyScketchyByXbe</AssemblyName>
+    <RootNamespace>ChromeShaderToyFlyingBoatByGaz</RootNamespace>
+    <AssemblyName>ChromeShaderToyFlyingBoatByGaz</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ChromeShaderToyHetchyScketchyByXbe.Program</StartupObject>
+    <StartupObject>ChromeShaderToyFlyingBoatByGaz.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -126,8 +126,8 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="ChromeShaderToyHetchyScketchyByXbe.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ChromeShaderToyHetchyScketchyByXbe.AssetsLibrary.dll</HintPath>
+    <Reference Include="ChromeShaderToyFlyingBoatByGaz.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ChromeShaderToyFlyingBoatByGaz.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
