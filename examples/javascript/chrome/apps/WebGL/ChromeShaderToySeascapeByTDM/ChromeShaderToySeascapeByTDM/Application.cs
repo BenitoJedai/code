@@ -152,8 +152,6 @@ namespace ChromeShaderToySeascapeByTDM
 					mAudioContext,
 					gl,
 
-					c.width,
-					c.height,
 					callback: delegate
 					{
 						new IHTMLPre { "at callback" }.AttachToDocument();
@@ -176,10 +174,8 @@ namespace ChromeShaderToySeascapeByTDM
 						mMouseOriX,
 						mMouseOriY,
 						mMousePosX,
-						mMousePosY,
+						mMousePosY
 
-						xres: c.width,
-						yres: c.height
 					);
 
 					// what does it do?
