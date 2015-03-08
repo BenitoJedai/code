@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{426A9419-9287-4880-979F-29F29D3F2A22}</ProjectGuid>
+    <ProjectGuid>{227E87F8-F14F-470E-8A9A-CCF1DCD8EB02}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ChromeShaderToyColumns</RootNamespace>

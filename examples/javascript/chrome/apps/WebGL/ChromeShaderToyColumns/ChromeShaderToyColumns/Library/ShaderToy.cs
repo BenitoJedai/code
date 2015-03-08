@@ -45,7 +45,7 @@ namespace ChromeShaderToyColumns.Library
 
 		static WebGLBuffer createQuadVBO(gl gl)
 		{
-			new IHTMLPre { "enter createQuadVBO" }.AttachToDocument();
+			//new IHTMLPre { "enter createQuadVBO" }.AttachToDocument();
 
 			var vertices = new Float32Array(new float[]
 				{ -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f }
@@ -75,7 +75,7 @@ namespace ChromeShaderToyColumns.Library
 			bool nativeDebug
 			)
 		{
-			new IHTMLPre { "enter CreateShader" }.AttachToDocument();
+			//new IHTMLPre { "enter CreateShader" }.AttachToDocument();
 
 			//new WebGLProgram(gl);
 			var tmpProgram = gl.createProgram();
@@ -137,7 +137,7 @@ namespace ChromeShaderToyColumns.Library
 
 		static string DetermineShaderPrecission(WebGLRenderingContext gl)
 		{
-			new IHTMLPre { "enter DetermineShaderPrecission" }.AttachToDocument();
+			//new IHTMLPre { "enter DetermineShaderPrecission" }.AttachToDocument();
 
 			var h1 = "#ifdef GL_ES\n" +
 					 "precision highp float;\n" +
@@ -203,7 +203,7 @@ namespace ChromeShaderToyColumns.Library
 				GainNode outputGainNode
 				)
 			{
-				new IHTMLPre { "enter EffectPass" }.AttachToDocument();
+				//new IHTMLPre { "enter EffectPass" }.AttachToDocument();
 
 				var mInputs = new object[4];
 
@@ -213,7 +213,7 @@ namespace ChromeShaderToyColumns.Library
 				this.MakeHeader_Image = delegate
 				{
 					#region MakeHeader_Image
-					new IHTMLPre { "enter MakeHeader_Image" }.AttachToDocument();
+					//new IHTMLPre { "enter MakeHeader_Image" }.AttachToDocument();
 
 
 					var header = precission;
@@ -258,7 +258,7 @@ namespace ChromeShaderToyColumns.Library
 					this.NewShader_Image = (fs) =>
 					{
 						#region NewShader_Image
-						new IHTMLPre { "enter NewShader_Image" }.AttachToDocument();
+						//new IHTMLPre { "enter NewShader_Image" }.AttachToDocument();
 						var shaderCode = fs.ToString();
 
 						var vsSource = "attribute vec2 pos; void main() { gl_Position = vec4(pos.xy,0.0,1.0); }";
@@ -360,7 +360,7 @@ namespace ChromeShaderToyColumns.Library
 				bool forceMuted,
 				bool forcePaused)
 			{
-				new IHTMLPre { "enter Effect" }.AttachToDocument();
+				//new IHTMLPre { "enter Effect" }.AttachToDocument();
 
 				var ext = gl.getExtension("OES_standard_derivatives");
 				var supportsDerivatives = (ext != null);
