@@ -148,7 +148,7 @@ namespace HeatZeekerRTSOrto
 
                 var material = new THREE.LineBasicMaterial(new { color = 0, opacity = 0.2 });
 
-                var line = new THREE.Line(geometry, material) { mode = THREE.LinePieces };
+				var line = new THREE.Line(geometry, material, mode: THREE.LinePieces );
                 scene.add(line);
             }
 
