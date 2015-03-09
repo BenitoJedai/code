@@ -303,6 +303,15 @@
     <Reference Include="ChromeShaderToySymmetricOriginsByGood.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToySymmetricOriginsByGood\ChromeShaderToySymmetricOriginsByGood\bin\staging.AssetsLibrary\ChromeShaderToySymmetricOriginsByGood.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyAnalyticalMotionblurByIq.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyAnalyticalMotionblurByIq\ChromeShaderToyAnalyticalMotionblurByIq\bin\staging.AssetsLibrary\ChromeShaderToyAnalyticalMotionblurByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyOnOffSpikesByMovAX13h.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyOnOffSpikesByMovAX13h\ChromeShaderToyOnOffSpikesByMovAX13h\bin\staging.AssetsLibrary\ChromeShaderToyOnOffSpikesByMovAX13h.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyRollingBallByHoskins.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRollingBallByHoskins\ChromeShaderToyRollingBallByHoskins\bin\staging.AssetsLibrary\ChromeShaderToyRollingBallByHoskins.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
