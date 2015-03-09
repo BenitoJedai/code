@@ -114,8 +114,12 @@ namespace ChromeShaderToyPrograms
 			//combo.style.right = "0px";
 			combo.style.width = "100%";
 
-			combo.style.backgroundColor = "rgba(255,255,255,0.5)";
+			//combo.style.backgroundColor = "rgba(255,255,255,0.5)";
+			combo.style.background = "linear-gradient(to bottom, rgba(255,255,255,0.5 0%,rgba(255,255,255,0.0 100%)";
 			combo.style.border = "0px solid transparent";
+			combo.style.fontSize = "large";
+			combo.style.paddingLeft = "1em";
+			combo.style.fontFamily = IStyle.FontFamilyEnum.Helvetica;
 
 
 			var mAudioContext = new AudioContext();
