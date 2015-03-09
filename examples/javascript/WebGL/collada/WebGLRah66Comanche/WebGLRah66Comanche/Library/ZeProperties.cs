@@ -12,7 +12,7 @@ using ScriptCoreLib.CompilerServices;
 using System.Runtime.CompilerServices;
 using ScriptCoreLib.JavaScript.DOM;
 using System.Diagnostics;
-using THREE;
+using static THREE;
 
 namespace WebGLRah66Comanche.Library
 {
@@ -45,7 +45,7 @@ namespace WebGLRah66Comanche.Library
 
         public async void Add(string name, Func<bool> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} <- \{get_subject()}");
+            var n = Nodes.Add($"{name} <- {get_subject()}");
         }
 
         public async void Add(string name, Func<int> get_subject, TreeNodeCollection Nodes = null)
@@ -60,7 +60,7 @@ namespace WebGLRah66Comanche.Library
                 var v = get_subject();
 
                 //n.Text = "\{name} = \{v} #\{frame}";
-                n.Text = "\{name} = \{v}";
+                n.Text = $"{name} = {v}";
 
                 await Task.Delay(1000 / 5);
 
@@ -85,7 +85,7 @@ namespace WebGLRah66Comanche.Library
                 var v = get_subject();
 
                 //n.Text = "\{name} = \{v} #\{frame}";
-                n.Text = "\{name} = \{v}";
+                n.Text = $"{name} = {v}";
 
                 await Task.Delay(1000 / 5);
 
@@ -101,7 +101,7 @@ namespace WebGLRah66Comanche.Library
         async void Add(string name, Func<Group> get_subject, TreeNodeCollection Nodes = null)
         {
             var x = get_subject();
-            var n = Nodes.Add("\{name} : \{nameof(Group)} '\{x.name}' (\{x.children.Length})");
+            var n = Nodes.Add($"{name} : {nameof(Group)} '{x.name}' ({x.children.Length})");
             n.Tag = x;
 
             await n.AsyncAfterExpand();
@@ -115,7 +115,7 @@ namespace WebGLRah66Comanche.Library
             // X:\jsc.svn\examples\javascript\WebGL\WebGLSVGSprite\WebGLSVGSprite\Application.cs
 
             var x = get_subject();
-            var n = Nodes.Add("\{name} : \{nameof(Sprite)} '\{x.name}' (\{x.children.Length})");
+            var n = Nodes.Add($"{name} : {nameof(Sprite)} '{x.name}' ({x.children.Length})");
             n.Tag = x;
 
             await n.AsyncAfterExpand();
@@ -131,7 +131,7 @@ namespace WebGLRah66Comanche.Library
             var x = get_subject();
 
             var n = Nodes.Add(
-                "\{name} : \{nameof(Object3D)} '\{x.name}' (\{x.children.Length})"
+                $"{name} : {nameof(Object3D)} '{x.name}' ({x.children.Length})"
                 );
             n.Tag = x;
 
@@ -168,7 +168,7 @@ namespace WebGLRah66Comanche.Library
             await n.AsyncAfterCollapse();
             Console.WriteLine("AsyncAfterCollapse");
             n.Text =
-                "\{name} : \{nameof(Object3D)} '\{x.name}' (\{x.children.Length})";
+                $"{name} : {nameof(Object3D)} '{x.name}' ({x.children.Length})";
 
             n.Nodes.Clear();
 
@@ -182,7 +182,7 @@ namespace WebGLRah66Comanche.Library
 
             // X:\jsc.svn\examples\javascript\WebGL\WebGLDashedLines\WebGLDashedLines\Application.cs
             var x = get_subject();
-            var n = Nodes.Add("\{name} : \{nameof(Line)} '\{x.name}' [\{x.geometry.vertices.Length}]");
+            var n = Nodes.Add($"{name} : {nameof(Line)} '{x.name}' [{x.geometry.vertices.Length}]");
             n.Tag = x;
 
             await n.AsyncAfterExpand();
@@ -200,7 +200,7 @@ namespace WebGLRah66Comanche.Library
         {
             // overload seems to work nicely. yet we have to do manual base types /RTTI 
 
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Camera)}");
+            var n = Nodes.Add($"{name} : {nameof(THREE.Camera)}");
             await n.AsyncAfterExpand();
 
             var xCamera = get_subject();
@@ -214,7 +214,7 @@ namespace WebGLRah66Comanche.Library
         // http://threejs.org/docs/#Reference/Cameras/PerspectiveCamera
         async void Add(string name, Func<THREE.PerspectiveCamera> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.PerspectiveCamera)}");
+            var n = Nodes.Add($"{name} : {nameof(THREE.PerspectiveCamera)}");
             await n.AsyncAfterExpand();
 
             var xPerspectiveCamera = get_subject();
@@ -236,7 +236,7 @@ namespace WebGLRah66Comanche.Library
 
         async void Add(string name, Func<THREE.OrthographicCamera> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.OrthographicCamera)}");
+            var n = Nodes.Add($"{name} : {nameof(THREE.OrthographicCamera)}");
             await n.AsyncAfterExpand();
 
             var xPerspectiveCamera = get_subject();
@@ -255,7 +255,7 @@ namespace WebGLRah66Comanche.Library
             // overload seems to work nicely. yet we have to do manual base types /RTTI 
 
             var n = Nodes.Add(
-                "\{name} : \{nameof(THREE.Vector3)}(x,y,z)"
+                $"{name} : {nameof(THREE.Vector3)}(x,y,z)"
             );
 
             await n.AsyncAfterExpand();
@@ -285,7 +285,7 @@ namespace WebGLRah66Comanche.Library
         {
             // overload seems to work nicely. yet we have to do manual base types /RTTI 
 
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Matrix4)}");
+            var n = Nodes.Add($"{name} : {nameof(THREE.Matrix4)}");
 
             var xMatrix4 = get_subject();
 
@@ -298,29 +298,29 @@ namespace WebGLRah66Comanche.Library
         public async void Add(string name, Func<object[]> get_subject, TreeNodeCollection Nodes = null)
         {
             var a = get_subject();
-            var n = Nodes.Add("+ \{name}[\{a.Length}]");
+            var n = Nodes.Add($"+ {name}[{a.Length}]");
 
             await n.AsyncAfterExpand();
 
-            n.Text = "\{name}[\{a.Length}]";
+            n.Text = $"{name}[{a.Length}]";
 
             for (int i = 0; i < a.Length; i++)
             {
-                Add("[\{i}]", () => a[i], n.Nodes);
+                Add($"[{i}]", () => a[i], n.Nodes);
             }
         }
 
 
         async void Add(string name, Func<THREE.Light> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Light)}");
+            var n = Nodes.Add($"{name} : {nameof(THREE.Light)}");
             var x = get_subject();
             Add("base", () => (THREE.Object3D)x, n.Nodes);
         }
 
         async void Add(string name, Func<THREE.AmbientLight> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.AmbientLight)}");
+            var n = Nodes.Add($"{name} : {nameof(THREE.AmbientLight)}");
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add("base", () => (THREE.Light)x, n.Nodes);
@@ -328,7 +328,7 @@ namespace WebGLRah66Comanche.Library
 
         async void Add(string name, Func<THREE.DirectionalLight> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.DirectionalLight)}");
+            var n = Nodes.Add($"{name} : {nameof(THREE.DirectionalLight)}");
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add("base", () => (THREE.Light)x, n.Nodes);
@@ -338,7 +338,7 @@ namespace WebGLRah66Comanche.Library
         async void Add(string name, Func<Mesh> get_subject, TreeNodeCollection Nodes = null)
         {
             var x = get_subject();
-            var n = Nodes.Add("\{name} : \{nameof(Mesh)} '\{x.name}' (\{x.geometry.vertices.Length} vertices)");
+            var n = Nodes.Add($"{name} : {nameof(Mesh)} '{x.name}' ({x.geometry.vertices.Length} vertices)");
             n.Tag = x;
             await n.AsyncAfterExpand();
             Add("base", () => (Object3D)x, n.Nodes);
@@ -349,7 +349,7 @@ namespace WebGLRah66Comanche.Library
         async void Add(string name, Func<MorphAnimMesh> get_subject, TreeNodeCollection Nodes = null)
         {
             var x = get_subject();
-            var n = Nodes.Add("\{name} : \{nameof(MorphAnimMesh)} '\{x.name}' (\{x.geometry.morphTargets.Length} morphTargets)");
+            var n = Nodes.Add($"{name} : {nameof(MorphAnimMesh)} '{x.name}' ({x.geometry.morphTargets.Length} morphTargets)");
             n.Tag = x;
             await n.AsyncAfterExpand();
             Add("base", () => (Mesh)x, n.Nodes);
@@ -359,7 +359,7 @@ namespace WebGLRah66Comanche.Library
         async void Add(string name, Func<Scene> get_subject, TreeNodeCollection Nodes = null)
         {
             var x = get_subject();
-            var n = Nodes.Add("\{name} : \{nameof(Scene)} '\{x.name}' (\{x.children.Length})");
+            var n = Nodes.Add($"{name} : {nameof(Scene)} '{x.name}' ({x.children.Length})");
             n.Tag = x;
             await n.AsyncAfterExpand();
             Add("base", () => (THREE.Object3D)x, n.Nodes);
@@ -368,7 +368,7 @@ namespace WebGLRah66Comanche.Library
 
         async void Add(string name, Func<THREE.Quaternion> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Quaternion)}");
+            var n = Nodes.Add($"{name} : {nameof(THREE.Quaternion)}");
             await n.AsyncAfterExpand();
             var x = get_subject();
             //Add("base", () => (THREE.Object3D)x, n.Nodes);
@@ -379,7 +379,7 @@ namespace WebGLRah66Comanche.Library
         // http://threejs.org/docs/#Reference/Materials/MeshPhongMaterial
         async void Add(string name, Func<THREE.MeshPhongMaterial> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.MeshPhongMaterial)}");
+            var n = Nodes.Add($"{name} : {nameof(THREE.MeshPhongMaterial)}");
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add("base", () => (THREE.Material)x, n.Nodes);
@@ -392,7 +392,7 @@ namespace WebGLRah66Comanche.Library
 
         async void Add(string name, Func<THREE.MeshLambertMaterial> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.MeshLambertMaterial)}");
+            var n = Nodes.Add($"{name} : {nameof(THREE.MeshLambertMaterial)}");
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add("base", () => (THREE.Material)x, n.Nodes);
@@ -405,7 +405,7 @@ namespace WebGLRah66Comanche.Library
 
         async void Add(string name, Func<THREE.Material> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Material)}");
+            var n = Nodes.Add($"{name} : {nameof(THREE.Material)}");
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add(nameof(THREE.Material.program), () => x.program, n.Nodes);
@@ -414,7 +414,7 @@ namespace WebGLRah66Comanche.Library
 
         async void Add(string name, Func<BoxGeometry> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(BoxGeometry)}");
+            var n = Nodes.Add($"{name} : {nameof(BoxGeometry)}");
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add("base", () => (THREE.Geometry)x, n.Nodes);
@@ -423,7 +423,7 @@ namespace WebGLRah66Comanche.Library
 
         async void Add(string name, Func<Geometry> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(Geometry)}");
+            var n = Nodes.Add($"{name} : {nameof(Geometry)}");
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add(nameof(THREE.Geometry.dynamic), () => x.dynamic, n.Nodes);
@@ -435,7 +435,7 @@ namespace WebGLRah66Comanche.Library
 
         async void Add(string name, Func<THREE.Color> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Color)}(r,g,b)");
+            var n = Nodes.Add($"{name} : {nameof(THREE.Color)}(r,g,b)");
             await n.AsyncAfterExpand();
             var x = get_subject();
 
@@ -451,7 +451,7 @@ namespace WebGLRah66Comanche.Library
 
         async void Add(string name, Func<THREE.Fog> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(THREE.Fog)}");
+            var n = Nodes.Add($"{name} : {nameof(THREE.Fog)}");
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add(nameof(THREE.Fog.color), () => x.color, n.Nodes);
@@ -463,7 +463,7 @@ namespace WebGLRah66Comanche.Library
 
         async void Add(string name, Func<WebGLRenderer> get_subject, TreeNodeCollection Nodes = null)
         {
-            var n = Nodes.Add("\{name} : \{nameof(WebGLRenderer)}");
+            var n = Nodes.Add($"{name} : {nameof(WebGLRenderer)}");
             await n.AsyncAfterExpand();
             var x = get_subject();
             Add(nameof(THREE.WebGLRenderer.domElement), () => x.domElement, n.Nodes);
@@ -517,7 +517,7 @@ namespace WebGLRah66Comanche.Library
 
             if (subject == null)
             {
-                var n = Nodes.Add("\{name} = null");
+                var n = Nodes.Add($"{name} = null");
                 return;
             }
 
@@ -529,7 +529,7 @@ namespace WebGLRah66Comanche.Library
             {
                 //Error CS1001  Identifier expected WebGLRah66Comanche ZeProperties.cs 53
                 //var n = Nodes.Add("\{name} : \{nameof(double)}");
-                var n = Nodes.Add("\{name} : \{nameof(Double)}");
+                var n = Nodes.Add($"{name} : {nameof(Double)}");
 
 
                 return;
@@ -539,7 +539,7 @@ namespace WebGLRah66Comanche.Library
             var xstring = subject as string;
             if (xstring != null)
             {
-                Nodes.Add("\{name} = '\{xstring}'");
+                Nodes.Add($"{name} = '{xstring}'");
                 return;
             }
 
@@ -700,7 +700,7 @@ namespace WebGLRah66Comanche.Library
             var xOrbitControls = subject as THREE.OrbitControls;
             if (xOrbitControls != null)
             {
-                var n = Nodes.Add("\{name} : " + nameof(THREE.OrbitControls));
+                var n = Nodes.Add($"{name} : " + nameof(THREE.OrbitControls));
                 await n.AsyncAfterExpand();
                 Add(nameof(THREE.OrbitControls.center), () => xOrbitControls.center, n.Nodes);
                 Add(nameof(THREE.OrbitControls.@object), () => xOrbitControls.@object, n.Nodes);
@@ -727,7 +727,7 @@ namespace WebGLRah66Comanche.Library
             var xCallerFileLineAttribute = subject as CallerFileLineAttribute;
             if (xCallerFileLineAttribute != null)
             {
-                var n = Nodes.Add("\{name} : \{nameof(CallerFileLineAttribute)}");
+                var n = Nodes.Add($"{name} : {nameof(CallerFileLineAttribute)}");
                 await n.AsyncAfterExpand();
                 Add(nameof(CallerFileLineAttribute.sourceFilePath), () => xCallerFileLineAttribute.sourceFilePath, n.Nodes);
                 Add(nameof(CallerFileLineAttribute.sourceLineNumber), () => xCallerFileLineAttribute.sourceLineNumber, n.Nodes);
@@ -737,7 +737,7 @@ namespace WebGLRah66Comanche.Library
             }
 
 
-            Nodes.Add("\{name} : \{subject.GetType()} = \{subject}");
+            Nodes.Add($"{name} : {subject.GetType()} = {subject}");
         }
 
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
