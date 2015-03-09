@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.WebAudio
     [Script(HasNoPrototype = true, ExternalTarget = "AudioContext")]
     public class AudioContext
     {
+		// https://www.shadertoy.com/view/ldfSW2
+		// https://www.shadertoy.com/view/4sSSWz
 		// https://www.shadertoy.com/view/ldlXWX
 		// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyColumns\ChromeShaderToyColumns\Application.cs
 		// createGain
