@@ -2,6 +2,12 @@ jsc sdk
 2007
 2011
 2012
+2015
+to igonre:
+.vs
+packages
+bin 
+obj
 
 
 - "core" 
