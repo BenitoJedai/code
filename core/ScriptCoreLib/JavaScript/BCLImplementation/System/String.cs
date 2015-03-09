@@ -106,6 +106,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 			return Format(format, args);
 		}
 
+		//script: error JSC1000: No implementation found for this native method, please implement[static System.String.Format(System.String, System.Object, System.Object, System.Object)]
+		public static string Format(string format, object args0, object args1, object args2)
+		{
+			// X:\jsc.svn\examples\javascript\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\Library\ZeProperties.cs
+			// called by anonymous type tostring
+			return Format(format, new[] { args0, args1, args2 });
+		}
 		#endregion
 
 
