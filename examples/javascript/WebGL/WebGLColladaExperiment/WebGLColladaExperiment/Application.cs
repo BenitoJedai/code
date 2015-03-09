@@ -18,7 +18,7 @@ using WebGLColladaExperiment;
 using WebGLColladaExperiment.Design;
 using WebGLColladaExperiment.HTML.Pages;
 
-using THREE;
+using static THREE;
 
 namespace WebGLColladaExperiment
 {

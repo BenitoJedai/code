@@ -167,18 +167,18 @@ namespace HeatZeekerRTSOrto
                                     // https://github.com/mrdoob/three.js/issues/1285
                                     //cube.children.WithEach(c => c.castShadow = true);
 
-                                    cube.traverse(
-                                        new Action<THREE.Object3D>(
-                                            child =>
-                                                    {
-                                                        // does it work? do we need it?
-                                                        //if (child is THREE.Mesh)
-                                                        child.castShadow = true;
-                                                        child.receiveShadow = true;
+                                    //cube.traverse(
+                                    //    new Action<THREE.Object3D>(
+                                    //        child =>
+                                    //                {
+                                    //                    // does it work? do we need it?
+                                    //                    //if (child is THREE.Mesh)
+                                    //                    child.castShadow = true;
+                                    //                    child.receiveShadow = true;
 
-                                                    }
-                                        )
-                                    );
+                                    //                }
+                                    //    )
+                                    //);
 
                                     // um can edit and continue insert code going back in time?
                                     cube.scale.x = 2.0;
@@ -208,18 +208,18 @@ namespace HeatZeekerRTSOrto
 
 
                             // http://stackoverflow.com/questions/22895120/imported-3d-objects-are-not-casting-shadows-with-three-js
-                            cube.traverse(
-                                new Action<THREE.Object3D>(
-                                    child =>
-                                    {
-                                        // does it work? do we need it?
-                                        //if (child is THREE.Mesh)
-                                        child.castShadow = true;
-                                        child.receiveShadow = true;
+                            //cube.traverse(
+                            //    new Action<THREE.Object3D>(
+                            //        child =>
+                            //        {
+                            //            // does it work? do we need it?
+                            //            //if (child is THREE.Mesh)
+                            //            child.castShadow = true;
+                            //            child.receiveShadow = true;
 
-                                    }
-                                )
-                            );
+                            //        }
+                            //    )
+                            //);
 
                             // um can edit and continue insert code going back in time?
                             cube.scale.x = 2.0;
@@ -244,18 +244,18 @@ namespace HeatZeekerRTSOrto
                             // https://github.com/mrdoob/three.js/issues/1285
                             //cube.children.WithEach(c => c.castShadow = true);
 
-                            cube.traverse(
-                                new Action<THREE.Object3D>(
-                                    child =>
-                                            {
-                                                // does it work? do we need it?
-                                                //if (child is THREE.Mesh)
-                                                child.castShadow = true;
-                                                child.receiveShadow = true;
+                            //cube.traverse(
+                            //    new Action<THREE.Object3D>(
+                            //        child =>
+                            //                {
+                            //                    // does it work? do we need it?
+                            //                    //if (child is THREE.Mesh)
+                            //                    child.castShadow = true;
+                            //                    child.receiveShadow = true;
 
-                                            }
-                                )
-                            );
+                            //                }
+                            //    )
+                            //);
 
                             // um can edit and continue insert code going back in time?
                             cube.scale.x = 2.0;
