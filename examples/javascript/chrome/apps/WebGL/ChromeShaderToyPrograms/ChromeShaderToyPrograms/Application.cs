@@ -54,6 +54,8 @@ namespace ChromeShaderToyPrograms
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(HTML.Pages.IApp page)
 		{
+			// show shader based on tab selection?
+
 			// https://www.youtube.com/watch?v=tnS8K0yhmZU
 			// http://www.reddit.com/r/oculus/comments/2sv5lk/new_release_of_shadertoy_vr/
 			// https://www.shadertoy.com/view/lsSGRz

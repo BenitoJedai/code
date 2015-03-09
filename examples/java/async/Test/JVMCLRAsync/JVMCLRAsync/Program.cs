@@ -74,6 +74,34 @@ namespace JVMCLRAsync
         [STAThread]
         public static void Main(string[] args)
         {
+            // 2012desktop?
+            // scriptcorelib to be rebuilt with 2012
+
+            //internal compiler error at method
+            // assembly: C:\util\jsc\bin\ScriptCoreLib.dll at
+            // type: ScriptCoreLib.Shared.BCLImplementation.Syste
+            // method: CreatePaddedBuffer
+            // Java : Opcode not implemented: stind.i1 at ScriptC
+
+            // we are on 4.6 compiler?
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Ultra\Library\StringConversions.cs
+
+            //- javac
+            //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRAsync\Program.java
+            //Y:\staging\web\java\JVMCLRAsync__i__d\Internal\Library\StringConversions.java:115: error: bad operand types for binary operator '>'
+            //        if (((e > null)))
+            //                ^
+            //  first type:  String
+            //  second type: <null>
+            //Y:\staging\web\java\JVMCLRAsync__i__d\Internal\Library\StringConversions.java:207: error: incompatible types
+            //        for (num5 = 0; num5; num5++)
+            //                       ^
+            //  required: boolean
+            //  found:    int
+            //Note: Y:\staging\web\java\ScriptCoreLibJava\BCLImplementation\System\Threading\__Thread.java uses or overrides a deprecated API.
+
+
+
             // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Runtime\CompilerServices\AsyncVoidMethodBuilder.cs
             // jsc needs to see args to make Main into main for javac..
 
