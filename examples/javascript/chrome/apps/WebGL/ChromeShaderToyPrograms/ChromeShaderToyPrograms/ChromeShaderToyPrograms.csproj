@@ -348,6 +348,21 @@
     <Reference Include="ChromeShaderToyDepthByGreen.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToyDepthByGreen\ChromeShaderToyDepthByGreen\bin\staging.AssetsLibrary\ChromeShaderToyDepthByGreen.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyAlpsByHoskins.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyAlpsByHoskins\ChromeShaderToyAlpsByHoskins\bin\staging.AssetsLibrary\ChromeShaderToyAlpsByHoskins.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyLittleMonsterByHLorenzi.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyLittleMonsterByHLorenzi\ChromeShaderToyLittleMonsterByHLorenzi\bin\staging.AssetsLibrary\ChromeShaderToyLittleMonsterByHLorenzi.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyNoiseDistributionsByHornet.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyNoiseDistributionsByHornet\ChromeShaderToyNoiseDistributionsByHornet\bin\staging.AssetsLibrary\ChromeShaderToyNoiseDistributionsByHornet.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyRaymarchEdgeDetectionByHLorenzi.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRaymarchEdgeDetectionByHLorenzi\ChromeShaderToyRaymarchEdgeDetectionByHLorenzi\bin\staging.AssetsLibrary\ChromeShaderToyRaymarchEdgeDetectionByHLorenzi.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToySeabirdsAtSunsetByDr2.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToySeabirdsAtSunsetByDr2\ChromeShaderToySeabirdsAtSunsetByDr2\bin\staging.AssetsLibrary\ChromeShaderToySeabirdsAtSunsetByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -366,6 +381,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyAlbertArchesByDr2\ChromeShaderToyAlbertArchesByDr2\ChromeShaderToyAlbertArchesByDr2.csproj">
       <Project>{2b24d939-1965-4778-b3a1-dd1689c8d243}</Project>
       <Name>ChromeShaderToyAlbertArchesByDr2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyAlpsByHoskins\ChromeShaderToyAlpsByHoskins\ChromeShaderToyAlpsByHoskins.csproj">
+      <Project>{5c41cc39-e54f-448d-a770-04f6e3e33fde}</Project>
+      <Name>ChromeShaderToyAlpsByHoskins</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyAnalyticalMotionblurByIq\ChromeShaderToyAnalyticalMotionblurByIq\ChromeShaderToyAnalyticalMotionblurByIq.csproj">
       <Project>{291c709a-d650-421a-8efc-a5cb9e5d2d35}</Project>
@@ -491,6 +510,10 @@
       <Project>{a20c4a02-c9a4-4c16-bc97-a145f195a0d6}</Project>
       <Name>ChromeShaderToyLimboByDaeken</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyLittleMonsterByHLorenzi\ChromeShaderToyLittleMonsterByHLorenzi\ChromeShaderToyLittleMonsterByHLorenzi.csproj">
+      <Project>{d301ccb9-d406-4aff-8643-7fa879e190b5}</Project>
+      <Name>ChromeShaderToyLittleMonsterByHLorenzi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyllamelsByEiffie\ChromeShaderToyllamelsByEiffie\ChromeShaderToyllamelsByEiffie.csproj">
       <Project>{3726e3e7-9e6f-4ddc-abee-aca8e5032eed}</Project>
       <Name>ChromeShaderToyllamelsByEiffie</Name>
@@ -522,6 +545,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyNeonParallaxByNimitz\ChromeShaderToyNeonParallaxByNimitz\ChromeShaderToyNeonParallaxByNimitz.csproj">
       <Project>{0a5c1bdb-3347-4446-94b2-15949b9438cb}</Project>
       <Name>ChromeShaderToyNeonParallaxByNimitz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyNoiseDistributionsByHornet\ChromeShaderToyNoiseDistributionsByHornet\ChromeShaderToyNoiseDistributionsByHornet.csproj">
+      <Project>{fffc6e32-ed36-479d-a1ed-9c315361eff1}</Project>
+      <Name>ChromeShaderToyNoiseDistributionsByHornet</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyOblivionByNimitz\ChromeShaderToyOblivionByNimitz\ChromeShaderToyOblivionByNimitz.csproj">
       <Project>{2d0c3aec-4947-4ad5-b678-0b7665055e7c}</Project>
@@ -563,6 +590,10 @@
       <Project>{6749cc87-222e-44ed-923a-ee6d295a895b}</Project>
       <Name>ChromeShaderToyRaymarchByElias</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyRaymarchEdgeDetectionByHLorenzi\ChromeShaderToyRaymarchEdgeDetectionByHLorenzi\ChromeShaderToyRaymarchEdgeDetectionByHLorenzi.csproj">
+      <Project>{804e738c-bc4e-48f3-b003-ee94e823efc4}</Project>
+      <Name>ChromeShaderToyRaymarchEdgeDetectionByHLorenzi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyRecogniserByFizzer\ChromeShaderToyRecogniserByFizzer\ChromeShaderToyRecogniserByFizzer.csproj">
       <Project>{d529f832-1cd4-4145-850c-389afd648e0d}</Project>
       <Name>ChromeShaderToyRecogniserByFizzer</Name>
@@ -590,6 +621,10 @@
     <ProjectReference Include="..\..\ChromeShaderToySandDunesByBoinx\ChromeShaderToySandDunesByBoinx\ChromeShaderToySandDunesByBoinx.csproj">
       <Project>{6fbbb6d2-e4dc-4b36-89ea-55fe585b08ca}</Project>
       <Name>ChromeShaderToySandDunesByBoinx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToySeabirdsAtSunsetByDr2\ChromeShaderToySeabirdsAtSunsetByDr2\ChromeShaderToySeabirdsAtSunsetByDr2.csproj">
+      <Project>{f1ad4dfe-99d6-434e-80b3-622965ede52d}</Project>
+      <Name>ChromeShaderToySeabirdsAtSunsetByDr2</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToySeascapeByTDM\ChromeShaderToySeascapeByTDM\ChromeShaderToySeascapeByTDM.csproj">
       <Project>{637d133f-4975-4bf2-9ecf-364e8e569bf9}</Project>
