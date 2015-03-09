@@ -19,17 +19,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Form))]
     public partial class __Form : __ContainerControl
     {
-        // http://www.windows93.net/
+		// could we run in glsl?
+		// http://zephyrosanemos.com/windstorm/current/live-demo.html
 
-        // https://code.google.com/p/chromium/issues/detail?id=240719
-        // keep an eye on <x-titlebar-controls/>
-        // https://code.google.com/p/chromium/issues/detail?id=384612
+		// http://www.windows93.net/
+
+		// https://code.google.com/p/chromium/issues/detail?id=240719
+		// keep an eye on <x-titlebar-controls/>
+		// https://code.google.com/p/chromium/issues/detail?id=384612
 
 
-        // alternative service providers:
-        // see: http://dhtmlx.com/docs/products/dhtmlxWindows/index.shtml
+		// alternative service providers:
+		// see: http://dhtmlx.com/docs/products/dhtmlxWindows/index.shtml
 
-        object __FormTypeHint;
+		object __FormTypeHint;
 
         public FormStyler InternalStyler;
 
