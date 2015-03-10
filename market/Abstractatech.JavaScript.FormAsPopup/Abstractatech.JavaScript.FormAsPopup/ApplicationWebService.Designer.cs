@@ -2,25 +2,26 @@ using System.ComponentModel;
 
 namespace Abstractatech.JavaScript.FormAsPopup
 {
-    public partial class ApplicationWebService
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private IContainer components;
+	[DesignerCategory("code")]
+	public partial class ApplicationWebService
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private IContainer components;
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-        }
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+		}
 
-        public ApplicationWebService()
-        {
-            this.InitializeComponent();
-        }
+		public ApplicationWebService()
+		{
+			this.InitializeComponent();
+		}
 
-    }
+	}
 }
