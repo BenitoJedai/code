@@ -19,7 +19,7 @@ using WebGLDashedLines.Design;
 using WebGLDashedLines.HTML.Pages;
 using WebGLRah66Comanche.Library;
 
-using THREE;
+using static THREE;
 
 namespace WebGLDashedLines
 {
@@ -36,9 +36,10 @@ namespace WebGLDashedLines
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            // X:\jsc.svn\examples\javascript\CanvasMarchinAntsExperiment\CanvasMarchinAntsExperiment\Application.cs
+			// X:\jsc.svn\examples\javascript\CanvasMarchinAntsExperiment\CanvasMarchinAntsExperiment\Application.cs
+			// http://mattdesl.svbtle.com/drawing-lines-is-hard
 
-            Native.body.Clear();
+			Native.body.Clear();
             Native.body.style.margin = "0px";
             Native.body.style.overflow = IStyle.OverflowEnum.hidden;
 
