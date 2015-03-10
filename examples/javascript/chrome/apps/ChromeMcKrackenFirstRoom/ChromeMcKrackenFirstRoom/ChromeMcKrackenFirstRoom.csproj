@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CF9637D3-1FA4-4EFE-AEF0-E69DF27E776C}</ProjectGuid>
+    <ProjectGuid>{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>com.abstractatech.gamification.gir</RootNamespace>
-    <AssemblyName>com.abstractatech.gamification.gir</AssemblyName>
+    <RootNamespace>ChromeMcKrackenFirstRoom</RootNamespace>
+    <AssemblyName>ChromeMcKrackenFirstRoom</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>com.abstractatech.gamification.gir.Program</StartupObject>
+    <StartupObject>ChromeMcKrackenFirstRoom.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -25,7 +25,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -36,9 +35,11 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Chrome Web Store">
+      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -93,6 +94,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -112,68 +117,42 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="com.abstractatech.gamification.gir.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\com.abstractatech.gamification.gir.AssetsLibrary.dll</HintPath>
+    <Reference Include="ChromeAppWindowMouseCapture.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ChromeAppWindowMouseCapture.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeMcKrackenFirstRoom.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ChromeMcKrackenFirstRoom.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="McKrackenFirstRoom.AssetsLibrary">
+      <HintPath>..\..\..\McKrackenFirstRoom\McKrackenFirstRoom\bin\staging.AssetsLibrary\McKrackenFirstRoom.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Audio\blend_in.mp3" />
-    <Content Include="Audio\cant_see.mp3" />
-    <Content Include="Audio\data_canister_not_yet_full.mp3" />
-    <Content Include="Audio\did_you_know_that.mp3" />
-    <Content Include="Audio\do_di.mp3" />
-    <Content Include="Audio\excellent.mp3" />
-    <Content Include="Audio\free_will.mp3" />
-    <Content Include="Audio\guidancechip.mp3" />
-    <Content Include="Audio\information_center.mp3" />
-    <Content Include="Audio\it_is_broken.mp3" />
-    <Content Include="Audio\knowledge_fills_me.mp3" />
-    <Content Include="Audio\not_acceptable.mp3" />
-    <Content Include="Audio\observing.mp3" />
-    <Content Include="Audio\open_the_door.mp3" />
-    <Content Include="Audio\praise_me.mp3" />
-    <Content Include="Audio\require_access.mp3" />
-    <Content Include="Audio\right_away_sir.mp3" />
-    <Content Include="Audio\stupidity_is_enemey.mp3" />
-    <Content Include="Audio\television_is_stupid.mp3" />
-    <Content Include="Audio\the_master.mp3" />
-    <Content Include="Audio\where_is_my_mouth.mp3" />
-    <Content Include="Audio\who_is_it.mp3" />
-    <Content Include="Audio\yes_i_didnt_like_it.mp3" />
-    <Content Include="Audio\yes_sir.mp3" />
-    <Content Include="Audio\yes_sir2.mp3" />
-    <Content Include="Audio\yes_sir3.mp3" />
-    <Content Include="Audio\you_are_an_intruder.mp3" />
-    <Content Include="Audio\you_must_be_terminated.mp3" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Design\MyShadow.htm" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\drawing_black_png.png" />
-    <Content Include="Design\drawing_png.png" />
-    <Content Include="Design\Preview.png" />
-    <Content Include="Design\Preview512.png" />
-    <Content Include="Design\drawing.svg" />
-    <Content Include="Design\drawing_black.svg" />
-    <Content Include="Design\drawing_shadow.svg" />
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <ProjectReference Include="..\..\..\McKrackenFirstRoom\McKrackenFirstRoom\McKrackenFirstRoom.csproj">
+      <Project>{7de9714d-6403-4e7c-a1a1-10e7206df46a}</Project>
+      <Name>McKrackenFirstRoom</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-if $(ConfigurationName)==Release (
-start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.svn\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:10 /xAttachDebugger:true
-)</PostBuildEvent>
-    <PreBuildEvent>
-
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
-
-            </PreBuildEvent>
+    <PostBuildEvent>start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /xAttachDebugger:true  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /AssociateDriveForChrome:A /InferChromeAppManifest:true</PostBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
+		            </PreBuildEvent>
   </PropertyGroup>
 </Project>
