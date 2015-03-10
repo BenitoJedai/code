@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22310.1
+VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilder", "TestSolutionBuilder\TestSolutionBuilder.csproj", "{FB1141C7-9014-497D-B6AA-57428D0BBC35}"
 EndProject
@@ -40,6 +40,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components.Volatile", "..\..\..\..\core\ScriptCoreLib.Ultra.Components.Volatile\ScriptCoreLib.Ultra.Components.Volatile\ScriptCoreLib.Ultra.Components.Volatile.csproj", "{8B8C61EA-D890-403D-9B40-3ACCB679BB20}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{5EC1743F-043B-44E8-A635-72331EEE81D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Async", "..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\ScriptCoreLib.Async.csproj", "{88C3C260-D1DA-4FB3-A53D-79462913E80C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -258,6 +260,22 @@ Global
 		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.Build.0 = Release|x86
 		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.ActiveCfg = Release|x86
 		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.Build.0 = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Assets|Any CPU.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Assets|Any CPU.Build.0 = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Assets|x86.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Assets|x86.Build.0 = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|x86.ActiveCfg = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|x86.Build.0 = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|Any CPU.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|x86.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -277,5 +295,6 @@ Global
 		{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0} = {241E69F6-F125-4111-B29C-DA66A7419241}
 		{8B8C61EA-D890-403D-9B40-3ACCB679BB20} = {241E69F6-F125-4111-B29C-DA66A7419241}
 		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {241E69F6-F125-4111-B29C-DA66A7419241}
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {241E69F6-F125-4111-B29C-DA66A7419241}
 	EndGlobalSection
 EndGlobal
