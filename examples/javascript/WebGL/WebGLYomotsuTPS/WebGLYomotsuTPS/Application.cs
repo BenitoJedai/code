@@ -422,8 +422,6 @@ namespace WebGLYomotsuTPS
 
             loader.load(
                 new global::WebGLYomotsuTPS.Design.droid().Content.src,
-                    IFunction.OfDelegate(
-                        new Action<object>(
                             xgeometry =>
                             {
                                 var md2meshBody = new THREE.MorphAnimMesh(xgeometry, material);
@@ -647,8 +645,6 @@ namespace WebGLYomotsuTPS
 
 
                             }
-                        )
-                    )
             );
 
 
