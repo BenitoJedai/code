@@ -18,8 +18,8 @@ using WebGLTurbanPhotosphere.Design;
 using WebGLTurbanPhotosphere.HTML.Pages;
 
 
-using THREE;
-using ScriptCoreLib.JavaScript.Native;
+using static THREE;
+using static ScriptCoreLib.JavaScript.Native;
 
 namespace WebGLTurbanPhotosphere
 {

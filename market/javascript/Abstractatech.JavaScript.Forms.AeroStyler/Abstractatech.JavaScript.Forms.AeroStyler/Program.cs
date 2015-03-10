@@ -11,13 +11,7 @@ namespace Abstractatech.JavaScript.Forms.AeroStyler
     {
         public static void Main(string[] args)
         {
-#if DEBUG
-			DesktopFormsExtensions.Launch(
-				() => new ApplicationControl()
-			);
-#else
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
-#endif
         }
 
     }

@@ -285,7 +285,10 @@ interface THREE.PerspectiveCamera :  THREE.Camera
 interface THREE.Scene  : THREE.Object3D
 {
 	attribute boolean	autoUpdate;
-	attribute THREE.Fog	fog;
+	//attribute THREE.Fog	fog;
+
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuTPS\WebGLYomotsuTPS\WebGLYomotsuTPS.csproj
+	attribute any	fog;
 
 
 	// x:\jsc.svn\examples\javascript\webgl\WebGLGodRay\WebGLGodRay\Application.cs
@@ -740,11 +743,11 @@ interface THREE.Mesh : THREE.Object3D
 
 
 
-// http://threejs.org/docs/#Reference/Objects/SkinnedMesh
 // // File:src/objects/SkinnedMesh.js
 [Constructor(), Constructor(any geometry, any name)]
-interface THREE.SkinnedMesh :  THREE.Object3D
+interface THREE.SkinnedMesh :  THREE.Mesh
 {
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter\Application.cs
 
 
 	// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLBossHarvesterByOutsideOfSociety\WebGLBossHarvesterByOutsideOfSociety\Application.cs
@@ -1140,6 +1143,8 @@ interface THREE.JSONLoader : THREE.Loader
 
 	//void load(any src, any handler);
 	void load(any url, function<any> callback);
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter\Application.cs
+	void load(any url, function<any, any> callback);
 
 	any parse(string json, string texturePath);
 

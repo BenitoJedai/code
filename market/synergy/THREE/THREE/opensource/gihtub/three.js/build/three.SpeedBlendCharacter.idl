@@ -6,6 +6,8 @@
 Constructor(any manager)]
 interface THREE.SpeedBlendCharacter : THREE.SkinnedMesh
 {
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLSpeedBlendCharacter\WebGLSpeedBlendCharacter\Application.cs
+
 	attribute THREE.Animation run;
 
 	void setSpeed(double newSpeed);

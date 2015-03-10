@@ -29,35 +29,16 @@ namespace McKrackenFirstRoom
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+			// X:\jsc.svn\examples\javascript\chrome\ChromeMcKrackenFirstRoom\ChromeMcKrackenFirstRoom\Application.cs
 
 
-#if FCHROME
-            #region ChromeTCPServer
-            dynamic self = Native.self;
-            dynamic self_chrome = self.chrome;
-            object self_chrome_socket = self_chrome.socket;
 
-            if (self_chrome_socket != null)
-            {
-                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
-                chrome.Notification.DefaultTitle = "McKrackenFirstRoom";
+			// why does it activate in float mode?
+			// shake should make it go away?
+			//global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
-                ChromeTCPServer.TheServerWithStyledForm.Invoke(
-                    AppSource.Text
-                );
-
-                return;
-            }
-            #endregion
-
-#endif
-            // why does it activate in float mode?
-            // shake should make it go away?
-            //global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
-
-
-            var music = new HTML.Audio.FromAssets.zak().AttachToDocument();
+			var music = new HTML.Audio.FromAssets.zak().AttachToDocument();
             music.loop = true;
             //music.load();
 
@@ -101,10 +82,10 @@ namespace McKrackenFirstRoom
                             if (t.Counter > 800)
                                 return;
 
-                            music.volume = 1 - (t.Counter / 1000);
+                            music.volume = 1 - (t.Counter / 1000.0);
                             if (t.Counter > 200)
                             {
-                                clocksound.volume = (t.Counter - 200) / (1000 - 200);
+                                clocksound.volume = (t.Counter - 200) / (1000.0 - 200);
                             }
 
                             if (t.Counter == 800)
