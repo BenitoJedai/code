@@ -249,7 +249,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // could we be called before cctor was called?
 
                 // currentMethodName ?
-                Console.WriteLine("ScriptCoreLib.JavaScript.DOM.IStyleSheet.get_all");
+                //Console.WriteLine("ScriptCoreLib.JavaScript.DOM.IStyleSheet.get_all");
 
                 // X:\jsc.svn\examples\javascript\CSS\Test\CSSHistoric\CSSHistoric\Application.cs
 
