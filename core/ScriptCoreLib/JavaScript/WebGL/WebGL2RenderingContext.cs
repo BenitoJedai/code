@@ -15,31 +15,33 @@ namespace ScriptCoreLib.JavaScript.WebGL
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class WebGL2RenderingContext
     {
-        // https://code.google.com/p/chromium/issues/detail?id=295792#c13
-        // https://code.google.com/p/chromium/issues/detail?id=295792&q=WebGL2&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
+		// https://bugzilla.mozilla.org/show_bug.cgi?id=709490
 
-        // http://en.wikipedia.org/wiki/Metaverse
-        // https://wemo.io/google-chrome-and-the-future-of-virtual-reality-interview-with-531
-        // http://gamedev.stackexchange.com/questions/62164/opengl-what-are-the-adoption-rates-of-the-various-versions-and-whats-a-reason
+		// https://code.google.com/p/chromium/issues/detail?id=295792#c13
+		// https://code.google.com/p/chromium/issues/detail?id=295792&q=WebGL2&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
 
-        // http://www.reddit.com/comments/1iy0vj
-        // 2 adds multiple render targets which makes it much more reasonable to bring deferred rendering engines to the web.
+		// http://en.wikipedia.org/wiki/Metaverse
+		// https://wemo.io/google-chrome-and-the-future-of-virtual-reality-interview-with-531
+		// http://gamedev.stackexchange.com/questions/62164/opengl-what-are-the-adoption-rates-of-the-various-versions-and-whats-a-reason
 
-        // http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html
+		// http://www.reddit.com/comments/1iy0vj
+		// 2 adds multiple render targets which makes it much more reasonable to bring deferred rendering engines to the web.
 
-        // 20141228
-        // can we have multiscreen HZ on webgl yet?
-        // the internet still does not yet have any examples for webgl2?
+		// http://blog.tojicode.com/2014/07/bringing-vr-to-chrome.html
 
-        // https://wiki.mozilla.org/Platform/GFX/WebGL2
+		// 20141228
+		// can we have multiscreen HZ on webgl yet?
+		// the internet still does not yet have any examples for webgl2?
 
-
-        // http://blog.tojicode.com/2013/09/whats-coming-in-webgl-20.html
-
-        // http://blog.tojicode.com/2014/02/how-blink-has-affected-webgl-part-2.html
-        // X:\jsc.svn\examples\java\webgl\Test\TestInstancedANGLE\TestInstancedANGLE\Application.cs
+		// https://wiki.mozilla.org/Platform/GFX/WebGL2
 
 
-        // tested by ?
-    }
+		// http://blog.tojicode.com/2013/09/whats-coming-in-webgl-20.html
+
+		// http://blog.tojicode.com/2014/02/how-blink-has-affected-webgl-part-2.html
+		// X:\jsc.svn\examples\java\webgl\Test\TestInstancedANGLE\TestInstancedANGLE\Application.cs
+
+
+		// tested by ?
+	}
 }
