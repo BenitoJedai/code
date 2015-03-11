@@ -25,6 +25,11 @@ namespace GLSLShaderToyPip
 	using ChromeShaderToyColumns.Library;
 	using gl = WebGLRenderingContext;
 
+	public delegate void Paint_ImageDelegate(
+		WebGLProgram p,
+
+		float time, float mouseOriX, float mouseOriY, float mousePosX, float mousePosY);
+
 	/// <summary>
 	/// Your client side code running inside a web browser as JavaScript.
 	/// </summary>
@@ -100,53 +105,68 @@ namespace GLSLShaderToyPip
 			}
 			#endregion
 
-			AttachToDocument();
-		}
-
-		public static async void AttachToDocument()
-		{
-			Native.body.style.margin = "0px";
+			new { }.With(
+				async delegate
 
 
-			var gl = new WebGLRenderingContext(alpha: true);
+				//02000047 <module>.SHA1111132814b0387cee18e0fe5efe63eb881cfd505@901285072
+				//02000048 GLSLShaderToyPip.Application+<AttachToDocument>d__1+<MoveNext>06000020
+				//script: error JSC1000:
+				//error:
+				//  statement cannot be a load instruction(or is it a bug?)
+				//  [0x0000]
+				//		ldarg.0    +1 -0
 
-			if (gl == null)
-			{
-
-				new IHTMLPre {
-					// https://code.google.com/p/chromium/issues/detail?id=294207
-					"Rats! WebGL hit a snag. \n WebGL: Unavailable.\n GPU process was unable to boot. \n restart chrome.",
-
-					// chrome sends us to about:blank?
-					//new IHTMLAnchor {
-
-					//	target = "_blank",
-
-					//	href = "about:gpu", innerText = "about:gpu",
-
-					//	// http://tirania.org/blog/archive/2009/Jul-27-1.html
-					//	//onclick += de
-					//}
-					//.With(a => {  a.onclick += e => { e.preventDefault();  Native.window.open("about:gpu"); }; } )
-
-
-				}.AttachToDocument();
-				return;
-			}
-
-			var c = gl.canvas.AttachToDocument();
-
-			#region oncontextlost
-			gl.oncontextlost +=
-				e =>
+				//public static async void AttachToDocument()
+				//public async void AttachToDocument()
 				{
-					//[12144:10496:0311 / 120850:ERROR: gpu_watchdog_thread.cc(314)] : The GPU process hung. Terminating after 10000 ms.
-					//   GpuProcessHostUIShim: The GPU process crashed!
-					gl.canvas.Orphanize();
+					Native.body.style.margin = "0px";
+					(Native.body.style as dynamic).webkitUserSelect = "auto";
 
-					new IHTMLPre {
-						// https://code.google.com/p/chromium/issues/detail?id=294207
-						@"Rats! WebGL hit a snag.
+
+					var gl = new WebGLRenderingContext(alpha: true);
+
+					#region GPU process was unable to boot
+					if (gl == null)
+					{
+
+						new IHTMLPre {
+							// https://code.google.com/p/chromium/issues/detail?id=294207
+							"Rats! WebGL hit a snag. \n WebGL: Unavailable.\n GPU process was unable to boot. \n restart chrome.",
+
+							// chrome sends us to about:blank?
+							//new IHTMLAnchor {
+
+							//	target = "_blank",
+
+							//	href = "about:gpu", innerText = "about:gpu",
+
+							//	// http://tirania.org/blog/archive/2009/Jul-27-1.html
+							//	//onclick += de
+							//}
+							//.With(a => {  a.onclick += e => { e.preventDefault();  Native.window.open("about:gpu"); }; } )
+
+
+						}.AttachToDocument();
+						return;
+					}
+					#endregion
+
+
+
+					var c = gl.canvas.AttachToDocument();
+
+					#region oncontextlost
+					gl.oncontextlost +=
+						e =>
+						{
+							//[12144:10496:0311 / 120850:ERROR: gpu_watchdog_thread.cc(314)] : The GPU process hung. Terminating after 10000 ms.
+							//   GpuProcessHostUIShim: The GPU process crashed!
+							gl.canvas.Orphanize();
+
+							new IHTMLPre {
+								// https://code.google.com/p/chromium/issues/detail?id=294207
+								@"Rats! WebGL hit a snag.
 oncontextlost.
 The GPU process hung. Terminating. 
 check chrome://gpu for log messages.  
@@ -154,111 +174,139 @@ do we have a stack trace?
 
 " + new { e.statusMessage } ,
 
-						// chrome sends us to about:blank?
-						//new IHTMLAnchor {
+								// chrome sends us to about:blank?
+								//new IHTMLAnchor {
 
-						//	target = "_blank",
+								//	target = "_blank",
 
-						//	href = "about:gpu", innerText = "about:gpu",
+								//	href = "about:gpu", innerText = "about:gpu",
 
-						//	// http://tirania.org/blog/archive/2009/Jul-27-1.html
-						//	//onclick += de
-						//}
-						//.With(a => {  a.onclick += e => { e.preventDefault();  Native.window.open("about:gpu"); }; } )
-
-
-					}.AttachToDocument();
-				};
-			#endregion
+								//	// http://tirania.org/blog/archive/2009/Jul-27-1.html
+								//	//onclick += de
+								//}
+								//.With(a => {  a.onclick += e => { e.preventDefault();  Native.window.open("about:gpu"); }; } )
 
 
-			#region onresize
-			new { }.With(
-				async delegate
-				{
-					do
+							}.AttachToDocument();
+						};
+					#endregion
+
+
+					#region onresize
+					new { }.With(
+						async delegate
+						{
+							do
+							{
+								c.width = Native.window.Width;
+								c.height = Math.Min(300, Native.window.Height);
+								c.style.SetSize(c.width, c.height);
+							}
+							while (await Native.window.async.onresize);
+						}
+					);
+					#endregion
+
+
+
+
+					#region CaptureMouse
+					var mMouseOriX = 0;
+					var mMouseOriY = 0;
+					var mMousePosX = 0;
+					var mMousePosY = 0;
+
+					c.onmousedown += ev =>
 					{
-						c.width = Native.window.Width;
-						c.height = Native.window.Height;
-						c.style.SetSize(c.width, c.height);
+						mMouseOriX = ev.CursorX;
+						mMouseOriY = ev.CursorY;
+						mMousePosX = mMouseOriX;
+						mMousePosY = mMouseOriY;
+
+						ev.CaptureMouse();
+					};
+
+					c.onmousemove += ev =>
+					{
+						if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
+						{
+							mMousePosX = ev.CursorX;
+							mMousePosY = c.height - ev.CursorY;
+						}
+					};
+
+
+					c.onmouseup += ev =>
+					{
+						mMouseOriX = -Math.Abs(mMouseOriX);
+						mMouseOriY = -Math.Abs(mMouseOriY);
+					};
+					#endregion
+
+					var quadVBO = ShaderToy.createQuadVBO(gl);
+
+					var pass1 = new ShaderToy.EffectPass(
+						gl: gl,
+						precission: ShaderToy.DetermineShaderPrecission(gl),
+						supportDerivatives: gl.getExtension("OES_standard_derivatives") != null,
+						quadVBO: quadVBO
+					);
+					pass1.MakeHeader_Image();
+					var frag1 = new GLSLShaderToyPip.Shaders.TheColorGradientFragmentShader();
+					pass1.NewShader_Image(frag1);
+
+					var pass0 = new ShaderToy.EffectPass(
+						gl: gl,
+						precission: ShaderToy.DetermineShaderPrecission(gl),
+						supportDerivatives: gl.getExtension("OES_standard_derivatives") != null,
+						quadVBO: quadVBO
+					);
+					pass0.MakeHeader_Image();
+					var frag0 = new GLSLShaderToyPip.Shaders.ChromeShaderToyQuadraticBezierByMattdeslFragmentShader();
+					//var frag = new GLSLShaderToyPip.Shaders.TheColorGradientFragmentShader();
+					pass0.NewShader_Image(frag0);
+
+					if (pass0.xCreateShader.mProgram == null)
+					{
+						gl.Orphanize();
+						return;
 					}
-					while (await Native.window.async.onresize);
-				}
-			);
-			#endregion
+
+					new { }.With(
+						async delegate
+						{
+							do
+							{
+								Native.document.body.style.backgroundColor = "cyan";
+								await Task.Delay(500);
+								Native.document.body.style.backgroundColor = "yellow";
+								await Task.Delay(500);
+							} while (await Native.window.async.onframe);
+						}
+					);
 
 
 
+					// https://developer.mozilla.org/en/docs/Web/API/WebGLRenderingContext
 
-			#region CaptureMouse
-			var mMouseOriX = 0;
-			var mMouseOriY = 0;
-			var mMousePosX = 0;
-			var mMousePosY = 0;
-
-			c.onmousedown += ev =>
-			{
-				mMouseOriX = ev.CursorX;
-				mMouseOriY = ev.CursorY;
-				mMousePosX = mMouseOriX;
-				mMousePosY = mMouseOriY;
-
-				ev.CaptureMouse();
-			};
-
-			c.onmousemove += ev =>
-			{
-				if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
-				{
-					mMousePosX = ev.CursorX;
-					mMousePosY = c.height - ev.CursorY;
-				}
-			};
-
-
-			c.onmouseup += ev =>
-			{
-				mMouseOriX = -Math.Abs(mMouseOriX);
-				mMouseOriY = -Math.Abs(mMouseOriY);
-			};
-			#endregion
-
-			var quadVBO = ShaderToy.createQuadVBO(gl);
-            var pass0 = new ShaderToy.EffectPass(
-				null,
-				gl,
-				precission: ShaderToy.DetermineShaderPrecission(gl),
-				supportDerivatives: gl.getExtension("OES_standard_derivatives") != null,
-				callback: null,
-				obj: null,
-				forceMuted: false,
-				forcePaused: false,
-				quadVBO: quadVBO,
-				outputGainNode: null
-			);
-			pass0.MakeHeader_Image();
-			var frag = new GLSLShaderToyPip.Shaders.ProgramFragmentShader();
-			pass0.NewShader_Image(frag);
-
-			var sw = Stopwatch.StartNew();
-			do
-			{
-				ChromeShaderToyColumns.Library.ShaderToy.EffectPass.Paint_ImageDelegate Paint_Image =
-					(time, mouseOriX, mouseOriY, mousePosX, mousePosY) =>
+					#region Paint_Image
+					Paint_ImageDelegate Paint_Image =
+					(mProgram, time, mouseOriX, mouseOriY, mousePosX, mousePosY) =>
 					{
-						var mProgram = pass0.xCreateShader.mProgram;
 
 
-						var viewportxres = gl.canvas.width / 2;
+						var viewportxres = gl.canvas.width;
 						var viewportyres = gl.canvas.height;
 
 						#region Paint_Image
 						//new IHTMLPre { "enter Paint_Image" }.AttachToDocument();
 
+						// http://www.html5rocks.com/en/tutorials/webgl/webgl_fundamentals/
+						//gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+						gl.viewport(0, 0, viewportxres, viewportyres);
 
-						gl.viewport(0, viewportyres / 2, viewportxres, viewportyres);
 
-						// useProgram: program not valid
+						// alpha to zero will only hide the pixel if blending is enabled. 
 						gl.useProgram(mProgram);
 
 						// uniform4fv
@@ -275,11 +323,7 @@ do we have a stack trace?
 						var ich2 = gl.getUniformLocation(mProgram, "iChannel2"); if (ich2 != null) gl.uniform1i(ich2, 2);
 						var ich3 = gl.getUniformLocation(mProgram, "iChannel3"); if (ich3 != null) gl.uniform1i(ich3, 3);
 
-						// using ?
-						var l1 = (uint)gl.getAttribLocation(mProgram, "pos");
-						gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
-						gl.vertexAttribPointer(l1, 2, gl.FLOAT, false, 0, 0);
-						gl.enableVertexAttribArray(l1);
+
 
 
 						//for (var i = 0; i < mInputs.Length; i++)
@@ -303,6 +347,13 @@ do we have a stack trace?
 						if (l8 != null) gl.uniform3fv(l8, resos);
 
 
+
+						// using ?
+						var l1 = (uint)gl.getAttribLocation(mProgram, "pos");
+						gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
+						gl.vertexAttribPointer(l1, 2, gl.FLOAT, false, 0, 0);
+						gl.enableVertexAttribArray(l1);
+
 						gl.drawArrays(gl.TRIANGLES, 0, 6);
 						// first frame is now visible
 						gl.disableVertexAttribArray(l1);
@@ -311,24 +362,43 @@ do we have a stack trace?
 						//mFrame++;
 
 					};
+					#endregion
 
 
-				Paint_Image(
-					sw.ElapsedMilliseconds / 1000.0f,
+					var sw = Stopwatch.StartNew();
+					do
+					{
+						pass1.Paint_Image(
+						sw.ElapsedMilliseconds / 1000.0f,
 
-					mMouseOriX,
-					mMouseOriY,
-					mMousePosX,
-					mMousePosY
+								mMouseOriX,
+								mMouseOriY,
+								mMousePosX,
+								mMousePosY
 
 
-				);
+						);
 
-				// what does it do?
-				gl.flush();
+						pass0.Paint_Image(
+						sw.ElapsedMilliseconds / 1000.0f,
 
-			}
-			while (await Native.window.async.onframe);
+									mMouseOriX,
+									mMouseOriY,
+									mMousePosX,
+									mMousePosY,
+
+									//zoom: 0.5f
+									zoom: mMousePosX / (float)c.width
+								);
+
+						// what does it do?
+						gl.flush();
+
+					}
+					while (await Native.window.async.onframe);
+
+				}
+			);
 
 		}
 	}

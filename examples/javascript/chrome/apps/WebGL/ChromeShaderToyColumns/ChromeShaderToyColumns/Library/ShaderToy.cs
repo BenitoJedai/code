@@ -86,11 +86,10 @@ namespace ChromeShaderToyColumns.Library
 		{
 			new IHTMLPre { "enter CreateShader" }.AttachToDocument();
 
-			var p = new WebGLProgram(gl);
 			//var p = gl.createProgram();
 
-			var vs = gl.createShader(gl.VERTEX_SHADER);
-			var fs = gl.createShader(gl.FRAGMENT_SHADER);
+			var vs = new WebGLShader(gl, gl.VERTEX_SHADER);
+			var fs = new WebGLShader(gl, gl.FRAGMENT_SHADER);
 
 			gl.shaderSource(vs, tvs);
 			gl.shaderSource(fs, tfs);
@@ -122,29 +121,22 @@ namespace ChromeShaderToyColumns.Library
 			if (gl.getShaderParameter(vs, gl.COMPILE_STATUS) == null)
 			{
 				var infoLog = gl.getShaderInfoLog(vs);
-				gl.deleteProgram(p);
 				new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
 				return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
 			}
 
-			if (gl.getShaderParameter(fs, gl.COMPILE_STATUS) == null)
+			var fsCOMPILE_STATUS = (bool)gl.getShaderParameter(fs, gl.COMPILE_STATUS);
+			new IHTMLPre { "error CreateShader " + new { fsCOMPILE_STATUS } }.AttachToDocument();
+
+			if (!fsCOMPILE_STATUS)
 			{
 				var infoLog = gl.getShaderInfoLog(fs);
-				gl.deleteProgram(p);
 				new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
 				return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
 			}
 
-			if (nativeDebug)
-			{
-				var dbgext = gl.getExtension("WEBGL_debug_shaders");
-				if (dbgext != null)
-				{
-					//var hlsl = dbgext.getTranslatedShaderSource(fs);
-					//console.log("------------------------\nHLSL code\n------------------------\n" + hlsl + "\n------------------------\n");
-				}
-			}
 
+			var p = new WebGLProgram(gl);
 			gl.attachShader(p, vs);
 			gl.attachShader(p, fs);
 
@@ -154,7 +146,11 @@ namespace ChromeShaderToyColumns.Library
 
 			gl.linkProgram(p);
 
-			if (gl.getProgramParameter(p, gl.LINK_STATUS) == null)
+			var linkResult = (bool)gl.getProgramParameter(p, gl.LINK_STATUS);
+
+			new IHTMLPre { "error CreateShader " + new { linkResult } }.AttachToDocument();
+
+			if (!linkResult)
 			{
 				var infoLog = gl.getProgramInfoLog(p);
 				gl.deleteProgram(p);
@@ -215,27 +211,31 @@ namespace ChromeShaderToyColumns.Library
 				float mouseOriX,
 				float mouseOriY,
 				float mousePosX,
-				float mousePosY
+				float mousePosY,
 
+				float zoom = 1.0f
 				);
 			public Paint_ImageDelegate Paint_Image;
 
 			public CreateShaderResult xCreateShader;
 
+			// X:\jsc.svn\examples\glsl\future\GLSLShaderToyPip\GLSLShaderToyPip\Application.cs
 			public EffectPass(
-				AudioContext wa,
-				gl gl,
+				AudioContext wa = null,
+				gl gl = null,
 
-				string precission,
-				bool supportDerivatives,
-				RefreshTexturThumbailDelegate callback,
-				object obj,
-				bool forceMuted,
-				bool forcePaused,
+				string precission = null,
+				bool supportDerivatives = false,
+				RefreshTexturThumbailDelegate callback = null,
+				object obj = null,
+				bool forceMuted = false,
+				bool forcePaused = false,
 
+
+				// createQuadVBO
 				// ARRAY_BUFFER
-				WebGLBuffer quadVBO,
-				GainNode outputGainNode
+				WebGLBuffer quadVBO = null,
+				GainNode outputGainNode = null
 				)
 			{
 				//new IHTMLPre { "enter EffectPass" }.AttachToDocument();
@@ -261,7 +261,10 @@ namespace ChromeShaderToyColumns.Library
 							  "uniform vec4      iMouse;\n" +
 							  "uniform vec4      iDate;\n" +
 							  "uniform float     iSampleRate;\n" +
-							  "uniform vec3      iChannelResolution[4];\n";
+							  "uniform vec3      iChannelResolution[4];\n" +
+
+							  "uniform float     fZoom;\n";
+
 					headerlength += 7;
 
 					for (var i = 0; i < mInputs.Length; i++)
@@ -290,9 +293,9 @@ namespace ChromeShaderToyColumns.Library
 						//"vec4 color[4];" +
 						//"mainImage( color[0], gl_FragCoord.xy );" +
 						//"gl_FragColor = color[0];" +
-						"vec4 color;" +
+						"vec4 color = gl_FragColor;" +
 						"mainImage( color, gl_FragCoord.xy );" +
-						"color.w = 1.0;" +
+						//"color.w = 1.0;" +
 						"gl_FragColor = color;" +
 					"}";
 					#endregion
@@ -322,7 +325,7 @@ namespace ChromeShaderToyColumns.Library
 						//watchInit(pgWatch.js:1386)
 						//onload(Xls3WS: 78)
 						#endregion
-						this.Paint_Image = (time, mouseOriX, mouseOriY, mousePosX, mousePosY) =>
+						this.Paint_Image = (time, mouseOriX, mouseOriY, mousePosX, mousePosY, zoom) =>
 						{
 							var mProgram = xCreateShader.mProgram;
 
@@ -341,6 +344,10 @@ namespace ChromeShaderToyColumns.Library
 
 							// uniform4fv
 							var mouse = new[] { mousePosX, mousePosY, mouseOriX, mouseOriY };
+
+							// X:\jsc.svn\examples\glsl\future\GLSLShaderToyPip\GLSLShaderToyPip\Application.cs
+							gl.getUniformLocation(mProgram, "fZoom").With(fZoom => gl.uniform1f(fZoom, zoom));
+
 
 							var l2 = gl.getUniformLocation(mProgram, "iGlobalTime"); if (l2 != null) gl.uniform1f(l2, time);
 							var l3 = gl.getUniformLocation(mProgram, "iResolution"); if (l3 != null) gl.uniform3f(l3, xres, yres, 1.0f);
@@ -422,8 +429,8 @@ namespace ChromeShaderToyColumns.Library
 
 				var precision = DetermineShaderPrecission(gl);
 
-				this.mGainNode = ac.createGain();
-				this.mGainNode.connect(ac.destination);
+				//this.mGainNode = ac.createGain();
+				//this.mGainNode.connect(ac.destination);
 
 				this.mQuadVBO = createQuadVBO(gl);
 
