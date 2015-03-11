@@ -110,7 +110,7 @@ namespace ChromeShaderToyColumns.Library
 
 			gl.compileShader(fs);
 
-			ok.vsTranslatedShaderSource = new WebGLDebugShaders(gl).getTranslatedShaderSource(fs);
+			ok.fsTranslatedShaderSource = new WebGLDebugShaders(gl).getTranslatedShaderSource(fs);
 
 			//gl.getExtension("WEBGL_debug_shaders").With(
 			//	(dynamic WEBGL_debug_shaders) =>

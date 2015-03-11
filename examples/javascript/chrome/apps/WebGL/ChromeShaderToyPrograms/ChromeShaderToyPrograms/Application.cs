@@ -31,23 +31,6 @@ namespace ChromeShaderToyPrograms
 	public sealed class Application : ApplicationWebService
 	{
 
-		//		updating { id = WebGL.ShaderToy, ElapsedMilliseconds = 0 }
-		//	updating { RestorePackagesFromFile = c:/util/jsc/nuget/WebGL.ShaderToy.1.0.0.0.nupkg, ElapsedMilliseconds = 0 }
-		//System.IO.IOException: The process cannot access the file 'C:\Users\Arvo\AppData\Local\NuGet\Cache\WebGL.ShaderToy.1.0.0.0.nupkg' because it is being used by another process.
-		//   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-		//   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-		//   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
-		//   at NuGet.ZipPackage.<>c__DisplayClass2.<.ctor>b__0()
-		//   at NuGet.ZipPackage.GetFilesNoCache()
-		//   at NuGet.ZipPackage.GetFilesBase()
-		//   at NuGet.ZipPackage.GetAssembliesNoCache()
-		//   at NuGet.ZipPackage.GetAssemblyReferencesBase()
-		//   at NuGet.LocalPackage.get_AssemblyReferences()
-		//   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.<>c__DisplayClass20_6.<InternalInvoke>b__46() in X:\jsc.internal.git\compiler\jsc.internal\jsc.internal\meta\Commands\Reference\ReferenceAssetsLibrary.cs:line 506
-		//   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.<>c.<InternalInvoke>b__20_38(Action y) in X:\jsc.internal.git\compiler\jsc.internal\jsc.internal\meta\Commands\Reference\ReferenceAssetsLibrary.cs:line 412
-		//   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.<>c__DisplayClass20_3.<InternalInvoke>b__39() in X:\jsc.internal.git\compiler\jsc.internal\jsc.internal\meta\Commands\Reference\ReferenceAssetsLibrary.cs:line 494
-		//   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.<>c__DisplayClass20_7.<InternalInvoke>b__37(<>f__AnonymousType26`9 p) in X:\jsc.internal.git\compiler\jsc.internal\jsc.internal\meta\Commands\Reference\ReferenceAssetsLibrary.cs:line 564
-
 		/// <summary>
 		/// This is a javascript application.
 		/// </summary>
@@ -115,7 +98,14 @@ namespace ChromeShaderToyPrograms
 
 
 			//Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
+
+
+			// chrome by default has no scrollbar, bowser does
+			Native.document.documentElement.style.overflow = IStyle.OverflowEnum.hidden;
 			Native.body.style.margin = "0px";
+			Native.body.Clear();
+
+
 
 			var gl = new WebGLRenderingContext(alpha: true);
 
@@ -146,6 +136,8 @@ namespace ChromeShaderToyPrograms
 			combo.style.fontSize = "large";
 			combo.style.paddingLeft = "1em";
 			combo.style.fontFamily = IStyle.FontFamilyEnum.Verdana;
+			combo.style.cursor = IStyle.CursorEnum.pointer;
+
 
 
 			var mAudioContext = new AudioContext();
