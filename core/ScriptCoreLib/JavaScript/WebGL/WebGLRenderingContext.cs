@@ -267,13 +267,15 @@ namespace ScriptCoreLib.JavaScript.WebGL
 		// https://code.google.com/p/chromium/issues/detail?id=349195
 		// WebGL: CONTEXT_LOST_WEBGL: loseContext: context lost
 		// http://stackoverflow.com/questions/25219352/webgl-scene-doest-render-because-of-lost-context
-		public event Action<IEvent> oncontextlost
+		public event Action<WebGLContextEvent> oncontextlost
 		{
 			[Script(DefineAsStatic = true)]
 			add
 			{
 				// tested by
 				// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyColumns\ChromeShaderToyColumns\Library\ShaderToy.cs
+				// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLContextEventInit.idl
+				// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLContextEvent.idl
 
 				this.canvas.addEventListener("webglcontextlost", value);
 

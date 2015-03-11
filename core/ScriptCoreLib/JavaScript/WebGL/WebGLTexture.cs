@@ -5,7 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.WebGL
 {
-    [Script(HasNoPrototype = true)]
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLTexture.idl
+
+	[Script(HasNoPrototype = true)]
     public class WebGLTexture
     {
     }

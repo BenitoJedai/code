@@ -498,7 +498,9 @@ namespace ChromeShaderToyColumns.Library
 oncontextlost.
 The GPU process hung. Terminating. 
 check chrome://gpu for log messages.  
-do we have a stack trace?",
+do we have a stack trace?
+
+" + new { e.statusMessage } ,
 
 						// chrome sends us to about:blank?
 						//new IHTMLAnchor {
