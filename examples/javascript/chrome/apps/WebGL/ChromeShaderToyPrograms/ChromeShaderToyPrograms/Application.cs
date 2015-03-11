@@ -387,17 +387,17 @@ namespace ChromeShaderToyPrograms
 
 
 					var pass0 = new ShaderToy.EffectPass(
-				mAudioContext,
-				gl,
-				precission: ShaderToy.DetermineShaderPrecission(gl),
-				supportDerivatives: gl.getExtension("OES_standard_derivatives") != null,
-				callback: null,
-				obj: null,
-				forceMuted: false,
-				forcePaused: false,
-				quadVBO: ShaderToy.createQuadVBO(gl),
-				outputGainNode: null
-			);
+						mAudioContext,
+						gl,
+						precission: ShaderToy.DetermineShaderPrecission(gl),
+						supportDerivatives: gl.getExtension("OES_standard_derivatives") != null,
+						callback: null,
+						obj: null,
+						forceMuted: false,
+						forcePaused: false,
+						quadVBO: ShaderToy.createQuadVBO(gl),
+						outputGainNode: null
+					);
 					pass0.MakeHeader_Image();
 					pass0.NewShader_Image(frag);
 
@@ -413,18 +413,21 @@ namespace ChromeShaderToyPrograms
 						{
 							frame,
 							load = load.ElapsedMilliseconds + "ms ",
-							source = len + "bytes "
+
+							frag = len + "bytes ",
+							// a telemetry to track while running on actual hardware
+							fragGPU = pass0.xCreateShader.fsTranslatedShaderSource.Length + " bytes"
 						};
 
 						// can we scale?
 						pass0.Paint_Image(
-			sw.ElapsedMilliseconds / 1000.0f,
+							sw.ElapsedMilliseconds / 1000.0f,
 
-			mMouseOriX,
-			mMouseOriY,
-			mMousePosX,
-			mMousePosY
-		);
+							mMouseOriX,
+							mMouseOriY,
+							mMousePosX,
+							mMousePosY
+						);
 
 						// what does it do?
 						gl.flush();

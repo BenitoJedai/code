@@ -126,6 +126,8 @@ namespace ScriptCoreLib.GLSL
 
 		// https://github.com/daeken/Shaderforth
 		// Swizzling
+		// EOpVectorSwizzle
+		// https://chromium.googlesource.com/angle/angle/+/master/src/compiler/translator/OutputGLSLBase.cpp
 
 		public vec2 xz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
         public vec2 yz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }

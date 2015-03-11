@@ -363,6 +363,24 @@
     <Reference Include="ChromeShaderToySeabirdsAtSunsetByDr2.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToySeabirdsAtSunsetByDr2\ChromeShaderToySeabirdsAtSunsetByDr2\bin\staging.AssetsLibrary\ChromeShaderToySeabirdsAtSunsetByDr2.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyAssBlockByDila.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyAssBlockByDila\ChromeShaderToyAssBlockByDila\bin\staging.AssetsLibrary\ChromeShaderToyAssBlockByDila.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyOcuLimboByDaeken.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyOcuLimboByDaeken\ChromeShaderToyOcuLimboByDaeken\bin\staging.AssetsLibrary\ChromeShaderToyOcuLimboByDaeken.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyOculusTestByDaeken.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyOculusTestByDaeken\ChromeShaderToyOculusTestByDaeken\bin\staging.AssetsLibrary\ChromeShaderToyOculusTestByDaeken.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyQuadraticBezierByMattdesl.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyQuadraticBezierByMattdesl\ChromeShaderToyQuadraticBezierByMattdesl\bin\staging.AssetsLibrary\ChromeShaderToyQuadraticBezierByMattdesl.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyRockyCoast.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRockyCoast\ChromeShaderToyRockyCoast\bin\staging.AssetsLibrary\ChromeShaderToyRockyCoast.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToySubmarinePillars.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToySubmarinePillars\ChromeShaderToySubmarinePillars\bin\staging.AssetsLibrary\ChromeShaderToySubmarinePillars.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -558,6 +576,10 @@
       <Project>{2d0c3aec-4947-4ad5-b678-0b7665055e7c}</Project>
       <Name>ChromeShaderToyOblivionByNimitz</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyOcuLimboByDaeken\ChromeShaderToyOcuLimboByDaeken\ChromeShaderToyOcuLimboByDaeken.csproj">
+      <Project>{e28eba2d-4136-4907-a650-e70d87e2cca9}</Project>
+      <Name>ChromeShaderToyOcuLimboByDaeken</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyOculusTestByDaeken\ChromeShaderToyOculusTestByDaeken\ChromeShaderToyOculusTestByDaeken.csproj">
       <Project>{ad9b8650-595d-4ef1-9f77-62cf0180898e}</Project>
       <Name>ChromeShaderToyOculusTestByDaeken</Name>
@@ -590,6 +612,10 @@
       <Project>{612d8607-ec0a-4fc7-858a-d2924cb06110}</Project>
       <Name>ChromeShaderToyPrimitivesByQuilez</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyQuadraticBezierByMattdesl\ChromeShaderToyQuadraticBezierByMattdesl\ChromeShaderToyQuadraticBezierByMattdesl.csproj">
+      <Project>{34c9e1dc-defb-4bb0-b040-25ef787cab23}</Project>
+      <Name>ChromeShaderToyQuadraticBezierByMattdesl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyRacingGameByEiffie\ChromeShaderToyRacingGameByEiffie\ChromeShaderToyRacingGameByEiffie.csproj">
       <Project>{66f4b51c-44aa-4ce1-9401-3b88d776b4d9}</Project>
       <Name>ChromeShaderToyRacingGameByEiffie</Name>
@@ -613,6 +639,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyRelentlessBySrtuss\ChromeShaderToyRelentlessBySrtuss\ChromeShaderToyRelentlessBySrtuss.csproj">
       <Project>{91bc0d94-1e92-436d-9147-92e42e560a76}</Project>
       <Name>ChromeShaderToyRelentlessBySrtuss</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyRockyCoast\ChromeShaderToyRockyCoast\ChromeShaderToyRockyCoast.csproj">
+      <Project>{34430aab-ae5a-47c1-96ec-6f7784a17007}</Project>
+      <Name>ChromeShaderToyRockyCoast</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyRollingBallByHoskins\ChromeShaderToyRollingBallByHoskins\ChromeShaderToyRollingBallByHoskins.csproj">
       <Project>{3c2fa71b-9579-46a8-8dbe-88b9f4371972}</Project>
@@ -661,6 +691,10 @@
     <ProjectReference Include="..\..\ChromeShaderToySpitfirePursuitByDr2\ChromeShaderToySpitfirePursuitByDr2\ChromeShaderToySpitfirePursuitByDr2.csproj">
       <Project>{d4fa0713-6e72-4589-bdbf-68f79ed276f3}</Project>
       <Name>ChromeShaderToySpitfirePursuitByDr2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToySubmarinePillars\ChromeShaderToySubmarinePillars\ChromeShaderToySubmarinePillars.csproj">
+      <Project>{202488b8-d491-4adb-bcb2-a12fdb069519}</Project>
+      <Name>ChromeShaderToySubmarinePillars</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToySymmetricOriginsByGood\ChromeShaderToySymmetricOriginsByGood\ChromeShaderToySymmetricOriginsByGood.csproj">
       <Project>{ce06af68-9b57-48f3-9751-82791552c9b9}</Project>

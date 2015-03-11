@@ -212,6 +212,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToySubmarinePil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyOcuLimboByDaeken", "..\ChromeShaderToyOcuLimboByDaeken\ChromeShaderToyOcuLimboByDaeken\ChromeShaderToyOcuLimboByDaeken.csproj", "{E28EBA2D-4136-4907-A650-E70D87E2CCA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyRockyCoast", "..\ChromeShaderToyRockyCoast\ChromeShaderToyRockyCoast\ChromeShaderToyRockyCoast.csproj", "{34430AAB-AE5A-47C1-96EC-6F7784A17007}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "q", "q", "{42288C03-756D-42ED-8CE1-C094BE89DF72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyQuadraticBezierByMattdesl", "..\ChromeShaderToyQuadraticBezierByMattdesl\ChromeShaderToyQuadraticBezierByMattdesl\ChromeShaderToyQuadraticBezierByMattdesl.csproj", "{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -554,6 +560,14 @@ Global
 		{E28EBA2D-4136-4907-A650-E70D87E2CCA9}.Debug|x86.Build.0 = Debug|x86
 		{E28EBA2D-4136-4907-A650-E70D87E2CCA9}.Release|x86.ActiveCfg = Release|x86
 		{E28EBA2D-4136-4907-A650-E70D87E2CCA9}.Release|x86.Build.0 = Release|x86
+		{34430AAB-AE5A-47C1-96EC-6F7784A17007}.Debug|x86.ActiveCfg = Debug|x86
+		{34430AAB-AE5A-47C1-96EC-6F7784A17007}.Debug|x86.Build.0 = Debug|x86
+		{34430AAB-AE5A-47C1-96EC-6F7784A17007}.Release|x86.ActiveCfg = Release|x86
+		{34430AAB-AE5A-47C1-96EC-6F7784A17007}.Release|x86.Build.0 = Release|x86
+		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}.Debug|x86.ActiveCfg = Debug|x86
+		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}.Debug|x86.Build.0 = Debug|x86
+		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}.Release|x86.ActiveCfg = Release|x86
+		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -659,5 +673,8 @@ Global
 		{AD9B8650-595D-4EF1-9F77-62CF0180898E} = {57FF136E-E3D9-4403-907A-DC57E1658181}
 		{202488B8-D491-4ADB-BCB2-A12FDB069519} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
 		{E28EBA2D-4136-4907-A650-E70D87E2CCA9} = {57FF136E-E3D9-4403-907A-DC57E1658181}
+		{34430AAB-AE5A-47C1-96EC-6F7784A17007} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
+		{42288C03-756D-42ED-8CE1-C094BE89DF72} = {30FF3663-3CBE-4541-B2CF-A3C0960E208B}
+		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23} = {42288C03-756D-42ED-8CE1-C094BE89DF72}
 	EndGlobalSection
 EndGlobal
