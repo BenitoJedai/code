@@ -51,6 +51,7 @@ namespace ChromeShaderToyColumns.Library
 				{ -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f }
 				);
 
+			// new Buffer?
 			var vbo = gl.createBuffer();
 			gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
 			gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
@@ -64,12 +65,15 @@ namespace ChromeShaderToyColumns.Library
 
 		}
 
-		class CreateShaderResult
+		public class CreateShaderResult
 		{
 			public string mInfo;
 			public bool mSuccess;
 
 			public WebGLProgram mProgram;
+
+			public string vsTranslatedShaderSource;
+			public string fsTranslatedShaderSource;
 		}
 
 		static CreateShaderResult CreateShader(
@@ -91,7 +95,25 @@ namespace ChromeShaderToyColumns.Library
 			gl.shaderSource(fs, tfs);
 
 			gl.compileShader(vs);
+
+			var ok = new CreateShaderResult { mSuccess = true };
+
+			// https://www.khronos.org/registry/webgl/extensions/WEBGL_debug_shaders/
+			gl.getExtension("WEBGL_debug_shaders").With(
+			(dynamic WEBGL_debug_shaders) =>
+			{
+				ok.vsTranslatedShaderSource = WEBGL_debug_shaders.getTranslatedShaderSource((WebGLShader)vs);
+			}
+		);
+
 			gl.compileShader(fs);
+
+			gl.getExtension("WEBGL_debug_shaders").With(
+				(dynamic WEBGL_debug_shaders) =>
+				{
+					ok.fsTranslatedShaderSource = WEBGL_debug_shaders.getTranslatedShaderSource((WebGLShader)fs);
+				}
+			);
 
 			if (gl.getShaderParameter(vs, gl.COMPILE_STATUS) == null)
 			{
@@ -139,7 +161,8 @@ namespace ChromeShaderToyColumns.Library
 			// https://msdn.microsoft.com/en-us/library/ie/dn302415(v=vs.85).aspx
 			new IHTMLPre { "exit CreateShader" }.AttachToDocument();
 
-			return new CreateShaderResult { mSuccess = true, mProgram = p };
+			ok.mProgram = p;
+			return ok;
 		}
 
 		public static string DetermineShaderPrecission(WebGLRenderingContext gl)
@@ -193,6 +216,7 @@ namespace ChromeShaderToyColumns.Library
 				);
 			public Paint_ImageDelegate Paint_Image;
 
+			public CreateShaderResult xCreateShader;
 
 			public EffectPass(
 				AudioContext wa,
@@ -277,9 +301,11 @@ namespace ChromeShaderToyColumns.Library
 						var shaderCode = fs.ToString();
 
 						var vsSource = "attribute vec2 pos; void main() { gl_Position = vec4(pos.xy,0.0,1.0); }";
-						var res = CreateShader(gl, vsSource, header + shaderCode + mImagePassFooter, false);
 
-						var mProgram = res.mProgram;
+						var fsSource = header + shaderCode + mImagePassFooter;
+
+						this.xCreateShader = CreateShader(gl, vsSource, fsSource, false);
+
 						#endregion
 
 
@@ -294,6 +320,9 @@ namespace ChromeShaderToyColumns.Library
 						#endregion
 						this.Paint_Image = (time, mouseOriX, mouseOriY, mousePosX, mousePosY) =>
 						{
+							var mProgram = xCreateShader.mProgram;
+
+
 							var xres = gl.canvas.width;
 							var yres = gl.canvas.height;
 
@@ -430,7 +459,7 @@ namespace ChromeShaderToyColumns.Library
 
 				new IHTMLPre {
 					// https://code.google.com/p/chromium/issues/detail?id=294207
-					"WebGL: Unavailable. GPU process was unable to boot. Rats! WebGL hit a snag.",
+					"Rats! WebGL hit a snag. \n WebGL: Unavailable.\n GPU process was unable to boot. \n restart chrome.",
 
 					// chrome sends us to about:blank?
 					//new IHTMLAnchor {
@@ -451,14 +480,21 @@ namespace ChromeShaderToyColumns.Library
 
 			var c = gl.canvas.AttachToDocument();
 
+			#region oncontextlost
 			gl.oncontextlost +=
 				e =>
 				{
+					//[12144:10496:0311 / 120850:ERROR: gpu_watchdog_thread.cc(314)] : The GPU process hung. Terminating after 10000 ms.
+					//   GpuProcessHostUIShim: The GPU process crashed!
 					gl.canvas.Orphanize();
 
 					new IHTMLPre {
 						// https://code.google.com/p/chromium/issues/detail?id=294207
-						"oncontextlost. Rats! WebGL hit a snag.",
+						@"Rats! WebGL hit a snag.
+oncontextlost.
+The GPU process hung. Terminating. 
+check chrome://gpu for log messages.  
+do we have a stack trace?",
 
 						// chrome sends us to about:blank?
 						//new IHTMLAnchor {
@@ -475,6 +511,7 @@ namespace ChromeShaderToyColumns.Library
 
 					}.AttachToDocument();
 				};
+			#endregion
 
 
 			#region onresize
