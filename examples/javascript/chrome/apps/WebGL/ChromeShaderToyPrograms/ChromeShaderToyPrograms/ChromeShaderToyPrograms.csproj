@@ -432,6 +432,9 @@
     <Reference Include="ChromeShaderToyTriangleDistanceByIq.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToyTriangleDistanceByIq\ChromeShaderToyTriangleDistanceByIq\bin\staging.AssetsLibrary\ChromeShaderToyTriangleDistanceByIq.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyLightThornByVlad.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyLightThornByVlad\ChromeShaderToyLightThornByVlad\bin\staging.AssetsLibrary\ChromeShaderToyLightThornByVlad.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -614,6 +617,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyLavaDripByFabrice\ChromeShaderToyLavaDripByFabrice\ChromeShaderToyLavaDripByFabrice.csproj">
       <Project>{831535ce-8362-4ace-836e-df6f67ca27e7}</Project>
       <Name>ChromeShaderToyLavaDripByFabrice</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyLightThornByVlad\ChromeShaderToyLightThornByVlad\ChromeShaderToyLightThornByVlad.csproj">
+      <Project>{411b80aa-1b70-4dfe-b174-21a7f2a3699f}</Project>
+      <Name>ChromeShaderToyLightThornByVlad</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyLimboByDaeken\ChromeShaderToyLimboByDaeken\ChromeShaderToyLimboByDaeken.csproj">
       <Project>{a20c4a02-c9a4-4c16-bc97-a145f195a0d6}</Project>

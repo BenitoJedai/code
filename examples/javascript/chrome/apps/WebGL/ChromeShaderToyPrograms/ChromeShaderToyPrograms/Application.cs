@@ -39,6 +39,25 @@ namespace ChromeShaderToyPrograms
 		{
 			// show shader based on tab selection?
 
+
+
+			//Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
+
+
+			// chrome by default has no scrollbar, bowser does
+			Native.document.documentElement.style.overflow = IStyle.OverflowEnum.hidden;
+			Native.body.style.margin = "0px";
+			Native.body.Clear();
+
+			// ipad?
+			Native.window.onerror +=
+				e =>
+				{
+					new IHTMLPre {
+						"error " + new { e.error }
+					}.AttachToDocument();
+				};
+
 			// https://www.youtube.com/watch?v=tnS8K0yhmZU
 			// http://www.reddit.com/r/oculus/comments/2sv5lk/new_release_of_shadertoy_vr/
 			// https://www.shadertoy.com/view/lsSGRz
@@ -96,14 +115,6 @@ namespace ChromeShaderToyPrograms
 			}
 			#endregion
 
-
-			//Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
-
-
-			// chrome by default has no scrollbar, bowser does
-			Native.document.documentElement.style.overflow = IStyle.OverflowEnum.hidden;
-			Native.body.style.margin = "0px";
-			Native.body.Clear();
 
 
 
@@ -370,6 +381,8 @@ namespace ChromeShaderToyPrograms
 
 			new IHTMLOption { value = "", innerText = $"{programs.Count} shaders available" }.AttachTo(combo);
 
+			ShaderToy.EffectPass pip = null;
+
 			// http://stackoverflow.com/questions/25289390/html-how-to-make-input-type-list-only-accept-a-list-choice
 			programs.Keys.WithEachIndex(
 				async (key, index) =>
@@ -399,36 +412,28 @@ namespace ChromeShaderToyPrograms
 
 					var load = Stopwatch.StartNew();
 
-
-
-					//do
-					//{
-					//	// allow any deselect to happen
-					//	await Native.window.async.onframe;
-					//	new IHTMLPre { "option select " + new { key, combo.selectedIndex, fragSource.Length } }.AttachToDocument();
-
-					//	await option.async.ondeselect;
-					//	new IHTMLPre { "option ondeselect " + new { key } }.AttachToDocument();
-					//}
-					//while (await option.async.onselect);
-
-
 					var pass0 = new ShaderToy.EffectPass(
-						mAudioContext,
-						gl,
+						gl: gl,
 						precission: ShaderToy.DetermineShaderPrecission(gl),
-						supportDerivatives: gl.getExtension("OES_standard_derivatives") != null,
-						callback: null,
-						obj: null,
-						forceMuted: false,
-						forcePaused: false,
-						quadVBO: ShaderToy.createQuadVBO(gl),
-						outputGainNode: null
+						supportDerivatives: gl.getExtension("OES_standard_derivatives") != null
 					);
 					pass0.MakeHeader_Image();
 					pass0.NewShader_Image(frag);
 
 					load.Stop();
+
+					new { }.With(
+						async delegate
+						{
+							while (await option.async.ondeselect)
+							{
+								pip = pass0;
+
+								await option.async.onselect;
+							}
+						}
+					);
+
 
 					var frame = 0;
 					do
@@ -453,13 +458,31 @@ namespace ChromeShaderToyPrograms
 							mMouseOriX,
 							mMouseOriY,
 							mMousePosX,
-							mMousePosY
+							mMousePosY,
+
+							zoom: 1.0f
 						);
+
+						if (pip != null)
+						{
+							// can we scale?
+							pip.Paint_Image(
+								sw.ElapsedMilliseconds / 1000.0f,
+
+								mMouseOriX,
+								mMouseOriY,
+								mMousePosX,
+								mMousePosY,
+
+								zoom: 0.10f
+							);
+
+						}
 
 						// what does it do?
 						gl.flush();
 
-
+						// wither we are selected or we are pip?
 						await option.async.selected;
 					}
 					while (await Native.window.async.onframe);
@@ -473,5 +496,27 @@ namespace ChromeShaderToyPrograms
 
 		}
 
+
+		//		cleaned { id = WebGL.ShaderToy
+		//	}
+		//	updating { id = WebGL.ShaderToy, ElapsedMilliseconds = 0 }
+		//copy { RestorePackagesFromFile = c:/util/jsc/nuget/WebGL.ShaderToy.1.0.0.0.nupkg, ElapsedMilliseconds = 0, path = C:\Users\Administrator\AppData\Local\NuGet\Cache\WebGL.ShaderToy.1.0.0.0.nupkg }
+		//file in use...
+		//file in use...
+		//file in use...
+		//file in use...
+		//file in use...
+		//file in use...
+		//System.IO.IOException: The process cannot access the file 'C:\Users\Administrator\AppData\Local\NuGet\Cache\WebGL.ShaderToy.1.0.0.0.nupkg' because it is being used by another process.
+		//   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+		//   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, St
+		//ring msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+		//   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+		//   at NuGet.ZipPackage.<>c__DisplayClass2.<.ctor>b__0()
+		//   at NuGet.ZipPackage.EnsureManifest()
+		//   at NuGet.ZipPackage..ctor(String filePath, Boolean enableCaching)
+		//   at NuGet.ZipPackage..ctor(String filePath)
+		//   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.<>c__DisplayClass20_3.<InternalInvoke>b__39() in X:\jsc.internal.git\compiler\jsc.internal\jsc.internal\meta\Commands\Reference\ReferenceAssets
+		//Library.cs:line 451
 	}
 }
