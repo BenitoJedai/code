@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-
+[assembly: Obfuscation(Feature = "script")]
 namespace Test46MixedFloatArray
 {
-    public class Class1
-    {
-		public static WebGLBuffer createQuadVBO(gl gl
+	public class Class1
+	{
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150311
+
+		public static void createQuadVBO(object gl
 			, float right = 1.0f
 			)
 		{
+			//__0003[2] = c;
+			//__0003[6] = c;
+			//__0003[8] = c;
+			//d = [-1, -1, 0, -1, -1, 1, 0, -1, 0, 1, -1, 1];
 
 			//enter createQuadVBO { { i = 0, value = null } }
 			//enter createQuadVBO { { i = 1, value = null } }
@@ -49,5 +56,5 @@ namespace Test46MixedFloatArray
 				};
 
 		}
-		}
 	}
+}

@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyColumns", "ChromeShaderToyColumns\ChromeShaderToyColumns.csproj", "{EB93B081-4EDC-41A2-85B3-0487062617CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib", "..\..\..\..\..\..\core\ScriptCoreLib\ScriptCoreLib.csproj", "{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
 EndProject
 Global
@@ -23,14 +21,6 @@ Global
 		{EB93B081-4EDC-41A2-85B3-0487062617CC}.Release|Any CPU.ActiveCfg = Release|x86
 		{EB93B081-4EDC-41A2-85B3-0487062617CC}.Release|x86.ActiveCfg = Release|x86
 		{EB93B081-4EDC-41A2-85B3-0487062617CC}.Release|x86.Build.0 = Release|x86
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Debug|x86.Build.0 = Debug|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|x86.ActiveCfg = Release|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|x86.Build.0 = Release|Any CPU
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.ActiveCfg = Debug|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.Build.0 = Debug|x86

@@ -44,9 +44,15 @@ namespace ChromeShaderToyColumns.Library
 		// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToySeascapeByTDM\ChromeShaderToySeascapeByTDM\Application.cs
 
 		public static WebGLBuffer createQuadVBO(gl gl
+
+			, float left = -1.0f
+			// y reversed?
+			, float bottom = -1.0f
 			, float right = 1.0f
+			, float top = 1.0f
 			)
 		{
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150311
 
 			//enter createQuadVBO { { i = 0, value = null } }
 			//enter createQuadVBO { { i = 1, value = null } }
@@ -64,41 +70,41 @@ namespace ChromeShaderToyColumns.Library
 			var fvertices =
 				new float[]
 				{
-					// left to
-					-1.0f, -1.0f,
+					// left top
+					left, bottom,
 
 					// right top
 					//right, -1.0f,
-					1.0f, -1.0f,
+					right, bottom,
 
 					// left bottom
-					-1.0f, 1.0f,
+					left, top,
 
 					// right top
 					//right, -1.0f,
-					1.0f, -1.0f,
+					right, bottom,
 
 					// right bottom
 					//right, 1.0f,
-					1.0f, 1.0f,
+					right, top,
 
 					// left bottom
-					-1.0f, 1.0f
+					left,top
 				};
 
-			new IHTMLPre { "enter createQuadVBO" }.AttachToDocument();
-			for (int i = 0; i < fvertices.Length; i++)
-			{
-				var value = fvertices[i];
+			//new IHTMLPre { "enter createQuadVBO" }.AttachToDocument();
+			//for (int i = 0; i < fvertices.Length; i++)
+			//{
+			//	var value = fvertices[i];
 
-				new IHTMLPre { "enter createQuadVBO " + new { i, value } }.AttachToDocument();
-			}
-			var vertices = new Float32Array(fvertices);
+			//	new IHTMLPre { "enter createQuadVBO " + new { i, value } }.AttachToDocument();
+			//}
 
 			// new Buffer?
 			var vbo = new WebGLBuffer(gl);
 			//var vbo = gl.createBuffer();
 			gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+			var vertices = new Float32Array(fvertices);
 			gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 			gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
@@ -369,6 +375,9 @@ void main( void )
 
 						#endregion
 
+						var vbo = new WebGLBuffer(gl);
+
+
 
 						#region calledby
 						//EffectPass.Paint_Image(effect.js:724)
@@ -384,14 +393,14 @@ void main( void )
 							var mProgram = xCreateShader.mProgram;
 
 
-							var xres = gl.canvas.width;
-							var yres = gl.canvas.height;
+							var xres = gl.canvas.width * zoom;
+							var yres = gl.canvas.height * zoom;
 
 							#region Paint_Image
 							//new IHTMLPre { "enter Paint_Image" }.AttachToDocument();
 
-
-							gl.viewport(0, 0, xres, yres);
+							// this is enough to do pip to bottom left, no need to adjust vertex positions even?
+							gl.viewport(0, 0, (int)xres, (int)yres);
 
 							// useProgram: program not valid
 							gl.useProgram(mProgram);
@@ -414,11 +423,7 @@ void main( void )
 							var ich2 = gl.getUniformLocation(mProgram, "iChannel2"); if (ich2 != null) gl.uniform1i(ich2, 2);
 							var ich3 = gl.getUniformLocation(mProgram, "iChannel3"); if (ich3 != null) gl.uniform1i(ich3, 3);
 
-							// using ?
-							var l1 = (uint)gl.getAttribLocation(mProgram, "pos");
-							gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
-							gl.vertexAttribPointer(l1, 2, gl.FLOAT, false, 0, 0);
-							gl.enableVertexAttribArray(l1);
+
 
 
 							for (var i = 0; i < mInputs.Length; i++)
@@ -442,9 +447,55 @@ void main( void )
 							if (l8 != null) gl.uniform3fv(l8, resos);
 
 
+							float left = -1.0f;
+							// y reversed?
+							float bottom = -1.0f;
+							float right = 1.0f;
+							float top = 1.0f;
+
+							// using ?
+							var l1 = (uint)gl.getAttribLocation(mProgram, "pos");
+							//gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
+							gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+
+
+							#region vertices
+							var fvertices =
+								new float[]
+								{
+									// left top
+									left, bottom,
+
+									// right top
+									//right, -1.0f,
+									right, bottom,
+
+									// left bottom
+									left, top,
+
+									// right top
+									//right, -1.0f,
+									right, bottom,
+
+									// right bottom
+									//right, 1.0f,
+									right, top,
+
+									// left bottom
+									left,top
+								};
+
+							var vertices = new Float32Array(fvertices);
+							#endregion
+							gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+							gl.vertexAttribPointer(l1, 2, gl.FLOAT, false, 0, 0);
+							gl.enableVertexAttribArray(l1);
+
 							gl.drawArrays(gl.TRIANGLES, 0, 6);
 							// first frame is now visible
 							gl.disableVertexAttribArray(l1);
+							gl.bindBuffer(gl.ARRAY_BUFFER, null);
 							#endregion
 
 							mFrame++;
