@@ -398,6 +398,10 @@
       <Project>{e9c0aa1f-d561-4c6e-b1ed-9437d7b9b3b3}</Project>
       <Name>ChromeShaderToyAnimationByFlyguy</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyAssBlockByDila\ChromeShaderToyAssBlockByDila\ChromeShaderToyAssBlockByDila.csproj">
+      <Project>{55ff5c23-c75d-4284-a449-46b435fdaff8}</Project>
+      <Name>ChromeShaderToyAssBlockByDila</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyBenderByIq\ChromeShaderToyBenderByIq\ChromeShaderToyBenderByIq.csproj">
       <Project>{2174eea7-9777-4f20-b648-fd3458371d2c}</Project>
       <Name>ChromeShaderToyBenderByIq</Name>
@@ -553,6 +557,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyOblivionByNimitz\ChromeShaderToyOblivionByNimitz\ChromeShaderToyOblivionByNimitz.csproj">
       <Project>{2d0c3aec-4947-4ad5-b678-0b7665055e7c}</Project>
       <Name>ChromeShaderToyOblivionByNimitz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyOculusTestByDaeken\ChromeShaderToyOculusTestByDaeken\ChromeShaderToyOculusTestByDaeken.csproj">
+      <Project>{ad9b8650-595d-4ef1-9f77-62cf0180898e}</Project>
+      <Name>ChromeShaderToyOculusTestByDaeken</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyOnOffSpikesByMovAX13h\ChromeShaderToyOnOffSpikesByMovAX13h\ChromeShaderToyOnOffSpikesByMovAX13h.csproj">
       <Project>{396f0fed-78bb-4e3c-8168-909a39d5c327}</Project>

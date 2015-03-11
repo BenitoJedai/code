@@ -31,7 +31,15 @@ namespace ScriptCoreLib.GLSL
         )]
     [Description("Recommended max: 16 attributes")]
     public sealed class attribute : Attribute
-    {
+	{
 
+
+
+        //'vertexAttribI4i' : 'vertexAttrib',
+        //'vertexAttribI4iv' : 'vertexAttrib',
+        //'vertexAttribI4ui' : 'vertexAttrib',
+        //'vertexAttribI4uiv' : 'vertexAttrib',
+        //'vertexAttribIPointer' : 'vertexAttribPointer',
+        //'vertexAttribDivisor' : 'vertexAttribDivisor',
     }
 }

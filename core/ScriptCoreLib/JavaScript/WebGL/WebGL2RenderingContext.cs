@@ -6,15 +6,17 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.WebGL
 {
-    // http://dxr.mozilla.org/mozilla-central/source/dom/webidl/WebGL2RenderingContext.webidl
-    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/WebGL2RenderingContext.webidl
-    // https://www.khronos.org/registry/webgl/specs/latest/2.0/webgl2.idl
+	// http://dxr.mozilla.org/mozilla-central/source/dom/webidl/WebGL2RenderingContext.webidl
+	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/WebGL2RenderingContext.webidl
+	// https://www.khronos.org/registry/webgl/specs/latest/2.0/webgl2.idl
 
-    [Script(HasNoPrototype = true, InternalConstructor = true)]
-    [Obsolete("for future reference")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public class WebGL2RenderingContext
-    {
+	// getting closer. 
+	// http://webglreport.com/?v=2
+	[Script(HasNoPrototype = true, InternalConstructor = true)]
+	[Obsolete("for future reference")]
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public class WebGL2RenderingContext
+	{
 		// https://bugzilla.mozilla.org/show_bug.cgi?id=709490
 
 		// https://code.google.com/p/chromium/issues/detail?id=295792#c13
