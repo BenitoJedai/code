@@ -384,6 +384,15 @@
     <Reference Include="ChromeShaderToyDancingViriiByEntropyNine.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToyDancingViriiByEntropyNine\ChromeShaderToyDancingViriiByEntropyNine\bin\staging.AssetsLibrary\ChromeShaderToyDancingViriiByEntropyNine.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyGmetaballsByGermangb.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyGmetaballsByGermangb\ChromeShaderToyGmetaballsByGermangb\bin\staging.AssetsLibrary\ChromeShaderToyGmetaballsByGermangb.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyPyramidsByAvix.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyPyramidsByAvix\ChromeShaderToyPyramidsByAvix\bin\staging.AssetsLibrary\ChromeShaderToyPyramidsByAvix.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyRotatePyramidByGyabo.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRotatePyramidByGyabo\ChromeShaderToyRotatePyramidByGyabo\bin\staging.AssetsLibrary\ChromeShaderToyRotatePyramidByGyabo.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -447,6 +456,10 @@
       <Project>{232f7f07-417e-4f15-8df6-897de591258c}</Project>
       <Name>ChromeShaderToyChainsGearsByPMalin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyCookTorranceByXbe\ChromeShaderToyCookTorranceByXbe\ChromeShaderToyCookTorranceByXbe.csproj">
+      <Project>{559be153-db25-47f9-ae68-5f0654cf8db1}</Project>
+      <Name>ChromeShaderToyCookTorranceByXbe</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyCubeOfCubesByFlyguy\ChromeShaderToyCubeOfCubesByFlyguy\ChromeShaderToyCubeOfCubesByFlyguy.csproj">
       <Project>{0d8fdb01-1edc-4eea-8f0d-3b8172ac73bf}</Project>
       <Name>ChromeShaderToyCubeOfCubesByFlyguy</Name>
@@ -470,6 +483,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyDesertMorningByEPitz\ChromeShaderToyDesertMorningByEPitz\ChromeShaderToyDesertMorningByEPitz.csproj">
       <Project>{d6afcb80-4fb5-4b55-8e6c-926266bf2d85}</Project>
       <Name>ChromeShaderToyDesertMorningByEPitz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyDiamondsForeverByNrx\ChromeShaderToyDiamondsForeverByNrx\ChromeShaderToyDiamondsForeverByNrx.csproj">
+      <Project>{393e7154-c274-48a9-92a2-6bb1b006de26}</Project>
+      <Name>ChromeShaderToyDiamondsForeverByNrx</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyDigitalHeartByJoshp\ChromeShaderToyDigitalHeartByJoshp\ChromeShaderToyDigitalHeartByJoshp.csproj">
       <Project>{9ea6c615-7ea4-449b-9020-637f957148a1}</Project>
@@ -519,9 +536,25 @@
       <Project>{431148fa-c0a9-4240-9380-655b10de0c08}</Project>
       <Name>ChromeShaderToyFlyingBoatByGaz</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyFrostedTorusByPwd\ChromeShaderToyFrostedTorusByPwd\ChromeShaderToyFrostedTorusByPwd.csproj">
+      <Project>{f03b6284-c743-49cb-ac15-bd9dcbbcd9d2}</Project>
+      <Name>ChromeShaderToyFrostedTorusByPwd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyFrozenCrytekLogo\ChromeShaderToyFrozenCrytekLogo\ChromeShaderToyFrozenCrytekLogo.csproj">
+      <Project>{2293977f-fbe5-4adf-9ad9-0c50f66827de}</Project>
+      <Name>ChromeShaderToyFrozenCrytekLogo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyFrozenWastelandByDave\ChromeShaderToyFrozenWastelandByDave\ChromeShaderToyFrozenWastelandByDave.csproj">
       <Project>{08dd1523-824e-4bb3-b357-548ef16a870a}</Project>
       <Name>ChromeShaderToyFrozenWastelandByDave</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyGlassPolyhedronByNrx\ChromeShaderToyGlassPolyhedronByNrx\ChromeShaderToyGlassPolyhedronByNrx.csproj">
+      <Project>{e1bfef4e-ae76-4a7d-a891-4b20dc9f28c0}</Project>
+      <Name>ChromeShaderToyGlassPolyhedronByNrx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyGmetaballsByGermangb\ChromeShaderToyGmetaballsByGermangb\ChromeShaderToyGmetaballsByGermangb.csproj">
+      <Project>{7a108a21-0b9c-4385-9b5d-a2372a707ecc}</Project>
+      <Name>ChromeShaderToyGmetaballsByGermangb</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyHardEdgeShadowByGltracy\ChromeShaderToyHardEdgeShadowByGltracy\ChromeShaderToyHardEdgeShadowByGltracy.csproj">
       <Project>{60199c63-fbe9-4d56-949d-dabfec5ad181}</Project>
@@ -531,9 +564,17 @@
       <Project>{7bab9333-88dd-4994-bb02-12e9c389f89c}</Project>
       <Name>ChromeShaderToyHetchyScketchyByXbe</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyInfiniteRepetitionBySsdsa\ChromeShaderToyInfiniteRepetitionBySsdsa\ChromeShaderToyInfiniteRepetitionBySsdsa.csproj">
+      <Project>{7e2e2eb0-d1b1-4006-a7d5-f99ad2f1e03f}</Project>
+      <Name>ChromeShaderToyInfiniteRepetitionBySsdsa</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyKajastusByMarken\ChromeShaderToyKajastusByMarken\ChromeShaderToyKajastusByMarken.csproj">
       <Project>{b94fb215-63fe-4652-a13a-ba2b49d69f0c}</Project>
       <Name>ChromeShaderToyKajastusByMarken</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyLavaDripByFabrice\ChromeShaderToyLavaDripByFabrice\ChromeShaderToyLavaDripByFabrice.csproj">
+      <Project>{831535ce-8362-4ace-836e-df6f67ca27e7}</Project>
+      <Name>ChromeShaderToyLavaDripByFabrice</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyLimboByDaeken\ChromeShaderToyLimboByDaeken\ChromeShaderToyLimboByDaeken.csproj">
       <Project>{a20c4a02-c9a4-4c16-bc97-a145f195a0d6}</Project>
@@ -583,6 +624,10 @@
       <Project>{2d0c3aec-4947-4ad5-b678-0b7665055e7c}</Project>
       <Name>ChromeShaderToyOblivionByNimitz</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyOcclusionClippingByIq\ChromeShaderToyOcclusionClippingByIq\ChromeShaderToyOcclusionClippingByIq.csproj">
+      <Project>{783067d8-20f1-4c79-9de1-46314f46ed59}</Project>
+      <Name>ChromeShaderToyOcclusionClippingByIq</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyOcuLimboByDaeken\ChromeShaderToyOcuLimboByDaeken\ChromeShaderToyOcuLimboByDaeken.csproj">
       <Project>{e28eba2d-4136-4907-a650-e70d87e2cca9}</Project>
       <Name>ChromeShaderToyOcuLimboByDaeken</Name>
@@ -607,6 +652,14 @@
       <Project>{8b7605de-f114-4c86-acbb-0567ef52e96b}</Project>
       <Name>ChromeShaderToyPigsRunningByGaz</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete.csproj">
+      <Project>{863e0818-e3c3-4a1b-996b-ead7f4ebeaac}</Project>
+      <Name>ChromeShaderToyPlasmaTriangleByElusivePete</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyPolygonalTerrainByFizzer\ChromeShaderToyPolygonalTerrainByFizzer\ChromeShaderToyPolygonalTerrainByFizzer.csproj">
+      <Project>{2a224052-e9e9-4b58-9557-14476610a1b0}</Project>
+      <Name>ChromeShaderToyPolygonalTerrainByFizzer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyPortalByHLorenzi\ChromeShaderToyPortalByHLorenzi\ChromeShaderToyPortalByHLorenzi.csproj">
       <Project>{54157e1b-627e-40d1-a66e-d996cfa16e4a}</Project>
       <Name>ChromeShaderToyPortalByHLorenzi</Name>
@@ -619,6 +672,10 @@
       <Project>{612d8607-ec0a-4fc7-858a-d2924cb06110}</Project>
       <Name>ChromeShaderToyPrimitivesByQuilez</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyPyramidsByAvix\ChromeShaderToyPyramidsByAvix\ChromeShaderToyPyramidsByAvix.csproj">
+      <Project>{a3f1abf8-f3e2-4f48-8399-11da0794a66a}</Project>
+      <Name>ChromeShaderToyPyramidsByAvix</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyQuadraticBezierByMattdesl\ChromeShaderToyQuadraticBezierByMattdesl\ChromeShaderToyQuadraticBezierByMattdesl.csproj">
       <Project>{34c9e1dc-defb-4bb0-b040-25ef787cab23}</Project>
       <Name>ChromeShaderToyQuadraticBezierByMattdesl</Name>
@@ -626,6 +683,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyRacingGameByEiffie\ChromeShaderToyRacingGameByEiffie\ChromeShaderToyRacingGameByEiffie.csproj">
       <Project>{66f4b51c-44aa-4ce1-9401-3b88d776b4d9}</Project>
       <Name>ChromeShaderToyRacingGameByEiffie</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyRayFogByDemofox\ChromeShaderToyRayFogByDemofox\ChromeShaderToyRayFogByDemofox.csproj">
+      <Project>{b61b3103-58d8-4a38-be5a-e8ea7e280158}</Project>
+      <Name>ChromeShaderToyRayFogByDemofox</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyRaymarchByElias\ChromeShaderToyRaymarchByElias\ChromeShaderToyRaymarchByElias.csproj">
       <Project>{6749cc87-222e-44ed-923a-ee6d295a895b}</Project>
@@ -643,6 +704,10 @@
       <Project>{3a351144-d5d2-43b4-8d23-cde97e75e71c}</Project>
       <Name>ChromeShaderToyRefractionByHLorenzi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyRefractiveSpheresByKig\ChromeShaderToyRefractiveSpheresByKig\ChromeShaderToyRefractiveSpheresByKig.csproj">
+      <Project>{bda00611-43d6-4c72-8c58-3699c52d59f8}</Project>
+      <Name>ChromeShaderToyRefractiveSpheresByKig</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyRelentlessBySrtuss\ChromeShaderToyRelentlessBySrtuss\ChromeShaderToyRelentlessBySrtuss.csproj">
       <Project>{91bc0d94-1e92-436d-9147-92e42e560a76}</Project>
       <Name>ChromeShaderToyRelentlessBySrtuss</Name>
@@ -654,6 +719,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyRollingBallByHoskins\ChromeShaderToyRollingBallByHoskins\ChromeShaderToyRollingBallByHoskins.csproj">
       <Project>{3c2fa71b-9579-46a8-8dbe-88b9f4371972}</Project>
       <Name>ChromeShaderToyRollingBallByHoskins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyRotatePyramidByGyabo\ChromeShaderToyRotatePyramidByGyabo\ChromeShaderToyRotatePyramidByGyabo.csproj">
+      <Project>{199e3bc7-b345-46b0-b9d9-f18bfd699198}</Project>
+      <Name>ChromeShaderToyRotatePyramidByGyabo</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyRotatingByGa2arch\ChromeShaderToyRotatingByGa2arch\ChromeShaderToyRotatingByGa2arch.csproj">
       <Project>{ab45dba4-eb7a-453e-9d41-c9b9fe3c8c72}</Project>
@@ -726,6 +795,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyTrainRideByDr2\ChromeShaderToyTrainRideByDr2\ChromeShaderToyTrainRideByDr2.csproj">
       <Project>{6019f7f4-83f7-41d3-a50d-0139c5f697ff}</Project>
       <Name>ChromeShaderToyTrainRideByDr2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyTriangleDistanceByIq\ChromeShaderToyTriangleDistanceByIq\ChromeShaderToyTriangleDistanceByIq.csproj">
+      <Project>{4a89bcc6-5bf8-4003-b5de-300ce394f114}</Project>
+      <Name>ChromeShaderToyTriangleDistanceByIq</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyVRCardboardGrid\ChromeShaderToyVRCardboardGrid\ChromeShaderToyVRCardboardGrid.csproj">
       <Project>{6549676f-7d04-49c4-b2f5-23ac901d4eb3}</Project>

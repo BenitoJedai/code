@@ -11,6 +11,8 @@ namespace ChromeShaderToyColumns.Shaders
 	{
 		// all fields are inferred to be uniform?
 
+		// what about inherited fields/ or interface fields?
+
 		#region generic
 		[uniform]
 		vec3 iResolution;			// viewport resolution (in pixels)
