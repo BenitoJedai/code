@@ -204,6 +204,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyAlpsByHoskin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyNoiseDistributionsByHornet", "..\ChromeShaderToyNoiseDistributionsByHornet\ChromeShaderToyNoiseDistributionsByHornet\ChromeShaderToyNoiseDistributionsByHornet.csproj", "{FFFC6E32-ED36-479D-A1ED-9C315361EFF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyAssBlockByDila", "..\ChromeShaderToyAssBlockByDila\ChromeShaderToyAssBlockByDila\ChromeShaderToyAssBlockByDila.csproj", "{55FF5C23-C75D-4284-A449-46B435FDAFF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyOculusTestByDaeken", "..\ChromeShaderToyOculusTestByDaeken\ChromeShaderToyOculusTestByDaeken\ChromeShaderToyOculusTestByDaeken.csproj", "{AD9B8650-595D-4EF1-9F77-62CF0180898E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToySubmarinePillars", "..\ChromeShaderToySubmarinePillars\ChromeShaderToySubmarinePillars\ChromeShaderToySubmarinePillars.csproj", "{202488B8-D491-4ADB-BCB2-A12FDB069519}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -530,6 +536,18 @@ Global
 		{FFFC6E32-ED36-479D-A1ED-9C315361EFF1}.Debug|x86.Build.0 = Debug|x86
 		{FFFC6E32-ED36-479D-A1ED-9C315361EFF1}.Release|x86.ActiveCfg = Release|x86
 		{FFFC6E32-ED36-479D-A1ED-9C315361EFF1}.Release|x86.Build.0 = Release|x86
+		{55FF5C23-C75D-4284-A449-46B435FDAFF8}.Debug|x86.ActiveCfg = Debug|x86
+		{55FF5C23-C75D-4284-A449-46B435FDAFF8}.Debug|x86.Build.0 = Debug|x86
+		{55FF5C23-C75D-4284-A449-46B435FDAFF8}.Release|x86.ActiveCfg = Release|x86
+		{55FF5C23-C75D-4284-A449-46B435FDAFF8}.Release|x86.Build.0 = Release|x86
+		{AD9B8650-595D-4EF1-9F77-62CF0180898E}.Debug|x86.ActiveCfg = Debug|x86
+		{AD9B8650-595D-4EF1-9F77-62CF0180898E}.Debug|x86.Build.0 = Debug|x86
+		{AD9B8650-595D-4EF1-9F77-62CF0180898E}.Release|x86.ActiveCfg = Release|x86
+		{AD9B8650-595D-4EF1-9F77-62CF0180898E}.Release|x86.Build.0 = Release|x86
+		{202488B8-D491-4ADB-BCB2-A12FDB069519}.Debug|x86.ActiveCfg = Debug|x86
+		{202488B8-D491-4ADB-BCB2-A12FDB069519}.Debug|x86.Build.0 = Debug|x86
+		{202488B8-D491-4ADB-BCB2-A12FDB069519}.Release|x86.ActiveCfg = Release|x86
+		{202488B8-D491-4ADB-BCB2-A12FDB069519}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -631,5 +649,8 @@ Global
 		{F1AD4DFE-99D6-434E-80B3-622965EDE52D} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
 		{5C41CC39-E54F-448D-A770-04F6E3E33FDE} = {E0547BB3-87F8-4BBC-84A9-9D74966B57AE}
 		{FFFC6E32-ED36-479D-A1ED-9C315361EFF1} = {8FA2CA7A-0674-44FF-AEB7-AB8E3F865859}
+		{55FF5C23-C75D-4284-A449-46B435FDAFF8} = {E0547BB3-87F8-4BBC-84A9-9D74966B57AE}
+		{AD9B8650-595D-4EF1-9F77-62CF0180898E} = {57FF136E-E3D9-4403-907A-DC57E1658181}
+		{202488B8-D491-4ADB-BCB2-A12FDB069519} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
 	EndGlobalSection
 EndGlobal

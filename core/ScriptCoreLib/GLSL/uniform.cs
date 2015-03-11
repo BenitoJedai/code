@@ -21,5 +21,22 @@ namespace ScriptCoreLib.GLSL
     public sealed class uniform : Attribute
     {
 
-    }
+		// http://webglreport.com/?v=2
+		// notice webgl has renamed the overloads
+
+		//'uniform1ui' : 'uniform',
+		//'uniform2ui' : 'uniform',
+		//'uniform3ui' : 'uniform',
+		//'uniform4ui' : 'uniform',
+		//'uniform1uiv' : 'uniform',
+		//'uniform2uiv' : 'uniform',
+		//'uniform3uiv' : 'uniform',
+		//'uniform4uiv' : 'uniform',
+		//'uniformMatrix2x3fv' : 'uniform',
+		//'uniformMatrix3x2fv' : 'uniform',
+		//'uniformMatrix2x4fv' : 'uniform',
+		//'uniformMatrix4x2fv' : 'uniform',
+		//'uniformMatrix3x4fv' : 'uniform',
+		//'uniformMatrix4x3fv' : 'uniform',
+	}
 }

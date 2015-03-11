@@ -124,7 +124,10 @@ namespace ScriptCoreLib.GLSL
 
 
 
-        public vec2 xz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+		// https://github.com/daeken/Shaderforth
+		// Swizzling
+
+		public vec2 xz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
         public vec2 yz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
         public vec2 yx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
         public vec2 xy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
