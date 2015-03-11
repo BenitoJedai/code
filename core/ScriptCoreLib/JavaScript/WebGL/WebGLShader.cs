@@ -5,13 +5,31 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.WebGL
 {
-    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLShader.cpp
-    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLShader.h
-    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLShader.idl
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLShader.cpp
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLShader.h
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLShader.idl
 
-    [Script(HasNoPrototype = true)]
-    public class WebGLShader
-    {
+	[Script(HasNoPrototype = true, InternalConstructor = true)]
+	public class WebGLShader
+	{
+		#region Constructor
+
+		[Obsolete("createShader")]
+		public WebGLShader(WebGLRenderingContext gl, uint type = WebGLRenderingContext.VERTEX_SHADER)
+		{
+			// InternalConstructor
+		}
+
+		static WebGLShader InternalConstructor(WebGLRenderingContext gl, uint type = WebGLRenderingContext.VERTEX_SHADER)
+		{
+			// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyColumns\ChromeShaderToyColumns\Library\ShaderToy.cs
+			var p = gl.createShader(type);
+
+			return p;
+		}
+
+		#endregion
+
 		// https://www.facebook.com/Shadertoy/posts/190170644463245
 		// while()" doesn't exist. Please use only loops of the form "for( int i=0; i<CONSTANT; i++)". remember, 
 		// "while" doesn't exist in GLSL. See here: http://www.khronos.org/opengles/sdk/docs/manglsl/

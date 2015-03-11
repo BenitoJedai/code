@@ -197,7 +197,9 @@ namespace ScriptCoreLib.JavaScript.WebGL
 
 		public void compileShader(WebGLShader s)
 		{
-		}
+			// https://www.khronos.org/webgl/public-mailing-list/archives/1104/msg00040.html
+			// only option is adding async compiles.
+        }
 
 		public void shaderSource(WebGLShader s, string e)
 		{
