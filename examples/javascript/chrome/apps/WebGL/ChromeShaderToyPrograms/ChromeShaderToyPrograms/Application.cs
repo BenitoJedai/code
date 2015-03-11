@@ -249,6 +249,7 @@ namespace ChromeShaderToyPrograms
 				["ChromeShaderToyCubeOfCubesByFlyguy"] = () => new ChromeShaderToyCubeOfCubesByFlyguy.Shaders.ProgramFragmentShader(),
 				["ChromeShaderToyCubicEntanglementByEiffie"] = () => new ChromeShaderToyCubicEntanglementByEiffie.Shaders.ProgramFragmentShader(),
 
+				["ChromeShaderToyDancingViriiByEntropyNine"] = () => new ChromeShaderToyDancingViriiByEntropyNine.Shaders.ProgramFragmentShader(),
 				["ChromeShaderToyDesertMorningByEPitz"] = () => new ChromeShaderToyDesertMorningByEPitz.Shaders.ProgramFragmentShader(),
 				["ChromeShaderToyDepthByGreen"] = () => new ChromeShaderToyDepthByGreen.Shaders.ProgramFragmentShader(),
 				["ChromeShaderToyDiningRoomBySquid"] = () => new ChromeShaderToyDiningRoomBySquid.Shaders.ProgramFragmentShader(),
@@ -366,13 +367,28 @@ namespace ChromeShaderToyPrograms
 
 					var option = new IHTMLOption { value = key, innerText = text }.AttachTo(combo);
 
+					await Native.window.async.onframe;
+
+					// we are about to create 100 objects. does it have any impact to UI?
+					var frag = programs[key]();
+					var len = frag.ToString().Length;
+
+					option.innerText = text + " " + new
+					{
+						//frame,
+						//load = load.ElapsedMilliseconds + "ms ",
+
+						frag = len + "bytes ",
+						// a telemetry to track while running on actual hardware
+						//fragGPU = pass0.xCreateShader.fsTranslatedShaderSource.Length + " bytes"
+					};
+
 					await option.async.onselect;
 					await Native.window.async.onframe;
 
 					var load = Stopwatch.StartNew();
 
-					var frag = programs[key]();
-					var len = frag.ToString().Length;
+
 
 					//do
 					//{

@@ -119,6 +119,7 @@
     <Compile Include="JavaScript\DOM\FetchEvent.cs" />
     <Compile Include="JavaScript\Extensions\IPromiseExtensions.cs" />
     <Compile Include="JavaScript\Extensions\ServiceWorkerContainerExtensions.cs" />
+    <Compile Include="JavaScript\WebGL\WebGLDebugShaders.cs" />
     <Compile Include="JavaScript\WebGL\WebGLSharedObject.cs" />
     <Compile Include="JavaScript\WebGL\WebGLVertexArrayObject.cs" />
     <Compile Include="JavaScript\WebGL\WebGLTransformFeedback.cs" />
