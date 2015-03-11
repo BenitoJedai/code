@@ -435,6 +435,15 @@
     <Reference Include="ChromeShaderToyLightThornByVlad.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToyLightThornByVlad\ChromeShaderToyLightThornByVlad\bin\staging.AssetsLibrary\ChromeShaderToyLightThornByVlad.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyEdgeAAByTrisomie.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyEdgeAAByTrisomie\ChromeShaderToyEdgeAAByTrisomie\bin\staging.AssetsLibrary\ChromeShaderToyEdgeAAByTrisomie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyCCLatticesByPaniq.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyCCLatticesByPaniq\ChromeShaderToyCCLatticesByPaniq\bin\staging.AssetsLibrary\ChromeShaderToyCCLatticesByPaniq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyMorphingTeapotByIapafoto.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyMorphingTeapotByIapafoto\ChromeShaderToyMorphingTeapotByIapafoto\bin\staging.AssetsLibrary\ChromeShaderToyMorphingTeapotByIapafoto.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -489,6 +498,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyCatchByAhihi\ChromeShaderToyCatchByAhihi\ChromeShaderToyCatchByAhihi.csproj">
       <Project>{aceb89f6-34e7-48c6-9b86-a12c6d37ba51}</Project>
       <Name>ChromeShaderToyCatchByAhihi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyCCLatticesByPaniq\ChromeShaderToyCCLatticesByPaniq\ChromeShaderToyCCLatticesByPaniq.csproj">
+      <Project>{044bca80-b3c7-46ac-912c-ee63d4e8bda0}</Project>
+      <Name>ChromeShaderToyCCLatticesByPaniq</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyCentaursByErucipe\ChromeShaderToyCentaursByErucipe\ChromeShaderToyCentaursByErucipe.csproj">
       <Project>{689d3bc0-5d54-44c1-b057-9d161c7c0426}</Project>
@@ -549,6 +562,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyDustyByHat\ChromeShaderToyDustyByHat\ChromeShaderToyDustyByHat.csproj">
       <Project>{cbe287fc-3905-47c3-be2a-d63aa0138b32}</Project>
       <Name>ChromeShaderToyDustyByHat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyEdgeAAByTrisomie\ChromeShaderToyEdgeAAByTrisomie\ChromeShaderToyEdgeAAByTrisomie.csproj">
+      <Project>{e11c81f0-70c4-4fcb-9898-2ac1e6581b30}</Project>
+      <Name>ChromeShaderToyEdgeAAByTrisomie</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyEiffieBallsByEiffie\ChromeShaderToyEiffieBallsByEiffie\ChromeShaderToyEiffieBallsByEiffie.csproj">
       <Project>{c9c2746a-b3d7-4e35-b168-8efb1189abce}</Project>
@@ -649,6 +666,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyMorningCityByDevin\ChromeShaderToyMorningCityByDevin\ChromeShaderToyMorningCityByDevin.csproj">
       <Project>{f70dc7cd-4c1e-4ef5-8107-cf91a97e5eae}</Project>
       <Name>ChromeShaderToyMorningCityByDevin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyMorphingTeapotByIapafoto\ChromeShaderToyMorphingTeapotByIapafoto\ChromeShaderToyMorphingTeapotByIapafoto.csproj">
+      <Project>{e3d489d6-633e-42d3-ae29-9e08ecce22af}</Project>
+      <Name>ChromeShaderToyMorphingTeapotByIapafoto</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyMotionBlurByKig\ChromeShaderToyMotionBlurByKig\ChromeShaderToyMotionBlurByKig.csproj">
       <Project>{c4c04ca9-0178-43c6-98a7-057dc59c8b26}</Project>
