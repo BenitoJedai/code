@@ -354,6 +354,7 @@ void main( void )
 
 	mainImage( color, gl_FragCoord.xy );
 					
+color.a = 1.0;
 
 	gl_FragColor = color;
 }
