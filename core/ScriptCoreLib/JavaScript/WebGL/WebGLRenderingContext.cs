@@ -174,6 +174,14 @@ namespace ScriptCoreLib.JavaScript.WebGL
 		public const uint FRAGMENT_SHADER = 0x8B30;
 		public const uint VERTEX_SHADER = 0x8B31;
 
+
+
+
+		public WebGLBuffer createBuffer()
+		{
+			return default(WebGLBuffer);
+		}
+
 		public WebGLProgram createProgram()
 		{
 			return default(WebGLProgram);

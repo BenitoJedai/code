@@ -381,6 +381,9 @@
     <Reference Include="ChromeShaderToySubmarinePillars.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToySubmarinePillars\ChromeShaderToySubmarinePillars\bin\staging.AssetsLibrary\ChromeShaderToySubmarinePillars.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyDancingViriiByEntropyNine.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyDancingViriiByEntropyNine\ChromeShaderToyDancingViriiByEntropyNine\bin\staging.AssetsLibrary\ChromeShaderToyDancingViriiByEntropyNine.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -455,6 +458,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyDalekByAntonalog\ChromeShaderToyDalekByAntonalog\ChromeShaderToyDalekByAntonalog.csproj">
       <Project>{66dda0a3-cc48-481b-b80b-a8b5e42b0343}</Project>
       <Name>ChromeShaderToyDalekByAntonalog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyDancingViriiByEntropyNine\ChromeShaderToyDancingViriiByEntropyNine\ChromeShaderToyDancingViriiByEntropyNine.csproj">
+      <Project>{4d8a393b-9182-4117-b49c-3317893f13e2}</Project>
+      <Name>ChromeShaderToyDancingViriiByEntropyNine</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyDepthByGreen\ChromeShaderToyDepthByGreen\ChromeShaderToyDepthByGreen.csproj">
       <Project>{957a522a-7bb8-4828-9f1a-7f59faf7ebcd}</Project>

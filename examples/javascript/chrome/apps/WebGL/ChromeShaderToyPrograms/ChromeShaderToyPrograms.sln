@@ -218,6 +218,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "q", "q", "{42288C03-756D-42
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyQuadraticBezierByMattdesl", "..\ChromeShaderToyQuadraticBezierByMattdesl\ChromeShaderToyQuadraticBezierByMattdesl\ChromeShaderToyQuadraticBezierByMattdesl.csproj", "{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyDancingViriiByEntropyNine", "..\ChromeShaderToyDancingViriiByEntropyNine\ChromeShaderToyDancingViriiByEntropyNine\ChromeShaderToyDancingViriiByEntropyNine.csproj", "{4D8A393B-9182-4117-B49C-3317893F13E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -568,6 +570,10 @@ Global
 		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}.Debug|x86.Build.0 = Debug|x86
 		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}.Release|x86.ActiveCfg = Release|x86
 		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}.Release|x86.Build.0 = Release|x86
+		{4D8A393B-9182-4117-B49C-3317893F13E2}.Debug|x86.ActiveCfg = Debug|x86
+		{4D8A393B-9182-4117-B49C-3317893F13E2}.Debug|x86.Build.0 = Debug|x86
+		{4D8A393B-9182-4117-B49C-3317893F13E2}.Release|x86.ActiveCfg = Release|x86
+		{4D8A393B-9182-4117-B49C-3317893F13E2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -676,5 +682,6 @@ Global
 		{34430AAB-AE5A-47C1-96EC-6F7784A17007} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
 		{42288C03-756D-42ED-8CE1-C094BE89DF72} = {30FF3663-3CBE-4541-B2CF-A3C0960E208B}
 		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23} = {42288C03-756D-42ED-8CE1-C094BE89DF72}
+		{4D8A393B-9182-4117-B49C-3317893F13E2} = {40B1BBCF-3247-4F8C-81B7-27925E191EBA}
 	EndGlobalSection
 EndGlobal

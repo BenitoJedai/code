@@ -52,7 +52,8 @@ namespace ChromeShaderToyColumns.Library
 				);
 
 			// new Buffer?
-			var vbo = gl.createBuffer();
+			var vbo = new WebGLBuffer(gl);
+			//var vbo = gl.createBuffer();
 			gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
 			gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 			gl.bindBuffer(gl.ARRAY_BUFFER, null);
@@ -85,8 +86,8 @@ namespace ChromeShaderToyColumns.Library
 		{
 			new IHTMLPre { "enter CreateShader" }.AttachToDocument();
 
-			//new WebGLProgram(gl);
-			var p = gl.createProgram();
+			var p = new WebGLProgram(gl);
+			//var p = gl.createProgram();
 
 			var vs = gl.createShader(gl.VERTEX_SHADER);
 			var fs = gl.createShader(gl.FRAGMENT_SHADER);
@@ -99,21 +100,24 @@ namespace ChromeShaderToyColumns.Library
 			var ok = new CreateShaderResult { mSuccess = true };
 
 			// https://www.khronos.org/registry/webgl/extensions/WEBGL_debug_shaders/
-			gl.getExtension("WEBGL_debug_shaders").With(
-			(dynamic WEBGL_debug_shaders) =>
-			{
-				ok.vsTranslatedShaderSource = WEBGL_debug_shaders.getTranslatedShaderSource((WebGLShader)vs);
-			}
-		);
+			ok.vsTranslatedShaderSource = new WebGLDebugShaders(gl).getTranslatedShaderSource(vs);
+			//gl.getExtension("WEBGL_debug_shaders").With(
+			//(dynamic WEBGL_debug_shaders) =>
+			//	{
+			//		ok.vsTranslatedShaderSource = WEBGL_debug_shaders.getTranslatedShaderSource((WebGLShader)vs);
+			//	}
+			//);
 
 			gl.compileShader(fs);
 
-			gl.getExtension("WEBGL_debug_shaders").With(
-				(dynamic WEBGL_debug_shaders) =>
-				{
-					ok.fsTranslatedShaderSource = WEBGL_debug_shaders.getTranslatedShaderSource((WebGLShader)fs);
-				}
-			);
+			ok.vsTranslatedShaderSource = new WebGLDebugShaders(gl).getTranslatedShaderSource(fs);
+
+			//gl.getExtension("WEBGL_debug_shaders").With(
+			//	(dynamic WEBGL_debug_shaders) =>
+			//	{
+			//		ok.fsTranslatedShaderSource = WEBGL_debug_shaders.getTranslatedShaderSource((WebGLShader)fs);
+			//	}
+			//);
 
 			if (gl.getShaderParameter(vs, gl.COMPILE_STATUS) == null)
 			{
