@@ -50,7 +50,7 @@ namespace WebGLDepthOfField
             renderer.domElement.AttachToDocument();
             renderer.sortObjects = false;
 
-            var material_depth = new THREE.MeshDepthMaterial();
+            //var material_depth = new THREE.MeshDepthMaterial();
 
 
             var urls = new[] {
