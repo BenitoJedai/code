@@ -68,16 +68,19 @@ namespace ChromeShaderToyColumns.Library
 					-1.0f, -1.0f,
 
 					// right top
-					right, -1.0f,
+					//right, -1.0f,
+					1.0f, -1.0f,
 
 					// left bottom
 					-1.0f, 1.0f,
 
 					// right top
-					right, -1.0f,
+					//right, -1.0f,
+					1.0f, -1.0f,
 
 					// right bottom
-					right, 1.0f,
+					//right, 1.0f,
+					1.0f, 1.0f,
 
 					// left bottom
 					-1.0f, 1.0f
