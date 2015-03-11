@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22609.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLSLShaderToyPip", "GLSLShaderToyPip\GLSLShaderToyPip.csproj", "{426A9419-9287-4880-979F-29F29D3F2A22}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EB93B081-4EDC-41A2-85B3-0487062617CC} = {EB93B081-4EDC-41A2-85B3-0487062617CC}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ByPackage", "ByPackage", "{EC77FCA6-4296-44E1-A68F-2D5CF585D5DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ByReference", "ByReference", "{51EF229C-B9B8-4939-8A86-F635ABEC2655}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyColumns", "..\..\..\javascript\chrome\apps\WebGL\ChromeShaderToyColumns\ChromeShaderToyColumns\ChromeShaderToyColumns.csproj", "{EB93B081-4EDC-41A2-85B3-0487062617CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyQuadraticBezierByMattdesl", "..\..\..\javascript\chrome\apps\WebGL\ChromeShaderToyQuadraticBezierByMattdesl\ChromeShaderToyQuadraticBezierByMattdesl\ChromeShaderToyQuadraticBezierByMattdesl.csproj", "{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Debug|x86.ActiveCfg = Debug|x86
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Debug|x86.Build.0 = Debug|x86
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Release|x86.ActiveCfg = Release|x86
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Release|x86.Build.0 = Release|x86
+		{EB93B081-4EDC-41A2-85B3-0487062617CC}.Debug|x86.ActiveCfg = Debug|x86
+		{EB93B081-4EDC-41A2-85B3-0487062617CC}.Debug|x86.Build.0 = Debug|x86
+		{EB93B081-4EDC-41A2-85B3-0487062617CC}.Release|x86.ActiveCfg = Release|x86
+		{EB93B081-4EDC-41A2-85B3-0487062617CC}.Release|x86.Build.0 = Release|x86
+		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}.Debug|x86.ActiveCfg = Debug|x86
+		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}.Debug|x86.Build.0 = Debug|x86
+		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}.Release|x86.ActiveCfg = Release|x86
+		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EB93B081-4EDC-41A2-85B3-0487062617CC} = {EC77FCA6-4296-44E1-A68F-2D5CF585D5DD}
+		{34C9E1DC-DEFB-4BB0-B040-25EF787CAB23} = {51EF229C-B9B8-4939-8A86-F635ABEC2655}
+	EndGlobalSection
+EndGlobal
