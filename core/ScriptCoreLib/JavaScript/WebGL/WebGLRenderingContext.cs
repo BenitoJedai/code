@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+﻿using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using System;
 using System.Collections.Generic;
@@ -249,6 +250,27 @@ namespace ScriptCoreLib.JavaScript.WebGL
 		public object getParameter(uint pname)
 		{
 			return null;
+		}
+
+
+
+		// https://www.khronos.org/webgl/wiki/HandlingContextLost
+		// ext = gl.getExtension("WEBGL_lose_context"); ext.loseContext(); setTimeout(function() { ext.restoreContext(); }, 3000);
+		// https://code.google.com/p/chromium/issues/detail?id=349195
+		// WebGL: CONTEXT_LOST_WEBGL: loseContext: context lost
+		// http://stackoverflow.com/questions/25219352/webgl-scene-doest-render-because-of-lost-context
+		public event Action<IEvent> oncontextlost
+		{
+			[Script(DefineAsStatic = true)]
+			add
+			{
+				// tested by
+				// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyColumns\ChromeShaderToyColumns\Library\ShaderToy.cs
+
+				this.canvas.addEventListener("webglcontextlost", value);
+
+			}
+			remove { }
 		}
 	}
 }

@@ -210,6 +210,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyOculusTestBy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToySubmarinePillars", "..\ChromeShaderToySubmarinePillars\ChromeShaderToySubmarinePillars\ChromeShaderToySubmarinePillars.csproj", "{202488B8-D491-4ADB-BCB2-A12FDB069519}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyOcuLimboByDaeken", "..\ChromeShaderToyOcuLimboByDaeken\ChromeShaderToyOcuLimboByDaeken\ChromeShaderToyOcuLimboByDaeken.csproj", "{E28EBA2D-4136-4907-A650-E70D87E2CCA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -548,6 +550,10 @@ Global
 		{202488B8-D491-4ADB-BCB2-A12FDB069519}.Debug|x86.Build.0 = Debug|x86
 		{202488B8-D491-4ADB-BCB2-A12FDB069519}.Release|x86.ActiveCfg = Release|x86
 		{202488B8-D491-4ADB-BCB2-A12FDB069519}.Release|x86.Build.0 = Release|x86
+		{E28EBA2D-4136-4907-A650-E70D87E2CCA9}.Debug|x86.ActiveCfg = Debug|x86
+		{E28EBA2D-4136-4907-A650-E70D87E2CCA9}.Debug|x86.Build.0 = Debug|x86
+		{E28EBA2D-4136-4907-A650-E70D87E2CCA9}.Release|x86.ActiveCfg = Release|x86
+		{E28EBA2D-4136-4907-A650-E70D87E2CCA9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -652,5 +658,6 @@ Global
 		{55FF5C23-C75D-4284-A449-46B435FDAFF8} = {E0547BB3-87F8-4BBC-84A9-9D74966B57AE}
 		{AD9B8650-595D-4EF1-9F77-62CF0180898E} = {57FF136E-E3D9-4403-907A-DC57E1658181}
 		{202488B8-D491-4ADB-BCB2-A12FDB069519} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
+		{E28EBA2D-4136-4907-A650-E70D87E2CCA9} = {57FF136E-E3D9-4403-907A-DC57E1658181}
 	EndGlobalSection
 EndGlobal
