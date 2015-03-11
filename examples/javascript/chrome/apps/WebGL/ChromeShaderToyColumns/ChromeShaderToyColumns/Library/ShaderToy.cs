@@ -43,13 +43,54 @@ namespace ChromeShaderToyColumns.Library
 	{
 		// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToySeascapeByTDM\ChromeShaderToySeascapeByTDM\Application.cs
 
-		public static WebGLBuffer createQuadVBO(gl gl)
+		public static WebGLBuffer createQuadVBO(gl gl
+			, float right = 1.0f
+			)
 		{
-			//new IHTMLPre { "enter createQuadVBO" }.AttachToDocument();
 
-			var vertices = new Float32Array(new float[]
-				{ -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f }
-				);
+			//enter createQuadVBO { { i = 0, value = null } }
+			//enter createQuadVBO { { i = 1, value = null } }
+			//enter createQuadVBO { { i = 2, value = 1 } }
+			//enter createQuadVBO { { i = 3, value = null } }
+			//enter createQuadVBO { { i = 4, value = null } }
+			//enter createQuadVBO { { i = 5, value = null } }
+			//enter createQuadVBO { { i = 6, value = 1 } }
+			//enter createQuadVBO { { i = 7, value = null } }
+			//enter createQuadVBO { { i = 8, value = 1 } }
+			//enter createQuadVBO { { i = 9, value = null } }
+			//enter createQuadVBO { { i = 10, value = null } }
+			//enter createQuadVBO { { i = 11, value = null } }
+
+			var fvertices =
+				new float[]
+				{
+					// left to
+					-1.0f, -1.0f,
+
+					// right top
+					right, -1.0f,
+
+					// left bottom
+					-1.0f, 1.0f,
+
+					// right top
+					right, -1.0f,
+
+					// right bottom
+					right, 1.0f,
+
+					// left bottom
+					-1.0f, 1.0f
+				};
+
+			new IHTMLPre { "enter createQuadVBO" }.AttachToDocument();
+			for (int i = 0; i < fvertices.Length; i++)
+			{
+				var value = fvertices[i];
+
+				new IHTMLPre { "enter createQuadVBO " + new { i, value } }.AttachToDocument();
+			}
+			var vertices = new Float32Array(fvertices);
 
 			// new Buffer?
 			var vbo = new WebGLBuffer(gl);
@@ -261,9 +302,11 @@ namespace ChromeShaderToyColumns.Library
 							  "uniform vec4      iMouse;\n" +
 							  "uniform vec4      iDate;\n" +
 							  "uniform float     iSampleRate;\n" +
-							  "uniform vec3      iChannelResolution[4];\n" +
+							  "uniform vec3      iChannelResolution[4];\n";
 
-							  "uniform float     fZoom;\n";
+					// not to be used by the hosted shader, but by our code in the middle on the gpu.
+					// gpu code injection. first take.
+					//"uniform float     fZoom;\n";
 
 					headerlength += 7;
 
@@ -281,23 +324,31 @@ namespace ChromeShaderToyColumns.Library
 						}
 						else
 						{
-							new IHTMLPre { "add MakeHeader_Image sampler2D" }.AttachToDocument();
+							//new IHTMLPre { "add MakeHeader_Image sampler2D" }.AttachToDocument();
 							header += "uniform sampler2D iChannel" + i + ";\n";
 						}
 
 						headerlength++;
 					}
 
-					var mImagePassFooter = "\nvoid main( void )" +
-					"{" +
-						//"vec4 color[4];" +
-						//"mainImage( color[0], gl_FragCoord.xy );" +
-						//"gl_FragColor = color[0];" +
-						"vec4 color = gl_FragColor;" +
-						"mainImage( color, gl_FragCoord.xy );" +
-						//"color.w = 1.0;" +
-						"gl_FragColor = color;" +
-					"}";
+
+
+					// rror CreateShader {{ infoLog = ERROR: 0:250: 'assign' :  l-value required "gl_FragCoord" (can't modify gl_FragCoord)
+					//				ERROR: 0:251: 'assign' :  l - value required "gl_FragCoord"(can't modify gl_FragCoord)
+					//}}
+					// error CreateShader {{ infoLog = ERROR: 0:253: '=' :  cannot convert from 'FragCoord mediump 4-component vector of float' to 'highp 2-component vector of float'
+
+					var mImagePassFooter = @"
+void main( void )
+{
+	vec4 color = gl_FragColor;
+
+	mainImage( color, gl_FragCoord.xy );
+					
+
+	gl_FragColor = color;
+}
+";
 					#endregion
 
 
@@ -346,7 +397,7 @@ namespace ChromeShaderToyColumns.Library
 							var mouse = new[] { mousePosX, mousePosY, mouseOriX, mouseOriY };
 
 							// X:\jsc.svn\examples\glsl\future\GLSLShaderToyPip\GLSLShaderToyPip\Application.cs
-							gl.getUniformLocation(mProgram, "fZoom").With(fZoom => gl.uniform1f(fZoom, zoom));
+							//gl.getUniformLocation(mProgram, "fZoom").With(fZoom => gl.uniform1f(fZoom, zoom));
 
 
 							var l2 = gl.getUniformLocation(mProgram, "iGlobalTime"); if (l2 != null) gl.uniform1f(l2, time);

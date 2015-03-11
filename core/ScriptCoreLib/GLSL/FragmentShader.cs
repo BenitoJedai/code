@@ -22,6 +22,9 @@ namespace ScriptCoreLib.GLSL
 		// https://www.khronos.org/opengles/sdk/docs/man31/html/gl_FragCoord.xhtml
 		// even GLSL gets translated
 		// static float4 gl_FragCoord = float4(0, 0, 0, 0);
+
+		//  'assign' :  l-value required "gl_FragCoord" (can't modify gl_FragCoord)
+		// http://stackoverflow.com/questions/13711252/what-does-gl-fragcoord-z-gl-fragcoord-w-represent
 		[mediump]
         protected vec4 gl_FragCoord;
 

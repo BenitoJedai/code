@@ -38,8 +38,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
 	// xy.x *= 0.5;
 
-	// float zoom = 0.33  + 0.33 * sin(iGlobalTime);
-float zoom = fZoom;
+	float zoom = 0.33  + 0.33 * sin(iGlobalTime);
+//float zoom = fZoom;
 // define dby host
 	xy.x *= 1.0 / zoom;
 	xy.y *= 1.0 / zoom;

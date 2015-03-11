@@ -374,9 +374,9 @@ do we have a stack trace?
 								mMouseOriX,
 								mMouseOriY,
 								mMousePosX,
-								mMousePosY
+								mMousePosY,
 
-
+								zoom: 0.5f
 						);
 
 						pass0.Paint_Image(
