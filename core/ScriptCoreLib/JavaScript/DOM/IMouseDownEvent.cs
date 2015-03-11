@@ -11,6 +11,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 	[Script(HasNoPrototype = true)]
 	public class IMouseDownEvent<TTargetElement> : IEvent<TTargetElement> where TTargetElement : IHTMLElement
 	{
+		// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/MouseEventHitRegion.idl
+
 		// tested by ?
 
 		[Script(DefineAsStatic = true)]

@@ -5,9 +5,11 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.WebGL
 {
-    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLUniformLocation.idl
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLUniformLocation.idl
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/CHROMIUMValuebuffer.idl
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/CHROMIUMSubscribeUniform.idl
 
-    [Script(HasNoPrototype = true)]
+	[Script(HasNoPrototype = true)]
     public class WebGLUniformLocation
     {
     }
