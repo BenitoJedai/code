@@ -424,7 +424,58 @@ namespace ChromeShaderToyColumns.Library
 
 			var mAudioContext = new AudioContext();
 			var gl = new WebGLRenderingContext(alpha: true);
+
+			if (gl == null)
+			{
+
+				new IHTMLPre {
+					// https://code.google.com/p/chromium/issues/detail?id=294207
+					"WebGL: Unavailable. GPU process was unable to boot. Rats! WebGL hit a snag.",
+
+					// chrome sends us to about:blank?
+					//new IHTMLAnchor {
+
+					//	target = "_blank",
+
+					//	href = "about:gpu", innerText = "about:gpu",
+
+					//	// http://tirania.org/blog/archive/2009/Jul-27-1.html
+					//	//onclick += de
+					//}
+					//.With(a => {  a.onclick += e => { e.preventDefault();  Native.window.open("about:gpu"); }; } )
+
+
+				}.AttachToDocument();
+				return;
+			}
+
 			var c = gl.canvas.AttachToDocument();
+
+			gl.oncontextlost +=
+				e =>
+				{
+					gl.canvas.Orphanize();
+
+					new IHTMLPre {
+						// https://code.google.com/p/chromium/issues/detail?id=294207
+						"oncontextlost. Rats! WebGL hit a snag.",
+
+						// chrome sends us to about:blank?
+						//new IHTMLAnchor {
+
+						//	target = "_blank",
+
+						//	href = "about:gpu", innerText = "about:gpu",
+
+						//	// http://tirania.org/blog/archive/2009/Jul-27-1.html
+						//	//onclick += de
+						//}
+						//.With(a => {  a.onclick += e => { e.preventDefault();  Native.window.open("about:gpu"); }; } )
+
+
+					}.AttachToDocument();
+				};
+
 
 			#region onresize
 			new { }.With(
@@ -505,7 +556,7 @@ namespace ChromeShaderToyColumns.Library
 					mMousePosX,
 					mMousePosY
 
-				
+
 				);
 
 				// what does it do?
