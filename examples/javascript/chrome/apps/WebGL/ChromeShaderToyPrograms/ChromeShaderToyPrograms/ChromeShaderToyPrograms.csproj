@@ -393,6 +393,45 @@
     <Reference Include="ChromeShaderToyRotatePyramidByGyabo.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToyRotatePyramidByGyabo\ChromeShaderToyRotatePyramidByGyabo\bin\staging.AssetsLibrary\ChromeShaderToyRotatePyramidByGyabo.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyCookTorranceByXbe.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyCookTorranceByXbe\ChromeShaderToyCookTorranceByXbe\bin\staging.AssetsLibrary\ChromeShaderToyCookTorranceByXbe.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyDiamondsForeverByNrx.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyDiamondsForeverByNrx\ChromeShaderToyDiamondsForeverByNrx\bin\staging.AssetsLibrary\ChromeShaderToyDiamondsForeverByNrx.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyFrostedTorusByPwd.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyFrostedTorusByPwd\ChromeShaderToyFrostedTorusByPwd\bin\staging.AssetsLibrary\ChromeShaderToyFrostedTorusByPwd.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyFrozenCrytekLogo.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyFrozenCrytekLogo\ChromeShaderToyFrozenCrytekLogo\bin\staging.AssetsLibrary\ChromeShaderToyFrozenCrytekLogo.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyGlassPolyhedronByNrx.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyGlassPolyhedronByNrx\ChromeShaderToyGlassPolyhedronByNrx\bin\staging.AssetsLibrary\ChromeShaderToyGlassPolyhedronByNrx.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyInfiniteRepetitionBySsdsa.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyInfiniteRepetitionBySsdsa\ChromeShaderToyInfiniteRepetitionBySsdsa\bin\staging.AssetsLibrary\ChromeShaderToyInfiniteRepetitionBySsdsa.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyLavaDripByFabrice.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyLavaDripByFabrice\ChromeShaderToyLavaDripByFabrice\bin\staging.AssetsLibrary\ChromeShaderToyLavaDripByFabrice.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyOcclusionClippingByIq.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyOcclusionClippingByIq\ChromeShaderToyOcclusionClippingByIq\bin\staging.AssetsLibrary\ChromeShaderToyOcclusionClippingByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyPlasmaTriangleByElusivePete.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\bin\staging.AssetsLibrary\ChromeShaderToyPlasmaTriangleByElusivePete.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyPolygonalTerrainByFizzer.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyPolygonalTerrainByFizzer\ChromeShaderToyPolygonalTerrainByFizzer\bin\staging.AssetsLibrary\ChromeShaderToyPolygonalTerrainByFizzer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyRayFogByDemofox.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRayFogByDemofox\ChromeShaderToyRayFogByDemofox\bin\staging.AssetsLibrary\ChromeShaderToyRayFogByDemofox.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyRefractiveSpheresByKig.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRefractiveSpheresByKig\ChromeShaderToyRefractiveSpheresByKig\bin\staging.AssetsLibrary\ChromeShaderToyRefractiveSpheresByKig.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyTriangleDistanceByIq.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyTriangleDistanceByIq\ChromeShaderToyTriangleDistanceByIq\bin\staging.AssetsLibrary\ChromeShaderToyTriangleDistanceByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
