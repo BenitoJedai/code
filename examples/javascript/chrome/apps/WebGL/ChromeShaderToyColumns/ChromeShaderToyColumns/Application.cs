@@ -181,7 +181,7 @@ namespace ChromeShaderToyColumns
 						obj: null,
 						forceMuted: false,
 						forcePaused: false,
-						quadVBO: Library.ShaderToy.createQuadVBO(gl),
+						//quadVBO: Library.ShaderToy.createQuadVBO(gl, right: 0, top: 0),
 						outputGainNode: null
 					);
 					pass.MakeHeader_Image();
@@ -202,7 +202,7 @@ namespace ChromeShaderToyColumns
 							// gl_FragCoord
 							// cannot be scaled, and can be referenced directly.
 							// need another way to scale
-							zoom: 0.5f
+							zoom: 0.3f
 						);
 
 						// what does it do?

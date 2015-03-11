@@ -213,7 +213,7 @@ do we have a stack trace?
 					#region CaptureMouse
 					var mMouseOriX = 0;
 					var mMouseOriY = 0;
-					var mMousePosX = 0;
+					var mMousePosX = c.width / 2;
 					var mMousePosY = 0;
 
 					c.onmousedown += ev =>
@@ -376,7 +376,7 @@ do we have a stack trace?
 								mMousePosX,
 								mMousePosY,
 
-								zoom: 0.5f
+								zoom: 1.0f
 						);
 
 						pass0.Paint_Image(
