@@ -1,53 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E11C81F0-70C4-4FCB-9898-2AC1E6581B30}</ProjectGuid>
+    <ProjectGuid>{25011337-6813-4216-95E9-2B9BE5EB4611}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChromeShaderToyEdgeAAByTrisomie</RootNamespace>
-    <AssemblyName>ChromeShaderToyEdgeAAByTrisomie</AssemblyName>
+    <RootNamespace>ChromeWebGLFrameBufferToSquare</RootNamespace>
+    <AssemblyName>ChromeWebGLFrameBufferToSquare</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ChromeShaderToyEdgeAAByTrisomie.Program</StartupObject>
+    <StartupObject>ChromeWebGLFrameBufferToSquare.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Assets|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Assets\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Chrome Web Store">
+    <Reference Include="Chrome Web Store, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
+    </Reference>
+    <Reference Include="glMatrixLibrary">
+      <HintPath>..\packages\glMatrixLibrary.1.0.0.0\lib\glMatrixLibrary.dll</HintPath>
     </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -62,6 +79,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -69,10 +89,6 @@
     <Reference Include="ScriptCoreLib.Windows.Forms">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Extensions">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra">
       <SpecificVersion>False</SpecificVersion>
@@ -103,16 +119,11 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WebGL ShaderToy">
-      <HintPath>..\packages\WebGL.ShaderToy.1.0.0.0\lib\WebGL ShaderToy.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -120,30 +131,48 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ScriptCoreLib.Async">
-      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+    <Reference Include="ChromeWebGLFrameBufferToSquare.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ChromeWebGLFrameBufferToSquare.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="ChromeShaderToyEdgeAAByTrisomie.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ChromeShaderToyEdgeAAByTrisomie.AssetsLibrary.dll</HintPath>
+    <Reference Include="ChromeShaderToyColumns.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyColumns\ChromeShaderToyColumns\bin\staging.AssetsLibrary\ChromeShaderToyColumns.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shaders\GeometryVertexShader.cs">
+      <DependentUpon>Geometry.vert</DependentUpon>
+    </Compile>
+    <Compile Include="Shaders\GeometryFragmentShader.cs">
+      <DependentUpon>Geometry.frag</DependentUpon>
+    </Compile>
+    <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="app.config" />
-    <None Include="Shaders\Program.frag" />
-    <Content Include="Design\App.css" />
-    <Content Include="Design\App.htm" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Shaders\Geometry.vert" />
+    <None Include="Shaders\Geometry.frag" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ChromeShaderToyColumns\ChromeShaderToyColumns\ChromeShaderToyColumns.csproj">
+      <Project>{eb93b081-4edc-41a2-85b3-0487062617cc}</Project>
+      <Name>ChromeShaderToyColumns</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /xAttachDebugger:true  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /AssociateDriveForChrome:A /InferChromeAppManifest:true  /FilterTo:$(SolutionDir)</PostBuildEvent>
-    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
-		            </PreBuildEvent>
+    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMergeExtension:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget /PackageID:"WebGL.ShaderToy" /OutputName:"WebGL ShaderToy"
+
+start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /xAttachDebugger:true  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /AssociateDriveForChrome:A /InferChromeAppManifest:true /FilterTo:$(SolutionDir)
+
+</PostBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget</PreBuildEvent>
   </PropertyGroup>
 </Project>

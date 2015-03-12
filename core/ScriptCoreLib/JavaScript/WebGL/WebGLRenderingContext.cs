@@ -210,6 +210,21 @@ namespace ScriptCoreLib.JavaScript.WebGL
 			return default(WebGLShader);
 		}
 
+		public WebGLFramebuffer createFramebuffer()
+		{
+			return default(WebGLFramebuffer);
+		}
+
+		public WebGLTexture createTexture()
+		{
+			return default(WebGLTexture);
+		}
+
+		public WebGLRenderbuffer createRenderbuffer()
+		{
+			return default(WebGLRenderbuffer);
+		}
+
 		public void bufferData(uint target, ArrayBufferView data, uint usage)
 		{
 

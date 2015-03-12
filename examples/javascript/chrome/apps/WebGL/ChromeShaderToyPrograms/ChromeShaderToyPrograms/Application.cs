@@ -236,17 +236,17 @@ namespace ChromeShaderToyPrograms
 			ShaderToy.EffectPass pip = null;
 
 			// http://stackoverflow.com/questions/25289390/html-how-to-make-input-type-list-only-accept-a-list-choice
-			programs.Keys.WithEachIndex(
+			References.programs.Keys.WithEachIndex(
 				async (key, index) =>
 				{
-					var text = (1 + index) + " of " + programs.Count + " " + key.SkipUntilIfAny("ChromeShaderToy").Replace("By", " by ");
+					var text = (1 + index) + " of " + References.programs.Count + " " + key.SkipUntilIfAny("ChromeShaderToy").Replace("By", " by ");
 
 					var option = new IHTMLOption { value = key, innerText = text }.AttachTo(combo);
 
 					await Native.window.async.onframe;
 
 					// we are about to create 100 objects. does it have any impact to UI?
-					var frag = programs[key]();
+					var frag = References.programs[key]();
 					var len = frag.ToString().Length;
 
 					option.innerText = text + " " + new
