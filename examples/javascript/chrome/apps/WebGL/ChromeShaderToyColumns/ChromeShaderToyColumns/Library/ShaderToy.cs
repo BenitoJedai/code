@@ -398,7 +398,8 @@ color.a = 1.0;
 							var yres = gl.canvas.height * zoom;
 
 							#region Paint_Image
-							//new IHTMLPre { "enter Paint_Image" }.AttachToDocument();
+
+							new IHTMLPre { "enter Paint_Image" }.AttachToDocument();
 
 							// this is enough to do pip to bottom left, no need to adjust vertex positions even?
 							gl.viewport(0, 0, (int)xres, (int)yres);
@@ -425,19 +426,20 @@ color.a = 1.0;
 							var ich3 = gl.getUniformLocation(mProgram, "iChannel3"); if (ich3 != null) gl.uniform1i(ich3, 3);
 
 
+							// what if there are other textures too?
+							// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeWebGLFrameBuffer\ChromeWebGLFrameBuffer\Application.cs
 
+							//for (var i = 0; i < mInputs.Length; i++)
+							//{
+							//	var inp = mInputs[i];
 
-							for (var i = 0; i < mInputs.Length; i++)
-							{
-								var inp = mInputs[i];
+							//	gl.activeTexture((uint)(gl.TEXTURE0 + i));
 
-								gl.activeTexture((uint)(gl.TEXTURE0 + i));
-
-								if (inp == null)
-								{
-									gl.bindTexture(gl.TEXTURE_2D, null);
-								}
-							}
+							//	if (inp == null)
+							//	{
+							//		gl.bindTexture(gl.TEXTURE_2D, null);
+							//	}
+							//}
 
 							var times = new[] { 0.0f, 0.0f, 0.0f, 0.0f };
 							var l5 = gl.getUniformLocation(mProgram, "iChannelTime");
@@ -448,19 +450,21 @@ color.a = 1.0;
 							if (l8 != null) gl.uniform3fv(l8, resos);
 
 
+						
+
+							// using ?
+							var vec2pos = (uint)gl.getAttribLocation(mProgram, "pos");
+							//gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
+							gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+
+
+							#region vertices
 							float left = -1.0f;
 							// y reversed?
 							float bottom = -1.0f;
 							float right = 1.0f;
 							float top = 1.0f;
 
-							// using ?
-							var l1 = (uint)gl.getAttribLocation(mProgram, "pos");
-							//gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
-							gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
-
-
-							#region vertices
 							var fvertices =
 								new float[]
 								{
@@ -490,12 +494,15 @@ color.a = 1.0;
 							#endregion
 							gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
-							gl.vertexAttribPointer(l1, 2, gl.FLOAT, false, 0, 0);
-							gl.enableVertexAttribArray(l1);
+							gl.vertexAttribPointer(vec2pos, 2, gl.FLOAT, false, 0, 0);
+							gl.enableVertexAttribArray(vec2pos);
 
+							// GL ERROR :GL_INVALID_OPERATION : glDrawArrays: attempt to render with no buffer attached to enabled attribute 1
 							gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+
 							// first frame is now visible
-							gl.disableVertexAttribArray(l1);
+							gl.disableVertexAttribArray(vec2pos);
 							gl.bindBuffer(gl.ARRAY_BUFFER, null);
 							#endregion
 
