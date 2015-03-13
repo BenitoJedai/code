@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ByReference", "ByReference"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyTriangleDistanceByIq", "..\ChromeShaderToyTriangleDistanceByIq\ChromeShaderToyTriangleDistanceByIq\ChromeShaderToyTriangleDistanceByIq.csproj", "{4A89BCC6-5BF8-4003-B5DE-300CE394F114}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToySphereAndWalls", "..\ChromeShaderToySphereAndWalls\ChromeShaderToySphereAndWalls\ChromeShaderToySphereAndWalls.csproj", "{D4FD6C9B-1FDD-4628-B179-846926D0A840}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyPlasmaTriangleByElusivePete", "..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete.csproj", "{863E0818-E3C3-4A1B-996B-EAD7F4EBEAAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -37,6 +41,14 @@ Global
 		{4A89BCC6-5BF8-4003-B5DE-300CE394F114}.Debug|x86.Build.0 = Debug|x86
 		{4A89BCC6-5BF8-4003-B5DE-300CE394F114}.Release|x86.ActiveCfg = Release|x86
 		{4A89BCC6-5BF8-4003-B5DE-300CE394F114}.Release|x86.Build.0 = Release|x86
+		{D4FD6C9B-1FDD-4628-B179-846926D0A840}.Debug|x86.ActiveCfg = Debug|x86
+		{D4FD6C9B-1FDD-4628-B179-846926D0A840}.Debug|x86.Build.0 = Debug|x86
+		{D4FD6C9B-1FDD-4628-B179-846926D0A840}.Release|x86.ActiveCfg = Release|x86
+		{D4FD6C9B-1FDD-4628-B179-846926D0A840}.Release|x86.Build.0 = Release|x86
+		{863E0818-E3C3-4A1B-996B-EAD7F4EBEAAC}.Debug|x86.ActiveCfg = Debug|x86
+		{863E0818-E3C3-4A1B-996B-EAD7F4EBEAAC}.Debug|x86.Build.0 = Debug|x86
+		{863E0818-E3C3-4A1B-996B-EAD7F4EBEAAC}.Release|x86.ActiveCfg = Release|x86
+		{863E0818-E3C3-4A1B-996B-EAD7F4EBEAAC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,5 +57,7 @@ Global
 		{426A9419-9287-4880-979F-29F29D3F2A22} = {BCD811CF-AAD8-441D-8D52-02DC0EA3B536}
 		{EB93B081-4EDC-41A2-85B3-0487062617CC} = {15D8AE57-27B7-4029-A164-2046DE17D10C}
 		{4A89BCC6-5BF8-4003-B5DE-300CE394F114} = {BCD811CF-AAD8-441D-8D52-02DC0EA3B536}
+		{D4FD6C9B-1FDD-4628-B179-846926D0A840} = {BCD811CF-AAD8-441D-8D52-02DC0EA3B536}
+		{863E0818-E3C3-4A1B-996B-EAD7F4EBEAAC} = {BCD811CF-AAD8-441D-8D52-02DC0EA3B536}
 	EndGlobalSection
 EndGlobal

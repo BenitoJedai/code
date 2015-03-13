@@ -865,21 +865,22 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return (Expando)e;
         }
 
-        [Script(OptimizedCode = "try { return o[m] != void(0); } catch (exc) { return 'unknown'; } ")]
+        [Script(OptimizedCode = "try { return InternalIsMember_o[m] != void(0); } catch (exc) { return 'unknown'; } ")]
         //[Script(OptimizedCode = "return m in o;")]
-        public static bool InternalIsMember(object o, string m)
+        public static bool InternalIsMember(object InternalIsMember_o, string m)
         {
             return default(bool);
         }
 
-        [Script(OptimizedCode = "return o[m]")]
-        internal static object InternalGetMember(object o, object m)
+		// called by dynamic?
+        [Script(OptimizedCode = "return InternalGetMember_o[m]")]
+        internal static object InternalGetMember(object InternalGetMember_o, object m)
         {
             return default(Expando);
         }
 
-        [Script(OptimizedCode = "o[m] = v")]
-        internal static object InternalSetMember(object o, object m, object v)
+        [Script(OptimizedCode = "InternalSetMember_o[m] = v")]
+        internal static object InternalSetMember(object InternalSetMember_o, object m, object v)
         {
             return default(object);
         }

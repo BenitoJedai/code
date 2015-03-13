@@ -449,9 +449,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete.csproj">
+      <Project>{863e0818-e3c3-4a1b-996b-ead7f4ebeaac}</Project>
+      <Name>ChromeShaderToyPlasmaTriangleByElusivePete</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyPrograms\ChromeShaderToyPrograms\ChromeShaderToyPrograms.csproj">
       <Project>{426A9419-9287-4880-979F-29F29D3F2A22}</Project>
       <Name>ChromeShaderToyPrograms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToySphereAndWalls\ChromeShaderToySphereAndWalls\ChromeShaderToySphereAndWalls.csproj">
+      <Project>{d4fd6c9b-1fdd-4628-b179-846926d0a840}</Project>
+      <Name>ChromeShaderToySphereAndWalls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyTriangleDistanceByIq\ChromeShaderToyTriangleDistanceByIq\ChromeShaderToyTriangleDistanceByIq.csproj">
       <Project>{4a89bcc6-5bf8-4003-b5de-300ce394f114}</Project>
