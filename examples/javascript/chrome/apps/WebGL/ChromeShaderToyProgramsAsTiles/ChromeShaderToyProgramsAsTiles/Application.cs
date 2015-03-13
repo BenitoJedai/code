@@ -135,6 +135,7 @@ namespace ChromeShaderToyProgramsAsTiles
 				return;
 			}
 
+			// page by page
 			var combo = new IHTMLSelect().AttachToDocument();
 
 			combo.style.position = IStyle.PositionEnum.absolute;
@@ -222,303 +223,368 @@ namespace ChromeShaderToyProgramsAsTiles
 
 
 
-			// http://www.wufoo.com/html5/attributes/05-list.html
-			// http://www.w3schools.com/tags/att_input_list.asp
-			//uiauto.datalist1.EnsureID();
-			//uiauto.search.list = uiauto.datalist1.id;
-			//uiauto.datalist1.id = "datalist1";
-			//uiauto.search.list = "datalist1";
-			//new IHTMLPre { new { uiauto.search.list, uiauto.datalist1.id } }.AttachToDocument();
 
-			var sw = Stopwatch.StartNew();
+			var rttFramebuffer_width = 128;
+			var rttFramebuffer_height = 128;
 
 
-			var programs = new Dictionary<string, Func<FragmentShader>>
+
+			#region createShader
+			// dont we have a better api already?
+			Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
 			{
-				// should we want to generate it?
+				var shader = gl.createShader(src);
 
-				// group by runs on all devices, fps?
-				// tags?
-
-				//  /FilterTo:$(SolutionDir)
-				// how will those shaders look like on VR?
-
-				["ChromeShaderToyColumns"] = () => new ChromeShaderToyColumns.Shaders.ProgramFragmentShader(),
-			};
-
-			new IHTMLOption { value = "", innerText = $"{programs.Count} shaders available" }.AttachTo(combo);
-
-			// we have one goal. show em all.
-
-			//var g = References.programs.Keys group by 4x4
-
-
-
-
-
-			// http://stackoverflow.com/questions/25289390/html-how-to-make-input-type-list-only-accept-a-list-choice
-			programs.Keys.WithEachIndex(
-				async (key, index) =>
+				// verify
+				if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
 				{
-					var text = (1 + index) + " of " + programs.Count + " " + key.SkipUntilIfAny("ChromeShaderToy").Replace("By", " by ");
+					Native.window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+					throw new InvalidOperationException("shader failed");
 
-					// can we get tooltips on canvas?
-					var option = new IHTMLOption { value = key, innerText = text }.AttachTo(combo);
+					return null;
+				}
 
-					await Native.window.async.onframe;
+				return shader;
+			};
+			#endregion
 
-					// we are about to create 100 objects. does it have any impact to UI?
-					var frag = programs[key]();
-					var len = frag.ToString().Length;
+			var vs = createShader(new Shaders.GeometryVertexShader());
+			var fs = createShader(new Shaders.GeometryFragmentShader());
 
-					option.innerText = text + " " + new
+			var shaderProgram = new WebGLProgram(gl);
+			gl.attachShader(shaderProgram, vs);
+			gl.attachShader(shaderProgram, fs);
+			gl.linkProgram(shaderProgram);
+
+			var mvMatrix = glMatrix.mat4.create();
+			var pMatrix = glMatrix.mat4.create();
+
+			var vec3aVertexPositionBuffer = new WebGLBuffer(gl);
+			var vec2aTextureCoordBuffer = new WebGLBuffer(gl);
+
+			gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			gl.enable(gl.DEPTH_TEST);
+
+			#region initTextureFramebuffer
+			var xWebGLFramebuffer = new WebGLFramebuffer(gl);
+			gl.bindFramebuffer(gl.FRAMEBUFFER, xWebGLFramebuffer);
+			// generateMipmap: level 0 not power of 2 or not all the same size
+			//var rttFramebuffer_width = canvas.width;
+			// WebGL: INVALID_OPERATION: generateMipmap: level 0 not power of 2 or not all the same size
+
+
+			var xWebGLTexture = new WebGLTexture(gl);
+			gl.bindTexture(gl.TEXTURE_2D, xWebGLTexture);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_NEAREST);
+
+			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, rttFramebuffer_width, rttFramebuffer_height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+
+			gl.generateMipmap(gl.TEXTURE_2D);
+
+
+			var xWebGLRenderbuffer = new WebGLRenderbuffer(gl);
+			gl.bindRenderbuffer(gl.RENDERBUFFER, xWebGLRenderbuffer);
+			gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, rttFramebuffer_width, rttFramebuffer_height);
+
+			gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, xWebGLTexture, 0);
+			gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, xWebGLRenderbuffer);
+
+			gl.bindTexture(gl.TEXTURE_2D, null);
+			gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+			gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+			#endregion
+
+			var pass = new ChromeShaderToyColumns.Library.ShaderToy.EffectPass(
+				gl: gl,
+				precission: ChromeShaderToyColumns.Library.ShaderToy.DetermineShaderPrecission(gl),
+				supportDerivatives: gl.getExtension("OES_standard_derivatives") != null
+			);
+
+			pass.MakeHeader_Image();
+			pass.NewShader_Image(
+					 new ChromeShaderToyColumns.Shaders.ProgramFragmentShader()
+				);
+			var sw = Stopwatch.StartNew();
+			var vbo = new WebGLBuffer(gl);
+
+			Native.window.onframe += e =>
+			{
+
+				#region FRAMEBUFFER
+				gl.bindFramebuffer(gl.FRAMEBUFFER, xWebGLFramebuffer);
+
+				//// http://stackoverflow.com/questions/20362023/webgl-why-does-transparent-canvas-show-clearcolor-color-component-when-alpha-is
+				gl.clearColor(1, 1, 0, 1.0f);
+
+				gl.viewport(0, 0, rttFramebuffer_width, rttFramebuffer_height);
+				gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+
+				#region Paint_Image
+				ChromeShaderToyColumns.Library.ShaderToy.EffectPass.Paint_ImageDelegate Paint_Image = (time, mouseOriX, mouseOriY, mousePosX, mousePosY, zoom) =>
+				{
+					var mProgram = pass.xCreateShader.mProgram;
+
+
+					var xres = rttFramebuffer_width;
+					var yres = rttFramebuffer_height;
+
+					#region Paint_Image
+
+					//new IHTMLPre { "enter Paint_Image" }.AttachToDocument();
+
+					// this is enough to do pip to bottom left, no need to adjust vertex positions even?
+					//gl.viewport(0, 0, (int)xres, (int)yres);
+
+					// useProgram: program not valid
+					gl.useProgram(mProgram);
+
+					// uniform4fv
+					var mouse = new[] { mousePosX, mousePosY, mouseOriX, mouseOriY };
+
+					// X:\jsc.svn\examples\glsl\future\GLSLShaderToyPip\GLSLShaderToyPip\Application.cs
+					//gl.getUniformLocation(mProgram, "fZoom").With(fZoom => gl.uniform1f(fZoom, zoom));
+
+
+					var l2 = gl.getUniformLocation(mProgram, "iGlobalTime"); if (l2 != null) gl.uniform1f(l2, time);
+					var l3 = gl.getUniformLocation(mProgram, "iResolution"); if (l3 != null) gl.uniform3f(l3, xres, yres, 1.0f);
+					var l4 = gl.getUniformLocation(mProgram, "iMouse"); if (l4 != null) gl.uniform4fv(l4, mouse);
+					//var l7 = gl.getUniformLocation(this.mProgram, "iDate"); if (l7 != null) gl.uniform4fv(l7, dates);
+					//var l9 = gl.getUniformLocation(this.mProgram, "iSampleRate"); if (l9 != null) gl.uniform1f(l9, this.mSampleRate);
+
+					var ich0 = gl.getUniformLocation(mProgram, "iChannel0"); if (ich0 != null) gl.uniform1i(ich0, 0);
+					var ich1 = gl.getUniformLocation(mProgram, "iChannel1"); if (ich1 != null) gl.uniform1i(ich1, 1);
+					var ich2 = gl.getUniformLocation(mProgram, "iChannel2"); if (ich2 != null) gl.uniform1i(ich2, 2);
+					var ich3 = gl.getUniformLocation(mProgram, "iChannel3"); if (ich3 != null) gl.uniform1i(ich3, 3);
+
+
+					// what if there are other textures too?
+					// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeWebGLFrameBuffer\ChromeWebGLFrameBuffer\Application.cs
+
+					//for (var i = 0; i < mInputs.Length; i++)
+					//{
+					//	var inp = mInputs[i];
+
+					//	gl.activeTexture((uint)(gl.TEXTURE0 + i));
+
+					//	if (inp == null)
+					//	{
+					//		gl.bindTexture(gl.TEXTURE_2D, null);
+					//	}
+					//}
+
+					var times = new[] { 0.0f, 0.0f, 0.0f, 0.0f };
+					var l5 = gl.getUniformLocation(mProgram, "iChannelTime");
+					if (l5 != null) gl.uniform1fv(l5, times);
+
+					var resos = new float[12] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+					var l8 = gl.getUniformLocation(mProgram, "iChannelResolution");
+					if (l8 != null) gl.uniform3fv(l8, resos);
+
+
+
+
+					// using ?
+					var vec2pos = (uint)gl.getAttribLocation(mProgram, "pos");
+					//gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
+					gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+
+
+					#region vertices
+					float left = -1.0f;
+					// y reversed?
+					float bottom = -1.0f;
+					float right = 1.0f;
+					float top = 1.0f;
+
+					var fvertices =
+						new float[]
+						{
+							// left top
+							left, bottom,
+
+							// right top
+							//right, -1.0f,
+							right, bottom,
+
+							// left bottom
+							left, top,
+
+							// right top
+							//right, -1.0f,
+							right, bottom,
+
+							// right bottom
+							//right, 1.0f,
+							right, top,
+
+							// left bottom
+							left,top
+						};
+
+					var vertices = new Float32Array(fvertices);
+					#endregion
+					gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+					gl.vertexAttribPointer(vec2pos, 2, gl.FLOAT, false, 0, 0);
+					gl.enableVertexAttribArray(vec2pos);
+
+					// GL ERROR :GL_INVALID_OPERATION : glDrawArrays: attempt to render with no buffer attached to enabled attribute 1
+					gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+
+					// first frame is now visible
+					gl.disableVertexAttribArray(vec2pos);
+					gl.bindBuffer(gl.ARRAY_BUFFER, null);
+					#endregion
+
+					//mFrame++;
+
+				};
+				#endregion
+
+				Paint_Image(
+					sw.ElapsedMilliseconds / 1000.0f,
+
+					0,
+					0,
+					0,
+					0
+
+
+				);
+
+				gl.flush();
+
+				//// INVALID_OPERATION: generateMipmap: level 0 not power of 2 or not all the same size
+				gl.bindTexture(gl.TEXTURE_2D, xWebGLTexture);
+				gl.generateMipmap(gl.TEXTURE_2D);
+				gl.bindTexture(gl.TEXTURE_2D, null);
+
+				gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+				#endregion
+
+				gl.clearColor(0, 0, 1, 1.0f);
+				gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+				gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+				glMatrix.mat4.perspective(45f, (float)gl.canvas.width / (float)gl.canvas.height, 0.1f, 120.0f, pMatrix);
+				glMatrix.mat4.identity(mvMatrix);
+				glMatrix.mat4.translate(mvMatrix, new float[] {
+					-1.5f + (float)Math.Cos(
+						sw.ElapsedMilliseconds
+					//slow it down
+					*0.001f
+)
+
+					, 0.0f, -15.0f });
+				//glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
+
+				gl.useProgram(shaderProgram);
+
+
+
+				// X:\jsc.svn\examples\javascript\WebGL\WebGLLesson05\WebGLLesson05\Application.cs
+
+
+				gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "uPMatrix"), false, pMatrix);
+				gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "uMVMatrix"), false, mvMatrix);
+
+
+
+				// GL_INVALID_OPERATION : glDrawArrays: attempt to access out of range vertices in attribute 1
+
+				for (int ihalf = 0; ihalf < 2; ihalf++)
+				{
+
+					#region vec2aTextureCoord
+					var vec2aTextureCoord = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+					gl.bindBuffer(gl.ARRAY_BUFFER, vec2aTextureCoordBuffer);
+					// http://iphonedevelopment.blogspot.com/2009/05/opengl-es-from-ground-up-part-6_25.html
+					var textureCoords = new float[]{
+						// Front face
+						0.0f, 0.0f,
+				  0.0f, -1.0f,
+				  -1.0f, -1.0f,
+				  -1.0f, 0.0f,
+
+
+				};
+
+					if (ihalf % 2 == 0)
 					{
-						//frame,
-						//load = load.ElapsedMilliseconds + "ms ",
+						textureCoords = new[]{
+	0.0f, 0.0f,
+				  0.0f, 1.0f,
+				  1.0f, 1.0f,
+				  1.0f, 0.0f,
 
-						frag = len + "bytes ",
-						// a telemetry to track while running on actual hardware
-						//fragGPU = pass0.xCreateShader.fsTranslatedShaderSource.Length + " bytes"
+
 					};
 
-					await option.async.onselect;
-					await Native.window.async.onframe;
-
-					var load = Stopwatch.StartNew();
-
-					var pass0 = new ShaderToy.EffectPass(
-						gl: gl,
-						precission: ShaderToy.DetermineShaderPrecission(gl),
-						supportDerivatives: gl.getExtension("OES_standard_derivatives") != null
-					);
-					pass0.MakeHeader_Image();
-					pass0.NewShader_Image(frag);
-
-					load.Stop();
-
-
-
-
-					var frame = 0;
-					do
-					{
-						frame++;
-
-						//option.innerText = key + new { frame };
-						option.innerText = text + " " + new
-						{
-							frame,
-							load = load.ElapsedMilliseconds + "ms ",
-
-							frag = len + "bytes ",
-							// a telemetry to track while running on actual hardware
-							fragGPU = pass0.xCreateShader.fsTranslatedShaderSource.Length + " bytes"
-						};
-
-						var vbo = new WebGLBuffer(gl);
-
-
-						ShaderToy.EffectPass.Paint_ImageDelegate Paint_Image = (time, mouseOriX, mouseOriY, mousePosX, mousePosY, zoom) =>
-						{
-							var mProgram = pass0.xCreateShader.mProgram;
-
-							//var y = gl.canvas.height * 0.1;
-
-							var xres = gl.canvas.width * zoom;
-							var yres = gl.canvas.height * zoom;
-
-							#region Paint_Image
-							//new IHTMLPre { "enter Paint_Image" }.AttachToDocument();
-
-							// this is enough to do pip to bottom left, no need to adjust vertex positions even?
-							// x and y cannot be used to translate our box, need to move vertex pos then?
-							// cannot move or upscale the viewport locked area. so we need to lock it all?
-							// how many pixels will we be renderring then?
-
-							// lock the correct region. unzoomed
-							// in a way this creates a cool field of view effect anchored to left bottom
-							// some programs render on the left bottom, only, while some spill over to the unseen areas.
-							// could we use multiple rendering for different detail level?
-							// like the edges we could keep low res? 
-							//gl.viewport(0, 0, (int)gl.canvas.width, (int)gl.canvas.height);
-
-							// useProgram: program not valid
-							gl.useProgram(mProgram);
-
-							// uniform4fv
-							var mouse = new[] { mousePosX, mousePosY, mouseOriX, mouseOriY };
-
-							// X:\jsc.svn\examples\glsl\future\GLSLShaderToyPip\GLSLShaderToyPip\Application.cs
-							//gl.getUniformLocation(mProgram, "fZoom").With(fZoom => gl.uniform1f(fZoom, zoom));
-
-
-							var l2 = gl.getUniformLocation(mProgram, "iGlobalTime"); if (l2 != null) gl.uniform1f(l2, time);
-							var l3 = gl.getUniformLocation(mProgram, "iResolution"); if (l3 != null) gl.uniform3f(l3, xres, yres, 1.0f);
-							var l4 = gl.getUniformLocation(mProgram, "iMouse"); if (l4 != null) gl.uniform4fv(l4, mouse);
-							//var l7 = gl.getUniformLocation(this.mProgram, "iDate"); if (l7 != null) gl.uniform4fv(l7, dates);
-							//var l9 = gl.getUniformLocation(this.mProgram, "iSampleRate"); if (l9 != null) gl.uniform1f(l9, this.mSampleRate);
-
-							var ich0 = gl.getUniformLocation(mProgram, "iChannel0"); if (ich0 != null) gl.uniform1i(ich0, 0);
-							var ich1 = gl.getUniformLocation(mProgram, "iChannel1"); if (ich1 != null) gl.uniform1i(ich1, 1);
-							var ich2 = gl.getUniformLocation(mProgram, "iChannel2"); if (ich2 != null) gl.uniform1i(ich2, 2);
-							var ich3 = gl.getUniformLocation(mProgram, "iChannel3"); if (ich3 != null) gl.uniform1i(ich3, 3);
-
-
-							// do cannot yet do shader textures can we
-
-
-							//for (var i = 0; i < mInputs.Length; i++)
-							//{
-							//	var inp = mInputs[i];
-
-							//	gl.activeTexture((uint)(gl.TEXTURE0 + i));
-
-							//	if (inp == null)
-							//	{
-							//		gl.bindTexture(gl.TEXTURE_2D, null);
-							//	}
-							//}
-
-							var times = new[] { 0.0f, 0.0f, 0.0f, 0.0f };
-							var l5 = gl.getUniformLocation(mProgram, "iChannelTime");
-							if (l5 != null) gl.uniform1fv(l5, times);
-
-							var resos = new float[12] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-							var l8 = gl.getUniformLocation(mProgram, "iChannelResolution");
-							if (l8 != null) gl.uniform3fv(l8, resos);
-
-
-
-
-							// which are we in the group?
-							//var xindex = index % (1 / zoom);
-
-							for (int xindex = 0; xindex < 2; xindex++)
-								for (int yindex = 0; yindex < 2; yindex++)
-								{
-									// will zero origin clip the others?
-									// no it will scale everything down?
-
-									// http://stackoverflow.com/questions/23968364/webgl-is-the-gl-useprogram-an-expensive-call-to-make
-									// http://stackoverflow.com/questions/23968364/webgl-is-the-gl-useprogram-an-expensive-call-to-make
-									gl.viewport(
-
-										xindex * (int)(gl.canvas.width * zoom),
-										yindex * (int)(gl.canvas.height * zoom),
-										(int)(gl.canvas.width * zoom),
-										(int)(gl.canvas.height * zoom)
-
-										);
-									//gl.trans
-
-									float left = -1.0f
-										+ xindex * zoom * 2.0f;
-
-									// y reversed?
-
-									float top =
-										-(-1.0f
-										+ yindex * zoom * 2.0f);
-
-
-									float bottom =
-										-(-top + 2.0f * zoom);
-
-
-
-
-									float right = left + 2.0f * zoom;
-
-									// x % 4
-
-
-									// add spacing
-
-									left += 0.1f;
-									right -= 0.1f;
-
-									bottom += 0.1f;
-									top -= 0.1f;
-
-									// using ?
-									var l1 = (uint)gl.getAttribLocation(mProgram, "pos");
-
-									// using gl, vbo, vertices
-									gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
-
-									//// can we translate  to right?
-									//left += 0.5f;
-
-									//right += 0.5f;
-
-									#region vertices
-									var fvertices =
-										new float[]
-										{
-											// left top
-											left, bottom,
-
-											// right top
-											//right, -1.0f,
-											right, bottom,
-
-											// left bottom
-											left, top,
-
-											// right top
-											//right, -1.0f,
-											right, bottom,
-
-											// right bottom
-											//right, 1.0f,
-											right, top,
-
-											// left bottom
-											left,top
-										};
-
-									var vertices = new Float32Array(fvertices);
-									#endregion
-									gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-
-									gl.vertexAttribPointer(l1, 2, gl.FLOAT, false, 0, 0);
-									gl.enableVertexAttribArray(l1);
-
-									gl.drawArrays(gl.TRIANGLES, 0, 6);
-									// first frame is now visible
-									gl.disableVertexAttribArray(l1);
-									gl.bindBuffer(gl.ARRAY_BUFFER, null);
-								}
-							#endregion
-
-
-						};
-
-						// tile up the 4K monitor.
-						Paint_Image(
-							sw.ElapsedMilliseconds / 1000.0f,
-
-							mMouseOriX,
-							mMouseOriY,
-							mMousePosX,
-							mMousePosY,
-
-							//zoom: 0.25f
-							zoom: 0.5f
-						);
-
-						// what does it do?
-						gl.flush();
-
-						// wither we are selected or we are pip?
-						await option.async.selected;
 					}
-					while (await Native.window.async.onframe);
+
+					gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
+					gl.vertexAttribPointer((uint)vec2aTextureCoord, 2, gl.FLOAT, false, 0, 0);
+					gl.enableVertexAttribArray((uint)vec2aTextureCoord);
+
+					gl.activeTexture(gl.TEXTURE0);
+					gl.bindTexture(gl.TEXTURE_2D, xWebGLTexture);
+					gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.NEAREST);
+
+					gl.uniform1i(gl.getUniformLocation(shaderProgram, "uSampler"), 0);
+					#endregion
+
+
+					#region aVertexPosition
+					var vec3aVertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+					gl.bindBuffer(gl.ARRAY_BUFFER, vec3aVertexPositionBuffer);
+
+					var rsize = 4f;
+
+					var vec3vertices = new[]{
+					rsize,  rsize,  0.0f,
+					rsize,  -rsize,  0.0f,
+					-rsize, -rsize,  0.0f,
+
+						//-4.0f,  -4.0f,  0.0f,
+						//-4,  4f,  0.0f,
+						//4.0f, 4.0f,  0.0f,
+					};
+
+					if (ihalf % 2 == 0)
+					{
+						vec3vertices = new[]{
+
+
+						-rsize,  -rsize,  0.0f,
+						-rsize,  rsize,  0.0f,
+						rsize, rsize,  0.0f,
+					};
+
+					}
+
+					gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vec3vertices), gl.STATIC_DRAW);
+					gl.vertexAttribPointer((uint)vec3aVertexPosition, 3, gl.FLOAT, false, 0, 0);
+					gl.enableVertexAttribArray((uint)vec3aVertexPosition);
+					#endregion
+
+
+					var vec3vertices_numItems = vec3vertices.Length / 3;
+					//gl.drawArrays(gl.TRIANGLE_STRIP, 0, vertices.Length / 3);
+					gl.drawArrays(gl.TRIANGLE_STRIP, 0, vec3vertices_numItems);
 
 				}
-			);
+
+			};
+
 
 		}
 
+		private Shader GeometryFragmentShader()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
