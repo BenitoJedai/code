@@ -50,6 +50,7 @@ namespace ChromeShaderToyProgramsAsTiles
 			// chrome by default has no scrollbar, bowser does
 			Native.document.documentElement.style.overflow = IStyle.OverflowEnum.hidden;
 			Native.body.style.margin = "0px";
+			Native.body.style.backgroundColor = "yellow";
 			Native.body.Clear();
 
 			// ipad?
@@ -256,9 +257,6 @@ namespace ChromeShaderToyProgramsAsTiles
 			gl.attachShader(shaderProgram, fs);
 			gl.linkProgram(shaderProgram);
 
-			var mvMatrix = glMatrix.mat4.create();
-			var pMatrix = glMatrix.mat4.create();
-
 			var vec3aVertexPositionBuffer = new WebGLBuffer(gl);
 			var vec2aTextureCoordBuffer = new WebGLBuffer(gl);
 
@@ -266,15 +264,15 @@ namespace ChromeShaderToyProgramsAsTiles
 			gl.enable(gl.DEPTH_TEST);
 
 			#region initTextureFramebuffer
-			var xWebGLFramebuffer = new WebGLFramebuffer(gl);
-			gl.bindFramebuffer(gl.FRAMEBUFFER, xWebGLFramebuffer);
+			var xWebGLFramebuffer0 = new WebGLFramebuffer(gl);
+			gl.bindFramebuffer(gl.FRAMEBUFFER, xWebGLFramebuffer0);
 			// generateMipmap: level 0 not power of 2 or not all the same size
 			//var rttFramebuffer_width = canvas.width;
 			// WebGL: INVALID_OPERATION: generateMipmap: level 0 not power of 2 or not all the same size
 
 
-			var xWebGLTexture = new WebGLTexture(gl);
-			gl.bindTexture(gl.TEXTURE_2D, xWebGLTexture);
+			var xWebGLTexture0 = new WebGLTexture(gl);
+			gl.bindTexture(gl.TEXTURE_2D, xWebGLTexture0);
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_NEAREST);
 
@@ -287,7 +285,7 @@ namespace ChromeShaderToyProgramsAsTiles
 			gl.bindRenderbuffer(gl.RENDERBUFFER, xWebGLRenderbuffer);
 			gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, rttFramebuffer_width, rttFramebuffer_height);
 
-			gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, xWebGLTexture, 0);
+			gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, xWebGLTexture0, 0);
 			gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, xWebGLRenderbuffer);
 
 			gl.bindTexture(gl.TEXTURE_2D, null);
@@ -304,207 +302,247 @@ namespace ChromeShaderToyProgramsAsTiles
 			pass.MakeHeader_Image();
 			pass.NewShader_Image(
 					 new ChromeShaderToyColumns.Shaders.ProgramFragmentShader()
+				//new ChromeShaderToyTriangleDistanceByIq.Shaders.ProgramFragmentShader()
 				);
 			var sw = Stopwatch.StartNew();
 			var vbo = new WebGLBuffer(gl);
 
 			Native.window.onframe += e =>
 			{
-
-				#region FRAMEBUFFER
-				gl.bindFramebuffer(gl.FRAMEBUFFER, xWebGLFramebuffer);
-
-				//// http://stackoverflow.com/questions/20362023/webgl-why-does-transparent-canvas-show-clearcolor-color-component-when-alpha-is
-				gl.clearColor(1, 1, 0, 1.0f);
-
-				gl.viewport(0, 0, rttFramebuffer_width, rttFramebuffer_height);
-				gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-
-				#region Paint_Image
-				ChromeShaderToyColumns.Library.ShaderToy.EffectPass.Paint_ImageDelegate Paint_Image = (time, mouseOriX, mouseOriY, mousePosX, mousePosY, zoom) =>
+				#region paintToTex
+				Func<ShaderToy.EffectPass, WebGLTexture, WebGLTexture> paintToTex = (pass0, tex) =>
 				{
-					var mProgram = pass.xCreateShader.mProgram;
+					#region FRAMEBUFFER
+					gl.bindFramebuffer(gl.FRAMEBUFFER, xWebGLFramebuffer0);
 
+					//// http://stackoverflow.com/questions/20362023/webgl-why-does-transparent-canvas-show-clearcolor-color-component-when-alpha-is
+					gl.clearColor(1, 1, 0, 1.0f);
 
-					var xres = rttFramebuffer_width;
-					var yres = rttFramebuffer_height;
+					gl.viewport(0, 0, rttFramebuffer_width, rttFramebuffer_height);
+					gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
 
 					#region Paint_Image
-
-					//new IHTMLPre { "enter Paint_Image" }.AttachToDocument();
-
-					// this is enough to do pip to bottom left, no need to adjust vertex positions even?
-					//gl.viewport(0, 0, (int)xres, (int)yres);
-
-					// useProgram: program not valid
-					gl.useProgram(mProgram);
-
-					// uniform4fv
-					var mouse = new[] { mousePosX, mousePosY, mouseOriX, mouseOriY };
-
-					// X:\jsc.svn\examples\glsl\future\GLSLShaderToyPip\GLSLShaderToyPip\Application.cs
-					//gl.getUniformLocation(mProgram, "fZoom").With(fZoom => gl.uniform1f(fZoom, zoom));
+					ChromeShaderToyColumns.Library.ShaderToy.EffectPass.Paint_ImageDelegate Paint_Image = (time, mouseOriX, mouseOriY, mousePosX, mousePosY, zoom) =>
+					{
+						var mProgram = pass0.xCreateShader.mProgram;
 
 
-					var l2 = gl.getUniformLocation(mProgram, "iGlobalTime"); if (l2 != null) gl.uniform1f(l2, time);
-					var l3 = gl.getUniformLocation(mProgram, "iResolution"); if (l3 != null) gl.uniform3f(l3, xres, yres, 1.0f);
-					var l4 = gl.getUniformLocation(mProgram, "iMouse"); if (l4 != null) gl.uniform4fv(l4, mouse);
-					//var l7 = gl.getUniformLocation(this.mProgram, "iDate"); if (l7 != null) gl.uniform4fv(l7, dates);
-					//var l9 = gl.getUniformLocation(this.mProgram, "iSampleRate"); if (l9 != null) gl.uniform1f(l9, this.mSampleRate);
+						var xres = rttFramebuffer_width;
+						var yres = rttFramebuffer_height;
 
-					var ich0 = gl.getUniformLocation(mProgram, "iChannel0"); if (ich0 != null) gl.uniform1i(ich0, 0);
-					var ich1 = gl.getUniformLocation(mProgram, "iChannel1"); if (ich1 != null) gl.uniform1i(ich1, 1);
-					var ich2 = gl.getUniformLocation(mProgram, "iChannel2"); if (ich2 != null) gl.uniform1i(ich2, 2);
-					var ich3 = gl.getUniformLocation(mProgram, "iChannel3"); if (ich3 != null) gl.uniform1i(ich3, 3);
+						#region Paint_Image
 
+						//new IHTMLPre { "enter Paint_Image" }.AttachToDocument();
 
-					// what if there are other textures too?
-					// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeWebGLFrameBuffer\ChromeWebGLFrameBuffer\Application.cs
+						// this is enough to do pip to bottom left, no need to adjust vertex positions even?
+						//gl.viewport(0, 0, (int)xres, (int)yres);
 
-					//for (var i = 0; i < mInputs.Length; i++)
-					//{
-					//	var inp = mInputs[i];
+						// useProgram: program not valid
+						gl.useProgram(mProgram);
 
-					//	gl.activeTexture((uint)(gl.TEXTURE0 + i));
+						// uniform4fv
+						var mouse = new[] { mousePosX, mousePosY, mouseOriX, mouseOriY };
 
-					//	if (inp == null)
-					//	{
-					//		gl.bindTexture(gl.TEXTURE_2D, null);
-					//	}
-					//}
-
-					var times = new[] { 0.0f, 0.0f, 0.0f, 0.0f };
-					var l5 = gl.getUniformLocation(mProgram, "iChannelTime");
-					if (l5 != null) gl.uniform1fv(l5, times);
-
-					var resos = new float[12] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-					var l8 = gl.getUniformLocation(mProgram, "iChannelResolution");
-					if (l8 != null) gl.uniform3fv(l8, resos);
+						// X:\jsc.svn\examples\glsl\future\GLSLShaderToyPip\GLSLShaderToyPip\Application.cs
+						//gl.getUniformLocation(mProgram, "fZoom").With(fZoom => gl.uniform1f(fZoom, zoom));
 
 
+						var l2 = gl.getUniformLocation(mProgram, "iGlobalTime"); if (l2 != null) gl.uniform1f(l2, time);
+						var l3 = gl.getUniformLocation(mProgram, "iResolution"); if (l3 != null) gl.uniform3f(l3, xres, yres, 1.0f);
+						var l4 = gl.getUniformLocation(mProgram, "iMouse"); if (l4 != null) gl.uniform4fv(l4, mouse);
+						//var l7 = gl.getUniformLocation(this.mProgram, "iDate"); if (l7 != null) gl.uniform4fv(l7, dates);
+						//var l9 = gl.getUniformLocation(this.mProgram, "iSampleRate"); if (l9 != null) gl.uniform1f(l9, this.mSampleRate);
+
+						var ich0 = gl.getUniformLocation(mProgram, "iChannel0"); if (ich0 != null) gl.uniform1i(ich0, 0);
+						var ich1 = gl.getUniformLocation(mProgram, "iChannel1"); if (ich1 != null) gl.uniform1i(ich1, 1);
+						var ich2 = gl.getUniformLocation(mProgram, "iChannel2"); if (ich2 != null) gl.uniform1i(ich2, 2);
+						var ich3 = gl.getUniformLocation(mProgram, "iChannel3"); if (ich3 != null) gl.uniform1i(ich3, 3);
 
 
-					// using ?
-					var vec2pos = (uint)gl.getAttribLocation(mProgram, "pos");
-					//gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
-					gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+						// what if there are other textures too?
+						// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeWebGLFrameBuffer\ChromeWebGLFrameBuffer\Application.cs
+
+						//for (var i = 0; i < mInputs.Length; i++)
+						//{
+						//	var inp = mInputs[i];
+
+						//	gl.activeTexture((uint)(gl.TEXTURE0 + i));
+
+						//	if (inp == null)
+						//	{
+						//		gl.bindTexture(gl.TEXTURE_2D, null);
+						//	}
+						//}
+
+						var times = new[] { 0.0f, 0.0f, 0.0f, 0.0f };
+						var l5 = gl.getUniformLocation(mProgram, "iChannelTime");
+						if (l5 != null) gl.uniform1fv(l5, times);
+
+						var resos = new float[12] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+						var l8 = gl.getUniformLocation(mProgram, "iChannelResolution");
+						if (l8 != null) gl.uniform3fv(l8, resos);
 
 
-					#region vertices
-					float left = -1.0f;
-					// y reversed?
-					float bottom = -1.0f;
-					float right = 1.0f;
-					float top = 1.0f;
 
-					var fvertices =
-						new float[]
-						{
-							// left top
-							left, bottom,
 
-							// right top
-							//right, -1.0f,
-							right, bottom,
+						// using ?
+						var vec2pos = (uint)gl.getAttribLocation(mProgram, "pos");
+						//gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
+						gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
 
-							// left bottom
-							left, top,
 
-							// right top
-							//right, -1.0f,
-							right, bottom,
+						#region vertices
+						float left = -1.0f;
+						// y reversed?
+						float bottom = -1.0f;
+						float right = 1.0f;
+						float top = 1.0f;
 
-							// right bottom
-							//right, 1.0f,
-							right, top,
+						var fvertices =
+							new float[]
+							{
+								// left top
+								left, bottom,
 
-							// left bottom
-							left,top
-						};
+								// right top
+								//right, -1.0f,
+								right, bottom,
 
-					var vertices = new Float32Array(fvertices);
+								// left bottom
+								left, top,
+
+								// right top
+								//right, -1.0f,
+								right, bottom,
+
+								// right bottom
+								//right, 1.0f,
+								right, top,
+
+								// left bottom
+								left,top
+							};
+
+						var vertices = new Float32Array(fvertices);
+						#endregion
+						gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+						gl.vertexAttribPointer(vec2pos, 2, gl.FLOAT, false, 0, 0);
+						gl.enableVertexAttribArray(vec2pos);
+
+						// GL ERROR :GL_INVALID_OPERATION : glDrawArrays: attempt to render with no buffer attached to enabled attribute 1
+						gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+
+						// first frame is now visible
+						gl.disableVertexAttribArray(vec2pos);
+						gl.bindBuffer(gl.ARRAY_BUFFER, null);
+						#endregion
+
+						//mFrame++;
+
+					};
 					#endregion
-					gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
-					gl.vertexAttribPointer(vec2pos, 2, gl.FLOAT, false, 0, 0);
-					gl.enableVertexAttribArray(vec2pos);
+					Paint_Image(
+						sw.ElapsedMilliseconds / 1000.0f,
 
-					// GL ERROR :GL_INVALID_OPERATION : glDrawArrays: attempt to render with no buffer attached to enabled attribute 1
-					gl.drawArrays(gl.TRIANGLES, 0, 6);
+						0,
+						0,
+						0,
+						0
 
 
-					// first frame is now visible
-					gl.disableVertexAttribArray(vec2pos);
-					gl.bindBuffer(gl.ARRAY_BUFFER, null);
+					);
+
+					gl.flush();
+
+					//// INVALID_OPERATION: generateMipmap: level 0 not power of 2 or not all the same size
+					gl.bindTexture(gl.TEXTURE_2D, tex);
+					gl.generateMipmap(gl.TEXTURE_2D);
+					gl.bindTexture(gl.TEXTURE_2D, null);
+
+					gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 					#endregion
 
-					//mFrame++;
-
+					return tex;
 				};
 				#endregion
 
-				Paint_Image(
-					sw.ElapsedMilliseconds / 1000.0f,
-
-					0,
-					0,
-					0,
-					0
 
 
-				);
+				//paintToTex(pass, xWebGLTexture0);
 
-				gl.flush();
+				//gl.clearColor(0, 0, 1, 1.0f);
+				//gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-				//// INVALID_OPERATION: generateMipmap: level 0 not power of 2 or not all the same size
-				gl.bindTexture(gl.TEXTURE_2D, xWebGLTexture);
-				gl.generateMipmap(gl.TEXTURE_2D);
-				gl.bindTexture(gl.TEXTURE_2D, null);
+				//glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
 
-				gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-				#endregion
 
-				gl.clearColor(0, 0, 1, 1.0f);
-				gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-				gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-				glMatrix.mat4.perspective(45f, (float)gl.canvas.width / (float)gl.canvas.height, 0.1f, 120.0f, pMatrix);
-				glMatrix.mat4.identity(mvMatrix);
-				glMatrix.mat4.translate(mvMatrix, new float[] {
+
+
+
+
+
+
+				// X:\jsc.svn\examples\javascript\WebGL\WebGLLesson05\WebGLLesson05\Application.cs
+
+				// using has a spevial meaning here
+				//using (var u = new ChromeWebGLFrameBufferToSquare.Shaders.__GeometryVertexShader())
+				//{
+				//	// should jsc implement structs as BufferData so we could send them over?
+				//	u.pMatrix = pMatrix;
+				//	u.uMVMatrix = mvMatrix;
+				//}
+
+
+				// GL_INVALID_OPERATION : glDrawArrays: attempt to access out of range vertices in attribute 1
+
+				#region drawArrays
+				Action<WebGLTexture> drawArrays = (tex) =>
+				{
+					gl.useProgram(shaderProgram);
+
+
+					var mvMatrix = glMatrix.mat4.create();
+					var pMatrix = glMatrix.mat4.create();
+
+
+					glMatrix.mat4.perspective(45f, (float)gl.canvas.aspect, 0.1f, 120.0f, pMatrix);
+					gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "uPMatrix"), false, pMatrix);
+
+
+					glMatrix.mat4.identity(mvMatrix);
+					glMatrix.mat4.translate(mvMatrix, new float[] {
 					-1.5f + (float)Math.Cos(
 						sw.ElapsedMilliseconds
 					//slow it down
 					*0.001f
 )
 
-					, 0.0f, -15.0f });
-				//glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
+					, 0.0f, -7f });
+					gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "uMVMatrix"), false, mvMatrix);
 
-				gl.useProgram(shaderProgram);
+					// jsc can we get audio comments?
 
+					gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
+					gl.activeTexture(gl.TEXTURE0);
+					gl.bindTexture(gl.TEXTURE_2D, xWebGLTexture0);
+					gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.NEAREST);
 
-				// X:\jsc.svn\examples\javascript\WebGL\WebGLLesson05\WebGLLesson05\Application.cs
+					for (int ihalf = 0; ihalf < 2; ihalf++)
+					{
 
-
-				gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "uPMatrix"), false, pMatrix);
-				gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "uMVMatrix"), false, mvMatrix);
-
-
-
-				// GL_INVALID_OPERATION : glDrawArrays: attempt to access out of range vertices in attribute 1
-
-				for (int ihalf = 0; ihalf < 2; ihalf++)
-				{
-
-					#region vec2aTextureCoord
-					var vec2aTextureCoord = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-					gl.bindBuffer(gl.ARRAY_BUFFER, vec2aTextureCoordBuffer);
-					// http://iphonedevelopment.blogspot.com/2009/05/opengl-es-from-ground-up-part-6_25.html
-					var textureCoords = new float[]{
-						// Front face
-						0.0f, 0.0f,
+						#region vec2aTextureCoord
+						var vec2aTextureCoord = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+						gl.bindBuffer(gl.ARRAY_BUFFER, vec2aTextureCoordBuffer);
+						// http://iphonedevelopment.blogspot.com/2009/05/opengl-es-from-ground-up-part-6_25.html
+						var textureCoords = new float[]{
+							// Front face
+							0.0f, 0.0f,
 				  0.0f, -1.0f,
 				  -1.0f, -1.0f,
 				  -1.0f, 0.0f,
@@ -512,9 +550,9 @@ namespace ChromeShaderToyProgramsAsTiles
 
 				};
 
-					if (ihalf % 2 == 0)
-					{
-						textureCoords = new[]{
+						if (ihalf % 2 == 0)
+						{
+							textureCoords = new[]{
 	0.0f, 0.0f,
 				  0.0f, 1.0f,
 				  1.0f, 1.0f,
@@ -523,68 +561,75 @@ namespace ChromeShaderToyProgramsAsTiles
 
 					};
 
+						}
+
+						gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
+						gl.vertexAttribPointer((uint)vec2aTextureCoord, 2, gl.FLOAT, false, 0, 0);
+						gl.enableVertexAttribArray((uint)vec2aTextureCoord);
+
+
+						gl.uniform1i(gl.getUniformLocation(shaderProgram, "uSampler"), 0);
+						#endregion
+
+
+						#region aVertexPosition
+						var vec3aVertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+						gl.bindBuffer(gl.ARRAY_BUFFER, vec3aVertexPositionBuffer);
+
+						var rsize = 1f;
+
+						#region vec3vertices
+						var vec3vertices = new[]{
+						rsize,  rsize,  0.0f,
+						rsize,  -rsize,  0.0f,
+						-rsize, -rsize,  0.0f,
+
+							//-4.0f,  -4.0f,  0.0f,
+							//-4,  4f,  0.0f,
+							//4.0f, 4.0f,  0.0f,
+						};
+
+						if (ihalf % 2 == 0)
+						{
+							vec3vertices = new[]{
+
+
+							-rsize,  -rsize,  0.0f,
+							-rsize,  rsize,  0.0f,
+							rsize, rsize,  0.0f,
+						};
+
+						}
+						#endregion
+
+						gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vec3vertices), gl.STATIC_DRAW);
+						gl.vertexAttribPointer((uint)vec3aVertexPosition, 3, gl.FLOAT, false, 0, 0);
+						gl.enableVertexAttribArray((uint)vec3aVertexPosition);
+						#endregion
+
+						// using has a spevial meaning here
+						//using (var u = new ChromeWebGLFrameBufferToSquare.Shaders.__GeometryVertexShader())
+						//{
+						//	// should jsc implement structs as BufferData so we could send them over?
+						//	u.aVertexPosition  = vec3vertices;
+						//}
+
+
+						var vec3vertices_numItems = vec3vertices.Length / 3;
+						//gl.drawArrays(gl.TRIANGLE_STRIP, 0, vertices.Length / 3);
+						gl.drawArrays(gl.TRIANGLE_STRIP, 0, vec3vertices_numItems);
+
 					}
-
-					gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
-					gl.vertexAttribPointer((uint)vec2aTextureCoord, 2, gl.FLOAT, false, 0, 0);
-					gl.enableVertexAttribArray((uint)vec2aTextureCoord);
-
-					gl.activeTexture(gl.TEXTURE0);
-					gl.bindTexture(gl.TEXTURE_2D, xWebGLTexture);
-					gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.NEAREST);
-
-					gl.uniform1i(gl.getUniformLocation(shaderProgram, "uSampler"), 0);
-					#endregion
+				};
+				#endregion
 
 
-					#region aVertexPosition
-					var vec3aVertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-					gl.bindBuffer(gl.ARRAY_BUFFER, vec3aVertexPositionBuffer);
-
-					var rsize = 4f;
-
-					var vec3vertices = new[]{
-					rsize,  rsize,  0.0f,
-					rsize,  -rsize,  0.0f,
-					-rsize, -rsize,  0.0f,
-
-						//-4.0f,  -4.0f,  0.0f,
-						//-4,  4f,  0.0f,
-						//4.0f, 4.0f,  0.0f,
-					};
-
-					if (ihalf % 2 == 0)
-					{
-						vec3vertices = new[]{
-
-
-						-rsize,  -rsize,  0.0f,
-						-rsize,  rsize,  0.0f,
-						rsize, rsize,  0.0f,
-					};
-
-					}
-
-					gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vec3vertices), gl.STATIC_DRAW);
-					gl.vertexAttribPointer((uint)vec3aVertexPosition, 3, gl.FLOAT, false, 0, 0);
-					gl.enableVertexAttribArray((uint)vec3aVertexPosition);
-					#endregion
-
-
-					var vec3vertices_numItems = vec3vertices.Length / 3;
-					//gl.drawArrays(gl.TRIANGLE_STRIP, 0, vertices.Length / 3);
-					gl.drawArrays(gl.TRIANGLE_STRIP, 0, vec3vertices_numItems);
-
-				}
-
+				drawArrays(paintToTex(pass, xWebGLTexture0));
 			};
 
 
 		}
 
-		private Shader GeometryFragmentShader()
-		{
-			throw new NotImplementedException();
-		}
+
 	}
 }

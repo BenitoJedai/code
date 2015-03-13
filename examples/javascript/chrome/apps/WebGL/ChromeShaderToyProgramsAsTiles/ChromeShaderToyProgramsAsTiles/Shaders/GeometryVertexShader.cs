@@ -10,14 +10,16 @@ namespace ChromeWebGLFrameBufferToSquare.Shaders
 	[Description("Future versions of JSC will allow shaders to be written in a .NET language")]
 	class __GeometryVertexShader : ScriptCoreLib.GLSL.VertexShader
 	{
+		// via bufferData
 		[attribute]
-		vec3 aVertexPosition;
+		public vec3 aVertexPosition;
 
 		[uniform]
-		mat4 uMVMatrix;
+		public mat4 uMVMatrix;
 
+		// perspective
 		[uniform]
-		mat4 uPMatrix;
+		public mat4 uPMatrix;
 
 		void main()
 		{
