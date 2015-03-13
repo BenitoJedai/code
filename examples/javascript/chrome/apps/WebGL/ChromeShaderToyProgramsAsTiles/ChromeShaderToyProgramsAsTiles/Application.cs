@@ -31,6 +31,16 @@ namespace ChromeShaderToyProgramsAsTiles
 	/// </summary>
 	public sealed class Application : ApplicationWebService
 	{
+		// This type of exception does happen when you are stuck inside unmanaged code which performs an uninterruptable blocking operation. Waiting for a native socket select would be such a case. If your Dll does cause socket connections make sure you close them before they your unload your AppDomain.
+		// https://social.msdn.microsoft.com/Forums/vstudio/en-US/01feeacf-883b-4058-b6c4-40ddbd67fa79/error-while-unloading-appdomain-exception-from-hresult-0x80131015?forum=clr
+
+		//2ae8:01:01 [jsc.meta]
+		//		worker unloading... { Count = 0 }
+
+		//		Unhandled Exception: System.CannotUnloadAppDomainException: Error while unloading appdomain. (Exception from HRESULT: 0x80131015)
+		//   at System.AppDomain.Unload(AppDomain domain)
+		//   at MultiAssemblyLauncher.Invoke(String[] args, String id, WorkerStartAction yield) in X:\jsc.internal.git\compiler\jsc\Program.cs:line 290
+
 		/// <summary>
 		/// This is a javascript application.
 		/// </summary>
@@ -136,29 +146,73 @@ namespace ChromeShaderToyProgramsAsTiles
 				return;
 			}
 
-			// page by page
-			var combo = new IHTMLSelect().AttachToDocument();
+			#region oncontextlost
+			gl.oncontextlost +=
+				e =>
+				{
+					//[12144:10496:0311 / 120850:ERROR: gpu_watchdog_thread.cc(314)] : The GPU process hung. Terminating after 10000 ms.
+					//   GpuProcessHostUIShim: The GPU process crashed!
+					gl.canvas.Orphanize();
+					gl = null;
 
-			combo.style.position = IStyle.PositionEnum.absolute;
-			combo.style.left = "0px";
-			combo.style.top = "0px";
-			//combo.style.right = "0px";
-			combo.style.width = "100%";
+					Native.document.body.Clear();
 
-			combo.style.backgroundColor = "rgba(255,255,255,0.5)";
-			//combo.style.backgroundColor = "rgba(255,255,0,0.5)";
-			//combo.style.background = "linear-gradient(to bottom, rgba(255,255,255,0.5 0%,rgba(255,255,255,0.0 100%))";
-			combo.style.border = "0px solid transparent";
-			combo.style.fontSize = "large";
-			combo.style.paddingLeft = "1em";
-			combo.style.fontFamily = IStyle.FontFamilyEnum.Verdana;
-			combo.style.cursor = IStyle.CursorEnum.pointer;
+					new IHTMLPre {
+						// https://code.google.com/p/chromium/issues/detail?id=294207
+						@"Rats! WebGL hit a snag.
+oncontextlost.
+The GPU process hung. Terminating. 
+check chrome://gpu for log messages.  
+do we have a stack trace?
+
+" + new { e.statusMessage } ,
+
+						// chrome sends us to about:blank?
+						//new IHTMLAnchor {
+
+						//	target = "_blank",
+
+						//	href = "about:gpu", innerText = "about:gpu",
+
+						//	// http://tirania.org/blog/archive/2009/Jul-27-1.html
+						//	//onclick += de
+						//}
+						//.With(a => {  a.onclick += e => { e.preventDefault();  Native.window.open("about:gpu"); }; } )
+
+
+					}.AttachToDocument();
+				};
+			#endregion
+
+
+
+
+
+
+			//// page by page
+			//var combo = new IHTMLSelect().AttachToDocument();
+
+			//combo.style.position = IStyle.PositionEnum.absolute;
+			//combo.style.left = "0px";
+			//combo.style.top = "0px";
+			////combo.style.right = "0px";
+			//combo.style.width = "100%";
+
+			//combo.style.backgroundColor = "rgba(255,255,255,0.5)";
+			////combo.style.backgroundColor = "rgba(255,255,0,0.5)";
+			////combo.style.background = "linear-gradient(to bottom, rgba(255,255,255,0.5 0%,rgba(255,255,255,0.0 100%))";
+			//combo.style.border = "0px solid transparent";
+			//combo.style.fontSize = "large";
+			//combo.style.paddingLeft = "1em";
+			//combo.style.fontFamily = IStyle.FontFamilyEnum.Verdana;
+			//combo.style.cursor = IStyle.CursorEnum.pointer;
 
 
 
 
 
 			var c = gl.canvas.AttachToDocument();
+			c.style.position = IStyle.PositionEnum.@fixed;
 
 			#region onresize
 			new { }.With(
@@ -679,6 +733,12 @@ namespace ChromeShaderToyProgramsAsTiles
 			var loadDelay = new TaskCompletionSource<object>();
 			loadDelay.SetResult(null);
 
+			var loadCount = 0;
+			//var loadTotal = new TimeSpan();
+			// async init missing?
+
+			var loadTotal = TimeSpan.FromMilliseconds(0);
+
 			var frags = Enumerable.ToArray(
 				from key in ChromeShaderToyPrograms.References.programs.Keys.Take(rows * 4)
 
@@ -693,8 +753,11 @@ namespace ChromeShaderToyProgramsAsTiles
 						await oldloadDelay.Task;
 
 						//var text = (1 + index) + " of " + References.programs.Count + " " + key.SkipUntilIfAny("ChromeShaderToy").Replace("By", " by ");
-						var text = key.SkipUntilIfAny("ChromeShaderToy").Replace("By", " by ");
-						Native.document.title = text;
+						//var text = key.SkipUntilIfAny("ChromeShaderToy").Replace("By", " by ");
+						var text = key.SkipUntilIfAny("ChromeShaderToy").TakeUntilIfAny("By");
+						new IHTMLPre { text }.AttachToDocument();
+
+						Native.document.title = text + " (loading)";
 						Native.document.body.style.backgroundColor = "cyan";
 						await Task.Delay(2000);
 
@@ -707,27 +770,42 @@ namespace ChromeShaderToyProgramsAsTiles
 						//await Native.window.async.onframe;
 						// red and title visible?
 
+						// did we loose context?
+						if (gl == null)
+							await new TaskCompletionSource<object>().Task;
+
 						var blockingCall = Stopwatch.StartNew();
 						var ctor = ChromeShaderToyPrograms.References.programs[key];
 						var frag = ctor();
 						var pass = newPass(frag);
 						blockingCall.Stop();
+						// script: error JSC1000: No implementation found for this native method, please implement [static System.TimeSpan.op_Addition(System.TimeSpan, System.TimeSpan)]
+						loadTotal += blockingCall.Elapsed;
+						loadCount++;
 
-						// cool off
-						Native.document.body.style.backgroundColor = "cyan";
-						Native.document.title = text + " " + blockingCall.ElapsedMilliseconds + "ms";
-						await Native.window.async.onframe;
-						await Task.Delay(2000);
+						// branch off, yet return early
+						new { }.With(
+							async delegate
+							{
+								// cool off
+								Native.document.body.style.backgroundColor = "cyan";
+								Native.document.title = text + " " + blockingCall.ElapsedMilliseconds + $"ms ({loadCount})";
+								await Native.window.async.onframe;
+								await Task.Delay(2000);
 
-						// done?
-						Native.document.body.style.backgroundColor = "yellow";
-						Native.document.title = "...";
+								// done?
+								Native.document.body.style.backgroundColor = "yellow";
+								Native.document.title = $"({loadCount}) total {loadTotal.TotalMilliseconds}ms";
 
-						await Task.Delay(300);
+								await Task.Delay(2000);
 
-						// moveNext
-						newloadDelay.SetResult(null);
+								// moveNext
+								newloadDelay.SetResult(null);
+							}
+						);
 
+
+						// return early
 						return new { key, pass };
 					}
 				)

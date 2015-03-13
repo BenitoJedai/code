@@ -134,7 +134,7 @@ namespace ChromeShaderToyColumns.Library
 			bool nativeDebug
 			)
 		{
-			new IHTMLPre { "enter CreateShader" }.AttachToDocument();
+			//new IHTMLPre { "enter CreateShader" }.AttachToDocument();
 
 			//var p = gl.createProgram();
 
@@ -178,7 +178,7 @@ namespace ChromeShaderToyColumns.Library
 			}
 
 			var fsCOMPILE_STATUS = (bool)gl.getShaderParameter(fs, gl.COMPILE_STATUS);
-			new IHTMLPre { "CreateShader " + new { fsCOMPILE_STATUS } }.AttachToDocument();
+			//new IHTMLPre { "CreateShader " + new { fsCOMPILE_STATUS } }.AttachToDocument();
 
 			if (!fsCOMPILE_STATUS)
 			{
@@ -200,7 +200,7 @@ namespace ChromeShaderToyColumns.Library
 
 			var linkResult = (bool)gl.getProgramParameter(p, gl.LINK_STATUS);
 
-			new IHTMLPre { "error CreateShader " + new { linkResult } }.AttachToDocument();
+			//new IHTMLPre { "CreateShader " + new { linkResult } }.AttachToDocument();
 
 			if (!linkResult)
 			{
@@ -211,7 +211,7 @@ namespace ChromeShaderToyColumns.Library
 			}
 
 			// https://msdn.microsoft.com/en-us/library/ie/dn302415(v=vs.85).aspx
-			new IHTMLPre { "exit CreateShader" }.AttachToDocument();
+			//new IHTMLPre { "exit CreateShader" }.AttachToDocument();
 
 			ok.mProgram = p;
 			return ok;
@@ -302,7 +302,7 @@ namespace ChromeShaderToyColumns.Library
 				this.MakeHeader_Image = delegate
 				{
 					#region MakeHeader_Image
-					new IHTMLPre { "enter MakeHeader_Image" }.AttachToDocument();
+					//new IHTMLPre { "enter MakeHeader_Image" }.AttachToDocument();
 
 
 					var header = precission;
@@ -370,7 +370,7 @@ color.a = 1.0;
 					this.NewShader_Image = (fs) =>
 					{
 						#region NewShader_Image
-						new IHTMLPre { "enter NewShader_Image" }.AttachToDocument();
+						//new IHTMLPre { "enter NewShader_Image" }.AttachToDocument();
 						var shaderCode = fs.ToString();
 
 						var vsSource = "attribute vec2 pos; void main() { gl_Position = vec4(pos.xy,0.0,1.0); }";

@@ -22,6 +22,13 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 	[Script(Implements = typeof(global::System.Net.Sockets.UdpClient))]
 	public class __UdpClient
 	{
+		// https://software.intel.com/en-us/blogs/2012/10/16/developing-for-intel-smart-connect-technology
+		//Unattended Active State(S0ISCT).  Similar to S0(standard power on) except that the system looks and sound like it is still in standby – display off, audio off, fans off or muted, etc.. The user will not be interacting with the platform during this state.The platform will periodically enter this state and remain there for a specific duration determined by the ISCT service. There is full network connectivity (if available) in this state. The service will put the system back to sleep within a predefined interval. The exceptions to this activity are when the ISCT agent decides to disable the service and remain in standby (S3) in order to protect the platform from overheating or running low on battery. Should this occur, the platform will not wake up from this state until the user presses the power button.
+
+		// Intel® Smart ConnectTechnology
+		// https://software.intel.com/en-us/tags/41560
+		// http://www.intel.com/content/www/us/en/architecture-and-technology/smart-connect-technology-compatible-apps-brief.html
+
 		private const int MaxUDPSize = 0x10000;
 
 		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150306/udp
