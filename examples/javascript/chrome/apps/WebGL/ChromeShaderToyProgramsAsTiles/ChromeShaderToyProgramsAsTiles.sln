@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyProgramsAsTiles", "ChromeShaderToyProgramsAsTiles\ChromeShaderToyProgramsAsTiles.csproj", "{E11C81F0-70C4-4FCB-9898-2AC1E6581B30}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EB93B081-4EDC-41A2-85B3-0487062617CC} = {EB93B081-4EDC-41A2-85B3-0487062617CC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyPrograms", "..\ChromeShaderToyPrograms\ChromeShaderToyPrograms\ChromeShaderToyPrograms.csproj", "{426A9419-9287-4880-979F-29F29D3F2A22}"
 EndProject
@@ -18,6 +21,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToySphereAndWalls", "..\ChromeShaderToySphereAndWalls\ChromeShaderToySphereAndWalls\ChromeShaderToySphereAndWalls.csproj", "{D4FD6C9B-1FDD-4628-B179-846926D0A840}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyPlasmaTriangleByElusivePete", "..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete.csproj", "{863E0818-E3C3-4A1B-996B-EAD7F4EBEAAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +54,10 @@ Global
 		{863E0818-E3C3-4A1B-996B-EAD7F4EBEAAC}.Debug|x86.Build.0 = Debug|x86
 		{863E0818-E3C3-4A1B-996B-EAD7F4EBEAAC}.Release|x86.ActiveCfg = Release|x86
 		{863E0818-E3C3-4A1B-996B-EAD7F4EBEAAC}.Release|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.ActiveCfg = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.Build.0 = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,5 +68,6 @@ Global
 		{4A89BCC6-5BF8-4003-B5DE-300CE394F114} = {BCD811CF-AAD8-441D-8D52-02DC0EA3B536}
 		{D4FD6C9B-1FDD-4628-B179-846926D0A840} = {BCD811CF-AAD8-441D-8D52-02DC0EA3B536}
 		{863E0818-E3C3-4A1B-996B-EAD7F4EBEAAC} = {BCD811CF-AAD8-441D-8D52-02DC0EA3B536}
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {15D8AE57-27B7-4029-A164-2046DE17D10C}
 	EndGlobalSection
 EndGlobal
