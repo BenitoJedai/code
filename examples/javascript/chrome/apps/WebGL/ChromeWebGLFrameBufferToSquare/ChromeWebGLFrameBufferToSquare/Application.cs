@@ -127,7 +127,6 @@ namespace ChromeWebGLFrameBufferToSquare
 			var gl_viewportWidth = size;
 			var gl_viewportHeight = size;
 
-			var shaderProgram = gl.createProgram();
 
 			#region createShader
 			// dont we have a better api already?
@@ -151,23 +150,19 @@ namespace ChromeWebGLFrameBufferToSquare
 			var vs = createShader(new GeometryVertexShader());
 			var fs = createShader(new GeometryFragmentShader());
 
+			var shaderProgram = new WebGLProgram(gl);
 			gl.attachShader(shaderProgram, vs);
 			gl.attachShader(shaderProgram, fs);
-
 			gl.linkProgram(shaderProgram);
 
 			var mvMatrix = glMatrix.mat4.create();
 			var pMatrix = glMatrix.mat4.create();
 
-			var squareVertexPositionBuffer = new WebGLBuffer(gl);
-
-
+			var vec3aVertexPositionBuffer = new WebGLBuffer(gl);
+			var vec2aTextureCoordBuffer = new WebGLBuffer(gl);
 
 			gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			gl.enable(gl.DEPTH_TEST);
-
-
-
 
 			#region initTextureFramebuffer
 			var xWebGLFramebuffer = new WebGLFramebuffer(gl);
@@ -199,8 +194,6 @@ namespace ChromeWebGLFrameBufferToSquare
 			gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 			#endregion
 
-
-
 			var pass = new ChromeShaderToyColumns.Library.ShaderToy.EffectPass(
 				gl: gl,
 				precission: ChromeShaderToyColumns.Library.ShaderToy.DetermineShaderPrecission(gl),
@@ -209,22 +202,15 @@ namespace ChromeWebGLFrameBufferToSquare
 
 			pass.MakeHeader_Image();
 			pass.NewShader_Image(
-
 					 new ChromeShaderToyColumns.Shaders.ProgramFragmentShader()
 				);
-
-
 			var sw = Stopwatch.StartNew();
-
-			var cubeVertexTextureCoordBuffer = new WebGLBuffer(gl);
-
-
 			var vbo = new WebGLBuffer(gl);
 
 			Native.window.onframe += e =>
 			{
 
-				//#region FRAMEBUFFER
+				#region FRAMEBUFFER
 				gl.bindFramebuffer(gl.FRAMEBUFFER, xWebGLFramebuffer);
 
 				//// http://stackoverflow.com/questions/20362023/webgl-why-does-transparent-canvas-show-clearcolor-color-component-when-alpha-is
@@ -376,12 +362,10 @@ namespace ChromeWebGLFrameBufferToSquare
 				gl.bindTexture(gl.TEXTURE_2D, null);
 
 				gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-
+				#endregion
 
 				gl.clearColor(0, 0, 1, 1.0f);
-
-
-				gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
+				gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 				gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 				glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 120.0f, pMatrix);
@@ -415,7 +399,7 @@ namespace ChromeWebGLFrameBufferToSquare
 
 					#region vec2aTextureCoord
 					var vec2aTextureCoord = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-					gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
+					gl.bindBuffer(gl.ARRAY_BUFFER, vec2aTextureCoordBuffer);
 					// http://iphonedevelopment.blogspot.com/2009/05/opengl-es-from-ground-up-part-6_25.html
 					var textureCoords = new float[]{
 						// Front face
@@ -454,7 +438,7 @@ namespace ChromeWebGLFrameBufferToSquare
 
 					#region aVertexPosition
 					var vec3aVertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-					gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
+					gl.bindBuffer(gl.ARRAY_BUFFER, vec3aVertexPositionBuffer);
 
 					var rsize = 4f;
 
