@@ -149,7 +149,8 @@ namespace ChromeShaderToyColumns.Library
 			var ok = new CreateShaderResult { mSuccess = true };
 
 			// https://www.khronos.org/registry/webgl/extensions/WEBGL_debug_shaders/
-			ok.vsTranslatedShaderSource = new WebGLDebugShaders(gl).getTranslatedShaderSource(vs);
+			new WebGLDebugShaders(gl).With(x => ok.vsTranslatedShaderSource = x.getTranslatedShaderSource(vs));
+
 			//gl.getExtension("WEBGL_debug_shaders").With(
 			//(dynamic WEBGL_debug_shaders) =>
 			//	{
@@ -159,7 +160,8 @@ namespace ChromeShaderToyColumns.Library
 
 			gl.compileShader(fs);
 
-			ok.fsTranslatedShaderSource = new WebGLDebugShaders(gl).getTranslatedShaderSource(fs);
+			// ipad wont have it available
+			new WebGLDebugShaders(gl).With(x => ok.fsTranslatedShaderSource = x.getTranslatedShaderSource(fs));
 
 			//gl.getExtension("WEBGL_debug_shaders").With(
 			//	(dynamic WEBGL_debug_shaders) =>
@@ -176,7 +178,7 @@ namespace ChromeShaderToyColumns.Library
 			}
 
 			var fsCOMPILE_STATUS = (bool)gl.getShaderParameter(fs, gl.COMPILE_STATUS);
-			new IHTMLPre { "error CreateShader " + new { fsCOMPILE_STATUS } }.AttachToDocument();
+			new IHTMLPre { "CreateShader " + new { fsCOMPILE_STATUS } }.AttachToDocument();
 
 			if (!fsCOMPILE_STATUS)
 			{
@@ -244,6 +246,9 @@ namespace ChromeShaderToyColumns.Library
 
 		public class EffectPass
 		{
+			public WebGLTexture xWebGLTexture0;
+			public WebGLFramebuffer xWebGLFramebuffer0;
+
 			public object[] mInputs = new object[4];
 
 			public Action MakeHeader_Image;
@@ -450,7 +455,7 @@ color.a = 1.0;
 							if (l8 != null) gl.uniform3fv(l8, resos);
 
 
-						
+
 
 							// using ?
 							var vec2pos = (uint)gl.getAttribLocation(mProgram, "pos");
