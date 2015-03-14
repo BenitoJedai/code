@@ -28,6 +28,7 @@ namespace ScriptCoreLib.Extensions
                 // https://msdn.microsoft.com/en-us/library/hh534540.aspx
                 [CallerFilePath] string sourceFilePath = "",
                 [CallerLineNumber] int sourceLineNumber = 0,
+				// defined at?
                 [CallerFileLine] string sourceFileLine = ""
             ) where T : THREE.Object3D
         {

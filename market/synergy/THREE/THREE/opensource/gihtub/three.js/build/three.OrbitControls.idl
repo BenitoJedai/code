@@ -8,7 +8,8 @@ Constructor(any camera),
 Constructor(any camera, any domElement)]
 interface THREE.OrbitControls
 { 
-	
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLColladaExperiment\WebGLColladaExperiment\Application.cs
+
 	attribute any object;
 	attribute any domElement;
 	

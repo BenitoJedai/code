@@ -139,9 +139,9 @@ namespace ChromeShaderToyProgramsAsTiles
 
 				new IHTMLPre {
 					// https://code.google.com/p/chromium/issues/detail?id=294207
-					"Rats! WebGL hit a snag.",
-
-					new IHTMLAnchor { href = "about:gpu", innerText = "about:gpu" }
+					"Rats! WebGL hit a snag."
+					//,
+					//new IHTMLAnchor { href = "about:gpu", innerText = "about:gpu" }
 				}.AttachToDocument();
 				return;
 			}
@@ -230,7 +230,7 @@ do we have a stack trace?
 			#endregion
 
 
-
+			// middle mouse/two fingers to pan?
 			#region CaptureMouse
 			var mMouseOriX = 0;
 			var mMouseOriY = 0;
@@ -266,16 +266,17 @@ do we have a stack trace?
 				}
 			};
 
-			c.onmousewheel += ev =>
-			{
-				ev.preventDefault();
-				ev.stopPropagation();
+			//c.onmousewheel += ev =>
+			//{
+			//	ev.preventDefault();
+			//	ev.stopPropagation();
 
-				mMousePosY += 3 * ev.WheelDirection;
-			};
+			//	mMousePosY += 3 * ev.WheelDirection;
+			//};
 
 			#endregion
 
+			new IHTMLPre { () => new { mMouseOriX, mMouseOriY, mMousePosX, mMousePosY } }.AttachToDocument();
 
 
 
@@ -548,7 +549,7 @@ do we have a stack trace?
 
 
 			#region drawArrays
-			Action<ShaderToy.EffectPass, float, float, float> drawArrays = (xpass0, x, y, z) =>
+			Action<ShaderToy.EffectPass, float, float, float> drawArrays = (xpass0, x, y, zz) =>
 			{
 				// using has a spevial meaning here
 				//using (var u = new ChromeWebGLFrameBufferToSquare.Shaders.__GeometryVertexShader())
@@ -589,7 +590,7 @@ do we have a stack trace?
 						// and keep talking to live instances for hot patching if possible.
 						//-7
 
-						z
+						zz
 					}
 					);
 				// if we were to inspect our viewsource would we know if we were to be updated?
@@ -723,7 +724,11 @@ do we have a stack trace?
 			//	newPass(new ChromeShaderToyPlasmaTriangleByElusivePete.Shaders.ProgramFragmentShader()),
 			//};
 
+
+
+			// media rss cooliris
 			var rows = 4;
+			var columns = 6;
 
 			// tested on ipad! 8
 			// make it an async list?
@@ -740,7 +745,7 @@ do we have a stack trace?
 			var loadTotal = TimeSpan.FromMilliseconds(0);
 
 			var frags = Enumerable.ToArray(
-				from key in ChromeShaderToyPrograms.References.programs.Keys.Take(rows * 4)
+				from key in ChromeShaderToyPrograms.References.programs.Keys.Take(rows * columns)
 
 					//await
 				select new { }.WithAsync(
@@ -758,8 +763,8 @@ do we have a stack trace?
 						new IHTMLPre { text }.AttachToDocument();
 
 						Native.document.title = text + " (loading)";
-						Native.document.body.style.backgroundColor = "cyan";
-						await Task.Delay(2000);
+						//Native.document.body.style.backgroundColor = "cyan";
+						//await Task.Delay(2000);
 
 
 						// entering a blocking api...
@@ -790,14 +795,14 @@ do we have a stack trace?
 								// cool off
 								Native.document.body.style.backgroundColor = "cyan";
 								Native.document.title = text + " " + blockingCall.ElapsedMilliseconds + $"ms ({loadCount})";
-								await Native.window.async.onframe;
-								await Task.Delay(2000);
+								//await Native.window.async.onframe;
+								//await Task.Delay(2000);
 
-								// done?
-								Native.document.body.style.backgroundColor = "yellow";
-								Native.document.title = $"({loadCount}) total {loadTotal.TotalMilliseconds}ms";
+								//// done?
+								//Native.document.body.style.backgroundColor = "yellow";
+								//Native.document.title = $"({loadCount}) total {loadTotal.TotalMilliseconds}ms";
 
-								await Task.Delay(2000);
+								//await Task.Delay(2000);
 
 								// moveNext
 								newloadDelay.SetResult(null);
@@ -811,6 +816,27 @@ do we have a stack trace?
 				)
 			);
 
+
+			var z = -15f;
+
+			#region onmousewheel
+			c.onmousewheel +=
+				e =>
+				{
+					//camera.position.z = 1.5;
+
+					// min max. shall adjust speed also!
+					// max 4.0
+					// min 0.6
+					z -= 0.8f * e.WheelDirection;
+
+
+					z = z.Max(-40f).Min(-1f);
+
+					//Native.document.title = new { camera.position.z }.ToString();
+
+				};
+			#endregion
 
 
 			Native.window.onframe += e =>
@@ -839,7 +865,7 @@ do we have a stack trace?
 								paintToTex(f.Result.pass),
 								x,
 								y,
-								-15f
+								z
 							);
 						}
 
