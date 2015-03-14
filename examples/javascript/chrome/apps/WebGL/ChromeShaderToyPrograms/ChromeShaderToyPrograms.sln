@@ -266,6 +266,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyMorphingTeap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToySimpleLoadingScreenByNdel", "..\ChromeShaderToySimpleLoadingScreenByNdel\ChromeShaderToySimpleLoadingScreenByNdel\ChromeShaderToySimpleLoadingScreenByNdel.csproj", "{2503CEE7-2941-4C82-9014-9DD7570C4C23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyHolographicByTdm", "..\ChromeShaderToyHolographicByTdm\ChromeShaderToyHolographicByTdm\ChromeShaderToyHolographicByTdm.csproj", "{B51DBBF6-44B8-4829-8499-ED47E2019F03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -704,6 +706,10 @@ Global
 		{2503CEE7-2941-4C82-9014-9DD7570C4C23}.Debug|x86.Build.0 = Debug|x86
 		{2503CEE7-2941-4C82-9014-9DD7570C4C23}.Release|x86.ActiveCfg = Release|x86
 		{2503CEE7-2941-4C82-9014-9DD7570C4C23}.Release|x86.Build.0 = Release|x86
+		{B51DBBF6-44B8-4829-8499-ED47E2019F03}.Debug|x86.ActiveCfg = Debug|x86
+		{B51DBBF6-44B8-4829-8499-ED47E2019F03}.Debug|x86.Build.0 = Debug|x86
+		{B51DBBF6-44B8-4829-8499-ED47E2019F03}.Release|x86.ActiveCfg = Release|x86
+		{B51DBBF6-44B8-4829-8499-ED47E2019F03}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -836,5 +842,6 @@ Global
 		{044BCA80-B3C7-46AC-912C-EE63D4E8BDA0} = {E52AEDA5-00B9-4FA3-AC2D-6A13A92ED282}
 		{E3D489D6-633E-42D3-AE29-9E08ECCE22AF} = {A51F8D8D-236B-4EC4-9BB3-745BB19F6404}
 		{2503CEE7-2941-4C82-9014-9DD7570C4C23} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
+		{B51DBBF6-44B8-4829-8499-ED47E2019F03} = {31DF767D-F7BB-4F0D-A4AB-B6175FAC23CD}
 	EndGlobalSection
 EndGlobal
