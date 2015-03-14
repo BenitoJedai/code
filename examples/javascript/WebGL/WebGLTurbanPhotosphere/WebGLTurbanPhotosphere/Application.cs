@@ -34,7 +34,9 @@ namespace WebGLTurbanPhotosphere
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            body.style.background = "black";
+			// http://stackoverflow.com/questions/29048161/how-to-export-a-three-js-scene-into-a-360-texture-for-photosphere
+
+			body.style.background = "black";
 
             body.style.margin = "0px";
             body.style.overflow = IStyle.OverflowEnum.hidden;
