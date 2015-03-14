@@ -506,5 +506,13 @@ else if (that.webkitCancelFullScreen) {
                 };
             }
         }
+
+
+		public object getCSSCanvasContext(string c, string id, int w, int h)
+		{
+			// X:\jsc.svn\examples\javascript\chrome\apps\test\TestCSSCanvasContext\TestCSSCanvasContext\Application.cs
+
+			return null;
+		}
     }
 }

@@ -17,16 +17,23 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public abstract class IHTMLMedia : IHTMLElement
     {
-        // X:\jsc.svn\examples\javascript\WebGL\WebGLTiltShift\WebGLTiltShift\Application.cs
+		// https://riaconnection.wordpress.com/2011/11/03/testing-live-video-streaming-to-webgl-and-html5-video-tag/
+
+		// https://github.com/vbence/stream-m
+		// X:\opensource\github\stream-m
+
+		// http://www.w3.org/TR/media-source/
+
+		// X:\jsc.svn\examples\javascript\WebGL\WebGLTiltShift\WebGLTiltShift\Application.cs
 
 
-        // compiler: generate from IDL at http://www.whatwg.org/specs/web-apps/current-work/#htmlmediaelement
-        // see: http://www.w3schools.com/html5/tag_audio.asp
-        // see: http://www.position-absolute.com/articles/introduction-to-the-html5-audio-tag-javascript-manipulation/
-        // see: https://developer.mozilla.org/En/Using_audio_and_video_in_Firefox
-        // see: https://developer.mozilla.org/En/nsIDOMHTMLMediaElement
+		// compiler: generate from IDL at http://www.whatwg.org/specs/web-apps/current-work/#htmlmediaelement
+		// see: http://www.w3schools.com/html5/tag_audio.asp
+		// see: http://www.position-absolute.com/articles/introduction-to-the-html5-audio-tag-javascript-manipulation/
+		// see: https://developer.mozilla.org/En/Using_audio_and_video_in_Firefox
+		// see: https://developer.mozilla.org/En/nsIDOMHTMLMediaElement
 
-        public string src;
+		public string src;
 
         public bool ended;
         public bool paused;
