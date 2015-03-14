@@ -67,7 +67,8 @@ namespace ChromeShaderToyProgramsAsLODTiles
 
 
 			// chrome by default has no scrollbar, bowser does
-			Native.document.documentElement.style.overflow = IStyle.OverflowEnum.hidden;
+			//Native.document.documentElement.style.overflow = IStyle.OverflowEnum.hidden;
+			Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
 			Native.body.style.margin = "0px";
 			//Native.body.style.backgroundColor = "yellow";
 			Native.body.Clear();
@@ -225,6 +226,10 @@ do we have a stack trace?
 
 			var c = gl.canvas.AttachToDocument();
 			c.style.position = IStyle.PositionEnum.@fixed;
+			//c.css.not.hover.style.Opacity = 0.7;
+
+			c.onmouseover += delegate { c.style.Opacity = 1.0; };
+			c.onmouseout += delegate { c.style.Opacity = 0.7; };
 
 			#region onresize
 			new { }.With(
@@ -294,13 +299,17 @@ do we have a stack trace?
 
 
 
+			// will this crash rdp session=?
+			var xWebGLRenderbuffer0size = 1024;
+			//var xWebGLRenderbuffer0size = 512;
 			//var xWebGLRenderbuffer0size = 128;
 			//var xWebGLRenderbuffer0size = 64;
+
 			//var xWebGLRenderbuffer0size = 16;
 			//var xWebGLRenderbuffer0size = 8;
 			//var xWebGLRenderbuffer0size = 4;
 			//var xWebGLRenderbuffer0size = 2;
-			var xWebGLRenderbuffer0size = 1;
+			//var xWebGLRenderbuffer0size = 1;
 
 
 
@@ -577,7 +586,7 @@ do we have a stack trace?
 				//	u.uMVMatrix = mvMatrix;
 				//}
 
-
+				// or are we already using this program? should we skip then?
 				gl.useProgram(shaderProgram);
 
 
@@ -739,8 +748,8 @@ do we have a stack trace?
 
 
 			// media rss cooliris
-			var rows = 4;
-			var columns = 7;
+			var rows = 8;
+			var columns = 12;
 
 			// tested on ipad! 8
 			// make it an async list?
@@ -756,7 +765,38 @@ do we have a stack trace?
 
 			var loadTotal = TimeSpan.FromMilliseconds(0);
 
-			new IHTMLPre { () => new { mMouseOriX, mMouseOriY, mMousePosX, mMousePosY, loadCount, loadTotal } }.AttachToDocument();
+			//var status = new IHTMLPre { () => new { mMouseOriX, mMouseOriY, mMousePosX, mMousePosY, loadCount, loadTotal } }.AttachToDocument();
+			var status = new IHTMLPre { () => new { loadCount, loadTotal } }.AttachToDocument();
+
+			// 2 min load?
+
+			new IStyle(status)
+			{
+				position = IStyle.PositionEnum.@fixed,
+
+				right = "0px",
+				bottom = "0px",
+
+			};
+
+			new IHTMLDiv().AttachToDocument().With(
+				timeestimate =>
+				{
+					var s = new IStyle(timeestimate)
+					{
+						position = IStyle.PositionEnum.@fixed,
+
+						height = "1px",
+						top = "0px",
+						left = "0px",
+					};
+
+					s.width = "0%";
+					s.transition = "width 120ms linear";
+
+					s.width = "100%";
+				}
+			);
 
 
 
@@ -805,6 +845,8 @@ do we have a stack trace?
 						var text = key.SkipUntilIfAny("ChromeShaderToy").TakeUntilIfAny("By");
 
 						var title = new IHTMLPre { i + " " + text + " (loading)" }.AttachToDocument();
+						Native.document.body.ScrollToBottom();
+
 						Native.document.title = text;
 
 						//Native.document.body.style.backgroundColor = "cyan";
@@ -865,6 +907,8 @@ do we have a stack trace?
 								//var y = x % 2;
 								var y = (i % rows - rows / 2 + 0.5f) * 2.0f;
 
+								var paintToTexElapsed = 0L;
+								var paintToTexCount = 0;
 
 								do
 								{
@@ -873,18 +917,65 @@ do we have a stack trace?
 									var cx = x + (mMousePosX - Math.Abs(mMouseOriX)) * 0.01f;
 									var cy = y + -(mMousePosY - Math.Abs(mMouseOriY)) * 0.01f;
 
-									var sx = Math.Sign(Math.Round(cx));
-									var sy = Math.Sign(Math.Round(cy));
+									var sx = 0;
+									var sy = 0;
+									//if (cx < 0) sx = Math.Sign(Math.Ceiling(cx)); else
 
-									title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { sx, sy, cx, cy };
+									sx = Math.Sign(Math.Floor(cx));
+									//if (cy < 0) sy = Math.Sign(Math.Ceiling(cy)); else
+									sy = Math.Sign(Math.Floor(cy));
+
+									if (Math.Floor(cx) == 1) sx = 0;
+									if (Math.Floor(cy) == 1) sy = 0;
+
+									// how far are we from the gaze?
+									var len = (float)Math.Sqrt(cx * cx + cy * cy);
+
+									//var isGazedAt = sx == 0 && sy == 0;
+									var isGazedAt = false;
+
+									if (sx == 0)
+										if (sy == 0)
+											isGazedAt = true;
+
+									// we do want the first frame!
+									if (paintToTexCount == 0)
+										isGazedAt = true;
+
+									if (isGazedAt)
+									{
+										paintToTexCount++;
+
+										var paintToTexElapsedStopwatch = Stopwatch.StartNew();
+										paintToTex(pass);
+										paintToTexElapsed = paintToTexElapsedStopwatch.ElapsedMilliseconds;
+									}
+
+
+
+
+									var drawArraysStopwatch = Stopwatch.StartNew();
 
 									drawArrays(
-										paintToTex(pass),
-										// neg mMouseOriX means mouse released
-										cx,
-										cy,
-										z
-									);
+											pass,
+											// neg mMouseOriX means mouse released
+											//cx + sx * 0.2f,
+											//cy + sy * 0.2f,
+											cx, cy,
+											z - len
+										);
+									drawArraysStopwatch.Stop();
+
+									//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { sx, cx, sy, cy };
+									//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { len } + " tex " + paintToTexElapsed + "ms draw " + drawArraysStopwatch.ElapsedMilliseconds + "ms";
+									if (isGazedAt)
+										title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + " tex " + paintToTexElapsed + "ms draw " + drawArraysStopwatch.ElapsedMilliseconds + "ms";
+
+									if (isGazedAt)
+										title.style.borderLeft = "1em solid yellow";
+									else
+										title.style.borderLeft = "0em solid yellow";
+
 								}
 								while (await Native.window.async.onframe);
 							}
