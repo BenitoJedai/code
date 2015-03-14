@@ -13,6 +13,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "RTCPeerConnection")]
     public class RTCPeerConnection : IEventTarget
     {
+		// http://opentools.homeip.net/webrtc
+		// https://software.intel.com/en-us/blogs/2015/03/05/meshcentral-microsoft-windows-for-iot-new-webrtc-microstack
 		// X:\jsc.svn\examples\java\hybrid\JVMCLRNIC\JVMCLRNIC\Program.cs
 
 		// https://plus.google.com/111685604459987664747/posts/ZcVmFATp1B8
