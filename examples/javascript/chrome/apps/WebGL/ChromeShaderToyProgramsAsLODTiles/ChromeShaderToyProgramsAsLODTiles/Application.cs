@@ -67,8 +67,8 @@ namespace ChromeShaderToyProgramsAsLODTiles
 
 
 			// chrome by default has no scrollbar, bowser does
-			//Native.document.documentElement.style.overflow = IStyle.OverflowEnum.hidden;
-			Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
+			Native.document.documentElement.style.overflow = IStyle.OverflowEnum.hidden;
+			//Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
 			Native.body.style.margin = "0px";
 			//Native.body.style.backgroundColor = "yellow";
 			Native.body.Clear();
@@ -779,22 +779,26 @@ do we have a stack trace?
 
 			};
 
-			new IHTMLDiv().AttachToDocument().With(
-				timeestimate =>
+			var xtimeestimate = new IHTMLDiv().AttachToDocument().With(
+				async timeestimate =>
 				{
 					var s = new IStyle(timeestimate)
 					{
+						backgroundColor = "red",
+
 						position = IStyle.PositionEnum.@fixed,
 
-						height = "1px",
-						top = "0px",
+						height = "2px",
+						//top = "0px",
+						bottom = "0px",
 						left = "0px",
 					};
 
 					s.width = "0%";
-					s.transition = "width 120ms linear";
-
-					s.width = "100%";
+					//await Native.window.async.onframe;
+					//s.transition = "width 120ms linear";
+					//await Native.window.async.onframe;
+					//s.width = "100%";
 				}
 			);
 
@@ -845,9 +849,13 @@ do we have a stack trace?
 						var text = key.SkipUntilIfAny("ChromeShaderToy").TakeUntilIfAny("By");
 
 						var title = new IHTMLPre { i + " " + text + " (loading)" }.AttachToDocument();
-						Native.document.body.ScrollToBottom();
+						//Native.document.body.ScrollToBottom();
+						// tested by?
+						Native.document.documentElement.ScrollToBottom();
+						//Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
 
-						Native.document.title = text;
+						var loadpercentage = (int)((100.0 * (i + 1)) / fragsCount);
+						Native.document.title = text + $" ({loadpercentage}%)";
 
 						//Native.document.body.style.backgroundColor = "cyan";
 						//await Task.Delay(2000);
@@ -885,7 +893,7 @@ do we have a stack trace?
 								Native.document.body.style.borderBottom = "0em solid red";
 
 								title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms ";
-								Native.document.title = title.innerText;
+								Native.document.title = title.innerText + $" ({loadpercentage}%)";
 
 								//await Native.window.async.onframe;
 								//await Task.Delay(2000);
@@ -897,6 +905,9 @@ do we have a stack trace?
 								//await Task.Delay(2000);
 
 								// moveNext
+
+								xtimeestimate.style.width = loadpercentage + "%";
+
 								newloadDelay.SetResult(null);
 
 								var x = (1) + (2.0f) * ((i / rows) - (fragsCount / rows) / 2);
