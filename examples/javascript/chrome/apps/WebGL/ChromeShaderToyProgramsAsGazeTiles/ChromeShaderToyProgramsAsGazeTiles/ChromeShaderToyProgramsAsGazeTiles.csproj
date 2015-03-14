@@ -456,6 +456,18 @@
     <Reference Include="ChromeShaderToySimpleLoadingScreenByNdel.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToySimpleLoadingScreenByNdel\ChromeShaderToySimpleLoadingScreenByNdel\bin\staging.AssetsLibrary\ChromeShaderToySimpleLoadingScreenByNdel.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyFireCounterByFabrice.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyFireCounterByFabrice\ChromeShaderToyFireCounterByFabrice\bin\staging.AssetsLibrary\ChromeShaderToyFireCounterByFabrice.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyHolographicByTdm.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyHolographicByTdm\ChromeShaderToyHolographicByTdm\bin\staging.AssetsLibrary\ChromeShaderToyHolographicByTdm.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyRavingErnieByBero.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRavingErnieByBero\ChromeShaderToyRavingErnieByBero\bin\staging.AssetsLibrary\ChromeShaderToyRavingErnieByBero.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyWireframeByYasuo.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyWireframeByYasuo\ChromeShaderToyWireframeByYasuo\bin\staging.AssetsLibrary\ChromeShaderToyWireframeByYasuo.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete.csproj">

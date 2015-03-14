@@ -70,6 +70,9 @@ namespace ChromeShaderToyProgramsAsGazeTiles
 			Native.document.documentElement.style.overflow = IStyle.OverflowEnum.hidden;
 			//Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
 			Native.body.style.margin = "0px";
+			Native.body.style.fontSize = "x-small";
+			(Native.body.style as dynamic).webkitColumnCount = "4";	/* Chrome, Safari, Opera */
+
 			//Native.body.style.backgroundColor = "yellow";
 			Native.body.Clear();
 
@@ -301,7 +304,8 @@ do we have a stack trace?
 
 			// will this crash rdp session=?
 			//var xWebGLRenderbuffer0size = 1024;
-			var xWebGLRenderbuffer0size = 512;
+			//var xWebGLRenderbuffer0size = 512;
+			var xWebGLRenderbuffer0size = 256;
 			//var xWebGLRenderbuffer0size = 128;
 			//var xWebGLRenderbuffer0size = 64;
 
@@ -431,7 +435,9 @@ do we have a stack trace?
 
 
 					var xres = xWebGLRenderbuffer0size;
-					var yres = xWebGLRenderbuffer0size;
+					//var yres = xWebGLRenderbuffer0size;
+					// widescreen. discard top half?
+					var yres = xWebGLRenderbuffer0size * 0.5f;
 
 					#region Paint_Image
 
@@ -603,7 +609,7 @@ do we have a stack trace?
 				glMatrix.mat4.translate(mvMatrix,
 					new float[] {
 					x
-					+ (float)Math.Cos(sw.ElapsedMilliseconds  *0.001f ) * 0.1f
+					//+ (float)Math.Cos(sw.ElapsedMilliseconds  *0.001f ) * 0.1f
 					, y,
 						//-( rttFramebuffer_height / gl.canvas.width )
 
@@ -635,6 +641,13 @@ do we have a stack trace?
 
 				for (int ihalf = 0; ihalf < 2; ihalf++)
 				{
+					var rsize = 1f;
+
+					// which is top. which is bottom?
+					var rtop = -0f;
+
+					// we dont want to cunt from bottom
+					var rbottom = -1f;
 
 					#region vec2aTextureCoord
 					var vec2aTextureCoord = gl.getAttribLocation(shaderProgram, "aTextureCoord");
@@ -642,10 +655,10 @@ do we have a stack trace?
 					// http://iphonedevelopment.blogspot.com/2009/05/opengl-es-from-ground-up-part-6_25.html
 					var textureCoords = new float[]{
 						// Front face
-						0.0f, 0.0f,
+						0.0f, -0.5f,
 				  0.0f, -1.0f,
 				  -1.0f, -1.0f,
-				  -1.0f, 0.0f,
+				  -1.0f, -0.5f,
 
 
 				};
@@ -653,9 +666,9 @@ do we have a stack trace?
 					if (ihalf % 2 == 0)
 					{
 						textureCoords = new[]{
-	0.0f, 0.0f,
-				  0.0f, 1.0f,
-				  1.0f, 1.0f,
+				  0.0f, 0.0f,
+				  0.0f, 0.5f,
+				  1.0f, 0.5f,
 				  1.0f, 0.0f,
 
 
@@ -676,13 +689,13 @@ do we have a stack trace?
 					var vec3aVertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition");
 					gl.bindBuffer(gl.ARRAY_BUFFER, vec3aVertexPositionBuffer);
 
-					var rsize = 1f;
+
 
 					#region vec3vertices
 					var vec3vertices = new[]{
-						rsize,  rsize,  0.0f,
-						rsize,  -rsize,  0.0f,
-						-rsize, -rsize,  0.0f,
+						rsize,  rtop,  0.0f,
+						rsize,   rbottom,  0.0f,
+						-rsize, rbottom,  0.0f,
 
 						//-4.0f,  -4.0f,  0.0f,
 						//-4,  4f,  0.0f,
@@ -694,9 +707,9 @@ do we have a stack trace?
 						vec3vertices = new[]{
 
 
-							-rsize,  -rsize,  0.0f,
-							-rsize,  rsize,  0.0f,
-							rsize, rsize,  0.0f,
+							-rsize, rbottom,  0.0f,
+							-rsize,  rtop,  0.0f,
+							rsize, rtop,  0.0f,
 						};
 
 					}
@@ -752,8 +765,8 @@ do we have a stack trace?
 			//var rows = 8;
 			//var columns = 12;
 
-			var rows = 8;
-			var columns = 8;
+			var rows = 9;
+			var columns = 12;
 
 			// tested on ipad! 8
 			// make it an async list?
@@ -811,7 +824,11 @@ do we have a stack trace?
 
 
 
+			Native.document.body.onselectstart +=
+				e => e.preventDefault();
 
+			var zmax = -40f;
+			var zmin = -1f;
 			var z = -15f;
 
 			#region onmousewheel
@@ -823,10 +840,10 @@ do we have a stack trace?
 					// min max. shall adjust speed also!
 					// max 4.0
 					// min 0.6
-					z -= 1.6f * e.WheelDirection;
+					z += 1.6f * e.WheelDirection;
 
 
-					z = z.Max(-40f).Min(-1f);
+					z = z.Max(-zmax).Min(zmin);
 
 					//Native.document.title = new { camera.position.z }.ToString();
 
@@ -938,13 +955,14 @@ do we have a stack trace?
 						// continue unloaded?
 						newloadDelay.SetResult(null);
 
-						var x = (1) + (2.0f) * ((i / rows) - (fragsCount / rows) / 2);
+						var x = (1) + (2.2f) * ((i / rows) - (fragsCount / rows) / 2);
 
 						//drawArrays(paintToTex(f), x, -2f, -15f);
 
 
 						//var y = x % 2;
-						var y = (i % rows - rows / 2 + 0.5f) * 2.0f;
+						//var y = (i % rows - rows / 2 + 0.5f) * 2.0f;
+						var y = (i % rows - rows / 2 + 0.5f) * 1.2f;
 
 						var paintToTexElapsed = 0L;
 						var paintToTexCount = 0;
@@ -979,28 +997,34 @@ do we have a stack trace?
 
 							gazeStopwatch.Stop();
 
-							if (sx == 0)
-								if (sy == 0)
-								{
-									isGazedAt = true;
+							//if (sx == 0)
+							//	if (sy == 0)
 
-									gazeStopwatch.Start();
+							if (len < 2)
+							{
+								isGazedAt = true;
 
-									// lets make sure we are loaded..
-									if (pass == null)
-										if (gazeStopwatch.ElapsedMilliseconds > 3000)
-										{
-											// perhaps lets keep a timeout?
+								gazeStopwatch.Start();
 
-											blockingCall = Stopwatch.StartNew();
-											var ctor = ChromeShaderToyPrograms.References.programs[key];
-											var frag = ctor();
-											pass = newPass(frag);
-											blockingCall.Stop();
-											loadTotal += blockingCall.Elapsed;
+								// lets make sure we are loaded..
+								if (pass == null)
+									if (gazeStopwatch.ElapsedMilliseconds > 1000)
+									{
+										// perhaps lets keep a timeout?
+										title.style.backgroundColor = "red";
+										await Native.window.async.onframe;
 
-										}
-								}
+										blockingCall = Stopwatch.StartNew();
+										var ctor = ChromeShaderToyPrograms.References.programs[key];
+										var frag = ctor();
+										pass = newPass(frag);
+										blockingCall.Stop();
+										loadTotal += blockingCall.Elapsed;
+
+										title.style.backgroundColor = "";
+										await Native.window.async.onframe;
+									}
+							}
 
 							//if ()
 
@@ -1036,6 +1060,7 @@ do we have a stack trace?
 
 							var zlen = (float)(z - tlen);
 
+							//if (z == zmin)
 							if (pass == null)
 							{
 								// we are unloaded...
@@ -1063,13 +1088,16 @@ do we have a stack trace?
 
 							//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + " tex " + paintToTexElapsed + "ms draw " + drawArraysStopwatch.ElapsedMilliseconds + "ms";
 							//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { pass, simpleLoader };
-							title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new
-							{
-								gazeStopwatch.ElapsedMilliseconds
-								//z,
-								//zlen,
-								//tlen
-							};
+
+
+							if (pass == null)
+								title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + gazeStopwatch.ElapsedMilliseconds + "ms gaze ";
+							else
+								title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { zlen };
+							//z,
+							//zlen,
+							//tlen
+							;
 
 							// how long have we been gazed at or ungazed at?
 							if (isGazedAt)
