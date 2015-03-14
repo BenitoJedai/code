@@ -25,6 +25,9 @@ namespace ChromeShaderToyPrograms
 			//  /FilterTo:$(SolutionDir)
 			// how will those shaders look like on VR?
 
+			// this is special
+			["ChromeShaderToySimpleLoadingScreenByNdel"] = () => new ChromeShaderToySimpleLoadingScreenByNdel.Shaders.ProgramFragmentShader(),
+
 			["ChromeShaderToyColumns"] = () => new ChromeShaderToyColumns.Shaders.ProgramFragmentShader(),
 
 			// can we have alt-tab pip ?

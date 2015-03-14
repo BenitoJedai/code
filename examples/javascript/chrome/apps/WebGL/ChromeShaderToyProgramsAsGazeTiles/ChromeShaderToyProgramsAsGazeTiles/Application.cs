@@ -13,15 +13,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using ChromeShaderToyProgramsAsLODTiles;
-using ChromeShaderToyProgramsAsLODTiles.Design;
-using ChromeShaderToyProgramsAsLODTiles.HTML.Pages;
+using ChromeShaderToyProgramsAsGazeTiles;
+using ChromeShaderToyProgramsAsGazeTiles.Design;
+using ChromeShaderToyProgramsAsGazeTiles.HTML.Pages;
 using ScriptCoreLib.JavaScript.WebGL;
 using ChromeShaderToyPrograms;
 using System.Diagnostics;
 using ChromeShaderToyColumns.Library;
 
-namespace ChromeShaderToyProgramsAsLODTiles
+namespace ChromeShaderToyProgramsAsGazeTiles
 {
 	using ScriptCoreLib.GLSL;
 	using gl = WebGLRenderingContext;
@@ -782,6 +782,7 @@ do we have a stack trace?
 
 			};
 
+			#region xtimeestimate
 			var xtimeestimate = new IHTMLDiv().AttachToDocument().With(
 				async timeestimate =>
 				{
@@ -804,6 +805,8 @@ do we have a stack trace?
 					//s.width = "100%";
 				}
 			);
+			#endregion
+
 
 
 
@@ -830,6 +833,7 @@ do we have a stack trace?
 			#endregion
 
 
+			var simpleLoader = default(ShaderToy.EffectPass);
 
 			var fragsCount = rows * columns;
 			var frags = Enumerable.ToArray(
@@ -854,11 +858,11 @@ do we have a stack trace?
 						var title = new IHTMLPre { i + " " + text + " (loading)" }.AttachToDocument();
 						//Native.document.body.ScrollToBottom();
 						// tested by?
-						Native.document.documentElement.ScrollToBottom();
+						//Native.document.documentElement.ScrollToBottom();
 						//Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
 
-						var loadpercentage = (int)((100.0 * (i + 1)) / fragsCount);
-						Native.document.title = text + $" ({loadpercentage}%)";
+						//var loadpercentage = (int)((100.0 * (i + 1)) / fragsCount);
+						//Native.document.title = text + $" ({loadpercentage}%)";
 
 						//Native.document.body.style.backgroundColor = "cyan";
 						//await Task.Delay(2000);
@@ -878,14 +882,31 @@ do we have a stack trace?
 							await new TaskCompletionSource<object>().Task;
 
 						var blockingCall = Stopwatch.StartNew();
-						var ctor = ChromeShaderToyPrograms.References.programs[key];
-						var frag = ctor();
-						var pass = newPass(frag);
-						blockingCall.Stop();
-						loadTotal += blockingCall.Elapsed;
+
+						var pass = default(ShaderToy.EffectPass);
+
 						loadCount++;
 
-						var f = new { key, pass };
+						if (simpleLoader == null)
+						{
+
+							var ctor = ChromeShaderToyPrograms.References.programs[key];
+							var frag = ctor();
+							pass = newPass(frag);
+							blockingCall.Stop();
+							loadTotal += blockingCall.Elapsed;
+
+
+							// we now have a loader shader
+							// this can always be activated
+							// and copy of it can be used by any other unloaded tile
+							simpleLoader = pass;
+						}
+						else
+						{
+							// we are skiping the blocking call until being gazed at
+							blockingCall.Stop();
+						}
 
 						// branch off, yet return early
 						new { }.With(
@@ -896,7 +917,7 @@ do we have a stack trace?
 								Native.document.body.style.borderBottom = "0em solid red";
 
 								title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms ";
-								Native.document.title = title.innerText + $" ({loadpercentage}%)";
+								Native.document.title = title.innerText;
 
 								//await Native.window.async.onframe;
 								//await Task.Delay(2000);
@@ -909,8 +930,10 @@ do we have a stack trace?
 
 								// moveNext
 
-								xtimeestimate.style.width = loadpercentage + "%";
+								//xtimeestimate.style.width = loadpercentage + "%";
 
+								// load first only?=
+								// continue unloaded?
 								newloadDelay.SetResult(null);
 
 								var x = (1) + (2.0f) * ((i / rows) - (fragsCount / rows) / 2);
@@ -953,16 +976,23 @@ do we have a stack trace?
 											isGazedAt = true;
 
 									// we do want the first frame!
-									if (paintToTexCount == 0)
+									//if (paintToTexCount == 0)
+									//	isGazedAt = true;
+									if (pass == simpleLoader)
 										isGazedAt = true;
 
 									if (isGazedAt)
 									{
-										paintToTexCount++;
+										if (pass != null)
+										{
+											// if we are actually loaded, we can render..
 
-										var paintToTexElapsedStopwatch = Stopwatch.StartNew();
-										paintToTex(pass);
-										paintToTexElapsed = paintToTexElapsedStopwatch.ElapsedMilliseconds;
+											paintToTexCount++;
+
+											var paintToTexElapsedStopwatch = Stopwatch.StartNew();
+											paintToTex(pass);
+											paintToTexElapsed = paintToTexElapsedStopwatch.ElapsedMilliseconds;
+										}
 									}
 
 
@@ -970,20 +1000,37 @@ do we have a stack trace?
 
 									var drawArraysStopwatch = Stopwatch.StartNew();
 
-									drawArrays(
-											pass,
-											// neg mMouseOriX means mouse released
-											//cx + sx * 0.2f,
-											//cy + sy * 0.2f,
-											cx, cy,
-											z - len
+									// cull things too far away?
+									var zlen = z - len;
+
+									if (pass == null)
+									{
+										// we are unloaded...
+										drawArrays(
+											simpleLoader, cx, cy, zlen
 										);
+									}
+									else
+									{
+										drawArrays(
+												pass,
+												// neg mMouseOriX means mouse released
+												//cx + sx * 0.2f,
+												//cy + sy * 0.2f,
+												cx, cy,
+												zlen
+											);
+									}
+
 									drawArraysStopwatch.Stop();
 
 									//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { sx, cx, sy, cy };
 									//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { len } + " tex " + paintToTexElapsed + "ms draw " + drawArraysStopwatch.ElapsedMilliseconds + "ms";
-									if (isGazedAt)
-										title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + " tex " + paintToTexElapsed + "ms draw " + drawArraysStopwatch.ElapsedMilliseconds + "ms";
+									//if (isGazedAt)
+
+									//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + " tex " + paintToTexElapsed + "ms draw " + drawArraysStopwatch.ElapsedMilliseconds + "ms";
+									//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { pass, simpleLoader };
+									title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { z, zlen };
 
 									if (isGazedAt)
 										title.style.borderLeft = "1em solid yellow";
@@ -996,8 +1043,8 @@ do we have a stack trace?
 						);
 
 
-						// return early
-						return f;
+						// return early, result not used?
+						return new { };
 					}
 				)
 			);
