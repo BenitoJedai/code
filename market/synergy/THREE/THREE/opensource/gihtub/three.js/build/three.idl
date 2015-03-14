@@ -972,6 +972,8 @@ interface THREE.PlaneBufferGeometry : THREE.BufferGeometry
 
 
 
+
+// X:\jsc.svn\examples\javascript\WebGL\WebGLTurbanPhotosphere\WebGLTurbanPhotosphere\Application.cs
 // http://threejs.org/docs/#Reference/Extras.Geometries/SphereGeometry
 // File:src/extras/geometries/SphereGeometry.js
 [Constructor(double radius, int widthSegments, int heightSegments),
