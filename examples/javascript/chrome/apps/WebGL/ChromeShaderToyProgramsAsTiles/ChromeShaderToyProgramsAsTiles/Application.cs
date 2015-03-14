@@ -728,7 +728,7 @@ do we have a stack trace?
 
 			// media rss cooliris
 			var rows = 4;
-			var columns = 6;
+			var columns = 8;
 
 			// tested on ipad! 8
 			// make it an async list?
@@ -760,9 +760,10 @@ do we have a stack trace?
 						//var text = (1 + index) + " of " + References.programs.Count + " " + key.SkipUntilIfAny("ChromeShaderToy").Replace("By", " by ");
 						//var text = key.SkipUntilIfAny("ChromeShaderToy").Replace("By", " by ");
 						var text = key.SkipUntilIfAny("ChromeShaderToy").TakeUntilIfAny("By");
-						new IHTMLPre { text }.AttachToDocument();
 
-						Native.document.title = text + " (loading)";
+						var title = new IHTMLPre { text + " (loading)" }.AttachToDocument();
+						Native.document.title = text;
+
 						//Native.document.body.style.backgroundColor = "cyan";
 						//await Task.Delay(2000);
 
@@ -770,9 +771,9 @@ do we have a stack trace?
 						// entering a blocking api...
 						Native.document.body.style.backgroundColor = "red";
 						// remote desktop takes a frame to show
-						await Task.Delay(300);
+						//await Task.Delay(300);
 						//await Native.window.async.onframe;
-						//await Native.window.async.onframe;
+						await Native.window.async.onframe;
 						// red and title visible?
 
 						// did we loose context?
@@ -794,7 +795,9 @@ do we have a stack trace?
 							{
 								// cool off
 								Native.document.body.style.backgroundColor = "cyan";
-								Native.document.title = text + " " + blockingCall.ElapsedMilliseconds + $"ms ({loadCount})";
+								title.innerText = text + " " + blockingCall.ElapsedMilliseconds + $"ms ({loadCount})";
+								Native.document.title = title.innerText;
+
 								//await Native.window.async.onframe;
 								//await Task.Delay(2000);
 
@@ -828,7 +831,7 @@ do we have a stack trace?
 					// min max. shall adjust speed also!
 					// max 4.0
 					// min 0.6
-					z -= 0.8f * e.WheelDirection;
+					z -= 1.6f * e.WheelDirection;
 
 
 					z = z.Max(-40f).Min(-1f);
@@ -863,8 +866,9 @@ do we have a stack trace?
 
 							drawArrays(
 								paintToTex(f.Result.pass),
-								x,
-								y,
+								// neg mMouseOriX means mouse released
+								x + (mMousePosX - Math.Abs(mMouseOriX)) * 0.01f,
+								y + -(mMousePosY - Math.Abs(mMouseOriY)) * 0.01f,
 								z
 							);
 						}
