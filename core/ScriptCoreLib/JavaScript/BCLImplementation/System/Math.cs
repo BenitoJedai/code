@@ -49,7 +49,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static uint Max(uint e, uint x) { return m.max(e, x); }
 
         // X:\jsc.svn\examples\javascript\io\ZIPDecoderExperiment\ZIPDecoderExperiment\Application.cs
-        // script: error JSC1000: No implementation found for this native method, please implement [static System.Math.Max(System.UInt32, System.UInt32)]
 
         public static double Max(double e, double x) { return m.max(e, x); }
         public static float Max(float e, float x) { return m.max(e, x); }
@@ -61,7 +60,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static double Min(double e, double x) { return m.min(e, x); }
         public static float Min(float e, float x) { return m.min(e, x); }
 
-        public static int Sign(double d)
+		// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyProgramsAsLODTiles\ChromeShaderToyProgramsAsLODTiles\Application.cs
+
+		public static int Sign(float d)
+		{
+			if (d == 0) return 0;
+			if (d < 0) return -1;
+			return 1;
+		}
+
+		public static int Sign(double d)
         {
             if (d == 0) return 0;
             if (d < 0) return -1;

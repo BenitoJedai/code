@@ -47,6 +47,13 @@ namespace ChromeShaderToyProgramsAsLODTiles
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
+			// first lets add special spacing for non selected tile.
+			// then lets slow the frame rate for every other tile to get 60fps!
+			// then add more tiles
+			// then 2x detail
+
+
+			// 
 			// https://forums.creativecow.net/thread/2/982779
 
 			// https://www.shadertoy.com/view/MsfXDS
@@ -255,6 +262,9 @@ do we have a stack trace?
 
 				// using ?
 				ev.Element.requestPointerLock();
+
+				// while mousemove or !mouseup
+
 				await ev.Element.async.onmouseup;
 				Native.document.exitPointerLock();
 
@@ -725,18 +735,12 @@ do we have a stack trace?
 
 			// select the shader, program, texture, framebuffer
 
-			//var frags = new[] {
-			//	newPass(new ChromeShaderToyColumns.Shaders.ProgramFragmentShader()),
-			//	newPass(new ChromeShaderToyTriangleDistanceByIq.Shaders.ProgramFragmentShader()),
-			//	newPass(new ChromeShaderToySphereAndWalls.Shaders.ProgramFragmentShader()),
-			//	newPass(new ChromeShaderToyPlasmaTriangleByElusivePete.Shaders.ProgramFragmentShader()),
-			//};
 
 
 
 			// media rss cooliris
-			var rows = 5;
-			var columns = 6;
+			var rows = 4;
+			var columns = 7;
 
 			// tested on ipad! 8
 			// make it an async list?
@@ -754,8 +758,35 @@ do we have a stack trace?
 
 			new IHTMLPre { () => new { mMouseOriX, mMouseOriY, mMousePosX, mMousePosY, loadCount, loadTotal } }.AttachToDocument();
 
+
+
+
+			var z = -15f;
+
+			#region onmousewheel
+			c.onmousewheel +=
+				e =>
+				{
+					//camera.position.z = 1.5;
+
+					// min max. shall adjust speed also!
+					// max 4.0
+					// min 0.6
+					z -= 1.6f * e.WheelDirection;
+
+
+					z = z.Max(-40f).Min(-1f);
+
+					//Native.document.title = new { camera.position.z }.ToString();
+
+				};
+			#endregion
+
+
+
+			var fragsCount = rows * columns;
 			var frags = Enumerable.ToArray(
-				from key in ChromeShaderToyPrograms.References.programs.Keys.Take(rows * columns)
+				from key in ChromeShaderToyPrograms.References.programs.Keys.Take(fragsCount)
 
 					//await
 				select new { }.WithAsync(
@@ -767,11 +798,13 @@ do we have a stack trace?
 
 						await oldloadDelay.Task;
 
+						var i = loadCount;
+
 						//var text = (1 + index) + " of " + References.programs.Count + " " + key.SkipUntilIfAny("ChromeShaderToy").Replace("By", " by ");
 						//var text = key.SkipUntilIfAny("ChromeShaderToy").Replace("By", " by ");
 						var text = key.SkipUntilIfAny("ChromeShaderToy").TakeUntilIfAny("By");
 
-						var title = new IHTMLPre { text + " (loading)" }.AttachToDocument();
+						var title = new IHTMLPre { i + " " + text + " (loading)" }.AttachToDocument();
 						Native.document.title = text;
 
 						//Native.document.body.style.backgroundColor = "cyan";
@@ -799,6 +832,8 @@ do we have a stack trace?
 						loadTotal += blockingCall.Elapsed;
 						loadCount++;
 
+						var f = new { key, pass };
+
 						// branch off, yet return early
 						new { }.With(
 							async delegate
@@ -807,7 +842,7 @@ do we have a stack trace?
 								//Native.document.body.style.backgroundColor = "cyan";
 								Native.document.body.style.borderBottom = "0em solid red";
 
-								title.innerText = text + " " + blockingCall.ElapsedMilliseconds + $"ms ({loadCount})";
+								title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms ";
 								Native.document.title = title.innerText;
 
 								//await Native.window.async.onframe;
@@ -821,87 +856,49 @@ do we have a stack trace?
 
 								// moveNext
 								newloadDelay.SetResult(null);
+
+								var x = (1) + (2.0f) * ((i / rows) - (fragsCount / rows) / 2);
+
+								//drawArrays(paintToTex(f), x, -2f, -15f);
+
+
+								//var y = x % 2;
+								var y = (i % rows - rows / 2 + 0.5f) * 2.0f;
+
+
+								do
+								{
+									// only draw the ones loaded
+
+									var cx = x + (mMousePosX - Math.Abs(mMouseOriX)) * 0.01f;
+									var cy = y + -(mMousePosY - Math.Abs(mMouseOriY)) * 0.01f;
+
+									var sx = Math.Sign(Math.Round(cx));
+									var sy = Math.Sign(Math.Round(cy));
+
+									title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { sx, sy, cx, cy };
+
+									drawArrays(
+										paintToTex(pass),
+										// neg mMouseOriX means mouse released
+										cx,
+										cy,
+										z
+									);
+								}
+								while (await Native.window.async.onframe);
 							}
 						);
 
 
 						// return early
-						return new { key, pass };
+						return f;
 					}
 				)
 			);
 
 
-			var z = -15f;
 
-			#region onmousewheel
-			c.onmousewheel +=
-				e =>
-				{
-					//camera.position.z = 1.5;
-
-					// min max. shall adjust speed also!
-					// max 4.0
-					// min 0.6
-					z -= 1.6f * e.WheelDirection;
-
-
-					z = z.Max(-40f).Min(-1f);
-
-					//Native.document.title = new { camera.position.z }.ToString();
-
-				};
-			#endregion
-
-
-			Native.window.onframe += e =>
-			{
-				// GL_INVALID_OPERATION : glDrawArrays: Source and destination textures of the draw are the same.
-
-
-				frags.WithEachIndex(
-					(f, i) =>
-					{
-
-						var x = (1) + (2.0f) * ((i / rows) - (frags.Length / rows) / 2);
-
-						//drawArrays(paintToTex(f), x, -2f, -15f);
-
-
-						//var y = x % 2;
-						var y = (i % rows - rows / 2 + 0.5f) * 2.0f;
-
-
-						if (f.IsCompleted)
-						{
-							// only draw the ones loaded
-
-							drawArrays(
-								paintToTex(f.Result.pass),
-								// neg mMouseOriX means mouse released
-								x + (mMousePosX - Math.Abs(mMouseOriX)) * 0.01f,
-								y + -(mMousePosY - Math.Abs(mMouseOriY)) * 0.01f,
-								z
-							);
-						}
-
-					}
-				);
-
-				// when can we do 3d shaders?
-				//drawArrays(paintToTex(frag2), -3, -1f);
-
-				//drawArrays(paintToTex(frag1), -3, 1f);
-
-				//drawArrays(paintToTex(frag3), -1, 1f);
-				//drawArrays(paintToTex(frag0), -1, -1f);
-				//drawArrays(paintToTex(frag1), 1, 1f);
-				//drawArrays(paintToTex(frag3), 1, -1f);
-
-				//drawArrays(paintToTex(frag0), 3, -1f);
-
-				//drawArrays(paintToTex(frag2), 3, 1f);
-			};
 
 
 		}

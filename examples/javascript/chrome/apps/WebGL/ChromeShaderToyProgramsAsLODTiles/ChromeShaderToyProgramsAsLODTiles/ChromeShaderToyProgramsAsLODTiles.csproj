@@ -447,6 +447,9 @@
     <Reference Include="ChromeShaderToyMorphingTeapotByIapafoto.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToyMorphingTeapotByIapafoto\ChromeShaderToyMorphingTeapotByIapafoto\bin\staging.AssetsLibrary\ChromeShaderToyMorphingTeapotByIapafoto.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyProgramsAsLODTiles.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ChromeShaderToyProgramsAsLODTiles.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete.csproj">
