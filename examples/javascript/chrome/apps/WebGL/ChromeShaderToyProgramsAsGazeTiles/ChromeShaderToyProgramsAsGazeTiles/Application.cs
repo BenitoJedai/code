@@ -988,17 +988,18 @@ do we have a stack trace?
 
 									// lets make sure we are loaded..
 									if (pass == null)
-									{
-										// perhaps lets keep a timeout?
+										if (gazeStopwatch.ElapsedMilliseconds > 3000)
+										{
+											// perhaps lets keep a timeout?
 
-										//blockingCall = Stopwatch.StartNew();
-										//var ctor = ChromeShaderToyPrograms.References.programs[key];
-										//var frag = ctor();
-										//pass = newPass(frag);
-										//blockingCall.Stop();
-										//loadTotal += blockingCall.Elapsed;
+											blockingCall = Stopwatch.StartNew();
+											var ctor = ChromeShaderToyPrograms.References.programs[key];
+											var frag = ctor();
+											pass = newPass(frag);
+											blockingCall.Stop();
+											loadTotal += blockingCall.Elapsed;
 
-									}
+										}
 								}
 
 							//if ()
