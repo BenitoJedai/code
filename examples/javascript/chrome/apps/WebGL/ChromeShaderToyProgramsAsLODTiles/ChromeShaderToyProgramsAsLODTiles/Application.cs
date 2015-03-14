@@ -13,15 +13,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using ChromeShaderToyProgramsAsTiles;
-using ChromeShaderToyProgramsAsTiles.Design;
-using ChromeShaderToyProgramsAsTiles.HTML.Pages;
+using ChromeShaderToyProgramsAsLODTiles;
+using ChromeShaderToyProgramsAsLODTiles.Design;
+using ChromeShaderToyProgramsAsLODTiles.HTML.Pages;
 using ScriptCoreLib.JavaScript.WebGL;
 using ChromeShaderToyPrograms;
 using System.Diagnostics;
 using ChromeShaderToyColumns.Library;
 
-namespace ChromeShaderToyProgramsAsTiles
+namespace ChromeShaderToyProgramsAsLODTiles
 {
 	using ScriptCoreLib.GLSL;
 	using gl = WebGLRenderingContext;
@@ -437,6 +437,8 @@ do we have a stack trace?
 					//var l7 = gl.getUniformLocation(this.mProgram, "iDate"); if (l7 != null) gl.uniform4fv(l7, dates);
 					//var l9 = gl.getUniformLocation(this.mProgram, "iSampleRate"); if (l9 != null) gl.uniform1f(l9, this.mSampleRate);
 
+					// i wonder, does shader toy allow sending render targets as a feedback loop?
+					// could we compute the average 1px value over 1000 frames in a shader?
 					var ich0 = gl.getUniformLocation(mProgram, "iChannel0"); if (ich0 != null) gl.uniform1i(ich0, 0);
 					var ich1 = gl.getUniformLocation(mProgram, "iChannel1"); if (ich1 != null) gl.uniform1i(ich1, 1);
 					var ich2 = gl.getUniformLocation(mProgram, "iChannel2"); if (ich2 != null) gl.uniform1i(ich2, 2);
