@@ -593,8 +593,9 @@ do we have a stack trace?
 				var mvMatrix = glMatrix.mat4.create();
 				var pMatrix = glMatrix.mat4.create();
 
-
-				glMatrix.mat4.perspective(45f, (float)gl.canvas.aspect, 0.1f, 120.0f, pMatrix);
+				// https://developer.tizen.org/dev-guide/2.2.1/org.tizen.web.appprogramming/html/tutorials/suppl_tutorial/creating_3d_perspective.htm
+				//glMatrix.mat4.perspective(45f, (float)gl.canvas.aspect, 0.1f, 120.0f, pMatrix);
+				glMatrix.mat4.perspective(90f, (float)gl.canvas.aspect, 0.1f, 120.0f, pMatrix);
 				gl.uniformMatrix4fv(gl.getUniformLocation(shaderProgram, "uPMatrix"), false, pMatrix);
 
 
@@ -751,8 +752,8 @@ do we have a stack trace?
 			//var rows = 8;
 			//var columns = 12;
 
-			var rows = 3;
-			var columns = 7;
+			var rows = 8;
+			var columns = 8;
 
 			// tested on ipad! 8
 			// make it an async list?
@@ -1001,7 +1002,11 @@ do we have a stack trace?
 									var drawArraysStopwatch = Stopwatch.StartNew();
 
 									// cull things too far away?
-									var zlen = z - len;
+									//var zlen = (float)(z - Math.Sin(len));
+
+									var tlen = Math.Pow(len / 4.0, 2);
+
+									var zlen = (float)(z - tlen);
 
 									if (pass == null)
 									{
@@ -1030,8 +1035,14 @@ do we have a stack trace?
 
 									//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + " tex " + paintToTexElapsed + "ms draw " + drawArraysStopwatch.ElapsedMilliseconds + "ms";
 									//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { pass, simpleLoader };
-									title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { z, zlen };
+									title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new
+									{
+										z,
+										zlen,
+										tlen
+									};
 
+									// how long have we been gazed at or ungazed at?
 									if (isGazedAt)
 										title.style.borderLeft = "1em solid yellow";
 									else
