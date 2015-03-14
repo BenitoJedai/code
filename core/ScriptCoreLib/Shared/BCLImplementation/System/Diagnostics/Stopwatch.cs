@@ -7,88 +7,106 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
 {
-    // http://referencesource.microsoft.com/#System/services/monitoring/system/diagnosticts/Stopwatch.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Diagnostics/Stopwatch.cs
+	// http://referencesource.microsoft.com/#System/services/monitoring/system/diagnosticts/Stopwatch.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/System/System.Diagnostics/Stopwatch.cs
 
-    [Script(Implements = typeof(global::System.Diagnostics.Stopwatch))]
-    public class __Stopwatch
-    {
-        public bool IsRunning
-        {
-            get;
-            set;
-        }
+	[Script(Implements = typeof(global::System.Diagnostics.Stopwatch))]
+	public class __Stopwatch
+	{
+		// X:\jsc.svn\examples\javascript\chrome\apps\test\TestStopwatch\TestStopwatch\Application.cs
 
-
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131224
-        // startTimeStamp
-        public DateTime InternalStart = DateTime.Now;
-        public DateTime InternalStop = DateTime.Now;
-
-        public void Start()
-        {
-            IsRunning = true;
-            InternalStart = DateTime.Now;
-        }
-
-        public void Stop()
-        {
-            IsRunning = false;
-            InternalStop = DateTime.Now;
-        }
+		public bool IsRunning
+		{
+			get;
+			set;
+		}
 
 
-        public void Restart()
-        {
-            Stop();
-            Start();
-        }
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131224
+		// startTimeStamp
+		public DateTime InternalStart;
+		//public DateTime InternalStop;
+
+		public __Stopwatch()
+		{
+			InternalStart = DateTime.Now;
+			//InternalStop = InternalStart;
+		}
+
+		long InternalOffsetMilliseconds;
+
+		public void Start()
+		{
+			IsRunning = true;
+			InternalStart = DateTime.Now;
+			//InternalStop = InternalStart;
+		}
+
+		public void Stop()
+		{
+			InternalOffsetMilliseconds = this.ElapsedMilliseconds;
+
+			IsRunning = false;
+			//InternalStop = DateTime.Now;
+			//InternalStart = InternalStop;
+		}
 
 
-        public TimeSpan Elapsed
-        {
-            get
-            {
-                if (IsRunning)
-                    InternalStop = DateTime.Now;
+		public void Restart()
+		{
+			Stop();
+			Start();
+		}
 
-                return InternalStop - InternalStart;
-            }
-        }
 
-        public long ElapsedMilliseconds
-        {
-            get
-            {
+		public TimeSpan Elapsed
+		{
+			get
+			{
+				if (IsRunning)
+				{
+					var InternalStop = DateTime.Now;
 
-                return Convert.ToInt64(Elapsed.TotalMilliseconds);
-            }
-        }
+					return ((InternalStop - InternalStart) + TimeSpan.FromMilliseconds(InternalOffsetMilliseconds));
+				}
 
-        public const long TicksPerMillisecond = 10000;
+				return TimeSpan.FromMilliseconds(InternalOffsetMilliseconds);
+			}
+		}
 
-        public long ElapsedTicks
-        {
-            get
-            {
-                // X:\jsc.svn\examples\javascript\appengine\AppEngineWhereOperator\AppEngineWhereOperator\ApplicationWebService.cs
+		public long ElapsedMilliseconds
+		{
+			get
+			{
 
-                return ElapsedMilliseconds * TicksPerMillisecond;
-            }
-        }
+				return Convert.ToInt64(Elapsed.TotalMilliseconds);
+			}
+		}
 
-        public override string ToString()
-        {
-            return this.Elapsed.ToString();
-        }
+		public const long TicksPerMillisecond = 10000;
 
-        public static Stopwatch StartNew()
-        {
-            var x = new Stopwatch();
+		public long ElapsedTicks
+		{
+			get
+			{
+				// X:\jsc.svn\examples\javascript\appengine\AppEngineWhereOperator\AppEngineWhereOperator\ApplicationWebService.cs
 
-            x.Start();
+				return ElapsedMilliseconds * TicksPerMillisecond;
+			}
+		}
 
-            return x;
-        }
-    }
+		public override string ToString()
+		{
+			return this.Elapsed.ToString();
+		}
+
+		public static Stopwatch StartNew()
+		{
+			var x = new Stopwatch();
+
+			x.Start();
+
+			return x;
+		}
+	}
 }

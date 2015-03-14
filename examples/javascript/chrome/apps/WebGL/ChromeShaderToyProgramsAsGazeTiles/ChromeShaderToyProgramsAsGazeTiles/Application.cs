@@ -882,12 +882,12 @@ do we have a stack trace?
 						if (gl == null)
 							await new TaskCompletionSource<object>().Task;
 
-						var blockingCall = Stopwatch.StartNew();
 
 						var pass = default(ShaderToy.EffectPass);
 
 						loadCount++;
 
+						var blockingCall = Stopwatch.StartNew();
 						if (simpleLoader == null)
 						{
 
@@ -910,148 +910,176 @@ do we have a stack trace?
 						}
 
 						// branch off, yet return early
-						new { }.With(
-							async delegate
-							{
-								// cool off
-								//Native.document.body.style.backgroundColor = "cyan";
-								Native.document.body.style.borderBottom = "0em solid red";
+						//new { }.With(
+						//	async delegate
+						//	{
 
-								title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms ";
-								Native.document.title = title.innerText;
+						// cool off
+						//Native.document.body.style.backgroundColor = "cyan";
+						Native.document.body.style.borderBottom = "0em solid red";
 
-								//await Native.window.async.onframe;
-								//await Task.Delay(2000);
+						title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms ";
+						Native.document.title = title.innerText;
 
-								//// done?
-								//Native.document.body.style.backgroundColor = "yellow";
-								//Native.document.title = $"({loadCount}) total {loadTotal.TotalMilliseconds}ms";
+						//await Native.window.async.onframe;
+						//await Task.Delay(2000);
 
-								//await Task.Delay(2000);
+						//// done?
+						//Native.document.body.style.backgroundColor = "yellow";
+						//Native.document.title = $"({loadCount}) total {loadTotal.TotalMilliseconds}ms";
 
-								// moveNext
+						//await Task.Delay(2000);
 
-								//xtimeestimate.style.width = loadpercentage + "%";
+						// moveNext
 
-								// load first only?=
-								// continue unloaded?
-								newloadDelay.SetResult(null);
+						//xtimeestimate.style.width = loadpercentage + "%";
 
-								var x = (1) + (2.0f) * ((i / rows) - (fragsCount / rows) / 2);
+						// load first only?=
+						// continue unloaded?
+						newloadDelay.SetResult(null);
 
-								//drawArrays(paintToTex(f), x, -2f, -15f);
+						var x = (1) + (2.0f) * ((i / rows) - (fragsCount / rows) / 2);
+
+						//drawArrays(paintToTex(f), x, -2f, -15f);
 
 
-								//var y = x % 2;
-								var y = (i % rows - rows / 2 + 0.5f) * 2.0f;
+						//var y = x % 2;
+						var y = (i % rows - rows / 2 + 0.5f) * 2.0f;
 
-								var paintToTexElapsed = 0L;
-								var paintToTexCount = 0;
+						var paintToTexElapsed = 0L;
+						var paintToTexCount = 0;
 
-								do
+						var gazeStopwatch = Stopwatch.StartNew();
+
+						gazeStopwatch.Stop();
+
+						do
+						{
+							// only draw the ones loaded
+
+							var cx = x + (mMousePosX - Math.Abs(mMouseOriX)) * 0.01f - 1.0f;
+							var cy = y + -(mMousePosY - Math.Abs(mMouseOriY)) * 0.01f - 1.0f;
+
+							var sx = 0;
+							var sy = 0;
+							//if (cx < 0) sx = Math.Sign(Math.Ceiling(cx)); else
+
+							sx = Math.Sign(Math.Floor(cx));
+							//if (cy < 0) sy = Math.Sign(Math.Ceiling(cy)); else
+							sy = Math.Sign(Math.Floor(cy));
+
+							if (Math.Floor(cx) == 1) sx = 0;
+							if (Math.Floor(cy) == 1) sy = 0;
+
+							// how far are we from the gaze?
+							var len = (float)Math.Sqrt(cx * cx + cy * cy);
+
+							//var isGazedAt = sx == 0 && sy == 0;
+							var isGazedAt = false;
+
+							gazeStopwatch.Stop();
+
+							if (sx == 0)
+								if (sy == 0)
 								{
-									// only draw the ones loaded
+									isGazedAt = true;
 
-									var cx = x + (mMousePosX - Math.Abs(mMouseOriX)) * 0.01f - 1.0f;
-									var cy = y + -(mMousePosY - Math.Abs(mMouseOriY)) * 0.01f - 1.0f;
+									gazeStopwatch.Start();
 
-									var sx = 0;
-									var sy = 0;
-									//if (cx < 0) sx = Math.Sign(Math.Ceiling(cx)); else
-
-									sx = Math.Sign(Math.Floor(cx));
-									//if (cy < 0) sy = Math.Sign(Math.Ceiling(cy)); else
-									sy = Math.Sign(Math.Floor(cy));
-
-									if (Math.Floor(cx) == 1) sx = 0;
-									if (Math.Floor(cy) == 1) sy = 0;
-
-									// how far are we from the gaze?
-									var len = (float)Math.Sqrt(cx * cx + cy * cy);
-
-									//var isGazedAt = sx == 0 && sy == 0;
-									var isGazedAt = false;
-
-									if (sx == 0)
-										if (sy == 0)
-											isGazedAt = true;
-
-									// we do want the first frame!
-									//if (paintToTexCount == 0)
-									//	isGazedAt = true;
-									if (pass == simpleLoader)
-										isGazedAt = true;
-
-									if (isGazedAt)
-									{
-										if (pass != null)
-										{
-											// if we are actually loaded, we can render..
-
-											paintToTexCount++;
-
-											var paintToTexElapsedStopwatch = Stopwatch.StartNew();
-											paintToTex(pass);
-											paintToTexElapsed = paintToTexElapsedStopwatch.ElapsedMilliseconds;
-										}
-									}
-
-
-
-
-									var drawArraysStopwatch = Stopwatch.StartNew();
-
-									// cull things too far away?
-									//var zlen = (float)(z - Math.Sin(len));
-
-									var tlen = Math.Pow(len / 4.0, 2);
-
-									var zlen = (float)(z - tlen);
-
+									// lets make sure we are loaded..
 									if (pass == null)
 									{
-										// we are unloaded...
-										drawArrays(
-											simpleLoader, cx, cy, zlen
-										);
+										// perhaps lets keep a timeout?
+
+										//blockingCall = Stopwatch.StartNew();
+										//var ctor = ChromeShaderToyPrograms.References.programs[key];
+										//var frag = ctor();
+										//pass = newPass(frag);
+										//blockingCall.Stop();
+										//loadTotal += blockingCall.Elapsed;
+
 									}
-									else
-									{
-										drawArrays(
-												pass,
-												// neg mMouseOriX means mouse released
-												//cx + sx * 0.2f,
-												//cy + sy * 0.2f,
-												cx, cy,
-												zlen
-											);
-									}
-
-									drawArraysStopwatch.Stop();
-
-									//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { sx, cx, sy, cy };
-									//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { len } + " tex " + paintToTexElapsed + "ms draw " + drawArraysStopwatch.ElapsedMilliseconds + "ms";
-									//if (isGazedAt)
-
-									//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + " tex " + paintToTexElapsed + "ms draw " + drawArraysStopwatch.ElapsedMilliseconds + "ms";
-									//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { pass, simpleLoader };
-									title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new
-									{
-										z,
-										zlen,
-										tlen
-									};
-
-									// how long have we been gazed at or ungazed at?
-									if (isGazedAt)
-										title.style.borderLeft = "1em solid yellow";
-									else
-										title.style.borderLeft = "0em solid yellow";
-
 								}
-								while (await Native.window.async.onframe);
+
+							//if ()
+
+							// we do want the first frame!
+							//if (paintToTexCount == 0)
+							//	isGazedAt = true;
+							if (pass == simpleLoader)
+								isGazedAt = true;
+
+							if (isGazedAt)
+							{
+								if (pass != null)
+								{
+									// if we are actually loaded, we can render..
+
+									paintToTexCount++;
+
+									var paintToTexElapsedStopwatch = Stopwatch.StartNew();
+									paintToTex(pass);
+									paintToTexElapsed = paintToTexElapsedStopwatch.ElapsedMilliseconds;
+								}
 							}
-						);
+
+
+
+
+							var drawArraysStopwatch = Stopwatch.StartNew();
+
+							// cull things too far away?
+							//var zlen = (float)(z - Math.Sin(len));
+
+							var tlen = Math.Pow(len / 4.0, 2);
+
+							var zlen = (float)(z - tlen);
+
+							if (pass == null)
+							{
+								// we are unloaded...
+								drawArrays(
+									simpleLoader, cx, cy, zlen
+								);
+							}
+							else
+							{
+								drawArrays(
+										pass,
+										// neg mMouseOriX means mouse released
+										//cx + sx * 0.2f,
+										//cy + sy * 0.2f,
+										cx, cy,
+										zlen
+									);
+							}
+
+							drawArraysStopwatch.Stop();
+
+							//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { sx, cx, sy, cy };
+							//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { len } + " tex " + paintToTexElapsed + "ms draw " + drawArraysStopwatch.ElapsedMilliseconds + "ms";
+							//if (isGazedAt)
+
+							//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + " tex " + paintToTexElapsed + "ms draw " + drawArraysStopwatch.ElapsedMilliseconds + "ms";
+							//title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { pass, simpleLoader };
+							title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new
+							{
+								gazeStopwatch.ElapsedMilliseconds
+								//z,
+								//zlen,
+								//tlen
+							};
+
+							// how long have we been gazed at or ungazed at?
+							if (isGazedAt)
+								title.style.borderLeft = "1em solid yellow";
+							else
+								title.style.borderLeft = "0em solid yellow";
+
+						}
+						while (await Native.window.async.onframe);
+						//	}
+						//);
 
 
 						// return early, result not used?
