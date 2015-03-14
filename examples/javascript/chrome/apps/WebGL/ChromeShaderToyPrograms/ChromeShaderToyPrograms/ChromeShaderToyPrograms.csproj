@@ -447,6 +447,18 @@
     <Reference Include="ChromeShaderToySimpleLoadingScreenByNdel.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToySimpleLoadingScreenByNdel\ChromeShaderToySimpleLoadingScreenByNdel\bin\staging.AssetsLibrary\ChromeShaderToySimpleLoadingScreenByNdel.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyFireCounterByFabrice.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyFireCounterByFabrice\ChromeShaderToyFireCounterByFabrice\bin\staging.AssetsLibrary\ChromeShaderToyFireCounterByFabrice.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyHolographicByTdm.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyHolographicByTdm\ChromeShaderToyHolographicByTdm\bin\staging.AssetsLibrary\ChromeShaderToyHolographicByTdm.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyRavingErnieByBero.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRavingErnieByBero\ChromeShaderToyRavingErnieByBero\bin\staging.AssetsLibrary\ChromeShaderToyRavingErnieByBero.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyWireframeByYasuo.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyWireframeByYasuo\ChromeShaderToyWireframeByYasuo\bin\staging.AssetsLibrary\ChromeShaderToyWireframeByYasuo.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -591,6 +603,10 @@
       <Project>{865c0952-047d-4193-8664-3422e30fd331}</Project>
       <Name>ChromeShaderToyFireballByGreen</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyFireCounterByFabrice\ChromeShaderToyFireCounterByFabrice\ChromeShaderToyFireCounterByFabrice.csproj">
+      <Project>{28668f5f-68af-4bc7-af2d-076695beeab9}</Project>
+      <Name>ChromeShaderToyFireCounterByFabrice</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyFlowingLavaByFizzer\ChromeShaderToyFlowingLavaByFizzer\ChromeShaderToyFlowingLavaByFizzer.csproj">
       <Project>{03a867c7-264e-430e-b2c8-9f7fcefa0667}</Project>
       <Name>ChromeShaderToyFlowingLavaByFizzer</Name>
@@ -626,6 +642,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyHetchyScketchyByXbe\ChromeShaderToyHetchyScketchyByXbe\ChromeShaderToyHetchyScketchyByXbe.csproj">
       <Project>{7bab9333-88dd-4994-bb02-12e9c389f89c}</Project>
       <Name>ChromeShaderToyHetchyScketchyByXbe</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyHolographicByTdm\ChromeShaderToyHolographicByTdm\ChromeShaderToyHolographicByTdm.csproj">
+      <Project>{b51dbbf6-44b8-4829-8499-ed47e2019f03}</Project>
+      <Name>ChromeShaderToyHolographicByTdm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyInfiniteRepetitionBySsdsa\ChromeShaderToyInfiniteRepetitionBySsdsa\ChromeShaderToyInfiniteRepetitionBySsdsa.csproj">
       <Project>{7e2e2eb0-d1b1-4006-a7d5-f99ad2f1e03f}</Project>
@@ -755,6 +775,10 @@
       <Project>{66f4b51c-44aa-4ce1-9401-3b88d776b4d9}</Project>
       <Name>ChromeShaderToyRacingGameByEiffie</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyRavingErnieByBero\ChromeShaderToyRavingErnieByBero\ChromeShaderToyRavingErnieByBero.csproj">
+      <Project>{98590d76-8906-4196-9c60-28c2a32c76b7}</Project>
+      <Name>ChromeShaderToyRavingErnieByBero</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyRayFogByDemofox\ChromeShaderToyRayFogByDemofox\ChromeShaderToyRayFogByDemofox.csproj">
       <Project>{b61b3103-58d8-4a38-be5a-e8ea7e280158}</Project>
       <Name>ChromeShaderToyRayFogByDemofox</Name>
@@ -882,6 +906,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyWetStoneByTDM\ChromeShaderToyWetStoneByTDM\ChromeShaderToyWetStoneByTDM.csproj">
       <Project>{b40b0232-287b-4489-b023-d8f2a496a691}</Project>
       <Name>ChromeShaderToyWetStoneByTDM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyWireframeByYasuo\ChromeShaderToyWireframeByYasuo\ChromeShaderToyWireframeByYasuo.csproj">
+      <Project>{6902cb16-5145-4cef-9587-70103b3bd657}</Project>
+      <Name>ChromeShaderToyWireframeByYasuo</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyWolfensteinByReinder\ChromeShaderToyWolfensteinByReinder\ChromeShaderToyWolfensteinByReinder.csproj">
       <Project>{e7c90b88-3c6e-479e-a32c-49fab8db76d2}</Project>
