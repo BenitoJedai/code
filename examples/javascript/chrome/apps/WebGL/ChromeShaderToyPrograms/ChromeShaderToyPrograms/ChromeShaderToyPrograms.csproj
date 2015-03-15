@@ -489,6 +489,18 @@
     <Reference Include="ChromeShaderToySnowByUggway.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToySnowByUggway\ChromeShaderToySnowByUggway\bin\staging.AssetsLibrary\ChromeShaderToySnowByUggway.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyPhysicsNoCollisionsByIq.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyPhysicsNoCollisionsByIq\ChromeShaderToyPhysicsNoCollisionsByIq\bin\staging.AssetsLibrary\ChromeShaderToyPhysicsNoCollisionsByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyDistanceFieldBlurByTekF.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyDistanceFieldBlurByTekF\ChromeShaderToyDistanceFieldBlurByTekF\bin\staging.AssetsLibrary\ChromeShaderToyDistanceFieldBlurByTekF.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyRubikSolverByKali.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRubikSolverByKali\ChromeShaderToyRubikSolverByKali\bin\staging.AssetsLibrary\ChromeShaderToyRubikSolverByKali.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyFastBallsByIq.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyFastBallsByIq\ChromeShaderToyFastBallsByIq\bin\staging.AssetsLibrary\ChromeShaderToyFastBallsByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -601,6 +613,10 @@
       <Project>{6121df06-a881-47f3-9bb2-97c38078a6d8}</Project>
       <Name>ChromeShaderToyDiningRoomBySquid</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyDistanceFieldBlurByTekF\ChromeShaderToyDistanceFieldBlurByTekF\ChromeShaderToyDistanceFieldBlurByTekF.csproj">
+      <Project>{bc9b4e1e-c410-48d5-a088-882af59ce636}</Project>
+      <Name>ChromeShaderToyDistanceFieldBlurByTekF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyDoomE1M1ByPMalin\ChromeShaderToyDoomE1M1ByPMalin\ChromeShaderToyDoomE1M1ByPMalin.csproj">
       <Project>{0470fa25-e610-4ce9-b572-5723ad57fb57}</Project>
       <Name>ChromeShaderToyDoomE1M1ByPMalin</Name>
@@ -628,6 +644,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyExplosionByGreen\ChromeShaderToyExplosionByGreen\ChromeShaderToyExplosionByGreen.csproj">
       <Project>{f4b9f5de-394c-4e09-a1d2-da193230b9e3}</Project>
       <Name>ChromeShaderToyExplosionByGreen</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyFastBallsByIq\ChromeShaderToyFastBallsByIq\ChromeShaderToyFastBallsByIq.csproj">
+      <Project>{ba74a4c6-91dc-4a22-976b-1fdf2a0754bc}</Project>
+      <Name>ChromeShaderToyFastBallsByIq</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyFastEdgeDetectionByNimitz\ChromeShaderToyFastEdgeDetectionByNimitz\ChromeShaderToyFastEdgeDetectionByNimitz.csproj">
       <Project>{8e5c4276-6bf2-4b97-b6f5-eb32a57cc88d}</Project>
@@ -884,6 +904,10 @@
     <ProjectReference Include="..\..\ChromeShaderToyRotatingByGa2arch\ChromeShaderToyRotatingByGa2arch\ChromeShaderToyRotatingByGa2arch.csproj">
       <Project>{ab45dba4-eb7a-453e-9d41-c9b9fe3c8c72}</Project>
       <Name>ChromeShaderToyRotatingByGa2arch</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyRubikSolverByKali\ChromeShaderToyRubikSolverByKali\ChromeShaderToyRubikSolverByKali.csproj">
+      <Project>{4b0ef444-83a7-49d9-a3e6-1492a1fef769}</Project>
+      <Name>ChromeShaderToyRubikSolverByKali</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToySadRobotByGreen\ChromeShaderToySadRobotByGreen\ChromeShaderToySadRobotByGreen.csproj">
       <Project>{3dfddb08-d898-4fb0-a3cf-e49aca548ee6}</Project>
