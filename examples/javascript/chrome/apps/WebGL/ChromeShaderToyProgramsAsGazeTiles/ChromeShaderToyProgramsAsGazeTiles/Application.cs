@@ -782,8 +782,10 @@ do we have a stack trace?
 
 			var loadTotal = TimeSpan.FromMilliseconds(0);
 
+			var currentFragKey = "";
+
 			//var status = new IHTMLPre { () => new { mMouseOriX, mMouseOriY, mMousePosX, mMousePosY, loadCount, loadTotal } }.AttachToDocument();
-			var status = new IHTMLPre { () => new { loadCount, loadTotal } }.AttachToDocument();
+			var status = new IHTMLPre { () => new { currentFragKey, loadCount, loadTotal } }.AttachToDocument();
 
 			// 2 min load?
 
@@ -997,10 +999,14 @@ do we have a stack trace?
 
 							gazeStopwatch.Stop();
 
-							//if (sx == 0)
-							//	if (sy == 0)
+							// the specific frag we are looking at.
+							if (sx == 0)
+								if (sy == 0)
+									currentFragKey = text;
 
-							if (len < 2)
+
+							// the nearby elements we are looking at..
+							if (len < 1.2)
 							{
 								isGazedAt = true;
 
