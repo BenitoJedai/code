@@ -766,7 +766,7 @@ do we have a stack trace?
 			//var columns = 12;
 
 			var rows = 9;
-			var columns = 12;
+			var columns = 14;
 
 			// tested on ipad! 8
 			// make it an async list?

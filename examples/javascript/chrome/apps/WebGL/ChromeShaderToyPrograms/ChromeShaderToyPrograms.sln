@@ -306,6 +306,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyFastBallsByI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyRaymarchingExampleByJack", "..\ChromeShaderToyRaymarchingExampleByJack\ChromeShaderToyRaymarchingExampleByJack\ChromeShaderToyRaymarchingExampleByJack.csproj", "{92A62B7B-C5B4-441B-A4C3-CD1A0533CDE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtticByRobert", "..\synergy\AtticByRobert\AtticByRobert\AtticByRobert.csproj", "{64CE8DB3-1186-4CFC-A1F3-3AB5D154D401}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadToHellByRez", "..\synergy\RoadToHellByRez\RoadToHellByRez\RoadToHellByRez.csproj", "{82BED3F4-C6FF-4D2E-A6EE-941B78122B2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRTestSceneByRaven", "..\synergy\VRTestSceneByRaven\VRTestSceneByRaven\VRTestSceneByRaven.csproj", "{EE715CE5-6ED9-433D-A0EE-0C45C5125D3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -820,6 +826,18 @@ Global
 		{92A62B7B-C5B4-441B-A4C3-CD1A0533CDE9}.Debug|x86.Build.0 = Debug|x86
 		{92A62B7B-C5B4-441B-A4C3-CD1A0533CDE9}.Release|x86.ActiveCfg = Release|x86
 		{92A62B7B-C5B4-441B-A4C3-CD1A0533CDE9}.Release|x86.Build.0 = Release|x86
+		{64CE8DB3-1186-4CFC-A1F3-3AB5D154D401}.Debug|x86.ActiveCfg = Debug|x86
+		{64CE8DB3-1186-4CFC-A1F3-3AB5D154D401}.Debug|x86.Build.0 = Debug|x86
+		{64CE8DB3-1186-4CFC-A1F3-3AB5D154D401}.Release|x86.ActiveCfg = Release|x86
+		{64CE8DB3-1186-4CFC-A1F3-3AB5D154D401}.Release|x86.Build.0 = Release|x86
+		{82BED3F4-C6FF-4D2E-A6EE-941B78122B2A}.Debug|x86.ActiveCfg = Debug|x86
+		{82BED3F4-C6FF-4D2E-A6EE-941B78122B2A}.Debug|x86.Build.0 = Debug|x86
+		{82BED3F4-C6FF-4D2E-A6EE-941B78122B2A}.Release|x86.ActiveCfg = Release|x86
+		{82BED3F4-C6FF-4D2E-A6EE-941B78122B2A}.Release|x86.Build.0 = Release|x86
+		{EE715CE5-6ED9-433D-A0EE-0C45C5125D3D}.Debug|x86.ActiveCfg = Debug|x86
+		{EE715CE5-6ED9-433D-A0EE-0C45C5125D3D}.Debug|x86.Build.0 = Debug|x86
+		{EE715CE5-6ED9-433D-A0EE-0C45C5125D3D}.Release|x86.ActiveCfg = Release|x86
+		{EE715CE5-6ED9-433D-A0EE-0C45C5125D3D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -972,5 +990,8 @@ Global
 		{BC9B4E1E-C410-48D5-A088-882AF59CE636} = {40B1BBCF-3247-4F8C-81B7-27925E191EBA}
 		{BA74A4C6-91DC-4A22-976B-1FDF2A0754BC} = {5ADD4CE9-E26C-47C7-BFAA-6F63ED11CF48}
 		{92A62B7B-C5B4-441B-A4C3-CD1A0533CDE9} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
+		{64CE8DB3-1186-4CFC-A1F3-3AB5D154D401} = {E0547BB3-87F8-4BBC-84A9-9D74966B57AE}
+		{82BED3F4-C6FF-4D2E-A6EE-941B78122B2A} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
+		{EE715CE5-6ED9-433D-A0EE-0C45C5125D3D} = {B91E1304-B675-4951-B645-6052898BD729}
 	EndGlobalSection
 EndGlobal
