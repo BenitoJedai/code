@@ -501,6 +501,18 @@
     <Reference Include="ChromeShaderToyFastBallsByIq.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToyFastBallsByIq\ChromeShaderToyFastBallsByIq\bin\staging.AssetsLibrary\ChromeShaderToyFastBallsByIq.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyRaymarchingExampleByJack.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRaymarchingExampleByJack\ChromeShaderToyRaymarchingExampleByJack\bin\staging.AssetsLibrary\ChromeShaderToyRaymarchingExampleByJack.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AtticByRobert.AssetsLibrary">
+      <HintPath>..\..\synergy\AtticByRobert\AtticByRobert\bin\staging.AssetsLibrary\AtticByRobert.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RoadToHellByRez.AssetsLibrary">
+      <HintPath>..\..\synergy\RoadToHellByRez\RoadToHellByRez\bin\staging.AssetsLibrary\RoadToHellByRez.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="VRTestSceneByRaven.AssetsLibrary">
+      <HintPath>..\..\synergy\VRTestSceneByRaven\VRTestSceneByRaven\bin\staging.AssetsLibrary\VRTestSceneByRaven.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -869,6 +881,10 @@
       <Project>{804e738c-bc4e-48f3-b003-ee94e823efc4}</Project>
       <Name>ChromeShaderToyRaymarchEdgeDetectionByHLorenzi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ChromeShaderToyRaymarchingExampleByJack\ChromeShaderToyRaymarchingExampleByJack\ChromeShaderToyRaymarchingExampleByJack.csproj">
+      <Project>{92a62b7b-c5b4-441b-a4c3-cd1a0533cde9}</Project>
+      <Name>ChromeShaderToyRaymarchingExampleByJack</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ChromeShaderToyRecogniserByFizzer\ChromeShaderToyRecogniserByFizzer\ChromeShaderToyRecogniserByFizzer.csproj">
       <Project>{d529f832-1cd4-4145-850c-389afd648e0d}</Project>
       <Name>ChromeShaderToyRecogniserByFizzer</Name>
@@ -1012,6 +1028,18 @@
     <ProjectReference Include="..\..\ChromeShaderToyWolfensteinByReinder\ChromeShaderToyWolfensteinByReinder\ChromeShaderToyWolfensteinByReinder.csproj">
       <Project>{e7c90b88-3c6e-479e-a32c-49fab8db76d2}</Project>
       <Name>ChromeShaderToyWolfensteinByReinder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\AtticByRobert\AtticByRobert\AtticByRobert.csproj">
+      <Project>{64ce8db3-1186-4cfc-a1f3-3ab5d154d401}</Project>
+      <Name>AtticByRobert</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\RoadToHellByRez\RoadToHellByRez\RoadToHellByRez.csproj">
+      <Project>{82bed3f4-c6ff-4d2e-a6ee-941b78122b2a}</Project>
+      <Name>RoadToHellByRez</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\VRTestSceneByRaven\VRTestSceneByRaven\VRTestSceneByRaven.csproj">
+      <Project>{ee715ce5-6ed9-433d-a0ee-0c45c5125d3d}</Project>
+      <Name>VRTestSceneByRaven</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

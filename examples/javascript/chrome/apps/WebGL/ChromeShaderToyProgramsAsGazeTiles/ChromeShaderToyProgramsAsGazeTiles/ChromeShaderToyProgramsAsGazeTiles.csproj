@@ -474,6 +474,54 @@
     <Reference Include="ChromeShaderToyLightCycleByGreen.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToyLightCycleByGreen\ChromeShaderToyLightCycleByGreen\bin\staging.AssetsLibrary\ChromeShaderToyLightCycleByGreen.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToyFutureBillboardByEiffie.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyFutureBillboardByEiffie\ChromeShaderToyFutureBillboardByEiffie\bin\staging.AssetsLibrary\ChromeShaderToyFutureBillboardByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyFogMountainByESpitz.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyFogMountainByESpitz\ChromeShaderToyFogMountainByESpitz\bin\staging.AssetsLibrary\ChromeShaderToyFogMountainByESpitz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyMaterialMenuByTekF.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyMaterialMenuByTekF\ChromeShaderToyMaterialMenuByTekF\bin\staging.AssetsLibrary\ChromeShaderToyMaterialMenuByTekF.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyMarkersByRougier.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyMarkersByRougier\ChromeShaderToyMarkersByRougier\bin\staging.AssetsLibrary\ChromeShaderToyMarkersByRougier.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyVornoiCubeMapByBenito.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyVornoiCubeMapByBenito\ChromeShaderToyVornoiCubeMapByBenito\bin\staging.AssetsLibrary\ChromeShaderToyVornoiCubeMapByBenito.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyDigitsByFabrice.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyDigitsByFabrice\ChromeShaderToyDigitsByFabrice\bin\staging.AssetsLibrary\ChromeShaderToyDigitsByFabrice.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyRedditAlienByGleurop.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRedditAlienByGleurop\ChromeShaderToyRedditAlienByGleurop\bin\staging.AssetsLibrary\ChromeShaderToyRedditAlienByGleurop.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToySnowByUggway.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToySnowByUggway\ChromeShaderToySnowByUggway\bin\staging.AssetsLibrary\ChromeShaderToySnowByUggway.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyPhysicsNoCollisionsByIq.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyPhysicsNoCollisionsByIq\ChromeShaderToyPhysicsNoCollisionsByIq\bin\staging.AssetsLibrary\ChromeShaderToyPhysicsNoCollisionsByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyDistanceFieldBlurByTekF.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyDistanceFieldBlurByTekF\ChromeShaderToyDistanceFieldBlurByTekF\bin\staging.AssetsLibrary\ChromeShaderToyDistanceFieldBlurByTekF.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyRubikSolverByKali.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRubikSolverByKali\ChromeShaderToyRubikSolverByKali\bin\staging.AssetsLibrary\ChromeShaderToyRubikSolverByKali.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyFastBallsByIq.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyFastBallsByIq\ChromeShaderToyFastBallsByIq\bin\staging.AssetsLibrary\ChromeShaderToyFastBallsByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyRaymarchingExampleByJack.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyRaymarchingExampleByJack\ChromeShaderToyRaymarchingExampleByJack\bin\staging.AssetsLibrary\ChromeShaderToyRaymarchingExampleByJack.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AtticByRobert.AssetsLibrary">
+      <HintPath>..\..\synergy\AtticByRobert\AtticByRobert\bin\staging.AssetsLibrary\AtticByRobert.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RoadToHellByRez.AssetsLibrary">
+      <HintPath>..\..\synergy\RoadToHellByRez\RoadToHellByRez\bin\staging.AssetsLibrary\RoadToHellByRez.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="VRTestSceneByRaven.AssetsLibrary">
+      <HintPath>..\..\synergy\VRTestSceneByRaven\VRTestSceneByRaven\bin\staging.AssetsLibrary\VRTestSceneByRaven.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete.csproj">
