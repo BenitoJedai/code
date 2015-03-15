@@ -274,6 +274,30 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyFireCounterB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyWireframeByYasuo", "..\ChromeShaderToyWireframeByYasuo\ChromeShaderToyWireframeByYasuo\ChromeShaderToyWireframeByYasuo.csproj", "{6902CB16-5145-4CEF-9587-70103B3BD657}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToySuperMarioByHLorenzi", "..\ChromeShaderToySuperMarioByHLorenzi\ChromeShaderToySuperMarioByHLorenzi\ChromeShaderToySuperMarioByHLorenzi.csproj", "{ED9DF8CA-6BAA-48D5-9B06-458C5BAE0746}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyLightCycleByGreen", "..\ChromeShaderToyLightCycleByGreen\ChromeShaderToyLightCycleByGreen\ChromeShaderToyLightCycleByGreen.csproj", "{CD546B17-0BF7-471D-A743-538A96458D61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyFutureBillboardByEiffie", "..\ChromeShaderToyFutureBillboardByEiffie\ChromeShaderToyFutureBillboardByEiffie\ChromeShaderToyFutureBillboardByEiffie.csproj", "{1677EB8B-970D-4777-B02A-29C97934FAB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyFogMountainByESpitz", "..\ChromeShaderToyFogMountainByESpitz\ChromeShaderToyFogMountainByESpitz\ChromeShaderToyFogMountainByESpitz.csproj", "{35CBEE4F-96BF-4C5F-9616-755EEE22B581}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyMaterialMenuByTekF", "..\ChromeShaderToyMaterialMenuByTekF\ChromeShaderToyMaterialMenuByTekF\ChromeShaderToyMaterialMenuByTekF.csproj", "{482A5EE7-9895-450F-995B-193955FDFC85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyMarkersByRougier", "..\ChromeShaderToyMarkersByRougier\ChromeShaderToyMarkersByRougier\ChromeShaderToyMarkersByRougier.csproj", "{7F9F58A9-D029-429B-8F21-BC8F162BFFAF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v", "v", "{B91E1304-B675-4951-B645-6052898BD729}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyVornoiCubeMapByBenito", "..\ChromeShaderToyVornoiCubeMapByBenito\ChromeShaderToyVornoiCubeMapByBenito\ChromeShaderToyVornoiCubeMapByBenito.csproj", "{57EF1770-518A-4313-AD56-FCEF1A20F5C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyDigitsByFabrice", "..\ChromeShaderToyDigitsByFabrice\ChromeShaderToyDigitsByFabrice\ChromeShaderToyDigitsByFabrice.csproj", "{D1822B34-FF99-4527-B1C6-5B19C51AEABB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyRedditAlienByGleurop", "..\ChromeShaderToyRedditAlienByGleurop\ChromeShaderToyRedditAlienByGleurop\ChromeShaderToyRedditAlienByGleurop.csproj", "{7EFCB225-BF83-419F-AE5D-F23DF03C3B41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToySnowByUggway", "..\ChromeShaderToySnowByUggway\ChromeShaderToySnowByUggway\ChromeShaderToySnowByUggway.csproj", "{66774E75-1FA5-4DB0-9D14-113F1F6056F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyPhysicsNoCollisionsByIq", "..\ChromeShaderToyPhysicsNoCollisionsByIq\ChromeShaderToyPhysicsNoCollisionsByIq\ChromeShaderToyPhysicsNoCollisionsByIq.csproj", "{9B35AD77-64FD-4660-8039-6D2392366141}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -728,6 +752,50 @@ Global
 		{6902CB16-5145-4CEF-9587-70103B3BD657}.Debug|x86.Build.0 = Debug|x86
 		{6902CB16-5145-4CEF-9587-70103B3BD657}.Release|x86.ActiveCfg = Release|x86
 		{6902CB16-5145-4CEF-9587-70103B3BD657}.Release|x86.Build.0 = Release|x86
+		{ED9DF8CA-6BAA-48D5-9B06-458C5BAE0746}.Debug|x86.ActiveCfg = Debug|x86
+		{ED9DF8CA-6BAA-48D5-9B06-458C5BAE0746}.Debug|x86.Build.0 = Debug|x86
+		{ED9DF8CA-6BAA-48D5-9B06-458C5BAE0746}.Release|x86.ActiveCfg = Release|x86
+		{ED9DF8CA-6BAA-48D5-9B06-458C5BAE0746}.Release|x86.Build.0 = Release|x86
+		{CD546B17-0BF7-471D-A743-538A96458D61}.Debug|x86.ActiveCfg = Debug|x86
+		{CD546B17-0BF7-471D-A743-538A96458D61}.Debug|x86.Build.0 = Debug|x86
+		{CD546B17-0BF7-471D-A743-538A96458D61}.Release|x86.ActiveCfg = Release|x86
+		{CD546B17-0BF7-471D-A743-538A96458D61}.Release|x86.Build.0 = Release|x86
+		{1677EB8B-970D-4777-B02A-29C97934FAB5}.Debug|x86.ActiveCfg = Debug|x86
+		{1677EB8B-970D-4777-B02A-29C97934FAB5}.Debug|x86.Build.0 = Debug|x86
+		{1677EB8B-970D-4777-B02A-29C97934FAB5}.Release|x86.ActiveCfg = Release|x86
+		{1677EB8B-970D-4777-B02A-29C97934FAB5}.Release|x86.Build.0 = Release|x86
+		{35CBEE4F-96BF-4C5F-9616-755EEE22B581}.Debug|x86.ActiveCfg = Debug|x86
+		{35CBEE4F-96BF-4C5F-9616-755EEE22B581}.Debug|x86.Build.0 = Debug|x86
+		{35CBEE4F-96BF-4C5F-9616-755EEE22B581}.Release|x86.ActiveCfg = Release|x86
+		{35CBEE4F-96BF-4C5F-9616-755EEE22B581}.Release|x86.Build.0 = Release|x86
+		{482A5EE7-9895-450F-995B-193955FDFC85}.Debug|x86.ActiveCfg = Debug|x86
+		{482A5EE7-9895-450F-995B-193955FDFC85}.Debug|x86.Build.0 = Debug|x86
+		{482A5EE7-9895-450F-995B-193955FDFC85}.Release|x86.ActiveCfg = Release|x86
+		{482A5EE7-9895-450F-995B-193955FDFC85}.Release|x86.Build.0 = Release|x86
+		{7F9F58A9-D029-429B-8F21-BC8F162BFFAF}.Debug|x86.ActiveCfg = Debug|x86
+		{7F9F58A9-D029-429B-8F21-BC8F162BFFAF}.Debug|x86.Build.0 = Debug|x86
+		{7F9F58A9-D029-429B-8F21-BC8F162BFFAF}.Release|x86.ActiveCfg = Release|x86
+		{7F9F58A9-D029-429B-8F21-BC8F162BFFAF}.Release|x86.Build.0 = Release|x86
+		{57EF1770-518A-4313-AD56-FCEF1A20F5C2}.Debug|x86.ActiveCfg = Debug|x86
+		{57EF1770-518A-4313-AD56-FCEF1A20F5C2}.Debug|x86.Build.0 = Debug|x86
+		{57EF1770-518A-4313-AD56-FCEF1A20F5C2}.Release|x86.ActiveCfg = Release|x86
+		{57EF1770-518A-4313-AD56-FCEF1A20F5C2}.Release|x86.Build.0 = Release|x86
+		{D1822B34-FF99-4527-B1C6-5B19C51AEABB}.Debug|x86.ActiveCfg = Debug|x86
+		{D1822B34-FF99-4527-B1C6-5B19C51AEABB}.Debug|x86.Build.0 = Debug|x86
+		{D1822B34-FF99-4527-B1C6-5B19C51AEABB}.Release|x86.ActiveCfg = Release|x86
+		{D1822B34-FF99-4527-B1C6-5B19C51AEABB}.Release|x86.Build.0 = Release|x86
+		{7EFCB225-BF83-419F-AE5D-F23DF03C3B41}.Debug|x86.ActiveCfg = Debug|x86
+		{7EFCB225-BF83-419F-AE5D-F23DF03C3B41}.Debug|x86.Build.0 = Debug|x86
+		{7EFCB225-BF83-419F-AE5D-F23DF03C3B41}.Release|x86.ActiveCfg = Release|x86
+		{7EFCB225-BF83-419F-AE5D-F23DF03C3B41}.Release|x86.Build.0 = Release|x86
+		{66774E75-1FA5-4DB0-9D14-113F1F6056F4}.Debug|x86.ActiveCfg = Debug|x86
+		{66774E75-1FA5-4DB0-9D14-113F1F6056F4}.Debug|x86.Build.0 = Debug|x86
+		{66774E75-1FA5-4DB0-9D14-113F1F6056F4}.Release|x86.ActiveCfg = Release|x86
+		{66774E75-1FA5-4DB0-9D14-113F1F6056F4}.Release|x86.Build.0 = Release|x86
+		{9B35AD77-64FD-4660-8039-6D2392366141}.Debug|x86.ActiveCfg = Debug|x86
+		{9B35AD77-64FD-4660-8039-6D2392366141}.Debug|x86.Build.0 = Debug|x86
+		{9B35AD77-64FD-4660-8039-6D2392366141}.Release|x86.ActiveCfg = Release|x86
+		{9B35AD77-64FD-4660-8039-6D2392366141}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -864,5 +932,17 @@ Global
 		{98590D76-8906-4196-9C60-28C2A32C76B7} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
 		{28668F5F-68AF-4BC7-AF2D-076695BEEAB9} = {5ADD4CE9-E26C-47C7-BFAA-6F63ED11CF48}
 		{6902CB16-5145-4CEF-9587-70103B3BD657} = {FA62781B-51A5-41ED-B127-84FE09612415}
+		{ED9DF8CA-6BAA-48D5-9B06-458C5BAE0746} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
+		{CD546B17-0BF7-471D-A743-538A96458D61} = {AB8C37B6-5D33-4E48-955A-D8D3934BB456}
+		{1677EB8B-970D-4777-B02A-29C97934FAB5} = {5ADD4CE9-E26C-47C7-BFAA-6F63ED11CF48}
+		{35CBEE4F-96BF-4C5F-9616-755EEE22B581} = {5ADD4CE9-E26C-47C7-BFAA-6F63ED11CF48}
+		{482A5EE7-9895-450F-995B-193955FDFC85} = {A51F8D8D-236B-4EC4-9BB3-745BB19F6404}
+		{7F9F58A9-D029-429B-8F21-BC8F162BFFAF} = {A51F8D8D-236B-4EC4-9BB3-745BB19F6404}
+		{B91E1304-B675-4951-B645-6052898BD729} = {30FF3663-3CBE-4541-B2CF-A3C0960E208B}
+		{57EF1770-518A-4313-AD56-FCEF1A20F5C2} = {B91E1304-B675-4951-B645-6052898BD729}
+		{D1822B34-FF99-4527-B1C6-5B19C51AEABB} = {40B1BBCF-3247-4F8C-81B7-27925E191EBA}
+		{7EFCB225-BF83-419F-AE5D-F23DF03C3B41} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
+		{66774E75-1FA5-4DB0-9D14-113F1F6056F4} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
+		{9B35AD77-64FD-4660-8039-6D2392366141} = {F938B933-5FAD-41D4-8813-7F51CEFF1B8E}
 	EndGlobalSection
 EndGlobal

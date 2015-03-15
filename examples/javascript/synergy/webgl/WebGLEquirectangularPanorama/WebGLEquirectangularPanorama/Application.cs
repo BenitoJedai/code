@@ -39,9 +39,13 @@ namespace WebGLEquirectangularPanorama
 
         public Application(IApp page)
         {
-            // http://mrdoob.github.io/three.js/examples/webgl_panorama_equirectangular.html
+			// http://mrdoob.github.io/three.js/examples/webgl_panorama_equirectangular.html
+			// http://stackoverflow.com/users/94411/zproxy
+			// https://www.shadertoy.com/view/XsBSDR#
+			// https://www.shadertoy.com/view/4dsGD2
+			// https://www.shadertoy.com/view/ldjGRw
 
-            var window = Native.window;
+			var window = Native.window;
 
             var fov = 70.0;
 
