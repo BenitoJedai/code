@@ -468,6 +468,12 @@
     <Reference Include="ChromeShaderToyWireframeByYasuo.AssetsLibrary">
       <HintPath>..\..\ChromeShaderToyWireframeByYasuo\ChromeShaderToyWireframeByYasuo\bin\staging.AssetsLibrary\ChromeShaderToyWireframeByYasuo.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeShaderToySuperMarioByHLorenzi.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToySuperMarioByHLorenzi\ChromeShaderToySuperMarioByHLorenzi\bin\staging.AssetsLibrary\ChromeShaderToySuperMarioByHLorenzi.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromeShaderToyLightCycleByGreen.AssetsLibrary">
+      <HintPath>..\..\ChromeShaderToyLightCycleByGreen\ChromeShaderToyLightCycleByGreen\bin\staging.AssetsLibrary\ChromeShaderToyLightCycleByGreen.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete.csproj">
