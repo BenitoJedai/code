@@ -43,14 +43,15 @@ namespace ChromeShaderToyColumns.Library
 	{
 		// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToySeascapeByTDM\ChromeShaderToySeascapeByTDM\Application.cs
 
+		[Obsolete]
 		public static WebGLBuffer createQuadVBO(gl gl
 
-			, float left = -1.0f
-			// y reversed?
-			, float bottom = -1.0f
-			, float right = 1.0f
-			, float top = 1.0f
-			)
+		, float left = -1.0f
+		// y reversed?
+		, float bottom = -1.0f
+		, float right = 1.0f
+		, float top = 1.0f
+		)
 		{
 			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150311
 
@@ -243,11 +244,20 @@ namespace ChromeShaderToyColumns.Library
 			return "";
 		}
 
+		public class RenderTargetAtDetail
+		{
+			public int size;
+
+			public WebGLTexture xWebGLTexture0;
+			public WebGLFramebuffer xWebGLFramebuffer0;
+		}
 
 		public class EffectPass
 		{
-			public WebGLTexture xWebGLTexture0;
-			public WebGLFramebuffer xWebGLFramebuffer0;
+			// x:\jsc.svn\examples\javascript\chrome\apps\webgl\chromeshadertoyprogramsasgazetiles\chromeshadertoyprogramsasgazetiles\application.cs
+
+			public RenderTargetAtDetail target0;
+			public RenderTargetAtDetail target512;
 
 			public object[] mInputs = new object[4];
 
@@ -357,9 +367,11 @@ void main( void )
 {
 	vec4 color = gl_FragColor;
 
+
+color.a = 1.0;
+
 	mainImage( color, gl_FragCoord.xy );
 					
-color.a = 1.0;
 
 	gl_FragColor = color;
 }

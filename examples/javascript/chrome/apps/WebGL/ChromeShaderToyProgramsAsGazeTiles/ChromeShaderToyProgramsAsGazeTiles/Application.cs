@@ -70,8 +70,8 @@ namespace ChromeShaderToyProgramsAsGazeTiles
 			Native.document.documentElement.style.overflow = IStyle.OverflowEnum.hidden;
 			//Native.document.documentElement.style.overflow = IStyle.OverflowEnum.auto;
 			Native.body.style.margin = "0px";
-			Native.body.style.fontSize = "x-small";
-			(Native.body.style as dynamic).webkitColumnCount = "4";	/* Chrome, Safari, Opera */
+			Native.body.style.fontSize = "xx-small";
+			(Native.body.style as dynamic).webkitColumnCount = "5";	/* Chrome, Safari, Opera */
 
 			//Native.body.style.backgroundColor = "yellow";
 			Native.body.Clear();
@@ -227,8 +227,17 @@ do we have a stack trace?
 
 
 
-			var c = gl.canvas.AttachToDocument();
-			c.style.position = IStyle.PositionEnum.@fixed;
+			var c = gl.canvas.AttachTo(Native.document.documentElement);
+			new IStyle(c)
+			{
+				position = IStyle.PositionEnum.@fixed,
+				left = "0px",
+				top = "0px",
+				right = "0px",
+				bottom = "0px"
+			};
+
+
 			//c.css.not.hover.style.Opacity = 0.7;
 
 			c.onmouseover += delegate { c.style.Opacity = 1.0; };
@@ -259,10 +268,12 @@ do we have a stack trace?
 
 			c.onmousedown += async ev =>
 			{
-				mMouseOriX = ev.CursorX;
-				mMouseOriY = ev.CursorY;
-				mMousePosX = mMouseOriX;
-				mMousePosY = mMouseOriY;
+				//var o = new { mMouseOriX, mMouseOriY };
+
+				//mMouseOriX = ev.CursorX;
+				//mMouseOriY = ev.CursorY;
+				//mMousePosX = mMouseOriX;
+				//mMousePosY = mMouseOriY;
 
 				// why aint it canvas?
 				//ev.Element
@@ -276,8 +287,8 @@ do we have a stack trace?
 				await ev.Element.async.onmouseup;
 				Native.document.exitPointerLock();
 
-				mMouseOriX = -Math.Abs(mMouseOriX);
-				mMouseOriY = -Math.Abs(mMouseOriY);
+				//mMouseOriX = -Math.Abs(mMouseOriX);
+				//mMouseOriY = -Math.Abs(mMouseOriY);
 			};
 
 			c.onmousemove += ev =>
@@ -301,13 +312,67 @@ do we have a stack trace?
 
 
 
+			c.tabIndex = 1;
+
+			//c.onkeypress +=
+			c.onkeyup += async e => { if (e.KeyCode == (int)System.Windows.Forms.Keys.Home) { mMousePosX = 0; mMousePosY = 0; } };
+			c.onkeyup += async e => { if (e.KeyCode == (int)System.Windows.Forms.Keys.Right) mMousePosX += -200; };
+			c.onkeyup += async e => { if (e.KeyCode == (int)System.Windows.Forms.Keys.Left) mMousePosX += +200; };
+			c.onkeyup += async e => { if (e.KeyCode == (int)System.Windows.Forms.Keys.Up) mMousePosY += -200; };
+			c.onkeyup += async e => { if (e.KeyCode == (int)System.Windows.Forms.Keys.Down) mMousePosY += +200; };
+
+
+			var zmax = -40f;
+			//var zmin = -1f;
+			//var zmin = -0.9f;
+			var zmin = -0.5f;
+			var z = -15f;
+
+			#region atwheel
+			Action<int> atwheel = WheelDirection =>
+			{
+				//camera.position.z = 1.5;
+
+				// min max. shall adjust speed also!
+				// max 4.0
+				// min 0.6
+				z += 1.6f * WheelDirection;
+
+
+				z = z.Max(zmax).Min(zmin);
+
+				//Native.document.title = new { camera.position.z }.ToString();
+
+				if (z == zmin)
+				{
+					Native.document.body.style.backgroundColor = "black";
+					Native.document.body.style.color = "gray";
+				}
+				else
+				{
+					Native.document.body.style.backgroundColor = "rgb(25, 130, 10)";
+					Native.document.body.style.color = "rgb(252, 255, 0)";
+				}
+			};
+			#endregion
+
+			c.onkeyup += async e => { if (e.KeyCode == (int)System.Windows.Forms.Keys.PageUp) atwheel(1); };
+			c.onkeyup += async e => { if (e.KeyCode == (int)System.Windows.Forms.Keys.PageDown) atwheel(-1); };
+
+			c.onmousewheel += e => atwheel(e.WheelDirection);
+
+
+
 
 			// will this crash rdp session=?
 			//var xWebGLRenderbuffer0size = 1024;
 			//var xWebGLRenderbuffer0size = 512;
-			var xWebGLRenderbuffer0size = 256;
+			//var xWebGLRenderbuffer0size = 256;
 			//var xWebGLRenderbuffer0size = 128;
-			//var xWebGLRenderbuffer0size = 64;
+			var xWebGLRenderbuffer0size = 64;
+
+			// -8
+			//var xWebGLRenderbuffer0size = 32;
 
 			//var xWebGLRenderbuffer0size = 16;
 			//var xWebGLRenderbuffer0size = 8;
@@ -354,37 +419,48 @@ do we have a stack trace?
 			#region newPass
 			Func<FragmentShader, ShaderToy.EffectPass> newPass = frag =>
 			{
-				var xWebGLFramebuffer0 = new WebGLFramebuffer(gl);
-				gl.bindFramebuffer(gl.FRAMEBUFFER, xWebGLFramebuffer0);
-				// generateMipmap: level 0 not power of 2 or not all the same size
-				//var rttFramebuffer_width = canvas.width;
-				// WebGL: INVALID_OPERATION: generateMipmap: level 0 not power of 2 or not all the same size
+				// lets have multiple level buffers based on distance to camera
+				// 0 means 0 to 512 pixels
 
-				// Max Combined Texture Image Units:	8 ipad
-				// Max Combined Texture Image Units:	20 asus7
-				// Max Combined Texture Image Units:	32
-				// need to start reusing after 32?
-				// http://webglstats.com/
-				var xWebGLTexture0 = new WebGLTexture(gl);
-				gl.bindTexture(gl.TEXTURE_2D, xWebGLTexture0);
-				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
-				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_NEAREST);
+				#region newWebGLFramebuffer
+				Func<ShaderToy.RenderTargetAtDetail, ShaderToy.RenderTargetAtDetail> newWebGLFramebuffer = that =>
+				{
+					that.xWebGLFramebuffer0 = new WebGLFramebuffer(gl);
+					gl.bindFramebuffer(gl.FRAMEBUFFER, that.xWebGLFramebuffer0);
+					// generateMipmap: level 0 not power of 2 or not all the same size
+					//var rttFramebuffer_width = canvas.width;
+					// WebGL: INVALID_OPERATION: generateMipmap: level 0 not power of 2 or not all the same size
 
-				gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, xWebGLRenderbuffer0size, xWebGLRenderbuffer0size, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+					// Max Combined Texture Image Units:	8 ipad
+					// Max Combined Texture Image Units:	20 asus7
+					// Max Combined Texture Image Units:	32
+					// need to start reusing after 32?
+					// http://webglstats.com/
+					that.xWebGLTexture0 = new WebGLTexture(gl);
+					gl.bindTexture(gl.TEXTURE_2D, that.xWebGLTexture0);
+					gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+					gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_NEAREST);
 
-				gl.generateMipmap(gl.TEXTURE_2D);
+					gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, that.size, that.size, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+
+					gl.generateMipmap(gl.TEXTURE_2D);
 
 
-				var xWebGLRenderbuffer0 = new WebGLRenderbuffer(gl);
-				gl.bindRenderbuffer(gl.RENDERBUFFER, xWebGLRenderbuffer0);
-				gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, xWebGLRenderbuffer0size, xWebGLRenderbuffer0size);
+					var xWebGLRenderbuffer0 = new WebGLRenderbuffer(gl);
+					gl.bindRenderbuffer(gl.RENDERBUFFER, xWebGLRenderbuffer0);
+					gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, that.size, that.size);
 
-				gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, xWebGLTexture0, 0);
-				gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, xWebGLRenderbuffer0);
+					gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, that.xWebGLTexture0, 0);
+					gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, xWebGLRenderbuffer0);
 
-				gl.bindTexture(gl.TEXTURE_2D, null);
-				gl.bindRenderbuffer(gl.RENDERBUFFER, null);
-				gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+					gl.bindTexture(gl.TEXTURE_2D, null);
+					gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+					gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+
+					return that;
+				};
+				#endregion
 
 				var pass0 = new ChromeShaderToyColumns.Library.ShaderToy.EffectPass(
 					gl: gl,
@@ -392,8 +468,11 @@ do we have a stack trace?
 					supportDerivatives: gl.getExtension("OES_standard_derivatives") != null
 				);
 
-				pass0.xWebGLFramebuffer0 = xWebGLFramebuffer0;
-				pass0.xWebGLTexture0 = xWebGLTexture0;
+
+				pass0.target0 = newWebGLFramebuffer(new ShaderToy.RenderTargetAtDetail { size = xWebGLRenderbuffer0size });
+				pass0.target512 = newWebGLFramebuffer(new ShaderToy.RenderTargetAtDetail { size = 512 });
+				//pass0.xWebGLFramebuffer0 = xWebGLFramebuffer0;
+				//pass0.xWebGLTexture0 = xWebGLTexture0;
 
 				pass0.MakeHeader_Image();
 				pass0.NewShader_Image(
@@ -416,14 +495,14 @@ do we have a stack trace?
 			var verticesBuffer = new WebGLBuffer(gl);
 
 			#region paintToTex
-			Func<ShaderToy.EffectPass, ShaderToy.EffectPass> paintToTex = (xpass0) =>
+			Action<ShaderToy.EffectPass, ShaderToy.RenderTargetAtDetail> paintToTex = (xpass0, target0) =>
 			{
-				gl.bindFramebuffer(gl.FRAMEBUFFER, xpass0.xWebGLFramebuffer0);
+				gl.bindFramebuffer(gl.FRAMEBUFFER, target0.xWebGLFramebuffer0);
 
 				//// http://stackoverflow.com/questions/20362023/webgl-why-does-transparent-canvas-show-clearcolor-color-component-when-alpha-is
 				//gl.clearColor(1, 1, 0, 1.0f);
 
-				gl.viewport(0, 0, xWebGLRenderbuffer0size, xWebGLRenderbuffer0size);
+				gl.viewport(0, 0, target0.size, target0.size);
 				// need to clear, otherewise we see an old image?
 				gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -434,10 +513,10 @@ do we have a stack trace?
 					var mProgram = xpass0.xCreateShader.mProgram;
 
 
-					var xres = xWebGLRenderbuffer0size;
+					var xres = target0.size;
 					//var yres = xWebGLRenderbuffer0size;
 					// widescreen. discard top half?
-					var yres = xWebGLRenderbuffer0size * 0.5f;
+					var yres = target0.size * 0.5f;
 
 					#region Paint_Image
 
@@ -570,19 +649,20 @@ do we have a stack trace?
 				gl.flush();
 
 				//// INVALID_OPERATION: generateMipmap: level 0 not power of 2 or not all the same size
-				gl.bindTexture(gl.TEXTURE_2D, xpass0.xWebGLTexture0);
+				gl.bindTexture(gl.TEXTURE_2D, target0.xWebGLTexture0);
 				gl.generateMipmap(gl.TEXTURE_2D);
 				gl.bindTexture(gl.TEXTURE_2D, null);
 
 				gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 
-				return xpass0;
+
+
 			};
 			#endregion
 
 
 			#region drawArrays
-			Action<ShaderToy.EffectPass, float, float, float> drawArrays = (xpass0, x, y, zz) =>
+			Action<ShaderToy.EffectPass, ShaderToy.RenderTargetAtDetail, float, float, float> drawArrays = (xpass0, target0, x, y, zz) =>
 			{
 				// using has a spevial meaning here
 				//using (var u = new ChromeWebGLFrameBufferToSquare.Shaders.__GeometryVertexShader())
@@ -636,7 +716,7 @@ do we have a stack trace?
 				gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
 				gl.activeTexture(gl.TEXTURE0);
-				gl.bindTexture(gl.TEXTURE_2D, xpass0.xWebGLTexture0);
+				gl.bindTexture(gl.TEXTURE_2D, target0.xWebGLTexture0);
 				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.NEAREST);
 
 				for (int ihalf = 0; ihalf < 2; ihalf++)
@@ -782,10 +862,18 @@ do we have a stack trace?
 
 			var loadTotal = TimeSpan.FromMilliseconds(0);
 
+
+
 			var currentFragKey = "";
 
 			//var status = new IHTMLPre { () => new { mMouseOriX, mMouseOriY, mMousePosX, mMousePosY, loadCount, loadTotal } }.AttachToDocument();
-			var status = new IHTMLPre { () => new { currentFragKey, loadCount, loadTotal } }.AttachToDocument();
+			var status = new IHTMLPre { () => new {
+				currentFragKey,
+				loadCount,
+				mMousePosX,
+				loadTotal,
+				z
+			} }.AttachToDocument();
 
 			// 2 min load?
 
@@ -793,9 +881,13 @@ do we have a stack trace?
 			{
 				position = IStyle.PositionEnum.@fixed,
 
+				left = "0px",
 				right = "0px",
 				bottom = "0px",
+				textAlign = IStyle.TextAlignEnum.center,
 
+				color = "yellow",
+				fontSize = "large"
 			};
 
 			#region xtimeestimate
@@ -826,31 +918,8 @@ do we have a stack trace?
 
 
 
-			Native.document.body.onselectstart +=
-				e => e.preventDefault();
+			Native.document.documentElement.onselectstart += e => e.preventDefault();
 
-			var zmax = -40f;
-			var zmin = -1f;
-			var z = -15f;
-
-			#region onmousewheel
-			c.onmousewheel +=
-				e =>
-				{
-					//camera.position.z = 1.5;
-
-					// min max. shall adjust speed also!
-					// max 4.0
-					// min 0.6
-					z += 1.6f * e.WheelDirection;
-
-
-					z = z.Max(-zmax).Min(zmin);
-
-					//Native.document.title = new { camera.position.z }.ToString();
-
-				};
-			#endregion
 
 
 			var simpleLoader = default(ShaderToy.EffectPass);
@@ -999,16 +1068,19 @@ do we have a stack trace?
 
 							gazeStopwatch.Stop();
 
-							// the specific frag we are looking at.
 							if (sx == 0)
 								if (sy == 0)
+								{
 									currentFragKey = text;
+									isGazedAt = true;
+								}
 
 
-							// the nearby elements we are looking at..
-							if (len < 1.2)
+							// can we keep fps and animate multiple shaders?
+							if (len < 2.2)
 							{
-								isGazedAt = true;
+								if (z != zmin)
+									isGazedAt = true;
 
 								gazeStopwatch.Start();
 
@@ -1029,6 +1101,9 @@ do we have a stack trace?
 
 										title.style.backgroundColor = "";
 										await Native.window.async.onframe;
+
+										// make sure we render!
+										//isGazedAt = true;
 									}
 							}
 
@@ -1049,7 +1124,13 @@ do we have a stack trace?
 									paintToTexCount++;
 
 									var paintToTexElapsedStopwatch = Stopwatch.StartNew();
-									paintToTex(pass);
+
+									if (pass == simpleLoader)
+										paintToTex(pass, pass.target512);
+									else if (z == zmin)
+										paintToTex(pass, pass.target512);
+									else
+										paintToTex(pass, pass.target0);
 									paintToTexElapsed = paintToTexElapsedStopwatch.ElapsedMilliseconds;
 								}
 							}
@@ -1066,24 +1147,61 @@ do we have a stack trace?
 
 							var zlen = (float)(z - tlen);
 
-							//if (z == zmin)
-							if (pass == null)
+							var hidden = false;
+
+							if (z == zmin)
+								//if (zlen < -3.2)
+								if (tlen > 0.2)
+								{
+
+									hidden = true;
+
+
+								}
+
+							if (hidden)
 							{
-								// we are unloaded...
-								drawArrays(
-									simpleLoader, cx, cy, zlen
-								);
 							}
 							else
 							{
-								drawArrays(
-										pass,
-										// neg mMouseOriX means mouse released
-										//cx + sx * 0.2f,
-										//cy + sy * 0.2f,
-										cx, cy,
-										zlen
+
+								if (pass == null)
+								{
+									// we are unloaded...
+									drawArrays(
+										simpleLoader, simpleLoader.target512,
+
+										 cx, cy, zlen
 									);
+								}
+								else
+								{
+									if (z == zmin)
+									{
+										drawArrays(
+											pass, pass.target512,
+
+											// neg mMouseOriX means mouse released
+											//cx + sx * 0.2f,
+											//cy + sy * 0.2f,
+											cx, cy,
+											zlen
+										);
+									}
+									else
+									{
+										drawArrays(
+											pass, pass.target0,
+
+											// neg mMouseOriX means mouse released
+											//cx + sx * 0.2f,
+											//cy + sy * 0.2f,
+											cx, cy,
+											zlen
+										);
+									}
+								}
+
 							}
 
 							drawArraysStopwatch.Stop();
@@ -1097,9 +1215,10 @@ do we have a stack trace?
 
 
 							if (pass == null)
-								title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + gazeStopwatch.ElapsedMilliseconds + "ms gaze ";
+								title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + gazeStopwatch.ElapsedMilliseconds + "ms gaze";
 							else
-								title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms " + new { zlen };
+								title.innerText = i + " " + text + " " + blockingCall.ElapsedMilliseconds + $"ms ";
+
 							//z,
 							//zlen,
 							//tlen

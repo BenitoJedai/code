@@ -4,6 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyProgramsAsGazeTiles", "ChromeShaderToyProgramsAsGazeTiles\ChromeShaderToyProgramsAsGazeTiles.csproj", "{E11C81F0-70C4-4FCB-9898-2AC1E6581B30}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2503CEE7-2941-4C82-9014-9DD7570C4C23} = {2503CEE7-2941-4C82-9014-9DD7570C4C23}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToySimpleLoadingScreenByNdel", "..\ChromeShaderToySimpleLoadingScreenByNdel\ChromeShaderToySimpleLoadingScreenByNdel\ChromeShaderToySimpleLoadingScreenByNdel.csproj", "{2503CEE7-2941-4C82-9014-9DD7570C4C23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeShaderToyColumns", "..\ChromeShaderToyColumns\ChromeShaderToyColumns\ChromeShaderToyColumns.csproj", "{EB93B081-4EDC-41A2-85B3-0487062617CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +22,14 @@ Global
 		{E11C81F0-70C4-4FCB-9898-2AC1E6581B30}.Debug|x86.Build.0 = Debug|x86
 		{E11C81F0-70C4-4FCB-9898-2AC1E6581B30}.Release|x86.ActiveCfg = Release|x86
 		{E11C81F0-70C4-4FCB-9898-2AC1E6581B30}.Release|x86.Build.0 = Release|x86
+		{2503CEE7-2941-4C82-9014-9DD7570C4C23}.Debug|x86.ActiveCfg = Debug|x86
+		{2503CEE7-2941-4C82-9014-9DD7570C4C23}.Debug|x86.Build.0 = Debug|x86
+		{2503CEE7-2941-4C82-9014-9DD7570C4C23}.Release|x86.ActiveCfg = Release|x86
+		{2503CEE7-2941-4C82-9014-9DD7570C4C23}.Release|x86.Build.0 = Release|x86
+		{EB93B081-4EDC-41A2-85B3-0487062617CC}.Debug|x86.ActiveCfg = Debug|x86
+		{EB93B081-4EDC-41A2-85B3-0487062617CC}.Debug|x86.Build.0 = Debug|x86
+		{EB93B081-4EDC-41A2-85B3-0487062617CC}.Release|x86.ActiveCfg = Release|x86
+		{EB93B081-4EDC-41A2-85B3-0487062617CC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
