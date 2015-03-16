@@ -18,5 +18,19 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
 	vec2 uv = fragCoord.xy;
     float ring = movingRing(uv, vec2(iResolution.x/2.0,iResolution.y/2.0), 20.0, 30.0);
-    fragColor = vec4( 0.1 + 0.9*ring );
+
+//if (ring < 0.01)
+//discard;
+
+	float x =  0.1 + 0.9*ring;
+
+    // alpha is being erased? 
+
+// vgradient?
+	float q = 0.3 + 0.4 * (fragCoord.x / iResolution.x);
+// haha
+	//var q = 0.3;
+ 
+    fragColor = vec4(x, x, x, 
+q +  (1.0 - q)*ring);
 }

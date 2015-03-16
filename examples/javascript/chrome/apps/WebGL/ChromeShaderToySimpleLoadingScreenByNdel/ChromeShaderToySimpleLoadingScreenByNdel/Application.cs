@@ -31,6 +31,7 @@ namespace ChromeShaderToySimpleLoadingScreenByNdel
 		public Application(IApp page)
 		{
 			// https://www.shadertoy.com/view/XdBXzd
+			// error CreateShader {{ infoLog = ERROR: 0:46: 'var' : undeclared identifier 
 
 
 			#region += Launched chrome.app.window
