@@ -44,6 +44,7 @@ namespace WebGLEquirectangularPanorama
 			// https://www.shadertoy.com/view/XsBSDR#
 			// https://www.shadertoy.com/view/4dsGD2
 			// https://www.shadertoy.com/view/ldjGRw
+			// https://www.youtube.com/watch?v=GnFGYN-npqM
 
 			var window = Native.window;
 
