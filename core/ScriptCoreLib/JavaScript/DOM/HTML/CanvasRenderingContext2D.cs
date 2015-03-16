@@ -141,8 +141,9 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
 
 
-        // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\Application.cs
-        public byte[] bytes
+		// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\Application.cs
+		// X:\jsc.svn\examples\javascript\chrome\apps\ChromeHTMLTextToGLSLBytes\ChromeHTMLTextToGLSLBytes\Application.cs
+		public byte[] bytes
         {
             [Script(DefineAsStatic = true)]
             get
