@@ -513,6 +513,30 @@
     <Reference Include="VRTestSceneByRaven.AssetsLibrary">
       <HintPath>..\..\synergy\VRTestSceneByRaven\VRTestSceneByRaven\bin\staging.AssetsLibrary\VRTestSceneByRaven.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="SinMountainsByFred.AssetsLibrary">
+      <HintPath>..\..\synergy\SinMountainsByFred\SinMountainsByFred\bin\staging.AssetsLibrary\SinMountainsByFred.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ElectroPrimByAlex.AssetsLibrary">
+      <HintPath>..\..\synergy\ElectroPrimByAlex\ElectroPrimByAlex\bin\staging.AssetsLibrary\ElectroPrimByAlex.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FerrisWheelByGaz.AssetsLibrary">
+      <HintPath>..\..\synergy\FerrisWheelByGaz\FerrisWheelByGaz\bin\staging.AssetsLibrary\FerrisWheelByGaz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="LineIntersectionByThe23.AssetsLibrary">
+      <HintPath>..\..\synergy\LineIntersectionByThe23\LineIntersectionByThe23\bin\staging.AssetsLibrary\LineIntersectionByThe23.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayingWithRefleksByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\PlayingWithRefleksByEiffie\PlayingWithRefleksByEiffie\bin\staging.AssetsLibrary\PlayingWithRefleksByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PseudoArmillaryTestByRK.AssetsLibrary">
+      <HintPath>..\..\synergy\PseudoArmillaryTestByRK\PseudoArmillaryTestByRK\bin\staging.AssetsLibrary\PseudoArmillaryTestByRK.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SparseGridMarchingByNimitz.AssetsLibrary">
+      <HintPath>..\..\synergy\SparseGridMarchingByNimitz\SparseGridMarchingByNimitz\bin\staging.AssetsLibrary\SparseGridMarchingByNimitz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TetrahedralInterpolationByPaniq.AssetsLibrary">
+      <HintPath>..\..\synergy\TetrahedralInterpolationByPaniq\TetrahedralInterpolationByPaniq\bin\staging.AssetsLibrary\TetrahedralInterpolationByPaniq.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1033,6 +1057,26 @@
       <Project>{64ce8db3-1186-4cfc-a1f3-3ab5d154d401}</Project>
       <Name>AtticByRobert</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ElectroPrimByAlex\ElectroPrimByAlex\ElectroPrimByAlex.csproj">
+      <Project>{968b098a-48a3-4192-86fb-ac74fd583852}</Project>
+      <Name>ElectroPrimByAlex</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\FerrisWheelByGaz\FerrisWheelByGaz\FerrisWheelByGaz.csproj">
+      <Project>{d82a1c26-ca03-4e8a-abe8-5f3bd5221091}</Project>
+      <Name>FerrisWheelByGaz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\LineIntersectionByThe23\LineIntersectionByThe23\LineIntersectionByThe23.csproj">
+      <Project>{40f84144-fd4f-460c-b6a3-d40e8fa6da02}</Project>
+      <Name>LineIntersectionByThe23</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\PlayingWithRefleksByEiffie\PlayingWithRefleksByEiffie\PlayingWithRefleksByEiffie.csproj">
+      <Project>{7afa2226-3160-4372-9b1a-ec355a7619fd}</Project>
+      <Name>PlayingWithRefleksByEiffie</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\PseudoArmillaryTestByRK\PseudoArmillaryTestByRK\PseudoArmillaryTestByRK.csproj">
+      <Project>{7f5a7e33-0725-4b6b-9ea1-e6b391b01361}</Project>
+      <Name>PseudoArmillaryTestByRK</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\RoadToHellByRez\RoadToHellByRez\RoadToHellByRez.csproj">
       <Project>{82bed3f4-c6ff-4d2e-a6ee-941b78122b2a}</Project>
       <Name>RoadToHellByRez</Name>
@@ -1040,6 +1084,14 @@
     <ProjectReference Include="..\..\synergy\SinMountainsByFred\SinMountainsByFred\SinMountainsByFred.csproj">
       <Project>{6dab88ca-52ff-417d-a529-6a2d35f4f317}</Project>
       <Name>SinMountainsByFred</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SparseGridMarchingByNimitz\SparseGridMarchingByNimitz\SparseGridMarchingByNimitz.csproj">
+      <Project>{d1fef5fe-1b9c-48ac-8ee9-f67f650657c5}</Project>
+      <Name>SparseGridMarchingByNimitz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\TetrahedralInterpolationByPaniq\TetrahedralInterpolationByPaniq\TetrahedralInterpolationByPaniq.csproj">
+      <Project>{eda45b7f-bd3f-4c45-9e90-9990994c8dc7}</Project>
+      <Name>TetrahedralInterpolationByPaniq</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\VRTestSceneByRaven\VRTestSceneByRaven\VRTestSceneByRaven.csproj">
       <Project>{ee715ce5-6ed9-433d-a0ee-0c45c5125d3d}</Project>
