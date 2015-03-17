@@ -27,7 +27,7 @@ namespace ScriptCoreLib.GLSL
         /// <summary>
         /// Returns a value equal to the nearest integer that is less than or equal to x
         /// </summary>
-        protected genType floor(genType x) { throw new NotImplementedException(); }
+        public genType floor(genType x) { throw new NotImplementedException(); }
 
         /// <summary>
         /// Returns a value equal to the nearest integer that is greater than or equal to x
@@ -50,18 +50,19 @@ namespace ScriptCoreLib.GLSL
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        protected genType mod(genType x, float y) { throw new NotImplementedException(); }
+        public genType mod(genType x, float y) { throw new NotImplementedException(); }
+		// X:\jsc.svn\examples\javascript\chrome\apps\ChromeHTMLTextToGLSLBytes\ChromeHTMLTextToGLSLBytes\Application.cs
 
-     
 
-       
-        /// <summary>
-        /// Returns y if y < x, otherwise it returns x
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        protected genType min(genType x, float y) { throw new NotImplementedException(); }
+
+
+		/// <summary>
+		/// Returns y if y < x, otherwise it returns x
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		protected genType min(genType x, float y) { throw new NotImplementedException(); }
 
     
 

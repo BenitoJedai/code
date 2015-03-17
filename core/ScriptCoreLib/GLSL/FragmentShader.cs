@@ -7,6 +7,8 @@ namespace ScriptCoreLib.GLSL
 {
     public class FragmentShader : Shader
     {
+		// Expression to glsl?
+
 		// ANGLE_ENABLE_LOOP_FLATTEN
 		// https://chromium.googlesource.com/angle/angle/+/master/src/compiler/translator/ForLoopUnroll.cpp
 		// https://chromium.googlesource.com/angle/angle/+/master/src/compiler/translator/OutputGLSLBase.cpp

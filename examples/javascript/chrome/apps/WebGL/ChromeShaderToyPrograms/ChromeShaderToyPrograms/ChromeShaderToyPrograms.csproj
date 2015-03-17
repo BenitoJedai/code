@@ -1037,6 +1037,10 @@
       <Project>{82bed3f4-c6ff-4d2e-a6ee-941b78122b2a}</Project>
       <Name>RoadToHellByRez</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SinMountainsByFred\SinMountainsByFred\SinMountainsByFred.csproj">
+      <Project>{6dab88ca-52ff-417d-a529-6a2d35f4f317}</Project>
+      <Name>SinMountainsByFred</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\VRTestSceneByRaven\VRTestSceneByRaven\VRTestSceneByRaven.csproj">
       <Project>{ee715ce5-6ed9-433d-a0ee-0c45c5125d3d}</Project>
       <Name>VRTestSceneByRaven</Name>
