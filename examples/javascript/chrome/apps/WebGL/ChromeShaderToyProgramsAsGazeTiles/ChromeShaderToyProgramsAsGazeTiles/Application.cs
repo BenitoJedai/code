@@ -76,6 +76,8 @@ namespace ChromeShaderToyProgramsAsGazeTiles
 			//Native.body.style.backgroundColor = "yellow";
 			Native.body.Clear();
 
+
+
 			// ipad?
 			Native.window.onerror +=
 				e =>
@@ -162,6 +164,9 @@ namespace ChromeShaderToyProgramsAsGazeTiles
 				return;
 			}
 
+			var currentFragKey = "";
+
+
 			#region oncontextlost
 			gl.oncontextlost +=
 				e =>
@@ -173,6 +178,10 @@ namespace ChromeShaderToyProgramsAsGazeTiles
 
 					Native.document.body.Clear();
 
+					(Native.body.style as dynamic).webkitColumnCount = "";	/* Chrome, Safari, Opera */
+
+					// should we remember which program crashes on which cpu?
+
 					new IHTMLPre {
 						// https://code.google.com/p/chromium/issues/detail?id=294207
 						@"Rats! WebGL hit a snag.
@@ -181,7 +190,7 @@ The GPU process hung. Terminating.
 check chrome://gpu for log messages.  
 do we have a stack trace?
 
-" + new { e.statusMessage } ,
+" + new { currentFragKey, e.statusMessage } ,
 
 						// chrome sends us to about:blank?
 						//new IHTMLAnchor {
@@ -864,7 +873,6 @@ do we have a stack trace?
 
 
 
-			var currentFragKey = "";
 
 			//var status = new IHTMLPre { () => new { mMouseOriX, mMouseOriY, mMousePosX, mMousePosY, loadCount, loadTotal } }.AttachToDocument();
 			var status = new IHTMLPre { () => new {
