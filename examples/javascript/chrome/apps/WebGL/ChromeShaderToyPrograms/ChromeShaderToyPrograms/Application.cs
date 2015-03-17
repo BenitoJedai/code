@@ -127,10 +127,14 @@ namespace ChromeShaderToyPrograms
 					// https://code.google.com/p/chromium/issues/detail?id=294207
 					"Rats! WebGL hit a snag.",
 
-					new IHTMLAnchor { href = "about:gpu", innerText = "about:gpu" }
+					//new IHTMLAnchor { href = "about:gpu", innerText = "about:gpu" }
 				}.AttachToDocument();
 				return;
 			}
+
+
+			Native.body.style.backgroundColor = "blue";
+
 
 			var combo = new IHTMLSelect().AttachToDocument();
 
@@ -218,7 +222,7 @@ namespace ChromeShaderToyPrograms
 
 			#endregion
 
-		
+
 
 			// http://www.wufoo.com/html5/attributes/05-list.html
 			// http://www.w3schools.com/tags/att_input_list.asp
