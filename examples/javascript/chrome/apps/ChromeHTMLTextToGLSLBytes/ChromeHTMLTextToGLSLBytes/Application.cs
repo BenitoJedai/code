@@ -18,6 +18,8 @@ using ChromeHTMLTextToGLSLBytes.Design;
 using ChromeHTMLTextToGLSLBytes.HTML.Pages;
 using ScriptCoreLib.JavaScript.DOM.SVG;
 using System.IO;
+using ScriptCoreLib.GLSL;
+using System.Linq.Expressions;
 
 namespace ChromeHTMLTextToGLSLBytes
 {
@@ -85,7 +87,9 @@ namespace ChromeHTMLTextToGLSLBytes
 
 			Native.body.style.backgroundColor = "yellow";
 
-			new IHTMLTextArea { value = "oncontextlost" }.AttachTo(Native.document.documentElement).With(
+			new IHTMLTextArea { value = @"Rats! WebGL hit a snag.
+oncontextlost.
+The GPU process hung.Terminating. " }.AttachTo(Native.document.documentElement).With(
 				async xinput =>
 				{
 					new IStyle(xinput)
@@ -164,6 +168,9 @@ namespace ChromeHTMLTextToGLSLBytes
 
 						//new IHTMLPre { pixel0r, pixel0g, pixel0b, pixel0a }.AttachToDocument();
 
+						// need sub methods to split the local memory exhaustion
+						var glsl0 = new StringBuilder();
+						var glsl8 = new StringBuilder();
 						var glsl = new StringBuilder();
 
 						var ytop = 4;
@@ -173,22 +180,51 @@ namespace ChromeHTMLTextToGLSLBytes
 						var colLength = Math.Ceiling(c.width / 16.0);
 
 						glsl.AppendLine("float GetBinary(vec2 coord) {");
-						glsl.AppendLine($"float refcol = 0.0;");
-						glsl.AppendLine($"int col[{colLength}];");
+
 
 						for (int y = ytop; y < c.height; y++)
 						{
 							var xdiv = new IHTMLDiv { }.AttachToDocument();
 							xdiv.style.fontSize = "1px";
 
-							if (y > ytop) glsl.Append("else ");
+							//if (y > ytop) glsl.Append("else ");
 							//glsl.AppendLine($"if (y == {y - ytop})");
 
 							var yy = y - ytop;
-							glsl.AppendLine($"if (({c.height - ytop} - int(coord.y)) == {yy})");
+
+							var chunk = Math.Floor(yy / 8.0) * 8;
+							var chunkNext = chunk + 8;
+
+							if (yy == chunk)
+							{
+
+								glsl8.AppendLine($"float GetBinaryLessThan{chunkNext}(vec2 coord)");
+								glsl8.AppendLine("{");
+
+								glsl.AppendLine($"if (({c.height - ytop} - int(coord.y)) < {chunkNext}) return GetBinaryLessThan{chunkNext}(coord);");
+
+							}
 
 
-							glsl.AppendLine("{");
+
+							glsl8.AppendLine($"if (({c.height - ytop} - int(coord.y)) == {yy}) return GetBinaryAt{yy}(coord.x); "
+								//+ new { yy, chunkNext }
+								);
+
+							var isLastInChunk = yy == chunkNext - 1;
+							var isLastOverall = y == c.height - 1;
+							if (isLastInChunk || isLastOverall)
+							{
+								glsl8.AppendLine("return 0.0;");
+								glsl8.AppendLine("}");
+							}
+
+
+							#region GetBinaryAt
+							glsl0.AppendLine($"float GetBinaryAt{yy}(float coord_x)");
+							glsl0.AppendLine("{");
+							glsl0.AppendLine($"float refcol = 0.0;");
+							glsl0.AppendLine($"int col[{colLength}];");
 
 							var colindex = 0;
 							var colvalue = 0;
@@ -200,6 +236,7 @@ namespace ChromeHTMLTextToGLSLBytes
 
 								//new IHTMLCode { new { zero } }.AttachToDocument();
 
+								#region IHTMLSpan
 								if (zero > 0xc4)
 								{
 									new IStyle(new IHTMLSpan { }.AttachTo(xdiv))
@@ -226,6 +263,8 @@ namespace ChromeHTMLTextToGLSLBytes
 										fontSize = "1px"
 									};
 								}
+								#endregion
+
 
 								var f0 = i % 16 == 15;
 								var f1 = i == c.width - 1;
@@ -236,10 +275,8 @@ namespace ChromeHTMLTextToGLSLBytes
 									var colvaluex4 = colvalue.ToString("x8");
 
 
-									if (yy > 25)
-										glsl.AppendLine($"// /* ldc limit per function reached */ col[{colindex}] = 0x{colvaluex4};");
-									else
-										glsl.AppendLine($"col[{colindex}] = 0x{colvaluex4};");
+
+									glsl0.AppendLine($"col[{colindex}] = 0x{colvaluex4};");
 
 									new IStyle(new IHTMLSpan { }.AttachTo(xdiv))
 									{
@@ -258,7 +295,40 @@ namespace ChromeHTMLTextToGLSLBytes
 
 							}
 
-							glsl.AppendLine("}");
+
+							glsl0.AppendLine($"if (coord_x >= 0.0)");
+
+							for (int i = 0; i < colLength; i++)
+							{
+								if (i > 0) glsl0.Append("else ");
+								glsl0.AppendLine($"if (coord_x < {(i + 1) * 16}.0) refcol = float(col[{i}]);");
+							}
+
+							// https://android.googlesource.com/platform/external/mesa3d/+/75d4dfa13601a92bc5dbc62b054f1c130213e7ca/src/glsl/glcpp/glcpp-parse.c
+
+							// script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Modulo(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)]
+							//Expression<Func<float, float>> f = y => (float)(Math.Floor(1.0f) % 2.0f);
+
+							glsl0.AppendLine($@"
+	return 
+		{nameof(FragmentShader.mod)}(
+			{nameof(FragmentShader.floor)}(
+				refcol / pow(2.0, 
+				{nameof(FragmentShader.floor)}(
+					{nameof(FragmentShader.mod)}(
+						coord_x, 
+						16.0
+					)
+				)
+			)
+		),
+		2.0
+	);
+						");
+
+							glsl0.AppendLine("}");
+							#endregion
+
 
 
 							//new IHTMLBreak().AttachToDocument();
@@ -269,15 +339,7 @@ namespace ChromeHTMLTextToGLSLBytes
 						// ready to export channel1?
 
 
-						glsl.AppendLine($"if (coord.x >= 0.0)");
-
-						for (int i = 0; i < colLength; i++)
-						{
-							if (i > 0) glsl.Append("else ");
-							glsl.AppendLine($"if (coord.x < {(i + 1) * 16}.0) refcol = float(col[{i}]);");
-						}
-
-						glsl.AppendLine("return mod(floor(refcol / pow(2.0, floor(mod(coord.x, 16.0)))), 2.0); }");
+						glsl.AppendLine("return 0.0; }");
 
 						// http://stackoverflow.com/questions/15828966/glsl-compile-error-memory-exhausted
 
@@ -301,7 +363,12 @@ namespace ChromeHTMLTextToGLSLBytes
 						// 1010101010101010
 						ushort y0bit16 = 0;
 
-						new IHTMLTextArea { glsl.ToString() }.AttachToDocument();
+						new IHTMLTextArea {
+
+							glsl0.ToString()
+							+ glsl8.ToString()
+							+ glsl.ToString()
+						}.AttachToDocument();
 						// y 16
 					}
 					while (await xinput.async.onchange);

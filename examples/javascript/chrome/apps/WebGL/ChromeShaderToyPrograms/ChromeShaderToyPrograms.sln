@@ -312,6 +312,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadToHellByRez", "..\syner
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRTestSceneByRaven", "..\synergy\VRTestSceneByRaven\VRTestSceneByRaven\VRTestSceneByRaven.csproj", "{EE715CE5-6ED9-433D-A0EE-0C45C5125D3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SinMountainsByFred", "..\synergy\SinMountainsByFred\SinMountainsByFred\SinMountainsByFred.csproj", "{6DAB88CA-52FF-417D-A529-6A2D35F4F317}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -838,6 +840,10 @@ Global
 		{EE715CE5-6ED9-433D-A0EE-0C45C5125D3D}.Debug|x86.Build.0 = Debug|x86
 		{EE715CE5-6ED9-433D-A0EE-0C45C5125D3D}.Release|x86.ActiveCfg = Release|x86
 		{EE715CE5-6ED9-433D-A0EE-0C45C5125D3D}.Release|x86.Build.0 = Release|x86
+		{6DAB88CA-52FF-417D-A529-6A2D35F4F317}.Debug|x86.ActiveCfg = Debug|x86
+		{6DAB88CA-52FF-417D-A529-6A2D35F4F317}.Debug|x86.Build.0 = Debug|x86
+		{6DAB88CA-52FF-417D-A529-6A2D35F4F317}.Release|x86.ActiveCfg = Release|x86
+		{6DAB88CA-52FF-417D-A529-6A2D35F4F317}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -993,5 +999,6 @@ Global
 		{64CE8DB3-1186-4CFC-A1F3-3AB5D154D401} = {E0547BB3-87F8-4BBC-84A9-9D74966B57AE}
 		{82BED3F4-C6FF-4D2E-A6EE-941B78122B2A} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
 		{EE715CE5-6ED9-433D-A0EE-0C45C5125D3D} = {B91E1304-B675-4951-B645-6052898BD729}
+		{6DAB88CA-52FF-417D-A529-6A2D35F4F317} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
 	EndGlobalSection
 EndGlobal
