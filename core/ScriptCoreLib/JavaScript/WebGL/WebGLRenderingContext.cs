@@ -28,7 +28,7 @@ namespace ScriptCoreLib.JavaScript.WebGL
 		// X:\jsc.svn\examples\javascript\Test\TestMissingNativeIsInstance\TestMissingNativeIsInstance\Application.cs
 
 		ExternalTarget = "WebGLRenderingContext")]
-	public class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
+	public partial class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
 	// : WebGLRenderingContextBase
 	{
 		// "X:\opensource\github\cardboard-java\CardboardSample\src\main\java\com\google\vrtoolkit\cardboard\samples\treasurehunt\MainActivity.java"
@@ -104,6 +104,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 			// tested by X:\jsc.svn\examples\javascript\WebGLSpiral\WebGLSpiral\Application.cs
 
 			public bool alpha;
+
+			// render to webm?
 			public bool preserveDrawingBuffer;
 			public bool antialias;
 
@@ -293,6 +295,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 			{
 				// tested by
 				// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyColumns\ChromeShaderToyColumns\Library\ShaderToy.cs
+				// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyProgramsAsGazeTiles\ChromeShaderToyProgramsAsGazeTiles\Application.cs
+
 				// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLContextEventInit.idl
 				// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLContextEvent.idl
 
