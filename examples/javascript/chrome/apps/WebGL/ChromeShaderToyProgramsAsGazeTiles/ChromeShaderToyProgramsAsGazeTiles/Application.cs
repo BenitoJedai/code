@@ -377,8 +377,8 @@ do we have a stack trace?
 			//var xWebGLRenderbuffer0size = 1024;
 			//var xWebGLRenderbuffer0size = 512;
 			//var xWebGLRenderbuffer0size = 256;
-			//var xWebGLRenderbuffer0size = 128;
-			var xWebGLRenderbuffer0size = 64;
+			var xWebGLRenderbuffer0size = 128;
+			//var xWebGLRenderbuffer0size = 64;
 
 			// -8
 			//var xWebGLRenderbuffer0size = 32;
@@ -855,7 +855,9 @@ do we have a stack trace?
 			//var columns = 12;
 
 			var rows = 9;
-			var columns = 14;
+			var columns = (int)Math.Ceiling(
+				(double)References.programs.Count / rows
+			);
 
 			// tested on ipad! 8
 			// make it an async list?
@@ -1054,8 +1056,8 @@ do we have a stack trace?
 						{
 							// only draw the ones loaded
 
-							var cx = x + (mMousePosX - Math.Abs(mMouseOriX)) * 0.01f - 1.0f;
-							var cy = y + -(mMousePosY - Math.Abs(mMouseOriY)) * 0.01f - 1.0f;
+							var cx = x + (mMousePosX - Math.Abs(mMouseOriX)) * 0.01f;
+							var cy = y + -(mMousePosY - Math.Abs(mMouseOriY)) * 0.01f + 0.5;
 
 							var sx = 0;
 							var sy = 0;
