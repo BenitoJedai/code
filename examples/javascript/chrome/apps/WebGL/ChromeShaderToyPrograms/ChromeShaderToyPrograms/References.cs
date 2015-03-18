@@ -245,6 +245,10 @@ namespace ChromeShaderToyPrograms
 
 			// cube?
 			["VRCardboardGrid"] = () => new ChromeShaderToyVRCardboardGrid.Shaders.ProgramFragmentShader(),
+
+			// https://www.shadertoy.com/view/MdlXz8
+			// https://www.shadertoy.com/view/4ds3zn
+
 		};
 	}
 }
