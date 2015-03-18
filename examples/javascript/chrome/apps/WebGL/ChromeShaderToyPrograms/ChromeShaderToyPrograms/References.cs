@@ -40,6 +40,7 @@ namespace ChromeShaderToyPrograms
 
 			// can we have alt-tab pip ?
 
+			["AlpineJetsByDr2"] = () => new AlpineJetsByDr2.Shaders.ProgramFragmentShader(),
 			["AngelsByIq"] = () => new AngelsByIq.Shaders.ProgramFragmentShader(),
 			["ApollonianByIq"] = () => new ApollonianByIq.Shaders.ProgramFragmentShader(),
 			["AttackOfTheFuzziesByEiffie"] = () => new AttackOfTheFuzziesByEiffie.Shaders.ProgramFragmentShader(),
@@ -217,6 +218,7 @@ namespace ChromeShaderToyPrograms
 			["RayConeRayFrustumByRobert"] = () => new RayConeRayFrustumByRobert.Shaders.ProgramFragmentShader(),
 			["RedCellsByPMalin"] = () => new RedCellsByPMalin.Shaders.ProgramFragmentShader(),
 			["RefelectingCubeByTriggerHLM"] = () => new RefelectingCubeByTriggerHLM.Shaders.ProgramFragmentShader(),
+			["RiverFlightByDr2"] = () => new RiverFlightByDr2.Shaders.ProgramFragmentShader(),
 			["RoadToHellByRez"] = () => new RoadToHellByRez.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyRubikSolverByKali"] = () => new ChromeShaderToyRubikSolverByKali.Shaders.ProgramFragmentShader(),
 
