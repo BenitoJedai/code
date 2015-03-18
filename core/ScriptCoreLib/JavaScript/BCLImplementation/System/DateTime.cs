@@ -89,7 +89,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             }
         }
 
-        public DateTime Date
+		// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyColumns\ChromeShaderToyColumns\Library\ShaderToy.cs
+
+		public DateTime Date
         {
             get
             {

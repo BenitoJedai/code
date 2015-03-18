@@ -94,7 +94,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 			}
 		}
 
-		public int TotalHours
+		public double TotalHours
 		{
 			get
 			{
@@ -104,7 +104,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 			}
 		}
 
-		public int TotalMinutes
+		public double TotalMinutes
 		{
 			get
 			{
@@ -115,8 +115,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 		}
 
 
-
-		public int TotalSeconds
+		// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeShaderToyColumns\ChromeShaderToyColumns\Library\ShaderToy.cs
+		public double TotalSeconds
 		{
 			get
 			{
@@ -138,7 +138,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 		{
 			get
 			{
-				return TotalSeconds % 60;
+				return Convert.ToInt32( TotalSeconds) % 60;
 			}
 		}
 
@@ -147,7 +147,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 		{
 			get
 			{
-				return TotalMinutes % 60;
+				return Convert.ToInt32(TotalMinutes) % 60;
 			}
 		}
 
@@ -155,7 +155,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 		{
 			get
 			{
-				return TotalHours % 24;
+				return Convert.ToInt32(TotalHours) % 24;
 			}
 		}
 
