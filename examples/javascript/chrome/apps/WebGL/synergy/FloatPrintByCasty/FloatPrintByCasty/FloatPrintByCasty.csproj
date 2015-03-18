@@ -8,11 +8,11 @@
     <ProjectGuid>{426A9419-9287-4880-979F-29F29D3F2A22}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ElectroPrimByAlex</RootNamespace>
-    <AssemblyName>ElectroPrimByAlex</AssemblyName>
+    <RootNamespace>FloatPrintByCasty</RootNamespace>
+    <AssemblyName>FloatPrintByCasty</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ElectroPrimByAlex.Program</StartupObject>
+    <StartupObject>FloatPrintByCasty.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -126,8 +126,8 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="ElectroPrimByAlex.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ElectroPrimByAlex.AssetsLibrary.dll</HintPath>
+    <Reference Include="FloatPrintByCasty.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FloatPrintByCasty.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
