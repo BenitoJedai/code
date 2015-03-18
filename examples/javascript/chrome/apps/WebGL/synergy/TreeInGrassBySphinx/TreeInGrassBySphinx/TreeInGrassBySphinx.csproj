@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4CC5A53B-A4A0-4B54-B17F-7288713A2A21}</ProjectGuid>
+    <ProjectGuid>{426A9419-9287-4880-979F-29F29D3F2A22}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FakeVolumeLightByEiffie</RootNamespace>
-    <AssemblyName>FakeVolumeLightByEiffie</AssemblyName>
+    <RootNamespace>TreeInGrassBySphinx</RootNamespace>
+    <AssemblyName>TreeInGrassBySphinx</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>FakeVolumeLightByEiffie.Program</StartupObject>
+    <StartupObject>TreeInGrassBySphinx.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -126,8 +126,8 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="FakeVolumeLightByEiffie.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FakeVolumeLightByEiffie.AssetsLibrary.dll</HintPath>
+    <Reference Include="TreeInGrassBySphinx.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TreeInGrassBySphinx.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
