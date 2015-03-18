@@ -54,6 +54,7 @@ namespace ChromeShaderToyPrograms
 
 			["BatsByGaz"] = () => new BatsByGaz.Shaders.ProgramFragmentShader(),
 			["BlueWallClockByC3d"] = () => new BlueWallClockByC3d.Shaders.ProgramFragmentShader(),
+			["BoingBallByUnitZeroOne"] = () => new BoingBallByUnitZeroOne.Shaders.ProgramFragmentShader(),
 			["BokehBlurByKabuto"] = () => new ChromeShaderToyBokehBlurByKabuto.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyBenderByIq"] = () => new ChromeShaderToyBenderByIq.Shaders.ProgramFragmentShader(),
 
@@ -129,6 +130,7 @@ namespace ChromeShaderToyPrograms
 			["IKSolverByIq"] = () => new IKSolverByIq.Shaders.ProgramFragmentShader(),
 			["InputTimeByIq"] = () => new InputTimeByIq.Shaders.ProgramFragmentShader(),
 			["InversionMachineByKali"] = () => new InversionMachineByKali.Shaders.ProgramFragmentShader(),
+			["IslandByVanburgler"] = () => new IslandByVanburgler.Shaders.ProgramFragmentShader(),
 
 			["ChromeShaderToyKajastusByMarken"] = () => new ChromeShaderToyKajastusByMarken.Shaders.ProgramFragmentShader(),
 
