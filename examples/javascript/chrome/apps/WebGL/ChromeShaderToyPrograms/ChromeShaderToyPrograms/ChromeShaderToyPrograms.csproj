@@ -1153,6 +1153,10 @@
       <Project>{b94abeb4-205f-4a24-8bda-4d89354bed85}</Project>
       <Name>AngelsByIq</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ApollonianByIq\ApollonianByIq\ApollonianByIq.csproj">
+      <Project>{f5f9d3eb-f10c-4d2b-8598-311a94b22461}</Project>
+      <Name>ApollonianByIq</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\AtticByRobert\AtticByRobert\AtticByRobert.csproj">
       <Project>{64ce8db3-1186-4cfc-a1f3-3ab5d154d401}</Project>
       <Name>AtticByRobert</Name>
@@ -1160,6 +1164,14 @@
     <ProjectReference Include="..\..\synergy\BlueWallClockByC3d\BlueWallClockByC3d\BlueWallClockByC3d.csproj">
       <Project>{91fe127c-a954-4034-9c0d-da574671136f}</Project>
       <Name>BlueWallClockByC3d</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\DigitalClockByAndre\DigitalClockByAndre\DigitalClockByAndre.csproj">
+      <Project>{3ca53c54-75fd-46ae-882c-2a7b2817a92f}</Project>
+      <Name>DigitalClockByAndre</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\DirectLightUsingMISByKoiava\DirectLightUsingMISByKoiava\DirectLightUsingMISByKoiava.csproj">
+      <Project>{b1c54240-3df7-4362-a7b0-a30c42efe0e9}</Project>
+      <Name>DirectLightUsingMISByKoiava</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\DNAByOtavio\DNAByOtavio\DNAByOtavio.csproj">
       <Project>{253407dc-56bd-4af0-8761-2c173021c41d}</Project>
@@ -1197,9 +1209,17 @@
       <Project>{b414c9a8-6964-4ede-8eb2-80edd0798041}</Project>
       <Name>GeneratorsByKali</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\GlxgearsByBear\GlxgearsByBear\GlxgearsByBear.csproj">
+      <Project>{5ac2196e-e49b-49b1-b599-40070a0e3edd}</Project>
+      <Name>GlxgearsByBear</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\IKSolverByIq\IKSolverByIq\IKSolverByIq.csproj">
       <Project>{95cebf37-5c29-4995-bf80-1808f26da3ce}</Project>
       <Name>IKSolverByIq</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\InputTimeByIq\InputTimeByIq\InputTimeByIq.csproj">
+      <Project>{0f9135b9-3dac-4aca-968b-4ec4fc05bfdf}</Project>
+      <Name>InputTimeByIq</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\LineIntersectionByThe23\LineIntersectionByThe23\LineIntersectionByThe23.csproj">
       <Project>{40f84144-fd4f-460c-b6a3-d40e8fa6da02}</Project>
@@ -1277,6 +1297,10 @@
       <Project>{e9b99d88-9070-4059-8711-21d02b07ff65}</Project>
       <Name>SiggraphLogoByIq</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SimpleDigitalClockByMikeCAT\SimpleDigitalClockByMikeCAT\SimpleDigitalClockByMikeCAT.csproj">
+      <Project>{de4f48ce-591f-43a6-a793-8b9d34f9198e}</Project>
+      <Name>SimpleDigitalClockByMikeCAT</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\SinMountainsByFred\SinMountainsByFred\SinMountainsByFred.csproj">
       <Project>{6dab88ca-52ff-417d-a529-6a2d35f4f317}</Project>
       <Name>SinMountainsByFred</Name>
@@ -1301,6 +1325,10 @@
       <Project>{eda45b7f-bd3f-4c45-9e90-9990994c8dc7}</Project>
       <Name>TetrahedralInterpolationByPaniq</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\TileableWaterCausticByHoskins\TileableWaterCausticByHoskins\TileableWaterCausticByHoskins.csproj">
+      <Project>{ff79a08b-751c-4142-93c1-44f941e2deda}</Project>
+      <Name>TileableWaterCausticByHoskins</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\ToonCloudByAntoineC\ToonCloudByAntoineC\ToonCloudByAntoineC.csproj">
       <Project>{7db58e83-3863-42d5-9f9d-0f6d706f7daa}</Project>
       <Name>ToonCloudByAntoineC</Name>
@@ -1312,6 +1340,10 @@
     <ProjectReference Include="..\..\synergy\Tunnel1ByWaha\Tunnel1ByWaha\Tunnel1ByWaha.csproj">
       <Project>{1f4e6b0b-0bb5-4a36-9997-87b5e3a45f70}</Project>
       <Name>Tunnel1ByWaha</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\VisibleClockByDr2\VisibleClockByDr2\VisibleClockByDr2.csproj">
+      <Project>{b55409c5-3972-4c1b-85d5-3e3d5f060355}</Project>
+      <Name>VisibleClockByDr2</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\VRTestSceneByRaven\VRTestSceneByRaven\VRTestSceneByRaven.csproj">
       <Project>{ee715ce5-6ed9-433d-a0ee-0c45c5125d3d}</Project>

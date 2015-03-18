@@ -385,6 +385,7 @@ color.a = 1.0;
 						//new IHTMLPre { "enter NewShader_Image" }.AttachToDocument();
 						var shaderCode = fs.ToString();
 
+						// is that it?
 						var vsSource = "attribute vec2 pos; void main() { gl_Position = vec4(pos.xy,0.0,1.0); }";
 
 						var fsSource = header + shaderCode + mImagePassFooter;
@@ -425,7 +426,7 @@ color.a = 1.0;
 							gl.useProgram(mProgram);
 
 							// uniform4fv
-							var mouse = new[] { mousePosX, mousePosY, mouseOriX, mouseOriY };
+							var uniform4fv_mouse = new[] { mousePosX, mousePosY, mouseOriX, mouseOriY };
 
 							// X:\jsc.svn\examples\glsl\future\GLSLShaderToyPip\GLSLShaderToyPip\Application.cs
 							//gl.getUniformLocation(mProgram, "fZoom").With(fZoom => gl.uniform1f(fZoom, zoom));
@@ -433,8 +434,18 @@ color.a = 1.0;
 
 							var l2 = gl.getUniformLocation(mProgram, "iGlobalTime"); if (l2 != null) gl.uniform1f(l2, time);
 							var l3 = gl.getUniformLocation(mProgram, "iResolution"); if (l3 != null) gl.uniform3f(l3, xres, yres, 1.0f);
-							var l4 = gl.getUniformLocation(mProgram, "iMouse"); if (l4 != null) gl.uniform4fv(l4, mouse);
-							//var l7 = gl.getUniformLocation(this.mProgram, "iDate"); if (l7 != null) gl.uniform4fv(l7, dates);
+							var l4 = gl.getUniformLocation(mProgram, "iMouse"); if (l4 != null) gl.uniform4fv(l4, uniform4fv_mouse);
+
+							// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\synergy\SimpleDigitalClock\SimpleDigitalClock\Application.cs
+							// uniform vec4      iDate;                 // (year, month, day, time in seconds)
+							// http://bytes.com/topic/c-sharp/answers/258829-time-elapsed-since-midnight-c
+							var now = DateTime.Now;
+							//var sinceMidnight = now - DateTime.Today;
+							var sinceMidnight = now - now.Date;
+
+							var uniform4fv_dates = new float[] { now.Year, now.Month, now.Day, (float)sinceMidnight.TotalSeconds };
+							var l7 = gl.getUniformLocation(mProgram, "iDate"); if (l7 != null) gl.uniform4fv(l7, uniform4fv_dates);
+
 							//var l9 = gl.getUniformLocation(this.mProgram, "iSampleRate"); if (l9 != null) gl.uniform1f(l9, this.mSampleRate);
 
 							var ich0 = gl.getUniformLocation(mProgram, "iChannel0"); if (ich0 != null) gl.uniform1i(ich0, 0);
