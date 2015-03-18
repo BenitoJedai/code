@@ -1201,6 +1201,10 @@
       <Project>{253407dc-56bd-4af0-8761-2c173021c41d}</Project>
       <Name>DNAByOtavio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\Doom2ByReinder\Doom2ByReinder\Doom2ByReinder.csproj">
+      <Project>{7ae2fb22-0cb3-45e7-8f10-0dd2a724fba6}</Project>
+      <Name>Doom2ByReinder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\DubstepByAssByRez\DubstepByAssByRez\DubstepByAssByRez.csproj">
       <Project>{9b36f942-52cf-40d7-b838-56c334521c59}</Project>
       <Name>DubstepByAssByRez</Name>
@@ -1245,6 +1249,10 @@
       <Project>{0f9135b9-3dac-4aca-968b-4ec4fc05bfdf}</Project>
       <Name>InputTimeByIq</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\InversionMachineByKali\InversionMachineByKali\InversionMachineByKali.csproj">
+      <Project>{85690caa-b7d2-4b73-b50b-4a73367160f6}</Project>
+      <Name>InversionMachineByKali</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\LineIntersectionByThe23\LineIntersectionByThe23\LineIntersectionByThe23.csproj">
       <Project>{40f84144-fd4f-460c-b6a3-d40e8fa6da02}</Project>
       <Name>LineIntersectionByThe23</Name>
@@ -1272,6 +1280,10 @@
     <ProjectReference Include="..\..\synergy\PlayingWithRefleksByEiffie\PlayingWithRefleksByEiffie\PlayingWithRefleksByEiffie.csproj">
       <Project>{7afa2226-3160-4372-9b1a-ec355a7619fd}</Project>
       <Name>PlayingWithRefleksByEiffie</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\PopularShaderByFizzer\PopularShaderByFizzer\PopularShaderByFizzer.csproj">
+      <Project>{f30cfc32-e75c-4af6-88e1-63e9d6fc4720}</Project>
+      <Name>PopularShaderByFizzer</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\PreloaderByMattdesl\PreloaderByMattdesl\PreloaderByMattdesl.csproj">
       <Project>{cc711a84-381d-46ee-b87a-1db03c846cea}</Project>
@@ -1360,6 +1372,14 @@
     <ProjectReference Include="..\..\synergy\TopologicaByOtavio\TopologicaByOtavio\TopologicaByOtavio.csproj">
       <Project>{32734a42-cc72-4c28-9039-99fed7c8cbdc}</Project>
       <Name>TopologicaByOtavio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\TorusJourneyByFalcao\TorusJourneyByFalcao\TorusJourneyByFalcao.csproj">
+      <Project>{9975e41a-6ba2-401f-92e7-a2e2189b0326}</Project>
+      <Name>TorusJourneyByFalcao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\TruchetTentaclesByWaha\TruchetTentaclesByWaha\TruchetTentaclesByWaha.csproj">
+      <Project>{e687f5fc-7041-4fe1-8323-10fe55f010d9}</Project>
+      <Name>TruchetTentaclesByWaha</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\Tunnel1ByWaha\Tunnel1ByWaha\Tunnel1ByWaha.csproj">
       <Project>{1f4e6b0b-0bb5-4a36-9997-87b5e3a45f70}</Project>
