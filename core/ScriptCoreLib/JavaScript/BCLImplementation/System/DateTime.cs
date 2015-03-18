@@ -102,7 +102,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
                 var DateTotalMilliseconds = TotalMilliseconds / x;
 
-                Console.WriteLine(new { DateTotalMilliseconds });
+                //Console.WriteLine(new { DateTotalMilliseconds });
 
                 var ms = DateTotalMilliseconds * x;
 
