@@ -24,6 +24,9 @@ namespace ScriptCoreLib.CompilerServices
 	// http://laurent.le-brun.eu/fsharp/glsl_parse.fs
 	// http://stackoverflow.com/questions/29048161/how-to-export-a-three-js-scene-into-a-360-texture-for-photosphere
 
+	// we would also know how the shader intends to use the uniforms
+	// like do they need random texture, cubemap, audio or keyboard
+
 	// jsc, cant we just import the spec? GLSLangSpec.4.40.pdf and generate our analyser? its 2015!!:D
 	[Obsolete("experimental")]
 	public class GLSLAnalysis
