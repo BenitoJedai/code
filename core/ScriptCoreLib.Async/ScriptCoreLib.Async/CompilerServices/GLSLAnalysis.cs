@@ -80,6 +80,7 @@ namespace ScriptCoreLib.CompilerServices
 
 			// a sub type of chars. x marks the spot
 			const char letter_char = 'x';
+			const char WhiteSpace_char = ' ';
 
 			var cFirstCharAfterByteOrderMark = Enumerable.ToArray(
 				from c in cFirstChar
@@ -94,19 +95,31 @@ namespace ScriptCoreLib.CompilerServices
 
 				let z = new { xReadByte, xChar, c.f, c.s }
 
-
+				#region group for parallel diagnostics and data driven development
 				//+		[0]	{ count = 1, xChar = 99 'c', g = {System.Linq.Lookup<<>f__AnonymousType9<char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
 				//+		[1]	{ count = 1, xChar = 102 'f', g = {System.Linq.Lookup<<>f__AnonymousType9<char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
 				let IsLetter = char.IsLetter(z.xChar)
 
-				group z by new { IsLetter, xChar = IsLetter ? letter_char : xChar } into g
+				// https://msdn.microsoft.com/en-us/library/system.char.iswhitespace%28v=vs.110%29.aspx
+				let IsWhiteSpace = char.IsWhiteSpace(z.xChar)
+
+				group z by new
+				{
+					IsLetter,
+					IsWhiteSpace,
+					xChar =
+						IsLetter ? letter_char :
+						IsWhiteSpace ? WhiteSpace_char : z.xChar
+				} into g
 
 				let count = g.Count()
 
 				// lets look bigger volumes first
 				orderby count descending
 
-				select new { count, g.Key.xChar, g }
+				select new { count, g.Key.xChar, g.Key.IsWhiteSpace, g }
+				#endregion
+
 			);
 
 
@@ -123,7 +136,149 @@ namespace ScriptCoreLib.CompilerServices
 			// # means a define! either a value, or a code fragment?
 			// we need more examples.
 			// long path error, bypass via subst for now?
+			// X:\jsc.svn\examples\javascript\chrome\apps\WebGL
+			// subst w: X:\jsc.svn\examples\javascript\chrome\apps\WebGL
 
+			//+		[0]	{ count = 104, xChar = 47 '/', g = {System.Linq.Lookup<<>f__AnonymousType10<bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 25, xChar = 120 'x', g = {System.Linq.Lookup<<>f__AnonymousType10<bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 24, xChar = 35 '#', g = {System.Linq.Lookup<<>f__AnonymousType10<bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[3]	{ count = 13, xChar = 13 '\r', g = {System.Linq.Lookup<<>f__AnonymousType10<bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[4]	{ count = 7, xChar = 32 ' ', g = {System.Linq.Lookup<<>f__AnonymousType10<bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[5]	{ count = 1, xChar = 9 '\t', g = {System.Linq.Lookup<<>f__AnonymousType10<bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+
+			// we should implement / processing first.
+			// and we could group whitespace. its not fsharp where tabs matter is it.
+			// what can we do with comments? discard or keep as documentation? for the next element in the stream?
+			// 
+
+			//+		[0]	{ count = 104, xChar = 47 '/', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 25, xChar = 120 'x', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 24, xChar = 35 '#', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[3]	{ count = 21, xChar = 32 ' ', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+
+			// the defines are scoped to the stream. otherwise clashes will occur
+			// could we skip the spaces?
+
+
+			// how many iterations:
+			#region cNoSpace
+			var cNoSpace = cFirstCharAfterByteOrderMark;
+			// keep an eye on time costs, we are doing a lot of grouping..
+			var cNoSpacePassIterations = new List<Stopwatch>();
+
+			while (cNoSpace.Any(g => g.IsWhiteSpace))
+			{
+
+				var cNoSpacePass = Stopwatch.StartNew();
+
+				cNoSpace = Enumerable.ToArray(
+				   from g in cNoSpace
+
+				   from c in g.g
+
+					   // if we are a space lets read a new byte otherwise keep the byte we have
+
+				   let xReadByte = char.IsWhiteSpace(c.xChar) ? c.s.ReadByte() : c.xReadByte
+				   let xChar = (char)xReadByte
+
+				   let z = new { xReadByte, xChar, c.f, c.s }
+
+
+				   #region group for parallel diagnostics and data driven development
+				   //+		[0]	{ count = 1, xChar = 99 'c', g = {System.Linq.Lookup<<>f__AnonymousType9<char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+				   //+		[1]	{ count = 1, xChar = 102 'f', g = {System.Linq.Lookup<<>f__AnonymousType9<char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+				   let IsLetter = char.IsLetter(z.xChar)
+
+				   // https://msdn.microsoft.com/en-us/library/system.char.iswhitespace%28v=vs.110%29.aspx
+				   let IsWhiteSpace = char.IsWhiteSpace(z.xChar)
+
+				   group z by new
+				   {
+					   IsLetter,
+					   IsWhiteSpace,
+					   xChar =
+						   IsLetter ? letter_char :
+						   IsWhiteSpace ? WhiteSpace_char : z.xChar
+				   } into g
+
+				   let count = g.Count()
+
+				   // lets look bigger volumes first
+				   orderby count descending
+
+				   select new { count, g.Key.xChar, g.Key.IsWhiteSpace, g }
+				   #endregion
+ );
+				cNoSpacePass.Stop();
+
+				cNoSpacePassIterations.Add(cNoSpacePass);
+
+				// pass complete
+
+				//-		cFirstCharAfterByteOrderMark	{<>f__AnonymousType13<int,char,System.Linq.IGrouping<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>>[4]}	<>f__AnonymousType13<int,char,System.Linq.IGrouping<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>>[]
+				//+		[0]	{ count = 104, xChar = 47 '/', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+				//+		[1]	{ count = 25, xChar = 120 'x', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+				//+		[2]	{ count = 24, xChar = 35 '#', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+				//+		[3]	{ count = 21, xChar = 32 ' ', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+				//		cNoSpacePass.ElapsedTicks	11609	long
+				//-		cNoSpace	{<>f__AnonymousType13<int,char,System.Linq.IGrouping<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>>[4]}	<>f__AnonymousType13<int,char,System.Linq.IGrouping<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>>[]
+				//+		[0]	{ count = 105, xChar = 47 '/', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+				//+		[1]	{ count = 25, xChar = 120 'x', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+				//+		[2]	{ count = 25, xChar = 35 '#', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+				//+		[3]	{ count = 19, xChar = 32 ' ', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+
+				// on the first pass we lost 2 spaces and gained a / and a #
+
+
+			}
+
+			var cNoSpacePassIterationsElapsed = TimeSpan.FromMilliseconds(cNoSpacePassIterations.Sum(x => x.ElapsedMilliseconds));
+			#endregion
+
+
+			//-		cNoSpace	{<>f__AnonymousType13<int,char,bool,System.Linq.IGrouping<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>>[8]}	<>f__AnonymousType13<int,char,bool,System.Linq.IGrouping<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>>[]
+			//+		[0]	{ count = 104, xChar = 47 '/', IsWhiteSpace = false, g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 41, xChar = 120 'x', IsWhiteSpace = false, g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 24, xChar = 35 '#', IsWhiteSpace = false, g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+
+			#region bugcheck
+			//+		[3]	{ count = 1, xChar = 45 '-', IsWhiteSpace = false, g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[4]	{ count = 1, xChar = 59 ';', IsWhiteSpace = false, g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[5]	{ count = 1, xChar = 61 '=', IsWhiteSpace = false, g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[6]	{ count = 1, xChar = 53 '5', IsWhiteSpace = false, g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[7]	{ count = 1, xChar = 48 '0', IsWhiteSpace = false, g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+
+			// -		cNoSpacePassIterations	Count = 83	System.Collections.Generic.List<System.Diagnostics.Stopwatch>
+
+			// how is it possible to start with ; - = 5 0 ?
+
+			// what files are they. 
+			// are they valid?
+			// are we to discard it as invalid state?
+			// is there a bug in our code already?
+
+			// +		[0]	{ xReadByte = 45, xChar = 45 '-', f = "W:\\ChromeShaderToyDigitsByFabrice\\ChromeShaderToyDigitsByFabrice\\Shaders\\Program.frag", s = {System.IO.FileStream} }	<Anonymous Type>
+			//Error ENC0279 Modifying 'method' which contains a query expression will prevent the debug session from continuing.ScriptCoreLib.Async X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\CompilerServices\GLSLAnalysis.cs    50
+			// +		cNoSpacePassIterationsElapsed	{00:00:00.0050000}	System.TimeSpan
+			// x:\jsc.svn\examples\javascript\chrome\apps\webgl\chromeshadertoydigitsbyfabrice\chromeshadertoydigitsbyfabrice\shaders\program.frag
+			// no we must have a bug.
+			// can we isolate it?
+			// was a bug. rerun the async test.
+			#endregion
+
+			//-		cNoSpace	{<>f__AnonymousType13<int,char,bool,System.Linq.IGrouping<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>>[3]}	<>f__AnonymousType13<int,char,bool,System.Linq.IGrouping<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>>[]
+			//+		[0]	{ count = 110, xChar = 47 '/', IsWhiteSpace = false, g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 32, xChar = 35 '#', IsWhiteSpace = false, g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 32, xChar = 120 'x', IsWhiteSpace = false, g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		cNoSpacePassIterations	Count = 34	System.Collections.Generic.List<System.Diagnostics.Stopwatch>
+			//+		cNoSpacePassIterationsElapsed	{00:00:00.0050000}	System.TimeSpan
+
+			// 110 shaders seem to start with a comment.
+			// shall we extract a comment from the stream?
+
+			// GLSLComment
+			// GLSLDefine
+			// GLSLSymbol
 
 			Debugger.Break();
 		}
