@@ -633,6 +633,30 @@
     <Reference Include="ToonCloudByAntoineC.AssetsLibrary">
       <HintPath>..\..\synergy\ToonCloudByAntoineC\ToonCloudByAntoineC\bin\staging.AssetsLibrary\ToonCloudByAntoineC.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ApollonianByIq.AssetsLibrary">
+      <HintPath>..\..\synergy\ApollonianByIq\ApollonianByIq\bin\staging.AssetsLibrary\ApollonianByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DigitalClockByAndre.AssetsLibrary">
+      <HintPath>..\..\synergy\DigitalClockByAndre\DigitalClockByAndre\bin\staging.AssetsLibrary\DigitalClockByAndre.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DirectLightUsingMISByKoiava.AssetsLibrary">
+      <HintPath>..\..\synergy\DirectLightUsingMISByKoiava\DirectLightUsingMISByKoiava\bin\staging.AssetsLibrary\DirectLightUsingMISByKoiava.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GlxgearsByBear.AssetsLibrary">
+      <HintPath>..\..\synergy\GlxgearsByBear\GlxgearsByBear\bin\staging.AssetsLibrary\GlxgearsByBear.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="InputTimeByIq.AssetsLibrary">
+      <HintPath>..\..\synergy\InputTimeByIq\InputTimeByIq\bin\staging.AssetsLibrary\InputTimeByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleDigitalClockByMikeCAT.AssetsLibrary">
+      <HintPath>..\..\synergy\SimpleDigitalClockByMikeCAT\SimpleDigitalClockByMikeCAT\bin\staging.AssetsLibrary\SimpleDigitalClockByMikeCAT.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TileableWaterCausticByHoskins.AssetsLibrary">
+      <HintPath>..\..\synergy\TileableWaterCausticByHoskins\TileableWaterCausticByHoskins\bin\staging.AssetsLibrary\TileableWaterCausticByHoskins.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="VisibleClockByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\VisibleClockByDr2\VisibleClockByDr2\bin\staging.AssetsLibrary\VisibleClockByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

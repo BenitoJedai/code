@@ -601,6 +601,7 @@ color.a = 1.0;
 		public static async void AttachToDocument(FragmentShader vs)
 		{
 			Native.body.style.margin = "0px";
+			Native.body.style.backgroundColor = "blue";
 
 
 			var mAudioContext = new AudioContext();
