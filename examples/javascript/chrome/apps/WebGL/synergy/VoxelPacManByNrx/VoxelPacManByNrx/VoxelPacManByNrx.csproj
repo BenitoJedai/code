@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{426A9419-9287-4880-979F-29F29D3F2A22}</ProjectGuid>
+    <ProjectGuid>{A6E686CF-56CD-4533-9A2C-7E759CA71E33}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VoxelPacManByNrx</RootNamespace>

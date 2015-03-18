@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{426A9419-9287-4880-979F-29F29D3F2A22}</ProjectGuid>
+    <ProjectGuid>{A5A4F08B-F902-4BC7-BEE7-A9B611E54778}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BatsByGaz</RootNamespace>
