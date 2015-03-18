@@ -7,6 +7,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     partial class IWindow
     {
+
         // 20140714 - webcl seems close. when can we test it?
 
         // http://developer.amd.com/community/blog/2014/03/19/chrome-web-browser-webcl-available-download/
@@ -55,14 +56,17 @@ namespace ScriptCoreLib.JavaScript.WebCL
     [Script(HasNoPrototype = true, InternalConstructor = true)]
     public class WebCL
     {
-        // http://www.gabrielecocco.it/fscl/what-is-fscl/
+		// nvidea has 3072 cores!
+		// https://twitter.com/nvidia/status/577873538700345344
 
-        // "X:\opensource\googlecode\ocltoys\juliagpu\rendering_kernel.cl"
-        // jsc, hows your C generation skills? ready for kernel code? what about outputting GLSL yet?
-        // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Object.cs
+		// http://www.gabrielecocco.it/fscl/what-is-fscl/
+
+		// "X:\opensource\googlecode\ocltoys\juliagpu\rendering_kernel.cl"
+		// jsc, hows your C generation skills? ready for kernel code? what about outputting GLSL yet?
+		// X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Object.cs
 
 
-        public WebCLContext createContext()
+		public WebCLContext createContext()
         {
             return default(WebCLContext);
         }

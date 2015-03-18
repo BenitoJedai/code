@@ -609,6 +609,24 @@
     <Reference Include="WaterfallByZtri.AssetsLibrary">
       <HintPath>..\..\synergy\WaterfallByZtri\WaterfallByZtri\bin\staging.AssetsLibrary\WaterfallByZtri.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="BlueWallClockByC3d.AssetsLibrary">
+      <HintPath>..\..\synergy\BlueWallClockByC3d\BlueWallClockByC3d\bin\staging.AssetsLibrary\BlueWallClockByC3d.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlatlandByPMalin.AssetsLibrary">
+      <HintPath>..\..\synergy\FlatlandByPMalin\FlatlandByPMalin\bin\staging.AssetsLibrary\FlatlandByPMalin.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FractalSphereByGuil.AssetsLibrary">
+      <HintPath>..\..\synergy\FractalSphereByGuil\FractalSphereByGuil\bin\staging.AssetsLibrary\FractalSphereByGuil.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MarbleSculptureByTekF.AssetsLibrary">
+      <HintPath>..\..\synergy\MarbleSculptureByTekF\MarbleSculptureByTekF\bin\staging.AssetsLibrary\MarbleSculptureByTekF.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RefelectingCubeByTriggerHLM.AssetsLibrary">
+      <HintPath>..\..\synergy\RefelectingCubeByTriggerHLM\RefelectingCubeByTriggerHLM\bin\staging.AssetsLibrary\RefelectingCubeByTriggerHLM.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SphereMappingsByNimitz.AssetsLibrary">
+      <HintPath>..\..\synergy\SphereMappingsByNimitz\SphereMappingsByNimitz\bin\staging.AssetsLibrary\SphereMappingsByNimitz.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1133,6 +1151,10 @@
       <Project>{64ce8db3-1186-4cfc-a1f3-3ab5d154d401}</Project>
       <Name>AtticByRobert</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\BlueWallClockByC3d\BlueWallClockByC3d\BlueWallClockByC3d.csproj">
+      <Project>{91fe127c-a954-4034-9c0d-da574671136f}</Project>
+      <Name>BlueWallClockByC3d</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\DNAByOtavio\DNAByOtavio\DNAByOtavio.csproj">
       <Project>{253407dc-56bd-4af0-8761-2c173021c41d}</Project>
       <Name>DNAByOtavio</Name>
@@ -1153,9 +1175,17 @@
       <Project>{d82a1c26-ca03-4e8a-abe8-5f3bd5221091}</Project>
       <Name>FerrisWheelByGaz</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\FlatlandByPMalin\FlatlandByPMalin\FlatlandByPMalin.csproj">
+      <Project>{4be4ef1a-ae51-4808-8ff8-f8ed5891274a}</Project>
+      <Name>FlatlandByPMalin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\FractalCondosByEiffie\FractalCondosByEiffie\FractalCondosByEiffie.csproj">
       <Project>{e66f5fe3-e62c-41db-8f84-732ee5eab7b4}</Project>
       <Name>FractalCondosByEiffie</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\FractalSphereByGuil\FractalSphereByGuil\FractalSphereByGuil.csproj">
+      <Project>{14ab7ab0-7612-4026-98f6-ebbae5cdf750}</Project>
+      <Name>FractalSphereByGuil</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\GeneratorsByKali\GeneratorsByKali\GeneratorsByKali.csproj">
       <Project>{b414c9a8-6964-4ede-8eb2-80edd0798041}</Project>
@@ -1168,6 +1198,10 @@
     <ProjectReference Include="..\..\synergy\LineIntersectionByThe23\LineIntersectionByThe23\LineIntersectionByThe23.csproj">
       <Project>{40f84144-fd4f-460c-b6a3-d40e8fa6da02}</Project>
       <Name>LineIntersectionByThe23</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\MarbleSculptureByTekF\MarbleSculptureByTekF\MarbleSculptureByTekF.csproj">
+      <Project>{4148a6e0-f804-4a64-ac1e-12798e580798}</Project>
+      <Name>MarbleSculptureByTekF</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\MirrorRoomByDiLemming\MirrorRoomByDiLemming\MirrorRoomByDiLemming.csproj">
       <Project>{6d1fc992-fb8c-4ec6-90a0-9115fef4d1f3}</Project>
@@ -1200,6 +1234,10 @@
     <ProjectReference Include="..\..\synergy\RayConeRayFrustumByRobert\RayConeRayFrustumByRobert\RayConeRayFrustumByRobert.csproj">
       <Project>{227bbfaf-4364-4d40-ba56-359a2456a01d}</Project>
       <Name>RayConeRayFrustumByRobert</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\RefelectingCubeByTriggerHLM\RefelectingCubeByTriggerHLM\RefelectingCubeByTriggerHLM.csproj">
+      <Project>{bf85afab-b3c0-4471-a0bf-70405c1cdb46}</Project>
+      <Name>RefelectingCubeByTriggerHLM</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\RoadToHellByRez\RoadToHellByRez\RoadToHellByRez.csproj">
       <Project>{82bed3f4-c6ff-4d2e-a6ee-941b78122b2a}</Project>
@@ -1240,6 +1278,10 @@
     <ProjectReference Include="..\..\synergy\SparseGridMarchingByNimitz\SparseGridMarchingByNimitz\SparseGridMarchingByNimitz.csproj">
       <Project>{d1fef5fe-1b9c-48ac-8ee9-f67f650657c5}</Project>
       <Name>SparseGridMarchingByNimitz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SphereMappingsByNimitz\SphereMappingsByNimitz\SphereMappingsByNimitz.csproj">
+      <Project>{468bb917-135c-4d48-b806-a2a4d968e124}</Project>
+      <Name>SphereMappingsByNimitz</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\SteamLogoByYakoudbz\SteamLogoByYakoudbz\SteamLogoByYakoudbz.csproj">
       <Project>{f1d82c30-c689-40ac-a57d-57f80f6aeca1}</Project>
