@@ -388,6 +388,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueWallClockByC3d", "..\sy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefelectingCubeByTriggerHLM", "..\synergy\RefelectingCubeByTriggerHLM\RefelectingCubeByTriggerHLM\RefelectingCubeByTriggerHLM.csproj", "{BF85AFAB-B3C0-4471-A0BF-70405C1CDB46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadeyMcShadishByDcoombes", "..\synergy\ShadeyMcShadishByDcoombes\ShadeyMcShadishByDcoombes\ShadeyMcShadishByDcoombes.csproj", "{A7F2CF6A-5783-429E-A5F1-58624F9DC341}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToonCloudByAntoineC", "..\synergy\ToonCloudByAntoineC\ToonCloudByAntoineC\ToonCloudByAntoineC.csproj", "{7DB58E83-3863-42D5-9F9D-0F6D706F7DAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -1066,6 +1070,14 @@ Global
 		{BF85AFAB-B3C0-4471-A0BF-70405C1CDB46}.Debug|x86.Build.0 = Debug|x86
 		{BF85AFAB-B3C0-4471-A0BF-70405C1CDB46}.Release|x86.ActiveCfg = Release|x86
 		{BF85AFAB-B3C0-4471-A0BF-70405C1CDB46}.Release|x86.Build.0 = Release|x86
+		{A7F2CF6A-5783-429E-A5F1-58624F9DC341}.Debug|x86.ActiveCfg = Debug|x86
+		{A7F2CF6A-5783-429E-A5F1-58624F9DC341}.Debug|x86.Build.0 = Debug|x86
+		{A7F2CF6A-5783-429E-A5F1-58624F9DC341}.Release|x86.ActiveCfg = Release|x86
+		{A7F2CF6A-5783-429E-A5F1-58624F9DC341}.Release|x86.Build.0 = Release|x86
+		{7DB58E83-3863-42D5-9F9D-0F6D706F7DAA}.Debug|x86.ActiveCfg = Debug|x86
+		{7DB58E83-3863-42D5-9F9D-0F6D706F7DAA}.Debug|x86.Build.0 = Debug|x86
+		{7DB58E83-3863-42D5-9F9D-0F6D706F7DAA}.Release|x86.ActiveCfg = Release|x86
+		{7DB58E83-3863-42D5-9F9D-0F6D706F7DAA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1259,5 +1271,7 @@ Global
 		{468BB917-135C-4D48-B806-A2A4D968E124} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
 		{91FE127C-A954-4034-9C0D-DA574671136F} = {B70565E5-CC3D-4084-A7D2-06CB8A079B2B}
 		{BF85AFAB-B3C0-4471-A0BF-70405C1CDB46} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
+		{A7F2CF6A-5783-429E-A5F1-58624F9DC341} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
+		{7DB58E83-3863-42D5-9F9D-0F6D706F7DAA} = {6B99A4F6-D079-4F85-82EF-B462C36F92A0}
 	EndGlobalSection
 EndGlobal

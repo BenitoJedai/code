@@ -280,6 +280,8 @@ namespace ScriptCoreLib.CompilerServices
 			// GLSLDefine
 			// GLSLSymbol
 
+			// jsc could run the analyser on assetslib run.
+
 			Debugger.Break();
 		}
 	}

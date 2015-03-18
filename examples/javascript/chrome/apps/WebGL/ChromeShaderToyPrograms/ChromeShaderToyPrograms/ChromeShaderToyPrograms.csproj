@@ -1247,6 +1247,10 @@
       <Project>{146d895b-2a6f-48d5-8091-b099bf3c459e}</Project>
       <Name>ShaderingChameleonByIapafoto</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ShadeyMcShadishByDcoombes\ShadeyMcShadishByDcoombes\ShadeyMcShadishByDcoombes.csproj">
+      <Project>{a7f2cf6a-5783-429e-a5f1-58624f9dc341}</Project>
+      <Name>ShadeyMcShadishByDcoombes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\ShakespeareQuestByEiffie\ShakespeareQuestByEiffie\ShakespeareQuestByEiffie.csproj">
       <Project>{cb5b562c-2a62-4c77-844c-cc762c61b23b}</Project>
       <Name>ShakespeareQuestByEiffie</Name>
@@ -1290,6 +1294,10 @@
     <ProjectReference Include="..\..\synergy\TetrahedralInterpolationByPaniq\TetrahedralInterpolationByPaniq\TetrahedralInterpolationByPaniq.csproj">
       <Project>{eda45b7f-bd3f-4c45-9e90-9990994c8dc7}</Project>
       <Name>TetrahedralInterpolationByPaniq</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ToonCloudByAntoineC\ToonCloudByAntoineC\ToonCloudByAntoineC.csproj">
+      <Project>{7db58e83-3863-42d5-9f9d-0f6d706f7daa}</Project>
+      <Name>ToonCloudByAntoineC</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\TopologicaByOtavio\TopologicaByOtavio\TopologicaByOtavio.csproj">
       <Project>{32734a42-cc72-4c28-9039-99fed7c8cbdc}</Project>
