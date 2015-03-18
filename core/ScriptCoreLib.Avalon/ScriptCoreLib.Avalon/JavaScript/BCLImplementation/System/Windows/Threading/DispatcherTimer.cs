@@ -5,13 +5,16 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Threading
 {
-    // http://referencesource.microsoft.com/#WindowsBase/src/Base/System/Windows/Threading/DispatcherTimer.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/System.Windows/System/Windows/Threading/DispatcherTimer.cs
+	// http://referencesource.microsoft.com/#WindowsBase/src/Base/System/Windows/Threading/DispatcherTimer.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/System.Windows/System/Windows/Threading/DispatcherTimer.cs
 
 	[Script(Implements = typeof(global::System.Windows.Threading.DispatcherTimer))]
 	internal class __DispatcherTimer
 	{
-        // what about background threads?
+		// what about background threads?
+
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150318
+		// public TResult Invoke<TResult>(Func<TResult> callback);
 
 		bool InternalIsEnabled = false;
 		public bool IsEnabled

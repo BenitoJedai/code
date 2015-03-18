@@ -7,6 +7,10 @@ namespace ScriptCoreLib.GLSL
 {
     public class FragmentShader : Shader
     {
+		// can we have a jsc nuget to analyse and rewrite glsl code?
+		// the CLR version could work like IDL parser, assets libray and link to GLSL types.
+		// the chrome version would need type info?
+
 		// Expression to glsl?
 
 		// ANGLE_ENABLE_LOOP_FLATTEN
