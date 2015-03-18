@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{426A9419-9287-4880-979F-29F29D3F2A22}</ProjectGuid>
+    <ProjectGuid>{5AFE1EEC-581A-4618-9FCF-1EFC5226BFCE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LittleFluffyCloudsByGreen</RootNamespace>
