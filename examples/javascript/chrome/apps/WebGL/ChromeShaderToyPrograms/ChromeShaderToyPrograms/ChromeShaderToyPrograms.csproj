@@ -627,6 +627,12 @@
     <Reference Include="SphereMappingsByNimitz.AssetsLibrary">
       <HintPath>..\..\synergy\SphereMappingsByNimitz\SphereMappingsByNimitz\bin\staging.AssetsLibrary\SphereMappingsByNimitz.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ShadeyMcShadishByDcoombes.AssetsLibrary">
+      <HintPath>..\..\synergy\ShadeyMcShadishByDcoombes\ShadeyMcShadishByDcoombes\bin\staging.AssetsLibrary\ShadeyMcShadishByDcoombes.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ToonCloudByAntoineC.AssetsLibrary">
+      <HintPath>..\..\synergy\ToonCloudByAntoineC\ToonCloudByAntoineC\bin\staging.AssetsLibrary\ToonCloudByAntoineC.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
