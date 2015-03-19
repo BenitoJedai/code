@@ -750,6 +750,7 @@ namespace ScriptCoreLib.CompilerServices
 
 			// looks like #define is to win by one?
 			// shall we get more examples to decide which to implement?
+			// box comment is rather unpopular at this early point in parallel parsing?
 
 			Debugger.Break();
 		}
