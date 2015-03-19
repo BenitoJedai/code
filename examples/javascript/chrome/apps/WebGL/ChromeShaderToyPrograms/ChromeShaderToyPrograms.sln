@@ -542,6 +542,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClawByGreen", "..\synergy\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuitarByAtyuwen", "..\synergy\GuitarByAtyuwen\GuitarByAtyuwen\GuitarByAtyuwen.csproj", "{6A2CFEAC-F611-42D2-9516-7D026293A229}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacmanByTsone", "..\synergy\PacmanByTsone\PacmanByTsone\PacmanByTsone.csproj", "{6BB449C1-4671-47CE-A001-E844E9F77DF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrystalBallByAaecheve", "..\synergy\CrystalBallByAaecheve\CrystalBallByAaecheve\CrystalBallByAaecheve.csproj", "{29050A98-700E-43CC-AC87-1A25BF0B6A94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -1520,6 +1524,14 @@ Global
 		{6A2CFEAC-F611-42D2-9516-7D026293A229}.Debug|x86.Build.0 = Debug|x86
 		{6A2CFEAC-F611-42D2-9516-7D026293A229}.Release|x86.ActiveCfg = Release|x86
 		{6A2CFEAC-F611-42D2-9516-7D026293A229}.Release|x86.Build.0 = Release|x86
+		{6BB449C1-4671-47CE-A001-E844E9F77DF1}.Debug|x86.ActiveCfg = Debug|x86
+		{6BB449C1-4671-47CE-A001-E844E9F77DF1}.Debug|x86.Build.0 = Debug|x86
+		{6BB449C1-4671-47CE-A001-E844E9F77DF1}.Release|x86.ActiveCfg = Release|x86
+		{6BB449C1-4671-47CE-A001-E844E9F77DF1}.Release|x86.Build.0 = Release|x86
+		{29050A98-700E-43CC-AC87-1A25BF0B6A94}.Debug|x86.ActiveCfg = Debug|x86
+		{29050A98-700E-43CC-AC87-1A25BF0B6A94}.Debug|x86.Build.0 = Debug|x86
+		{29050A98-700E-43CC-AC87-1A25BF0B6A94}.Release|x86.ActiveCfg = Release|x86
+		{29050A98-700E-43CC-AC87-1A25BF0B6A94}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1790,5 +1802,7 @@ Global
 		{40F1C502-2246-4159-9A21-062D6AB3FFAC} = {D5965CD1-F0B9-4821-943C-C1078CBD0503}
 		{396CEB6C-2CCD-485A-B185-71E35FA07C06} = {E52AEDA5-00B9-4FA3-AC2D-6A13A92ED282}
 		{6A2CFEAC-F611-42D2-9516-7D026293A229} = {9DA750F2-07C6-4F9F-BBDA-45CAA7720509}
+		{6BB449C1-4671-47CE-A001-E844E9F77DF1} = {F938B933-5FAD-41D4-8813-7F51CEFF1B8E}
+		{29050A98-700E-43CC-AC87-1A25BF0B6A94} = {E52AEDA5-00B9-4FA3-AC2D-6A13A92ED282}
 	EndGlobalSection
 EndGlobal
