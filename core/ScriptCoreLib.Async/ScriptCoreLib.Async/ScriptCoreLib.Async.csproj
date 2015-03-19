@@ -127,6 +127,7 @@
   <ItemGroup>
     <Compile Include="CompilerServices\CallerFileLineAttribute.cs" />
     <Compile Include="CompilerServices\GLSLAnalysis.cs" />
+    <Compile Include="CompilerServices\GLSLBlockComment.cs" />
     <Compile Include="CompilerServices\GLSLLineComment.cs" />
     <Compile Include="CompilerServices\GLSLElement.cs" />
     <Compile Include="Extensions\ControlBindingsCollectionExtensions.cs" />

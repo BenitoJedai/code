@@ -759,6 +759,13 @@ namespace ScriptCoreLib.CompilerServices
 			// lets look at the block comments the latest
 			//+		[2]	{ count = 17, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 47 '/', xChar0IsWhiteSpace = false, xChar1 = 42 '*', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
 
+
+			/*
+			// pragmas may turn out to be inline defines?
+			*/
+			// should we keep statistics on language features found?
+
+
 			Debugger.Break();
 		}
 	}
