@@ -6,6 +6,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StringReader.cs
+
 	[Script(Implements = typeof(global::System.IO.StringReader))]
 	internal class __StringReader : __TextReader
 	{

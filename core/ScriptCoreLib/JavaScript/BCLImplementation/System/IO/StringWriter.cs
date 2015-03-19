@@ -6,7 +6,9 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
-    [Script(Implements = typeof(global::System.IO.StringWriter))]
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/StringWriter.cs
+
+	[Script(Implements = typeof(global::System.IO.StringWriter))]
     internal class __StringWriter : __TextWriter
     {
         readonly StringBuilder StringBuilder = new StringBuilder();

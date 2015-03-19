@@ -206,8 +206,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
     // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/Future.cs
     [Script(Implements = typeof(global::System.Threading.Tasks.Task<>))]
-    internal partial class __Task<TResult> : __Task
-    {
+    internal partial class __Task<TResult> : __Task,
+		//SUPPORT_IOBSERVABLE
+		, IObservable<TResult>
+	{
         public override string ToString()
         {
             return new { IsCompleted, this.Result }.ToString();
@@ -265,7 +267,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             this.InternalSetCompleteAndYield();
         }
 
-        public static implicit operator Task<TResult>(__Task<TResult> e)
+		public IDisposable Subscribe(global::System.IObserver<TResult> observer)
+		{
+			// tested by?
+			throw new NotImplementedException();
+		}
+
+		public static implicit operator Task<TResult>(__Task<TResult> e)
         {
             return (Task<TResult>)(object)e;
         }

@@ -7,7 +7,9 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
-    [Script(Implements = typeof(global::System.IO.FileInfo))]
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/FileInfo.cs
+
+	[Script(Implements = typeof(global::System.IO.FileInfo))]
     public class __FileInfo : __FileSystemInfo
     {
         public ScriptCoreLib.JavaScript.DOM.File InternalFile;

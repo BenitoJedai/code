@@ -24,6 +24,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	[Script(Implements = typeof(global::System.String), InternalConstructor = true)]
 	internal class __String
 	{
+		// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/corefx/System/Globalization/StringInfo.cs
+
 		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/stringnative.cpp
 		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/stringnative.h
 
