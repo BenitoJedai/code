@@ -31,6 +31,9 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	public partial class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
 	// : WebGLRenderingContextBase
 	{
+
+		// gpu 0..2..4..8..64
+
 		// "X:\opensource\github\cardboard-java\CardboardSample\src\main\java\com\google\vrtoolkit\cardboard\samples\treasurehunt\MainActivity.java"
 
 		// https://msdn.microsoft.com/en-us/library/windows/hardware/dn265449(v=vs.85).aspx

@@ -38,6 +38,8 @@ namespace ScriptCoreLib.CompilerServices
 
 
 		// we should not be on UI thread, nor should we switch threads ourselves
+		// when will it work for js workers?
+		// can we do syntax highlighting?
 		public static async Task WorkerThreadAnalyzeFragmentShaders(
 			string[] SourceFiles,
 			Action<double> AtProgress
@@ -85,6 +87,7 @@ namespace ScriptCoreLib.CompilerServices
 			const char letter_char = 'x';
 			const char WhiteSpace_char = ' ';
 
+			#region cFirstCharAfterByteOrderMark
 			var cFirstCharAfterByteOrderMark = Enumerable.ToArray(
 				from c in cFirstChar
 				where c.xReadByte == 0xEF
@@ -158,6 +161,7 @@ namespace ScriptCoreLib.CompilerServices
 			//+		[1]	{ count = 25, xChar = 120 'x', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
 			//+		[2]	{ count = 24, xChar = 35 '#', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
 			//+		[3]	{ count = 21, xChar = 32 ' ', g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			#endregion
 
 			// the defines are scoped to the stream. otherwise clashes will occur
 			// could we skip the spaces?
@@ -213,7 +217,6 @@ namespace ScriptCoreLib.CompilerServices
 				   #endregion
  );
 				cNoSpacePass.Stop();
-
 				cNoSpacePassIterations.Add(cNoSpacePass);
 
 				// pass complete
@@ -295,7 +298,7 @@ namespace ScriptCoreLib.CompilerServices
 			// the only thing to do is the read the next char too..
 
 
-
+			#region cNoSpaceWORD
 			var cNoSpaceWORD = Enumerable.ToArray(
 				   from g in cNoSpace
 
@@ -314,11 +317,27 @@ namespace ScriptCoreLib.CompilerServices
 				   let IsLineComment = xChar0 == '/' && xChar1 == '/'
 				   let IsBlockComment = xChar0 == '/' && xChar1 == '*'
 
-				   let z = new { xReadByte0, xReadByte1, xChar0, xChar1, c.f, c.s, IsLineComment, IsBlockComment, IsLetter0, IsLetter1 }
+				   // placeholder
+				   let xLineCommentContentByte = -1
+				   let xLineCommentContentByteIsLineFeed = false
+
+				   // a placeholder for all comment content until \n
+				   let xLineCommentStringBuilder = IsLineComment ? new StringBuilder() : null
+
+
+				   //let z = new { xReadByte0, xReadByte1, xChar0, xChar1, c.f, c.s, IsLineComment, IsBlockComment, IsLetter0, IsLetter1 }
+				   //let z = new { xChar0, xChar1, xLineCommentContentByte, xLineCommentContentByteIsLineFeed, c.f, c.s, IsLineComment, IsBlockComment, IsLetter0, IsLetter1, xLineCommentStringBuilder }
+				   let z = new { IsLineComment, xLineCommentStringBuilder, xChar0, xChar1, xLineCommentContentByte, xLineCommentContentByteIsLineFeed, c.f, c.s, IsBlockComment, IsLetter0, IsLetter1 }
 
 				   group z by new
 				   {
-					   IsLetter0,
+
+					   //IsLetter0,
+					   // lets prep the grouping for comment parsing
+
+					   IsLineComment,
+					   xLineCommentContentByteIsLineFeed,
+
 
 					   xChar0 = IsLetter0 ? letter_char : xChar0,
 
@@ -331,7 +350,8 @@ namespace ScriptCoreLib.CompilerServices
 				   // lets look bigger volumes first
 				   orderby count descending
 
-				   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsLetter0, g }
+				   //select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsLetter0, g }
+				   select new { count, g.Key.IsLineComment, g.Key.xLineCommentContentByteIsLineFeed, g.Key.xChar0, g.Key.xChar1, g }
 			);
 
 			//+		[0]	{ count = 148, xChar0 = 47 '/', xChar1 = 47 '/', IsLetter0 = false, g = {System.Linq.Lookup<<>f__AnonymousType27<bool,char,char>,<>f__AnonymousType26<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
@@ -362,41 +382,148 @@ namespace ScriptCoreLib.CompilerServices
 
 			// comment needs a newline to terminate
 			// block comment needs */ to terminate
+			#endregion
+
+
 
 			//lets resolve the comments
-			var cNoLineComment = Enumerable.ToArray(
-				from g in cNoSpaceWORD
 
-				from c in g.g
+			var cNoLineCommentPassIterations = new List<Stopwatch>();
+			#region cNoLineComment
+			var cNoLineComment = cNoSpaceWORD;
 
-					// applicable for IsComment
-				let xLineCommentContentByte = c.IsLineComment ? c.s.ReadByte() : -1
+			// any open line comments?
+			while (cNoLineComment.Any(g => g.IsLineComment && !g.xLineCommentContentByteIsLineFeed))
+			{
+				var cNoLineCommentPass = Stopwatch.StartNew();
 
-				// did it terminate the line yet?
-				// even if we did, how can we resume on the next line?
+				cNoLineComment = Enumerable.ToArray(
+					from g in cNoLineComment
+
+					from c in g.g
+
+						//let xb = new StringBuilder()
+						//let xb0 = xb.Append(
 
 
-				let z = new { c.xReadByte0, c.xReadByte1, c.xChar0, c.xChar1, xLineCommentContentByte, c.f, c.s, c.IsLineComment, c.IsBlockComment }
+						// how can we collect/aggregate the current bytes?
 
-				group z by new
-				{
-					// we are to focus on comments
-					c.IsLineComment,
+						// applicable for IsComment
+						// unless xLineCommentContentByteIsLineFeed, then stall and keep current state for next phase
+					let xLineCommentContentByte =
+						c.IsLineComment ?
+							c.xLineCommentContentByteIsLineFeed ?
+								c.xLineCommentContentByte : c.s.ReadByte() : -1
 
-					xChar0 = c.IsLetter0 ? letter_char : c.xChar0,
+					// did it terminate the line yet?
+					// even if we did, how can we resume on the next line?
+					// http://stackoverflow.com/questions/3267311/what-is-newline-character-n
 
-					// how to group it?
-					xChar1 = c.IsLetter1 ? letter_char : c.xChar1,
-				} into g
+					// terminates line comment yet? check for -1?
+					let xLineCommentContentByteIsLineFeed = xLineCommentContentByte == '\n'
 
-				let count = g.Count()
 
-				// lets look bigger volumes first
-				orderby count descending
+					let xLineCommentStringBuilderAppend =
+						c.IsLineComment &&
+							// was the comment already complete?
+							!c.xLineCommentContentByteIsLineFeed
+							// is the comment complete now?
+							//!xLineCommentContentByteIsLineFeed
 
-				select new { count, g.Key.IsLineComment, g.Key.xChar0, g.Key.xChar1, g }
-			);
+							// what happens if the stream ends mid way?
+							// is the previous byte there?
+							&& c.xLineCommentContentByte >= 0
 
+							// how can we skip \r ?
+							&& !(xLineCommentContentByteIsLineFeed && c.xLineCommentContentByte == '\r') ?
+								c.xLineCommentStringBuilder.Append((char)c.xLineCommentContentByte) : null
+
+
+					//do  C.
+					//let ref0 = 
+
+					//let z = new { c.xChar0, c.xChar1, xLineCommentContentByte, xLineCommentContentByteIsLineFeed, c.f, c.s, c.IsLineComment, c.IsBlockComment }
+					//let z = new { c.xChar0, c.xChar1, xLineCommentContentByte, xLineCommentContentByteIsLineFeed, c.f, c.s, c.IsLineComment, c.IsBlockComment, c.IsLetter0, c.IsLetter1 }
+					let z = new { c.IsLineComment, c.xLineCommentStringBuilder, c.xChar0, c.xChar1, xLineCommentContentByte, xLineCommentContentByteIsLineFeed, c.f, c.s, c.IsBlockComment, c.IsLetter0, c.IsLetter1 }
+
+					// will it group the manual #define s near each other?
+					orderby Convert.ToString(z.xLineCommentStringBuilder)
+
+					group z by new
+					{
+						// can we mark the comment to be terminated yet and load a new word?
+						// or do it on the next pass once all are at the same state?
+
+						// we are to focus on comments
+						c.IsLineComment,
+						xLineCommentContentByteIsLineFeed,
+
+						xChar0 = c.IsLetter0 ? letter_char : c.xChar0,
+
+						// how to group it?
+						xChar1 = c.IsLetter1 ? letter_char : c.xChar1,
+					} into g
+
+					let count = g.Count()
+
+					// lets look bigger volumes first
+					orderby g.Key.xLineCommentContentByteIsLineFeed, count descending
+
+					select new { count, g.Key.IsLineComment, g.Key.xLineCommentContentByteIsLineFeed, g.Key.xChar0, g.Key.xChar1, g }
+				);
+
+				//+		[0]	{ count = 148, IsLineComment = true, xLineCommentContentByteIsLineFeed = false, xChar0 = 47 '/', xChar1 = 47 '/', g = {System.Linq.Lookup<<>f__AnonymousType35<bool,bool,char,char>,<>f__AnonymousType34<char,char,int,bool,string,System.IO.FileStream,bool,bool>>.Grouping} }	<Anonymous Type>
+				//+		[1]	{ count = 40, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 35 '#', xChar1 = 120 'x', g = {System.Linq.Lookup<<>f__AnonymousType35<bool,bool,char,char>,<>f__AnonymousType34<char,char,int,bool,string,System.IO.FileStream,bool,bool>>.Grouping} }	<Anonymous Type>
+				//+		[2]	{ count = 37, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 120 'x', xChar1 = 120 'x', g = {System.Linq.Lookup<<>f__AnonymousType35<bool,bool,char,char>,<>f__AnonymousType34<char,char,int,bool,string,System.IO.FileStream,bool,bool>>.Grouping} }	<Anonymous Type>
+				//+		[3]	{ count = 8, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 47 '/', xChar1 = 42 '*', g = {System.Linq.Lookup<<>f__AnonymousType35<bool,bool,char,char>,<>f__AnonymousType34<char,char,int,bool,string,System.IO.FileStream,bool,bool>>.Grouping} }	<Anonymous Type>
+
+
+				// the partial comments we are still reading
+				//+		[0]	{ count = 147, IsLineComment = true, xLineCommentContentByteIsLineFeed = false, xChar0 = 47 '/', xChar1 = 47 '/', g = {System.Linq.Lookup<<>f__AnonymousType33<bool,bool,char,char>,<>f__AnonymousType32<char,char,int,bool,string,System.IO.FileStream,bool,bool,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
+				// the pragmas
+				//+		[1]	{ count = 40, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 35 '#', xChar1 = 120 'x', g = {System.Linq.Lookup<<>f__AnonymousType33<bool,bool,char,char>,<>f__AnonymousType32<char,char,int,bool,string,System.IO.FileStream,bool,bool,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
+				// the typerefs?
+				//+		[2]	{ count = 37, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 120 'x', xChar1 = 120 'x', g = {System.Linq.Lookup<<>f__AnonymousType33<bool,bool,char,char>,<>f__AnonymousType32<char,char,int,bool,string,System.IO.FileStream,bool,bool,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
+				// the block comments
+				//+		[3]	{ count = 8, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 47 '/', xChar1 = 42 '*', g = {System.Linq.Lookup<<>f__AnonymousType33<bool,bool,char,char>,<>f__AnonymousType32<char,char,int,bool,string,System.IO.FileStream,bool,bool,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
+				// the completed line comments, need to save them and move to next bytes. 
+
+				//-		[4]	{ count = 1, IsLineComment = true, xLineCommentContentByteIsLineFeed = true, xChar0 = 47 '/', xChar1 = 47 '/', g = {System.Linq.Lookup<<>f__AnonymousType33<bool,bool,char,char>,<>f__AnonymousType32<char,char,int,bool,string,System.IO.FileStream,bool,bool,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
+				//+		[0]	{ xChar0 = 47 '/', xChar1 = 47 '/', xLineCommentContentByte = 10, xLineCommentContentByteIsLineFeed = true, f = "W:\\ChromeShaderToyTextCandyByCPU\\ChromeShaderToyTextCandyByCPU\\Shaders\\Program.frag", s = {System.IO.FileStream}, IsLineComment = true, IsBlockComment = false, IsLetter0 = false, IsLetter1 = false ... }	<Anonymous Type>
+				//		IsLineComment	true	bool
+				//		xChar0	47 '/'	char
+				//		xChar1	47 '/'	char
+				//		xLineCommentContentByteIsLineFeed	true	bool
+				//+		cNoLineCommentPassIterations	Count = 1	System.Collections.Generic.List<System.Diagnostics.Stopwatch>
+
+
+
+				//block comment reading will be done by 2chars at the time
+				//a comment can contain anything, including a #define
+
+
+				/*
+
+				should we care about #defines ? like a manual switch?
+
+				*/
+				cNoLineCommentPass.Stop();
+				cNoLineCommentPassIterations.Add(cNoLineCommentPass);
+			}
+			#endregion
+			var cNoLineCommentPassIterationsElapsed = TimeSpan.FromMilliseconds(cNoLineCommentPassIterations.Sum(x => x.ElapsedMilliseconds));
+
+
+			//+		[0]	{ count = 40, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 35 '#', xChar1 = 120 'x', g = {System.Linq.Lookup<<>f__AnonymousType33<bool,bool,char,char>,<>f__AnonymousType32<bool,System.Text.StringBuilder,char,char,int,bool,string,System.IO.FileStream,bool,bool,bool>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 37, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 120 'x', xChar1 = 120 'x', g = {System.Linq.Lookup<<>f__AnonymousType33<bool,bool,char,char>,<>f__AnonymousType32<bool,System.Text.StringBuilder,char,char,int,bool,string,System.IO.FileStream,bool,bool,bool>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 8, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 47 '/', xChar1 = 42 '*', g = {System.Linq.Lookup<<>f__AnonymousType33<bool,bool,char,char>,<>f__AnonymousType32<bool,System.Text.StringBuilder,char,char,int,bool,string,System.IO.FileStream,bool,bool,bool>>.Grouping} }	<Anonymous Type>
+			
+			//+		[3]	{ count = 148, IsLineComment = true, xLineCommentContentByteIsLineFeed = true, xChar0 = 47 '/', xChar1 = 47 '/', g = {System.Linq.Lookup<<>f__AnonymousType33<bool,bool,char,char>,<>f__AnonymousType32<bool,System.Text.StringBuilder,char,char,int,bool,string,System.IO.FileStream,bool,bool,bool>>.Grouping} }	<Anonymous Type>
+			//+		cNoLineCommentPassIterations	Count = 92	System.Collections.Generic.List<System.Diagnostics.Stopwatch>
+
+			//NLP on comments?
+
+			// now we need to stash the comments, and read a new byte in
 
 			Debugger.Break();
 		}
