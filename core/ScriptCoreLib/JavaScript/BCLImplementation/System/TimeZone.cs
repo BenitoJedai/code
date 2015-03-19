@@ -6,10 +6,11 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/timezone.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/TimeZone.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/timezone.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System/TimeZone.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/TimeZoneInfo.cs
 
-    [Script(Implements = typeof(global::System.TimeZone))]
+	[Script(Implements = typeof(global::System.TimeZone))]
     internal class __TimeZone
     {
         // http://www.w3schools.com/jsref/jsref_utc.asp
