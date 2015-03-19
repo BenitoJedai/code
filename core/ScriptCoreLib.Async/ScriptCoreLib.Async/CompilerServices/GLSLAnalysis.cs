@@ -292,6 +292,110 @@ namespace ScriptCoreLib.CompilerServices
 			//+		[2]	{ count = 37, xChar = 120 'x', IsWhiteSpace = false, g = {System.Linq.Lookup<<>f__AnonymousType11<bool,bool,char>,<>f__AnonymousType8<int,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
 			//+		cNoSpacePassIterations	Count = 34	System.Collections.Generic.List<System.Diagnostics.Stopwatch>
 
+			// the only thing to do is the read the next char too..
+
+
+
+			var cNoSpaceWORD = Enumerable.ToArray(
+				   from g in cNoSpace
+
+				   from c in g.g
+
+				   let xReadByte0 = c.xReadByte
+				   let xChar0 = c.xChar
+
+				   let xReadByte1 = c.s.ReadByte()
+				   let xChar1 = (char)xReadByte1
+
+				   // x? or #?
+				   let IsLetter0 = char.IsLetter(xChar0)
+				   let IsLetter1 = char.IsLetter(xChar1)
+
+				   let IsLineComment = xChar0 == '/' && xChar1 == '/'
+				   let IsBlockComment = xChar0 == '/' && xChar1 == '*'
+
+				   let z = new { xReadByte0, xReadByte1, xChar0, xChar1, c.f, c.s, IsLineComment, IsBlockComment }
+
+				   group z by new
+				   {
+					   IsLetter0,
+
+					   xChar0 = IsLetter0 ? letter_char : xChar0,
+
+					   // how to group it?
+					   xChar1 = IsLetter1 ? letter_char : xChar1,
+				   } into g
+
+				   let count = g.Count()
+
+				   // lets look bigger volumes first
+				   orderby count descending
+
+				   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsLetter0, g }
+			);
+
+			//+		[0]	{ count = 148, xChar0 = 47 '/', xChar1 = 47 '/', IsLetter0 = false, g = {System.Linq.Lookup<<>f__AnonymousType27<bool,char,char>,<>f__AnonymousType26<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[5]	{ count = 8, xChar0 = 47 '/', xChar1 = 42 '*', IsLetter0 = false, g = {System.Linq.Lookup<<>f__AnonymousType27<bool,char,char>,<>f__AnonymousType26<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+
+			//+		[1]	{ count = 30, xChar0 = 35 '#', xChar1 = 100 'd', IsLetter0 = false, g = {System.Linq.Lookup<<>f__AnonymousType27<bool,char,char>,<>f__AnonymousType26<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[4]	{ count = 10, xChar0 = 35 '#', xChar1 = 105 'i', IsLetter0 = false, g = {System.Linq.Lookup<<>f__AnonymousType27<bool,char,char>,<>f__AnonymousType26<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+
+			// reading a typeref?
+			//+		[2]	{ count = 16, xChar0 = 120 'x', xChar1 = 108 'l', IsLetter0 = true, g = {System.Linq.Lookup<<>f__AnonymousType27<bool,char,char>,<>f__AnonymousType26<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[3]	{ count = 12, xChar0 = 120 'x', xChar1 = 111 'o', IsLetter0 = true, g = {System.Linq.Lookup<<>f__AnonymousType27<bool,char,char>,<>f__AnonymousType26<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[6]	{ count = 4, xChar0 = 120 'x', xChar1 = 101 'e', IsLetter0 = true, g = {System.Linq.Lookup<<>f__AnonymousType27<bool,char,char>,<>f__AnonymousType26<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[7]	{ count = 2, xChar0 = 120 'x', xChar1 = 97 'a', IsLetter0 = true, g = {System.Linq.Lookup<<>f__AnonymousType27<bool,char,char>,<>f__AnonymousType26<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[8]	{ count = 2, xChar0 = 120 'x', xChar1 = 116 't', IsLetter0 = true, g = {System.Linq.Lookup<<>f__AnonymousType27<bool,char,char>,<>f__AnonymousType26<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[9]	{ count = 1, xChar0 = 120 'x', xChar1 = 114 'r', IsLetter0 = true, g = {System.Linq.Lookup<<>f__AnonymousType27<bool,char,char>,<>f__AnonymousType26<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+
+
+			//+		[0]	{ count = 148, xChar0 = 47 '/', xChar1 = 47 '/', IsLetter0 = false, g = {System.Linq.Lookup<<>f__AnonymousType28<bool,char,char>,<>f__AnonymousType27<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 40, xChar0 = 35 '#', xChar1 = 120 'x', IsLetter0 = false, g = {System.Linq.Lookup<<>f__AnonymousType28<bool,char,char>,<>f__AnonymousType27<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 37, xChar0 = 120 'x', xChar1 = 120 'x', IsLetter0 = true, g = {System.Linq.Lookup<<>f__AnonymousType28<bool,char,char>,<>f__AnonymousType27<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+			//+		[3]	{ count = 8, xChar0 = 47 '/', xChar1 = 42 '*', IsLetter0 = false, g = {System.Linq.Lookup<<>f__AnonymousType28<bool,char,char>,<>f__AnonymousType27<int,int,char,char,string,System.IO.FileStream>>.Grouping} }	<Anonymous Type>
+
+			// GLSLComment
+			// GLSLBlockComment
+			// GLSLPragmaDefine
+			// GLSLPragmaIfDefined
+			// GLSLSymbol
+
+			// comment needs a newline to terminate
+			// block comment needs */ to terminate
+
+			// lets resolve the comments
+		//	var cNoLineComment = Enumerable.ToArray(
+		//		from g in cNoSpaceWORD
+
+		//		from c in g.g
+
+		//			// applicable for IsComment
+		//		let xLineCommentContentByte = c.IsLineComment ? c.s.ReadByte() : -1
+
+		//		// did it terminate the line yet?
+		//		// even if we did, how can we resume on the next line?
+
+
+		//		let z = new { c.xReadByte0, c.xReadByte1, c.xChar0, c.xChar1, c.f, c.s, c.IsLineComment, c.IsBlockComment }
+
+		//		group z by new
+		//		{
+		//			IsLetter0,
+
+		//			xChar0 = IsLetter0 ? letter_char : xChar0,
+
+		//			// how to group it?
+		//			xChar1 = IsLetter1 ? letter_char : xChar1,
+		//		} into g
+
+		//		let count = g.Count()
+
+		//		// lets look bigger volumes first
+		//		orderby count descending
+
+		//		select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsLetter0, g }
+		//);
+
 
 			Debugger.Break();
 		}
