@@ -132,8 +132,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
 
 
+		public static implicit operator IHTMLCanvas(CanvasRenderingContext2D c)
+		{
+			// X:\jsc.svn\examples\javascript\chrome\apps\ChromeHTMLImageToGLSLBytes\ChromeHTMLImageToGLSLBytes\Application.cs
+			return c.canvas;
+		}
 
-        public static implicit operator IHTMLImage(CanvasRenderingContext2D c)
+		public static implicit operator IHTMLImage(CanvasRenderingContext2D c)
         {
             var i = new IHTMLImage { src = c.canvas.toDataURL() };
 

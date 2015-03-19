@@ -122,6 +122,19 @@ interface HTMLCanvasElement : HTMLElement {
 		//    return (IHTMLCanvas)l.AsNode();
 		//}
 
+		public static explicit operator IHTMLCanvas(IHTMLImage refimg)
+		{
+			// X:\jsc.svn\examples\javascript\chrome\apps\ChromeHTMLImageToGLSLBytes\ChromeHTMLImageToGLSLBytes\Application.cs
+
+			var c = new CanvasRenderingContext2D(
+				refimg.width, refimg.height
+			);
+
+			//c.drawImage(refimg, 0, 0, refimg.width, refimg.height);
+			c.drawImage(refimg, 0, 0, refimg.offsetWidth, refimg.offsetHeight);
+
+			return c;
+		}
 
 		// implicit?
 		public static explicit operator IHTMLCanvas(IHTMLDiv refdiv)
@@ -223,13 +236,13 @@ interface HTMLCanvasElement : HTMLElement {
 
 			   ////if (counter == 0)
 			   ////{
-				  //// // in a frame we likely have the size.
-				  //// Native.window.async.onframe.ContinueWith(
-					 ////  delegate
-					 ////  {
-						////   yield();
-					 ////  }
-				  //// );
+			   //// // in a frame we likely have the size.
+			   //// Native.window.async.onframe.ContinueWith(
+			   ////  delegate
+			   ////  {
+			   ////   yield();
+			   ////  }
+			   //// );
 			   ////}
 			   ////else
 			   {

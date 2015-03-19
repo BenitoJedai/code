@@ -208,7 +208,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     [Script(Implements = typeof(global::System.Threading.Tasks.Task<>))]
     internal partial class __Task<TResult> : __Task,
 		//SUPPORT_IOBSERVABLE
-		, IObservable<TResult>
+		IObservable<TResult>
 	{
         public override string ToString()
         {
