@@ -752,6 +752,13 @@ namespace ScriptCoreLib.CompilerServices
 			// shall we get more examples to decide which to implement?
 			// box comment is rather unpopular at this early point in parallel parsing?
 
+			// seems we are to load that symbol.
+			//+		[0]	{ count = 119, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 120 'x', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			// pragma defines
+			//+		[1]	{ count = 115, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 35 '#', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			// lets look at the block comments the latest
+			//+		[2]	{ count = 17, IsLineComment = false, xLineCommentContentByteIsLineFeed = false, xChar0 = 47 '/', xChar0IsWhiteSpace = false, xChar1 = 42 '*', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+
 			Debugger.Break();
 		}
 	}
