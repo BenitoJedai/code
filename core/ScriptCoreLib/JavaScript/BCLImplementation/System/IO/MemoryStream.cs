@@ -9,17 +9,18 @@ using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/io/memorystream.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.IO/MemoryStream.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/IO/MemoryStream.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/io/memorystream.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/MemoryStream.cs
+	// https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Metadata/src/System/Reflection/Internal/Utilities/ImmutableMemoryStream.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System.IO/MemoryStream.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/IO/MemoryStream.cs
 
-    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
-    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\MemoryStream.css
-    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\MemoryStream.css
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
 
-    // https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Metadata/src/System/Reflection/Internal/Utilities/ImmutableMemoryStream.cs
 
-    [Script(Implements = typeof(global::System.IO.MemoryStream))]
+	[Script(Implements = typeof(global::System.IO.MemoryStream))]
     internal class __MemoryStream : __Stream
     {
         //20150119
