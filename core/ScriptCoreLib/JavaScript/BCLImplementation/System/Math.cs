@@ -4,22 +4,23 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    // FEATURE_CORECLR
+	// FEATURE_CORECLR
 
 
-    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/math.cs
-    // http://referencesource.microsoft.com/#mscorlib/system/math.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Math.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Math.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Math.cs
+	// https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/math.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/math.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Math.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Math.cs
 
-    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Math.cs
-    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Math.cs
-    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Math.cs
-    // X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\LibOVR\Src\Kernel\OVR_Math.cpp
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Math.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Math.cs
+	// X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Math.cs
+	// X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\LibOVR\Src\Kernel\OVR_Math.cpp
 
-    // X:\opensource\github\WootzJs\WootzJs.Runtime\Math.cs
+	// X:\opensource\github\WootzJs\WootzJs.Runtime\Math.cs
 
-    [Script(Implements = typeof(global::System.Math))]
+	[Script(Implements = typeof(global::System.Math))]
     internal class __Math
     {
         // inline static methods optimization needed
