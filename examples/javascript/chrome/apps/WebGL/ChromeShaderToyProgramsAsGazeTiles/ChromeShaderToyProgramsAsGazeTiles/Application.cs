@@ -76,6 +76,7 @@ namespace ChromeShaderToyProgramsAsGazeTiles
 			//Native.body.style.backgroundColor = "yellow";
 			Native.body.Clear();
 
+			var currentFragKey = "";
 
 
 			// ipad?
@@ -83,7 +84,12 @@ namespace ChromeShaderToyProgramsAsGazeTiles
 				e =>
 				{
 					new IHTMLPre {
-						"error " + new { e.message, e.error }
+						"error " + new {
+
+							// desktop gl compile error?
+							currentFragKey,
+
+							e.message, e.error }
 					}.AttachToDocument();
 				};
 
@@ -164,7 +170,6 @@ namespace ChromeShaderToyProgramsAsGazeTiles
 				return;
 			}
 
-			var currentFragKey = "";
 
 
 			#region oncontextlost
@@ -370,6 +375,22 @@ do we have a stack trace?
 
 			c.onmousewheel += e => atwheel(e.WheelDirection);
 
+			var qLoadAll = false;
+
+			//c.async.onkeyup[(int)System.Windows.Forms.Keys.Q];
+
+			c.onkeyup += async e =>
+			{
+				if (e.KeyCode == (int)System.Windows.Forms.Keys.Q)
+				{
+					qLoadAll = true;
+					await Native.window.async.onframe;
+					// hint for programs to start loading,  but just for one frame..
+					qLoadAll = false;
+				}
+
+
+			};
 
 
 
@@ -479,7 +500,8 @@ do we have a stack trace?
 
 
 				pass0.target0 = newWebGLFramebuffer(new ShaderToy.RenderTargetAtDetail { size = xWebGLRenderbuffer0size });
-				pass0.target512 = newWebGLFramebuffer(new ShaderToy.RenderTargetAtDetail { size = 512 });
+				// or should we look at the screenheight?
+				pass0.target512 = newWebGLFramebuffer(new ShaderToy.RenderTargetAtDetail { size = 1024 });
 				//pass0.xWebGLFramebuffer0 = xWebGLFramebuffer0;
 				//pass0.xWebGLTexture0 = xWebGLTexture0;
 
@@ -1087,7 +1109,7 @@ do we have a stack trace?
 
 
 							// can we keep fps and animate multiple shaders?
-							if (len < 2.2)
+							if (len < 2.2 || qLoadAll)
 							{
 								if (z != zmin)
 									isGazedAt = true;
@@ -1096,7 +1118,7 @@ do we have a stack trace?
 
 								// lets make sure we are loaded..
 								if (pass == null)
-									if (gazeStopwatch.ElapsedMilliseconds > 1000)
+									if (gazeStopwatch.ElapsedMilliseconds > 1000 || qLoadAll)
 									{
 										// perhaps lets keep a timeout?
 										title.style.backgroundColor = "red";

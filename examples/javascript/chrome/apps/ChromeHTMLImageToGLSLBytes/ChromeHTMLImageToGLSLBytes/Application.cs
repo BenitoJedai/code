@@ -13,15 +13,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using ChromeHTMLTextToGLSLBytes;
-using ChromeHTMLTextToGLSLBytes.Design;
-using ChromeHTMLTextToGLSLBytes.HTML.Pages;
+using ChromeHTMLImageToGLSLBytes;
+using ChromeHTMLImageToGLSLBytes.Design;
+using ChromeHTMLImageToGLSLBytes.HTML.Pages;
 using ScriptCoreLib.JavaScript.DOM.SVG;
 using System.IO;
 using ScriptCoreLib.GLSL;
 using System.Linq.Expressions;
 
-namespace ChromeHTMLTextToGLSLBytes
+namespace ChromeHTMLImageToGLSLBytes
 {
 	/// <summary>
 	/// Your client side code running inside a web browser as JavaScript.
@@ -34,6 +34,8 @@ namespace ChromeHTMLTextToGLSLBytes
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
+			// X:\opensource\googlecode\avalonpipemania\AvalonPipeMania\AvalonPipeMania.Assets\web\assets\AvalonPipeMania.Animation\duck_ride
+
 			// https://www.shadertoy.com/view/4tSGzz
 
 
@@ -87,65 +89,31 @@ namespace ChromeHTMLTextToGLSLBytes
 
 			Native.body.style.backgroundColor = "yellow";
 
-			new IHTMLTextArea { value = @"Rats! WebGL hit a snag.
-oncontextlost.
-The GPU process hung.Terminating. " }.AttachTo(Native.document.documentElement).With(
-				async xinput =>
+
+			//Warning CS1998  This async method lacks 'await' operators and will run synchronously.Consider using the 'await' operator to await non - blocking API calls, or 'await Task.Run(...)' to do CPU - bound work on a background thread.	ChromeHTMLImageToGLSLBytes X:\jsc.svn\examples\javascript\chrome\apps\ChromeHTMLImageToGLSLBytes\ChromeHTMLImageToGLSLBytes\Application.cs 93
+
+
+			new HTML.Images.FromAssets.x_01 { }.AttachToDocument().With(
+				async refimg =>
 				{
-					new IStyle(xinput)
+					new IHTMLPre { new { refimg.width, refimg.height, refimg.clientWidth, refimg.offsetWidth, refimg.complete } }.AttachToDocument();
+
+					//await refimg.GetAwaiter();
+					await refimg;
+
+					new IHTMLPre { new { refimg.width, refimg.height, refimg.clientWidth, refimg.offsetWidth, refimg.complete } }.AttachToDocument();
+
+					// http://www.matthewflickinger.com/lab/whatsinagif/animation_and_transparency.asp
+
+					//do
 					{
-						position = IStyle.PositionEnum.@fixed,
-						left = "0px",
-						bottom = "0px"
-					};
-
-					do
-					{
-						Native.body.Clear();
-
-						// host could
-						// implement crash management for programs that dont compile well--
-						// and refraim from recompiling the next time gpu is reloaded
-
-						var refdiv = new IHTMLDiv { xinput.value }.AttachToDocument();
-						refdiv.style.fontFamily = IStyle.FontFamilyEnum.Courier;
-						refdiv.style.fontSize = "12px";
-						refdiv.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
-
-						//refdiv.style.fontSize = "10px";
-						//refdiv.style.fontSize = "9px";
-						//refdiv.style.fontSize = "8px";
-
-						refdiv.style.display = IStyle.DisplayEnum.inline;
-						//refdiv.style.backgroundColor = "yellow";
-						refdiv.style.backgroundColor = "white";
-
-						//new { }.With(
-						//	async delegate
-						//	{
-
-						//		await Native.window.async.onframe;
-
-						var inline = IStyle.DisplayEnum.inline;
-						var isinline = (refdiv.style.display == inline);
-
-
-						new IHTMLPre { new { refdiv.clientWidth, refdiv.offsetWidth, isinline, refdiv.clientHeight, refdiv.offsetHeight } }.AttachToDocument();
-
-						//new IHTMLHorizontalRule { }.AttachToDocument();
-
-						//var refsvg = (ISVGSVGElement)refdiv;
-
-						//refsvg.AttachToDocument();
-
-						//new IHTMLPre { new { refsvg.clientWidth, refsvg.offsetWidth, isinline, refsvg.clientHeight, refsvg.offsetHeight } }.AttachToDocument();
 
 						new IHTMLHorizontalRule { }.AttachToDocument();
 
 						//int col[6];
 						// https://www.shadertoy.com/view/4tSGzz
 
-						var c = (IHTMLCanvas)refdiv;
+						var c = (IHTMLCanvas)refimg;
 
 						c.AttachToDocument();
 
@@ -173,7 +141,8 @@ The GPU process hung.Terminating. " }.AttachTo(Native.document.documentElement).
 						var glsl8 = new StringBuilder();
 						var glsl = new StringBuilder();
 
-						var ytop = 4;
+						//var ytop = 4;
+						var ytop = 0;
 
 						//int col[6];
 
@@ -232,12 +201,13 @@ The GPU process hung.Terminating. " }.AttachTo(Native.document.documentElement).
 
 							for (int i = 0; i < c.width; i++)
 							{
-								var zero = pixels[i * 4 + 0 + y * c.width * 4];	//| pixels[i * 4 + 1 + y * c.width * 4] | pixels[i * 4 + 2 + y * c.width * 4];
+								// we want alpha
+								var zero = pixels[3 + i * 4 + 0 + y * c.width * 4];	//| pixels[i * 4 + 1 + y * c.width * 4] | pixels[i * 4 + 2 + y * c.width * 4];
 
 								//new IHTMLCode { new { zero } }.AttachToDocument();
 
 								#region IHTMLSpan
-								if (zero > 0xc4)
+								if (zero < 0xc4)
 								{
 									new IStyle(new IHTMLSpan { }.AttachTo(xdiv))
 									{
@@ -371,7 +341,7 @@ The GPU process hung.Terminating. " }.AttachTo(Native.document.documentElement).
 						}.AttachToDocument();
 						// y 16
 					}
-					while (await xinput.async.onchange);
+					//while (await xinput.async.onchange);
 
 				}
 			);
