@@ -314,7 +314,7 @@ namespace ScriptCoreLib.CompilerServices
 				   let IsLineComment = xChar0 == '/' && xChar1 == '/'
 				   let IsBlockComment = xChar0 == '/' && xChar1 == '*'
 
-				   let z = new { xReadByte0, xReadByte1, xChar0, xChar1, c.f, c.s, IsLineComment, IsBlockComment }
+				   let z = new { xReadByte0, xReadByte1, xChar0, xChar1, c.f, c.s, IsLineComment, IsBlockComment, IsLetter0, IsLetter1 }
 
 				   group z by new
 				   {
@@ -363,38 +363,39 @@ namespace ScriptCoreLib.CompilerServices
 			// comment needs a newline to terminate
 			// block comment needs */ to terminate
 
-			// lets resolve the comments
-		//	var cNoLineComment = Enumerable.ToArray(
-		//		from g in cNoSpaceWORD
+			//lets resolve the comments
+			var cNoLineComment = Enumerable.ToArray(
+				from g in cNoSpaceWORD
 
-		//		from c in g.g
+				from c in g.g
 
-		//			// applicable for IsComment
-		//		let xLineCommentContentByte = c.IsLineComment ? c.s.ReadByte() : -1
+					// applicable for IsComment
+				let xLineCommentContentByte = c.IsLineComment ? c.s.ReadByte() : -1
 
-		//		// did it terminate the line yet?
-		//		// even if we did, how can we resume on the next line?
+				// did it terminate the line yet?
+				// even if we did, how can we resume on the next line?
 
 
-		//		let z = new { c.xReadByte0, c.xReadByte1, c.xChar0, c.xChar1, c.f, c.s, c.IsLineComment, c.IsBlockComment }
+				let z = new { c.xReadByte0, c.xReadByte1, c.xChar0, c.xChar1, xLineCommentContentByte, c.f, c.s, c.IsLineComment, c.IsBlockComment }
 
-		//		group z by new
-		//		{
-		//			IsLetter0,
+				group z by new
+				{
+					// we are to focus on comments
+					c.IsLineComment,
 
-		//			xChar0 = IsLetter0 ? letter_char : xChar0,
+					xChar0 = c.IsLetter0 ? letter_char : c.xChar0,
 
-		//			// how to group it?
-		//			xChar1 = IsLetter1 ? letter_char : xChar1,
-		//		} into g
+					// how to group it?
+					xChar1 = c.IsLetter1 ? letter_char : c.xChar1,
+				} into g
 
-		//		let count = g.Count()
+				let count = g.Count()
 
-		//		// lets look bigger volumes first
-		//		orderby count descending
+				// lets look bigger volumes first
+				orderby count descending
 
-		//		select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsLetter0, g }
-		//);
+				select new { count, g.Key.IsLineComment, g.Key.xChar0, g.Key.xChar1, g }
+			);
 
 
 			Debugger.Break();
