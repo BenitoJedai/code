@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E657E0A9-6AA6-4636-B370-C43359F4349F}</ProjectGuid>
+    <ProjectGuid>{2031F1B7-E70C-4A59-959E-8EF7036B8559}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BeautypiByIq</RootNamespace>
-    <AssemblyName>BeautypiByIq</AssemblyName>
+    <RootNamespace>FakeGlobalIlluminationByTz</RootNamespace>
+    <AssemblyName>FakeGlobalIlluminationByTz</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>BeautypiByIq.Program</StartupObject>
+    <StartupObject>FakeGlobalIlluminationByTz.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -126,8 +126,8 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="BeautypiByIq.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\BeautypiByIq.AssetsLibrary.dll</HintPath>
+    <Reference Include="FakeGlobalIlluminationByTz.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FakeGlobalIlluminationByTz.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
