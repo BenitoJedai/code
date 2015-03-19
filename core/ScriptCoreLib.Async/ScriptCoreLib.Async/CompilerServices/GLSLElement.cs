@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ScriptCoreLib.CompilerServices
@@ -14,8 +15,12 @@ namespace ScriptCoreLib.CompilerServices
 
 		public string SourcePath;
 
+		public readonly List<object> Elements = new List<object>();
+
 		public GLSLElement()
 		{
+			// are we multithreaded?
+			var scope = new { Thread.CurrentThread.ManagedThreadId };
 
 			this.AppendLineComment = (StringBuilder xLineCommentStringBuilder) =>
 			{
@@ -27,13 +32,17 @@ namespace ScriptCoreLib.CompilerServices
 
 				// need a type?
 
-				return new GLSLLineComment
+				var value = new GLSLLineComment
 				{
 					Parent = this,
 
 					ContentStringBuilder = xLineCommentStringBuilder
 				};
-			};
+
+				this.Elements.Add(value);
+
+				return value;
+            };
 		}
 
 		public readonly Func<StringBuilder, GLSLLineComment> AppendLineComment;
