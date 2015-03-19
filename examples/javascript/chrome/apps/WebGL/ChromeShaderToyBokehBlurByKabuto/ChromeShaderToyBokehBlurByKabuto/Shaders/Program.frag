@@ -435,8 +435,9 @@ vec3 ShadeSurface(const in C_Ray ray, const in C_HitInfo hitInfo, const in C_Sur
 				vLightPos = vPortalPos;
 				vec3 vToLight = vLightPos - hitInfo.vPos;
 				
-				cLightColour = textureCube(iChannel0, vToLight * g_mPortalRotation).rgb;
-				cLightColour = cLightColour * cLightColour * 10.0 * vec3(0.0, 1.0, 0.0);
+				//cLightColour = textureCube(iChannel0, vToLight * g_mPortalRotation).rgb;
+				//cLightColour = cLightColour * cLightColour * 10.0 * vec3(0.0, 1.0, 0.0);
+				cLightColour =  10.0 * vec3(0.0, 1.0, 0.0);
 
 				float fFft = smoothstep(0.7, 0.9, texture2D(iChannel3, vec2(0.018, 0.0)).r);
 				fFft = fFft * fFft;
