@@ -1078,8 +1078,9 @@ namespace ScriptCoreLib.CompilerServices
 
 			// 4.3 Storage Qualifiers
 			// 4.3.2 Constant Qualifier
+			// 9 Shading Language Grammar for Core			Profile
 
-			Debugger.Break();
+            Debugger.Break();
 		}
 
 

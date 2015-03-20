@@ -8,11 +8,13 @@ namespace ScriptCoreLib.GLSL
     [Script]
     public struct mat4
     {
-        // see also: http://cgkit.sourceforge.net/doc2/mat4.html
+		// 5.6 Matrix Components
 
-        
-        #region []
-        public vec4 this[int i]
+		// see also: http://cgkit.sourceforge.net/doc2/mat4.html
+
+
+		#region []
+		public vec4 this[int i]
         {
             get
             {

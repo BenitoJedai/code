@@ -17,6 +17,7 @@ namespace ScriptCoreLib.GLSL
     /// and less than or the same as provided by highp.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+	[Obsolete]
     public sealed class mediump : Attribute
     {
 

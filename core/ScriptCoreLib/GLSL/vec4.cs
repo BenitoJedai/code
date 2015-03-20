@@ -131,11 +131,16 @@ namespace ScriptCoreLib.GLSL
         }
 
 
-        // see
-        // http://www.opengl.org/wiki/GLSL_:_common_mistakes
-        //  fvalue1.x + fvalue1.y 
-        // Dot products are to be to be generated!
-        public vec2 xy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+		// 5.5 Vector and Scalar Components and Length
+		// {x, y, z, w} Useful when accessing vectors that represent points or normals
+		// {r, g, b, a} Useful when accessing vectors that represent colors
+		// {s, t, p, q} Useful when accessing vectors that represent texture coordinates
+
+		// see
+		// http://www.opengl.org/wiki/GLSL_:_common_mistakes
+		//  fvalue1.x + fvalue1.y 
+		// Dot products are to be to be generated!
+		public vec2 xy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
 
         // Dot products are to be to be generated!
         public vec3 rgb { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }

@@ -15,11 +15,13 @@ namespace ScriptCoreLib.GLSL
         public gl_DepthRangeParameters gl_DepthRange;
 
 
-        //
-        // Implementation dependent constants. The example values below
-        // are the minimum values allowed for these maximums.
-        //
-        [mediump]
+		// 7.3 Built-In Constants
+
+		//
+		// Implementation dependent constants. The example values below
+		// are the minimum values allowed for these maximums.
+		//
+		[mediump]
         protected static readonly int gl_MaxVertexAttribs = 8;
         [mediump]
         protected static readonly int gl_MaxVertexUniformVectors = 128;
