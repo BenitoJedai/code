@@ -33,6 +33,9 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	{
 
 		// gpu 0..2..4..8..64
+		// http://media.steampowered.com/apps/valve/2015/Alex_Vlachos_Advanced_VR_Rendering_GDC2015.pdf
+		// Algorithms should scale up to multi-GPU installations
+		// Ask yourself, “Will ‘X’ scale efficiently to a 4-GPU machine?”
 
 		// "X:\opensource\github\cardboard-java\CardboardSample\src\main\java\com\google\vrtoolkit\cardboard\samples\treasurehunt\MainActivity.java"
 
@@ -206,7 +209,7 @@ namespace ScriptCoreLib.JavaScript.WebGL
 		{
 			// https://www.khronos.org/webgl/public-mailing-list/archives/1104/msg00040.html
 			// only option is adding async compiles.
-        }
+		}
 
 		public void shaderSource(WebGLShader s, string e)
 		{
