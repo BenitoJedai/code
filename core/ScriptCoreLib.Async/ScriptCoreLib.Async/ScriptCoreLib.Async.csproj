@@ -160,7 +160,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <None Include="app.config" />
-    <None Include="CompilerServices\GLSLangSpec.4.40.pdf" />
+    <None Include="CompilerServices\GLSLangSpec.4.50.pdf" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

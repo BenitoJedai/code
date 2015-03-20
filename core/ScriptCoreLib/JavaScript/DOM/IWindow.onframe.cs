@@ -44,13 +44,16 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             add
             {
-                // https://developer.mozilla.org/en/DOM/window.requestAnimationFrame
-                // tested by X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\Application.cs
-                // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\Application.cs
+				// http://media.steampowered.com/apps/valve/2015/Alex_Vlachos_Advanced_VR_Rendering_GDC2015.pdf
+				// Refresh rate: 90 Hz (11.11 ms per frame)
+
+				// https://developer.mozilla.org/en/DOM/window.requestAnimationFrame
+				// tested by X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\Application.cs
+				// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\Application.cs
 
 
 
-                System.Action loop = null;
+				System.Action loop = null;
 
 
                 var e = new FrameEvent();
