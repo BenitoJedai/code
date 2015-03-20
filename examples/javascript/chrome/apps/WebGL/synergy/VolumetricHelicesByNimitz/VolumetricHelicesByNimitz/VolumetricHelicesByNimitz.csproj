@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9385EC71-C8B2-4D2B-BC75-C66260B97F1C}</ProjectGuid>
+    <ProjectGuid>{B60F7619-772B-4796-9CDC-FAC6491E0883}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ValveNoiseByImpossible</RootNamespace>
-    <AssemblyName>ValveNoiseByImpossible</AssemblyName>
+    <RootNamespace>VolumetricHelicesByNimitz</RootNamespace>
+    <AssemblyName>VolumetricHelicesByNimitz</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ValveNoiseByImpossible.Program</StartupObject>
+    <StartupObject>VolumetricHelicesByNimitz.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -126,8 +126,8 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="ValveNoiseByImpossible.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ValveNoiseByImpossible.AssetsLibrary.dll</HintPath>
+    <Reference Include="VolumetricHelicesByNimitz.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\VolumetricHelicesByNimitz.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
