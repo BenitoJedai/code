@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	[Script(HasNoPrototype = true, InternalConstructor = true)]
 	public class WebGLProgram
 	{
+		// https://www.opengl.org/sdk/docs/man/html/glCreateProgram.xhtml
+
 		// could we add a ref to gl?
 		// what if its a shared object?
 

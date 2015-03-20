@@ -103,7 +103,7 @@ namespace ScriptCoreLib.CompilerServices
 				let xReadByte = c.s.ReadByte()
 				// we are in ascii mode. does GLSL do utf encoding? when will we need it?
 				let xChar0 = (char)xReadByte
-
+				// 3.1 Character Set and Phases of Compilation
 				// https://msdn.microsoft.com/en-us/library/system.char.iswhitespace%28v=vs.110%29.aspx
 				let xChar0IsWhiteSpace = char.IsWhiteSpace(xChar0)
 
@@ -443,6 +443,10 @@ namespace ScriptCoreLib.CompilerServices
 
 					// terminates line comment yet? check for -1?
 					let xCommentTermination = xCommentContentByte == '\n'
+
+					// 3.4 Comments
+					// , a single-line comment ending in the line-continuation character ( \ ) includes the next
+					//line in the comment.
 
 
 					let xLineCommentStringBuilderAppend =
@@ -1012,20 +1016,31 @@ namespace ScriptCoreLib.CompilerServices
 				let xReadByte2 = c.s.ReadByte()
 				let xChar2 = (char)xReadByte2
 
-				// ! once
-				let z = new { c.xChar0, c.xChar1, xChar2, c }
+				// whats it called?
+				// 3.3 Preprocessor
 
-				orderby z.xChar0 == '#' descending, z.xChar0, z.xChar1, z.xChar2
+				// https://msdn.microsoft.com/en-us/library/ed8yd1ha.aspx
+				// Each directive is terminated by a new
+				//line.
+				let IsPreprocessorDirective = c.xChar0 == '#'
+
+
+				// ! once
+				let z = new { IsPreprocessorDirective, c.xChar0, c.xChar1, xChar2, c }
+
+				orderby IsPreprocessorDirective descending, z.xChar0, z.xChar1, z.xChar2
 
 				group z by new
 				{
+					IsPreprocessorDirective,
+
 					xChar0 = z.xChar0,
 					xChar1 = z.xChar1,
 					xChar2 = z.xChar2,
 				} into g
 
 				let count = g.Count()
-				orderby g.Key.xChar0 == '#' descending, count descending, g.Key.xChar0, g.Key.xChar1, g.Key.xChar2
+				orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.xChar0, g.Key.xChar1, g.Key.xChar2
 				select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.xChar2, g }
 
 			);
@@ -1053,6 +1068,16 @@ namespace ScriptCoreLib.CompilerServices
 			Console.WriteLine("WithThirdBytePass " + new { WithThirdBytePass.Elapsed });
 
 			// feels like the first quantum program:D
+			// https://www.opengl.org/sdk/docs/man/
+
+			// keyword 
+			// identifier
+			// 4 Variables and Types
+			// User-defined types may be defined using struct to aggregate a list of existing types into a single name.
+			// 4.1.8 Structures
+
+			// 4.3 Storage Qualifiers
+			// 4.3.2 Constant Qualifier
 
 			Debugger.Break();
 		}

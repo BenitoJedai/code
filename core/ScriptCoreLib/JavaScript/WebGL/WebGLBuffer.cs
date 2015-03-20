@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	[Script(HasNoPrototype = true, InternalConstructor = true)]
 	public class WebGLBuffer
 	{
+		// https://www.opengl.org/sdk/docs/man/html/glCreateBuffers.xhtml
+
 		#region Constructor
 
 		[Obsolete("createBuffer")]

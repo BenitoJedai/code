@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	[Script(HasNoPrototype = true, InternalConstructor = true)]
 	public class WebGLShader
 	{
+		// https://www.opengl.org/sdk/docs/man/html/glCreateShader.xhtml
+
 		#region Constructor
 
 		[Obsolete("createShader")]

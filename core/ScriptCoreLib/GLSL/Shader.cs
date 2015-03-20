@@ -7,10 +7,11 @@ namespace ScriptCoreLib.GLSL
 {
     public partial class Shader
     {
-        // http://msdn.microsoft.com/en-us/library/ie/dn611835(v=vs.85).aspx
-        // see also: http://www.opengl.org/sdk/docs/manglsl/
+		// http://msdn.microsoft.com/en-us/library/ie/dn611835(v=vs.85).aspx
+		// see also: http://www.opengl.org/sdk/docs/manglsl/
 
-        [uniform]
+		// https://www.opengl.org/sdk/docs/man/html/glDepthRange.xhtml
+		[uniform]
         public gl_DepthRangeParameters gl_DepthRange;
 
 
