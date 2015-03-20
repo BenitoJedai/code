@@ -954,6 +954,16 @@ namespace ScriptCoreLib.CompilerServices
 			// https://github.com/graphitemaster/glsl-parser
 			// https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/
 
+			// http://blogs.igalia.com/itoral/2015/03/03/an-introduction-to-mesas-glsl-compiler-i/
+			// http://blogs.igalia.com/itoral/2015/03/06/an-introduction-to-mesas-glsl-compiler-ii/
+			// https://openclnet.codeplex.com/
+			// http://stackoverflow.com/questions/5654048/complete-net-opencl-implementations
+			// https://openclnet.codeplex.com/SourceControl/latest#trunk/OpenCL.Net/Cl.API.cs
+			// http://www.mesa3d.org/shading.html
+			// http://oss.sgi.com/projects/ogl-sample/registry/ARB/vertex_program.txt
+			// http://piglit.freedesktop.org/
+			// http://cgit.freedesktop.org/piglit/tree/examples/glsl_parser_test/bit-logic-assign.frag?id=622d63dcfc12c5d347c1c427915d35de96ccc74c
+
 
 			Debugger.Break();
 		}

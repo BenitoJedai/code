@@ -14,6 +14,9 @@ namespace ScriptCoreLib.JavaScript.WebAudio
     [Script(HasNoPrototype = true, ExternalTarget = "AudioContext")]
     public class AudioContext
     {
+		// doppler!
+		// https://www.shadertoy.com/view/4sfSDX#
+		// https://www.shadertoy.com/view/ldlXD2
 		// https://www.shadertoy.com/view/XsfXD2
 		// https://www.shadertoy.com/view/ldXXDj
 		// https://www.shadertoy.com/view/ldjXzz
