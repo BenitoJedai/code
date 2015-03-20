@@ -13,7 +13,7 @@ namespace ScriptCoreLib.GLSL
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
     public sealed class invariant : Attribute
     {
-
-    }
+		// 4.8.1 The Invariant Qualifier
+	}
 
 }

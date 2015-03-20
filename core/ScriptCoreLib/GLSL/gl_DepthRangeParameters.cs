@@ -11,7 +11,9 @@ namespace ScriptCoreLib.GLSL
     [Script]
     public struct gl_DepthRangeParameters
     {
-        [highp]
+		// 7.4 Built-In Uniform State
+
+		[highp]
         float near; // n
         [highp]
         float far; // f

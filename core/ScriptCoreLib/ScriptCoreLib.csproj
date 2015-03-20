@@ -86,6 +86,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodBase.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
+    <Compile Include="GLSL\Precision Qualifiers\highp.cs" />
+    <Compile Include="GLSL\Precision Qualifiers\mediump.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Concurrent\ConcurrentStack.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteCommand.InternalCreateStatement.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\IPEndPoint.cs" />
@@ -568,7 +570,6 @@
     <Compile Include="GLSL\Shader.Trigonometry.vec4.cs" />
     <Compile Include="GLSL\samplerCube.cs" />
     <Compile Include="GLSL\Shader.TextureLookup.cs" />
-    <Compile Include="GLSL\highp.cs" />
     <Compile Include="GLSL\gl_DepthRangeParameters.cs" />
     <Compile Include="GLSL\invariant.cs" />
     <Compile Include="GLSL\varying.cs" />
@@ -583,7 +584,6 @@
     <Compile Include="GLSL\vec4.cs" />
     <Compile Include="GLSL\sampler2D.cs" />
     <Compile Include="GLSL\vec3.cs" />
-    <Compile Include="GLSL\mediump.cs" />
     <Compile Include="GLSL\vec2.cs" />
     <Compile Include="GLSL\VertexShader.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\InvalidOperationException.cs" />

@@ -9,12 +9,14 @@ namespace ScriptCoreLib.GLSL
 
     partial class Shader
     {
-        /// <summary>
-        /// Converts degrees to radians,
-        /// </summary>
-        /// <param name="degrees"></param>
-        /// <returns></returns>
-        protected genType radians(genType degrees) { throw new NotImplementedException(); }
+		// 8.1 Angle and Trigonometry Functions
+
+		/// <summary>
+		/// Converts degrees to radians,
+		/// </summary>
+		/// <param name="degrees"></param>
+		/// <returns></returns>
+		protected genType radians(genType degrees) { throw new NotImplementedException(); }
 
         /// <summary>
         /// Converts radians to degrees,
