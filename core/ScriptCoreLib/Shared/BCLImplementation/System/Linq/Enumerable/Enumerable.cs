@@ -6,8 +6,10 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
-    // http://referencesource.microsoft.com/#System.Core/System/Linq/Enumerable.cs
-    [Script(Implements = typeof(global::System.Linq.Enumerable))]
+	// http://referencesource.microsoft.com/#System.Core/System/Linq/Enumerable.cs
+	// https://github.com/dotnet/corefx/blob/master/src/System.Linq/src/System/Linq/Enumerable.cs
+
+	[Script(Implements = typeof(global::System.Linq.Enumerable))]
     public static partial class __Enumerable
     {
         //script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.Cast(System.Collections.IEnumerable)]

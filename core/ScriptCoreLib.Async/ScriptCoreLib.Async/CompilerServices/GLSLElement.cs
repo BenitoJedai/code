@@ -22,30 +22,33 @@ namespace ScriptCoreLib.CompilerServices
 			// are we multithreaded?
 			var scope = new { Thread.CurrentThread.ManagedThreadId };
 
-			this.AppendLineComment = (StringBuilder xLineCommentStringBuilder) =>
+			this.AppendComment = (StringBuilder CommentStringBuilder, bool IsLineComment, bool IsBlockComment) =>
 			{
 				// we are null tolerant.
-				if (xLineCommentStringBuilder == null)
+				if (CommentStringBuilder == null)
 					return null;
 
 				// should we add to this?
 
 				// need a type?
 
-				var value = new GLSLLineComment
+				var value = new GLSLComment
 				{
+					IsLineComment = IsLineComment,
+					IsBlockComment = IsBlockComment,
+
 					Parent = this,
 
-					ContentStringBuilder = xLineCommentStringBuilder
+					ContentStringBuilder = CommentStringBuilder
 				};
 
 				this.Elements.Add(value);
 
 				return value;
-            };
+			};
 		}
 
-		public readonly Func<StringBuilder, GLSLLineComment> AppendLineComment;
+		public readonly Func<StringBuilder, bool, bool, GLSLComment> AppendComment;
 
 
 

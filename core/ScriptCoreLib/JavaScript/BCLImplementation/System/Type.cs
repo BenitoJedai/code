@@ -32,6 +32,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     public class __Type : __MemberInfo
     // IReflect ??
     {
+		// https://github.com/dotnet/corefx/blob/master/src/Microsoft.CSharp/src/Microsoft/CSharp/RuntimeBinder/Semantics/Types/PredefinedTypes.cs
+
 		// https://msdn.microsoft.com/en-us/library/dn600644(v=vs.110).aspx
 		// <Type Name="App1.AppClass`1" Browse="Required PublicAndInternal" />
 		// would it be a good idea to add metadata by jsc if .net native directives are found in the project?
