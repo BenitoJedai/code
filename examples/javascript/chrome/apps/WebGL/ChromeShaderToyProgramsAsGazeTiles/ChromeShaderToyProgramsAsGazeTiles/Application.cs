@@ -1079,7 +1079,7 @@ do we have a stack trace?
 							// only draw the ones loaded
 
 							var cx = x + (mMousePosX - Math.Abs(mMouseOriX)) * 0.01f;
-							var cy = y + -(mMousePosY - Math.Abs(mMouseOriY)) * 0.01f + 0.5;
+							var cy = y + -(mMousePosY - Math.Abs(mMouseOriY)) * 0.01f + 0.5f;
 
 							var sx = 0;
 							var sy = 0;

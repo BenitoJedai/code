@@ -714,6 +714,288 @@
     <Reference Include="XorStormByXor.AssetsLibrary">
       <HintPath>..\..\synergy\XorStormByXor\XorStormByXor\bin\staging.AssetsLibrary\XorStormByXor.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="AlpineJetsByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\AlpineJetsByDr2\AlpineJetsByDr2\bin\staging.AssetsLibrary\AlpineJetsByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AttackOfTheFuzziesByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\AttackOfTheFuzziesByEiffie\AttackOfTheFuzziesByEiffie\bin\staging.AssetsLibrary\AttackOfTheFuzziesByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BiplanesInTheBadlandsByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\BiplanesInTheBadlandsByDr2\BiplanesInTheBadlandsByDr2\bin\staging.AssetsLibrary\BiplanesInTheBadlandsByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BoingBallByUnitZeroOne.AssetsLibrary">
+      <HintPath>..\..\synergy\BoingBallByUnitZeroOne\BoingBallByUnitZeroOne\bin\staging.AssetsLibrary\BoingBallByUnitZeroOne.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CanyonRollerByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\CanyonRollerByDr2\CanyonRollerByDr2\bin\staging.AssetsLibrary\CanyonRollerByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChainReactionByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\ChainReactionByEiffie\ChainReactionByEiffie\bin\staging.AssetsLibrary\ChainReactionByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CheesyByPMalin.AssetsLibrary">
+      <HintPath>..\..\synergy\CheesyByPMalin\CheesyByPMalin\bin\staging.AssetsLibrary\CheesyByPMalin.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DataTransferBySrtuss.AssetsLibrary">
+      <HintPath>..\..\synergy\DataTransferBySrtuss\DataTransferBySrtuss\bin\staging.AssetsLibrary\DataTransferBySrtuss.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DFLightingByTekF.AssetsLibrary">
+      <HintPath>..\..\synergy\DFLightingByTekF\DFLightingByTekF\bin\staging.AssetsLibrary\DFLightingByTekF.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DragonflyByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\DragonflyByDr2\DragonflyByDr2\bin\staging.AssetsLibrary\DragonflyByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FloatByAlex.AssetsLibrary">
+      <HintPath>..\..\synergy\FloatByAlex\FloatByAlex\bin\staging.AssetsLibrary\FloatByAlex.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FractalBridgeByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\FractalBridgeByDr2\FractalBridgeByDr2\bin\staging.AssetsLibrary\FractalBridgeByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphingByNimitz.AssetsLibrary">
+      <HintPath>..\..\synergy\GraphingByNimitz\GraphingByNimitz\bin\staging.AssetsLibrary\GraphingByNimitz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="IcyMoonByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\IcyMoonByDr2\IcyMoonByDr2\bin\staging.AssetsLibrary\IcyMoonByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="IslandByVanburgler.AssetsLibrary">
+      <HintPath>..\..\synergy\IslandByVanburgler\IslandByVanburgler\bin\staging.AssetsLibrary\IslandByVanburgler.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="LittleFluffyCloudsByGreen.AssetsLibrary">
+      <HintPath>..\..\synergy\LittleFluffyCloudsByGreen\LittleFluffyCloudsByGreen\bin\staging.AssetsLibrary\LittleFluffyCloudsByGreen.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="OblivionRadarByNdel.AssetsLibrary">
+      <HintPath>..\..\synergy\OblivionRadarByNdel\OblivionRadarByNdel\bin\staging.AssetsLibrary\OblivionRadarByNdel.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="OrchardNightByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\OrchardNightByEiffie\OrchardNightByEiffie\bin\staging.AssetsLibrary\OrchardNightByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PalmettoStalkByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\PalmettoStalkByEiffie\PalmettoStalkByEiffie\bin\staging.AssetsLibrary\PalmettoStalkByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PrairieByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\PrairieByEiffie\PrairieByEiffie\bin\staging.AssetsLibrary\PrairieByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="QuadraticBezierByIq.AssetsLibrary">
+      <HintPath>..\..\synergy\QuadraticBezierByIq\QuadraticBezierByIq\bin\staging.AssetsLibrary\QuadraticBezierByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RedCellsByPMalin.AssetsLibrary">
+      <HintPath>..\..\synergy\RedCellsByPMalin\RedCellsByPMalin\bin\staging.AssetsLibrary\RedCellsByPMalin.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RiverFlightByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\RiverFlightByDr2\RiverFlightByDr2\bin\staging.AssetsLibrary\RiverFlightByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SansNormalByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\SansNormalByEiffie\SansNormalByEiffie\bin\staging.AssetsLibrary\SansNormalByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SDFCollisionCheckingByMattz.AssetsLibrary">
+      <HintPath>..\..\synergy\SDFCollisionCheckingByMattz\SDFCollisionCheckingByMattz\bin\staging.AssetsLibrary\SDFCollisionCheckingByMattz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SomedayByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\SomedayByEiffie\SomedayByEiffie\bin\staging.AssetsLibrary\SomedayByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="StairwayToHeavenByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\StairwayToHeavenByEiffie\StairwayToHeavenByEiffie\bin\staging.AssetsLibrary\StairwayToHeavenByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TetrahedronatorByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\TetrahedronatorByEiffie\TetrahedronatorByEiffie\bin\staging.AssetsLibrary\TetrahedronatorByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TreeInGrassBySphinx.AssetsLibrary">
+      <HintPath>..\..\synergy\TreeInGrassBySphinx\TreeInGrassBySphinx\bin\staging.AssetsLibrary\TreeInGrassBySphinx.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="YellowMothByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\YellowMothByDr2\YellowMothByDr2\bin\staging.AssetsLibrary\YellowMothByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ACloudByMu6k.AssetsLibrary">
+      <HintPath>..\..\synergy\ACloudByMu6k\ACloudByMu6k\bin\staging.AssetsLibrary\ACloudByMu6k.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BeautypiByIq.AssetsLibrary">
+      <HintPath>..\..\synergy\BeautypiByIq\BeautypiByIq\bin\staging.AssetsLibrary\BeautypiByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BlobsByPaulo.AssetsLibrary">
+      <HintPath>..\..\synergy\BlobsByPaulo\BlobsByPaulo\bin\staging.AssetsLibrary\BlobsByPaulo.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ChaosTrendLogoByLuther.AssetsLibrary">
+      <HintPath>..\..\synergy\ChaosTrendLogoByLuther\ChaosTrendLogoByLuther\bin\staging.AssetsLibrary\ChaosTrendLogoByLuther.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CheeseByMu6k.AssetsLibrary">
+      <HintPath>..\..\synergy\CheeseByMu6k\CheeseByMu6k\bin\staging.AssetsLibrary\CheeseByMu6k.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ClawByGreen.AssetsLibrary">
+      <HintPath>..\..\synergy\ClawByGreen\ClawByGreen\bin\staging.AssetsLibrary\ClawByGreen.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalBallByAaecheve.AssetsLibrary">
+      <HintPath>..\..\synergy\CrystalBallByAaecheve\CrystalBallByAaecheve\bin\staging.AssetsLibrary\CrystalBallByAaecheve.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="EasterEggByNervus.AssetsLibrary">
+      <HintPath>..\..\synergy\EasterEggByNervus\EasterEggByNervus\bin\staging.AssetsLibrary\EasterEggByNervus.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FakeGlobalIlluminationByTz.AssetsLibrary">
+      <HintPath>..\..\synergy\FakeGlobalIlluminationByTz\FakeGlobalIlluminationByTz\bin\staging.AssetsLibrary\FakeGlobalIlluminationByTz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlappyBirdByMovAx.AssetsLibrary">
+      <HintPath>..\..\synergy\FlappyBirdByMovAx\FlappyBirdByMovAx\bin\staging.AssetsLibrary\FlappyBirdByMovAx.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GameLogoByVladstorm.AssetsLibrary">
+      <HintPath>..\..\synergy\GameLogoByVladstorm\GameLogoByVladstorm\bin\staging.AssetsLibrary\GameLogoByVladstorm.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GuitarByAtyuwen.AssetsLibrary">
+      <HintPath>..\..\synergy\GuitarByAtyuwen\GuitarByAtyuwen\bin\staging.AssetsLibrary\GuitarByAtyuwen.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="InvasionByProtarget.AssetsLibrary">
+      <HintPath>..\..\synergy\InvasionByProtarget\InvasionByProtarget\bin\staging.AssetsLibrary\InvasionByProtarget.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PacmanByTsone.AssetsLibrary">
+      <HintPath>..\..\synergy\PacmanByTsone\PacmanByTsone\bin\staging.AssetsLibrary\PacmanByTsone.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SpriteEncodingByNikos.AssetsLibrary">
+      <HintPath>..\..\synergy\SpriteEncodingByNikos\SpriteEncodingByNikos\bin\staging.AssetsLibrary\SpriteEncodingByNikos.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ToTheRoadOfRibbon.AssetsLibrary">
+      <HintPath>..\..\synergy\ToTheRoadOfRibbon\ToTheRoadOfRibbon\bin\staging.AssetsLibrary\ToTheRoadOfRibbon.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TrumpetByBaldand.AssetsLibrary">
+      <HintPath>..\..\synergy\TrumpetByBaldand\TrumpetByBaldand\bin\staging.AssetsLibrary\TrumpetByBaldand.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ValueToBitArrayByNikos.AssetsLibrary">
+      <HintPath>..\..\synergy\ValueToBitArrayByNikos\ValueToBitArrayByNikos\bin\staging.AssetsLibrary\ValueToBitArrayByNikos.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="HypercubeByElias.AssetsLibrary">
+      <HintPath>..\..\synergy\HypercubeByElias\HypercubeByElias\bin\staging.AssetsLibrary\HypercubeByElias.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="LostInTheFieldByRk.AssetsLibrary">
+      <HintPath>..\..\synergy\LostInTheFieldByRk\LostInTheFieldByRk\bin\staging.AssetsLibrary\LostInTheFieldByRk.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RaymarchingDisplacementByJcanabald.AssetsLibrary">
+      <HintPath>..\..\synergy\RaymarchingDisplacementByJcanabald\RaymarchingDisplacementByJcanabald\bin\staging.AssetsLibrary\RaymarchingDisplacementByJcanabald.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SpaceByReinder.AssetsLibrary">
+      <HintPath>..\..\synergy\SpaceByReinder\SpaceByReinder\bin\staging.AssetsLibrary\SpaceByReinder.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ATreeByGuil.AssetsLibrary">
+      <HintPath>..\..\synergy\ATreeByGuil\ATreeByGuil\bin\staging.AssetsLibrary\ATreeByGuil.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AudioClayByTekF.AssetsLibrary">
+      <HintPath>..\..\synergy\AudioClayByTekF\AudioClayByTekF\bin\staging.AssetsLibrary\AudioClayByTekF.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BeeHiveByMovax.AssetsLibrary">
+      <HintPath>..\..\synergy\BeeHiveByMovax\BeeHiveByMovax\bin\staging.AssetsLibrary\BeeHiveByMovax.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BlankspaceByNBickford.AssetsLibrary">
+      <HintPath>..\..\synergy\BlankspaceByNBickford\BlankspaceByNBickford\bin\staging.AssetsLibrary\BlankspaceByNBickford.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ButterfliesByFizzer.AssetsLibrary">
+      <HintPath>..\..\synergy\ButterfliesByFizzer\ButterfliesByFizzer\bin\staging.AssetsLibrary\ButterfliesByFizzer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DaRasterizerByTDM.AssetsLibrary">
+      <HintPath>..\..\synergy\DaRasterizerByTDM\DaRasterizerByTDM\bin\staging.AssetsLibrary\DaRasterizerByTDM.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DesertChaseByNdxbxrme.AssetsLibrary">
+      <HintPath>..\..\synergy\DesertChaseByNdxbxrme\DesertChaseByNdxbxrme\bin\staging.AssetsLibrary\DesertChaseByNdxbxrme.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DIYSpacemanByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\DIYSpacemanByEiffie\DIYSpacemanByEiffie\bin\staging.AssetsLibrary\DIYSpacemanByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="EffusingLavaByNexor.AssetsLibrary">
+      <HintPath>..\..\synergy\EffusingLavaByNexor\EffusingLavaByNexor\bin\staging.AssetsLibrary\EffusingLavaByNexor.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FirstDistanceMapByChuckeles.AssetsLibrary">
+      <HintPath>..\..\synergy\FirstDistanceMapByChuckeles\FirstDistanceMapByChuckeles\bin\staging.AssetsLibrary\FirstDistanceMapByChuckeles.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlossingSpaceByFlorian.AssetsLibrary">
+      <HintPath>..\..\synergy\FlossingSpaceByFlorian\FlossingSpaceByFlorian\bin\staging.AssetsLibrary\FlossingSpaceByFlorian.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaxySpiralsByGuil.AssetsLibrary">
+      <HintPath>..\..\synergy\GalaxySpiralsByGuil\GalaxySpiralsByGuil\bin\staging.AssetsLibrary\GalaxySpiralsByGuil.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GammaCorrectnessByZavie.AssetsLibrary">
+      <HintPath>..\..\synergy\GammaCorrectnessByZavie\GammaCorrectnessByZavie\bin\staging.AssetsLibrary\GammaCorrectnessByZavie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GyratingGyroscopeByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\GyratingGyroscopeByDr2\GyratingGyroscopeByDr2\bin\staging.AssetsLibrary\GyratingGyroscopeByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="HalfLife3ByNikos.AssetsLibrary">
+      <HintPath>..\..\synergy\HalfLife3ByNikos\HalfLife3ByNikos\bin\staging.AssetsLibrary\HalfLife3ByNikos.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="InterleavedGradientNoiseByAlgorithm.AssetsLibrary">
+      <HintPath>..\..\synergy\InterleavedGradientNoiseByAlgorithm\InterleavedGradientNoiseByAlgorithm\bin\staging.AssetsLibrary\InterleavedGradientNoiseByAlgorithm.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="JoyDivisionByXbe.AssetsLibrary">
+      <HintPath>..\..\synergy\JoyDivisionByXbe\JoyDivisionByXbe\bin\staging.AssetsLibrary\JoyDivisionByXbe.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="JusterBeaverByMovax.AssetsLibrary">
+      <HintPath>..\..\synergy\JusterBeaverByMovax\JusterBeaverByMovax\bin\staging.AssetsLibrary\JusterBeaverByMovax.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="LegendOfZeldaByHLorenzi.AssetsLibrary">
+      <HintPath>..\..\synergy\LegendOfZeldaByHLorenzi\LegendOfZeldaByHLorenzi\bin\staging.AssetsLibrary\LegendOfZeldaByHLorenzi.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="LineIntersectionInteractiveByThe23.AssetsLibrary">
+      <HintPath>..\..\synergy\LineIntersectionInteractiveByThe23\LineIntersectionInteractiveByThe23\bin\staging.AssetsLibrary\LineIntersectionInteractiveByThe23.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MarioMushroomByAlgorithm.AssetsLibrary">
+      <HintPath>..\..\synergy\MarioMushroomByAlgorithm\MarioMushroomByAlgorithm\bin\staging.AssetsLibrary\MarioMushroomByAlgorithm.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MusicMarioByIq.AssetsLibrary">
+      <HintPath>..\..\synergy\MusicMarioByIq\MusicMarioByIq\bin\staging.AssetsLibrary\MusicMarioByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="OrderedDitherByKlk.AssetsLibrary">
+      <HintPath>..\..\synergy\OrderedDitherByKlk\OrderedDitherByKlk\bin\staging.AssetsLibrary\OrderedDitherByKlk.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="OtherWorldByAlgorithm.AssetsLibrary">
+      <HintPath>..\..\synergy\OtherWorldByAlgorithm\OtherWorldByAlgorithm\bin\staging.AssetsLibrary\OtherWorldByAlgorithm.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ParallaxMappingByNimitz.AssetsLibrary">
+      <HintPath>..\..\synergy\ParallaxMappingByNimitz\ParallaxMappingByNimitz\bin\staging.AssetsLibrary\ParallaxMappingByNimitz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PlasticReflectingCubesByDen.AssetsLibrary">
+      <HintPath>..\..\synergy\PlasticReflectingCubesByDen\PlasticReflectingCubesByDen\bin\staging.AssetsLibrary\PlasticReflectingCubesByDen.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RiseOfShroomByAlgorithm.AssetsLibrary">
+      <HintPath>..\..\synergy\RiseOfShroomByAlgorithm\RiseOfShroomByAlgorithm\bin\staging.AssetsLibrary\RiseOfShroomByAlgorithm.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ScatterByGaz.AssetsLibrary">
+      <HintPath>..\..\synergy\ScatterByGaz\ScatterByGaz\bin\staging.AssetsLibrary\ScatterByGaz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SegmentByArthursw.AssetsLibrary">
+      <HintPath>..\..\synergy\SegmentByArthursw\SegmentByArthursw\bin\staging.AssetsLibrary\SegmentByArthursw.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ShellByFMSCat.AssetsLibrary">
+      <HintPath>..\..\synergy\ShellByFMSCat\ShellByFMSCat\bin\staging.AssetsLibrary\ShellByFMSCat.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SminTestByHughsk.AssetsLibrary">
+      <HintPath>..\..\synergy\SminTestByHughsk\SminTestByHughsk\bin\staging.AssetsLibrary\SminTestByHughsk.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TetrisByKali.AssetsLibrary">
+      <HintPath>..\..\synergy\TetrisByKali\TetrisByKali\bin\staging.AssetsLibrary\TetrisByKali.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyCuttingByAiekick.AssetsLibrary">
+      <HintPath>..\..\synergy\TinyCuttingByAiekick\TinyCuttingByAiekick\bin\staging.AssetsLibrary\TinyCuttingByAiekick.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TreesByGuil.AssetsLibrary">
+      <HintPath>..\..\synergy\TreesByGuil\TreesByGuil\bin\staging.AssetsLibrary\TreesByGuil.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="UselessBoxByMovax.AssetsLibrary">
+      <HintPath>..\..\synergy\UselessBoxByMovax\UselessBoxByMovax\bin\staging.AssetsLibrary\UselessBoxByMovax.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ValveNoiseByImpossible.AssetsLibrary">
+      <HintPath>..\..\synergy\ValveNoiseByImpossible\ValveNoiseByImpossible\bin\staging.AssetsLibrary\ValveNoiseByImpossible.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="VolumetricHelicesByNimitz.AssetsLibrary">
+      <HintPath>..\..\synergy\VolumetricHelicesByNimitz\VolumetricHelicesByNimitz\bin\staging.AssetsLibrary\VolumetricHelicesByNimitz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WindWakerOceanByPolyflare.AssetsLibrary">
+      <HintPath>..\..\synergy\WindWakerOceanByPolyflare\WindWakerOceanByPolyflare\bin\staging.AssetsLibrary\WindWakerOceanByPolyflare.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="x2DFoldingByGaz.AssetsLibrary">
+      <HintPath>..\..\synergy\x2DFoldingByGaz\x2DFoldingByGaz\bin\staging.AssetsLibrary\x2DFoldingByGaz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="x3DExcQByGaz.AssetsLibrary">
+      <HintPath>..\..\synergy\x3DExcQByGaz\x3DExcQByGaz\bin\staging.AssetsLibrary\x3DExcQByGaz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RaymarchingTweaksByLanza.AssetsLibrary">
+      <HintPath>..\..\synergy\RaymarchingTweaksByLanza\RaymarchingTweaksByLanza\bin\staging.AssetsLibrary\RaymarchingTweaksByLanza.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="x2001SpaceStationByOtavio.AssetsLibrary">
+      <HintPath>..\..\synergy\x2001SpaceStationByOtavio\x2001SpaceStationByOtavio\bin\staging.AssetsLibrary\x2001SpaceStationByOtavio.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1230,6 +1512,10 @@
       <Project>{e7c90b88-3c6e-479e-a32c-49fab8db76d2}</Project>
       <Name>ChromeShaderToyWolfensteinByReinder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ACloudByMu6k\ACloudByMu6k\ACloudByMu6k.csproj">
+      <Project>{236dea6f-185b-4cd7-9b2e-e0fa7b8d8439}</Project>
+      <Name>ACloudByMu6k</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\AlpineJetsByDr2\AlpineJetsByDr2\AlpineJetsByDr2.csproj">
       <Project>{4113896c-410f-49cc-9c16-26beda63413c}</Project>
       <Name>AlpineJetsByDr2</Name>
@@ -1242,6 +1528,10 @@
       <Project>{f5f9d3eb-f10c-4d2b-8598-311a94b22461}</Project>
       <Name>ApollonianByIq</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ATreeByGuil\ATreeByGuil\ATreeByGuil.csproj">
+      <Project>{919e403a-b4d4-4cb9-bc33-85387088335b}</Project>
+      <Name>ATreeByGuil</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\AttackOfTheFuzziesByEiffie\AttackOfTheFuzziesByEiffie\AttackOfTheFuzziesByEiffie.csproj">
       <Project>{99122fc9-2ef6-4dbd-9c10-5eef8253b326}</Project>
       <Name>AttackOfTheFuzziesByEiffie</Name>
@@ -1250,13 +1540,33 @@
       <Project>{64ce8db3-1186-4cfc-a1f3-3ab5d154d401}</Project>
       <Name>AtticByRobert</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\AudioClayByTekF\AudioClayByTekF\AudioClayByTekF.csproj">
+      <Project>{a6ff0c87-86c9-4b6a-945c-7f489efeddeb}</Project>
+      <Name>AudioClayByTekF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\BatsByGaz\BatsByGaz\BatsByGaz.csproj">
       <Project>{a5a4f08b-f902-4bc7-bee7-a9b611e54778}</Project>
       <Name>BatsByGaz</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\BeautypiByIq\BeautypiByIq\BeautypiByIq.csproj">
+      <Project>{e657e0a9-6aa6-4636-b370-c43359f4349f}</Project>
+      <Name>BeautypiByIq</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\BeeHiveByMovax\BeeHiveByMovax\BeeHiveByMovax.csproj">
+      <Project>{69cb8765-2f53-42bc-adc5-3290886f0838}</Project>
+      <Name>BeeHiveByMovax</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\BiplanesInTheBadlandsByDr2\BiplanesInTheBadlandsByDr2\BiplanesInTheBadlandsByDr2.csproj">
       <Project>{b3e0a5d0-2660-4fbd-b8dc-3db9a6380e62}</Project>
       <Name>BiplanesInTheBadlandsByDr2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\BlankspaceByNBickford\BlankspaceByNBickford\BlankspaceByNBickford.csproj">
+      <Project>{463aa873-66ec-48c9-bcd4-2897a3ea40d0}</Project>
+      <Name>BlankspaceByNBickford</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\BlobsByPaulo\BlobsByPaulo\BlobsByPaulo.csproj">
+      <Project>{9a901870-3dfe-48f8-8d9f-e08c09c9c6b1}</Project>
+      <Name>BlobsByPaulo</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\BlueWallClockByC3d\BlueWallClockByC3d\BlueWallClockByC3d.csproj">
       <Project>{91fe127c-a954-4034-9c0d-da574671136f}</Project>
@@ -1266,6 +1576,10 @@
       <Project>{bbb1792b-1de0-4b2b-b4ac-9dfaaee9eb98}</Project>
       <Name>BoingBallByUnitZeroOne</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ButterfliesByFizzer\ButterfliesByFizzer\ButterfliesByFizzer.csproj">
+      <Project>{3cf6b23a-1edf-4d2d-8446-ad5d58fe8d6f}</Project>
+      <Name>ButterfliesByFizzer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\CanyonRollerByDr2\CanyonRollerByDr2\CanyonRollerByDr2.csproj">
       <Project>{18d81eab-6b23-45bf-9f7d-8460d9f637f2}</Project>
       <Name>CanyonRollerByDr2</Name>
@@ -1274,13 +1588,37 @@
       <Project>{723e11c5-ad5e-4551-8ca6-9ea69258ff68}</Project>
       <Name>ChainReactionByEiffie</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ChaosTrendLogoByLuther\ChaosTrendLogoByLuther\ChaosTrendLogoByLuther.csproj">
+      <Project>{4e599a73-18c6-4690-ae4b-1f966b728730}</Project>
+      <Name>ChaosTrendLogoByLuther</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\CheeseByMu6k\CheeseByMu6k\CheeseByMu6k.csproj">
+      <Project>{8221871a-8194-4f28-a6c2-950ae8e3e8d5}</Project>
+      <Name>CheeseByMu6k</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\CheesyByPMalin\CheesyByPMalin\CheesyByPMalin.csproj">
       <Project>{486f816a-2fc5-48aa-8d76-c18532728e49}</Project>
       <Name>CheesyByPMalin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ClawByGreen\ClawByGreen\ClawByGreen.csproj">
+      <Project>{396ceb6c-2ccd-485a-b185-71e35fa07c06}</Project>
+      <Name>ClawByGreen</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\CrystalBallByAaecheve\CrystalBallByAaecheve\CrystalBallByAaecheve.csproj">
+      <Project>{29050a98-700e-43cc-ac87-1a25bf0b6a94}</Project>
+      <Name>CrystalBallByAaecheve</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\DaRasterizerByTDM\DaRasterizerByTDM\DaRasterizerByTDM.csproj">
+      <Project>{30a5cfb3-a469-4cfd-ab94-e16519ed83a8}</Project>
+      <Name>DaRasterizerByTDM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\DataTransferBySrtuss\DataTransferBySrtuss\DataTransferBySrtuss.csproj">
       <Project>{7dd732b7-134b-456d-8a78-c63a4b5a0bcc}</Project>
       <Name>DataTransferBySrtuss</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\DesertChaseByNdxbxrme\DesertChaseByNdxbxrme\DesertChaseByNdxbxrme.csproj">
+      <Project>{c9d80ec7-a2c4-4dbd-be39-5477c611e3bf}</Project>
+      <Name>DesertChaseByNdxbxrme</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\DFLightingByTekF\DFLightingByTekF\DFLightingByTekF.csproj">
       <Project>{eedf5720-4339-409e-b8ee-635b95e62cdd}</Project>
@@ -1293,6 +1631,10 @@
     <ProjectReference Include="..\..\synergy\DirectLightUsingMISByKoiava\DirectLightUsingMISByKoiava\DirectLightUsingMISByKoiava.csproj">
       <Project>{b1c54240-3df7-4362-a7b0-a30c42efe0e9}</Project>
       <Name>DirectLightUsingMISByKoiava</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\DIYSpacemanByEiffie\DIYSpacemanByEiffie\DIYSpacemanByEiffie.csproj">
+      <Project>{3973117b-4c59-421e-9f1d-7cb49ee96122}</Project>
+      <Name>DIYSpacemanByEiffie</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\DNAByOtavio\DNAByOtavio\DNAByOtavio.csproj">
       <Project>{253407dc-56bd-4af0-8761-2c173021c41d}</Project>
@@ -1310,6 +1652,14 @@
       <Project>{9b36f942-52cf-40d7-b838-56c334521c59}</Project>
       <Name>DubstepByAssByRez</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\EasterEggByNervus\EasterEggByNervus\EasterEggByNervus.csproj">
+      <Project>{40f1c502-2246-4159-9a21-062d6ab3ffac}</Project>
+      <Name>EasterEggByNervus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\EffusingLavaByNexor\EffusingLavaByNexor\EffusingLavaByNexor.csproj">
+      <Project>{0cab9870-3677-4680-bc2a-193ad965db8e}</Project>
+      <Name>EffusingLavaByNexor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\ElectroPrimByAlex\ElectroPrimByAlex\ElectroPrimByAlex.csproj">
       <Project>{968b098a-48a3-4192-86fb-ac74fd583852}</Project>
       <Name>ElectroPrimByAlex</Name>
@@ -1318,6 +1668,10 @@
       <Project>{4c0d57b6-6859-485f-9f11-7d7340be456e}</Project>
       <Name>EscherPlanariaByMattz</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\FakeGlobalIlluminationByTz\FakeGlobalIlluminationByTz\FakeGlobalIlluminationByTz.csproj">
+      <Project>{2031f1b7-e70c-4a59-959e-8ef7036b8559}</Project>
+      <Name>FakeGlobalIlluminationByTz</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\FakeVolumeLightByEiffie\FakeVolumeLightByEiffie\FakeVolumeLightByEiffie.csproj">
       <Project>{4cc5a53b-a4a0-4b54-b17f-7288713a2a21}</Project>
       <Name>FakeVolumeLightByEiffie</Name>
@@ -1325,6 +1679,14 @@
     <ProjectReference Include="..\..\synergy\FerrisWheelByGaz\FerrisWheelByGaz\FerrisWheelByGaz.csproj">
       <Project>{d82a1c26-ca03-4e8a-abe8-5f3bd5221091}</Project>
       <Name>FerrisWheelByGaz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\FirstDistanceMapByChuckeles\FirstDistanceMapByChuckeles\FirstDistanceMapByChuckeles.csproj">
+      <Project>{5612a314-5ba6-44bc-bd70-7072f8dd5ef2}</Project>
+      <Name>FirstDistanceMapByChuckeles</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\FlappyBirdByMovAx\FlappyBirdByMovAx\FlappyBirdByMovAx.csproj">
+      <Project>{3a7bbe46-4413-4537-b781-f7365b519197}</Project>
+      <Name>FlappyBirdByMovAx</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\FlatlandByPMalin\FlatlandByPMalin\FlatlandByPMalin.csproj">
       <Project>{4be4ef1a-ae51-4808-8ff8-f8ed5891274a}</Project>
@@ -1338,6 +1700,10 @@
       <Project>{bc96aaec-51cf-432f-8744-f0309eecc7ac}</Project>
       <Name>FloatPrintByCasty</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\FlossingSpaceByFlorian\FlossingSpaceByFlorian\FlossingSpaceByFlorian.csproj">
+      <Project>{703298be-03fc-495d-b5a5-9a84c8090909}</Project>
+      <Name>FlossingSpaceByFlorian</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\FractalBridgeByDr2\FractalBridgeByDr2\FractalBridgeByDr2.csproj">
       <Project>{e3e36139-ca7c-467e-a05f-a2f579ea1ac5}</Project>
       <Name>FractalBridgeByDr2</Name>
@@ -1349,6 +1715,18 @@
     <ProjectReference Include="..\..\synergy\FractalSphereByGuil\FractalSphereByGuil\FractalSphereByGuil.csproj">
       <Project>{14ab7ab0-7612-4026-98f6-ebbae5cdf750}</Project>
       <Name>FractalSphereByGuil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\GalaxySpiralsByGuil\GalaxySpiralsByGuil\GalaxySpiralsByGuil.csproj">
+      <Project>{9bc41670-5487-425c-9cf1-7a33af7822fb}</Project>
+      <Name>GalaxySpiralsByGuil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\GameLogoByVladstorm\GameLogoByVladstorm\GameLogoByVladstorm.csproj">
+      <Project>{31a86c42-0dd8-4a56-8fcb-c115f6bfc64b}</Project>
+      <Name>GameLogoByVladstorm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\GammaCorrectnessByZavie\GammaCorrectnessByZavie\GammaCorrectnessByZavie.csproj">
+      <Project>{468d22ca-569f-400c-a21c-5424c5dc5cb0}</Project>
+      <Name>GammaCorrectnessByZavie</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\GeneratorsByKali\GeneratorsByKali\GeneratorsByKali.csproj">
       <Project>{b414c9a8-6964-4ede-8eb2-80edd0798041}</Project>
@@ -1362,6 +1740,22 @@
       <Project>{448d9b7b-039a-4f45-aba0-d5f3e30c5702}</Project>
       <Name>GraphingByNimitz</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\GuitarByAtyuwen\GuitarByAtyuwen\GuitarByAtyuwen.csproj">
+      <Project>{6a2cfeac-f611-42d2-9516-7d026293a229}</Project>
+      <Name>GuitarByAtyuwen</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\GyratingGyroscopeByDr2\GyratingGyroscopeByDr2\GyratingGyroscopeByDr2.csproj">
+      <Project>{02772e52-a692-4a2b-8832-c40e26346e60}</Project>
+      <Name>GyratingGyroscopeByDr2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\HalfLife3ByNikos\HalfLife3ByNikos\HalfLife3ByNikos.csproj">
+      <Project>{e9781c75-c929-4903-a43f-b6f47dab58e6}</Project>
+      <Name>HalfLife3ByNikos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\HypercubeByElias\HypercubeByElias\HypercubeByElias.csproj">
+      <Project>{34e084eb-b631-4515-a346-02d5659a5970}</Project>
+      <Name>HypercubeByElias</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\IcyMoonByDr2\IcyMoonByDr2\IcyMoonByDr2.csproj">
       <Project>{6893d375-cfdb-4a26-af7a-593bc8f9662c}</Project>
       <Name>IcyMoonByDr2</Name>
@@ -1374,6 +1768,14 @@
       <Project>{0f9135b9-3dac-4aca-968b-4ec4fc05bfdf}</Project>
       <Name>InputTimeByIq</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\InterleavedGradientNoiseByAlgorithm\InterleavedGradientNoiseByAlgorithm\InterleavedGradientNoiseByAlgorithm.csproj">
+      <Project>{1a23708f-e51b-46f5-9b63-30c081d5d511}</Project>
+      <Name>InterleavedGradientNoiseByAlgorithm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\InvasionByProtarget\InvasionByProtarget\InvasionByProtarget.csproj">
+      <Project>{e9344bd2-b8e3-42dd-a039-a552f0960ec7}</Project>
+      <Name>InvasionByProtarget</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\InversionMachineByKali\InversionMachineByKali\InversionMachineByKali.csproj">
       <Project>{85690caa-b7d2-4b73-b50b-4a73367160f6}</Project>
       <Name>InversionMachineByKali</Name>
@@ -1382,17 +1784,41 @@
       <Project>{5839091d-de7f-42e8-a128-22df04679ce6}</Project>
       <Name>IslandByVanburgler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\JoyDivisionByXbe\JoyDivisionByXbe\JoyDivisionByXbe.csproj">
+      <Project>{d135df02-c39e-4036-bf46-502703e496c8}</Project>
+      <Name>JoyDivisionByXbe</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\JusterBeaverByMovax\JusterBeaverByMovax\JusterBeaverByMovax.csproj">
+      <Project>{556fdc09-e0ed-46b2-bb12-a0ce6c72356d}</Project>
+      <Name>JusterBeaverByMovax</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\LegendOfZeldaByHLorenzi\LegendOfZeldaByHLorenzi\LegendOfZeldaByHLorenzi.csproj">
+      <Project>{a00b0267-107f-4b46-8494-08b7d36102bc}</Project>
+      <Name>LegendOfZeldaByHLorenzi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\LineIntersectionByThe23\LineIntersectionByThe23\LineIntersectionByThe23.csproj">
       <Project>{40f84144-fd4f-460c-b6a3-d40e8fa6da02}</Project>
       <Name>LineIntersectionByThe23</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\LineIntersectionInteractiveByThe23\LineIntersectionInteractiveByThe23\LineIntersectionInteractiveByThe23.csproj">
+      <Project>{7aaf1f02-4c05-46ef-9b10-232533ee2294}</Project>
+      <Name>LineIntersectionInteractiveByThe23</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\LittleFluffyCloudsByGreen\LittleFluffyCloudsByGreen\LittleFluffyCloudsByGreen.csproj">
       <Project>{5afe1eec-581a-4618-9fcf-1efc5226bfce}</Project>
       <Name>LittleFluffyCloudsByGreen</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\LostInTheFieldByRk\LostInTheFieldByRk\LostInTheFieldByRk.csproj">
+      <Project>{72190cc0-7878-4310-a2d1-568ee14d0a27}</Project>
+      <Name>LostInTheFieldByRk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\MarbleSculptureByTekF\MarbleSculptureByTekF\MarbleSculptureByTekF.csproj">
       <Project>{4148a6e0-f804-4a64-ac1e-12798e580798}</Project>
       <Name>MarbleSculptureByTekF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\MarioMushroomByAlgorithm\MarioMushroomByAlgorithm\MarioMushroomByAlgorithm.csproj">
+      <Project>{b228659f-a2ea-4a2a-ae54-a41c8dc23b9e}</Project>
+      <Name>MarioMushroomByAlgorithm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\MikeByIq\MikeByIq\MikeByIq.csproj">
       <Project>{0ae0c5b7-d71a-4cd5-896c-dd38a4f655ab}</Project>
@@ -1409,6 +1835,10 @@
     <ProjectReference Include="..\..\synergy\MonumentValleyByGltracy\MonumentValleyByGltracy\MonumentValleyByGltracy.csproj">
       <Project>{d8aa7897-a436-4927-8404-507373e2605f}</Project>
       <Name>MonumentValleyByGltracy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\MusicMarioByIq\MusicMarioByIq\MusicMarioByIq.csproj">
+      <Project>{b1b6c15b-356f-4424-a682-6ad82f13e3ff}</Project>
+      <Name>MusicMarioByIq</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\NanoTubesByTrisomie\NanoTubesByTrisomie\NanoTubesByTrisomie.csproj">
       <Project>{56a6f117-718a-4ba2-ae23-443f98b3da0d}</Project>
@@ -1430,9 +1860,29 @@
       <Project>{8b1df4ec-d001-402b-90eb-c3347549840c}</Project>
       <Name>OrchardNightByEiffie</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\OrderedDitherByKlk\OrderedDitherByKlk\OrderedDitherByKlk.csproj">
+      <Project>{52ca6e65-e27d-41fd-b62c-4da443581058}</Project>
+      <Name>OrderedDitherByKlk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\OtherWorldByAlgorithm\OtherWorldByAlgorithm\OtherWorldByAlgorithm.csproj">
+      <Project>{c6ef1130-d581-4da2-bf5a-c068b50cc88e}</Project>
+      <Name>OtherWorldByAlgorithm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\PacmanByTsone\PacmanByTsone\PacmanByTsone.csproj">
+      <Project>{6bb449c1-4671-47ce-a001-e844e9f77df1}</Project>
+      <Name>PacmanByTsone</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\PalmettoStalkByEiffie\PalmettoStalkByEiffie\PalmettoStalkByEiffie.csproj">
       <Project>{07b03160-5c2b-4a7e-9ac2-89d0562fac48}</Project>
       <Name>PalmettoStalkByEiffie</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ParallaxMappingByNimitz\ParallaxMappingByNimitz\ParallaxMappingByNimitz.csproj">
+      <Project>{e4f34bdf-585b-46c7-87de-9606589218e4}</Project>
+      <Name>ParallaxMappingByNimitz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\PlasticReflectingCubesByDen\PlasticReflectingCubesByDen\PlasticReflectingCubesByDen.csproj">
+      <Project>{d51143f3-7766-42db-8cb7-713845f017a4}</Project>
+      <Name>PlasticReflectingCubesByDen</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\PlayingWithRefleksByEiffie\PlayingWithRefleksByEiffie\PlayingWithRefleksByEiffie.csproj">
       <Project>{7afa2226-3160-4372-9b1a-ec355a7619fd}</Project>
@@ -1466,6 +1916,14 @@
       <Project>{227bbfaf-4364-4d40-ba56-359a2456a01d}</Project>
       <Name>RayConeRayFrustumByRobert</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\RaymarchingDisplacementByJcanabald\RaymarchingDisplacementByJcanabald\RaymarchingDisplacementByJcanabald.csproj">
+      <Project>{3fe6471f-1f37-4278-b0c7-538cbc7c3b80}</Project>
+      <Name>RaymarchingDisplacementByJcanabald</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\RaymarchingTweaksByLanza\RaymarchingTweaksByLanza\RaymarchingTweaksByLanza.csproj">
+      <Project>{609123e7-ef0c-4adb-a6a0-a364d098544b}</Project>
+      <Name>RaymarchingTweaksByLanza</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\RedCellsByPMalin\RedCellsByPMalin\RedCellsByPMalin.csproj">
       <Project>{520b7fff-e697-4f31-b79c-8acad35d91f1}</Project>
       <Name>RedCellsByPMalin</Name>
@@ -1473,6 +1931,10 @@
     <ProjectReference Include="..\..\synergy\RefelectingCubeByTriggerHLM\RefelectingCubeByTriggerHLM\RefelectingCubeByTriggerHLM.csproj">
       <Project>{bf85afab-b3c0-4471-a0bf-70405c1cdb46}</Project>
       <Name>RefelectingCubeByTriggerHLM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\RiseOfShroomByAlgorithm\RiseOfShroomByAlgorithm\RiseOfShroomByAlgorithm.csproj">
+      <Project>{374391e4-4f63-46d4-a09f-0e392432524e}</Project>
+      <Name>RiseOfShroomByAlgorithm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\RiverFlightByDr2\RiverFlightByDr2\RiverFlightByDr2.csproj">
       <Project>{3c165607-e599-4e5e-95cc-558d8da84b84}</Project>
@@ -1486,9 +1948,17 @@
       <Project>{8b78e539-36fa-4743-a23d-383388f91016}</Project>
       <Name>SansNormalByEiffie</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ScatterByGaz\ScatterByGaz\ScatterByGaz.csproj">
+      <Project>{b89c80fb-96de-4b00-b2d2-278533a1a2af}</Project>
+      <Name>ScatterByGaz</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\SDFCollisionCheckingByMattz\SDFCollisionCheckingByMattz\SDFCollisionCheckingByMattz.csproj">
       <Project>{e099ebb7-177d-407b-8430-7ebfc14d9d73}</Project>
       <Name>SDFCollisionCheckingByMattz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SegmentByArthursw\SegmentByArthursw\SegmentByArthursw.csproj">
+      <Project>{d09ec28a-a160-4c90-bb3b-8622ba1bf013}</Project>
+      <Name>SegmentByArthursw</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\ShaderingChameleonByIapafoto\ShaderingChameleonByIapafoto\ShaderingChameleonByIapafoto.csproj">
       <Project>{146d895b-2a6f-48d5-8091-b099bf3c459e}</Project>
@@ -1505,6 +1975,10 @@
     <ProjectReference Include="..\..\synergy\ShapeshifterByMu6k\ShapeshifterByMu6k\ShapeshifterByMu6k.csproj">
       <Project>{17c767c7-d06c-41a6-8b95-ed644237ff6a}</Project>
       <Name>ShapeshifterByMu6k</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ShellByFMSCat\ShellByFMSCat\ShellByFMSCat.csproj">
+      <Project>{0dce3b1f-18ca-4f2f-9fff-785d2f35c663}</Project>
+      <Name>ShellByFMSCat</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\SHVisualizerByIq\SHVisualizerByIq\SHVisualizerByIq.csproj">
       <Project>{87c1e099-07a5-47a1-b4df-a02840a5c22e}</Project>
@@ -1530,6 +2004,10 @@
       <Project>{6dab88ca-52ff-417d-a529-6a2d35f4f317}</Project>
       <Name>SinMountainsByFred</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SminTestByHughsk\SminTestByHughsk\SminTestByHughsk.csproj">
+      <Project>{27b66600-734d-46f1-8d67-398224e78a1c}</Project>
+      <Name>SminTestByHughsk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\SomedayByEiffie\SomedayByEiffie\SomedayByEiffie.csproj">
       <Project>{8b358dde-78dd-46f5-a544-66b1807e372a}</Project>
       <Name>SomedayByEiffie</Name>
@@ -1542,6 +2020,10 @@
       <Project>{00539c7a-ccfd-4b8a-9f5b-2e2007ebf445}</Project>
       <Name>SoundAcidJamBySrtuss</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SpaceByReinder\SpaceByReinder\SpaceByReinder.csproj">
+      <Project>{d23d3804-de75-4922-a1a3-f620b9b43273}</Project>
+      <Name>SpaceByReinder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\SparseGridMarchingByNimitz\SparseGridMarchingByNimitz\SparseGridMarchingByNimitz.csproj">
       <Project>{d1fef5fe-1b9c-48ac-8ee9-f67f650657c5}</Project>
       <Name>SparseGridMarchingByNimitz</Name>
@@ -1549,6 +2031,10 @@
     <ProjectReference Include="..\..\synergy\SphereMappingsByNimitz\SphereMappingsByNimitz\SphereMappingsByNimitz.csproj">
       <Project>{468bb917-135c-4d48-b806-a2a4d968e124}</Project>
       <Name>SphereMappingsByNimitz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SpriteEncodingByNikos\SpriteEncodingByNikos\SpriteEncodingByNikos.csproj">
+      <Project>{0d892c86-a39b-43bb-bd8e-df8f8666988a}</Project>
+      <Name>SpriteEncodingByNikos</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\StairwayToHeavenByEiffie\StairwayToHeavenByEiffie\StairwayToHeavenByEiffie.csproj">
       <Project>{84da417b-0b7a-4f25-b61a-d05598f1979c}</Project>
@@ -1566,9 +2052,17 @@
       <Project>{fa4bc7ce-1216-405b-94a8-2298a74fea1e}</Project>
       <Name>TetrahedronatorByEiffie</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\TetrisByKali\TetrisByKali\TetrisByKali.csproj">
+      <Project>{9e77ffa5-275f-4cc6-9e40-5e3c9cdbac7a}</Project>
+      <Name>TetrisByKali</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\TileableWaterCausticByHoskins\TileableWaterCausticByHoskins\TileableWaterCausticByHoskins.csproj">
       <Project>{ff79a08b-751c-4142-93c1-44f941e2deda}</Project>
       <Name>TileableWaterCausticByHoskins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\TinyCuttingByAiekick\TinyCuttingByAiekick\TinyCuttingByAiekick.csproj">
+      <Project>{f66b5044-af19-40c7-a9f4-174811865eae}</Project>
+      <Name>TinyCuttingByAiekick</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\ToonCloudByAntoineC\ToonCloudByAntoineC\ToonCloudByAntoineC.csproj">
       <Project>{7db58e83-3863-42d5-9f9d-0f6d706f7daa}</Project>
@@ -1582,21 +2076,49 @@
       <Project>{9975e41a-6ba2-401f-92e7-a2e2189b0326}</Project>
       <Name>TorusJourneyByFalcao</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ToTheRoadOfRibbon\ToTheRoadOfRibbon\ToTheRoadOfRibbon.csproj">
+      <Project>{e1b6a74f-0cf1-4438-89e0-fcb5376907c3}</Project>
+      <Name>ToTheRoadOfRibbon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\TreeInGrassBySphinx\TreeInGrassBySphinx\TreeInGrassBySphinx.csproj">
       <Project>{ebedbf43-877d-485b-969d-624d6edec105}</Project>
       <Name>TreeInGrassBySphinx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\TreesByGuil\TreesByGuil\TreesByGuil.csproj">
+      <Project>{6cbccfec-9879-47bd-831c-7e475dcb444b}</Project>
+      <Name>TreesByGuil</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\TruchetTentaclesByWaha\TruchetTentaclesByWaha\TruchetTentaclesByWaha.csproj">
       <Project>{e687f5fc-7041-4fe1-8323-10fe55f010d9}</Project>
       <Name>TruchetTentaclesByWaha</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\TrumpetByBaldand\TrumpetByBaldand\TrumpetByBaldand.csproj">
+      <Project>{5a2ca6f4-f6cc-43d4-b618-f6746c539b57}</Project>
+      <Name>TrumpetByBaldand</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\Tunnel1ByWaha\Tunnel1ByWaha\Tunnel1ByWaha.csproj">
       <Project>{1f4e6b0b-0bb5-4a36-9997-87b5e3a45f70}</Project>
       <Name>Tunnel1ByWaha</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\UselessBoxByMovax\UselessBoxByMovax\UselessBoxByMovax.csproj">
+      <Project>{f52898fe-2a88-4518-b529-51a475209cdb}</Project>
+      <Name>UselessBoxByMovax</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ValueToBitArrayByNikos\ValueToBitArrayByNikos\ValueToBitArrayByNikos.csproj">
+      <Project>{43e05ce4-1ae5-47cc-9cb7-3288ca8dbff0}</Project>
+      <Name>ValueToBitArrayByNikos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\ValveNoiseByImpossible\ValveNoiseByImpossible\ValveNoiseByImpossible.csproj">
+      <Project>{9385ec71-c8b2-4d2b-bc75-c66260b97f1c}</Project>
+      <Name>ValveNoiseByImpossible</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\VisibleClockByDr2\VisibleClockByDr2\VisibleClockByDr2.csproj">
       <Project>{b55409c5-3972-4c1b-85d5-3e3d5f060355}</Project>
       <Name>VisibleClockByDr2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\VolumetricHelicesByNimitz\VolumetricHelicesByNimitz\VolumetricHelicesByNimitz.csproj">
+      <Project>{b60f7619-772b-4796-9cdc-fac6491e0883}</Project>
+      <Name>VolumetricHelicesByNimitz</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\VoxelPacManByNrx\VoxelPacManByNrx\VoxelPacManByNrx.csproj">
       <Project>{a6e686cf-56cd-4533-9a2c-7e759ca71e33}</Project>
@@ -1617,6 +2139,22 @@
     <ProjectReference Include="..\..\synergy\WaterfallByZtri\WaterfallByZtri\WaterfallByZtri.csproj">
       <Project>{b209c2f1-c8b0-441d-9a21-17d665cfd03c}</Project>
       <Name>WaterfallByZtri</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\WindWakerOceanByPolyflare\WindWakerOceanByPolyflare\WindWakerOceanByPolyflare.csproj">
+      <Project>{63f34366-1907-400d-bd5b-6572ef6742f3}</Project>
+      <Name>WindWakerOceanByPolyflare</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\x2001SpaceStationByOtavio\x2001SpaceStationByOtavio\x2001SpaceStationByOtavio.csproj">
+      <Project>{d2467367-10ea-45b7-b09c-5fc9f7680f8e}</Project>
+      <Name>x2001SpaceStationByOtavio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\x2DFoldingByGaz\x2DFoldingByGaz\x2DFoldingByGaz.csproj">
+      <Project>{9dcf1991-99c8-49f6-93fe-0b7ee8c0a589}</Project>
+      <Name>x2DFoldingByGaz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\x3DExcQByGaz\x3DExcQByGaz\x3DExcQByGaz.csproj">
+      <Project>{6c2ae8b7-b6ac-4c9a-84d2-ad0b835d0e1c}</Project>
+      <Name>x3DExcQByGaz</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\XorMountainsByXor\XorMountainsByXor\XorMountainsByXor.csproj">
       <Project>{0c3cdf26-eb73-413a-a3fb-76999bcb69f0}</Project>
