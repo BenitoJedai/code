@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	[Script(HasNoPrototype = true, InternalConstructor = true)]
     public class WebGLTexture
     {
+		// https://www.opengl.org/sdk/docs/man/html/glCreateTextures.xhtml
+
 		#region Constructor
 
 		[Obsolete("createTexture")]

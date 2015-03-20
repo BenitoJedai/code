@@ -31,9 +31,11 @@ namespace ScriptCoreLib.GLSL
 
 		//  'assign' :  l-value required "gl_FragCoord" (can't modify gl_FragCoord)
 		// http://stackoverflow.com/questions/13711252/what-does-gl-fragcoord-z-gl-fragcoord-w-represent
+		// https://www.opengl.org/sdk/docs/man/html/gl_FragCoord.xhtml
 		[mediump]
         protected vec4 gl_FragCoord;
 
+		// https://www.opengl.org/sdk/docs/man/html/gl_FrontFacing.xhtml
 		// https://www.khronos.org/opengles/sdk/docs/man31/html/gl_FrontFacing.xhtml
 		protected bool gl_FrontFacing;
 
@@ -42,6 +44,7 @@ namespace ScriptCoreLib.GLSL
         [mediump]
         protected vec4[] gl_FragData = new vec4[gl_MaxDrawBuffers];
 
+		// https://www.opengl.org/sdk/docs/man/html/gl_PointCoord.xhtml
 		// https://www.khronos.org/opengles/sdk/docs/man31/html/gl_PointCoord.xhtml
 		[mediump]
         protected vec2 gl_PointCoord;

@@ -10,6 +10,9 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	[Script(HasNoPrototype = true, InternalConstructor = true)]
 	public class WebGLFramebuffer
 	{
+		// https://www.opengl.org/sdk/docs/man/html/glCreateFramebuffers.xhtml
+		// http://www.lighthouse3d.com/tutorials/opengl-short-tutorials/opengl_framebuffer_objects/
+
 		#region Constructor
 
 		[Obsolete("createFramebuffer")]

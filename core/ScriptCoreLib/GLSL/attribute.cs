@@ -30,16 +30,20 @@ namespace ScriptCoreLib.GLSL
         //typeof(mat4)
         )]
     [Description("Recommended max: 16 attributes")]
+	[Obsolete]
     public sealed class attribute : Attribute
 	{
+		// 4.3 Storage Qualifiers
+		// compatibility profile only and vertex language only; same as in when in a
+		//vertex shader
 
 
 
-        //'vertexAttribI4i' : 'vertexAttrib',
-        //'vertexAttribI4iv' : 'vertexAttrib',
-        //'vertexAttribI4ui' : 'vertexAttrib',
-        //'vertexAttribI4uiv' : 'vertexAttrib',
-        //'vertexAttribIPointer' : 'vertexAttribPointer',
-        //'vertexAttribDivisor' : 'vertexAttribDivisor',
-    }
+		//'vertexAttribI4i' : 'vertexAttrib',
+		//'vertexAttribI4iv' : 'vertexAttrib',
+		//'vertexAttribI4ui' : 'vertexAttrib',
+		//'vertexAttribI4uiv' : 'vertexAttrib',
+		//'vertexAttribIPointer' : 'vertexAttribPointer',
+		//'vertexAttribDivisor' : 'vertexAttribDivisor',
+	}
 }

@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
     [Script(HasNoPrototype = true, InternalConstructor = true)]
     public class WebGLTransformFeedback : WebGLObject
     {
-        // tested by ?
-    }
+		// https://www.opengl.org/sdk/docs/man/html/glCreateTransformFeedbacks.xhtml
+
+		// tested by ?
+	}
 }
