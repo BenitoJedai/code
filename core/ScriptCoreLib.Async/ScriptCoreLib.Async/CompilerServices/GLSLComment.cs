@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.CompilerServices
 {
-	public class GLSLLineComment
+	public class GLSLComment
 	{
+		public bool IsLineComment;
+		public bool IsBlockComment;
+
 		public GLSLElement Parent;
 
 		public StringBuilder ContentStringBuilder;
