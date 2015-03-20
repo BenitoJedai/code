@@ -596,6 +596,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtherWorldByAlgorithm", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterleavedGradientNoiseByAlgorithm", "..\synergy\InterleavedGradientNoiseByAlgorithm\InterleavedGradientNoiseByAlgorithm\InterleavedGradientNoiseByAlgorithm.csproj", "{1A23708F-E51B-46F5-9B63-30C081D5D511}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindWakerOceanByPolyflare", "..\synergy\WindWakerOceanByPolyflare\WindWakerOceanByPolyflare\WindWakerOceanByPolyflare.csproj", "{63F34366-1907-400D-BD5B-6572EF6742F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -1674,6 +1676,10 @@ Global
 		{1A23708F-E51B-46F5-9B63-30C081D5D511}.Debug|x86.Build.0 = Debug|x86
 		{1A23708F-E51B-46F5-9B63-30C081D5D511}.Release|x86.ActiveCfg = Release|x86
 		{1A23708F-E51B-46F5-9B63-30C081D5D511}.Release|x86.Build.0 = Release|x86
+		{63F34366-1907-400D-BD5B-6572EF6742F3}.Debug|x86.ActiveCfg = Debug|x86
+		{63F34366-1907-400D-BD5B-6572EF6742F3}.Debug|x86.Build.0 = Debug|x86
+		{63F34366-1907-400D-BD5B-6572EF6742F3}.Release|x86.ActiveCfg = Release|x86
+		{63F34366-1907-400D-BD5B-6572EF6742F3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1971,5 +1977,6 @@ Global
 		{374391E4-4F63-46D4-A09F-0E392432524E} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
 		{C6EF1130-D581-4DA2-BF5A-C068B50CC88E} = {57FF136E-E3D9-4403-907A-DC57E1658181}
 		{1A23708F-E51B-46F5-9B63-30C081D5D511} = {8442C1DC-6AF5-4FDD-8E33-9DDB0070CC66}
+		{63F34366-1907-400D-BD5B-6572EF6742F3} = {FA62781B-51A5-41ED-B127-84FE09612415}
 	EndGlobalSection
 EndGlobal
