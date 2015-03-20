@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ScriptCoreLib.CompilerServices
@@ -45,6 +47,8 @@ namespace ScriptCoreLib.CompilerServices
 			Action<double> AtProgress
 			)
 		{
+			Console.WriteLine("enter WorkerThreadAnalyzeFragmentShaders " + new { Thread.CurrentThread.ManagedThreadId, Name = Thread.CurrentThread.Name = MethodInfo.GetCurrentMethod().Name, Environment.ProcessorCount, Debugger.IsAttached });
+
 			// this method could split analysis per core. 
 
 			// if the files change
@@ -365,7 +369,8 @@ namespace ScriptCoreLib.CompilerServices
 				   orderby count descending
 
 				   //select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsLetter0, g }
-				   select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
+				   //select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
+				   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
 				   #endregion
 
 		 );
@@ -521,7 +526,8 @@ namespace ScriptCoreLib.CompilerServices
 					// lets look bigger volumes first
 					orderby g.Key.xCommentTermination, count descending
 
-					select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
+					//select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
+					select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
 				);
 
 				//+		[0]	{ count = 148, IsLineComment = true, xCommentTermination = false, xChar0 = 47 '/', xChar1 = 47 '/', g = {System.Linq.Lookup<<>f__AnonymousType35<bool,bool,char,char>,<>f__AnonymousType34<char,char,int,bool,string,System.IO.FileStream,bool,bool>>.Grouping} }	<Anonymous Type>
@@ -709,9 +715,10 @@ namespace ScriptCoreLib.CompilerServices
 					  orderby count descending
 
 					  //select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsLetter0, g }
-					  select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
+					  //select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
+					  select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
 					  #endregion
-  );
+   );
 
 				cNoSpaceWORDxPass.Stop();
 				cNoSpaceWORDxPassIterations.Add(cNoSpaceWORDxPass);
@@ -781,6 +788,10 @@ namespace ScriptCoreLib.CompilerServices
 			var cNoBlockCommentPassIterations = new List<Stopwatch>();
 			var cNoBlockComment = cNoSpaceWORDx;
 
+			var BlockComments = cNoBlockComment.Count(g => g.IsBlockComment && !g.xCommentTermination);
+
+			// X:\jsc.svn\examples\merge\test\TestLINQJoinConcat\TestLINQJoinConcat\Program.cs
+			Console.WriteLine(new { BlockComments, cNoBlockComment.Length });
 
 			#region cNoBlockComment
 			if (cNoBlockComment.Any(g => g.IsBlockComment && !g.xCommentTermination))
@@ -790,9 +801,16 @@ namespace ScriptCoreLib.CompilerServices
 				{
 					var cNoBlockCommentPass = Stopwatch.StartNew();
 
-					cNoBlockComment = Enumerable.ToArray(
-					   from g in cNoBlockComment
-					   from c in g.g
+					cNoBlockComment = xEnumerable.SelectManyToArray(
+					   // http://stackoverflow.com/questions/12397880/using-linq-how-to-select-conditionally-some-items-but-when-no-conditions-select
+					   from gg in cNoBlockComment
+
+						   // some groups we dont want to look at. can we jump/skip/ select it?
+						   //if select goto discard
+
+					   select gg.IsBlockComment && !gg.xCommentTermination ?
+
+					   from c in gg.g
 
 						   // if we are a comment, we need to read a byte unless the comment is done reading. then keep the state
 					   let xCommentContentByte =
@@ -880,7 +898,7 @@ namespace ScriptCoreLib.CompilerServices
 						   //z.xReadByteNext0,
 						   z.xReadByteNext0IsWhiteSpace,
 						   z.xReadByteNext0IsLetter,
-					   } into g
+					   } into g	//join cNoBlockComment into gj
 
 					   let count = g.Count()
 
@@ -888,7 +906,17 @@ namespace ScriptCoreLib.CompilerServices
 					   //orderby g.Key.xCommentTermination, count descending
 					   orderby count descending
 
-					   select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
+					   //select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
+					   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g } : new[] { gg }
+
+				   //join g in cNoBlockComment on true equals !(g.IsBlockComment && !g.xCommentTermination)
+				   //from g in cNoBlockComment
+				   //where !(g.IsBlockComment && !g.xCommentTermination)
+				   //select g into g2
+
+
+				   //select new[] { x, g2 }
+
 				   );
 
 					cNoBlockCommentPass.Stop();
@@ -899,6 +927,7 @@ namespace ScriptCoreLib.CompilerServices
 				while (cNoBlockComment.Any(g => g.IsBlockComment && !g.xCommentTermination));
 
 				var cNoBlockCommentPassIterationsElapsed = TimeSpan.FromMilliseconds(cNoBlockCommentPassIterations.Sum(x => x.ElapsedMilliseconds));
+				Console.WriteLine(new { cNoBlockCommentPassIterationsElapsed });
 
 				//+		[0]	{ count = 119, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0 = 120 'x', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
 				//+		[1]	{ count = 118, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0 = 35 '#', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
@@ -906,13 +935,38 @@ namespace ScriptCoreLib.CompilerServices
 				//		f	"W:\\ChromeShaderToySymmetricOriginsByGood\\ChromeShaderToySymmetricOriginsByGood\\Shaders\\Program.frag"	string
 
 
-
+				cNoSpaceWORDx = cNoBlockComment;
 				goto after_cNoSpaceWORDx;
 			}
 			#endregion
 
+			//+       [0] { count = 1, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0 = 120 'x', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = { System.Linq.Lookup <<> f__AnonymousType36<bool, bool, bool, bool, char, char, bool, bool>,<> f__AnonymousType35 < bool,bool, System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string, System.IO.FileStream,bool,bool, ScriptCoreLib.CompilerServices.GLSLElement >>.Grouping} }    < Anonymous Type >
+
+
+			//f = "W:\\ChromeShaderToyOculusTestByDaeken\\ChromeShaderToyOculusTestByDaeken\\Shaders\\Program.frag"
+
+			//+		[0]	{ count = 128, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0 = 120 'x', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 127, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0 = 35 '#', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			// { cNoBlockCommentPassIterationsElapsed = 00:00:10.4270000 }
+
+			// i wonder weould we be able to parse glsl in gpu?
+			// http://stackoverflow.com/questions/12057746/webgl-for-gpgpu
+			// https://github.com/graphitemaster/glsl-parser
+			// https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/
+
 
 			Debugger.Break();
+		}
+
+
+	}
+
+	internal static class xEnumerable
+	{
+		// X:\jsc.svn\examples\merge\test\TestLINQJoinConcat\TestLINQJoinConcat\Program.cs
+		internal static T[] SelectManyToArray<T>(this IEnumerable<IEnumerable<T>> source)
+		{
+			return source.SelectMany(x => x).ToArray();
 		}
 	}
 }
