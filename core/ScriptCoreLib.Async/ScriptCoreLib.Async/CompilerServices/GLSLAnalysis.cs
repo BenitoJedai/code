@@ -1002,6 +1002,7 @@ namespace ScriptCoreLib.CompilerServices
 
 			// i think its time for a third byte!
 
+			var WithThirdBytePass = Stopwatch.StartNew();
 			var WithThirdByte = Enumerable.ToArray(
 				from gg in cNoBlockComment
 				from c in gg.g
@@ -1014,7 +1015,7 @@ namespace ScriptCoreLib.CompilerServices
 				// ! once
 				let z = new { c.xChar0, c.xChar1, xChar2, c }
 
-				orderby z.xChar0 == '#' descending,  z.xChar0, z.xChar1, z.xChar2
+				orderby z.xChar0 == '#' descending, z.xChar0, z.xChar1, z.xChar2
 
 				group z by new
 				{
@@ -1024,12 +1025,34 @@ namespace ScriptCoreLib.CompilerServices
 				} into g
 
 				let count = g.Count()
-				orderby count descending
+				orderby g.Key.xChar0 == '#' descending, count descending, g.Key.xChar0, g.Key.xChar1, g.Key.xChar2
 				select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.xChar2, g }
 
 			);
 
+			// #define?
+			//+		[0]	{ count = 122, xChar0 = 35 '#', xChar1 = 100 'd', xChar2 = 101 'e', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 16, xChar0 = 35 '#', xChar1 = 105 'i', xChar2 = 102 'f', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
 
+			// float ?
+			//+		[2]	{ count = 52, xChar0 = 102 'f', xChar1 = 108 'l', xChar2 = 111 'o', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+
+			// const ?
+			//+		[3]	{ count = 45, xChar0 = 99 'c', xChar1 = 111 'o', xChar2 = 110 'n', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+
+			//+		[4]	{ count = 19, xChar0 = 118 'v', xChar1 = 101 'e', xChar2 = 99 'c', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[5]	{ count = 7, xChar0 = 115 's', xChar1 = 116 't', xChar2 = 114 'r', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[6]	{ count = 4, xChar0 = 109 'm', xChar1 = 97 'a', xChar2 = 116 't', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[7]	{ count = 3, xChar0 = 118 'v', xChar1 = 111 'o', xChar2 = 105 'i', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[8]	{ count = 2, xChar0 = 98 'b', xChar1 = 111 'o', xChar2 = 111 'o', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[9]	{ count = 2, xChar0 = 105 'i', xChar1 = 110 'n', xChar2 = 116 't', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[10]	{ count = 2, xChar0 = 112 'p', xChar1 = 114 'r', xChar2 = 101 'e', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[11]	{ count = 1, xChar0 = 117 'u', xChar1 = 110 'n', xChar2 = 105 'i', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+
+			WithThirdBytePass.Stop();
+			Console.WriteLine("WithThirdBytePass " + new { WithThirdBytePass.Elapsed });
+
+			// feels like the first quantum program:D
 
 			Debugger.Break();
 		}
