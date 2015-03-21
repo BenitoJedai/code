@@ -668,6 +668,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexafieldByKevs", "..\syner
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WobblyThingByAvix", "..\synergy\WobblyThingByAvix\WobblyThingByAvix\WobblyThingByAvix.csproj", "{5F36A402-7B9E-4E59-A061-70F0FF88CFA6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClippedDiscHypertextureByFabrice", "..\synergy\ClippedDiscHypertextureByFabrice\ClippedDiscHypertextureByFabrice\ClippedDiscHypertextureByFabrice.csproj", "{96B1F561-179E-4345-A1B4-DFAC426FDB2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrapheneByFabrice", "..\synergy\GrapheneByFabrice\GrapheneByFabrice\GrapheneByFabrice.csproj", "{E29A1030-0FE3-4E08-A7BD-7AD681577399}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConformalPolarByFabrice", "..\synergy\ConformalPolarByFabrice\ConformalPolarByFabrice\ConformalPolarByFabrice.csproj", "{78B5FD9C-78C2-464B-A192-6A8CAA1933A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -1890,6 +1896,18 @@ Global
 		{5F36A402-7B9E-4E59-A061-70F0FF88CFA6}.Debug|x86.Build.0 = Debug|x86
 		{5F36A402-7B9E-4E59-A061-70F0FF88CFA6}.Release|x86.ActiveCfg = Release|x86
 		{5F36A402-7B9E-4E59-A061-70F0FF88CFA6}.Release|x86.Build.0 = Release|x86
+		{96B1F561-179E-4345-A1B4-DFAC426FDB2B}.Debug|x86.ActiveCfg = Debug|x86
+		{96B1F561-179E-4345-A1B4-DFAC426FDB2B}.Debug|x86.Build.0 = Debug|x86
+		{96B1F561-179E-4345-A1B4-DFAC426FDB2B}.Release|x86.ActiveCfg = Release|x86
+		{96B1F561-179E-4345-A1B4-DFAC426FDB2B}.Release|x86.Build.0 = Release|x86
+		{E29A1030-0FE3-4E08-A7BD-7AD681577399}.Debug|x86.ActiveCfg = Debug|x86
+		{E29A1030-0FE3-4E08-A7BD-7AD681577399}.Debug|x86.Build.0 = Debug|x86
+		{E29A1030-0FE3-4E08-A7BD-7AD681577399}.Release|x86.ActiveCfg = Release|x86
+		{E29A1030-0FE3-4E08-A7BD-7AD681577399}.Release|x86.Build.0 = Release|x86
+		{78B5FD9C-78C2-464B-A192-6A8CAA1933A0}.Debug|x86.ActiveCfg = Debug|x86
+		{78B5FD9C-78C2-464B-A192-6A8CAA1933A0}.Debug|x86.Build.0 = Debug|x86
+		{78B5FD9C-78C2-464B-A192-6A8CAA1933A0}.Release|x86.ActiveCfg = Release|x86
+		{78B5FD9C-78C2-464B-A192-6A8CAA1933A0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2223,5 +2241,8 @@ Global
 		{49DA85E0-F3DC-4AE3-B6BB-C155C3BF4638} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
 		{0C2629DF-FD1E-4AE5-93E5-2F1308FD42FF} = {31DF767D-F7BB-4F0D-A4AB-B6175FAC23CD}
 		{5F36A402-7B9E-4E59-A061-70F0FF88CFA6} = {FA62781B-51A5-41ED-B127-84FE09612415}
+		{96B1F561-179E-4345-A1B4-DFAC426FDB2B} = {E52AEDA5-00B9-4FA3-AC2D-6A13A92ED282}
+		{E29A1030-0FE3-4E08-A7BD-7AD681577399} = {9DA750F2-07C6-4F9F-BBDA-45CAA7720509}
+		{78B5FD9C-78C2-464B-A192-6A8CAA1933A0} = {E52AEDA5-00B9-4FA3-AC2D-6A13A92ED282}
 	EndGlobalSection
 EndGlobal

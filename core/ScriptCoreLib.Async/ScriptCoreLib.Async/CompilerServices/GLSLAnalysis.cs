@@ -1022,7 +1022,7 @@ namespace ScriptCoreLib.CompilerServices
 
 
 				// is there a reason not to read a third byte yet?
-				let xGLSLToken = new StringBuilder().Append(IsPreprocessorDirective)
+				let xGLSLToken = new StringBuilder()
 
 				// we should read until token completes
 
@@ -1130,7 +1130,7 @@ namespace ScriptCoreLib.CompilerServices
 
 			var cNoPreprocessorDirectivePassIterations = new List<Stopwatch>();
 			#region cNoPreprocessorDirective
-			while (cNoPreprocessorDirective.Any(x => x.IsPreprocessorDirective))
+			while (cNoPreprocessorDirective.Any(gg => (gg.IsPreprocessorDirective && char.IsLetter(gg.xChar0))))
 			{
 				var cNoPreprocessorDirectivePass = Stopwatch.StartNew();
 
@@ -1150,7 +1150,10 @@ namespace ScriptCoreLib.CompilerServices
 
 
 				   // keep
-				   let z = new { c.IsPreprocessorDirective, c.xChar0, c.xChar1, c.xGLSLToken, c.s, c.f }
+				   let z = new { c.IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, c.s, c.f }
+
+				   //let sGLSLToken = Convert.ToString(xGLSLToken)
+
 
 				   orderby z.IsPreprocessorDirective descending, z.xChar0, z.xChar1	//, z.xGLSLToken
 
@@ -1158,8 +1161,12 @@ namespace ScriptCoreLib.CompilerServices
 				   {
 					   z.IsPreprocessorDirective,
 
-					   xChar0 = z.xChar0,
-					   xChar1 = z.xChar1
+					   // lets allow whitespace to be grouped
+					   xChar0 =
+					   char.IsWhiteSpace(z.xChar0) ? ' ' : z.xChar0,
+					   xChar1 =
+						// we dont care about char1 if char0 is whitespace
+						char.IsWhiteSpace(z.xChar0) ? '?' : z.xChar1
 
 					   // cannot group  by or order by StringBuilder
 					   //xGLSLToken = z.xGLSLToken,
@@ -1177,8 +1184,8 @@ namespace ScriptCoreLib.CompilerServices
 			#endregion
 
 
-			var cNoBlockCommentPassIterationsElapsed = TimeSpan.FromMilliseconds(cNoBlockCommentPassIterations.Sum(x => x.ElapsedMilliseconds));
-			Console.WriteLine("cNoBlockCommentPassIterationsElapsed " + new { cNoBlockCommentPassIterationsElapsed });
+			var cNoPreprocessorDirectivePassIterationsElapsed = TimeSpan.FromMilliseconds(cNoBlockCommentPassIterations.Sum(x => x.ElapsedMilliseconds));
+			Console.WriteLine("cNoPreprocessorDirectivePassIterationsElapsed " + new { cNoPreprocessorDirectivePassIterationsElapsed });
 
 			Debugger.Break();
 		}
