@@ -1523,6 +1523,16 @@ namespace ScriptCoreLib.CompilerServices
 			// https://github.com/nessos/GpuLinq/
 
 
+			//+		[0]	{ count = 137, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 17, IsPreprocessorDirective = true, sGLSLToken = "ifdef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 7, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 40 '(', xChar1 = 115 's', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			// are we to warn, or deal with such cases?
+			//+		[3]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 59 ';', xChar1 = 13 '\r', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[4]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "ifndef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			// read a token for this guy
+			//+		[5]	{ count = 159, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 115 's', xChar1 = 115 's', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+
+
 			Debugger.Break();
 		}
 

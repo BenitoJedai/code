@@ -696,7 +696,7 @@ do we have a stack trace?
 			c.onmousedown += ev =>
 			{
 				mMouseOriX = ev.CursorX;
-				mMouseOriY = ev.CursorY;
+				mMouseOriY = c.height - ev.CursorY;
 				mMousePosX = mMouseOriX;
 				mMousePosY = mMouseOriY;
 
@@ -708,6 +708,8 @@ do we have a stack trace?
 				if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
 				{
 					mMousePosX = ev.CursorX;
+					// X:\jsc.svn\examples\javascript\chrome\apps\WebGL\synergy\InputMouseByIq\InputMouseByIq\Shaders\Program.frag
+					//mMousePosY = ev.CursorY;
 					mMousePosY = c.height - ev.CursorY;
 				}
 			};
