@@ -129,6 +129,7 @@
     <Compile Include="CompilerServices\GLSLAnalysis.cs" />
     <Compile Include="CompilerServices\GLSLComment.cs" />
     <Compile Include="CompilerServices\GLSLElement.cs" />
+    <Compile Include="CompilerServices\GLSLMacroFragment.cs" />
     <Compile Include="Extensions\ControlBindingsCollectionExtensions.cs" />
     <Compile Include="Extensions\FormAsyncExtensions.cs" />
     <Compile Include="Extensions\TaskAsyncExtensions.cs" />

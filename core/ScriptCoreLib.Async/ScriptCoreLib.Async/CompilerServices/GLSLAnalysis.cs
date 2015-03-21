@@ -1023,6 +1023,7 @@ namespace ScriptCoreLib.CompilerServices
 
 				// is there a reason not to read a third byte yet?
 				let xGLSLToken = new StringBuilder()
+				let sGLSLToken = Convert.ToString(xGLSLToken)
 
 				// we should read until token completes
 
@@ -1031,10 +1032,10 @@ namespace ScriptCoreLib.CompilerServices
 				let xChar1 = (char)xReadByte1
 
 
-
+				let xGLSLMacroFragment = default(GLSLMacroFragment)
 
 				// ! once
-				let z = new { IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, c.s, c.f }
+				let z = new { IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, xGLSLMacroFragment, c.s, c.f }
 
 				orderby z.IsPreprocessorDirective descending, z.xChar0, z.xChar1 //, z.xGLSLToken
 
@@ -1042,16 +1043,28 @@ namespace ScriptCoreLib.CompilerServices
 				{
 					z.IsPreprocessorDirective,
 
-					xChar0 = z.xChar0,
-					xChar1 = z.xChar1
+					sGLSLToken,
+
+					// lets allow whitespace to be grouped
+					xChar0 =
+						char.IsWhiteSpace(z.xChar0) ? ' ' :
+						// wo could aswell only use the group variable?
+						!z.IsPreprocessorDirective && char.IsLetter(z.xChar0) ? letter_char : z.xChar0
+						,
+					xChar1 =
+						// we dont care about char1 if char0 is whitespace
+						char.IsWhiteSpace(z.xChar0) ? '?' :
+						!z.IsPreprocessorDirective && char.IsLetter(z.xChar1) ? letter_char : z.xChar1,
+
 
 					// cannot group  by or order by StringBuilder
 					//xGLSLToken = z.xGLSLToken,
+					isGLSLMacroFragment = false
 				} into g
 
 				let count = g.Count()
-				orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.xChar0, g.Key.xChar1 //, g.Key.xGLSLToken
-				select new { count, g.Key.IsPreprocessorDirective, g.Key.xChar0, g.Key.xChar1, g }
+				orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1 //, g.Key.xGLSLToken
+				select new { count, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1, g.Key.isGLSLMacroFragment, g }
 
 			);
 
@@ -1142,17 +1155,26 @@ namespace ScriptCoreLib.CompilerServices
 					   // stash one byte and read one byte
 
 				   let xGLSLToken = c.xGLSLToken.Append(c.xChar0)
+				   let sGLSLToken = Convert.ToString(xGLSLToken)
 
 				   let xChar0 = c.xChar1
 
 				   let xReadByte1 = c.s.ReadByte()
 				   let xChar1 = (char)xReadByte1
 
+				   // did we just complete a read for define?
+
+				   let xGLSLMacroFragment = c.IsPreprocessorDirective && sGLSLToken == "define" && char.IsWhiteSpace(xChar0) ?
+						// next pass will need to read the proposed name of the fragment
+						new GLSLMacroFragment
+						{
+							// await until spaces are skipped?
+							//NameStringBuilder = new StringBuilder { }
+						} : null
 
 				   // keep
-				   let z = new { c.IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, c.s, c.f }
+				   let z = new { c.IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, xGLSLMacroFragment, c.s, c.f }
 
-				   //let sGLSLToken = Convert.ToString(xGLSLToken)
 
 
 				   orderby z.IsPreprocessorDirective descending, z.xChar0, z.xChar1	//, z.xGLSLToken
@@ -1161,20 +1183,32 @@ namespace ScriptCoreLib.CompilerServices
 				   {
 					   z.IsPreprocessorDirective,
 
+					   sGLSLToken,
+
 					   // lets allow whitespace to be grouped
 					   xChar0 =
-					   char.IsWhiteSpace(z.xChar0) ? ' ' : z.xChar0,
+						char.IsWhiteSpace(z.xChar0) ? ' ' :
+						// wo could aswell only use the group variable?
+						!z.IsPreprocessorDirective && char.IsLetter(z.xChar0) ? letter_char : z.xChar0
+						,
 					   xChar1 =
 						// we dont care about char1 if char0 is whitespace
-						char.IsWhiteSpace(z.xChar0) ? '?' : z.xChar1
+						char.IsWhiteSpace(z.xChar0) ? '?' :
+						!z.IsPreprocessorDirective && char.IsLetter(z.xChar1) ? letter_char : z.xChar1
+						,
 
 					   // cannot group  by or order by StringBuilder
 					   //xGLSLToken = z.xGLSLToken,
+
+					   // we cannot use it in group can we? as boolean we can
+					   isGLSLMacroFragment = z.xGLSLMacroFragment != null
 				   } into g
 
 				   let count = g.Count()
-				   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.xChar0, g.Key.xChar1 //, g.Key.xGLSLToken
-				   select new { count, g.Key.IsPreprocessorDirective, g.Key.xChar0, g.Key.xChar1, g } : new[] { gg }
+
+				   // isGLSLPreprocessorDirective
+				   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
+				   select new { count, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1, g.Key.isGLSLMacroFragment, g } : new[] { gg }
 				);
 
 
@@ -1184,8 +1218,95 @@ namespace ScriptCoreLib.CompilerServices
 			#endregion
 
 
-			var cNoPreprocessorDirectivePassIterationsElapsed = TimeSpan.FromMilliseconds(cNoBlockCommentPassIterations.Sum(x => x.ElapsedMilliseconds));
+			var cNoPreprocessorDirectivePassIterationsElapsed = TimeSpan.FromMilliseconds(cNoPreprocessorDirectivePassIterations.Sum(x => x.ElapsedMilliseconds));
 			Console.WriteLine("cNoPreprocessorDirectivePassIterationsElapsed " + new { cNoPreprocessorDirectivePassIterationsElapsed });
+
+			//+		[0]	{ count = 141, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 32 ' ', xChar1 = 63 '?', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+
+			//+		[1]	{ count = 17, IsPreprocessorDirective = true, sGLSLToken = "ifdef", xChar0 = 32 ' ', xChar1 = 63 '?', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "ifndef", xChar0 = 32 ' ', xChar1 = 63 '?', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+
+			//+		[3]	{ count = 57, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 102 'f', xChar1 = 108 'l', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[4]	{ count = 51, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 99 'c', xChar1 = 111 'o', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[5]	{ count = 21, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 118 'v', xChar1 = 101 'e', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[6]	{ count = 7, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 115 's', xChar1 = 116 't', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[7]	{ count = 6, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 109 'm', xChar1 = 97 'a', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[8]	{ count = 5, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 118 'v', xChar1 = 111 'o', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[9]	{ count = 3, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 112 'p', xChar1 = 114 'r', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[10]	{ count = 2, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 98 'b', xChar1 = 111 'o', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[11]	{ count = 2, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 105 'i', xChar1 = 110 'n', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[12]	{ count = 1, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 117 'u', xChar1 = 110 'n', g = {System.Linq.Lookup<<>f__AnonymousType81<bool,string,char,char>,<>f__AnonymousType80<bool,char,char,System.Text.StringBuilder,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+
+			// http://www.cplusplus.com/doc/tutorial/preprocessor/
+			// #define can work also with parameters to define function macros:
+			// https://msdn.microsoft.com/en-us/library/teas0593.aspx
+			// https://gcc.gnu.org/onlinedocs/cpp/Macros.html
+			// A macro is a fragment of code which has been given a name. Whenever the name is used, it is replaced by the contents of the macro. There are two kinds of macros. They differ mostly in what they look like when they are used. Object-like macros resemble data objects when used, function-like macros resemble function calls.
+			// https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html#Common-Predefined-Macros
+
+
+			// i think we are about to read in a GLSLMacroFragment
+			// isGLSLMacroFragment  is removed once completed by a newline?
+			while (cNoPreprocessorDirective.Any(gg => gg.isGLSLMacroFragment))
+			{
+				cNoPreprocessorDirective = xEnumerable.SelectManyToArray(
+					from gg in cNoPreprocessorDirective
+					select gg.isGLSLMacroFragment ?
+					from c in gg.g
+
+						// read the name!.. or skip spaces actually?
+						// append only if we have skipped reading whitespace
+					let xAppend = c.xGLSLMacroFragment.NameStringBuilder != null ? c.xGLSLMacroFragment.NameStringBuilder.Append(c.xChar0) : null
+
+					let xChar0 = c.xChar1
+
+					let xReadByte1 = c.s.ReadByte()
+					let xChar1 = (char)xReadByte1
+
+					// are we done reading whitespaces?
+					let xNameStringBuilder = char.IsWhiteSpace(xChar0) ? null : c.xGLSLMacroFragment.NameStringBuilder = new StringBuilder { }
+
+					let z = new { c.IsPreprocessorDirective, xChar0, xChar1, c.xGLSLToken, c.xGLSLMacroFragment, c.s, c.f }
+
+
+
+					orderby z.IsPreprocessorDirective descending, z.xChar0, z.xChar1	//, z.xGLSLToken
+
+					group z by new
+					{
+						z.IsPreprocessorDirective,
+
+						gg.sGLSLToken,
+
+						// lets allow whitespace to be grouped
+						xChar0 =
+						char.IsWhiteSpace(z.xChar0) ? ' ' :
+						// wo could aswell only use the group variable?
+						!z.IsPreprocessorDirective && char.IsLetter(z.xChar0) ? letter_char : z.xChar0
+						,
+						xChar1 =
+						// we dont care about char1 if char0 is whitespace
+						char.IsWhiteSpace(z.xChar0) ? '?' :
+						!z.IsPreprocessorDirective && char.IsLetter(z.xChar1) ? letter_char : z.xChar1
+						,
+
+						// cannot group  by or order by StringBuilder
+						//xGLSLToken = z.xGLSLToken,
+
+						// we cannot use it in group can we? as boolean we can
+						isGLSLMacroFragment = z.xGLSLMacroFragment != null
+					} into g
+
+					let count = g.Count()
+
+					// isGLSLPreprocessorDirective
+					orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
+					select new { count, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1, g.Key.isGLSLMacroFragment, g } : new[] { gg }
+				);
+
+
+				Debugger.Break();
+			}
 
 			Debugger.Break();
 		}
