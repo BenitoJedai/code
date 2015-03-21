@@ -10,5 +10,9 @@ namespace ScriptCoreLib.CompilerServices
 	{
 		public StringBuilder NameStringBuilder;
 
+		public override string ToString()
+		{
+			return "#define " + NameStringBuilder;
+		}
 	}
 }
