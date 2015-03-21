@@ -10,8 +10,13 @@ namespace ScriptCoreLib.CompilerServices
 	{
 		public StringBuilder NameStringBuilder;
 
+		public List<StringBuilder> Arguments;
+
 		public override string ToString()
 		{
+			if (this.Arguments != null)
+				return "#define " + NameStringBuilder + "()";
+
 			return "#define " + NameStringBuilder;
 		}
 	}
