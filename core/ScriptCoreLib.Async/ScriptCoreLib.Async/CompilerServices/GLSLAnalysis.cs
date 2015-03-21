@@ -1507,6 +1507,20 @@ namespace ScriptCoreLib.CompilerServices
 
 			// are we raymarching? :D
 
+			//+		[0]	{ count = 133, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+
+			//+		[1]	{ count = 17, IsPreprocessorDirective = true, sGLSLToken = "ifdef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 7, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 40 '(', xChar1 = 115 's', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[3]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 59 ';', xChar1 = 13 '\r', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[4]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "ifndef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[5]	{ count = 155, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 115 's', xChar1 = 115 's', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+
+			// http://sourceforge.net/p/brahma-fx/code/HEAD/tree/trunk/
+			// http://research.microsoft.com/en-us/projects/Accelerator/
+			// http://blogs.msdn.com/b/satnam_singh/archive/2010/01/11/a-c-implementation-of-a-convolver-using-accelerator-for-gpgpu-and-multicore-targets-using-linq-operators.aspx
+			// https://github.com/nessos/LinqOptimizer/
+			// http://nessos.github.io/LinqOptimizer/
+			// https://github.com/nessos/GpuLinq/
 
 
 			Debugger.Break();
