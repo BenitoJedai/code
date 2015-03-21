@@ -1245,13 +1245,21 @@ namespace ScriptCoreLib.CompilerServices
 			// https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html#Common-Predefined-Macros
 
 
+			//+		[0]	{ count = 141, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = true, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 17, IsPreprocessorDirective = true, sGLSLToken = "ifdef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "ifndef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[3]	{ count = 155, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 120 'x', xChar1 = 120 'x', isGLSLMacroFragment = false, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+
+
 			// i think we are about to read in a GLSLMacroFragment
 			// isGLSLMacroFragment  is removed once completed by a newline?
 			while (cNoPreprocessorDirective.Any(gg => gg.isGLSLMacroFragment))
 			{
+				var cNoPreprocessorDirectivePass = Stopwatch.StartNew();
+				#region xGLSLMacroFragment.NameStringBuilder
 				cNoPreprocessorDirective = xEnumerable.SelectManyToArray(
 					from gg in cNoPreprocessorDirective
-					select gg.isGLSLMacroFragment ?
+					select gg.isGLSLMacroFragment ?	// could the while above be linked to this group selection?
 					from c in gg.g
 
 						// read the name!.. or skip spaces actually?
@@ -1281,13 +1289,12 @@ namespace ScriptCoreLib.CompilerServices
 						// lets allow whitespace to be grouped
 						xChar0 =
 						char.IsWhiteSpace(z.xChar0) ? ' ' :
-						// wo could aswell only use the group variable?
-						!z.IsPreprocessorDirective && char.IsLetter(z.xChar0) ? letter_char : z.xChar0
+						char.IsLetter(z.xChar0) ? letter_char : z.xChar0
 						,
 						xChar1 =
-						// we dont care about char1 if char0 is whitespace
-						char.IsWhiteSpace(z.xChar0) ? '?' :
-						!z.IsPreprocessorDirective && char.IsLetter(z.xChar1) ? letter_char : z.xChar1
+						// if char1 is no longer a letter, we know we are about to complete the name read
+						char.IsWhiteSpace(z.xChar1) ? ' ' :
+						char.IsLetter(z.xChar1) ? letter_char : z.xChar1
 						,
 
 						// cannot group  by or order by StringBuilder
@@ -1304,7 +1311,38 @@ namespace ScriptCoreLib.CompilerServices
 					select new { count, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1, g.Key.isGLSLMacroFragment, g } : new[] { gg }
 				);
 
+				cNoPreprocessorDirectivePass.Stop();
+				cNoPreprocessorDirectivePassIterations.Add(cNoPreprocessorDirectivePass);
+				#endregion
 
+
+				//+		[0]	{ count = 141, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = true, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				//+		[1]	{ count = 17, IsPreprocessorDirective = true, sGLSLToken = "ifdef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				//+		[2]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "ifndef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				//+		[3]	{ count = 155, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 120 'x', xChar1 = 120 'x', isGLSLMacroFragment = false, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+
+				//pass1
+				// keep reading the name it seems
+				//+		[0]	{ count = 132, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 120 'x', xChar1 = 120 'x', isGLSLMacroFragment = true, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				//macro name is one symbol?
+				//+		[1]	{ count = 3, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 120 'x', xChar1 = 32 ' ', isGLSLMacroFragment = true, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				// more whitespace
+				//+		[2]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 32 ' ', xChar1 = 120 'x', isGLSLMacroFragment = true, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				//underscore is par of the name
+				//+		[3]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 95 '_', xChar1 = 32 ' ', isGLSLMacroFragment = true, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				// function?
+				//+		[4]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 120 'x', xChar1 = 40 '(', isGLSLMacroFragment = true, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				// numbers are also part of the name, not as a first byte tho?
+				//+		[5]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 120 'x', xChar1 = 48 '0', isGLSLMacroFragment = true, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				//+		[6]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 120 'x', xChar1 = 51 '3', isGLSLMacroFragment = true, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				//underscore is par of the name
+				//+		[7]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 120 'x', xChar1 = 95 '_', isGLSLMacroFragment = true, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				// skip em in this pass
+				//+		[8]	{ count = 17, IsPreprocessorDirective = true, sGLSLToken = "ifdef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				//+		[9]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "ifndef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+				//+		[10]	{ count = 155, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 120 'x', xChar1 = 120 'x', isGLSLMacroFragment = false, g = {System.Linq.Lookup<<>f__AnonymousType83<bool,string,char,char,bool>,<>f__AnonymousType82<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+
+				// how long we should read?
 				Debugger.Break();
 			}
 
