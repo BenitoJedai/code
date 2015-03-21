@@ -1008,8 +1008,7 @@ namespace ScriptCoreLib.CompilerServices
 
 			// i think its time for a third byte!
 
-			var WithThirdBytePass = Stopwatch.StartNew();
-			var WithThirdByte = Enumerable.ToArray(
+			var cNoPreprocessorDirective = Enumerable.ToArray(
 				from gg in cNoBlockComment
 				from c in gg.g
 
@@ -1035,22 +1034,24 @@ namespace ScriptCoreLib.CompilerServices
 
 
 				// ! once
-				let z = new { IsPreprocessorDirective, c.xChar0, c.xChar1, xGLSLToken, c }
+				let z = new { IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, c.s, c.f }
 
-				orderby IsPreprocessorDirective descending, z.xChar0, z.xChar1, z.xGLSLToken
+				orderby z.IsPreprocessorDirective descending, z.xChar0, z.xChar1 //, z.xGLSLToken
 
 				group z by new
 				{
-					IsPreprocessorDirective,
+					z.IsPreprocessorDirective,
 
 					xChar0 = z.xChar0,
-					xChar1 = z.xChar1,
-					xGLSLToken = z.xGLSLToken,
+					xChar1 = z.xChar1
+
+					// cannot group  by or order by StringBuilder
+					//xGLSLToken = z.xGLSLToken,
 				} into g
 
 				let count = g.Count()
-				orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.xChar0, g.Key.xChar1, g.Key.xGLSLToken
-				select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.xGLSLToken, g }
+				orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.xChar0, g.Key.xChar1 //, g.Key.xGLSLToken
+				select new { count, g.Key.IsPreprocessorDirective, g.Key.xChar0, g.Key.xChar1, g }
 
 			);
 
@@ -1081,8 +1082,20 @@ namespace ScriptCoreLib.CompilerServices
 			// uniform?
 			//+		[11]	{ count = 1, xChar0 = 117 'u', xChar1 = 110 'n', xChar2 = 105 'i', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
 
-			WithThirdBytePass.Stop();
-			Console.WriteLine("WithThirdBytePass " + new { WithThirdBytePass.Elapsed });
+
+			//+		[0]	{ count = 132, xChar0 = 35 '#', xChar1 = 100 'd', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 17, xChar0 = 35 '#', xChar1 = 105 'i', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 53, xChar0 = 102 'f', xChar1 = 108 'l', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[3]	{ count = 50, xChar0 = 99 'c', xChar1 = 111 'o', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[4]	{ count = 20, xChar0 = 118 'v', xChar1 = 101 'e', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[5]	{ count = 7, xChar0 = 115 's', xChar1 = 116 't', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[6]	{ count = 5, xChar0 = 109 'm', xChar1 = 97 'a', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[7]	{ count = 5, xChar0 = 118 'v', xChar1 = 111 'o', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[8]	{ count = 3, xChar0 = 112 'p', xChar1 = 114 'r', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[9]	{ count = 2, xChar0 = 98 'b', xChar1 = 111 'o', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[10]	{ count = 2, xChar0 = 105 'i', xChar1 = 110 'n', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[11]	{ count = 1, xChar0 = 117 'u', xChar1 = 110 'n', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+
 
 			// feels like the first quantum program:D
 			// https://www.opengl.org/sdk/docs/man/
@@ -1096,6 +1109,76 @@ namespace ScriptCoreLib.CompilerServices
 			// 4.3 Storage Qualifiers
 			// 4.3.2 Constant Qualifier
 			// 9 Shading Language Grammar for Core			Profile
+
+
+			//			+		[0]	{ count = 132, IsPreprocessorDirective = true, xChar0 = 100 'd', xChar1 = 101 'e', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 17, IsPreprocessorDirective = true, xChar0 = 105 'i', xChar1 = 102 'f', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+
+			//+		[2]	{ count = 53, IsPreprocessorDirective = false, xChar0 = 102 'f', xChar1 = 108 'l', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[3]	{ count = 50, IsPreprocessorDirective = false, xChar0 = 99 'c', xChar1 = 111 'o', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[4]	{ count = 20, IsPreprocessorDirective = false, xChar0 = 118 'v', xChar1 = 101 'e', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[5]	{ count = 7, IsPreprocessorDirective = false, xChar0 = 115 's', xChar1 = 116 't', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[6]	{ count = 5, IsPreprocessorDirective = false, xChar0 = 109 'm', xChar1 = 97 'a', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[7]	{ count = 5, IsPreprocessorDirective = false, xChar0 = 118 'v', xChar1 = 111 'o', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[8]	{ count = 3, IsPreprocessorDirective = false, xChar0 = 112 'p', xChar1 = 114 'r', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[9]	{ count = 2, IsPreprocessorDirective = false, xChar0 = 98 'b', xChar1 = 111 'o', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[10]	{ count = 2, IsPreprocessorDirective = false, xChar0 = 105 'i', xChar1 = 110 'n', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+			//+		[11]	{ count = 1, IsPreprocessorDirective = false, xChar0 = 117 'u', xChar1 = 110 'n', g = {System.Linq.Lookup<<>f__AnonymousType79<bool,char,char>,<>f__AnonymousType78<bool,char,char,System.Text.StringBuilder,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
+
+
+
+
+			var cNoPreprocessorDirectivePassIterations = new List<Stopwatch>();
+			#region cNoPreprocessorDirective
+			while (cNoPreprocessorDirective.Any(x => x.IsPreprocessorDirective))
+			{
+				var cNoPreprocessorDirectivePass = Stopwatch.StartNew();
+
+				cNoPreprocessorDirective = xEnumerable.SelectManyToArray(
+				   from gg in cNoPreprocessorDirective
+				   select (gg.IsPreprocessorDirective && char.IsLetter(gg.xChar0)) ?
+				   from c in gg.g
+
+					   // stash one byte and read one byte
+
+				   let xGLSLToken = c.xGLSLToken.Append(c.xChar0)
+
+				   let xChar0 = c.xChar1
+
+				   let xReadByte1 = c.s.ReadByte()
+				   let xChar1 = (char)xReadByte1
+
+
+				   // keep
+				   let z = new { c.IsPreprocessorDirective, c.xChar0, c.xChar1, c.xGLSLToken, c.s, c.f }
+
+				   orderby z.IsPreprocessorDirective descending, z.xChar0, z.xChar1	//, z.xGLSLToken
+
+				   group z by new
+				   {
+					   z.IsPreprocessorDirective,
+
+					   xChar0 = z.xChar0,
+					   xChar1 = z.xChar1
+
+					   // cannot group  by or order by StringBuilder
+					   //xGLSLToken = z.xGLSLToken,
+				   } into g
+
+				   let count = g.Count()
+				   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.xChar0, g.Key.xChar1 //, g.Key.xGLSLToken
+				   select new { count, g.Key.IsPreprocessorDirective, g.Key.xChar0, g.Key.xChar1, g } : new[] { gg }
+				);
+
+
+				cNoPreprocessorDirectivePass.Stop();
+				cNoPreprocessorDirectivePassIterations.Add(cNoPreprocessorDirectivePass);
+			}
+			#endregion
+
+
+			var cNoBlockCommentPassIterationsElapsed = TimeSpan.FromMilliseconds(cNoBlockCommentPassIterations.Sum(x => x.ElapsedMilliseconds));
+			Console.WriteLine("cNoBlockCommentPassIterationsElapsed " + new { cNoBlockCommentPassIterationsElapsed });
 
 			Debugger.Break();
 		}

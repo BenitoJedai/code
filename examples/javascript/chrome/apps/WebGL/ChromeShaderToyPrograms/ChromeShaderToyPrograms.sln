@@ -642,6 +642,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstDistanceMapByChuckeles
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SminTestByHughsk", "..\synergy\SminTestByHughsk\SminTestByHughsk\SminTestByHughsk.csproj", "{27B66600-734D-46F1-8D67-398224E78A1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarioCrossEye3DByHLorenzi", "..\synergy\MarioCrossEye3DByHLorenzi\MarioCrossEye3DByHLorenzi\MarioCrossEye3DByHLorenzi.csproj", "{D29C090D-3419-4071-9DE4-7CB563E156BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OldWarehouseByFizzer", "..\synergy\OldWarehouseByFizzer\OldWarehouseByFizzer\OldWarehouseByFizzer.csproj", "{6DDF5624-EAE8-45E8-8659-EAB26EF8F0B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -1812,6 +1816,14 @@ Global
 		{27B66600-734D-46F1-8D67-398224E78A1C}.Debug|x86.Build.0 = Debug|x86
 		{27B66600-734D-46F1-8D67-398224E78A1C}.Release|x86.ActiveCfg = Release|x86
 		{27B66600-734D-46F1-8D67-398224E78A1C}.Release|x86.Build.0 = Release|x86
+		{D29C090D-3419-4071-9DE4-7CB563E156BA}.Debug|x86.ActiveCfg = Debug|x86
+		{D29C090D-3419-4071-9DE4-7CB563E156BA}.Debug|x86.Build.0 = Debug|x86
+		{D29C090D-3419-4071-9DE4-7CB563E156BA}.Release|x86.ActiveCfg = Release|x86
+		{D29C090D-3419-4071-9DE4-7CB563E156BA}.Release|x86.Build.0 = Release|x86
+		{6DDF5624-EAE8-45E8-8659-EAB26EF8F0B6}.Debug|x86.ActiveCfg = Debug|x86
+		{6DDF5624-EAE8-45E8-8659-EAB26EF8F0B6}.Debug|x86.Build.0 = Debug|x86
+		{6DDF5624-EAE8-45E8-8659-EAB26EF8F0B6}.Release|x86.ActiveCfg = Release|x86
+		{6DDF5624-EAE8-45E8-8659-EAB26EF8F0B6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2132,5 +2144,7 @@ Global
 		{609123E7-EF0C-4ADB-A6A0-A364D098544B} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
 		{5612A314-5BA6-44BC-BD70-7072F8DD5EF2} = {5ADD4CE9-E26C-47C7-BFAA-6F63ED11CF48}
 		{27B66600-734D-46F1-8D67-398224E78A1C} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
+		{D29C090D-3419-4071-9DE4-7CB563E156BA} = {A51F8D8D-236B-4EC4-9BB3-745BB19F6404}
+		{6DDF5624-EAE8-45E8-8659-EAB26EF8F0B6} = {57FF136E-E3D9-4403-907A-DC57E1658181}
 	EndGlobalSection
 EndGlobal
