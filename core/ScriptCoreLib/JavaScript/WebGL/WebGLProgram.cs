@@ -10,6 +10,13 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	[Script(HasNoPrototype = true, InternalConstructor = true)]
 	public class WebGLProgram
 	{
+		// http://src.chromium.org/viewvc/chrome/trunk/src/content/common/gpu/gpu_channel.h
+
+		// https://code.google.com/p/chromium/issues/detail?id=88572
+		// GPU Program Caching
+		// https://docs.google.com/document/d/1Vceem-nF4TCICoeGSh7OMXxfGuJEJYblGXRgN9V9hcE/edit
+
+
 		// https://www.opengl.org/sdk/docs/man/html/glCreateProgram.xhtml
 
 		// could we add a ref to gl?
