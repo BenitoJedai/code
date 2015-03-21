@@ -22,6 +22,7 @@ namespace ScriptCoreLib.CompilerServices
 			// are we multithreaded?
 			var scope = new { Thread.CurrentThread.ManagedThreadId };
 
+			#region AppendComment
 			this.AppendComment = (StringBuilder CommentStringBuilder, bool IsLineComment, bool IsBlockComment) =>
 			{
 				// we are null tolerant.
@@ -46,10 +47,26 @@ namespace ScriptCoreLib.CompilerServices
 
 				return value;
 			};
+			#endregion
+
+			this.AppendMacroFragment =
+				xGLSLMacroFragment =>
+				{
+					// we are null tolerant.
+					if (xGLSLMacroFragment == null)
+						return null;
+
+					Console.WriteLine(new { xGLSLMacroFragment });
+					this.Elements.Add(xGLSLMacroFragment);
+
+
+					return xGLSLMacroFragment;
+				};
 		}
 
 		public readonly Func<StringBuilder, bool, bool, GLSLComment> AppendComment;
 
+		public readonly Func<GLSLMacroFragment, GLSLMacroFragment> AppendMacroFragment;
 
 
 		public override string ToString()
@@ -58,5 +75,6 @@ namespace ScriptCoreLib.CompilerServices
 
 			return "";
 		}
+
 	}
 }

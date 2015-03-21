@@ -89,6 +89,7 @@ namespace ScriptCoreLib.CompilerServices
 
 
 			// a sub type of chars. x marks the spot
+			const char expression_char = 'e';
 			const char symbol_char = 's';
 			const char letter_char = 'x';
 			const char WhiteSpace_char = ' ';
@@ -731,8 +732,11 @@ namespace ScriptCoreLib.CompilerServices
 					  //select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsLetter0, g }
 					  //select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
 					  select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
+
+			 //select new { count, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g } : new[] { gg }
+
 					  #endregion
-   );
+		   );
 
 				cNoSpaceWORDxPass.Stop();
 				cNoSpaceWORDxPassIterations.Add(cNoSpaceWORDxPass);
@@ -1009,6 +1013,7 @@ namespace ScriptCoreLib.CompilerServices
 
 			// i think its time for a third byte!
 
+			#region cNoPreprocessorDirective
 			var cNoPreprocessorDirective = Enumerable.ToArray(
 				from gg in cNoBlockComment
 				from c in gg.g
@@ -1037,7 +1042,7 @@ namespace ScriptCoreLib.CompilerServices
 				let xNameStringBuilderComplete = false
 
 				// ! once
-				let z = new { IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, xGLSLMacroFragment, xNameStringBuilderComplete, c.s, c.f }
+				let z = new { IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, xGLSLMacroFragment, xNameStringBuilderComplete, c.s, c.f, c.xGLSLElement }
 
 				orderby z.IsPreprocessorDirective descending, z.xChar0, z.xChar1 //, z.xGLSLToken
 
@@ -1067,9 +1072,11 @@ namespace ScriptCoreLib.CompilerServices
 
 				let count = g.Count()
 				orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1 //, g.Key.xGLSLToken
-				select new { count, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g }
+				select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g }
 
 			);
+			#endregion
+
 
 			// #define?
 			//+		[0]	{ count = 122, xChar0 = 35 '#', xChar1 = 100 'd', xChar2 = 101 'e', g = {System.Linq.Lookup<<>f__AnonymousType77<char,char,char>,<>f__AnonymousType76<char,char,char,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>>.Grouping} }	<Anonymous Type>
@@ -1178,7 +1185,8 @@ namespace ScriptCoreLib.CompilerServices
 				   let xNameStringBuilderComplete = false
 
 				   // keep
-				   let z = new { c.IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, xGLSLMacroFragment, xNameStringBuilderComplete, c.s, c.f }
+				   //let z = new { c.IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, xGLSLMacroFragment, xNameStringBuilderComplete, c.s, c.f }
+				   let z = new { c.IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, xGLSLMacroFragment, xNameStringBuilderComplete, c.s, c.f, c.xGLSLElement }
 
 
 
@@ -1214,7 +1222,7 @@ namespace ScriptCoreLib.CompilerServices
 
 				   // isGLSLPreprocessorDirective
 				   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
-				   select new { count, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g } : new[] { gg }
+				   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g } : new[] { gg }
 				);
 
 
@@ -1287,6 +1295,8 @@ namespace ScriptCoreLib.CompilerServices
 					// we are in name reading mode, and the char we prepeared for the next read no longer will be part of the name
 					let xNameStringBuilderComplete = c.xGLSLMacroFragment.NameStringBuilder != null && !xChar0.IsLetterOrDigitOrUnderscore()
 
+					// https://gcc.gnu.org/onlinedocs/cpp/Swallowing-the-Semicolon.html
+					let xArguments = xNameStringBuilderComplete && xChar0 == '(' ? c.xGLSLMacroFragment.Arguments = new List<StringBuilder> { } : null
 
 
 
@@ -1302,7 +1312,8 @@ namespace ScriptCoreLib.CompilerServices
 						c.xGLSLMacroFragment.NameStringBuilder ?? (c.xGLSLMacroFragment.NameStringBuilder = new StringBuilder { })
 
 
-					let z = new { c.IsPreprocessorDirective, xChar0, xChar1, c.xGLSLToken, c.xGLSLMacroFragment, xNameStringBuilderComplete, c.s, c.f }
+					//let z = new { c.IsPreprocessorDirective, xChar0, xChar1, c.xGLSLToken, c.xGLSLMacroFragment, xNameStringBuilderComplete, c.s, c.f }
+					let z = new { c.IsPreprocessorDirective, xChar0, xChar1, c.xGLSLToken, c.xGLSLMacroFragment, xNameStringBuilderComplete, c.s, c.f, c.xGLSLElement }
 
 
 
@@ -1341,7 +1352,7 @@ namespace ScriptCoreLib.CompilerServices
 
 					// isGLSLPreprocessorDirective
 					orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
-					select new { count, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g } : new[] { gg }
+					select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g } : new[] { gg }
 				);
 
 				cNoPreprocessorDirectivePass.Stop();
@@ -1444,14 +1455,14 @@ namespace ScriptCoreLib.CompilerServices
 			cNoPreprocessorDirectivePassIterationsElapsed = TimeSpan.FromMilliseconds(cNoPreprocessorDirectivePassIterations.Sum(x => x.ElapsedMilliseconds));
 			Console.WriteLine("cNoPreprocessorDirectivePassIterationsElapsed " + new { cNoPreprocessorDirectivePassIterationsElapsed });
 
-			// trim and regroup?
-			// at this point we can move to next line with macros that terminated?
-
+			// parse args for #define name(x) before space trimming
+			#region  regroup
 			cNoPreprocessorDirective = Enumerable.ToArray(
 			   from gg in cNoPreprocessorDirective
 			   from c in gg.g
 
-			   let z = new { c.IsPreprocessorDirective, c.xChar0, c.xChar1, c.xGLSLToken, c.xGLSLMacroFragment, c.xNameStringBuilderComplete, c.s, c.f }
+				   //let z = new { c.IsPreprocessorDirective, c.xChar0, c.xChar1, c.xGLSLToken, c.xGLSLMacroFragment, c.xNameStringBuilderComplete, c.s, c.f }
+			   let z = new { c.IsPreprocessorDirective, c.xChar0, c.xChar1, c.xGLSLToken, c.xGLSLMacroFragment, c.xNameStringBuilderComplete, c.s, c.f, c.xGLSLElement }
 
 
 
@@ -1465,16 +1476,20 @@ namespace ScriptCoreLib.CompilerServices
 
 				   // lets allow whitespace to be grouped
 				   xChar0 =
-				   // the magic char to complete the directive
-				   z.xChar0 != '\n' && char.IsWhiteSpace(z.xChar0) ? WhiteSpace_char :
-					// wo could aswell only use the group variable?
-					z.xChar0.IsLetterOrDigitOrUnderscore() ? symbol_char : z.xChar0
-					,
+						   // the magic char to complete the directive
+						   z.xChar0 != '\n' && char.IsWhiteSpace(z.xChar0) ? WhiteSpace_char :
+							// wo could aswell only use the group variable?
+							z.xChar0.IsLetterOrDigitOrUnderscoreOrDot() ? symbol_char : z.xChar0
+							,
 				   xChar1 =
-					z.IsPreprocessorDirective && char.IsWhiteSpace(z.xChar0) ? '?' :
-					// we dont care about char1 if char0 is whitespace
-					z.xChar1.IsLetterOrDigitOrUnderscore() ? symbol_char : z.xChar1
-					,
+
+
+
+							 //z.IsPreprocessorDirective && char.IsWhiteSpace(z.xChar0) ? '?' :
+							 z.IsPreprocessorDirective ? '?' :
+							// we dont care about char1 if char0 is whitespace
+							z.xChar1.IsLetterOrDigitOrUnderscoreOrDot() ? symbol_char : z.xChar1
+							,
 
 				   // cannot group  by or order by StringBuilder
 				   //xGLSLToken = z.xGLSLToken,
@@ -1488,8 +1503,17 @@ namespace ScriptCoreLib.CompilerServices
 
 			   // isGLSLPreprocessorDirective
 			   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
-			   select new { count, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g }
+			   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g }
 			);
+			#endregion
+
+
+
+
+			// trim and regroup?
+			// at this point we can move to next line with macros that terminated?
+
+
 
 			//+		[0]	{ count = 99, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
 			//+		[1]	{ count = 25, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 13 '\r', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
@@ -1524,13 +1548,260 @@ namespace ScriptCoreLib.CompilerServices
 
 
 			//+		[0]	{ count = 137, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			// are we ready to parse expressions?
 			//+		[1]	{ count = 17, IsPreprocessorDirective = true, sGLSLToken = "ifdef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			// ugh, a function. lets keep it for later
 			//+		[2]	{ count = 7, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 40 '(', xChar1 = 115 's', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
 			// are we to warn, or deal with such cases?
 			//+		[3]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 59 ';', xChar1 = 13 '\r', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			// are we ready to parse expressions?
 			//+		[4]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "ifndef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
-			// read a token for this guy
+			// ready a token for this guy
 			//+		[5]	{ count = 159, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 115 's', xChar1 = 115 's', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+
+
+			#region lets get rid of the spaces
+			while (cNoPreprocessorDirective.Any(gg => gg.IsPreprocessorDirective && gg.isGLSLMacroFragment && (gg.xChar0 != '\n' && char.IsWhiteSpace(gg.xChar0))))
+				cNoPreprocessorDirective = xEnumerable.SelectManyToArray(
+					   from gg in cNoPreprocessorDirective
+					   select gg.IsPreprocessorDirective && gg.isGLSLMacroFragment && (gg.xChar0 != '\n' && char.IsWhiteSpace(gg.xChar0)) ?
+					   from c in gg.g
+
+					   let xChar0 = c.xChar1
+
+
+					   let xReadByte1 = c.s.ReadByte()
+					   let xChar1 = (char)xReadByte1
+
+					   //let z = new { c.IsPreprocessorDirective, xChar0, xChar1, c.xGLSLToken, c.xGLSLMacroFragment, c.xNameStringBuilderComplete, c.s, c.f }
+					   let z = new { c.IsPreprocessorDirective, xChar0, xChar1, c.xGLSLToken, c.xGLSLMacroFragment, c.xNameStringBuilderComplete, c.s, c.f, c.xGLSLElement }
+
+
+
+					   orderby z.IsPreprocessorDirective descending, z.xChar0, z.xChar1	//, z.xGLSLToken
+
+					   group z by new
+					   {
+						   z.IsPreprocessorDirective,
+
+						   gg.sGLSLToken,
+
+						   // lets allow whitespace to be grouped
+						   xChar0 =
+						   // the magic char to complete the directive
+						   z.xChar0 != '\n' && char.IsWhiteSpace(z.xChar0) ? WhiteSpace_char :
+							// wo could aswell only use the group variable?
+							z.xChar0.IsLetterOrDigitOrUnderscore() ? expression_char : z.xChar0
+							,
+						   xChar1 =
+
+
+
+							 //z.IsPreprocessorDirective && char.IsWhiteSpace(z.xChar0) ? '?' :
+							 z.IsPreprocessorDirective ? '?' :
+							// we dont care about char1 if char0 is whitespace
+							z.xChar1.IsLetterOrDigitOrUnderscore() ? symbol_char : z.xChar1
+							,
+
+						   // cannot group  by or order by StringBuilder
+						   //xGLSLToken = z.xGLSLToken,
+
+						   // we cannot use it in group can we? as boolean we can
+						   isGLSLMacroFragment = z.xGLSLMacroFragment != null,
+						   z.xNameStringBuilderComplete
+					   } into g
+
+					   let count = g.Count()
+
+					   // isGLSLPreprocessorDirective
+					   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
+					   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g } : new[] { gg }
+				);
+			#endregion
+
+
+			#region  regroup
+			cNoPreprocessorDirective = Enumerable.ToArray(
+			   from gg in cNoPreprocessorDirective
+			   from c in gg.g
+
+
+				   //let z = new { c.IsPreprocessorDirective, c.xChar0, c.xChar1, c.xGLSLToken, c.xGLSLMacroFragment, c.xNameStringBuilderComplete, c.s, c.f }
+			   let z = new { c.IsPreprocessorDirective, c.xChar0, c.xChar1, c.xGLSLToken, c.xGLSLMacroFragment, c.xNameStringBuilderComplete, c.s, c.f, c.xGLSLElement }
+
+
+
+			   orderby z.IsPreprocessorDirective descending, z.xChar0, z.xChar1	//, z.xGLSLToken
+
+			   group z by new
+			   {
+				   z.IsPreprocessorDirective,
+
+				   gg.sGLSLToken,
+
+				   // lets allow whitespace to be grouped
+				   xChar0 =
+						   // the magic char to complete the directive
+						   z.xChar0 != '\n' && char.IsWhiteSpace(z.xChar0) ? WhiteSpace_char :
+							// wo could aswell only use the group variable?
+							z.xChar0.IsLetterOrDigitOrUnderscoreOrDot() ? expression_char : z.xChar0
+							,
+				   xChar1 =
+
+
+
+							 //z.IsPreprocessorDirective && char.IsWhiteSpace(z.xChar0) ? '?' :
+							 z.IsPreprocessorDirective ? '?' :
+							// we dont care about char1 if char0 is whitespace
+							z.xChar1.IsLetterOrDigitOrUnderscoreOrDot() ? expression_char : z.xChar1
+							,
+
+				   // cannot group  by or order by StringBuilder
+				   //xGLSLToken = z.xGLSLToken,
+
+				   // we cannot use it in group can we? as boolean we can
+				   isGLSLMacroFragment = z.xGLSLMacroFragment != null,
+				   z.xNameStringBuilderComplete
+			   } into g
+
+			   let count = g.Count()
+
+			   // isGLSLPreprocessorDirective
+			   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
+			   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g }
+			);
+			#endregion
+
+
+
+			//+		[0]	{ count = 103, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 115 's', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			// cool we have 29 definitions we can now use with #ifdef and #ifndef
+			//+		[1]	{ count = 29, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 10 '\n', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 18, IsPreprocessorDirective = true, sGLSLToken = "ifdef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			// do we have 9 functions? or expressions? depends if there was a space
+			//+		[3]	{ count = 9, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 40 '(', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			// 
+			//+		[4]	{ count = 3, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 46 '.', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[5]	{ count = 3, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 47 '/', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[6]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 59 ';', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[7]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "ifndef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			//+		[8]	{ count = 164, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 115 's', xChar1 = 115 's', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string>>.Grouping} }	<Anonymous Type>
+			// https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html
+
+
+			//+		[0]	{ count = 106, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 115 's', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 29, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 10 '\n', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 18, IsPreprocessorDirective = true, sGLSLToken = "ifdef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[3]	{ count = 9, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 40 '(', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[4]	{ count = 3, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 47 '/', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[5]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 59 ';', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[6]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "ifndef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[7]	{ count = 164, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 115 's', xChar1 = 115 's', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+
+
+			#region take the next line for the defines that just completed
+			cNoPreprocessorDirective = xEnumerable.SelectManyToArray(
+			   from gg in cNoPreprocessorDirective
+
+			   select gg.isGLSLMacroFragment && gg.xChar0 == '\n' ?
+			   from c in gg.g
+
+
+				   // we need to add the macro to element..
+				   // move to next pass?
+			   let xAppendMacroFragment = c.xGLSLElement.AppendMacroFragment(c.xGLSLMacroFragment)
+
+
+			   let xChar0 = c.xChar1
+
+			   let xReadByte1 = c.s.ReadByte()
+			   let xChar1 = (char)xReadByte1
+
+			   // a new line was just read in? 
+
+			   let IsPreprocessorDirective = false
+
+			   // is there a reason not to read a third byte yet?
+			   let xGLSLToken = default(StringBuilder)
+			   let sGLSLToken = Convert.ToString(xGLSLToken)
+
+			   // we should read until token completes
+
+
+
+
+			   let xGLSLMacroFragment = default(GLSLMacroFragment)
+			   let xNameStringBuilderComplete = false
+
+			   // ! once
+			   let z = new { IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, xGLSLMacroFragment, xNameStringBuilderComplete, c.s, c.f, c.xGLSLElement }
+
+			   orderby z.IsPreprocessorDirective descending, z.xChar0, z.xChar1	//, z.xGLSLToken
+
+			   group z by new
+			   {
+				   z.IsPreprocessorDirective,
+
+				   sGLSLToken,
+
+				   // lets allow whitespace to be grouped
+				   xChar0 =
+					  char.IsWhiteSpace(z.xChar0) ? ' ' :
+					  // wo could aswell only use the group variable?
+					  !z.IsPreprocessorDirective && char.IsLetter(z.xChar0) ? letter_char : z.xChar0
+					  ,
+				   xChar1 =
+					  // we dont care about char1 if char0 is whitespace
+					  char.IsWhiteSpace(z.xChar0) ? '?' :
+					  !z.IsPreprocessorDirective && char.IsLetter(z.xChar1) ? letter_char : z.xChar1,
+
+
+				   // cannot group  by or order by StringBuilder
+				   //xGLSLToken = z.xGLSLToken,
+				   isGLSLMacroFragment = false,
+				   z.xNameStringBuilderComplete
+			   } into g
+
+			   let count = g.Count()
+			   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
+
+			   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g } : new[] { gg }
+		   //select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
+
+		   );
+			#endregion
+
+
+			// do we handle expressions yet?
+			//+		[0]	{ count = 106, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 101 'e', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			// next pass can convert into IsPreprocessorDirective 
+			//+		[1]	{ count = 13, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 35 '#', xChar1 = 120 'x', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			// we can skip spaces
+			//+		[2]	{ count = 12, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			// we can do comments?
+			//+		[3]	{ count = 4, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 47 '/', xChar1 = 47 '/', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			// do we handle expressions yet?
+			//+		[4]	{ count = 18, IsPreprocessorDirective = true, sGLSLToken = "ifdef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			// do we handle expressions yet?
+			//+		[5]	{ count = 9, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 40 '(', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			// we can do comments?
+			//+		[6]	{ count = 3, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 47 '/', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[7]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "define", xChar0 = 59 ';', xChar1 = 63 '?', isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			// do we handle expressions yet?
+			//+		[8]	{ count = 1, IsPreprocessorDirective = true, sGLSLToken = "ifndef", xChar0 = 32 ' ', xChar1 = 63 '?', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[9]	{ count = 164, IsPreprocessorDirective = false, sGLSLToken = "", xChar0 = 101 'e', xChar1 = 101 'e', isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+
+			if (cNoPreprocessorDirective.Any(x => char.IsWhiteSpace(x.xChar0)))
+			{
+				// need to go back and resolve those spaces
+				// can we keep the current state?
+
+				// the states seem to be incompatible
+				// can we manage it?
+
+				//cNoSpaceWORDx = cNoPreprocessorDirective;
+				goto after_cNoSpaceWORDx;
+			}
 
 
 			Debugger.Break();
@@ -1550,6 +1821,11 @@ namespace ScriptCoreLib.CompilerServices
 		internal static bool IsLetterOrDigitOrUnderscore(this char c)
 		{
 			return (c == '_' || char.IsLetterOrDigit(c));
+		}
+
+		internal static bool IsLetterOrDigitOrUnderscoreOrDot(this char c)
+		{
+			return (c == '_' || c == '.' || char.IsLetterOrDigit(c));
 		}
 	}
 }
