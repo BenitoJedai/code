@@ -81,6 +81,7 @@ namespace ChromeShaderToyPrograms
 			["ChaosTrendLogoByLuther"] = () => new ChaosTrendLogoByLuther.Shaders.ProgramFragmentShader(),
 			["CheeseByMu6k"] = () => new CheeseByMu6k.Shaders.ProgramFragmentShader(),
 			["ClawByGreen"] = () => new ClawByGreen.Shaders.ProgramFragmentShader(),
+			["ClippedDiscHypertextureByFabrice"] = () => new ClippedDiscHypertextureByFabrice.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyCarcarspacecarByEiffie"] = () => new ChromeShaderToyCarcarspacecarByEiffie.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyCatchByAhihi"] = () => new ChromeShaderToyCatchByAhihi.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyCCLatticesByPaniq"] = () => new ChromeShaderToyCCLatticesByPaniq.Shaders.ProgramFragmentShader(),
@@ -343,6 +344,7 @@ namespace ChromeShaderToyPrograms
 			#endregion
 
 
+			#region /t/
 			["ChromeShaderToyTextCandyByCPU"] = () => new ChromeShaderToyTextCandyByCPU.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyTexturedEllipsoidsByFabrice"] = () => new ChromeShaderToyTexturedEllipsoidsByFabrice.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyTokyoByReinder"] = () => new ChromeShaderToyTokyoByReinder.Shaders.ProgramFragmentShader(),
@@ -363,6 +365,8 @@ namespace ChromeShaderToyPrograms
 			["TruchetTentaclesByWaha"] = () => new TruchetTentaclesByWaha.Shaders.ProgramFragmentShader(),
 			["TrumpetByBaldand"] = () => new TrumpetByBaldand.Shaders.ProgramFragmentShader(),
 			["Tunnel1ByWaha"] = () => new Tunnel1ByWaha.Shaders.ProgramFragmentShader(),
+			#endregion
+
 
 			["UselessBoxByMovax"] = () => new UselessBoxByMovax.Shaders.ProgramFragmentShader(),
 

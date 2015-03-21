@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5F36A402-7B9E-4E59-A061-70F0FF88CFA6}</ProjectGuid>
+    <ProjectGuid>{426A9419-9287-4880-979F-29F29D3F2A22}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WobblyThingByAvix</RootNamespace>
-    <AssemblyName>WobblyThingByAvix</AssemblyName>
+    <RootNamespace>ClippedDiscHypertextureByFabrice</RootNamespace>
+    <AssemblyName>ClippedDiscHypertextureByFabrice</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>WobblyThingByAvix.Program</StartupObject>
+    <StartupObject>ClippedDiscHypertextureByFabrice.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -126,8 +126,8 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="WobblyThingByAvix.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\WobblyThingByAvix.AssetsLibrary.dll</HintPath>
+    <Reference Include="ClippedDiscHypertextureByFabrice.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ClippedDiscHypertextureByFabrice.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
