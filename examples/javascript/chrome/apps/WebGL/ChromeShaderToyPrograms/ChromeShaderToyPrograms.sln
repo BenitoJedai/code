@@ -686,6 +686,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileableNoiseByHoskins", ".
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkiyoshisSnakesIllusionByHoskins", "..\synergy\AkiyoshisSnakesIllusionByHoskins\AkiyoshisSnakesIllusionByHoskins\AkiyoshisSnakesIllusionByHoskins.csproj", "{86FC37FB-BB7A-4C82-B650-502EC94D34A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeedingInTheDarkByWilddev", "..\synergy\SpeedingInTheDarkByWilddev\SpeedingInTheDarkByWilddev\SpeedingInTheDarkByWilddev.csproj", "{0DE39A73-0732-40E2-AA0A-236FD8B4D173}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -1944,6 +1946,10 @@ Global
 		{86FC37FB-BB7A-4C82-B650-502EC94D34A2}.Debug|x86.Build.0 = Debug|x86
 		{86FC37FB-BB7A-4C82-B650-502EC94D34A2}.Release|x86.ActiveCfg = Release|x86
 		{86FC37FB-BB7A-4C82-B650-502EC94D34A2}.Release|x86.Build.0 = Release|x86
+		{0DE39A73-0732-40E2-AA0A-236FD8B4D173}.Debug|x86.ActiveCfg = Debug|x86
+		{0DE39A73-0732-40E2-AA0A-236FD8B4D173}.Debug|x86.Build.0 = Debug|x86
+		{0DE39A73-0732-40E2-AA0A-236FD8B4D173}.Release|x86.ActiveCfg = Release|x86
+		{0DE39A73-0732-40E2-AA0A-236FD8B4D173}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2286,5 +2292,6 @@ Global
 		{C43E99B1-142D-4A57-BD4B-B298F50DB055} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
 		{D80A4245-4196-4B59-A847-509F5AEDD2C3} = {6B99A4F6-D079-4F85-82EF-B462C36F92A0}
 		{86FC37FB-BB7A-4C82-B650-502EC94D34A2} = {E0547BB3-87F8-4BBC-84A9-9D74966B57AE}
+		{0DE39A73-0732-40E2-AA0A-236FD8B4D173} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
 	EndGlobalSection
 EndGlobal
