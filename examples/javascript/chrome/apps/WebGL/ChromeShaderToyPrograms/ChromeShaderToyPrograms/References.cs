@@ -216,10 +216,13 @@ namespace ChromeShaderToyPrograms
 			["IslandByVanburgler"] = () => new IslandByVanburgler.Shaders.ProgramFragmentShader(),
 			#endregion
 
-
+			#region /j/
 			["JackoLanternByPMalin"] = () => new JackoLanternByPMalin.Shaders.ProgramFragmentShader(),
+			["JellyfishByVlad"] = () => new JellyfishByVlad.Shaders.ProgramFragmentShader(),
 			["JoyDivisionByXbe"] = () => new JoyDivisionByXbe.Shaders.ProgramFragmentShader(),
 			["JusterBeaverByMovax"] = () => new JusterBeaverByMovax.Shaders.ProgramFragmentShader(),
+			#endregion
+
 
 			["ChromeShaderToyKajastusByMarken"] = () => new ChromeShaderToyKajastusByMarken.Shaders.ProgramFragmentShader(),
 			["KMoonByKali"] = () => new KMoonByKali.Shaders.ProgramFragmentShader(),
@@ -269,12 +272,15 @@ namespace ChromeShaderToyPrograms
 			["MyAstronautByLio"] = () => new MyAstronautByLio.Shaders.ProgramFragmentShader(),
 			#endregion
 
-
+			#region /n/
 			["ChromeShaderToyNeonParallaxByNimitz"] = () => new ChromeShaderToyNeonParallaxByNimitz.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyNoiseDistributionsByHornet"] = () => new ChromeShaderToyNoiseDistributionsByHornet.Shaders.ProgramFragmentShader(),
 			["NanoTubesByTrisomie"] = () => new NanoTubesByTrisomie.Shaders.ProgramFragmentShader(),
+			["NeptunianByEspitz"] = () => new NeptunianByEspitz.Shaders.ProgramFragmentShader(),
 			["NSAEyeballByEiffie"] = () => new NSAEyeballByEiffie.Shaders.ProgramFragmentShader(),
 			["NumbersByPMalin"] = () => new NumbersByPMalin.Shaders.ProgramFragmentShader(),
+			#endregion
+
 
 			#region /o/
 			["ChromeShaderToyOblivionByNimitz"] = () => new ChromeShaderToyOblivionByNimitz.Shaders.ProgramFragmentShader(),
@@ -456,6 +462,7 @@ namespace ChromeShaderToyPrograms
 			["WinterByIapafoto"] = () => new WinterByIapafoto.Shaders.ProgramFragmentShader(),
 			["WobblyThingByAvix"] = () => new WobblyThingByAvix.Shaders.ProgramFragmentShader(),
 			["Wolf128ByFinalPatch"] = () => new Wolf128ByFinalPatch.Shaders.ProgramFragmentShader(),
+			["WormsByIq"] = () => new WormsByIq.Shaders.ProgramFragmentShader(),
 			#endregion
 
 
