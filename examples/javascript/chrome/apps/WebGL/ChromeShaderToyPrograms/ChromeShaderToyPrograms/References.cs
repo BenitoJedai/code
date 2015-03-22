@@ -243,6 +243,7 @@ namespace ChromeShaderToyPrograms
 			["LineIntersectionByThe23"] = () => new LineIntersectionByThe23.Shaders.ProgramFragmentShader(),
 			["LineIntersectionInteractiveByThe23"] = () => new LineIntersectionInteractiveByThe23.Shaders.ProgramFragmentShader(),
 			["LittleFluffyCloudsByGreen"] = () => new LittleFluffyCloudsByGreen.Shaders.ProgramFragmentShader(),
+			["LoadingOrbByBjarnia"] = () => new LoadingOrbByBjarnia.Shaders.ProgramFragmentShader(),
 			["LostInTheFieldByRk"] = () => new LostInTheFieldByRk.Shaders.ProgramFragmentShader(),
 			#endregion
 
