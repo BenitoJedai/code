@@ -35,6 +35,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
     public partial class __Task
     {
+		// http://blogs.msdn.com/b/flaviencharlon/archive/2012/08/06/task-lt-t-gt-vs-iobservable-lt-t-gt-when-to-use-what.aspx
+
 		// http://blogs.msdn.com/b/vcblog/archive/2014/11/12/resumable-functions-in-c.aspx
 		// X:\jsc.svn\examples\javascript\Test\Test453NamedParameter\Test453NamedParameter\Class1.cs
 
