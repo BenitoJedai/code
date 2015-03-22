@@ -730,6 +730,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "x2DShadowCastingByTharich",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestOfBleedingColorByPredatiti", "..\synergy\TestOfBleedingColorByPredatiti\TestOfBleedingColorByPredatiti\TestOfBleedingColorByPredatiti.csproj", "{686A0464-6D5E-4741-B7B3-5C20C6959160}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaymarchingTutorialByObjelisks", "..\synergy\RaymarchingTutorialByObjelisks\RaymarchingTutorialByObjelisks\RaymarchingTutorialByObjelisks.csproj", "{0CB9E221-1B12-4F67-BEDA-50607C128951}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsteroidsByArchee", "..\synergy\AsteroidsByArchee\AsteroidsByArchee\AsteroidsByArchee.csproj", "{38A9CC7F-EA86-4C0A-8AA9-903E873E49A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImpactByCabbibo", "..\synergy\ImpactByCabbibo\ImpactByCabbibo\ImpactByCabbibo.csproj", "{652FBC14-F375-46BC-BB70-B106D6FA790A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -2076,6 +2082,18 @@ Global
 		{686A0464-6D5E-4741-B7B3-5C20C6959160}.Debug|x86.Build.0 = Debug|x86
 		{686A0464-6D5E-4741-B7B3-5C20C6959160}.Release|x86.ActiveCfg = Release|x86
 		{686A0464-6D5E-4741-B7B3-5C20C6959160}.Release|x86.Build.0 = Release|x86
+		{0CB9E221-1B12-4F67-BEDA-50607C128951}.Debug|x86.ActiveCfg = Debug|x86
+		{0CB9E221-1B12-4F67-BEDA-50607C128951}.Debug|x86.Build.0 = Debug|x86
+		{0CB9E221-1B12-4F67-BEDA-50607C128951}.Release|x86.ActiveCfg = Release|x86
+		{0CB9E221-1B12-4F67-BEDA-50607C128951}.Release|x86.Build.0 = Release|x86
+		{38A9CC7F-EA86-4C0A-8AA9-903E873E49A9}.Debug|x86.ActiveCfg = Debug|x86
+		{38A9CC7F-EA86-4C0A-8AA9-903E873E49A9}.Debug|x86.Build.0 = Debug|x86
+		{38A9CC7F-EA86-4C0A-8AA9-903E873E49A9}.Release|x86.ActiveCfg = Release|x86
+		{38A9CC7F-EA86-4C0A-8AA9-903E873E49A9}.Release|x86.Build.0 = Release|x86
+		{652FBC14-F375-46BC-BB70-B106D6FA790A}.Debug|x86.ActiveCfg = Debug|x86
+		{652FBC14-F375-46BC-BB70-B106D6FA790A}.Debug|x86.Build.0 = Debug|x86
+		{652FBC14-F375-46BC-BB70-B106D6FA790A}.Release|x86.ActiveCfg = Release|x86
+		{652FBC14-F375-46BC-BB70-B106D6FA790A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2440,5 +2458,8 @@ Global
 		{252BB489-6CA7-4885-BE6A-D22B01ED7ADA} = {AB8C37B6-5D33-4E48-955A-D8D3934BB456}
 		{57314E6E-83A2-4267-B2B3-A3CCBDDC0349} = {463FB0C7-E5F1-48A0-8D8D-9F8302936430}
 		{686A0464-6D5E-4741-B7B3-5C20C6959160} = {6B99A4F6-D079-4F85-82EF-B462C36F92A0}
+		{0CB9E221-1B12-4F67-BEDA-50607C128951} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
+		{38A9CC7F-EA86-4C0A-8AA9-903E873E49A9} = {E0547BB3-87F8-4BBC-84A9-9D74966B57AE}
+		{652FBC14-F375-46BC-BB70-B106D6FA790A} = {8442C1DC-6AF5-4FDD-8E33-9DDB0070CC66}
 	EndGlobalSection
 EndGlobal
