@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2CE5FA61-6F16-4FCC-AD4F-7223B6140AEC}</ProjectGuid>
+    <ProjectGuid>{426A9419-9287-4880-979F-29F29D3F2A22}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SchroedingersCatByDr2</RootNamespace>
-    <AssemblyName>SchroedingersCatByDr2</AssemblyName>
+    <RootNamespace>RockShapesWIPByAsteropaeus</RootNamespace>
+    <AssemblyName>RockShapesWIPByAsteropaeus</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>SchroedingersCatByDr2.Program</StartupObject>
+    <StartupObject>RockShapesWIPByAsteropaeus.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -125,6 +125,9 @@
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="RockShapesWIPByAsteropaeus.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\RockShapesWIPByAsteropaeus.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

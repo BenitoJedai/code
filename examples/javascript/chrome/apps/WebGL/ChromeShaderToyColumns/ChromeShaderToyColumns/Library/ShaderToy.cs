@@ -174,8 +174,11 @@ namespace ChromeShaderToyColumns.Library
 			if (gl.getShaderParameter(vs, gl.COMPILE_STATUS) == null)
 			{
 				var infoLog = gl.getShaderInfoLog(vs);
-				new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
-				return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
+
+				// does our async rewriter throw async exceptions yet?
+				throw new Exception(message: new { infoLog }.ToString());
+				//new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
+				//return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
 			}
 
 			var fsCOMPILE_STATUS = (bool)gl.getShaderParameter(fs, gl.COMPILE_STATUS);
@@ -184,8 +187,9 @@ namespace ChromeShaderToyColumns.Library
 			if (!fsCOMPILE_STATUS)
 			{
 				var infoLog = gl.getShaderInfoLog(fs);
-				new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
-				return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
+				throw new Exception(message: new { infoLog }.ToString());
+				//new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
+				//return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
 			}
 
 
@@ -207,8 +211,9 @@ namespace ChromeShaderToyColumns.Library
 			{
 				var infoLog = gl.getProgramInfoLog(p);
 				gl.deleteProgram(p);
-				new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
-				return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
+				throw new Exception(message: new { infoLog }.ToString());
+				//new IHTMLPre { "error CreateShader " + new { infoLog } }.AttachToDocument();
+				//return new CreateShaderResult { mSuccess = false, mInfo = infoLog };
 			}
 
 			// https://msdn.microsoft.com/en-us/library/ie/dn302415(v=vs.85).aspx

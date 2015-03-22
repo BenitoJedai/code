@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.CompilerServices
 {
-	public class GLSLElement
+	public class GLSLElement : IObservable<object>
 	{
 		// Observable ?
 		// like XElement, XDocument
@@ -76,5 +76,18 @@ namespace ScriptCoreLib.CompilerServices
 			return "";
 		}
 
+
+
+		// event ?
+		IDisposable IObservable<object>.Subscribe(IObserver<object> observer)
+		{
+			// http://www.remondo.net/observer-pattern-example-csharp-iobservable/
+			// https://msdn.microsoft.com/en-us/library/dd990377(v=vs.110).aspx
+			// yield return?
+
+
+
+			throw new NotImplementedException();
+		}
 	}
 }
