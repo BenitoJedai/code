@@ -733,10 +733,10 @@ namespace ScriptCoreLib.CompilerServices
 					  //select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
 					  select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
 
-			 //select new { count, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g } : new[] { gg }
+		 //select new { count, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g } : new[] { gg }
 
 					  #endregion
-		   );
+	   );
 
 				cNoSpaceWORDxPass.Stop();
 				cNoSpaceWORDxPassIterations.Add(cNoSpaceWORDxPass);
@@ -1765,7 +1765,7 @@ namespace ScriptCoreLib.CompilerServices
 			   let count = g.Count()
 			   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
 
-			   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, g } : new[] { gg }
+			   select new { count, g.Key.xChar0, g.Key.xChar1, /* # */ g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete /* # */, g } : new[] { gg }
 		   //select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
 
 		   );
@@ -1799,8 +1799,13 @@ namespace ScriptCoreLib.CompilerServices
 				// the states seem to be incompatible
 				// can we manage it?
 
+
+				// managing state is hard.
+				// we are doing a tail call here arent we, a jump
+
 				//cNoSpaceWORDx = cNoPreprocessorDirective;
-				goto after_cNoSpaceWORDx;
+				//goto after_cNoSpaceWORDx;
+			Debugger.Break();
 			}
 
 

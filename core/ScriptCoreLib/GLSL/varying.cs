@@ -21,6 +21,9 @@ namespace ScriptCoreLib.GLSL
 	[Obsolete]
 	public sealed class varying : Attribute
 	{
+		// http://gamedev.stackexchange.com/questions/54801/set-a-variable-inside-a-glsl-fragment-shader-that-persists-for-the-render
+		// "varying" has been deprecated and replaced with the more "descriptive" In/Out, yet the same functionality remains.
+
 		// 4.3 Storage Qualifiers
 		// compatibility profile only and vertex and fragment languages only; same
 		//as out when in a vertex shader and same as in when in a fragment shader

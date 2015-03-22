@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E9781C75-C929-4903-A43F-B6F47DAB58E6}</ProjectGuid>
+    <ProjectGuid>{6790F73F-72F8-4175-A8CF-E062E0B62E54}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HalfLife3ByNikos</RootNamespace>
-    <AssemblyName>HalfLife3ByNikos</AssemblyName>
+    <RootNamespace>x2DSkullByStanton</RootNamespace>
+    <AssemblyName>x2DSkullByStanton</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>HalfLife3ByNikos.Program</StartupObject>
+    <StartupObject>x2DSkullByStanton.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -126,8 +126,8 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="HalfLife3ByNikos.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\HalfLife3ByNikos.AssetsLibrary.dll</HintPath>
+    <Reference Include="x2DSkullByStanton.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\x2DSkullByStanton.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
