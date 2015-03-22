@@ -368,16 +368,17 @@ namespace ScriptCoreLib.CompilerServices
 
 				   let count = g.Count()
 
-
-				   let IsPreprocessorDirective = default(bool?)
-				   let p = new { IsPreprocessorDirective }
+				   // bool? wont work implicitly, so its less useful than hoped.. keep bool instead.. 
+				   //let p = new { IsPreprocessorDirective = default(bool?) }
+				   let p = new { IsPreprocessorDirective = default(bool) }
+				   let c = new { g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination }
 
 				   // lets look bigger volumes first
 				   orderby count descending
 
 				   //select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsLetter0, g }
 				   //select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
-				   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
+				   select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g }
 				   #endregion
 
 		 );
@@ -535,15 +536,15 @@ namespace ScriptCoreLib.CompilerServices
 					let count = g.Count()
 
 
-					let IsPreprocessorDirective = default(bool?)
-					let p = new { IsPreprocessorDirective }
+					let c = new { g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination }
+					let p = new { IsPreprocessorDirective = default(bool) }
 
 
 					// lets look bigger volumes first
 					orderby g.Key.xCommentTermination, count descending
 
 					//select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
-					select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g }
+					select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g }
 				);
 
 				//+		[0]	{ count = 148, IsLineComment = true, xCommentTermination = false, xChar0 = 47 '/', xChar1 = 47 '/', g = {System.Linq.Lookup<<>f__AnonymousType35<bool,bool,char,char>,<>f__AnonymousType34<char,char,int,bool,string,System.IO.FileStream,bool,bool>>.Grouping} }	<Anonymous Type>
@@ -633,9 +634,17 @@ namespace ScriptCoreLib.CompilerServices
 			var cNoSpaceWORDxPassIterations = new List<Stopwatch>();
 			var cNoSpaceWORDx = cNoLineComment;
 
-			after_cNoSpaceWORDx:
+			goto after_cNoSpaceWORDx;
+			jump_to_cNoSpaceWORDx_from_cNoPreprocessorDirective:;
+			after_cNoSpaceWORDx:;
 
 			// called from above
+			//+       [0] { count = 59, xChar0 = 120 'x', xChar1 = 120 'x', c = { IsBlockComment = False, IsLineComment = False, xCommentTermination = False }, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false... }  < Anonymous Type >
+			//+       [1] { count = 57, xChar0 = 35 '#', xChar1 = 120 'x', c = { IsBlockComment = False, IsLineComment = False, xCommentTermination = False }, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false... }   < Anonymous Type >
+			//+       [2] { count = 17, xChar0 = 47 '/', xChar1 = 42 '*', c = { IsBlockComment = True, IsLineComment = False, xCommentTermination = False }, IsBlockComment = true, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false... }  < Anonymous Type >
+			//+       [3] { count = 158, xChar0 = 47 '/', xChar1 = 47 '/', c = { IsBlockComment = False, IsLineComment = True, xCommentTermination = True }, IsBlockComment = false, IsLineComment = true, xCommentTermination = true, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false... }   < Anonymous Type >
+			//+       [4] { count = 49, xChar0 = 47 '/', xChar1 = 47 '/', c = { IsBlockComment = False, IsLineComment = True, xCommentTermination = True }, IsBlockComment = false, IsLineComment = true, xCommentTermination = true, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = true, xReadByteNext0IsLetter = false... } < Anonymous Type >
+			//+       [5] { count = 6, xChar0 = 47 '/', xChar1 = 47 '/', c = { IsBlockComment = False, IsLineComment = True, xCommentTermination = True }, IsBlockComment = false, IsLineComment = true, xCommentTermination = true, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = true... }  < Anonymous Type >
 
 
 			// called from below
@@ -754,17 +763,17 @@ namespace ScriptCoreLib.CompilerServices
 					  // lets look bigger volumes first
 					  orderby count descending
 
-					  let IsPreprocessorDirective = default(bool?)
-					  let p = new { IsPreprocessorDirective }
+					  let c = new { g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination }
+					  let p = new { IsPreprocessorDirective = default(bool) }
 
 					  //select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsLetter0, g }
 					  //select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
-					  select new { count, g.Key.xChar0, g.Key.xChar1,  /* /? */ g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter  /* /? */, p /* # */ , g }
+					  select new { count, g.Key.xChar0, g.Key.xChar1,  /* /? */c, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter  /* /? */, p /* # */ , g }
 
-						//select new { count, g.Key.xChar0, g.Key.xChar1, /* # */ g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete /* # */, g } : new[] { gg }
+   //select new { count, g.Key.xChar0, g.Key.xChar1, /* # */ g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete /* # */, g } : new[] { gg }
 
-						#endregion
-			   );
+					  #endregion
+   );
 
 				cNoSpaceWORDxPass.Stop();
 				cNoSpaceWORDxPassIterations.Add(cNoSpaceWORDxPass);
@@ -955,11 +964,11 @@ namespace ScriptCoreLib.CompilerServices
 					   //orderby g.Key.xCommentTermination, count descending
 					   orderby count descending
 
-					   let IsPreprocessorDirective = default(bool?)
-					   let p = new { IsPreprocessorDirective }
+					   let c = new { g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination }
+					   let p = new { IsPreprocessorDirective = default(bool) }
 
 					   //select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
-					   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g } : new[] { gg }
+					   select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g } : new[] { gg }
 
 				   //join g in cNoBlockComment on true equals !(g.IsBlockComment && !g.xCommentTermination)
 				   //from g in cNoBlockComment
@@ -1103,11 +1112,12 @@ namespace ScriptCoreLib.CompilerServices
 
 				let count = g.Count()
 
-				let IsPreprocessorDirective = default(bool?)
-				let p = new { IsPreprocessorDirective }
+				//  add g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete
+				let c = false ? new { IsBlockComment = false, IsLineComment = false, xCommentTermination = false } : null
+				let p = new { IsPreprocessorDirective = (bool)g.Key.IsPreprocessorDirective }
 
 				orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1 //, g.Key.xGLSLToken
-				select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g }
+				select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g }
 
 			);
 			#endregion
@@ -1255,12 +1265,12 @@ namespace ScriptCoreLib.CompilerServices
 
 				   let count = g.Count()
 
-				   let IsPreprocessorDirective = default(bool?)
-				   let p = new { IsPreprocessorDirective }
+				   let c = false ? new { IsBlockComment = false, IsLineComment = false, xCommentTermination = false } : null
+				   let p = new { IsPreprocessorDirective = (bool)g.Key.IsPreprocessorDirective }
 
 				   // isGLSLPreprocessorDirective
 				   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
-				   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g } : new[] { gg }
+				   select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g } : new[] { gg }
 				);
 
 
@@ -1388,12 +1398,12 @@ namespace ScriptCoreLib.CompilerServices
 
 					let count = g.Count()
 
-					let IsPreprocessorDirective = default(bool?)
-					let p = new { IsPreprocessorDirective }
+					let c = false ? new { IsBlockComment = false, IsLineComment = false, xCommentTermination = false } : null
+					let p = new { IsPreprocessorDirective = (bool)g.Key.IsPreprocessorDirective }
 
 					// isGLSLPreprocessorDirective
 					orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
-					select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g } : new[] { gg }
+					select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g } : new[] { gg }
 				);
 
 				cNoPreprocessorDirectivePass.Stop();
@@ -1542,12 +1552,12 @@ namespace ScriptCoreLib.CompilerServices
 
 			   let count = g.Count()
 
-			   let IsPreprocessorDirective = default(bool?)
-			   let p = new { IsPreprocessorDirective }
+			   let c = false ? new { IsBlockComment = false, IsLineComment = false, xCommentTermination = false } : null
+			   let p = new { IsPreprocessorDirective = (bool)g.Key.IsPreprocessorDirective }
 
 			   // isGLSLPreprocessorDirective
 			   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
-			   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g }
+			   select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g }
 			);
 			#endregion
 
@@ -1608,7 +1618,8 @@ namespace ScriptCoreLib.CompilerServices
 			while (cNoPreprocessorDirective.Any(gg => gg.IsPreprocessorDirective && gg.isGLSLMacroFragment && (gg.xChar0 != '\n' && char.IsWhiteSpace(gg.xChar0))))
 				cNoPreprocessorDirective = xEnumerable.SelectManyToArray(
 					   from gg in cNoPreprocessorDirective
-					   select gg.IsPreprocessorDirective && gg.isGLSLMacroFragment && (gg.xChar0 != '\n' && char.IsWhiteSpace(gg.xChar0)) ?
+						   //Error   CS0019  Operator '&&' cannot be applied to operands of type 'bool?' and 'bool'  ScriptCoreLib.Async X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\CompilerServices\GLSLAnalysis.cs    1603
+					   select gg.p.IsPreprocessorDirective && gg.isGLSLMacroFragment && (gg.xChar0 != '\n' && char.IsWhiteSpace(gg.xChar0)) ?
 					   from c in gg.g
 
 					   let xChar0 = c.xChar1
@@ -1657,12 +1668,12 @@ namespace ScriptCoreLib.CompilerServices
 
 					   let count = g.Count()
 
-					   let IsPreprocessorDirective = default(bool?)
-					   let p = new { IsPreprocessorDirective }
+					   let c = false ? new { IsBlockComment = false, IsLineComment = false, xCommentTermination = false } : null
+					   let p = new { IsPreprocessorDirective = (bool)g.Key.IsPreprocessorDirective }
 
 					   // isGLSLPreprocessorDirective
 					   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
-					   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g } : new[] { gg }
+					   select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g } : new[] { gg }
 				);
 			#endregion
 
@@ -1713,12 +1724,13 @@ namespace ScriptCoreLib.CompilerServices
 
 			   let count = g.Count()
 
-			   let IsPreprocessorDirective = default(bool?)
-			   let p = new { IsPreprocessorDirective }
+			   // we should have no data for comment parsing until now. in the next pass we may want some
+			   let c = false ? new { IsBlockComment = false, IsLineComment = false, xCommentTermination = false } : null
+			   let p = new { IsPreprocessorDirective = (bool)g.Key.IsPreprocessorDirective }
 
 			   // isGLSLPreprocessorDirective
 			   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
-			   select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g }
+			   select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g }
 			);
 			#endregion
 
@@ -1769,6 +1781,7 @@ namespace ScriptCoreLib.CompilerServices
 
 			   // a new line was just read in? 
 
+			   //let IsPreprocessorDirective = default(bool?)
 			   let IsPreprocessorDirective = false
 
 			   // is there a reason not to read a third byte yet?
@@ -1814,12 +1827,13 @@ namespace ScriptCoreLib.CompilerServices
 
 			   let count = g.Count()
 
-			   let IsPreprocessorDirective = default(bool?)
-			   let p = new { IsPreprocessorDirective }
+			   // actually c will indicate that we need to jump back?
+			   let c = true ? new { IsBlockComment = false, IsLineComment = false, xCommentTermination = false } : null
+			   let p = new { IsPreprocessorDirective = (bool)g.Key.IsPreprocessorDirective }
 
 			   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
 
-			   select new { count, g.Key.xChar0, g.Key.xChar1, /* # */ g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete /* # */, p, g } : new[] { gg }
+			   select new { count, g.Key.xChar0, g.Key.xChar1, c, /* # */ g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete /* # */, p, g } : new[] { gg }
 		   //select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
 
 		   );
@@ -1859,6 +1873,18 @@ namespace ScriptCoreLib.CompilerServices
 			//+		[8]	{ count = 1, xChar0 = 32 ' ', xChar1 = 63 '?', IsPreprocessorDirective = true, sGLSLToken = "ifndef", isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
 			//+		[9]	{ count = 173, xChar0 = 101 'e', xChar1 = 101 'e', IsPreprocessorDirective = false, sGLSLToken = "", isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
 
+			// could we default c here? as in this state we were not look at them?
+			//+		[0]	{ count = 108, xChar0 = 101 'e', xChar1 = 63 '?', c = null, IsPreprocessorDirective = true, sGLSLToken = "define", isGLSLMacroFragment = true, xNameStringBuilderComplete = true, p = { IsPreprocessorDirective = True }, g = {System.Linq.Lookup<<>f__AnonymousType94<bool,string,char,char,bool,bool>,<>f__AnonymousType93<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[1]	{ count = 13, xChar0 = 32 ' ', xChar1 = 63 '?', c = { IsBlockComment = False, IsLineComment = False, xCommentTermination = False }, IsPreprocessorDirective = false, sGLSLToken = "", isGLSLMacroFragment = false, xNameStringBuilderComplete = false, p = { IsPreprocessorDirective = False }, g = {System.Linq.Lookup<<>f__AnonymousType94<bool,string,char,char,bool,bool>,<>f__AnonymousType93<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[2]	{ count = 13, xChar0 = 35 '#', xChar1 = 120 'x', c = { IsBlockComment = False, IsLineComment = False, xCommentTermination = False }, IsPreprocessorDirective = false, sGLSLToken = "", isGLSLMacroFragment = false, xNameStringBuilderComplete = false, p = { IsPreprocessorDirective = False }, g = {System.Linq.Lookup<<>f__AnonymousType94<bool,string,char,char,bool,bool>,<>f__AnonymousType93<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[3]	{ count = 4, xChar0 = 47 '/', xChar1 = 47 '/', c = { IsBlockComment = False, IsLineComment = False, xCommentTermination = False }, IsPreprocessorDirective = false, sGLSLToken = "", isGLSLMacroFragment = false, xNameStringBuilderComplete = false, p = { IsPreprocessorDirective = False }, g = {System.Linq.Lookup<<>f__AnonymousType94<bool,string,char,char,bool,bool>,<>f__AnonymousType93<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[4]	{ count = 18, xChar0 = 32 ' ', xChar1 = 63 '?', c = null, IsPreprocessorDirective = true, sGLSLToken = "ifdef", isGLSLMacroFragment = false, xNameStringBuilderComplete = false, p = { IsPreprocessorDirective = True }, g = {System.Linq.Lookup<<>f__AnonymousType94<bool,string,char,char,bool,bool>,<>f__AnonymousType93<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[5]	{ count = 9, xChar0 = 40 '(', xChar1 = 63 '?', c = null, IsPreprocessorDirective = true, sGLSLToken = "define", isGLSLMacroFragment = true, xNameStringBuilderComplete = true, p = { IsPreprocessorDirective = True }, g = {System.Linq.Lookup<<>f__AnonymousType94<bool,string,char,char,bool,bool>,<>f__AnonymousType93<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[6]	{ count = 3, xChar0 = 47 '/', xChar1 = 63 '?', c = null, IsPreprocessorDirective = true, sGLSLToken = "define", isGLSLMacroFragment = true, xNameStringBuilderComplete = true, p = { IsPreprocessorDirective = True }, g = {System.Linq.Lookup<<>f__AnonymousType94<bool,string,char,char,bool,bool>,<>f__AnonymousType93<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[7]	{ count = 1, xChar0 = 59 ';', xChar1 = 63 '?', c = null, IsPreprocessorDirective = true, sGLSLToken = "define", isGLSLMacroFragment = true, xNameStringBuilderComplete = true, p = { IsPreprocessorDirective = True }, g = {System.Linq.Lookup<<>f__AnonymousType94<bool,string,char,char,bool,bool>,<>f__AnonymousType93<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[8]	{ count = 1, xChar0 = 32 ' ', xChar1 = 63 '?', c = null, IsPreprocessorDirective = true, sGLSLToken = "ifndef", isGLSLMacroFragment = false, xNameStringBuilderComplete = false, p = { IsPreprocessorDirective = True }, g = {System.Linq.Lookup<<>f__AnonymousType94<bool,string,char,char,bool,bool>,<>f__AnonymousType93<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[9]	{ count = 179, xChar0 = 101 'e', xChar1 = 101 'e', c = null, IsPreprocessorDirective = false, sGLSLToken = "", isGLSLMacroFragment = false, xNameStringBuilderComplete = false, p = { IsPreprocessorDirective = False }, g = {System.Linq.Lookup<<>f__AnonymousType94<bool,string,char,char,bool,bool>,<>f__AnonymousType93<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+
 			// we have 30 reasons to go back a step.
 			// we should not however be processing spaces in IsPreprocessorDirective up there.
 
@@ -1876,12 +1902,12 @@ namespace ScriptCoreLib.CompilerServices
 				// we are doing a tail call here arent we, a jump
 
 				cNoPreprocessorDirective = cNoPreprocessorDirective;
-                cNoSpaceWORDx = cNoSpaceWORDx;
+				cNoSpaceWORDx = cNoSpaceWORDx;
 				//cNoSpaceWORDx = cNoPreprocessorDirective;
 				Debugger.Break();
 
 				// http://stackoverflow.com/questions/6545720/does-anyone-still-use-goto-in-c-sharp-and-if-so-why
-				goto after_cNoSpaceWORDx;
+				goto jump_to_cNoSpaceWORDx_from_cNoPreprocessorDirective;
 			}
 
 			// http://referencesource.microsoft.com/#System.Web/WebSockets/SubprotocolUtil.cs

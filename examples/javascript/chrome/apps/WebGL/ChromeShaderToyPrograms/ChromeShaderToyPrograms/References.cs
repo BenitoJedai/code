@@ -294,6 +294,7 @@ namespace ChromeShaderToyPrograms
 			["ParallaxMappingByNimitz"] = () => new ParallaxMappingByNimitz.Shaders.ProgramFragmentShader(),
 			["PlasticReflectingCubesByDen"] = () => new PlasticReflectingCubesByDen.Shaders.ProgramFragmentShader(),
 			["PlayingWithRefleksByEiffie"] = () => new PlayingWithRefleksByEiffie.Shaders.ProgramFragmentShader(),
+			["PolygonRaytracingByBranch"] = () => new PolygonRaytracingByBranch.Shaders.ProgramFragmentShader(),
 			["PopularShaderByFizzer"] = () => new PopularShaderByFizzer.Shaders.ProgramFragmentShader(),
 			["PortalGunByRamocles"] = () => new PortalGunByRamocles.Shaders.ProgramFragmentShader(),
 			["PrairieByEiffie"] = () => new PrairieByEiffie.Shaders.ProgramFragmentShader(),
