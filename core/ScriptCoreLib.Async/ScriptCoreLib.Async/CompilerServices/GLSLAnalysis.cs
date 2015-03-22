@@ -38,6 +38,7 @@ namespace ScriptCoreLib.CompilerServices
 		// how to run it from commandline?
 		// jsc.meta "X:\jsc.svn\examples\javascript\chrome\apps\WebGL"
 
+		// https://msdn.microsoft.com/en-us/library/windows/desktop/cc948910(v=vs.85).aspx
 
 		// we should not be on UI thread, nor should we switch threads ourselves
 		// when will it work for js workers?
@@ -48,7 +49,7 @@ namespace ScriptCoreLib.CompilerServices
 			)
 		{
 			// what if more data/streams become available mid way? add them to analysis strain?
-			Console.WriteLine("enter WorkerThreadAnalyzeFragmentShaders " + new { Thread.CurrentThread.ManagedThreadId, Name = Thread.CurrentThread.Name = MethodInfo.GetCurrentMethod().Name, Environment.ProcessorCount, Debugger.IsAttached });
+			Console.WriteLine("enter WorkerThreadAnalyzeFragmentShaders " + new { Thread.CurrentThread.ManagedThreadId, Name = Thread.CurrentThread.Name = MethodInfo.GetCurrentMethod().DeclaringType.FullName, Environment.ProcessorCount, Debugger.IsAttached });
 
 			// this method could split analysis per core. 
 
@@ -281,7 +282,7 @@ namespace ScriptCoreLib.CompilerServices
 			// can we isolate it?
 			// was a bug. rerun the async test.
 			#endregion
-	
+
 			// 110 shaders seem to start with a comment.
 			// shall we extract a comment from the stream?
 
@@ -311,20 +312,18 @@ namespace ScriptCoreLib.CompilerServices
 
 				   let IsLineComment = c.xChar0 == '/' && xChar1 == '/'
 				   let IsBlockComment = c.xChar0 == '/' && xChar1 == '*'
+				   // move to external state object?
+
+				   let xGLSLComment = IsLineComment || IsBlockComment ? new GLSLComment { IsBlockComment = IsBlockComment, IsLineComment = IsLineComment, ContentStringBuilder = new StringBuilder { } } : null
 
 				   // placeholder
 				   let xCommentContentByte = -1
 				   let xCommentTermination = false
 
 				   // a placeholder for all comment content until \n or */ inlined twice
-				   let xCommentStringBuilder = (IsBlockComment || IsLineComment) ? new StringBuilder() : null
 
-				   //let z = new { xReadByte0, xReadByte1, xChar0, xChar1, c.f, c.s, IsLineComment, IsBlockComment, IsLetter0, IsLetter1 }
-				   //let z = new { xChar0, xChar1, xLineCommentContentByte, xCommentTermination, c.f, c.s, IsLineComment, IsBlockComment, IsLetter0, IsLetter1, xCommentStringBuilder }
-				   //let z = new { IsBlockComment, IsLineComment, xCommentStringBuilder, c.xChar0, c.xChar0IsWhiteSpace, xChar1, xReadByteNext0, xReadByteNext0IsWhiteSpace, xReadByteNext0IsLetter, xCommentContentByte, xCommentTermination, c.f, c.s, xChar0IsLetter0, xChar1IsLetter1, c.xGLSLElement }
-				   let zc = new { IsBlockComment, IsLineComment, xCommentTermination }
-				   let z = new { c.xChar0, c.xChar0IsWhiteSpace, xChar1, xReadByteNext0, xReadByteNext0IsWhiteSpace, xReadByteNext0IsLetter, xCommentContentByte, zc, c.f, c.s, xChar0IsLetter0, xChar1IsLetter1, c.xGLSLElement, xCommentStringBuilder }
-				   //let z = new { IsPreprocessorDirective, xChar0, xChar1, xGLSLToken, xGLSLMacroFragment, xNameStringBuilderComplete, c.s, c.f, c.xGLSLElement }
+				   let zc = new { /* private */ xCommentTermination, /* public */ xGLSLComment }
+				   let z = new { c.xChar0, c.xChar0IsWhiteSpace, xChar1, xReadByteNext0, xReadByteNext0IsWhiteSpace, xReadByteNext0IsLetter, xCommentContentByte, zc, c.f, c.s, xChar0IsLetter0, xChar1IsLetter1, c.xGLSLElement }
 
 				   #region group WORD
 				   group z by new
@@ -348,21 +347,18 @@ namespace ScriptCoreLib.CompilerServices
 
 				   let count = g.Count()
 
-
 				   // or do we have p? if we do we should skip such groups!
 				   let p = false ? new { IsPreprocessorDirective = default(bool), sGLSLToken = default(string), isGLSLMacroFragment = default(bool), xNameStringBuilderComplete = default(bool) } : null
-
 				   let c = new { g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination }
 
 				   // lets look bigger volumes first
 				   orderby count descending
 
 				   //select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsLetter0, g }
-				   //select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
-				   select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g }
+				   select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g = g.ToArray() }
 				   #endregion
 
-		 );
+		   );
 
 
 			;
@@ -386,22 +382,22 @@ namespace ScriptCoreLib.CompilerServices
 
 			//lets resolve the comments
 
-			var cNoLineCommentPassIterations = new List<Stopwatch>();
+			//var cNoLineCommentPassIterations = new List<Stopwatch>();
 			var cNoLineComment = cNoSpaceWORD;
+			var cNoLineCommentPass = Stopwatch.StartNew();
 
 			after_cNoLineComment:
 			Console.WriteLine("after_cNoLineComment");
 
-			#region cNoLineComment
-			// any open line comments? or any spaces to skip?
-			//while (cNoLineComment.Any(g => g.xReadByteNext0IsWhiteSpace || g.IsLineComment && !g.xCommentTermination))
-			while (cNoLineComment.Any(g => g.c.IsLineComment && !g.c.xCommentTermination))
-			{
-				var cNoLineCommentPass = Stopwatch.StartNew();
 
-				cNoLineComment = Enumerable.ToArray(
-					from g in cNoLineComment
-					from c in g.g
+
+			// any open line comments? 
+			#region cNoLineComment
+			while (cNoLineComment.Any(g => g.c.IsLineComment && !g.c.xCommentTermination))
+				cNoLineComment = xEnumerable.SelectManyToArray(
+					from gg in cNoLineComment
+					select (gg.c.IsLineComment && !gg.c.xCommentTermination) ?
+					from c in gg.g
 
 						// how can we collect/aggregate the current bytes?
 
@@ -409,7 +405,7 @@ namespace ScriptCoreLib.CompilerServices
 						// unless xCommentTermination, then stall and keep current state for next phase
 
 					let xCommentContentByte =
-						c.zc.IsLineComment ?
+						c.zc.xGLSLComment.IsLineComment ?
 							c.zc.xCommentTermination ?
 								c.xCommentContentByte : c.s.ReadByte() : -1
 
@@ -418,6 +414,7 @@ namespace ScriptCoreLib.CompilerServices
 					// http://stackoverflow.com/questions/3267311/what-is-newline-character-n
 
 					// terminates line comment yet? check for -1?
+					// xCommentComplete
 					let xCommentTermination = xCommentContentByte == '\n'
 
 					// 3.4 Comments
@@ -426,7 +423,7 @@ namespace ScriptCoreLib.CompilerServices
 
 
 					let xLineCommentStringBuilderAppend =
-						c.zc.IsLineComment &&
+						c.zc.xGLSLComment.IsLineComment &&
 							// was the comment already complete?
 							!c.zc.xCommentTermination
 							// is the comment complete now?
@@ -438,7 +435,8 @@ namespace ScriptCoreLib.CompilerServices
 
 							// how can we skip \r ?
 							&& !(xCommentTermination && c.xCommentContentByte == '\r') ?
-								c.xCommentStringBuilder.Append((char)c.xCommentContentByte) : null
+								// char0
+								c.zc.xGLSLComment.ContentStringBuilder.Append((char)c.xCommentContentByte) : null
 
 
 
@@ -449,7 +447,7 @@ namespace ScriptCoreLib.CompilerServices
 						////c.xReadByteNext0IsWhiteSpace ? c.s.ReadByte() :
 
 						// are we a comment line?
-						c.zc.IsLineComment
+						c.zc.xGLSLComment.IsLineComment
 						// and we have not yet peeked?
 						&& c.xReadByteNext0 < 0
 						// and we did not complete on the previous run?
@@ -468,18 +466,15 @@ namespace ScriptCoreLib.CompilerServices
 					let xReadByteNext0IsLetter =
 						xReadByteNext0 < 0 ? false : char.IsLetter((char)xReadByteNext0)
 
-					//do  C.
-					//let ref0 = 
 
-					let zc = new { c.zc.IsBlockComment, c.zc.IsLineComment, xCommentTermination }
-					let z = new { c.xChar0, c.xChar0IsWhiteSpace, c.xChar1, xReadByteNext0, xReadByteNext0IsWhiteSpace, xReadByteNext0IsLetter, xCommentContentByte, zc, c.f, c.s, c.xChar0IsLetter0, c.xChar1IsLetter1, c.xGLSLElement, c.xCommentStringBuilder }
+					let zc = new { /* private */ xCommentTermination, /* public */ c.zc.xGLSLComment }
 
-
+					let z = new { c.xChar0, c.xChar0IsWhiteSpace, c.xChar1, xReadByteNext0, xReadByteNext0IsWhiteSpace, xReadByteNext0IsLetter, xCommentContentByte, zc, c.f, c.s, c.xChar0IsLetter0, c.xChar1IsLetter1, c.xGLSLElement }
 
 					// will it group the manual #define s near each other?
-					orderby Convert.ToString(z.xCommentStringBuilder)
+					orderby Convert.ToString(z.zc.xGLSLComment)
 
-					group z by new
+					group z by new /* private */
 					{
 						z.xChar0IsWhiteSpace,
 
@@ -487,8 +482,8 @@ namespace ScriptCoreLib.CompilerServices
 						// or do it on the next pass once all are at the same state?
 
 						// we are to focus on comments
-						c.zc.IsBlockComment,
-						c.zc.IsLineComment,
+						c.zc.xGLSLComment.IsBlockComment,
+						c.zc.xGLSLComment.IsLineComment,
 						xCommentTermination,
 
 						xChar0 = c.xChar0IsLetter0 ? letter_char : c.xChar0,
@@ -515,25 +510,95 @@ namespace ScriptCoreLib.CompilerServices
 					orderby g.Key.xCommentTermination, count descending
 
 					//select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
-					select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g }
+					select /* public */ new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g = g.ToArray() } : new[] { gg }
 				);
 
-				//block comment reading will be done by 2chars at the time
-				//a comment can contain anything, including a #define
+			//block comment reading will be done by 2chars at the time
+			//a comment can contain anything, including a #define
 
-				// should we care about #defines ? like a manual switch?
+			// should we care about #defines ? like a manual switch?
 
-				cNoLineCommentPass.Stop();
-				cNoLineCommentPassIterations.Add(cNoLineCommentPass);
-			}
+
 			#endregion
 
-			var cNoLineCommentPassIterationsElapsed = TimeSpan.FromMilliseconds(cNoLineCommentPassIterations.Sum(x => x.ElapsedMilliseconds));
+
+			cNoLineCommentPass.Stop();
+			//cNoLineCommentPassIterations.Add(cNoLineCommentPass);
+			//var cNoLineCommentPassIterationsElapsed = TimeSpan.FromMilliseconds(cNoLineCommentPassIterations.Sum(x => x.ElapsedMilliseconds));
 
 			// Error ENC0280 Modifying 'method' which contains an anonymous type will prevent the debug session from continuing.ScriptCoreLib.Async X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\CompilerServices\GLSLAnalysis.cs    51
 			// cNoLineCommentPassIterationsElapsed = {00:00:00.3980000}
+			// cNoLineCommentPassIterationsElapsed = {00:00:00.1360000}
+			// cNoLineCommentPassIterationsElapsed = {00:00:00.1670000}
 
-			Console.WriteLine("cNoLineCommentPassIterationsElapsed " + new { cNoLineCommentPassIterationsElapsed });
+			Console.WriteLine("cNoLineCommentPassIterationsElapsed " + new { cNoLineCommentPass.Elapsed });
+
+			#region regroup
+			cNoLineComment = Enumerable.ToArray(
+					from gg in cNoLineComment
+					from c in gg.g
+					let z = new
+					{
+						c.xChar0,
+						c.xChar0IsWhiteSpace,
+						c.xChar1,
+						c.xReadByteNext0,
+						c.xReadByteNext0IsWhiteSpace,
+						c.xReadByteNext0IsLetter,
+						c.xCommentContentByte,
+						c.zc,
+						c.f,
+						c.s,
+						c.xChar0IsLetter0,
+						c.xChar1IsLetter1,
+						c.xGLSLElement
+					}
+					group z by new /* private */
+					{
+						z.xChar0IsWhiteSpace,
+
+						// can we mark the comment to be terminated yet and load a new word?
+						// or do it on the next pass once all are at the same state?
+
+						// we are to focus on comments
+						IsBlockComment = c.zc.xGLSLComment == null ? false : c.zc.xGLSLComment.IsBlockComment,
+						IsLineComment = c.zc.xGLSLComment == null ? false : c.zc.xGLSLComment.IsLineComment,
+						c.zc.xCommentTermination,
+
+						xChar0 = c.xChar0IsLetter0 ? letter_char : c.xChar0,
+
+						// how to group it?
+						xChar1 = c.xChar1IsLetter1 ? letter_char : c.xChar1,
+
+						// prep for next pass
+						// we should skip the whitespace if any
+						//z.xReadByteNext0,
+						z.xReadByteNext0IsWhiteSpace,
+						z.xReadByteNext0IsLetter,
+					} into g
+
+					let count = g.Count()
+
+
+					let c = new { g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination }
+					// or do we have it already? if so we shoud had bypassed em?
+					let p = false ? new { IsPreprocessorDirective = default(bool), sGLSLToken = default(string), isGLSLMacroFragment = default(bool), xNameStringBuilderComplete = default(bool) } : null
+
+
+					// lets look bigger volumes first
+					orderby g.Key.xCommentTermination, count descending
+
+					// g.toarray to make the private key to go away
+					select /* public */ new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g = g.ToArray() }
+
+
+				);
+			#endregion
+
+			// Error   CS0029  Cannot implicitly convert type 
+			// '<anonymous type: int count, char xChar0, char xChar1, <anonymous type: bool IsBlockComment, bool IsLineComment, bool xCommentTermination> c, bool xChar0IsWhiteSpace, bool xReadByteNext0IsWhiteSpace, bool xReadByteNext0IsLetter, <anonymous type: bool IsPreprocessorDirective, string sGLSLToken, bool isGLSLMacroFragment, bool xNameStringBuilderComplete> p, System.Linq.IGrouping<<anonymous type: bool IsBlockComment, bool IsLineComment, char xChar0, char xChar1, bool xCommentTermination, bool xChar0IsWhiteSpace, bool xReadByteNext0IsWhiteSpace, bool xReadByteNext0IsLetter>, <anonymous type: char xChar0, bool xChar0IsWhiteSpace, char xChar1, int xReadByteNext0, bool xReadByteNext0IsWhiteSpace, bool xReadByteNext0IsLetter, int xCommentContentByte, <anonymous type: bool xCommentTermination, ScriptCoreLib.CompilerServices.GLSLComment xGLSLComment> zc, string f, System.IO.FileStream s, bool xChar0IsLetter0, bool xChar1IsLetter1, ScriptCoreLib.CompilerServices.GLSLElement xGLSLElement>> g>[]' to
+			// '<anonymous type: int count, char xChar0, char xChar1, <anonymous type: bool IsBlockComment, bool IsLineComment, bool xCommentTermination> c, bool xChar0IsWhiteSpace, bool xReadByteNext0IsWhiteSpace, bool xReadByteNext0IsLetter, <anonymous type: bool IsPreprocessorDirective, string sGLSLToken, bool isGLSLMacroFragment, bool xNameStringBuilderComplete> p, System.Linq.IGrouping<<anonymous type: bool xChar0IsWhiteSpace, bool IsBlockComment, bool IsLineComment, bool xCommentTermination, char xChar0, char xChar1, bool xReadByteNext0IsWhiteSpace, bool xReadByteNext0IsLetter>, <anonymous type: char xChar0, bool xChar0IsWhiteSpace, char xChar1, int xReadByteNext0, bool xReadByteNext0IsWhiteSpace, bool xReadByteNext0IsLetter, int xCommentContentByte, <anonymous type: bool xCommentTermination, ScriptCoreLib.CompilerServices.GLSLComment xGLSLComment> zc, string f, System.IO.FileStream s, bool xChar0IsLetter0, bool xChar1IsLetter1, ScriptCoreLib.CompilerServices.GLSLElement xGLSLElement>> g>[]'   ScriptCoreLib.Async X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\CompilerServices\GLSLAnalysis.cs    544
+
 
 			//NLP on comments?
 
@@ -555,7 +620,7 @@ namespace ScriptCoreLib.CompilerServices
 			//+		[4]	{ count = 51, xChar0 = 47 '/', xChar1 = 47 '/', c = { IsBlockComment = False, IsLineComment = True, xCommentTermination = True }, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = true, xReadByteNext0IsLetter = false, p = null, g = {System.Linq.Lookup<<>f__AnonymousType39<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType38<char,bool,char,int,bool,bool,int,<>f__AnonymousType36<bool,bool,bool>,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
 			//+		[5]	{ count = 7, xChar0 = 47 '/', xChar1 = 47 '/', c = { IsBlockComment = False, IsLineComment = True, xCommentTermination = True }, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = true, p = null, g = {System.Linq.Lookup<<>f__AnonymousType39<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType38<char,bool,char,int,bool,bool,int,<>f__AnonymousType36<bool,bool,bool>,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
 
-			goto after_cNoSpaceWORDx;
+			goto jump_to_cNoSpaceWORDx_from_cNoBlockComment;
 			jump_to_cNoSpaceWORDx_from_cNoPreprocessorDirective:;
 
 			// called from below
@@ -564,7 +629,7 @@ namespace ScriptCoreLib.CompilerServices
 			//+		[3]	{ count = 4, xChar0 = 47 '/', xChar1 = 47 '/', IsPreprocessorDirective = false, sGLSLToken = "", isGLSLMacroFragment = false, xNameStringBuilderComplete = false, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
 			//+		[6]	{ count = 3, xChar0 = 47 '/', xChar1 = 63 '?', IsPreprocessorDirective = true, sGLSLToken = "define", isGLSLMacroFragment = true, xNameStringBuilderComplete = true, g = {System.Linq.Lookup<<>f__AnonymousType84<bool,string,char,char,bool,bool>,<>f__AnonymousType83<bool,char,char,System.Text.StringBuilder,ScriptCoreLib.CompilerServices.GLSLMacroFragment,bool,System.IO.FileStream,string,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
 
-			after_cNoSpaceWORDx:;
+			jump_to_cNoSpaceWORDx_from_cNoBlockComment:;
 
 
 
@@ -584,7 +649,7 @@ namespace ScriptCoreLib.CompilerServices
 						  // discard or stash the comment?
 					  let xGLSLLineComment = //c.IsLineComment &&
 						  c.zc.xCommentTermination
-						  ? c.xGLSLElement.AppendComment(c.xCommentStringBuilder, c.zc.IsLineComment, c.zc.IsBlockComment) : null
+						  ? c.xGLSLElement.AppendComment(c.zc.xGLSLComment.ContentStringBuilder, c.zc.xGLSLComment.IsLineComment, c.zc.xGLSLComment.IsBlockComment) : null
 
 
 					  let xxChar0 = c.xReadByteNext0 < 0 ? c.xChar0 : (char)c.xReadByteNext0
@@ -623,20 +688,22 @@ namespace ScriptCoreLib.CompilerServices
 					  let IsLineComment = xChar0 == '/' && xChar1 == '/'
 					  let IsBlockComment = xChar0 == '/' && xChar1 == '*'
 
+					  let xGLSLComment = IsLineComment || IsBlockComment ? new GLSLComment { IsBlockComment = IsBlockComment, IsLineComment = IsLineComment, ContentStringBuilder = new StringBuilder { } } : null
+
 					  // placeholder
 					  let xCommentContentByte = -1
 					  let xCommentTermination = false
 
 					  // a placeholder for all comment content until \n or */ inlined twice
-					  let xCommentStringBuilder = (IsBlockComment || IsLineComment) ? new StringBuilder() : null
+					  //let xCommentStringBuilder = (IsBlockComment || IsLineComment) ? new StringBuilder() : null
 
 
 					  //let z = new { xReadByte0, xReadByte1, xChar0, xChar1, c.f, c.s, IsLineComment, IsBlockComment, IsLetter0, IsLetter1 }
 					  //let z = new { xChar0, xChar1, xCommentContentByte, xCommentTermination, c.f, c.s, IsLineComment, IsBlockComment, IsLetter0, IsLetter1, xCommentStringBuilder }
 					  //let z = new { c.IsLineComment, c.xCommentStringBuilder, c.xChar0, c.xChar0IsWhiteSpace, c.xChar1, xReadByteNext0, xReadByteNext0IsWhiteSpace, xReadByteNext0IsLetter, xCommentContentByte, xCommentTermination, c.f, c.s, c.IsBlockComment, c.IsLetter0, c.IsLetter1, c.xGLSLElement }
 					  //let z = new { IsBlockComment, IsLineComment, xCommentStringBuilder, xChar0, xChar0IsWhiteSpace, xChar1, xReadByteNext0, xReadByteNext0IsWhiteSpace, xReadByteNext0IsLetter, xCommentContentByte, xCommentTermination, c.f, c.s, xChar0IsLetter0, xChar1IsLetter1, c.xGLSLElement }
-					  let zc = new { IsBlockComment, IsLineComment, xCommentTermination }
-					  let z = new { xChar0, xChar0IsWhiteSpace, xChar1, xReadByteNext0, xReadByteNext0IsWhiteSpace, xReadByteNext0IsLetter, xCommentContentByte, zc, c.f, c.s, xChar0IsLetter0, xChar1IsLetter1, c.xGLSLElement, xCommentStringBuilder }
+					  let zc = new { /* private */ xCommentTermination, /* public */ xGLSLComment }
+					  let z = new { xChar0, xChar0IsWhiteSpace, xChar1, xReadByteNext0, xReadByteNext0IsWhiteSpace, xReadByteNext0IsLetter, xCommentContentByte, zc, c.f, c.s, xChar0IsLetter0, xChar1IsLetter1, c.xGLSLElement }
 					  #endregion
 
 
@@ -647,7 +714,7 @@ namespace ScriptCoreLib.CompilerServices
 					  orderby xChar0, xChar1
 
 					  #region group WORD
-					  group z by new
+					  group z by new /* private */
 					  {
 						  //IsLetter0,
 						  // lets prep the grouping for comment parsing
@@ -658,15 +725,13 @@ namespace ScriptCoreLib.CompilerServices
 						  IsLineComment,
 						  xCommentTermination,
 
-						  // by this stage we will want to see whats the symbol for..
-						  xChar0 = // xChar0IsLetter0 ? letter_char :
+						  xChar0 = char.IsLetter(xChar0) ? letter_char :
 								 xChar0IsWhiteSpace ? WhiteSpace_char : xChar0
 
 							 ,
 						  // how to group it?
-						  //xChar1 = xChar1IsLetter1 ? letter_char : xChar1,
+						  xChar1 = char.IsLetter(xChar1) ? letter_char : xChar1,
 						  //xChar1 = xChar1IsLetter1 && xChar0 != '#' ? letter_char : xChar1,
-						  xChar1 = xChar1,
 
 
 						  // remove?
@@ -684,7 +749,7 @@ namespace ScriptCoreLib.CompilerServices
 
 					  //select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsLetter0, g }
 					  //select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
-					  select new { count, g.Key.xChar0, g.Key.xChar1,  /* /? */c, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter  /* /? */, p /* # */ , g }
+					  select new { count, g.Key.xChar0, g.Key.xChar1,  /* /? */c, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g = g.ToArray() }
 
    //select new { count, g.Key.xChar0, g.Key.xChar1, /* # */ g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete /* # */, g } : new[] { gg }
 
@@ -720,42 +785,28 @@ namespace ScriptCoreLib.CompilerServices
 
 			var cNoSpaceWORDxPassIterationsElapsed = TimeSpan.FromMilliseconds(cNoSpaceWORDxPassIterations.Sum(x => x.ElapsedMilliseconds));
 
-			//+		[0]	{ count = 116, IsLineComment = true, xCommentTermination = false, xChar0 = 47 '/', xChar0IsWhiteSpace = false, xChar1 = 47 '/', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-			//+		[1]	{ count = 58, IsLineComment = false, xCommentTermination = false, xChar0 = 35 '#', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-			//+		[2]	{ count = 46, IsLineComment = false, xCommentTermination = false, xChar0 = 120 'x', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-			//+		[3]	{ count = 13, IsLineComment = false, xCommentTermination = false, xChar0 = 47 '/', xChar0IsWhiteSpace = false, xChar1 = 42 '*', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-
-			// ?. ?
+			//+		[0]	{ count = 175, xChar0 = 47 '/', xChar1 = 47 '/', c = { IsBlockComment = False, IsLineComment = True, xCommentTermination = False }, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, p = null, g = {<>f__AnonymousType38<char,bool,char,int,bool,bool,int,<>f__AnonymousType36<bool,ScriptCoreLib.CompilerServices.GLSLComment>,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>[175]} }	<Anonymous Type>
+			//+		[1]	{ count = 82, xChar0 = 120 'x', xChar1 = 120 'x', c = { IsBlockComment = False, IsLineComment = False, xCommentTermination = False }, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, p = null, g = {<>f__AnonymousType38<char,bool,char,int,bool,bool,int,<>f__AnonymousType36<bool,ScriptCoreLib.CompilerServices.GLSLComment>,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>[82]} }	<Anonymous Type>
+			//+		[2]	{ count = 81, xChar0 = 35 '#', xChar1 = 120 'x', c = { IsBlockComment = False, IsLineComment = False, xCommentTermination = False }, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, p = null, g = {<>f__AnonymousType38<char,bool,char,int,bool,bool,int,<>f__AnonymousType36<bool,ScriptCoreLib.CompilerServices.GLSLComment>,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>[81]} }	<Anonymous Type>
+			//+		[3]	{ count = 25, xChar0 = 47 '/', xChar1 = 42 '*', c = { IsBlockComment = True, IsLineComment = False, xCommentTermination = False }, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, p = null, g = {<>f__AnonymousType38<char,bool,char,int,bool,bool,int,<>f__AnonymousType36<bool,ScriptCoreLib.CompilerServices.GLSLComment>,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>[25]} }	<Anonymous Type>
 			if (cNoSpaceWORDx.Any(x => x.c.IsLineComment))
 			{
 				cNoLineComment = cNoSpaceWORDx;
 				goto after_cNoLineComment;
 			}
-
-			//+		[0]	{ count = 110, IsLineComment = false, xCommentTermination = false, xChar0 = 35 '#', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-			//+		[1]	{ count = 109, IsLineComment = false, xCommentTermination = false, xChar0 = 120 'x', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-			//+		[2]	{ count = 14, IsLineComment = false, xCommentTermination = false, xChar0 = 47 '/', xChar0IsWhiteSpace = false, xChar1 = 42 '*', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			;
+			//+		[0]	{ count = 175, xChar0 = 120 'x', xChar1 = 120 'x', c = { IsBlockComment = False, IsLineComment = False, xCommentTermination = False }, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, p = null, g = {<>f__AnonymousType38<char,bool,char,int,bool,bool,int,<>f__AnonymousType36<bool,ScriptCoreLib.CompilerServices.GLSLComment>,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>[175]} }	<Anonymous Type>
+			//+		[1]	{ count = 160, xChar0 = 35 '#', xChar1 = 120 'x', c = { IsBlockComment = False, IsLineComment = False, xCommentTermination = False }, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, p = null, g = {<>f__AnonymousType38<char,bool,char,int,bool,bool,int,<>f__AnonymousType36<bool,ScriptCoreLib.CompilerServices.GLSLComment>,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>[160]} }	<Anonymous Type>
+			//+		[2]	{ count = 28, xChar0 = 47 '/', xChar1 = 42 '*', c = { IsBlockComment = True, IsLineComment = False, xCommentTermination = False }, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, p = null, g = {<>f__AnonymousType38<char,bool,char,int,bool,bool,int,<>f__AnonymousType36<bool,ScriptCoreLib.CompilerServices.GLSLComment>,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>[28]} }	<Anonymous Type>
 
 			// looks like #define is to win by one?
 			// shall we get more examples to decide which to implement?
 			// box comment is rather unpopular at this early point in parallel parsing?
-
 			// seems we are to load that symbol.
-			//+		[0]	{ count = 119, IsLineComment = false, xCommentTermination = false, xChar0 = 120 'x', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
 			// pragma defines
-			//+		[1]	{ count = 115, IsLineComment = false, xCommentTermination = false, xChar0 = 35 '#', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
 			// lets look at the block comments the latest
-			//+		[2]	{ count = 17, IsLineComment = false, xCommentTermination = false, xChar0 = 47 '/', xChar0IsWhiteSpace = false, xChar1 = 42 '*', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-
-
-			/*
 			// pragmas may turn out to be inline defines?
-			*/
 			// should we keep statistics on language features found?
-
-			//+		[0]	{ count = 119, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0 = 120 'x', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-			//+		[1]	{ count = 118, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0 = 35 '#', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-			//+		[2]	{ count = 18, IsBlockComment = true, IsLineComment = false, xCommentTermination = false, xChar0 = 47 '/', xChar0IsWhiteSpace = false, xChar1 = 42 '*', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
 
 			var cNoBlockCommentPassIterations = new List<Stopwatch>();
 			var cNoBlockComment = cNoSpaceWORDx;
@@ -776,17 +827,13 @@ namespace ScriptCoreLib.CompilerServices
 					cNoBlockComment = xEnumerable.SelectManyToArray(
 					   // http://stackoverflow.com/questions/12397880/using-linq-how-to-select-conditionally-some-items-but-when-no-conditions-select
 					   from gg in cNoBlockComment
-
-						   // some groups we dont want to look at. can we jump/skip/ select it?
-						   //if select goto discard
-
 					   select gg.c.IsBlockComment && !gg.c.xCommentTermination ?
 
 					   from c in gg.g
 
 						   // if we are a comment, we need to read a byte unless the comment is done reading. then keep the state
 					   let xCommentContentByte =
-						  c.zc.IsBlockComment ?
+						  c.zc.xGLSLComment.IsBlockComment ?
 							  c.zc.xCommentTermination ?
 								  c.xCommentContentByte : c.s.ReadByte() : -1
 
@@ -801,7 +848,7 @@ namespace ScriptCoreLib.CompilerServices
 
 
 					   let xLineCommentStringBuilderAppend =
-						   c.zc.IsBlockComment &&
+						   c.zc.xGLSLComment.IsBlockComment &&
 							   // was the comment already complete?
 							   !c.zc.xCommentTermination
 							   // is the comment complete now?
@@ -810,7 +857,7 @@ namespace ScriptCoreLib.CompilerServices
 							   // what happens if the stream ends mid way?
 							   // is the previous byte there?
 							   && !xCommentTermination ?
-								   c.xCommentStringBuilder.Append((char)c.xCommentContentByte) : null
+								   c.zc.xGLSLComment.ContentStringBuilder.Append((char)c.xCommentContentByte) : null
 
 
 
@@ -821,7 +868,7 @@ namespace ScriptCoreLib.CompilerServices
 						  ////c.xReadByteNext0IsWhiteSpace ? c.s.ReadByte() :
 
 						  // are we a comment line?
-						  c.zc.IsBlockComment
+						  c.zc.xGLSLComment.IsBlockComment
 						  // and we have not yet peeked?
 						  && c.xReadByteNext0 < 0
 						  // and we did not complete on the previous run?
@@ -840,17 +887,13 @@ namespace ScriptCoreLib.CompilerServices
 					   let xReadByteNext0IsLetter =
 						  xReadByteNext0 < 0 ? false : char.IsLetter((char)xReadByteNext0)
 
-
-					   //let z = new { c.xChar0, c.xChar1, xCommentContentByte, xCommentTermination, c.f, c.s, c.IsLineComment, c.IsBlockComment }
-					   //let z = new { c.xChar0, c.xChar1, xCommentContentByte, xCommentTermination, c.f, c.s, c.IsLineComment, c.IsBlockComment, c.IsLetter0, c.IsLetter1 }
-					   //let z = new { c.IsBlockComment, c.IsLineComment, c.xCommentStringBuilder, c.xChar0, c.xChar0IsWhiteSpace, c.xChar1, xReadByteNext0, xReadByteNext0IsWhiteSpace, xReadByteNext0IsLetter, xCommentContentByte, xCommentTermination, c.f, c.s, c.xChar0IsLetter0, c.xChar1IsLetter1, c.xGLSLElement }
-					   let zc = new { c.zc.IsBlockComment, c.zc.IsLineComment, xCommentTermination }
-					   let z = new { c.xChar0, c.xChar0IsWhiteSpace, c.xChar1, xReadByteNext0, xReadByteNext0IsWhiteSpace, xReadByteNext0IsLetter, xCommentContentByte, zc, c.f, c.s, c.xChar0IsLetter0, c.xChar1IsLetter1, c.xGLSLElement, c.xCommentStringBuilder }
+					   let zc = new { /* private */ xCommentTermination, /* public */ c.zc.xGLSLComment }
+					   let z = new { c.xChar0, c.xChar0IsWhiteSpace, c.xChar1, xReadByteNext0, xReadByteNext0IsWhiteSpace, xReadByteNext0IsLetter, xCommentContentByte, zc, c.f, c.s, c.xChar0IsLetter0, c.xChar1IsLetter1, c.xGLSLElement, }
 
 					   // will it group the manual #define s near each other?
-					   orderby Convert.ToString(z.xCommentStringBuilder)
+					   orderby Convert.ToString(z.zc.xGLSLComment.ContentStringBuilder)
 
-					   group z by new
+					   group z by new  /* private */
 					   {
 						   z.xChar0IsWhiteSpace,
 
@@ -858,8 +901,8 @@ namespace ScriptCoreLib.CompilerServices
 						   // or do it on the next pass once all are at the same state?
 
 						   // we are to focus on comments
-						   c.zc.IsBlockComment,
-						   c.zc.IsLineComment,
+						   c.zc.xGLSLComment.IsBlockComment,
+						   c.zc.xGLSLComment.IsLineComment,
 						   xCommentTermination,
 
 						   //xChar0 = c.xChar0IsLetter0 ? letter_char : c.xChar0,
@@ -886,46 +929,26 @@ namespace ScriptCoreLib.CompilerServices
 					   let p = false ? new { IsPreprocessorDirective = default(bool), sGLSLToken = default(string), isGLSLMacroFragment = default(bool), xNameStringBuilderComplete = default(bool) } : null
 
 					   //select new { count, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0, g.Key.xChar0IsWhiteSpace, g.Key.xChar1, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
-					   select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g } : new[] { gg }
-
-				   //join g in cNoBlockComment on true equals !(g.IsBlockComment && !g.xCommentTermination)
-				   //from g in cNoBlockComment
-				   //where !(g.IsBlockComment && !g.xCommentTermination)
-				   //select g into g2
-
-
-				   //select new[] { x, g2 }
-
+					   select  /* public */ new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, p, g = g.ToArray() } : new[] { gg }
 				   );
 
 					cNoBlockCommentPass.Stop();
 					cNoBlockCommentPassIterations.Add(cNoBlockCommentPass);
-
-
 				}
 				while (cNoBlockComment.Any(g => g.c.IsBlockComment && !g.c.xCommentTermination));
 
 				var cNoBlockCommentPassIterationsElapsed = TimeSpan.FromMilliseconds(cNoBlockCommentPassIterations.Sum(x => x.ElapsedMilliseconds));
 				Console.WriteLine("cNoBlockCommentPassIterationsElapsed " + new { cNoBlockCommentPassIterationsElapsed });
 
-				//+		[0]	{ count = 119, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0 = 120 'x', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-				//+		[1]	{ count = 118, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0 = 35 '#', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-				//+		[2]	{ count = 18, IsBlockComment = true, IsLineComment = false, xCommentTermination = true, xChar0 = 47 '/', xChar0IsWhiteSpace = false, xChar1 = 42 '*', xReadByteNext0IsWhiteSpace = true, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-				//		f	"W:\\ChromeShaderToySymmetricOriginsByGood\\ChromeShaderToySymmetricOriginsByGood\\Shaders\\Program.frag"	string
-
-
 				cNoSpaceWORDx = cNoBlockComment;
-				goto after_cNoSpaceWORDx;
+				goto jump_to_cNoSpaceWORDx_from_cNoBlockComment;
 			}
 			#endregion
 
-			//+       [0] { count = 1, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0 = 120 'x', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = { System.Linq.Lookup <<> f__AnonymousType36<bool, bool, bool, bool, char, char, bool, bool>,<> f__AnonymousType35 < bool,bool, System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string, System.IO.FileStream,bool,bool, ScriptCoreLib.CompilerServices.GLSLElement >>.Grouping} }    < Anonymous Type >
-
-
 			//f = "W:\\ChromeShaderToyOculusTestByDaeken\\ChromeShaderToyOculusTestByDaeken\\Shaders\\Program.frag"
 
-			//+		[0]	{ count = 128, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0 = 120 'x', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-			//+		[1]	{ count = 127, IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0 = 35 '#', xChar0IsWhiteSpace = false, xChar1 = 120 'x', xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType36<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType35<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
+			//+		[0]	{ count = 187, xChar0 = 120 'x', xChar1 = 120 'x', c = { IsBlockComment = False, IsLineComment = False, xCommentTermination = False }, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, p = null, g = {<>f__AnonymousType38<char,bool,char,int,bool,bool,int,<>f__AnonymousType36<bool,ScriptCoreLib.CompilerServices.GLSLComment>,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>[187]} }	<Anonymous Type>
+			//+		[1]	{ count = 176, xChar0 = 35 '#', xChar1 = 120 'x', c = { IsBlockComment = False, IsLineComment = False, xCommentTermination = False }, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, p = null, g = {<>f__AnonymousType38<char,bool,char,int,bool,bool,int,<>f__AnonymousType36<bool,ScriptCoreLib.CompilerServices.GLSLComment>,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>[176]} }	<Anonymous Type>
 			// { cNoBlockCommentPassIterationsElapsed = 00:00:10.4270000 }
 
 			// i wonder weould we be able to parse glsl in gpu?
@@ -943,33 +966,11 @@ namespace ScriptCoreLib.CompilerServices
 			// http://piglit.freedesktop.org/
 			// http://cgit.freedesktop.org/piglit/tree/examples/glsl_parser_test/bit-logic-assign.frag?id=622d63dcfc12c5d347c1c427915d35de96ccc74c
 
-			//+		[0]	{ count = 137, xChar0 = 120 'x', xChar1 = 120 'x', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-			//+		[1]	{ count = 137, xChar0 = 35 '#', xChar1 = 120 'x', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-
-			//+		[0]	{ count = 137, xChar0 = 120 'x', xChar1 = 120 'x', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-			//+		[1]	{ count = 121, xChar0 = 35 '#', xChar1 = 100 'd', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-			//+		[2]	{ count = 16, xChar0 = 35 '#', xChar1 = 105 'i', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<bool,bool,System.Text.StringBuilder,char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement>>.Grouping} }	<Anonymous Type>
-
 			// are we to read the symbol?
 			// lets make that group more readable in debugger, and order it.
 
 			// popular seems to be
 			// const or float 
-
-			//+		[0]	{ count = 122, xChar0 = 35 '#', xChar1 = 100 'd', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
-			//+		[1]	{ count = 52, xChar0 = 102 'f', xChar1 = 108 'l', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
-			//+		[2]	{ count = 45, xChar0 = 99 'c', xChar1 = 111 'o', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
-			//+		[3]	{ count = 19, xChar0 = 118 'v', xChar1 = 101 'e', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
-			//+		[4]	{ count = 16, xChar0 = 35 '#', xChar1 = 105 'i', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
-			//+		[5]	{ count = 7, xChar0 = 115 's', xChar1 = 116 't', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
-			//+		[6]	{ count = 4, xChar0 = 109 'm', xChar1 = 97 'a', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
-			//+		[7]	{ count = 3, xChar0 = 118 'v', xChar1 = 111 'o', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
-			//+		[8]	{ count = 2, xChar0 = 98 'b', xChar1 = 111 'o', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
-			//+		[9]	{ count = 2, xChar0 = 105 'i', xChar1 = 110 'n', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
-			//+		[10]	{ count = 2, xChar0 = 112 'p', xChar1 = 114 'r', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
-			//+		[11]	{ count = 1, xChar0 = 117 'u', xChar1 = 110 'n', IsBlockComment = false, IsLineComment = false, xCommentTermination = false, xChar0IsWhiteSpace = false, xReadByteNext0IsWhiteSpace = false, xReadByteNext0IsLetter = false, g = {System.Linq.Lookup<<>f__AnonymousType37<bool,bool,bool,bool,char,char,bool,bool>,<>f__AnonymousType36<char,bool,char,int,bool,bool,int,bool,string,System.IO.FileStream,bool,bool,ScriptCoreLib.CompilerServices.GLSLElement,bool,bool,System.Text.StringBuilder>>.Grouping} }	<Anonymous Type>
-
-			// i think its time for a third byte!
 
 			#region cNoPreprocessorDirective
 			var cNoPreprocessorDirective = Enumerable.ToArray(
@@ -1114,6 +1115,10 @@ namespace ScriptCoreLib.CompilerServices
 
 
 
+
+
+
+
 			var cNoPreprocessorDirectivePassIterations = new List<Stopwatch>();
 			#region cNoPreprocessorDirective
 			while (cNoPreprocessorDirective.Any(gg => (gg.p.IsPreprocessorDirective && char.IsLetter(gg.xChar0))))
@@ -1239,12 +1244,9 @@ namespace ScriptCoreLib.CompilerServices
 				#region xGLSLMacroFragment.NameStringBuilder
 				cNoPreprocessorDirective = xEnumerable.SelectManyToArray(
 					from gg in cNoPreprocessorDirective
-
 						// we should stop reading the name if the char0 is no longer symbol char yet NameStringBuilder is still there
 
-					select
-						gg.p.isGLSLMacroFragment && !gg.p.xNameStringBuilderComplete
-						?	// could the while above be linked to this group selection?
+					select gg.p.isGLSLMacroFragment && !gg.p.xNameStringBuilderComplete ?	// could the while above be linked to this group selection?
 					from c in gg.g
 
 						// tell the upper do while we are still working!
