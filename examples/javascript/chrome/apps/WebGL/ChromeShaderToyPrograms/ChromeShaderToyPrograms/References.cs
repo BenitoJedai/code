@@ -356,6 +356,7 @@ namespace ChromeShaderToyPrograms
 			["RoadToHellByRez"] = () => new RoadToHellByRez.Shaders.ProgramFragmentShader(),
 			["RockShapesWIPByAsteropaeus"] = () => new RockShapesWIPByAsteropaeus.Shaders.ProgramFragmentShader(),
 			["RoseByHoskins"] = () => new RoseByHoskins.Shaders.ProgramFragmentShader(),
+			["RutherfordAtomByMattz"] = () => new RutherfordAtomByMattz.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyRubikSolverByKali"] = () => new ChromeShaderToyRubikSolverByKali.Shaders.ProgramFragmentShader(),
 			#endregion
 
