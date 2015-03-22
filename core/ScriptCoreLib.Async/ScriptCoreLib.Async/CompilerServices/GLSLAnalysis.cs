@@ -1198,13 +1198,13 @@ namespace ScriptCoreLib.CompilerServices
 
 			var cNoPreprocessorDirectivePassIterations = new List<Stopwatch>();
 			#region cNoPreprocessorDirective
-			while (cNoPreprocessorDirective.Any(gg => (gg.IsPreprocessorDirective && char.IsLetter(gg.xChar0))))
+			while (cNoPreprocessorDirective.Any(gg => (gg.p.IsPreprocessorDirective && char.IsLetter(gg.xChar0))))
 			{
 				var cNoPreprocessorDirectivePass = Stopwatch.StartNew();
 
 				cNoPreprocessorDirective = xEnumerable.SelectManyToArray(
 				   from gg in cNoPreprocessorDirective
-				   select (gg.IsPreprocessorDirective && char.IsLetter(gg.xChar0)) ?
+				   select (gg.p.IsPreprocessorDirective && char.IsLetter(gg.xChar0)) ?
 				   from c in gg.g
 
 					   // stash one byte and read one byte
@@ -1615,7 +1615,7 @@ namespace ScriptCoreLib.CompilerServices
 
 
 			#region lets get rid of the spaces
-			while (cNoPreprocessorDirective.Any(gg => gg.IsPreprocessorDirective && gg.isGLSLMacroFragment && (gg.xChar0 != '\n' && char.IsWhiteSpace(gg.xChar0))))
+			while (cNoPreprocessorDirective.Any(gg => gg.p.IsPreprocessorDirective && gg.isGLSLMacroFragment && (gg.xChar0 != '\n' && char.IsWhiteSpace(gg.xChar0))))
 				cNoPreprocessorDirective = xEnumerable.SelectManyToArray(
 					   from gg in cNoPreprocessorDirective
 						   //Error   CS0019  Operator '&&' cannot be applied to operands of type 'bool?' and 'bool'  ScriptCoreLib.Async X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\CompilerServices\GLSLAnalysis.cs    1603
@@ -1731,7 +1731,7 @@ namespace ScriptCoreLib.CompilerServices
 
 			   // isGLSLPreprocessorDirective
 			   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
-			   select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g }
+			   select new { count, g.Key.xChar0, g.Key.xChar1, c, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete, p, g }
 			);
 			#endregion
 
@@ -1830,11 +1830,11 @@ namespace ScriptCoreLib.CompilerServices
 
 			   // actually c will indicate that we need to jump back?
 			   let c = true ? new { IsBlockComment = false, IsLineComment = false, xCommentTermination = false } : null
-			   let p = new { IsPreprocessorDirective = (bool)g.Key.IsPreprocessorDirective }
+			   let p = new { IsPreprocessorDirective = g.Key.IsPreprocessorDirective }
 
 			   orderby g.Key.IsPreprocessorDirective descending, count descending, g.Key.sGLSLToken, g.Key.xChar0, g.Key.xChar1	//, g.Key.xGLSLToken
 
-			   select new { count, g.Key.xChar0, g.Key.xChar1, c, /* # */ g.Key.IsPreprocessorDirective, g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete /* # */, p, g } : new[] { gg }
+			   select new { count, g.Key.xChar0, g.Key.xChar1, c, /* # */ g.Key.sGLSLToken, g.Key.isGLSLMacroFragment, g.Key.xNameStringBuilderComplete /* # */, p, g } : new[] { gg }
 		   //select new { count, g.Key.xChar0, g.Key.xChar1, g.Key.IsBlockComment, g.Key.IsLineComment, g.Key.xCommentTermination, g.Key.xChar0IsWhiteSpace, g.Key.xReadByteNext0IsWhiteSpace, g.Key.xReadByteNext0IsLetter, g }
 
 		   );
