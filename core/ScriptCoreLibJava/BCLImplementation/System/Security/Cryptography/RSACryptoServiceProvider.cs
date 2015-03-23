@@ -55,35 +55,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 
 
 
-        //public async Task<byte[]> EncryptAsync(byte[] rgb, bool fOAEP)
-        public byte[] Encrypt(byte[] rgb, bool fOAEP)
-        {
-            ///     This method can only encrypt (keySize - 88 bits) of data, so should not be used for encrypting
-            ///     arbitrary byte arrays. Instead, encrypt a symmetric key with this method, and use the symmetric
-            ///     key to encrypt the sensitive data.
-
-            // fOAEP ?
-            // true to use OAEP padding (PKCS #1 v2), false to use PKCS #1 type 2 padding
-
-            // WebCrypte wiill need Async pattern!
-            //   GetKeyPair();
-
-            var value = default(byte[]);
-            try
-            {
-                var rsaCipher = Cipher.getInstance("RSA");
-
-                rsaCipher.init(Cipher.ENCRYPT_MODE, this.InternalKeyPair.getPublic());
-                value = (byte[])(object)rsaCipher.doFinal((sbyte[])(object)rgb);
-            }
-            catch
-            {
-                throw;
-            }
-
-            return value;
-        }
-
         //public async Task<byte[]> DecryptAsync(byte[] rgb, bool fOAEP)
         public byte[] Decrypt(byte[] rgb, bool fOAEP)
         {
@@ -134,8 +105,32 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 
                 // http://stackoverflow.com/questions/5113498/can-rsacryptoserviceprovider-nets-rsa-use-sha256-for-encryption-not-signing
 
-                var rsaCipher = default(Cipher);
+                var RSACipher = InternalGetRSACipher(fOAEP);
 
+                //Decrypt
+                RSACipher.init(
+                    Cipher.DECRYPT_MODE, 
+                    this.InternalKeyPair.getPrivate()
+                );
+
+                value = (byte[])(object)RSACipher.doFinal((sbyte[])(object)rgb);
+            }
+            catch
+            {
+                throw;
+            }
+
+
+            return value;
+
+        }
+
+        private static Cipher InternalGetRSACipher(bool fOAEP)
+        {
+            var RSACipher = default(Cipher);
+
+            try
+            {
                 if (fOAEP)
                 {
                     // !!! JVM does not seem to know about OAEP ??
@@ -157,26 +152,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
                     //rsaCipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
 
                     // .net seems to be fixed to sha1?
-                    rsaCipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
+                    RSACipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
                 }
                 else
                 {
-                    rsaCipher = Cipher.getInstance("RSA");
+                    RSACipher = Cipher.getInstance("RSA");
                 }
-
-
-                //Decrypt
-                rsaCipher.init(Cipher.DECRYPT_MODE, this.InternalKeyPair.getPrivate());
-                value = (byte[])(object)rsaCipher.doFinal((sbyte[])(object)rgb);
             }
-            catch
-            {
-                throw;
-            }
+            catch { throw; }
 
-
-            return value;
-
+            return RSACipher;
         }
 
 
@@ -233,13 +218,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
                 // and use it as a generic nuget?
 
                 var sw = Stopwatch.StartNew();
-                Console.WriteLine("RSACryptoServiceProvider before generateKeyPair " + new { sw.ElapsedMilliseconds });
+                Console.WriteLine("RSACryptoServiceProvider before generateKeyPair " + new { dwKeySize });
 
                 var keyGen = KeyPairGenerator.getInstance("RSA");
 
-                keyGen.initialize(2048);
+                keyGen.initialize(dwKeySize);
 
                 this.InternalKeyPair = keyGen.generateKeyPair();
+                this.InternalRSAPublicKey = (RSAPublicKey)this.InternalKeyPair.getPublic();
+
                 Console.WriteLine("RSACryptoServiceProvider after generateKeyPair " + new { sw.ElapsedMilliseconds });
 
                 //before generateKeyPair { { ElapsedMilliseconds = 2 } }
@@ -368,6 +355,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
         // ExportParameters
         RSAParameters InternalParameters;
 
+
+        public __RSACryptoServiceProvider()
+        {
+            // X:\jsc.svn\examples\java\hybrid\crypto\JVMCLRRSADuplex\JVMCLRRSADuplex\Program.cs
+            // next call should be to ImportParameters, then Encrypt
+        }
+
         public override void ImportParameters(RSAParameters parameters)
         {
             try
@@ -404,5 +398,37 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
                 throw;
             }
         }
+
+
+        //public async Task<byte[]> EncryptAsync(byte[] rgb, bool fOAEP)
+        public byte[] Encrypt(byte[] rgb, bool fOAEP)
+        {
+            ///     This method can only encrypt (keySize - 88 bits) of data, so should not be used for encrypting
+            ///     arbitrary byte arrays. Instead, encrypt a symmetric key with this method, and use the symmetric
+            ///     key to encrypt the sensitive data.
+
+            // fOAEP ?
+            // true to use OAEP padding (PKCS #1 v2), false to use PKCS #1 type 2 padding
+
+            // WebCrypte wiill need Async pattern!
+            //   GetKeyPair();
+
+            var value = default(byte[]);
+            try
+            {
+                var RSACipher = InternalGetRSACipher(fOAEP);
+
+                RSACipher.init(Cipher.ENCRYPT_MODE, this.InternalRSAPublicKey);
+
+                value = (byte[])(object)RSACipher.doFinal((sbyte[])(object)rgb);
+            }
+            catch
+            {
+                throw;
+            }
+
+            return value;
+        }
+
     }
 }
