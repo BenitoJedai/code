@@ -117,7 +117,7 @@
     <Compile Include="BCLImplementation\System\Reflection\PropertyInfo.cs" />
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\CryptoStream.cs" />
-    <Compile Include="BCLImplementation\System\Security\Cryptography\CspParameters.cs" />
+    <Compile Include="BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate.cs" />
     <Compile Include="BCLImplementation\System\Security\SecureString.cs" />
     <Compile Include="BCLImplementation\System\Threading\Monitor.cs" />
     <Compile Include="BCLImplementation\System\Threading\RegisteredWaitHandle.cs" />
@@ -999,7 +999,6 @@
     <Folder Include="BCLImplementation\System\Globalization\" />
     <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
     <Folder Include="BCLImplementation\System\Runtime\Serialization\" />
-    <Folder Include="BCLImplementation\System\Security\Cryptography\X509Certificates\" />
     <Folder Include="BCLImplementation\System\Web\Profile\" />
     <Folder Include="javax\microedition\lcdui\" />
     <Folder Include="javax\microedition\media\" />

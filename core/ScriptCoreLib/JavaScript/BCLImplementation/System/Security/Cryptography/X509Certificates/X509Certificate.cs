@@ -5,23 +5,24 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptography.X509Certificates
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/x509certificates/x509certificate.cs
-    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Security/Cryptography/X509Certificates/X509Certificate.cs
-    // http://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.x509certificate(v=vs.110).aspx
-    // https://github.com/mono/mono/tree/master/mcs/class/corlib/System.Security.Cryptography.X509Certificates/X509Certificate.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/x509certificates/x509certificate.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Security/Cryptography/X509Certificates/X509Certificate.cs
+	// http://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.x509certificate(v=vs.110).aspx
+	// https://github.com/mono/mono/tree/master/mcs/class/corlib/System.Security.Cryptography.X509Certificates/X509Certificate.cs
+	// x:\jsc.svn\core\scriptcorelib\javascript\bclimplementation\system\security\cryptography\x509certificates\x509certificate.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate.cs
+
+	//A public key certificate, usually just called a certificate, is a digitally signed statement 
+	// that binds the value of a public key to the identity of the person, device, or service 
+	// that holds the corresponding private key. One of the main benefits of certificates is 
+	// that hosts no longer have to maintain a set of passwords for individual subjects who 
+	// need to be authenticated as a prerequisite to access. Instead, the host merely establishes trust in a certificate issuer.
+
+	//Most certificates in common use are based on the X.509 v3 certificate standard. 
 
 
-    //A public key certificate, usually just called a certificate, is a digitally signed statement 
-    // that binds the value of a public key to the identity of the person, device, or service 
-    // that holds the corresponding private key. One of the main benefits of certificates is 
-    // that hosts no longer have to maintain a set of passwords for individual subjects who 
-    // need to be authenticated as a prerequisite to access. Instead, the host merely establishes trust in a certificate issuer.
-
-    //Most certificates in common use are based on the X.509 v3 certificate standard. 
-
-
-    // FEATURE_CORECLR
-    [Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.X509Certificate))]
+	// FEATURE_CORECLR
+	[Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.X509Certificate))]
     internal class __X509Certificate
     {
 		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/cryptography/x509certificate.cpp
