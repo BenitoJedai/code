@@ -11,8 +11,8 @@ namespace android.content
 {
 
     // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/content/Intent.java
-
     // http://developer.android.com/reference/android/content/Intent.html
+
     [Script(IsNative = true)]
     public class Intent
     {
@@ -106,6 +106,13 @@ namespace android.content
 
         }
         public static Intent createChooser(Intent arg0, string arg1)
+        {
+            return default(Intent);
+        }
+
+
+
+        public virtual Intent setDataAndType(Uri u, string t)
         {
             return default(Intent);
         }

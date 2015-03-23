@@ -256,9 +256,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs">
       <Link>BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\CspParameters.cs">
-      <Link>BCLImplementation\System\Security\Cryptography\CspParameters.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSA.cs">
       <Link>BCLImplementation\System\Security\Cryptography\RSA.cs</Link>
     </Compile>
@@ -270,6 +267,12 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs">
       <Link>BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate.cs">
+      <Link>BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate2.cs">
+      <Link>BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate2.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\SecureString.cs">
       <Link>BCLImplementation\System\Security\SecureString.cs</Link>
@@ -670,6 +673,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\security\cert\Certificate.cs">
       <Link>java\security\cert\Certificate.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\cert\CertificateFactory.cs">
+      <Link>java\security\cert\CertificateFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\cert\X509Certificate.cs">
       <Link>java\security\cert\X509Certificate.cs</Link>
     </Compile>
@@ -684,6 +690,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\Key.cs">
       <Link>java\security\Key.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\KeyFactory.cs">
+      <Link>java\security\KeyFactory.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\KeyPair.cs">
       <Link>java\security\KeyPair.cs</Link>
@@ -723,6 +732,18 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\Security.cs">
       <Link>java\security\Security.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\spec\IvParameterSpec.cs">
+      <Link>java\security\spec\IvParameterSpec.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\spec\KeySpec.cs">
+      <Link>java\security\spec\KeySpec.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\spec\RSAPrivateKeySpec.cs">
+      <Link>java\security\spec\RSAPrivateKeySpec.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\spec\RSAPublicKeySpec.cs">
+      <Link>java\security\spec\RSAPublicKeySpec.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\AbstractCollection.cs">
       <Link>java\util\AbstractCollection.cs</Link>

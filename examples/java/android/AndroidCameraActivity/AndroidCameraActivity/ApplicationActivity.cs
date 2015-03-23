@@ -14,7 +14,9 @@ using java.io;
 
 namespace AndroidCameraActivity.Activities
 {
-    public class ApplicationActivity : Activity
+	[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "21")]
+	[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
+	public class ApplicationActivity : Activity
     {
         //        [javac]
         //        Compiling 614 source files to W:\bin\classes
@@ -190,21 +192,21 @@ namespace AndroidCameraActivity.Activities
 
 }
 
-namespace ScriptCoreLib
-{
-    [Script(
-   HasNoPrototype = true,
-  Implements = typeof(global::System.Exception),
-  ImplementationType = typeof(java.lang.Throwable))]
-    internal class __Exception
-    {
-        public __Exception() { }
-        public __Exception(string e) { }
-        public string Message
-        {
-            [Script(ExternalTarget = "getMessage")]
-            get
-            { return default(string); }
-        }
-    }
-}
+//namespace ScriptCoreLib
+//{
+//    [Script(
+//   HasNoPrototype = true,
+//  Implements = typeof(global::System.Exception),
+//  ImplementationType = typeof(java.lang.Throwable))]
+//    internal class __Exception
+//    {
+//        public __Exception() { }
+//        public __Exception(string e) { }
+//        public string Message
+//        {
+//            [Script(ExternalTarget = "getMessage")]
+//            get
+//            { return default(string); }
+//        }
+//    }
+//}

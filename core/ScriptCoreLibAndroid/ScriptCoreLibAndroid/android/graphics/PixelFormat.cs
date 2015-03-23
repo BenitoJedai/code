@@ -11,6 +11,7 @@ namespace android.graphics
     public class PixelFormat
     {
         public static int TRANSLUCENT;
+        public static int JPEG;
 
     }
 }
