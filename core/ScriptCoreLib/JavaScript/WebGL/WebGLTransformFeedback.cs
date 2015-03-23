@@ -13,6 +13,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
     public class WebGLTransformFeedback : WebGLObject
     {
 		// https://www.opengl.org/sdk/docs/man/html/glCreateTransformFeedbacks.xhtml
+		// mentioned by Brandon Jones
+		// https://www.youtube.com/watch?v=zPNM3yOsP0I
 
 		// tested by ?
 	}
