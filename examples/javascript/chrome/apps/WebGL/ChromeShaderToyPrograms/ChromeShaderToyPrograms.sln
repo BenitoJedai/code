@@ -780,6 +780,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparksByVanburgler", "..\sy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RutherfordAtomByMattz", "..\synergy\RutherfordAtomByMattz\RutherfordAtomByMattz\RutherfordAtomByMattz.csproj", "{41F39010-C6C0-4273-94D3-4F1C0D4D3EC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simlicity3DByRunouw", "..\synergy\Simlicity3DByRunouw\Simlicity3DByRunouw\Simlicity3DByRunouw.csproj", "{A701E721-28A4-4885-BE7E-CDFCA6FAC2CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -2226,6 +2228,10 @@ Global
 		{41F39010-C6C0-4273-94D3-4F1C0D4D3EC4}.Debug|x86.Build.0 = Debug|x86
 		{41F39010-C6C0-4273-94D3-4F1C0D4D3EC4}.Release|x86.ActiveCfg = Release|x86
 		{41F39010-C6C0-4273-94D3-4F1C0D4D3EC4}.Release|x86.Build.0 = Release|x86
+		{A701E721-28A4-4885-BE7E-CDFCA6FAC2CA}.Debug|x86.ActiveCfg = Debug|x86
+		{A701E721-28A4-4885-BE7E-CDFCA6FAC2CA}.Debug|x86.Build.0 = Debug|x86
+		{A701E721-28A4-4885-BE7E-CDFCA6FAC2CA}.Release|x86.ActiveCfg = Release|x86
+		{A701E721-28A4-4885-BE7E-CDFCA6FAC2CA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2615,5 +2621,6 @@ Global
 		{56EC67E4-65C0-4E8A-87F1-D8C9FD4EA5E8} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
 		{0CE211C2-B788-4E19-A553-72FD08E0036C} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
 		{41F39010-C6C0-4273-94D3-4F1C0D4D3EC4} = {2F943790-A418-4BA8-8D01-D9FE5BE39A1E}
+		{A701E721-28A4-4885-BE7E-CDFCA6FAC2CA} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
 	EndGlobalSection
 EndGlobal
