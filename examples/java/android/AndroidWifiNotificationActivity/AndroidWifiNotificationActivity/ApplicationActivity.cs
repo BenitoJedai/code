@@ -12,10 +12,11 @@ using ScriptCoreLibJava.Extensions;
 
 namespace AndroidWifiNotificationActivity.Activities
 {
-    // http://android-er.blogspot.com/2011/04/start-service-to-send-notification.html
-    // http://stackoverflow.com/questions/5365395/android-net-wifi-state-change-not-triggered-on-wifi-disconnect
-
-    public class ApplicationActivity : Activity
+	// http://android-er.blogspot.com/2011/04/start-service-to-send-notification.html
+	// http://stackoverflow.com/questions/5365395/android-net-wifi-state-change-not-triggered-on-wifi-disconnect
+	[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "21")]
+	[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
+	public class ApplicationActivity : Activity
     {
         // http://stackoverflow.com/questions/6274141/trigger-background-service-at-a-specific-time-in-android
         // http://stackoverflow.com/questions/7144908/how-is-an-intent-service-declared-in-the-android-manifest
