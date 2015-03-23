@@ -23,7 +23,11 @@ namespace JVMCLRRSADuplex
 
 		public Action<byte[]> AtMessage;
 
-		public RSADuplex(int dwKeySize = (0x100 + 0x100) * 8, Action<RSADuplex> ready = null)
+		public RSADuplex(
+			// MaxData = 471
+			//int dwKeySize = (0x100 + 0x100) * 8
+			int dwKeySize = (0x100 + 0x100) * 3
+			, Action<RSADuplex> ready = null)
 		{
 			// we will be running on multiple vms.
 			// the callbacks will be encrypted.
@@ -83,6 +87,8 @@ namespace JVMCLRRSADuplex
 		[STAThread]
 		public static void Main(string[] args)
 		{
+			// if only jsc ssl would start exposing the e and m to client?
+
 			// http://bouncy-castle.1462172.n4.nabble.com/FW-RSA-ECB-OAEP-Encryption-From-JAVA-to-NET-td1463697.html
 
 			// http://stackoverflow.com/questions/17110217/is-rsa-pkcs1-oaep-padding-supported-in-bouncycastle
@@ -132,57 +138,20 @@ namespace JVMCLRRSADuplex
 				);
 
 
-				//				java.lang.Object, rt enter RSADuplex { { dwKeySize = 4096, MaxData = 471 } }
-				//				RSACryptoServiceProvider before generateKeyPair { dwKeySize = 4096 }
-				//				RSACryptoServiceProvider after generateKeyPair { ElapsedMilliseconds = 61957 }
-				//				java.lang.Object, rt ready RSADuplex { { Elapsed = 00:01:01.61962.0, e = 3, m = 512 } }
-				//				System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 enter RSADuplex { dwKeySize = 4096, MaxData = 471 }
-				//				System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 ready RSADuplex { Elapsed = 00:00:07.5703623, e = 3, m = 512 }
-				//				System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 exit RSADuplex
-				//System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 will prepare reply { m = 512, bytes = 109 }
-				//				java.lang.Object, rt enter RSADuplex.AtMessage { { EncryptedHelloString = 512 } }
-				//				java.lang.Object, rt at RSADuplex.AtMessage: { { xstring = System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 hello from CLRMain } }
-				//				java.lang.Object, rt will prepare reply { { m = 512, bytes = 36 } }
-				//				{
-				//					{
-				//						err = java.lang.RuntimeException, Message = , StackTrace = java.lang.RuntimeException
-				//				           at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:97)
-				//				           at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:71)
-				//				           at ScriptCoreLib.Shared.BCLImplementation.System.__Action_1.Invoke(__Action_1.java:28)
-				//				           at JVMCLRRSADuplex.RSADuplex.< init > (RSADuplex.java:68)
-				//        at JVMCLRRSADuplex.Program.main(Program.java:28)
-				//				   Caused by: java.lang.reflect.InvocationTargetException
-				//						   at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-				//				           at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-				//				           at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-				//				           at java.lang.reflect.Method.invoke(Unknown Source)
-				//				           at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:93)
-				//						   ... 4 more
-				//				   Caused by: java.lang.RuntimeException: Message is larger than modulus
-				//				           at ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.__RSACryptoServiceProvider.Encrypt(__RSACryptoServiceProvider.java:193)
-				//				           at JVMCLRRSADuplex.EncryptedString.< init > (EncryptedString.java:49)
-				//        at JVMCLRRSADuplex.Program___c._Main_b__0_0(Program___c.java:49)
-				//		... 9 more
-				//Caused by: javax.crypto.BadPaddingException: Message is larger than modulus
-				//				           at sun.security.rsa.RSACore.parseMsg(Unknown Source)
-				//				           at sun.security.rsa.RSACore.crypt(Unknown Source)
-				//				           at sun.security.rsa.RSACore.rsa(Unknown Source)
-				//				           at com.sun.crypto.provider.RSACipher.doFinal(RSACipher.java:359)
-				//				           at com.sun.crypto.provider.RSACipher.engineDoFinal(RSACipher.java:389)
-				//				           at javax.crypto.Cipher.doFinal(Cipher.java:2121)
-				//				           at ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.__RSACryptoServiceProvider.Encrypt(__RSACryptoServiceProvider.java:189)
-				//						   ... 11 more
-				//				    }
-				//				}
-
-
-
-
-
-
-
-
-
+				//java.lang.Object, rt enter RSADuplex {{ dwKeySize = 1536, MaxData = 151 }}
+				//RSACryptoServiceProvider before generateKeyPair { dwKeySize = 1536 }
+				//RSACryptoServiceProvider after generateKeyPair { ElapsedMilliseconds = 1935 }
+				//java.lang.Object, rt ready RSADuplex {{ Elapsed = 00:00:01.1940.0, e = 3, m = 192 }}
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 enter RSADuplex { dwKeySize = 1536, MaxData = 151 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 ready RSADuplex { Elapsed = 00:00:00.6692472, e = 3, m = 192 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 exit RSADuplex
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 will prepare reply { m = 192, bytes = 109 }
+				//java.lang.Object, rt enter RSADuplex.AtMessage {{ EncryptedHelloString = 192 }}
+				//java.lang.Object, rt at RSADuplex.AtMessage: {{ xstring = System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 hello from CLRMain }}
+				//java.lang.Object, rt will prepare reply {{ m = 192, bytes = 36 }}
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 enter RSADuplex.AtMessage { EncryptedHelloString = 192 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 at RSADuplex.AtMessage: { xstring = java.lang.Object, rt hello from Main }
+				//java.lang.Object, rt exit RSADuplex
 
 				//System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 enter RSADuplex { dwKeySize = 4096, MaxData = 471 }
 				//System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 ready RSADuplex { Elapsed = 00:00:11.9516283, e = 3, m = 512 }
