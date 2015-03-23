@@ -10,8 +10,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
     [Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.PublicKey))]
     internal class __PublicKey
     {
-        // X:\jsc.svn\examples\javascript\Test\TestCryptoUIThreadIdentityKeyPair\TestCryptoUIThreadIdentityKeyPair\Application.cs
+		// X:\jsc.svn\examples\javascript\Test\TestCryptoUIThreadIdentityKeyPair\TestCryptoUIThreadIdentityKeyPair\Application.cs
+		// X:\jsc.svn\examples\java\hybrid\crypto\JVMCLRRSADuplex\JVMCLRRSADuplex\Program.cs
 
 
-    }
+	}
 }
