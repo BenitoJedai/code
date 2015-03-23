@@ -21,5 +21,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.X509C
     {
         // can we extract rsakey from .cer?
 
+        public virtual string Subject { get; set; }
     }
 }
