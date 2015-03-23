@@ -16,6 +16,7 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLRenderingContext.idl
 
 	// http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/WebGLRenderingContext/
+	// https://github.com/konsoletyper/teavm/blob/master/teavm-dom/src/main/java/org/teavm/dom/webgl/WebGLRenderingContext.java
 
 	[Script(HasNoPrototype = true, InternalConstructor = true,
 
@@ -31,7 +32,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	public partial class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
 	// : WebGLRenderingContextBase
 	{
-
+		// http://www.slideshare.net/auradeluxe/vr-everywhere-march-2015
+		// http://www.slideshare.net/auradeluxe/gltf-and-the-webgl-art-pipeline-march-2015
 		// gpu 0..2..4..8..64
 		// http://media.steampowered.com/apps/valve/2015/Alex_Vlachos_Advanced_VR_Rendering_GDC2015.pdf
 		// Algorithms should scale up to multi-GPU installations
