@@ -7,37 +7,40 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     partial class IWindow
     {
+		// https://www.youtube.com/watch?v=rwr7U89TnQQ&feature=iv&src_vid=ez18sOaR748&annotation_id=annotation_3003247737
+		// SPIR-V
+		// https://www.youtube.com/watch?v=qKbtrVEhaw8&t=1946
 
-        // 20140714 - webcl seems close. when can we test it?
+		// 20140714 - webcl seems close. when can we test it?
 
-        // http://developer.amd.com/community/blog/2014/03/19/chrome-web-browser-webcl-available-download/
-        // https://www.khronos.org/registry/webcl/specs/1.0.0/
-        // http://techcrunch.com/2014/03/19/webcl-will-soon-let-web-developers-harness-the-power-of-multi-core-gpus-and-cpus-from-the-browser/
-        // http://webcl.nokiaresearch.com/
-        // https://github.com/toaarnio/webcl-firefox
-        // http://toaarnio.github.io/webcl-test-suite/run.html?device=DEFAULT&spec=Platform&debug=true
-        // http://webcl.nokiaresearch.com/extensions/firefox/multiplatform/latest/webcl-1.0.xpi
+		// http://developer.amd.com/community/blog/2014/03/19/chrome-web-browser-webcl-available-download/
+		// https://www.khronos.org/registry/webcl/specs/1.0.0/
+		// http://techcrunch.com/2014/03/19/webcl-will-soon-let-web-developers-harness-the-power-of-multi-core-gpus-and-cpus-from-the-browser/
+		// http://webcl.nokiaresearch.com/
+		// https://github.com/toaarnio/webcl-firefox
+		// http://toaarnio.github.io/webcl-test-suite/run.html?device=DEFAULT&spec=Platform&debug=true
+		// http://webcl.nokiaresearch.com/extensions/firefox/multiplatform/latest/webcl-1.0.xpi
 
-        // WARNING! This WebCL implementation is experimental and is likely to introduce severe security vulnerabilities in your system. Use it cautiously and at your own risk. This setting is also available in Advanced Settings (about:config) as extensions.webcl.allowed.
-        // Your browser supports WebCL in principle, but unfortunately no OpenCL driver was found.  You may want to try updating your display driver, or installing a CPU-based OpenCL implementation (such as the Intel OpenCL SDK or the AMD APP SDK).
-        // ---------------------------
-        //OpenCL™ runtime for Intel® Core™ and Xeon® Processors, and Intel® Xeon Phi™ coprocessors Setup
-        //---------------------------
-        //Intel® Manycore Platform Software Stack Driver (Intel® MPSS) is not installed. Install the driver to enable the Intel® Xeon Phi™ coprocessor support.
-        //---------------------------
-        //OK   
-        //---------------------------
+		// WARNING! This WebCL implementation is experimental and is likely to introduce severe security vulnerabilities in your system. Use it cautiously and at your own risk. This setting is also available in Advanced Settings (about:config) as extensions.webcl.allowed.
+		// Your browser supports WebCL in principle, but unfortunately no OpenCL driver was found.  You may want to try updating your display driver, or installing a CPU-based OpenCL implementation (such as the Intel OpenCL SDK or the AMD APP SDK).
+		// ---------------------------
+		//OpenCL™ runtime for Intel® Core™ and Xeon® Processors, and Intel® Xeon Phi™ coprocessors Setup
+		//---------------------------
+		//Intel® Manycore Platform Software Stack Driver (Intel® MPSS) is not installed. Install the driver to enable the Intel® Xeon Phi™ coprocessor support.
+		//---------------------------
+		//OK   
+		//---------------------------
 
 
-        // https://software.intel.com/en-us/articles/opencl-drivers
-        // https://code.google.com/p/ocltoys/
-        // https://www.youtube.com/watch?v=TurCVdaUTMY
-        // https://github.com/markbecker/WebCL_Raytracer
-        // https://github.com/toaarnio/CL.js
+		// https://software.intel.com/en-us/articles/opencl-drivers
+		// https://code.google.com/p/ocltoys/
+		// https://www.youtube.com/watch?v=TurCVdaUTMY
+		// https://github.com/markbecker/WebCL_Raytracer
+		// https://github.com/toaarnio/CL.js
 
-        // readonly attribute WebCL webcl;
+		// readonly attribute WebCL webcl;
 
-        [Obsolete("hidden, will browsers actually want to implement it?")]
+		[Obsolete("hidden, will browsers actually want to implement it?")]
         public WebCL.WebCL webcl;
 
 

@@ -136,6 +136,7 @@
     <Compile Include="JavaScript\WebRTC\RTCSessionDescription.cs" />
     <Compile Include="JavaScript\WebRTC\RTCDataChannel.cs" />
     <Compile Include="JavaScript\WebRTC\RTCPeerConnection.cs" />
+    <Compile Include="JavaScript\WebVR\VRDevice.cs" />
     <Compile Include="Shared\BCLImplementation\System\IObserver.cs" />
     <Compile Include="Shared\BCLImplementation\System\IObservable.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\EndPoint.cs" />
