@@ -16,7 +16,9 @@ using System;
 
 namespace AndroidWebViewActivity.Activities
 {
-    public class AndroidWebViewActivity : Activity
+	[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "21")]
+	//[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
+	public class AndroidWebViewActivity : Activity
     {
         public WebView webview;
         //public ProgressDialog progressBar;
@@ -36,7 +38,10 @@ namespace AndroidWebViewActivity.Activities
             //this.progressBar = ProgressDialog.show(this, "look here!", "Loading...");
             this.webview = new WebView(this);
 
-            getWindow().setFlags(
+			//LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(300, 300);
+			//this.getWindow().setLayoutParams(layoutParams);
+
+			getWindow().setFlags(
                 WindowManager_LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager_LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
@@ -69,7 +74,7 @@ namespace AndroidWebViewActivity.Activities
             //Log.i(TAG, "loadUrl");
 
             //var uri = "http://cubiq.org/dropbox/3dcity/";
-            var uri = "http://tympanus.net/Development/Unfolding3DThumbnailsConcept/";
+            var uri = "http://webglreport.com/";
             webview.loadUrl(uri);
             //this.ShowToast(uri);
 
