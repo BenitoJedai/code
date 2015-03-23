@@ -34,20 +34,23 @@ namespace TestWebCryptoKeyExport
 
         public async Task<byte[]> Encrypt(byte[] Exponent, byte[] Modulus)
         {
-            // encrypted state sharing.
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150323
 
-            // what about import?
+			// encrypted state sharing.
 
-            // http://bouncy-castle.1462172.n4.nabble.com/Interoperability-issue-with-SunJCE-OAEP-td4656157.html
+			// what about import?
 
-            // http://www.w3.org/TR/WebCryptoAPI/#rsa-oaep
-            // RSA/ECB/OAEPWithSHA-1AndMGF1Padding
+			// http://bouncy-castle.1462172.n4.nabble.com/Interoperability-issue-with-SunJCE-OAEP-td4656157.html
 
-            // X:\jsc.svn\examples\java\hybrid\JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport\Program.cs
+			// http://www.w3.org/TR/WebCryptoAPI/#rsa-oaep
+			// RSA/ECB/OAEPWithSHA-1AndMGF1Padding
 
-            //var n = new RSACryptoServiceProvider(2048);
-            var n = new RSACryptoServiceProvider();
+			// X:\jsc.svn\examples\java\hybrid\JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport\Program.cs
 
+			//var n = new RSACryptoServiceProvider(2048);
+			var n = new RSACryptoServiceProvider();
+
+			// can we import in java android?
             n.ImportParameters(
                 new RSAParameters { Exponent = Exponent, Modulus = Modulus }
             );

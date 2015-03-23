@@ -33,20 +33,7 @@ namespace TestWebCryptoKeyImport
         {
             // X:\jsc.svn\examples\javascript\Test\TestWebCryptoSHA1\TestWebCryptoSHA1\Application.cs
 
-            #region secure origin
-            new IHTMLPre { new { Native.document.location.host } }.AttachToDocument();
-
-            if (Native.document.location.host.TakeUntilOrEmpty(":") != "127.0.0.1")
-            {
-                new IHTMLAnchor
-                {
-                    href = "http://127.0.0.1:" + Native.document.location.host.SkipUntilOrEmpty(":"),
-                    innerText = "open as secure origin!"
-                }.AttachToDocument();
-
-                return;
-            }
-            #endregion
+    
 
             var sw = Stopwatch.StartNew();
 

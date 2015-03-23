@@ -19,14 +19,16 @@ namespace TestWebCryptoKeyImport
     /// </summary>
     public class ApplicationWebService
     {
-        // X:\jsc.svn\examples\java\hybrid\JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport\Program.cs
-        // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
-        // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyImport\TestWebCryptoKeyImport\ApplicationWebService.cs
-        // X:\jsc.svn\examples\javascript\appengine\test\TestAppEngineWebCryptoKeyImport\TestAppEngineWebCryptoKeyImport\ApplicationWebService.cs
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150323
+
+		// X:\jsc.svn\examples\java\hybrid\JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport\Program.cs
+		// X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
+		// X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyImport\TestWebCryptoKeyImport\ApplicationWebService.cs
+		// X:\jsc.svn\examples\javascript\appengine\test\TestAppEngineWebCryptoKeyImport\TestAppEngineWebCryptoKeyImport\ApplicationWebService.cs
 
 
-        // shall we encrypt the public key by a shared secret too?
-        public readonly byte[] e = p.Exponent;
+		// shall we encrypt the public key by a shared secret too?
+		public readonly byte[] e = p.Exponent;
         public readonly byte[] m = p.Modulus;
 
         // will this work for android now?
