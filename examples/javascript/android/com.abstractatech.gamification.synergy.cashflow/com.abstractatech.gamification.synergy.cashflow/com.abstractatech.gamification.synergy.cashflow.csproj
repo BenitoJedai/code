@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>com.abstractatech.gamification.synergy.cashflow</RootNamespace>
     <AssemblyName>com.abstractatech.gamification.synergy.cashflow</AssemblyName>
-    <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>com.abstractatech.gamification.synergy.cashflow.Program</StartupObject>
     <TargetFrameworkProfile />
@@ -137,9 +137,7 @@
     <Content Include="Design\App.htm">
       <SubType>Designer</SubType>
     </Content>
-    <Compile Include="ApplicationWebService.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs">
       <SubType>UserControl</SubType>
     </Compile>

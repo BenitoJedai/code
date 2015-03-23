@@ -174,8 +174,9 @@ namespace AndroidNFCEvents
                 new [] { typeof(android.nfc.tech.Ndef).FullName},
                 new [] { typeof(android.nfc.tech.NdefFormatable).FullName },
 
-
-            };
+				// current javacards? (ISO 14443-4)
+				new [] {     typeof(android.nfc.tech.IsoDep).FullName },
+			};
 
             // http://124.16.139.131:24080/lxr/source/packages/apps/Nfc/src/com/android/nfc/NfcDispatcher.java?v=android-4.0.4
 
