@@ -29,6 +29,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 
         // http://lukieb.blogspot.com/2014/01/rsa-public-key-encryption-between-net.html
 
+
+
+        //  We only attempt to generate a random key on desktop runtimes because the CoreCLR
+        // RSA surface area is limited to simply verifying signatures. 
         private KeyPair InternalKeyPair;
 
 
@@ -346,10 +350,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
             };
         }
 
+        // used by?
         RSAParameters InternalParameters;
 
         public override void ImportParameters(RSAParameters parameters)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150323
+            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\ApplicationWebService.cs
             // tested by ?
 
             this.InternalParameters = parameters;

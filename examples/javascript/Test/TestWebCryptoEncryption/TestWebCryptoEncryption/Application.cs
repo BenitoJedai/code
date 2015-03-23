@@ -32,20 +32,22 @@ namespace TestWebCryptoEncryption
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            // X:\jsc.svn\examples\javascript\Test\TestWebCrypto\TestWebCrypto\Application.cs
-            // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
-            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
-            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\Application.cs
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150323
 
-    
+			// X:\jsc.svn\examples\javascript\Test\TestWebCrypto\TestWebCrypto\Application.cs
+			// X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
+			// X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
+			// X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\Application.cs
 
 
 
-            // https://dvcs.w3.org/hg/webcrypto-api/raw-file/tip/spec/Overview.html
-            // Protected Document Exchange
-            // assetsLibrary with encryption/DLC ?
 
-            new IHTMLButton { "generateKey in UI" }.AttachToDocument().onclick +=
+
+			// https://dvcs.w3.org/hg/webcrypto-api/raw-file/tip/spec/Overview.html
+			// Protected Document Exchange
+			// assetsLibrary with encryption/DLC ?
+
+			new IHTMLButton { "generateKey in UI" }.AttachToDocument().onclick +=
                 async delegate
             {
                 new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
