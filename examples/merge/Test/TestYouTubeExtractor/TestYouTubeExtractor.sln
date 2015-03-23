@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22310.1
+VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestYouTubeExtractor", "TestYouTubeExtractor\TestYouTubeExtractor.csproj", "{D668D3F3-A1DE-44A5-A055-813A6B705350}"
 EndProject
@@ -14,6 +14,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlAgilityPack.fx.4.5", "..\..\..\..\..\opensource\codeplex\htmlagilitypack\HtmlAgilityPack\HtmlAgilityPack.fx.4.5.csproj", "{1028002A-BBE2-4FF2-94B7-A8368A8F6887}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHTMLDocumentAnalysis", "..\TestHTMLDocumentAnalysis\TestHTMLDocumentAnalysis\TestHTMLDocumentAnalysis.csproj", "{7238DDCD-07D1-431A-960C-9434DD2A334A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeExtractor", "..\..\..\..\market\synergy\github\YoutubeExtractor\external\YoutubeExtractor\YoutubeExtractor.csproj", "{ECDC127F-8DEF-4F99-8300-72C13597339D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ByPackage", "ByPackage", "{B87D47E1-DDA5-4ED2-8858-A5E58782C44B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ByReference", "ByReference", "{5893771C-EBC2-4E3A-A8A1-546BACDE9E32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newtonsoft.Json", "..\..\..\..\..\opensource\github\Newtonsoft.Json\Src\Newtonsoft.Json\Newtonsoft.Json.csproj", "{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ByReference", "ByReference", "{E0B0819D-0839-44C4-81DD-C8536E78B4D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,8 +81,34 @@ Global
 		{7238DDCD-07D1-431A-960C-9434DD2A334A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7238DDCD-07D1-431A-960C-9434DD2A334A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7238DDCD-07D1-431A-960C-9434DD2A334A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECDC127F-8DEF-4F99-8300-72C13597339D}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{ECDC127F-8DEF-4F99-8300-72C13597339D}.Android|Any CPU.Build.0 = Release|Any CPU
+		{ECDC127F-8DEF-4F99-8300-72C13597339D}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{ECDC127F-8DEF-4F99-8300-72C13597339D}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{ECDC127F-8DEF-4F99-8300-72C13597339D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECDC127F-8DEF-4F99-8300-72C13597339D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECDC127F-8DEF-4F99-8300-72C13597339D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECDC127F-8DEF-4F99-8300-72C13597339D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}.Android|Any CPU.Build.0 = Release|Any CPU
+		{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6B143A39-C7B2-4743-9917-92262C60E9A6} = {E0B0819D-0839-44C4-81DD-C8536E78B4D3}
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD} = {E0B0819D-0839-44C4-81DD-C8536E78B4D3}
+		{132EB43F-19B4-42AC-8025-3249B129867A} = {E0B0819D-0839-44C4-81DD-C8536E78B4D3}
+		{1028002A-BBE2-4FF2-94B7-A8368A8F6887} = {E0B0819D-0839-44C4-81DD-C8536E78B4D3}
+		{7238DDCD-07D1-431A-960C-9434DD2A334A} = {E0B0819D-0839-44C4-81DD-C8536E78B4D3}
+		{ECDC127F-8DEF-4F99-8300-72C13597339D} = {B87D47E1-DDA5-4ED2-8858-A5E58782C44B}
+		{5893771C-EBC2-4E3A-A8A1-546BACDE9E32} = {B87D47E1-DDA5-4ED2-8858-A5E58782C44B}
+		{EEEA67F9-9089-481D-A4DC-0966DEC9FD7D} = {5893771C-EBC2-4E3A-A8A1-546BACDE9E32}
 	EndGlobalSection
 EndGlobal
