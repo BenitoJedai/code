@@ -1,5 +1,6 @@
 using ScriptCoreLib;
 using java.net;
+using System;
 
 namespace java.security.cert
 {
@@ -9,7 +10,9 @@ namespace java.security.cert
     [Script(IsNative = true)]
     public abstract class X509Certificate : Certificate
     {
-        // tested by ?
-        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate.cs
-    }
+		// tested by ?
+		// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate.cs
+
+		
+	}
 }

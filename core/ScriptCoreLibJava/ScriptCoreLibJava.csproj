@@ -117,6 +117,7 @@
     <Compile Include="BCLImplementation\System\Reflection\PropertyInfo.cs" />
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\CryptoStream.cs" />
+    <Compile Include="BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate2.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate.cs" />
     <Compile Include="BCLImplementation\System\Security\SecureString.cs" />
     <Compile Include="BCLImplementation\System\Threading\Monitor.cs" />
@@ -862,6 +863,7 @@
     <Compile Include="java\nio\LongBuffer.cs" />
     <Compile Include="java\nio\FloatBuffer.cs" />
     <Compile Include="java\nio\DoubleBuffer.cs" />
+    <Compile Include="java\security\cert\CertificateFactory.cs" />
     <Compile Include="java\security\cert\Certificate.cs" />
     <Compile Include="java\security\cert\X509Certificate.cs" />
     <Compile Include="java\security\CodeSource.cs" />

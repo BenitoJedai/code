@@ -9,9 +9,13 @@ namespace java.security.cert
     [Script(IsNative = true)]
     public abstract class Certificate
     {
-        //extension error: java.security.cert.Certificate
-        //19d0:02:01 RewriteToAssembly error: System.InvalidOperationException: Some extension types have mismatching signatures.
+		//extension error: java.security.cert.Certificate
+		//19d0:02:01 RewriteToAssembly error: System.InvalidOperationException: Some extension types have mismatching signatures.
 
+
+
+		public abstract PublicKey getPublicKey();
+		
     }
 
 }
