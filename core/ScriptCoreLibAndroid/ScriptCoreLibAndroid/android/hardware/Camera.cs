@@ -126,6 +126,11 @@ namespace android.hardware
                 return default(java.util.List<Size>);
             }
 
+
+            // X:\jsc.svn\examples\java\android\AndroidCameraActivity\AndroidCameraActivity\ApplicationActivity.cs
+            public void setPictureFormat(int f)
+            { }
+
             public void setPictureSize(int width, int height)
             {
             }
@@ -163,6 +168,10 @@ namespace android.hardware
 
         //public native final void startPreview();
         public void startPreview()
+        {
+        }
+
+        public void stopPreview()
         {
         }
     }
