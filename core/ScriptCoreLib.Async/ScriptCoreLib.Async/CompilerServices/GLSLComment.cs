@@ -14,5 +14,11 @@ namespace ScriptCoreLib.CompilerServices
 		public GLSLElement Parent;
 
 		public StringBuilder ContentStringBuilder;
-    }
+
+
+		public override string ToString()
+		{
+			return "// " + ContentStringBuilder;
+		}
+	}
 }
