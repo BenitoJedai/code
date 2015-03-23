@@ -9,7 +9,10 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography;
 namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 {
     // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/rsa.cs
-    // https://github.com/mono/mono/tree/master/mcs/class/corlib/System.Security.Cryptography/RSA.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Security/Cryptography/rsa.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Security.Cryptography/RSA.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Security\Cryptography\RSA.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSA.cs
 
 
 	[Script(Implements = typeof(global::System.Security.Cryptography.RSA))]

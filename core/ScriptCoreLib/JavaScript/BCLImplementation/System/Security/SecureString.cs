@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptography.X509Certificates
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security
 {
 	// https://msdn.microsoft.com/en-us/library/system.security.securestring%28v=vs.110%29.aspx
 	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Security/securestring.cs
 	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Security/SecureString.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Security\SecureString.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Security\SecureString.cs
 
 	// FULL_AOT_RUNTIME
 	// FEATURE_CORECLR

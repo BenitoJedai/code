@@ -19,14 +19,16 @@ namespace TestAndroidWebCryptoKeyImport
     /// </summary>
     public class ApplicationWebService
     {
-        // X:\jsc.svn\examples\java\hybrid\JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport\Program.cs
-        // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
-        // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyImport\TestWebCryptoKeyImport\ApplicationWebService.cs
-        // X:\jsc.svn\examples\javascript\appengine\test\TestAppEngineWebCryptoKeyImport\TestAppEngineWebCryptoKeyImport\ApplicationWebService.cs
-        // X:\jsc.svn\examples\javascript\android\test\TestAndroidWebCryptoKeyImport\TestAndroidWebCryptoKeyImport\ApplicationWebService.cs
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150323
 
-        // shall we encrypt the public key by a shared secret too?
-        [Obsolete("jsc should not try to resync fields if readonly!")]
+		// X:\jsc.svn\examples\java\hybrid\JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport\Program.cs
+		// X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
+		// X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyImport\TestWebCryptoKeyImport\ApplicationWebService.cs
+		// X:\jsc.svn\examples\javascript\appengine\test\TestAppEngineWebCryptoKeyImport\TestAppEngineWebCryptoKeyImport\ApplicationWebService.cs
+		// X:\jsc.svn\examples\javascript\android\test\TestAndroidWebCryptoKeyImport\TestAndroidWebCryptoKeyImport\ApplicationWebService.cs
+
+		// shall we encrypt the public key by a shared secret too?
+		[Obsolete("jsc should not try to resync fields if readonly!")]
         public byte[] e;
         public byte[] m;
 

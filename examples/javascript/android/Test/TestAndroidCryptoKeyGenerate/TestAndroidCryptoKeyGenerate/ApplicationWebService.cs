@@ -18,7 +18,8 @@ namespace TestAndroidCryptoKeyGenerate
 
     //using EncryptedBytes = Byte[];
     // add CallSite? or callback delegate to undo?
-    public class EncryptedBytes(public byte[] bytes) { }
+    //public class EncryptedBytes(public byte[] bytes) { }
+    public class EncryptedBytes { public byte[] bytes; }
 
     public class ApplicationWebService
     {
@@ -87,7 +88,7 @@ namespace TestAndroidCryptoKeyGenerate
                 rsaCipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
                 var encByte = (byte[])(object)rsaCipher.doFinal((sbyte[])(object)data);
 
-                value = new EncryptedBytes(encByte);
+                value = new EncryptedBytes { bytes = encByte };
             }
             catch
             {

@@ -10,10 +10,12 @@ using System.Diagnostics;
 using java.security;
 using javax.crypto;
 using java.security.interfaces;
+using java.math;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 {
     // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/rsacryptoserviceprovider.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Security/Cryptography/RSACryptoServiceProvider.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Security.Cryptography/RSACryptoServiceProvider.cs
     // http://msdn.microsoft.com/en-us/library/5e9ft273(v=vs.110).aspx
@@ -30,6 +32,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
         // http://lukieb.blogspot.com/2014/01/rsa-public-key-encryption-between-net.html
 
 
+        private RSAPublicKey InternalRSAPublicKey;
 
         //  We only attempt to generate a random key on desktop runtimes because the CoreCLR
         // RSA surface area is limited to simply verifying signatures. 
@@ -44,7 +47,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
         // RSAParameter, byte arrays (manipulations and conversions), big-endian encoding, UTF-8 encoding, big integer classes, OAEP, PKCS1v15
         // padding and signature schemes, to name a few.
 
-
+        // X:\jsc.svn\examples\javascript\android\Test\TestAndroidCryptoKeyGenerate\TestAndroidCryptoKeyGenerate\ApplicationWebService.cs
+        // X:\jsc.svn\examples\javascript\android\Test\TestAndroidRSACryptoServiceProvider\TestAndroidRSACryptoServiceProvider\ApplicationWebService.cs
         // X:\jsc.svn\examples\javascript\appengine\Test\TestCryptoKeyGenerate\TestCryptoKeyGenerate\ApplicationWebService.cs
         // http://www.jensign.com/JavaScience/dotnet/RSAEncrypt/
 
@@ -82,6 +86,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
         //public async Task<byte[]> DecryptAsync(byte[] rgb, bool fOAEP)
         public byte[] Decrypt(byte[] rgb, bool fOAEP)
         {
+            //[Obsolete("getPrivate")]
+
             // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
             // X:\jsc.svn\examples\javascript\appengine\test\TestAppEngineWebCryptoKeyImport\TestAppEngineWebCryptoKeyImport\ApplicationWebService.cs
             // You don't need BC for RSA support
@@ -188,9 +194,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
         int dwKeySize;
         CspParameters parameters;
 
-
+        // ctor()?
         public __RSACryptoServiceProvider(int dwKeySize, CspParameters parameters)
         {
+
+
             // what if ctor is here for import instead of gen?
             // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
 
@@ -258,6 +266,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 
             // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
             // X:\jsc.svn\examples\java\hybrid\JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport\Program.cs
+            // X:\jsc.svn\examples\javascript\android\Test\TestAndroidWebCryptoKeyImport\TestAndroidWebCryptoKeyImport\ApplicationWebService.cs
 
 
             // did we generate the key, so we can export it?
@@ -278,6 +287,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
                 // http://security.stackexchange.com/questions/42268/how-do-i-get-the-rsa-bit-length-with-the-pubkey-and-openssl
                 //So the key has type RSA, and its modulus has length 257 bytes, except that the first byte has value "00", so the real length is 256 bytes (that first byte was added so that the value is considered positive, because the internal encoding rules call for signed integers, the first bit defining the sign). 256 bytes is 2048 bits.
 
+                #region firstByte
                 var firstByte = rsaModulusBytes[0];
 
                 if (firstByte == 0x0)
@@ -316,6 +326,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
                     );
 
                 }
+                #endregion
 
 
                 this.InternalParameters = new RSAParameters
@@ -330,6 +341,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
             }
 
 
+            // tested by?
             if (includePrivateParameters)
                 return (RSAParameters)(object)new __RSAParameters
                 {
@@ -351,13 +363,33 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
         }
 
         // used by?
+        // set by
+        // ExportParameters
         RSAParameters InternalParameters;
 
         public override void ImportParameters(RSAParameters parameters)
         {
+            // http://developer.android.com/reference/java/security/KeyFactory.html
+
+            // X:\jsc.svn\core\ScriptCoreLibJava\java\security\interfaces\RSAPublicKey.cs
+            // https://gist.github.com/manzke/1068441
+            // http://stackoverflow.com/questions/11410770/java-load-rsa-public-key-from-file
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140829
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150323
             // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\ApplicationWebService.cs
             // tested by ?
+
+            var rsa = KeyFactory.getInstance("RSA");
+
+            var Modulus = new BigInteger((sbyte[])(object)parameters.Modulus);
+            var Exponent = new BigInteger((sbyte[])(object)parameters.Exponent);
+
+            var s = new RSAPublicKeySpec(Modulus, Exponent);
+
+            this.InternalRSAPublicKey = (RSAPublicKey)rsa.generatePublic(s);
+
+
 
             this.InternalParameters = parameters;
         }

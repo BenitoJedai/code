@@ -33,12 +33,14 @@ namespace TestWebCryptoAsync
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            // X:\jsc.svn\examples\javascript\Test\TestWebCrypto\TestWebCrypto\Application.cs
-            // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
-            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150323
 
-            #region secure origin
-            new IHTMLPre { new { Native.document.location.host } }.AttachToDocument();
+			// X:\jsc.svn\examples\javascript\Test\TestWebCrypto\TestWebCrypto\Application.cs
+			// X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
+			// X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
+
+			#region secure origin
+			new IHTMLPre { new { Native.document.location.host } }.AttachToDocument();
 
             if (Native.document.location.host.TakeUntilOrEmpty(":") != "127.0.0.1")
             {

@@ -12,6 +12,8 @@ namespace android.telephony
     {
         // X:\jsc.svn\examples\java\android\telephony\AndroidIMEIActivity\AndroidIMEIActivity\ApplicationActivity.cs
 
+        // https://developer.android.com/about/versions/android-5.1.html#carrier
+        // Carrier Services
     }
 
 }
