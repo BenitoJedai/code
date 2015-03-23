@@ -27,6 +27,7 @@ namespace JVMCLRRSADuplex
 		//public static int dwKeySizeFromMaxData(int MaxData) => MaxData - 7 = (dwKeySize - 384) / 8;
 		public static int dwKeySizeFromMaxData(int MaxData) => 384 + 8 * (MaxData - 7);
 
+		public static int MaxDataFromdwKeySize(int dwKeySize) => (dwKeySize - 384) / 8 + 7;
 
 		public RSADuplex(
 			// MaxData = 471
@@ -38,7 +39,7 @@ namespace JVMCLRRSADuplex
 			// the callbacks will be encrypted.
 
 			//var MaxData = (RSA.KeySize - 384) / 8 + 37;
-			var MaxData = (dwKeySize - 384) / 8 + 7;
+			var MaxData = MaxDataFromdwKeySize(dwKeySize);
 
 			Console.WriteLine(
 			   typeof(object).AssemblyQualifiedName + " enter RSADuplex " + new { dwKeySize, MaxData }
@@ -67,7 +68,7 @@ namespace JVMCLRRSADuplex
 					{
 						var item = EncryptedHelloString[i];
 
-                        Console.Write(item.ToString("x2"));
+						Console.Write(item.ToString("x2"));
 
 					}
 
@@ -115,11 +116,17 @@ namespace JVMCLRRSADuplex
 			// X:\jsc.svn\examples\javascript\android\AndroidBroadcastLogger\AndroidBroadcastLogger\ApplicationWebService.cs
 			// X:\jsc.svn\examples\java\hybrid\JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport\Program.cs
 
+			// what about .cer ?
 			try
 			{
+				var n = RSADuplex.MaxDataFromdwKeySize(2048);
+				// n = 215
+
+
 				new RSADuplex(
 					//dwKeySize: RSADuplex.dwKeySizeFromMaxData(MaxData: 8),
-					dwKeySize: 512,
+					dwKeySize: 2048,
+
 
 					ready: RSADuplex =>
 					{
@@ -322,7 +329,7 @@ namespace JVMCLRRSADuplex
 		// will this CLR load before JVM?
 		private static RSADuplex RSADuplex = new RSADuplex(
 					//dwKeySize: RSADuplex.dwKeySizeFromMaxData(MaxData: 8)
-					dwKeySize: 512
+					dwKeySize: 2048
 			);
 
 		[STAThread]
