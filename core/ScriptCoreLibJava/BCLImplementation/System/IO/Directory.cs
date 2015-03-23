@@ -10,6 +10,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
     [Script(Implements = typeof(global::System.IO.Directory))]
     internal static class __Directory
     {
+        // X:\jsc.svn\examples\java\android\AndroidFileExplorerActivity\AndroidFileExplorerActivity\ApplicationActivity.cs
+        public static string[] GetFiles(string p)
+        {
+            var f = new java.io.File(p);
+            var files = f.listFiles();
+
+            return files.Where(x => x.isFile()).Select(x => x.getAbsolutePath()).ToArray();
+        }
 
         public static string __GetFullPath(string e)
         {
