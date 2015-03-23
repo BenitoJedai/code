@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptography.X509Certificates
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.X509Certificates
 {
     // http://referencesource.microsoft.com/#System/security/system/security/cryptography/x509/x509certificate2.cs
 

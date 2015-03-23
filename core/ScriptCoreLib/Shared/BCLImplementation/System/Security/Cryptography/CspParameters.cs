@@ -6,7 +6,7 @@ using ScriptCoreLib;
 using System.Security.Cryptography;
 using ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography;
 
-namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography
 {
     // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/cryptoapitransform.cs
     // https://github.com/mono/mono/tree/master/mcs/class/corlib/System.Security.Cryptography/CspParameters.cs
