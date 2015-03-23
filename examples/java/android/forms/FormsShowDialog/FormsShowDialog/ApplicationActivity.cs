@@ -22,8 +22,9 @@ namespace FormsShowDialog.Activities
     // http://developer.android.com/guide/topics/manifest/uses-sdk-element.html
     [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "21")]
     [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:minSdkVersion", value = "10")]
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
     public class ApplicationActivity : Activity
-    {
+	{
 
 
 
@@ -51,9 +52,10 @@ namespace FormsShowDialog.Activities
             var b = new android.widget.Button(this);
 
             // jsc is doing the wrong thing here
-            var SDK_INT = android.os.Build.VERSION.SDK_INT;
+            //var SDK_INT = android.os.Build.VERSION.SDK_INT;
 
-            b.setText("Notify! " + new { SDK_INT, android.os.Build.VERSION.SDK });
+            //b.setText("Notify! " + new { SDK_INT, android.os.Build.VERSION.SDK });
+            b.setText("Notify! " );
             int counter = 0;
 
             b.AtClick(

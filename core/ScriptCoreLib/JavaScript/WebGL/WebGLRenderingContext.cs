@@ -32,6 +32,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	public partial class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
 	// : WebGLRenderingContextBase
 	{
+		// https://www.transgaming.com/news/transgaming-announces-availability-directx-11-support-cross-platform-content-enablement
+
 		// http://www.slideshare.net/auradeluxe/vr-everywhere-march-2015
 		// http://www.slideshare.net/auradeluxe/gltf-and-the-webgl-art-pipeline-march-2015
 		// gpu 0..2..4..8..64
