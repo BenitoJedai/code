@@ -11,7 +11,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Net
 
     // Shared?
 	[Script(Implements = typeof(global::System.Net.EndPoint))]
-	internal abstract class __EndPoint
+	public abstract class __EndPoint
 	{
+		// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\IPEndPoint.cs
 	}
 }
