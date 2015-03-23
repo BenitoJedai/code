@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AndroidNFCEvents</RootNamespace>
     <AssemblyName>AndroidNFCEvents</AssemblyName>
-    <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>AndroidNFCEvents.Program</StartupObject>
     <TargetFrameworkProfile />
@@ -125,7 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationControl_onnfc.cs">
-      <SubType>Component</SubType>
+      <SubType>component</SubType>
     </Compile>
     <Compile Include="ApplicationControl_onnfc.Designer.cs">
       <DependentUpon>ApplicationControl_onnfc.cs</DependentUpon>
@@ -140,9 +140,7 @@
     <Compile Include="ApplicationControl.Designer.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ApplicationWebService.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="ApplicationWebService.cs" />
     <Compile Include="ApplicationWebService.Designer.cs">
       <DependentUpon>ApplicationWebService.cs</DependentUpon>
     </Compile>

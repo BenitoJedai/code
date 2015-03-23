@@ -13,6 +13,7 @@ namespace com.abstractatech.gamification.synergy.cashflow
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
+	[DesignerCategory("code")]
     public sealed class ApplicationWebService : Component
     {
         public Task<string> poll_onnfc(string last_id, Action<XElement> yield)
