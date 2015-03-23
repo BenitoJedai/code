@@ -109,7 +109,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 
                 //Decrypt
                 RSACipher.init(
-                    Cipher.DECRYPT_MODE, 
+                    Cipher.DECRYPT_MODE,
                     this.InternalKeyPair.getPrivate()
                 );
 
@@ -379,10 +379,34 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 
                 var rsa = KeyFactory.getInstance("RSA");
 
-                var Modulus = new BigInteger((sbyte[])(object)parameters.Modulus);
+
+                var rsaModulusBytes = parameters.Modulus;
+
+                var firstByte = rsaModulusBytes[0];
+                if (firstByte != 0)
+                {
+                    // jvm likes a leading 0 ?
+
+                    rsaModulusBytes = new byte[parameters.Modulus.Length + 1];
+
+                    Array.Copy(
+                         parameters.Modulus,
+                         0,
+
+                         rsaModulusBytes,
+                         1,
+
+                         parameters.Modulus.Length
+                     );
+                }
+
+                var Modulus = new BigInteger((sbyte[])(object)rsaModulusBytes);
                 var Exponent = new BigInteger((sbyte[])(object)parameters.Exponent);
 
+                //Console.WriteLine("RSACryptoServiceProvider.ImportParameters " + new { m = parameters.Modulus.Length, e = parameters.Exponent.Length });
+
                 var s = new RSAPublicKeySpec(Modulus, Exponent);
+
 
                 this.InternalRSAPublicKey = (RSAPublicKey)rsa.generatePublic(s);
 
