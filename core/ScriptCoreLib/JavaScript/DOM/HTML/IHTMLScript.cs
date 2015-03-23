@@ -13,11 +13,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public class IHTMLScript : IHTMLElement
     {
+		// http://blog.chromium.org/2015/03/new-javascript-techniques-for-rapid.html
+		// https://developers.google.com/speed/docs/insights/BlockingJS
 
 
-        #region Constructor
+		#region Constructor
 
-        public IHTMLScript()
+		public IHTMLScript()
         {
             // InternalConstructor
         }

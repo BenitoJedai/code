@@ -2,12 +2,13 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Screen.webidl
-    // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/Screen/
-    // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/Screen.idl
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/Screen.cs
+	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Screen.webidl
+	// http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/Screen/
+	// https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/Screen.idl
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/Screen.cs
+	// https://github.com/konsoletyper/teavm/blob/master/teavm-dom/src/main/java/org/teavm/dom/browser/Screen.java
 
-    [Script(HasNoPrototype = true)]
+	[Script(HasNoPrototype = true)]
     public class IScreen
     {
         // http://www.cnet.com/how-to/how-to-record-your-screen-on-android-4-4-kitkat/
