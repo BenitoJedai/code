@@ -11,6 +11,7 @@ using java.security;
 using javax.crypto;
 using java.security.interfaces;
 using java.math;
+using java.security.spec;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 {
@@ -369,29 +370,39 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 
         public override void ImportParameters(RSAParameters parameters)
         {
-            // http://developer.android.com/reference/java/security/KeyFactory.html
+            try
+            {
+                // http://developer.android.com/reference/java/security/KeyFactory.html
 
-            // X:\jsc.svn\core\ScriptCoreLibJava\java\security\interfaces\RSAPublicKey.cs
-            // https://gist.github.com/manzke/1068441
-            // http://stackoverflow.com/questions/11410770/java-load-rsa-public-key-from-file
+                // X:\jsc.svn\core\ScriptCoreLibJava\java\security\interfaces\RSAPublicKey.cs
+                // https://gist.github.com/manzke/1068441
+                // http://stackoverflow.com/questions/11410770/java-load-rsa-public-key-from-file
 
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140829
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150323
-            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\ApplicationWebService.cs
-            // tested by ?
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140829
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150323
+                // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\ApplicationWebService.cs
+                // tested by ?
 
-            var rsa = KeyFactory.getInstance("RSA");
+                var rsa = KeyFactory.getInstance("RSA");
 
-            var Modulus = new BigInteger((sbyte[])(object)parameters.Modulus);
-            var Exponent = new BigInteger((sbyte[])(object)parameters.Exponent);
+                var Modulus = new BigInteger((sbyte[])(object)parameters.Modulus);
+                var Exponent = new BigInteger((sbyte[])(object)parameters.Exponent);
 
-            var s = new RSAPublicKeySpec(Modulus, Exponent);
+                var s = new RSAPublicKeySpec(Modulus, Exponent);
 
-            this.InternalRSAPublicKey = (RSAPublicKey)rsa.generatePublic(s);
+                this.InternalRSAPublicKey = (RSAPublicKey)rsa.generatePublic(s);
 
 
 
-            this.InternalParameters = parameters;
+                this.InternalParameters = parameters;
+
+
+            }
+            catch
+            {
+
+                throw;
+            }
         }
     }
 }

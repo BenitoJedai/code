@@ -115,7 +115,8 @@ namespace JVMCLRRSACryptoServiceProviderExport
 
                 var xstring = Encoding.UTF8.GetString(xdata);
 
-                Console.WriteLine(new { xstring });
+				// demo which which vm
+                Console.WriteLine(new { typeof(object).AssemblyQualifiedName, xstring });
             }
             catch (Exception err)
             {
