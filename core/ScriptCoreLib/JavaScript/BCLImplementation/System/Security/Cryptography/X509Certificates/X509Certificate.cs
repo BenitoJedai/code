@@ -25,6 +25,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
 	[Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.X509Certificate))]
     internal class __X509Certificate
     {
+		// http://en.wikipedia.org/wiki/Common_Access_Card
+
+
+		// whats the command to open the windows cert store?
+		// https://msdn.microsoft.com/en-us/library/ms788967(v=vs.110).aspx
+		// mmc
+
 		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/cryptography/x509certificate.cpp
 		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/cryptography/x509certificate.h
 
