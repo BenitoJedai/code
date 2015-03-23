@@ -118,6 +118,7 @@
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\CryptoStream.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\CspParameters.cs" />
+    <Compile Include="BCLImplementation\System\Security\SecureString.cs" />
     <Compile Include="BCLImplementation\System\Threading\Monitor.cs" />
     <Compile Include="BCLImplementation\System\Threading\RegisteredWaitHandle.cs" />
     <Compile Include="BCLImplementation\System\Threading\Tasks\TaskFactory.cs" />
@@ -865,6 +866,7 @@
     <Compile Include="java\security\cert\X509Certificate.cs" />
     <Compile Include="java\security\CodeSource.cs" />
     <Compile Include="javax\crypto\Cipher.cs" />
+    <Compile Include="java\security\KeyFactory.cs" />
     <Compile Include="java\security\interfaces\RSAKey.cs" />
     <Compile Include="java\security\interfaces\RSAPublicKey.cs" />
     <Compile Include="java\security\PrivateKey.cs" />
@@ -881,6 +883,7 @@
     <Compile Include="java\security\Principal.cs" />
     <Compile Include="java\security\SecureClassLoader.cs" />
     <Compile Include="java\security\ProtectionDomain.cs" />
+    <Compile Include="java\security\spec\KeySpec.cs" />
     <Compile Include="java\security\spec\IvParameterSpec.cs" />
     <Compile Include="java\security\spec\RSAPublicKeySpec.cs" />
     <Compile Include="java\security\spec\RSAPrivateKeySpec.cs" />

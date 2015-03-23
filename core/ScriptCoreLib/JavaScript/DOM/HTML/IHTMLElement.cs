@@ -1100,6 +1100,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 		#endregion
 
+
+
+		// https://developer.android.com/guide/webapps/migrating.html
+		// touchcancel
+		// https://developer.mozilla.org/en-US/docs/Web/Events/touchcancel
+
+
 		#region event ontouchstart
 		public event System.Action<TouchEvent> ontouchstart
 		{

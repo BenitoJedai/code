@@ -166,9 +166,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Dns.cs">
       <Link>BCLImplementation\System\Net\Dns.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\EndPoint.cs">
-      <Link>BCLImplementation\System\Net\EndPoint.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\IPAddress.cs">
       <Link>BCLImplementation\System\Net\IPAddress.cs</Link>
     </Compile>
@@ -273,6 +270,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs">
       <Link>BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\SecureString.cs">
+      <Link>BCLImplementation\System\Security\SecureString.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Single.cs">
       <Link>BCLImplementation\System\Single.cs</Link>
