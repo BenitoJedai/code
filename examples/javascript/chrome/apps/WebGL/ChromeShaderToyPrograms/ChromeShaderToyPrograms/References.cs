@@ -389,6 +389,7 @@ namespace ChromeShaderToyPrograms
 			["ShellByFMSCat"] = () => new ShellByFMSCat.Shaders.ProgramFragmentShader(),
 			["SierpinskiByIq"] = () => new SierpinskiByIq.Shaders.ProgramFragmentShader(),
 			["SiggraphLogoByIq"] = () => new SiggraphLogoByIq.Shaders.ProgramFragmentShader(),
+			["Simlicity3DByRunouw"] = () => new Simlicity3DByRunouw.Shaders.ProgramFragmentShader(),
 			["SimpleDigitalClockByMikeCAT"] = () => new SimpleDigitalClockByMikeCAT.Shaders.ProgramFragmentShader(),
 			["SimpleVoxelsByElias"] = () => new SimpleVoxelsByElias.Shaders.ProgramFragmentShader(),
 			["SinMountainsByFred"] = () => new SinMountainsByFred.Shaders.ProgramFragmentShader(),
