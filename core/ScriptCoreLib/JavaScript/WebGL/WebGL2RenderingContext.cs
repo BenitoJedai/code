@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -45,5 +46,30 @@ namespace ScriptCoreLib.JavaScript.WebGL
 
 
 		// tested by ?
+		// https://www.youtube.com/watch?v=zPNM3yOsP0I
+		// https://wiki.mozilla.org/Platform/GFX/WebGL2
+
+		#region Constructor
+
+		public WebGL2RenderingContext(
+			)
+		{
+			// InternalConstructor
+		}
+
+		static WebGL2RenderingContext InternalConstructor(
+
+			)
+		{
+			// tested by X:\jsc.svn\examples\javascript\ImageCachedIntoLocalStorageExperiment\ImageCachedIntoLocalStorageExperiment\Application.cs
+			// X:\jsc.svn\examples\javascript\WebGL\Test\TestWebGL2RenderingContext\TestWebGL2RenderingContext\Application.cs
+
+			var canvas = new IHTMLCanvas();
+			var context = (WebGL2RenderingContext)canvas.getContext("experimental-webgl2");
+
+			return context;
+		}
+
+		#endregion
 	}
 }
