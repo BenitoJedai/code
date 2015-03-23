@@ -23,6 +23,11 @@ namespace JVMCLRRSADuplex
 
 		public Action<byte[]> AtMessage;
 
+		//public static int dwKeySizeFromMaxData(int MaxData) => MaxData = (dwKeySize - 384) / 8 + 7;
+		//public static int dwKeySizeFromMaxData(int MaxData) => MaxData - 7 = (dwKeySize - 384) / 8;
+		public static int dwKeySizeFromMaxData(int MaxData) => 384 + 8 * (MaxData - 7);
+
+
 		public RSADuplex(
 			// MaxData = 471
 			//int dwKeySize = (0x100 + 0x100) * 8
@@ -55,6 +60,19 @@ namespace JVMCLRRSADuplex
 					Console.WriteLine(
 					   typeof(object).AssemblyQualifiedName + " enter RSADuplex.AtMessage " + new { EncryptedHelloString = EncryptedHelloString.Length }
 					);
+
+					//foreach (var item in EncryptedHelloString)
+
+					for (int i = 0; i < EncryptedHelloString.Length; i++)
+					{
+						var item = EncryptedHelloString[i];
+
+                        Console.Write(item.ToString("x2"));
+
+					}
+
+					Console.WriteLine();
+
 
 					// X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyImport\TestWebCryptoKeyImport\ApplicationWebService.cs
 					var xdata = RSA.Decrypt(
@@ -100,6 +118,9 @@ namespace JVMCLRRSADuplex
 			try
 			{
 				new RSADuplex(
+					//dwKeySize: RSADuplex.dwKeySizeFromMaxData(MaxData: 8),
+					dwKeySize: 512,
+
 					ready: RSADuplex =>
 					{
 
@@ -130,7 +151,8 @@ namespace JVMCLRRSADuplex
 									//m = RSADuplex.PublicKey.Modulus,
 
 									EncryptedHelloString = new EncryptedString(data.e, data.m,
-										text: typeof(object).AssemblyQualifiedName + " hello from Main"
+										//text: typeof(object).AssemblyQualifiedName + " hello from Main"
+										text: "54321"
 									)
 								}
 							);
@@ -153,12 +175,56 @@ namespace JVMCLRRSADuplex
 				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 at RSADuplex.AtMessage: { xstring = java.lang.Object, rt hello from Main }
 				//java.lang.Object, rt exit RSADuplex
 
-				//System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 enter RSADuplex { dwKeySize = 4096, MaxData = 471 }
-				//System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 ready RSADuplex { Elapsed = 00:00:11.9516283, e = 3, m = 512 }
-				//System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 enter RSADuplex { dwKeySize = 4096, MaxData = 471 }
-				//System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 ready RSADuplex { Elapsed = 00:00:15.8868693, e = 3, m = 512 }
-				//System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 enter RSADuplex.AtMessage { EncryptedHelloString = 512 }
-				//System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089 at RSADuplex.AtMessage: { xstring = System.Object, mscorlib, Version = 4.0.0.0, Culture = neutral, PublicKeyToken = b77a5c561934e089hello from CLRMain }
+
+				//java.lang.Object, rt enter RSADuplex {{ dwKeySize = 392, MaxData = 8 }}
+				//RSACryptoServiceProvider before generateKeyPair { dwKeySize = 392 }
+				//{{ err = java.lang.RuntimeException: RSA keys must be at least 512 bits long, Message = RSA keys must be at least 512 bits long, StackTrace = java.lang.RuntimeException: RSA keys must be at least 512 bits long
+				//        at ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.__RSACryptoServiceProvider.<init>(__RSACryptoServiceProvider.java:61)
+				//        at JVMCLRRSADuplex.RSADuplex.<init>(RSADuplex.java:51)
+				//        at JVMCLRRSADuplex.Program.main(Program.java:28)
+				//Caused by: java.security.InvalidParameterException: RSA keys must be at least 512 bits long
+				//        at sun.security.rsa.RSAKeyPairGenerator.initialize(Unknown Source)
+				//        at java.security.KeyPairGenerator$Delegate.initialize(Unknown Source)
+				//        at java.security.KeyPairGenerator.initialize(Unknown Source)
+				//        at ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.__RSACryptoServiceProvider.<init>(__RSACryptoServiceProvider.java:54)
+				//        ... 2 more
+				// }}
+
+				//java.lang.Object, rt enter RSADuplex {{ dwKeySize = 512, MaxData = 23 }}
+				//RSACryptoServiceProvider before generateKeyPair { dwKeySize = 512 }
+				//RSACryptoServiceProvider after generateKeyPair { ElapsedMilliseconds = 299 }
+				//java.lang.Object, rt ready RSADuplex {{ Elapsed = 00:00:00.307.0, e = 3, m = 64 }}
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 enter RSADuplex { dwKeySize = 512, MaxData = 23 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 ready RSADuplex { Elapsed = 00:00:00.0077127, e = 3, m = 64 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 exit RSADuplex
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 will prepare reply { m = 64, bytes = 5 }
+				//java.lang.Object, rt enter RSADuplex.AtMessage {{ EncryptedHelloString = 64 }}
+				//java.lang.Object, rt at RSADuplex.AtMessage: {{ xstring = 12345 }}
+				//java.lang.Object, rt will prepare reply {{ m = 64, bytes = 5 }}
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 enter RSADuplex.AtMessage { EncryptedHelloString = 64 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 at RSADuplex.AtMessage: { xstring = 54321 }
+				//java.lang.Object, rt exit RSADuplex
+
+
+
+
+
+
+
+
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 enter RSADuplex { dwKeySize = 392, MaxData = 8 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 ready RSADuplex { Elapsed = 00:00:00.0130751, e = 3, m = 49 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 enter RSADuplex { dwKeySize = 392, MaxData = 8 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 ready RSADuplex { Elapsed = 00:00:00.0046702, e = 3, m = 49 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 exit RSADuplex
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 will prepare reply { m = 49, bytes = 5 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 enter RSADuplex.AtMessage { EncryptedHelloString = 49 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 at RSADuplex.AtMessage: { xstring = 12345 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 will prepare reply { m = 49, bytes = 5 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 enter RSADuplex.AtMessage { EncryptedHelloString = 49 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 at RSADuplex.AtMessage: { xstring = 54321 }
+				//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 exit RSADuplex
+
 
 			}
 			catch (Exception err)
@@ -238,8 +304,26 @@ namespace JVMCLRRSADuplex
 	[SwitchToCLRContext]
 	static class CLRProgram
 	{
+		// java.lang.Object, rt enter RSADuplex {{ dwKeySize = 64, MaxData = -33 }}
+		//		RSACryptoServiceProvider before generateKeyPair { dwKeySize = 64 }
+		//{{ err = java.lang.RuntimeException: RSA keys must be at least 512 bits long, Message = RSA keys must be at least 512 bits long, StackTrace = java.lang.RuntimeException: RSA keys must be at least 512 bits long
+		//		at ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.__RSACryptoServiceProvider.<init>(__RSACryptoServiceProvider.java:61)
+		//        at JVMCLRRSADuplex.RSADuplex.<init>(RSADuplex.java:51)
+		//        at JVMCLRRSADuplex.Program.main(Program.java:28)
+		//Caused by: java.security.InvalidParameterException: RSA keys must be at least 512 bits long
+		//		at sun.security.rsa.RSAKeyPairGenerator.initialize(Unknown Source)
+		//        at java.security.KeyPairGenerator$Delegate.initialize(Unknown Source)
+		//        at java.security.KeyPairGenerator.initialize(Unknown Source)
+		//        at ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.__RSACryptoServiceProvider.<init>(__RSACryptoServiceProvider.java:54)
+		//        ... 2 more
+		//}}
+
+
 		// will this CLR load before JVM?
-		private static RSADuplex RSADuplex = new RSADuplex();
+		private static RSADuplex RSADuplex = new RSADuplex(
+					//dwKeySize: RSADuplex.dwKeySizeFromMaxData(MaxData: 8)
+					dwKeySize: 512
+			);
 
 		[STAThread]
 		public static CLRData CLRMain(CLRData data)
@@ -260,7 +344,8 @@ namespace JVMCLRRSADuplex
 
 
 				EncryptedHelloString = new EncryptedString(data.e, data.m,
-					text: typeof(object).AssemblyQualifiedName + " hello from CLRMain"
+					//text: typeof(object).AssemblyQualifiedName + " hello from CLRMain"
+					text: "12345"
 				)
 			};
 
