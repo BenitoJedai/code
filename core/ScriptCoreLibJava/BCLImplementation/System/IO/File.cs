@@ -10,6 +10,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
     [Script(Implements = typeof(global::System.IO.File))]
     internal class __File
     {
+        
+
+
+
         public static Func<string, FileStream> InternalOpenRead =
             path =>
             {

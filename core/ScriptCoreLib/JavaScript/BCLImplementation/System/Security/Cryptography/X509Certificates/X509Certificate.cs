@@ -20,6 +20,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
 
 	//Most certificates in common use are based on the X.509 v3 certificate standard. 
 
+	// haha. 13 years old class!
+	// // 09/22/2002
+
 
 	// FEATURE_CORECLR
 	[Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.X509Certificate))]

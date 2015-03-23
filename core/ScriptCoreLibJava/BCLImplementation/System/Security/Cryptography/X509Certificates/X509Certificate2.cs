@@ -29,11 +29,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.X509C
 
 		public __X509Certificate2(byte[] rawData)
 		{
-			var certFactory = CertificateFactory.getInstance("X.509");
+            try
+            {
+                var certFactory = CertificateFactory.getInstance("X.509");
 
-			InputStream ins = new ByteArrayInputStream((sbyte[])(object)rawData);
+                InputStream ins = new ByteArrayInputStream((sbyte[])(object)rawData);
 
-			this.InternalElement = (X509Certificate)certFactory.generateCertificate(ins);
+                this.InternalElement = (X509Certificate)certFactory.generateCertificate(ins);
+            }
+            catch
+            {
+                throw;
+            }
 		}
 
 		public global::System.Security.Cryptography.X509Certificates.PublicKey PublicKey
