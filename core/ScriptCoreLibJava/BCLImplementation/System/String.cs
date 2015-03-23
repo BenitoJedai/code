@@ -551,12 +551,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 
 
-        //X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
+		//X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
 
-        // x:\jsc.svn\examples\javascript\webcamavatarsexperiment\webcamavatarsexperiment\application.cs
+		// x:\jsc.svn\examples\javascript\webcamavatarsexperiment\webcamavatarsexperiment\application.cs
 
-
-        public static string Format(string format, params object[] b)
+		#region Format
+		public static string Format(string format, params object[] b)
         {
             // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\String.cs
             // X:\jsc.svn\examples\javascript\test\TestRoslynAnonymousType\TestRoslynAnonymousType\Class1.cs
@@ -576,6 +576,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         }
 
 
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150323
 		// x:\jsc.svn\examples\javascript\test\test46anonymoustypetostring\test46anonymoustypetostring\class1.cs
 		// 4.6	
 		public static string Format(IFormatProvider provider, string format, object[] args)
@@ -583,6 +584,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			// called by anonymous type tostring
 			return Format(format, args);
 		}
+		#endregion
 
 	}
 

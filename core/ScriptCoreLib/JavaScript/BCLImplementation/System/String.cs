@@ -100,6 +100,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 		}
 
 
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150323
 		// x:\jsc.svn\examples\javascript\test\test46anonymoustypetostring\test46anonymoustypetostring\class1.cs
 		// 4.6	
 		public static string Format(IFormatProvider provider, string format, object[] args)
