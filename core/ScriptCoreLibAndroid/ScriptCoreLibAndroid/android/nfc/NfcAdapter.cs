@@ -13,6 +13,8 @@ namespace android.nfc
     [Script(IsNative = true)]
     public class NfcAdapter
     {
+        // X:\jsc.svn\examples\javascript\android\AndroidNFCExperiment\AndroidNFCExperiment\ApplicationWebService.cs
+
         public static string ACTION_NDEF_DISCOVERED;
         public static string ACTION_TAG_DISCOVERED;
         public static string ACTION_TECH_DISCOVERED;
@@ -30,5 +32,11 @@ namespace android.nfc
         public void enableForegroundDispatch(Activity activity, PendingIntent intent,
             IntentFilter[] filters, string[][] techLists)
         { }
+
+
+        public void disableForegroundDispatch(Activity activity)
+        { }
+
+        
     }
 }
