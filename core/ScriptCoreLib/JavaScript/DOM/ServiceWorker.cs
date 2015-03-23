@@ -29,6 +29,9 @@ namespace ScriptCoreLib.JavaScript.DOM
     //[Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+		// is openWRT the gateway?
+		// http://foorum.elion.ee/foorum/viewtopic.php?f=19&t=22349&sid=13d154e8889e6499ee5fd8a27f1b0352
+
 		// http://updates.html5rocks.com/2015/03/increasing-engagement-with-app-install-banners-in-chrome-for-android
 		// X:\jsc.svn\examples\javascript\ScriptDynamicSourceBuilder\ScriptDynamicSourceBuilder\Application.cs
 
