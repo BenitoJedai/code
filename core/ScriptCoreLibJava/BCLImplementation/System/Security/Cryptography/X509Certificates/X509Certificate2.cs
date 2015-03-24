@@ -62,6 +62,49 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.X509C
         }
 
 
+        public string GetNameInfo(global::System.Security.Cryptography.X509Certificates.X509NameType nameType, bool forIssuer)
+        {
+            // http://jdk-source-code.googlecode.com/svn/trunk/jdk6u21_src/deploy/src/common/share/classes/com/sun/deploy/security/CertUtils.java
+            // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/http/SslCertificate.java
+            // http://stackoverflow.com/questions/2914521/how-to-extract-cn-from-x509certificate-in-java
+            var subjectName = extractFromQuote(Subject, "CN=");
+            return subjectName;
+        }
+
+        private static string extractFromQuote(string s, string prefix)
+        {
+            if (s == null)
+                return null;
+
+            // Search for issuer name
+            //
+            int x = s.IndexOf(prefix);
+            int y = 0;
+
+            if (x >= 0)
+            {
+                x = x + prefix.Length;
+
+                // Search for quote
+                if (s[x] == '\"')
+                {
+                    // if quote is found, search another quote
+                    // skip the first quote
+                    x = x + 1;
+                    y = s.IndexOf('\"', x);
+                }
+                else // quote is not found, search for comma
+                    y = s.IndexOf(',', x);
+
+                if (y < 0)
+                    return s.Substring(x);
+                else
+                    return s.Substring(x, y - x);
+            }
+            else // No match
+                return null;
+        }
+
         public override string Subject
         {
             get
