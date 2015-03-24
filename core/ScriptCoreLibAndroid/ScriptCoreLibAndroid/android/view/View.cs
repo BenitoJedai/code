@@ -12,9 +12,21 @@ namespace android.view
     [Script(IsNative = true)]
     public class View
     {
+
+        public void forceLayout() { }
+        public void requestLayout() { }
+
+        public void invalidate() { }
+
         public void setPadding(int left, int top, int right, int bottom)
         {
         }
+
+        public View getRootView()
+        {
+            return default(View);
+        }
+
 
         public ViewParent getParent()
         {
