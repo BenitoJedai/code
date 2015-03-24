@@ -94,12 +94,23 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.X509C
                     y = s.IndexOf('\"', x);
                 }
                 else // quote is not found, search for comma
-                    y = s.IndexOf(',', x);
+                {
+                    var z = x;
+                    var ok = true;
+                    while (ok)
+                    {
+                        y = s.IndexOf(',', z);
+                        // invalidate the comma if it is escaped. android.
 
+                        z = y + 1;
+
+                        ok = s[y - 1] == '\\';
+                    }
+                }
                 if (y < 0)
-                    return s.Substring(x);
+                    return s.Substring(x).Replace("\\,", ",");
                 else
-                    return s.Substring(x, y - x);
+                    return s.Substring(x, y - x).Replace("\\,", ",");
             }
             else // No match
                 return null;
