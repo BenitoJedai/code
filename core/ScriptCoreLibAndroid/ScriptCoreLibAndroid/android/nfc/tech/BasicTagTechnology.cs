@@ -16,6 +16,10 @@ namespace android.nfc.tech
             return null;
         }
 
+        public void close()
+        {
+            throw new System.NotImplementedException();
+        }
 
 
         public void connect()
