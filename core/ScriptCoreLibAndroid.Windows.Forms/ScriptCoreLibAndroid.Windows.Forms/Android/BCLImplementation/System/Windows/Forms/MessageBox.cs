@@ -13,8 +13,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
         public static global::System.Windows.Forms.DialogResult Show(string text)
         {
             return Show(
-                text: null,
-                caption: text
+                text: text,
+                // caption would be turnacated
+                caption: "Message"
             );
 
         }

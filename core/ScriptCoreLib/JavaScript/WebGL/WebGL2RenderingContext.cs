@@ -7,6 +7,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.WebGL
 {
+	// https://chromium.googlesource.com/chromium/src/+/master/gpu/blink/webgraphicscontext3d_impl.h
 	// http://dxr.mozilla.org/mozilla-central/source/dom/webidl/WebGL2RenderingContext.webidl
 	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/WebGL2RenderingContext.webidl
 	// https://www.khronos.org/registry/webgl/specs/latest/2.0/webgl2.idl

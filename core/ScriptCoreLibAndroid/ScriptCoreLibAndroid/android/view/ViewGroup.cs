@@ -12,6 +12,8 @@ namespace android.view
     [Script(IsNative = true)]
     public abstract class ViewGroup : View
     {
+        public void removeAllViews() { }
+
         public void removeView(View view)
         {
         }

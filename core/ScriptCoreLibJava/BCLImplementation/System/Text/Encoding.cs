@@ -39,6 +39,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
 
         public static Encoding GetEncoding(string name)
         {
+            // Windows-1252
+
             // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLR1252Encoding\TestJVMCLR1252Encoding\Program.cs
             return (Encoding)(object)new xEncoding
             {
