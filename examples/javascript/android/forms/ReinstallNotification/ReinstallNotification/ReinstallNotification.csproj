@@ -138,9 +138,7 @@
     <Compile Include="ApplicationControl.Designer.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ApplicationWebService.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="ApplicationWebService.cs" />
     <Compile Include="ApplicationWebService.Designer.cs">
       <DependentUpon>ApplicationWebService.cs</DependentUpon>
     </Compile>

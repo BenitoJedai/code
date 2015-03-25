@@ -6,9 +6,15 @@ using System.Reflection;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
-    [Script(Implements=typeof(global::System.Attribute))]
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Attribute.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/AttributeUsageAttribute.cs
+
+	[Script(Implements=typeof(global::System.Attribute))]
     internal class __Attribute
     {
+		// for java, jsc need to keep looking for name clashing with native types it seems.
+
+
         public __Attribute()
         {
 
