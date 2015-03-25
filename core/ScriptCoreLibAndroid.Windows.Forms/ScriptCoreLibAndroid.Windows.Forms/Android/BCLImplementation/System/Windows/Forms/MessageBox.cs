@@ -96,7 +96,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
     }
 
     [Script]
-    class xDialogInterface_OnClickListener : DialogInterface_OnClickListener
+    public class xDialogInterface_OnClickListener : DialogInterface_OnClickListener
     {
         public Action<DialogInterface, int> yield;
 
