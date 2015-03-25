@@ -33,9 +33,18 @@ namespace JVMCLRDynamicInvoke
 		[STAThread]
 		public static void Main(string[] args)
 		{
+			//			before Invoke
+			//__InvokeMemberBinder: { Name = setImmersive, argumentInfoCount = 2 }
+			//			__CallSite __InvokeMemberBinder arg1 { subject = JVMCLRDynamicInvoke.Activity@16ec8df, TargetType = JVMCLRDynamicInvoke.Activity, Name = setImmersive, arg1 = true, Candidates = 1 }
+			//			enter setImmersive { { i = true } }
+			//			after Invoke
+
 			try
 			{
+				Console.WriteLine("before Invoke");
+
 				(new Activity { } as dynamic).setImmersive(i: true);
+				Console.WriteLine("after Invoke");
 			}
 			catch (Exception err)
 			{
@@ -43,6 +52,8 @@ namespace JVMCLRDynamicInvoke
 
 
 			}
+
+			Thread.Sleep(6000);
 		}
 	}
 

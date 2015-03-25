@@ -10,10 +10,23 @@ using System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
+    // this is the most popular type?
+
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Type.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Type.cs
     // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Type.cs
+    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/type.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs
     // http://referencesource.microsoft.com/#mscorlib/system/type.cs
     // https://github.com/mono/mono/tree/master/mcs/class/corlib/System/Type.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Type.cs
+
+    // X:\opensource\github\JSIL\Proxies\Reflection.cs
+    // "X:\opensource\github\Netjs\mscorlib.ts"
+    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
+    // https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Type.cs
+    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
 
     [Script(Implements = typeof(global::System.Type))]
     public class __Type : __MemberInfo
@@ -317,7 +330,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         {
             // http://www.onjava.com/pub/a/onjava/2007/03/15/reflections-on-java-reflection.html?page=3
 
-            var a = this.InternalTypeDescription.getDeclaredMethods();
+            //var a = this.InternalTypeDescription.getDeclaredMethods();
+            var a = this.InternalTypeDescription.getMethods();
             var n = new MethodInfo[a.Length];
 
             for (int i = 0; i < a.Length; i++)

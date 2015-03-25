@@ -41,11 +41,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
             var argumentInfo = InvokeMember.argumentInfo;
             var argumentInfoCount = argumentInfo.Count();
 
-            Console.WriteLine("__InvokeMemberBinder: " + new
-            {
-                InvokeMember.Name,
-                argumentInfoCount
-            });
+            //Console.WriteLine("__InvokeMemberBinder: " + new
+            //{
+            //    InvokeMember.Name,
+            //    argumentInfoCount
+            //});
 
             var IsReturnVoid = InvokeMember.flags == global::Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags.ResultDiscarded;
 
@@ -78,10 +78,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
                          var Candidates = TargetType.GetMethods().Where(m => m.Name == InvokeMember.Name).ToArray();
 
 
-                         Console.WriteLine("__CallSite __InvokeMemberBinder arg1 " + new { subject, TargetType, InvokeMember.Name, arg1, Candidates = Candidates.Length });
+                         //Console.WriteLine("__CallSite __InvokeMemberBinder arg1 " + new { subject, TargetType, InvokeMember.Name, arg1, Candidates = Candidates.Length });
 
                          if (Candidates.Length == 1)
                          {
+                             // X:\jsc.svn\examples\java\hybrid\JVMCLRDynamicInvoke\JVMCLRDynamicInvoke\Program.cs
                              Candidates[0].Invoke(
                                  subject,
                                  new object[] { arg1 }
@@ -90,7 +91,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
                          }
 
 
-                         throw new NotImplementedException("__CallSite __InvokeMemberBinder");
+                         throw new NotImplementedException("__CallSite __InvokeMemberBinder " + new { subject, TargetType, InvokeMember.Name, arg1, Candidates = Candidates.Length });
                      }
                     );
 
