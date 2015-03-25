@@ -11,6 +11,10 @@ namespace ScriptCoreLib.Android.Manifest
         // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\Manifest\ApplicationAttribute.cs
 
         public string name;
-        public string value;   
+        public string value;
+
+        // http://stackoverflow.com/questions/16510140/android-nfc-intent-filter-to-show-my-application-when-nfc-discover-a-tag
+        public string resource;   
+
     }
 }
