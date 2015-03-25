@@ -10,7 +10,7 @@ namespace ScriptCoreLib.JavaScript.WebVR
 	public class VRDevice
 	{
 		// http://voicesofvr.com/100-sebastian-kuntz-on-virtual-reality-presence-lessons-from-13-years-in-vr/
-
+		// http://voicesofvr.com/112-brandon-jones-on-webvr-for-chrome/
 		// 20150323
 		// yay. vr!
 

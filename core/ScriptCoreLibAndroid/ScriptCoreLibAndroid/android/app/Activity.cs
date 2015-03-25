@@ -38,6 +38,10 @@ namespace android.app
         // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\CoreAndroidWebServiceActivity.cs
         // X:\jsc.svn\examples\javascript\android\com.abstractatech.dcimgalleryapp\com.abstractatech.dcimgalleryapp\ApplicationWebService.cs
 
+
+        public void setProgressBarIndeterminateVisibility(bool visible)
+        { }
+
         public void addContentView(View view, ViewGroup.LayoutParams @params)
         {
 

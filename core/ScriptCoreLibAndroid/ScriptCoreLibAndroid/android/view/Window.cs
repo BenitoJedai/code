@@ -15,6 +15,8 @@ namespace android.view
     {
         // members and types are to be extended by jsc at release build
 
+        public static readonly int FEATURE_INDETERMINATE_PROGRESS = 5;
+
         public const int FEATURE_NO_TITLE = 1;
 
         public bool requestFeature(int featureId)
