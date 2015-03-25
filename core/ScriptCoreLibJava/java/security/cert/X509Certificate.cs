@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 using java.net;
 using System;
+using java.math;
 
 namespace java.security.cert
 {
@@ -14,5 +15,8 @@ namespace java.security.cert
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate.cs
 
         public abstract Principal getSubjectDN();
+
+        public abstract BigInteger getSerialNumber();
+
     }
 }

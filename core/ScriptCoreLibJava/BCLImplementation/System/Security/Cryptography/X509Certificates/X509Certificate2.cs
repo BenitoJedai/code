@@ -43,6 +43,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.X509C
             }
         }
 
+
+
+        public string SerialNumber
+        {
+            get
+            {
+                // http://stackoverflow.com/questions/12582850/x509-serial-number-using-java
+
+                var u = this.InternalElement.getSerialNumber();
+
+                var w = new StringBuilder();
+                var bytes = (byte[])(object)u.toByteArray();
+
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    w.Append(bytes[i].ToString("x2"));
+                }
+
+                return w.ToString();
+            }
+        }
+
         public global::System.Security.Cryptography.X509Certificates.PublicKey PublicKey
         {
             get
@@ -67,6 +89,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.X509C
             // http://jdk-source-code.googlecode.com/svn/trunk/jdk6u21_src/deploy/src/common/share/classes/com/sun/deploy/security/CertUtils.java
             // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/http/SslCertificate.java
             // http://stackoverflow.com/questions/2914521/how-to-extract-cn-from-x509certificate-in-java
+
+            // https://supportforums.cisco.com/discussion/11041586/extracting-username-x509-certificate
             var subjectName = extractFromQuote(Subject, "CN=");
             return subjectName;
         }
@@ -102,9 +126,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography.X509C
                         y = s.IndexOf(',', z);
                         // invalidate the comma if it is escaped. android.
 
-                        z = y + 1;
+                        if (y > z)
+                        {
+                            z = y + 1;
 
-                        ok = s[y - 1] == '\\';
+                            ok = s[y - 1] == '\\';
+                        }
+                        else
+                            ok = false;
                     }
                 }
                 if (y < 0)
