@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebGLHZBlendCharacter</RootNamespace>
     <AssemblyName>WebGLHZBlendCharacter</AssemblyName>
-    <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>WebGLHZBlendCharacter.Program</StartupObject>
     <TargetFrameworkProfile />
@@ -142,6 +142,12 @@
     </Reference>
     <Reference Include="HeatZeekerRTSOrto.AssetsLibrary">
       <HintPath>..\..\HeatZeekerRTSOrto\HeatZeekerRTSOrto\bin\staging.AssetsLibrary\HeatZeekerRTSOrto.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLRah66Comanche.AssetsLibrary">
+      <HintPath>..\..\collada\WebGLRah66Comanche\WebGLRah66Comanche\bin\staging.AssetsLibrary\WebGLRah66Comanche.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLColladaExperiment.AssetsLibrary">
+      <HintPath>..\..\WebGLColladaExperiment\WebGLColladaExperiment\bin\staging.AssetsLibrary\WebGLColladaExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

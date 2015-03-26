@@ -18,7 +18,7 @@ using WebGLTiltShift.Design;
 //using THREE = WebGLTiltShift.Design.THREE;
 using System.Threading.Tasks;
 
-using THREE;
+using static THREE;
 
 namespace WebGLTiltShift
 {
@@ -542,19 +542,19 @@ namespace WebGLTiltShift
                     // https://github.com/mrdoob/three.js/issues/1285
                     //cube.children.WithEach(c => c.castShadow = true);
 
-                    cube.traverse(
-                        new Action<THREE.Object3D>(
-                            child =>
-                            {
-                                // does it work? do we need it?
-                                //if (child is THREE.Mesh)
+                    //cube.traverse(
+                    //    new Action<THREE.Object3D>(
+                    //        child =>
+                    //        {
+                    //            // does it work? do we need it?
+                    //            //if (child is THREE.Mesh)
 
-                                child.castShadow = true;
-                                //child.receiveShadow = true;
+                    //            child.castShadow = true;
+                    //            //child.receiveShadow = true;
 
-                            }
-                        )
-                    );
+                    //        }
+                    //    )
+                    //);
 
                     // um can edit and continue insert code going back in time?
                     cube.scale.x = 10.0;
@@ -603,18 +603,18 @@ namespace WebGLTiltShift
                          //cube.children.WithEach(c => c.castShadow = true);
                          cube.castShadow = true;
 
-                         cube.traverse(
-                             new Action<THREE.Object3D>(
-                                 child =>
-                                      {
-                                          // does it work? do we need it?
-                                          //if (child is THREE.Mesh)
-                                          child.castShadow = true;
-                                          //child.receiveShadow = true;
+                         //cube.traverse(
+                         //    new Action<THREE.Object3D>(
+                         //        child =>
+                         //             {
+                         //                 // does it work? do we need it?
+                         //                 //if (child is THREE.Mesh)
+                         //                 child.castShadow = true;
+                         //                 //child.receiveShadow = true;
 
-                                      }
-                             )
-                         );
+                         //             }
+                         //    )
+                         //);
 
                          // um can edit and continue insert code going back in time?
                          cube.scale.x = 10.0;
