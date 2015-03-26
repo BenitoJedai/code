@@ -45,7 +45,7 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Debug\ScriptCoreLib.XML</DocumentationFile>
     <UseVSHostingProcess>true</UseVSHostingProcess>
-    <NoWarn>67, 108, 1587, 169</NoWarn>
+    <NoWarn>67, 108, 1587, 169, 618</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

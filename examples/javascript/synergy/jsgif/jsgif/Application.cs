@@ -71,11 +71,12 @@ namespace jsgif
             context.fillStyle = "rgb(255,255,255)";
             context.fillRect(0, 0, canvas.width, canvas.height);
 
-
+			// rebuild redux?
             var my_gradient = context.createLinearGradient(0, 0, 16, 0);
             my_gradient.addColorStop(0, "blue");
             my_gradient.addColorStop(1, "white");
-            context.fillStyle = my_gradient; //"rgb(255,255,255)";  
+            //context.fillStyle = my_gradient; //"rgb(255,255,255)";  
+            context.fillStyle = "rgb(255,255,255)";  
             context.fillRect(0, 0, 16, canvas.height); //GIF can't do transparent so do white
 
             Action yield = delegate { };
