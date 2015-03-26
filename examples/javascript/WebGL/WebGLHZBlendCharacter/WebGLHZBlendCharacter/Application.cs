@@ -227,19 +227,19 @@ namespace WebGLHZBlendCharacter
                     // https://github.com/mrdoob/three.js/issues/1285
                     //cube.children.WithEach(c => c.castShadow = true);
 
-                    cube.traverse(
-                        new Action<THREE.Object3D>(
-                            child =>
-                            {
-                                // does it work? do we need it?
-                                //if (child is THREE.Mesh)
+                    //cube.traverse(
+                    //    new Action<THREE.Object3D>(
+                    //        child =>
+                    //        {
+                    //            // does it work? do we need it?
+                    //            //if (child is THREE.Mesh)
 
-                                child.castShadow = true;
-                                //child.receiveShadow = true;
+                    //            child.castShadow = true;
+                    //            //child.receiveShadow = true;
 
-                            }
-                        )
-                    );
+                    //        }
+                    //    )
+                    //);
 
                     // um can edit and continue insert code going back in time?
                     cube.scale.x = 10.0;

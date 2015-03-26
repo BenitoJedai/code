@@ -19,7 +19,7 @@ using WebGLGodRay.Design;
 using WebGLGodRay.HTML.Pages;
 using WebGLRah66Comanche;
 using WebGLRah66Comanche.Library;
-using THREE;
+using static THREE;
 
 namespace WebGLGodRay
 {
@@ -67,7 +67,7 @@ namespace WebGLGodRay
 
             //
 
-            var materialDepth = new THREE.MeshDepthMaterial();
+            var materialDepth = new THREE.MeshDepthMaterial(new { });
 
 
             #region tree
