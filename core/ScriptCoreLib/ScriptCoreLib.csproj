@@ -1243,6 +1243,7 @@
     <Folder Include="JavaScript\BCLImplementation\System\ComponentModel\" />
     <Folder Include="JavaScript\BCLImplementation\System\Linq\Parallel\" />
     <Folder Include="JavaScript\DOM\HTML\Elements\" />
+    <Folder Include="JavaScript\WebNFC\" />
     <Folder Include="PHP\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />

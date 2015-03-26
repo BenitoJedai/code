@@ -46,9 +46,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         //public uint hardwareConcurrency;
         public int hardwareConcurrency;
 
-        // http://www.w3.org/TR/nfc/#extensions-to-navigator-object
-        // tested by ?
-        public object nfc;
+
+
+		// https://w3c.github.io/web-nfc/
+		// http://www.w3.org/TR/nfc/#extensions-to-navigator-object
+		// tested by ?
+		public object nfc;
 
 
         // see also:
