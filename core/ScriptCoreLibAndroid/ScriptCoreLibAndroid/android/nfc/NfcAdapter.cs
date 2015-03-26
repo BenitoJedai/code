@@ -20,8 +20,12 @@ namespace android.nfc
         public static string ACTION_TAG_DISCOVERED;
         public static string ACTION_TECH_DISCOVERED;
 
-
+        // FLAG_READER_NFC_A
         public  const int FLAG_READER_SKIP_NDEF_CHECK = 0x80;
+        public const int FLAG_READER_NFC_A = 0x1;
+        public const int FLAG_READER_NFC_B = 0x2;
+        public const int FLAG_READER_NFC_V = 0x8;
+
         public  const string EXTRA_READER_PRESENCE_CHECK_DELAY = "presence";
 
         // can we access it from NDK?

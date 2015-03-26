@@ -9,6 +9,11 @@ namespace ScriptCoreLib.JavaScript.WebVR
 	[Script(HasNoPrototype = true)]
 	public class VRDevice
 	{
+		// https://developers.google.com/cardboard/android/
+		// https://developers.google.com/cardboard/android/download
+		// https://github.com/googlesamples/cardboard-java
+		// https://developers.google.com/cardboard/android/get-started
+
 		// https://www.google.com/get/cardboard/get-cardboard.html
 
 		// http://voicesofvr.com/100-sebastian-kuntz-on-virtual-reality-presence-lessons-from-13-years-in-vr/

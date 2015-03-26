@@ -21,6 +21,11 @@ namespace android.os
             throw null;
         }
 
+        public int putInt(string e, int v)
+        {
+            throw null;
+        }
+
         public int getInt(string e)
         {
             throw null;
