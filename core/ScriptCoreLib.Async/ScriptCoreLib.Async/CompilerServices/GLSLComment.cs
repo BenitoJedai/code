@@ -8,6 +8,8 @@ namespace ScriptCoreLib.CompilerServices
 {
 	public class GLSLComment
 	{
+        // https://www.khronos.org/registry/spir-v/papers/WhitePaper.html
+
 		public bool IsLineComment;
 		public bool IsBlockComment;
 
