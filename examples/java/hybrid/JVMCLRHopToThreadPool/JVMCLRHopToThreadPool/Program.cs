@@ -48,18 +48,18 @@ namespace JVMCLRHopToThreadPool
                typeof(object).AssemblyQualifiedName
             );
 
-        
 
-            //            0001 0200001c JVMCLRHopToThreadPool__i__d.jvm::< module >.SHA1e753615830d7e1078fa8bbc34fd2a916a7ff550f@2144380672$000000da
-            //              - javac
-            //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" - classpath "Y:\staging\web\java"; release - d release java\JVMCLRHopToThreadPool\Program.java
-            //   Y:\staging\web\java\JVMCLRHopToThreadPool\Program___c__DisplayClass0___Main_b__1_d__0__MoveNext_06000028.java:44: error: cannot find symbol
-            //        Program___c__DisplayClass0___Main_b__1_d__0__MoveNext_06000028.__workflow(next_060000280, ref_awaitable1, ref_awaitable2, ref_main_b__1_d__03);
-            //                                                                                                                                  ^
-            //  symbol:   variable ref_main_b__1_d__03
-            //  location: class Program___c__DisplayClass0___Main_b__1_d__0__MoveNext_06000028
+            #region  roslyn 2015? 4.6 ?
+            //0001 0200001c JVMCLRHopToThreadPool__i__d.jvm::<module>.SHA1e980dfe21ddfc8bf9c27f3cbb3709e5a011bd3ba@1175797185$000000db
+            //- javac
+            //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRHopToThreadPool\Program.java
+            //Y:\staging\web\java\JVMCLRHopToThreadPool\Program___c___Main_b__0_0_d__MoveNext_06000028.java:44: error: cannot find symbol
+            //        Program___c___Main_b__0_0_d__MoveNext_06000028.__workflow(next_060000280, ref_awaitable1, ref_awaitable2, ref_main_b__0_0_d3);
+            #endregion
+
 
             new { }.With(
+                // c# 5? yes, works with 2012 c# 5
                 async scope =>
                 {
                     //java.lang.Object, rt
@@ -70,6 +70,7 @@ namespace JVMCLRHopToThreadPool
 
                     Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId });
 
+                    // will this compile for roslyn 2015? 4.6 ?
                     await default(HopToThreadPoolAwaitable); // computationally-intensive operation follows, so force execution to run asynchronously
 
                     Thread.Sleep(400);
