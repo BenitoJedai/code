@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.Runtime;
 
-using THREE;
+using static THREE;
 
 namespace WebGLCannonPhysicsEngine
 {
@@ -125,7 +125,7 @@ namespace WebGLCannonPhysicsEngine
             var ambient = new AmbientLight(0x111111);
             scene.add(ambient);
 
-            var light = new SpotLight(0xffffff);
+            var light = new SpotLight(0xffffff, 1.0);
             light.position.set(10, 30, 20);
             light.target.position.set(0, 0, 0);
             //    if(true){
@@ -362,7 +362,7 @@ namespace WebGLCannonPhysicsEngine
                     var ballradius = 0.1 + Math_random() * 0.9;
 
                     var ballShape = new CANNON.Sphere(ballradius);
-                    var ballGeometry = new THREE.SphereGeometry(ballShape.radius);
+                    var ballGeometry = new THREE.SphereGeometry(ballShape.radius, 32, 32);
                     var shootDirection = new THREE.Vector3();
                     var shootVelo = 15;
                     var projector = new THREE.Projector();
@@ -372,7 +372,7 @@ namespace WebGLCannonPhysicsEngine
                         var vector = targetVec;
                         targetVec.set(0, 0, 1);
                         projector.unprojectVector(vector, camera);
-                        var ray = new THREE.Ray(controls_sphereBody.position,
+                        var ray = new THREE.Ray( (THREE.Vector3)(object)controls_sphereBody.position,
                             vector
                             //.subSelf(controls_sphereBody.position)
                             .normalize()
