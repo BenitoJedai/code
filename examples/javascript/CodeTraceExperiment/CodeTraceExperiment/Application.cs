@@ -21,162 +21,164 @@ using System.Diagnostics;
 
 namespace CodeTraceExperiment
 {
-    public delegate Task<T> interactive<T>(
-        T value,
+	public delegate Task<T> interactive<T>(
+		T value,
 
-        // jsc what are the args here?
-        // need .Async to be restored
+		// jsc what are the args here?
+		// need .Async to be restored
 
-        // could the attribute not serve as a type too?
+		// could the attribute not serve as a type too?
 
-        //Error CS4021  The CallerFilePathAttribute may only be applied to parameters with default values CodeTraceExperiment Application.cs  28
+		//Error CS4021  The CallerFilePathAttribute may only be applied to parameters with default values CodeTraceExperiment Application.cs  28
 
-        [CallerFilePath] string filepath = "",
-        [CallerLineNumber] int linenumber = 0,
-        [ScriptCoreLib.CompilerServices.CallerFileLine] string fileline = ""
-    );
+		[CallerFilePath] string filepath = "",
+		[CallerLineNumber] int linenumber = 0,
+		[ScriptCoreLib.CompilerServices.CallerFileLine] string fileline = ""
+	);
 
-    public delegate Task trace(
-    // jsc what are the args here?
-    // need .Async to be restored
+	public delegate Task trace(
+		// jsc what are the args here?
+		// need .Async to be restored
 
-    // could the attribute not serve as a type too?
+		// could the attribute not serve as a type too?
 
-    //Error CS4021  The CallerFilePathAttribute may only be applied to parameters with default values CodeTraceExperiment Application.cs  28
+		//Error CS4021  The CallerFilePathAttribute may only be applied to parameters with default values CodeTraceExperiment Application.cs  28
 
-        [CallerFilePath] string filepath = "",
-        [CallerLineNumber] int linenumber = 0,
-        [ScriptCoreLib.CompilerServices.CallerFileLine] string fileline = ""
-    );
+		[CallerFilePath] string filepath = "",
+		[CallerLineNumber] int linenumber = 0,
+		[ScriptCoreLib.CompilerServices.CallerFileLine] string fileline = ""
+	);
 
-    /// <summary>
-    /// Your client side code running inside a web browser as JavaScript.
-    /// </summary>
-    public sealed class Application : ApplicationWebService
-    {
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
-        {
-            // intellitrace
-            // a self debugging programe?
-            // can we have buttons for debugging?
-            // https://www.youtube.com/watch?v=4vtKRE9an_I
-            // could we have live patching, remote debugging via udp?
+	/// <summary>
+	/// Your client side code running inside a web browser as JavaScript.
+	/// </summary>
+	public sealed class Application : ApplicationWebService
+	{
+		/// <summary>
+		/// This is a javascript application.
+		/// </summary>
+		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+		public Application(IApp page)
+		{
+			// X:\jsc.svn\examples\javascript\async\AsyncWindowUncaughtError\AsyncWindowUncaughtError\ApplicationWebService.cs
 
-            var Next = new IHTMLButton { "Next" }.AttachToDocument();
-            Next.disabled = true;
+			// intellitrace
+			// a self debugging programe?
+			// can we have buttons for debugging?
+			// https://www.youtube.com/watch?v=4vtKRE9an_I
+			// could we have live patching, remote debugging via udp?
 
-            Func<Task> Next_onclick = async delegate
-            {
+			var Next = new IHTMLButton { "Next" }.AttachToDocument();
+			Next.disabled = true;
 
-                Next.disabled = false;
-                await Next.async.onclick;
-                Next.disabled = true;
-            };
+			Func<Task> Next_onclick = async delegate
+			{
 
-            trace trace = async (string filepath, int linenumber, string line) =>
-            {
-                // could we go backwards in time too?
-                // like intellitrace?
+				Next.disabled = false;
+				await Next.async.onclick;
+				Next.disabled = true;
+			};
 
-                var debugged = new IHTMLPre { }.AttachToDocument();
+			trace trace = async (string filepath, int linenumber, string line) =>
+			{
+				// could we go backwards in time too?
+				// like intellitrace?
 
-
-
-
-                // should we allow chaning constants?
-                // by patching const load opcodes?
-
-                var l = new IHTMLSpan { "" + linenumber }.AttachToDocument();
+				var debugged = new IHTMLPre { }.AttachToDocument();
 
 
 
 
-                l.title = filepath;
+				// should we allow chaning constants?
+				// by patching const load opcodes?
 
-                l.style.marginRight = "2em";
-                l.style.color = "darkcyan";
-
-                l.AttachTo(debugged);
-
-                // could we use css to do syntax highlight?
-                var prefixToHide = "await trace();";
-
-                // perhaps the next step would be to send us the origina stack usage IL 
-                // we see in the jsc reflector?
-                var c = new IHTMLSpan { line.Replace(prefixToHide, "") };
-
-                c.style.marginRight = "2em";
-                //c.style.color = "blue";
-                c.style.backgroundColor = "yellow";
-
-                c.AttachTo(debugged);
-
-                await Next_onclick();
-
-                c.style.backgroundColor = "";
-            };
-
-            interactive<string> __string = async (string data, string filepath, int linenumber, string line) =>
-            {
-                var i = new IHTMLInput { value = data }.AttachToDocument();
-
-                await Next_onclick();
-
-                return i.value;
-            };
+				var l = new IHTMLSpan { "" + linenumber }.AttachToDocument();
 
 
-            //Func<>
-            Func<string, Task<string>> program =
-            // a simulaton of a program
-            async data =>
-            {
-                await trace(); new IHTMLPre { await __string("hello") }.AttachToDocument();
-                await trace(); new IHTMLPre { await __string("world") }.AttachToDocument();
 
 
-                await trace(); return "done!";
-            };
+				l.title = filepath;
 
-            new IHTMLButton { "Step Into" }.AttachToDocument().onclick +=
-                async e =>
-                {
-                    new IHTMLHorizontalRule().AttachToDocument();
+				l.style.marginRight = "2em";
+				l.style.color = "darkcyan";
 
-                    e.Element.disabled = true;
-                    var value = await program("data");
-                    e.Element.disabled = false;
+				l.AttachTo(debugged);
 
-                    new IHTMLPre { new { value } }.AttachToDocument();
+				// could we use css to do syntax highlight?
+				var prefixToHide = "await trace();";
 
-                };
+				// perhaps the next step would be to send us the origina stack usage IL 
+				// we see in the jsc reflector?
+				var c = new IHTMLSpan { line.Replace(prefixToHide, "") };
+
+				c.style.marginRight = "2em";
+				//c.style.color = "blue";
+				c.style.backgroundColor = "yellow";
+
+				c.AttachTo(debugged);
+
+				await Next_onclick();
+
+				c.style.backgroundColor = "";
+			};
+
+			interactive<string> __string = async (string data, string filepath, int linenumber, string line) =>
+			{
+				var i = new IHTMLInput { value = data }.AttachToDocument();
+
+				await Next_onclick();
+
+				return i.value;
+			};
 
 
-            new IHTMLButton { "Run" }.AttachToDocument().onclick +=
-                async e =>
-                {
-                    // enum to string?
-                    new IHTMLHorizontalRule().AttachToDocument();
-
-                    var x = Next_onclick;
-                    // slow down the program
-                    Next_onclick = async delegate { await Task.Delay(300); };
+			//Func<>
+			Func<string, Task<string>> program =
+			// a simulaton of a program
+			async data =>
+			{
+				await trace(); new IHTMLPre { await __string("hello") }.AttachToDocument();
+				await trace(); new IHTMLPre { await __string("world") }.AttachToDocument();
 
 
-                    e.Element.disabled = true;
-                    var value = await program("data");
-                    e.Element.disabled = false;
+				await trace(); return "done!";
+			};
 
-                    Next_onclick = x;
+			new IHTMLButton { "Step Into" }.AttachToDocument().onclick +=
+				async e =>
+				{
+					new IHTMLHorizontalRule().AttachToDocument();
 
-                    new IHTMLPre { new { value } }.AttachToDocument();
+					e.Element.disabled = true;
+					var value = await program("data");
+					e.Element.disabled = false;
 
-                };
-        }
+					new IHTMLPre { new { value } }.AttachToDocument();
 
-    }
+				};
+
+
+			new IHTMLButton { "Run" }.AttachToDocument().onclick +=
+				async e =>
+				{
+					// enum to string?
+					new IHTMLHorizontalRule().AttachToDocument();
+
+					var x = Next_onclick;
+					// slow down the program
+					Next_onclick = async delegate { await Task.Delay(300); };
+
+
+					e.Element.disabled = true;
+					var value = await program("data");
+					e.Element.disabled = false;
+
+					Next_onclick = x;
+
+					new IHTMLPre { new { value } }.AttachToDocument();
+
+				};
+		}
+
+	}
 }

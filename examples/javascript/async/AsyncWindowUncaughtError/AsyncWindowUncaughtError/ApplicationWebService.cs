@@ -108,7 +108,9 @@ namespace AsyncWindowUncaughtError
     [Obsolete("experimental. used by IUncaughtErrorHandler.")]
     public sealed class IUncaughtErrorHandlerArguments
     {
-        public string message;
+		// X:\jsc.svn\examples\javascript\CodeTraceExperiment\CodeTraceExperiment\Application.cs
+
+		public string message;
 
         // can we get the .NET IL info of it?
         // does jsc store IL info for inspection?

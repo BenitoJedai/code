@@ -34,7 +34,7 @@ namespace WebGLMD2MorphtargetExample
             // http://oos.moxiecode.com/js_webgl/md2_converter/MD2_converter.js
             // http://oos.moxiecode.com/js_webgl/md2_morphtarget_example/
 
-            var camz = 3000;
+            var camz = 3000.0;
 
             var SHADOW_MAP_WIDTH = 1024;
             var SHADOW_MAP_HEIGHT = 512;
@@ -179,7 +179,7 @@ namespace WebGLMD2MorphtargetExample
 
                             mesh.updateAnimation(delta);
 
-                            camz += (450 - camz) / 20;
+                            camz += (450 - camz) / 20.0;
                             camera.position.z = camz;
 
 

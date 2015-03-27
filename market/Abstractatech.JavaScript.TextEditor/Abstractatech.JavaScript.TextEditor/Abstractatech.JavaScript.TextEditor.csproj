@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Abstractatech</RootNamespace>
     <AssemblyName>Abstractatech.JavaScript.TextEditor</AssemblyName>
-    <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>Abstractatech.JavaScript.TextEditor.Program</StartupObject>
     <TargetFrameworkProfile />

@@ -17,6 +17,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(InternalConstructor = true, Implements = typeof(global::System.Exception))]
     internal class __Exception
     {
+		// X:\jsc.svn\examples\javascript\async\AsyncWindowUncaughtError\AsyncWindowUncaughtError\ApplicationWebService.cs
+
 		// https://github.com/dotnet/coreclr/blob/6d1715d68d8ca1f921534897828242bbcc4f00b6/src/pal/src/exception/signal.cpp
 
 		// android NDK stores os errno at a pointer location 
