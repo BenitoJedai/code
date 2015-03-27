@@ -879,6 +879,339 @@
     <Reference Include="SpaceByReinder.AssetsLibrary">
       <HintPath>..\..\synergy\SpaceByReinder\SpaceByReinder\bin\staging.AssetsLibrary\SpaceByReinder.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ATreeByGuil.AssetsLibrary">
+      <HintPath>..\..\synergy\ATreeByGuil\ATreeByGuil\bin\staging.AssetsLibrary\ATreeByGuil.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AudioClayByTekF.AssetsLibrary">
+      <HintPath>..\..\synergy\AudioClayByTekF\AudioClayByTekF\bin\staging.AssetsLibrary\AudioClayByTekF.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BeeHiveByMovax.AssetsLibrary">
+      <HintPath>..\..\synergy\BeeHiveByMovax\BeeHiveByMovax\bin\staging.AssetsLibrary\BeeHiveByMovax.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BlankspaceByNBickford.AssetsLibrary">
+      <HintPath>..\..\synergy\BlankspaceByNBickford\BlankspaceByNBickford\bin\staging.AssetsLibrary\BlankspaceByNBickford.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ButterfliesByFizzer.AssetsLibrary">
+      <HintPath>..\..\synergy\ButterfliesByFizzer\ButterfliesByFizzer\bin\staging.AssetsLibrary\ButterfliesByFizzer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DaRasterizerByTDM.AssetsLibrary">
+      <HintPath>..\..\synergy\DaRasterizerByTDM\DaRasterizerByTDM\bin\staging.AssetsLibrary\DaRasterizerByTDM.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DesertChaseByNdxbxrme.AssetsLibrary">
+      <HintPath>..\..\synergy\DesertChaseByNdxbxrme\DesertChaseByNdxbxrme\bin\staging.AssetsLibrary\DesertChaseByNdxbxrme.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DIYSpacemanByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\DIYSpacemanByEiffie\DIYSpacemanByEiffie\bin\staging.AssetsLibrary\DIYSpacemanByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="EffusingLavaByNexor.AssetsLibrary">
+      <HintPath>..\..\synergy\EffusingLavaByNexor\EffusingLavaByNexor\bin\staging.AssetsLibrary\EffusingLavaByNexor.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FirstDistanceMapByChuckeles.AssetsLibrary">
+      <HintPath>..\..\synergy\FirstDistanceMapByChuckeles\FirstDistanceMapByChuckeles\bin\staging.AssetsLibrary\FirstDistanceMapByChuckeles.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlossingSpaceByFlorian.AssetsLibrary">
+      <HintPath>..\..\synergy\FlossingSpaceByFlorian\FlossingSpaceByFlorian\bin\staging.AssetsLibrary\FlossingSpaceByFlorian.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaxySpiralsByGuil.AssetsLibrary">
+      <HintPath>..\..\synergy\GalaxySpiralsByGuil\GalaxySpiralsByGuil\bin\staging.AssetsLibrary\GalaxySpiralsByGuil.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GammaCorrectnessByZavie.AssetsLibrary">
+      <HintPath>..\..\synergy\GammaCorrectnessByZavie\GammaCorrectnessByZavie\bin\staging.AssetsLibrary\GammaCorrectnessByZavie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GyratingGyroscopeByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\GyratingGyroscopeByDr2\GyratingGyroscopeByDr2\bin\staging.AssetsLibrary\GyratingGyroscopeByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="HalfLife3ByNikos.AssetsLibrary">
+      <HintPath>..\..\synergy\HalfLife3ByNikos\HalfLife3ByNikos\bin\staging.AssetsLibrary\HalfLife3ByNikos.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="InterleavedGradientNoiseByAlgorithm.AssetsLibrary">
+      <HintPath>..\..\synergy\InterleavedGradientNoiseByAlgorithm\InterleavedGradientNoiseByAlgorithm\bin\staging.AssetsLibrary\InterleavedGradientNoiseByAlgorithm.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="JoyDivisionByXbe.AssetsLibrary">
+      <HintPath>..\..\synergy\JoyDivisionByXbe\JoyDivisionByXbe\bin\staging.AssetsLibrary\JoyDivisionByXbe.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="JusterBeaverByMovax.AssetsLibrary">
+      <HintPath>..\..\synergy\JusterBeaverByMovax\JusterBeaverByMovax\bin\staging.AssetsLibrary\JusterBeaverByMovax.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="LegendOfZeldaByHLorenzi.AssetsLibrary">
+      <HintPath>..\..\synergy\LegendOfZeldaByHLorenzi\LegendOfZeldaByHLorenzi\bin\staging.AssetsLibrary\LegendOfZeldaByHLorenzi.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="LineIntersectionInteractiveByThe23.AssetsLibrary">
+      <HintPath>..\..\synergy\LineIntersectionInteractiveByThe23\LineIntersectionInteractiveByThe23\bin\staging.AssetsLibrary\LineIntersectionInteractiveByThe23.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MarioMushroomByAlgorithm.AssetsLibrary">
+      <HintPath>..\..\synergy\MarioMushroomByAlgorithm\MarioMushroomByAlgorithm\bin\staging.AssetsLibrary\MarioMushroomByAlgorithm.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MusicMarioByIq.AssetsLibrary">
+      <HintPath>..\..\synergy\MusicMarioByIq\MusicMarioByIq\bin\staging.AssetsLibrary\MusicMarioByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="OrderedDitherByKlk.AssetsLibrary">
+      <HintPath>..\..\synergy\OrderedDitherByKlk\OrderedDitherByKlk\bin\staging.AssetsLibrary\OrderedDitherByKlk.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="OtherWorldByAlgorithm.AssetsLibrary">
+      <HintPath>..\..\synergy\OtherWorldByAlgorithm\OtherWorldByAlgorithm\bin\staging.AssetsLibrary\OtherWorldByAlgorithm.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ParallaxMappingByNimitz.AssetsLibrary">
+      <HintPath>..\..\synergy\ParallaxMappingByNimitz\ParallaxMappingByNimitz\bin\staging.AssetsLibrary\ParallaxMappingByNimitz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PlasticReflectingCubesByDen.AssetsLibrary">
+      <HintPath>..\..\synergy\PlasticReflectingCubesByDen\PlasticReflectingCubesByDen\bin\staging.AssetsLibrary\PlasticReflectingCubesByDen.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RiseOfShroomByAlgorithm.AssetsLibrary">
+      <HintPath>..\..\synergy\RiseOfShroomByAlgorithm\RiseOfShroomByAlgorithm\bin\staging.AssetsLibrary\RiseOfShroomByAlgorithm.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ScatterByGaz.AssetsLibrary">
+      <HintPath>..\..\synergy\ScatterByGaz\ScatterByGaz\bin\staging.AssetsLibrary\ScatterByGaz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SegmentByArthursw.AssetsLibrary">
+      <HintPath>..\..\synergy\SegmentByArthursw\SegmentByArthursw\bin\staging.AssetsLibrary\SegmentByArthursw.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ShellByFMSCat.AssetsLibrary">
+      <HintPath>..\..\synergy\ShellByFMSCat\ShellByFMSCat\bin\staging.AssetsLibrary\ShellByFMSCat.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SminTestByHughsk.AssetsLibrary">
+      <HintPath>..\..\synergy\SminTestByHughsk\SminTestByHughsk\bin\staging.AssetsLibrary\SminTestByHughsk.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TetrisByKali.AssetsLibrary">
+      <HintPath>..\..\synergy\TetrisByKali\TetrisByKali\bin\staging.AssetsLibrary\TetrisByKali.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyCuttingByAiekick.AssetsLibrary">
+      <HintPath>..\..\synergy\TinyCuttingByAiekick\TinyCuttingByAiekick\bin\staging.AssetsLibrary\TinyCuttingByAiekick.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TreesByGuil.AssetsLibrary">
+      <HintPath>..\..\synergy\TreesByGuil\TreesByGuil\bin\staging.AssetsLibrary\TreesByGuil.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="UselessBoxByMovax.AssetsLibrary">
+      <HintPath>..\..\synergy\UselessBoxByMovax\UselessBoxByMovax\bin\staging.AssetsLibrary\UselessBoxByMovax.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ValveNoiseByImpossible.AssetsLibrary">
+      <HintPath>..\..\synergy\ValveNoiseByImpossible\ValveNoiseByImpossible\bin\staging.AssetsLibrary\ValveNoiseByImpossible.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="VolumetricHelicesByNimitz.AssetsLibrary">
+      <HintPath>..\..\synergy\VolumetricHelicesByNimitz\VolumetricHelicesByNimitz\bin\staging.AssetsLibrary\VolumetricHelicesByNimitz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WindWakerOceanByPolyflare.AssetsLibrary">
+      <HintPath>..\..\synergy\WindWakerOceanByPolyflare\WindWakerOceanByPolyflare\bin\staging.AssetsLibrary\WindWakerOceanByPolyflare.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="x2DFoldingByGaz.AssetsLibrary">
+      <HintPath>..\..\synergy\x2DFoldingByGaz\x2DFoldingByGaz\bin\staging.AssetsLibrary\x2DFoldingByGaz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="x3DExcQByGaz.AssetsLibrary">
+      <HintPath>..\..\synergy\x3DExcQByGaz\x3DExcQByGaz\bin\staging.AssetsLibrary\x3DExcQByGaz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RaymarchingTweaksByLanza.AssetsLibrary">
+      <HintPath>..\..\synergy\RaymarchingTweaksByLanza\RaymarchingTweaksByLanza\bin\staging.AssetsLibrary\RaymarchingTweaksByLanza.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="x2001SpaceStationByOtavio.AssetsLibrary">
+      <HintPath>..\..\synergy\x2001SpaceStationByOtavio\x2001SpaceStationByOtavio\bin\staging.AssetsLibrary\x2001SpaceStationByOtavio.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AlienBeaconByOtavio.AssetsLibrary">
+      <HintPath>..\..\synergy\AlienBeaconByOtavio\AlienBeaconByOtavio\bin\staging.AssetsLibrary\AlienBeaconByOtavio.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BatmanLogoByIq.AssetsLibrary">
+      <HintPath>..\..\synergy\BatmanLogoByIq\BatmanLogoByIq\bin\staging.AssetsLibrary\BatmanLogoByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ClippedDiscHypertextureByFabrice.AssetsLibrary">
+      <HintPath>..\..\synergy\ClippedDiscHypertextureByFabrice\ClippedDiscHypertextureByFabrice\bin\staging.AssetsLibrary\ClippedDiscHypertextureByFabrice.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ConformalPolarByFabrice.AssetsLibrary">
+      <HintPath>..\..\synergy\ConformalPolarByFabrice\ConformalPolarByFabrice\bin\staging.AssetsLibrary\ConformalPolarByFabrice.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CyclonicSphereByNusso.AssetsLibrary">
+      <HintPath>..\..\synergy\CyclonicSphereByNusso\CyclonicSphereByNusso\bin\staging.AssetsLibrary\CyclonicSphereByNusso.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ForestMurshroomBySquid.AssetsLibrary">
+      <HintPath>..\..\synergy\ForestMurshroomBySquid\ForestMurshroomBySquid\bin\staging.AssetsLibrary\ForestMurshroomBySquid.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapheneByFabrice.AssetsLibrary">
+      <HintPath>..\..\synergy\GrapheneByFabrice\GrapheneByFabrice\bin\staging.AssetsLibrary\GrapheneByFabrice.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="HeliByAvix.AssetsLibrary">
+      <HintPath>..\..\synergy\HeliByAvix\HeliByAvix\bin\staging.AssetsLibrary\HeliByAvix.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="HexafieldByKevs.AssetsLibrary">
+      <HintPath>..\..\synergy\HexafieldByKevs\HexafieldByKevs\bin\staging.AssetsLibrary\HexafieldByKevs.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MarioCrossEye3DByHLorenzi.AssetsLibrary">
+      <HintPath>..\..\synergy\MarioCrossEye3DByHLorenzi\MarioCrossEye3DByHLorenzi\bin\staging.AssetsLibrary\MarioCrossEye3DByHLorenzi.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MidnightCommsByFizzer.AssetsLibrary">
+      <HintPath>..\..\synergy\MidnightCommsByFizzer\MidnightCommsByFizzer\bin\staging.AssetsLibrary\MidnightCommsByFizzer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MyAstronautByLio.AssetsLibrary">
+      <HintPath>..\..\synergy\MyAstronautByLio\MyAstronautByLio\bin\staging.AssetsLibrary\MyAstronautByLio.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="OldWarehouseByFizzer.AssetsLibrary">
+      <HintPath>..\..\synergy\OldWarehouseByFizzer\OldWarehouseByFizzer\bin\staging.AssetsLibrary\OldWarehouseByFizzer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SeagullByAvix.AssetsLibrary">
+      <HintPath>..\..\synergy\SeagullByAvix\SeagullByAvix\bin\staging.AssetsLibrary\SeagullByAvix.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="VolumetricRaycastingByXt95.AssetsLibrary">
+      <HintPath>..\..\synergy\VolumetricRaycastingByXt95\VolumetricRaycastingByXt95\bin\staging.AssetsLibrary\VolumetricRaycastingByXt95.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WobblyThingByAvix.AssetsLibrary">
+      <HintPath>..\..\synergy\WobblyThingByAvix\WobblyThingByAvix\bin\staging.AssetsLibrary\WobblyThingByAvix.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AkiyoshisSnakesIllusionByHoskins.AssetsLibrary">
+      <HintPath>..\..\synergy\AkiyoshisSnakesIllusionByHoskins\AkiyoshisSnakesIllusionByHoskins\bin\staging.AssetsLibrary\AkiyoshisSnakesIllusionByHoskins.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AsteroidsByArchee.AssetsLibrary">
+      <HintPath>..\..\synergy\AsteroidsByArchee\AsteroidsByArchee\bin\staging.AssetsLibrary\AsteroidsByArchee.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BRDFsRUsByAntonalog.AssetsLibrary">
+      <HintPath>..\..\synergy\BRDFsRUsByAntonalog\BRDFsRUsByAntonalog\bin\staging.AssetsLibrary\BRDFsRUsByAntonalog.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CompassesByGijs.AssetsLibrary">
+      <HintPath>..\..\synergy\CompassesByGijs\CompassesByGijs\bin\staging.AssetsLibrary\CompassesByGijs.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CubitreeByXt.AssetsLibrary">
+      <HintPath>..\..\synergy\CubitreeByXt\CubitreeByXt\bin\staging.AssetsLibrary\CubitreeByXt.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DancingJediByIapafoto.AssetsLibrary">
+      <HintPath>..\..\synergy\DancingJediByIapafoto\DancingJediByIapafoto\bin\staging.AssetsLibrary\DancingJediByIapafoto.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="EllingtonVisitsShaderToyByMPlanck.AssetsLibrary">
+      <HintPath>..\..\synergy\EllingtonVisitsShaderToyByMPlanck\EllingtonVisitsShaderToyByMPlanck\bin\staging.AssetsLibrary\EllingtonVisitsShaderToyByMPlanck.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FloorByStarboxByXilconic.AssetsLibrary">
+      <HintPath>..\..\synergy\FloorByStarboxByXilconic\FloorByStarboxByXilconic\bin\staging.AssetsLibrary\FloorByStarboxByXilconic.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FloorStarBoxMarbleByXilconic.AssetsLibrary">
+      <HintPath>..\..\synergy\FloorStarBoxMarbleByXilconic\FloorStarBoxMarbleByXilconic\bin\staging.AssetsLibrary\FloorStarBoxMarbleByXilconic.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FlowerByIq.AssetsLibrary">
+      <HintPath>..\..\synergy\FlowerByIq\FlowerByIq\bin\staging.AssetsLibrary\FlowerByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FoldingByReinder.AssetsLibrary">
+      <HintPath>..\..\synergy\FoldingByReinder\FoldingByReinder\bin\staging.AssetsLibrary\FoldingByReinder.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GoGoLegoManByIapafoto.AssetsLibrary">
+      <HintPath>..\..\synergy\GoGoLegoManByIapafoto\GoGoLegoManByIapafoto\bin\staging.AssetsLibrary\GoGoLegoManByIapafoto.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="HauntedForest2ByReinder.AssetsLibrary">
+      <HintPath>..\..\synergy\HauntedForest2ByReinder\HauntedForest2ByReinder\bin\staging.AssetsLibrary\HauntedForest2ByReinder.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ImpactByCabbibo.AssetsLibrary">
+      <HintPath>..\..\synergy\ImpactByCabbibo\ImpactByCabbibo\bin\staging.AssetsLibrary\ImpactByCabbibo.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ImpactTextTestByCabbibo.AssetsLibrary">
+      <HintPath>..\..\synergy\ImpactTextTestByCabbibo\ImpactTextTestByCabbibo\bin\staging.AssetsLibrary\ImpactTextTestByCabbibo.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="InputMouseByIq.AssetsLibrary">
+      <HintPath>..\..\synergy\InputMouseByIq\InputMouseByIq\bin\staging.AssetsLibrary\InputMouseByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="InvadersByIapafoto.AssetsLibrary">
+      <HintPath>..\..\synergy\InvadersByIapafoto\InvadersByIapafoto\bin\staging.AssetsLibrary\InvadersByIapafoto.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="JackoLanternByPMalin.AssetsLibrary">
+      <HintPath>..\..\synergy\JackoLanternByPMalin\JackoLanternByPMalin\bin\staging.AssetsLibrary\JackoLanternByPMalin.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="JellyfishByVlad.AssetsLibrary">
+      <HintPath>..\..\synergy\JellyfishByVlad\JellyfishByVlad\bin\staging.AssetsLibrary\JellyfishByVlad.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="KMoonByKali.AssetsLibrary">
+      <HintPath>..\..\synergy\KMoonByKali\KMoonByKali\bin\staging.AssetsLibrary\KMoonByKali.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="LaDecimaByCiberxtrem.AssetsLibrary">
+      <HintPath>..\..\synergy\LaDecimaByCiberxtrem\LaDecimaByCiberxtrem\bin\staging.AssetsLibrary\LaDecimaByCiberxtrem.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="LightingRoomByCaosdoar.AssetsLibrary">
+      <HintPath>..\..\synergy\LightingRoomByCaosdoar\LightingRoomByCaosdoar\bin\staging.AssetsLibrary\LightingRoomByCaosdoar.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="NeptunianByEspitz.AssetsLibrary">
+      <HintPath>..\..\synergy\NeptunianByEspitz\NeptunianByEspitz\bin\staging.AssetsLibrary\NeptunianByEspitz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PolygonRaytracingByBranch.AssetsLibrary">
+      <HintPath>..\..\synergy\PolygonRaytracingByBranch\PolygonRaytracingByBranch\bin\staging.AssetsLibrary\PolygonRaytracingByBranch.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PortalGunByRamocles.AssetsLibrary">
+      <HintPath>..\..\synergy\PortalGunByRamocles\PortalGunByRamocles\bin\staging.AssetsLibrary\PortalGunByRamocles.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RaymarchingTutorialByObjelisks.AssetsLibrary">
+      <HintPath>..\..\synergy\RaymarchingTutorialByObjelisks\RaymarchingTutorialByObjelisks\bin\staging.AssetsLibrary\RaymarchingTutorialByObjelisks.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ReflectingCatByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\ReflectingCatByDr2\ReflectingCatByDr2\bin\staging.AssetsLibrary\ReflectingCatByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RockShapesWIPByAsteropaeus.AssetsLibrary">
+      <HintPath>..\..\synergy\RockShapesWIPByAsteropaeus\RockShapesWIPByAsteropaeus\bin\staging.AssetsLibrary\RockShapesWIPByAsteropaeus.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RoseByHoskins.AssetsLibrary">
+      <HintPath>..\..\synergy\RoseByHoskins\RoseByHoskins\bin\staging.AssetsLibrary\RoseByHoskins.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SchroedingersCatByDr2.AssetsLibrary">
+      <HintPath>..\..\synergy\SchroedingersCatByDr2\SchroedingersCatByDr2\bin\staging.AssetsLibrary\SchroedingersCatByDr2.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SmoothedCSGByTekF.AssetsLibrary">
+      <HintPath>..\..\synergy\SmoothedCSGByTekF\SmoothedCSGByTekF\bin\staging.AssetsLibrary\SmoothedCSGByTekF.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SnowBallByIapafoto.AssetsLibrary">
+      <HintPath>..\..\synergy\SnowBallByIapafoto\SnowBallByIapafoto\bin\staging.AssetsLibrary\SnowBallByIapafoto.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SpeedingInTheDarkByWilddev.AssetsLibrary">
+      <HintPath>..\..\synergy\SpeedingInTheDarkByWilddev\SpeedingInTheDarkByWilddev\bin\staging.AssetsLibrary\SpeedingInTheDarkByWilddev.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SpoutByPMalin.AssetsLibrary">
+      <HintPath>..\..\synergy\SpoutByPMalin\SpoutByPMalin\bin\staging.AssetsLibrary\SpoutByPMalin.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="StarMapByMorgan.AssetsLibrary">
+      <HintPath>..\..\synergy\StarMapByMorgan\StarMapByMorgan\bin\staging.AssetsLibrary\StarMapByMorgan.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SubmergedByFizzer.AssetsLibrary">
+      <HintPath>..\..\synergy\SubmergedByFizzer\SubmergedByFizzer\bin\staging.AssetsLibrary\SubmergedByFizzer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SunsetOnTheSeaByRiccardo.AssetsLibrary">
+      <HintPath>..\..\synergy\SunsetOnTheSeaByRiccardo\SunsetOnTheSeaByRiccardo\bin\staging.AssetsLibrary\SunsetOnTheSeaByRiccardo.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TestOfBleedingColorByPredatiti.AssetsLibrary">
+      <HintPath>..\..\synergy\TestOfBleedingColorByPredatiti\TestOfBleedingColorByPredatiti\bin\staging.AssetsLibrary\TestOfBleedingColorByPredatiti.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TileableNoiseByHoskins.AssetsLibrary">
+      <HintPath>..\..\synergy\TileableNoiseByHoskins\TileableNoiseByHoskins\bin\staging.AssetsLibrary\TileableNoiseByHoskins.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TraceConeWithCRTByKlk.AssetsLibrary">
+      <HintPath>..\..\synergy\TraceConeWithCRTByKlk\TraceConeWithCRTByKlk\bin\staging.AssetsLibrary\TraceConeWithCRTByKlk.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WinterByIapafoto.AssetsLibrary">
+      <HintPath>..\..\synergy\WinterByIapafoto\WinterByIapafoto\bin\staging.AssetsLibrary\WinterByIapafoto.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Wolf128ByFinalPatch.AssetsLibrary">
+      <HintPath>..\..\synergy\Wolf128ByFinalPatch\Wolf128ByFinalPatch\bin\staging.AssetsLibrary\Wolf128ByFinalPatch.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WormsByIq.AssetsLibrary">
+      <HintPath>..\..\synergy\WormsByIq\WormsByIq\bin\staging.AssetsLibrary\WormsByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="x2DShadowCastingByTharich.AssetsLibrary">
+      <HintPath>..\..\synergy\x2DShadowCastingByTharich\x2DShadowCastingByTharich\bin\staging.AssetsLibrary\x2DShadowCastingByTharich.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="x2DSkullByStanton.AssetsLibrary">
+      <HintPath>..\..\synergy\x2DSkullByStanton\x2DSkullByStanton\bin\staging.AssetsLibrary\x2DSkullByStanton.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="x3DMetashapesByLewiz.AssetsLibrary">
+      <HintPath>..\..\synergy\x3DMetashapesByLewiz\x3DMetashapesByLewiz\bin\staging.AssetsLibrary\x3DMetashapesByLewiz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DEDoFByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\DEDoFByEiffie\DEDoFByEiffie\bin\staging.AssetsLibrary\DEDoFByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="LightiningByAsti.AssetsLibrary">
+      <HintPath>..\..\synergy\LightiningByAsti\LightiningByAsti\bin\staging.AssetsLibrary\LightiningByAsti.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="LoadingOrbByBjarnia.AssetsLibrary">
+      <HintPath>..\..\synergy\LoadingOrbByBjarnia\LoadingOrbByBjarnia\bin\staging.AssetsLibrary\LoadingOrbByBjarnia.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RainbowSlicesByFizzer.AssetsLibrary">
+      <HintPath>..\..\synergy\RainbowSlicesByFizzer\RainbowSlicesByFizzer\bin\staging.AssetsLibrary\RainbowSlicesByFizzer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RutherfordAtomByMattz.AssetsLibrary">
+      <HintPath>..\..\synergy\RutherfordAtomByMattz\RutherfordAtomByMattz\bin\staging.AssetsLibrary\RutherfordAtomByMattz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SparksByVanburgler.AssetsLibrary">
+      <HintPath>..\..\synergy\SparksByVanburgler\SparksByVanburgler\bin\staging.AssetsLibrary\SparksByVanburgler.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SpiningRingsBySquid.AssetsLibrary">
+      <HintPath>..\..\synergy\SpiningRingsBySquid\SpiningRingsBySquid\bin\staging.AssetsLibrary\SpiningRingsBySquid.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete.csproj">

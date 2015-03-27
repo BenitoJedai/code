@@ -186,7 +186,9 @@ namespace ChromeShaderToyPrograms
 			c.onmousedown += async ev =>
 			{
 				mMouseOriX = ev.CursorX;
-				mMouseOriY = ev.CursorY;
+				//mMouseOriY = ev.CursorY;
+				mMouseOriY = c.height - ev.CursorY;
+
 				mMousePosX = mMouseOriX;
 				mMousePosY = mMouseOriY;
 
