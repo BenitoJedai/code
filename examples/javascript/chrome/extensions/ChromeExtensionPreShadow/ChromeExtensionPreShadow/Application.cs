@@ -125,7 +125,7 @@ namespace ChromeExtensionPreShadow
                             once.Add(new { z.tabId, z.url });
 
 
-                            var n = new Notification
+                            var n = new chrome.Notification
                             {
                                 Message = "webNavigation! Committed " + new { z.url, z.tabId, z.transitionType, z.transitionQualifiers }
                             };
