@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CSSTransform3DFPSBlueprint</RootNamespace>
     <AssemblyName>CSSTransform3DFPSBlueprint</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>CSSTransform3DFPSBlueprint.Program</StartupObject>
     <TargetFrameworkProfile />
