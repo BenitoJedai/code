@@ -19,6 +19,7 @@ namespace WebGLVRHZTeaser
 	public class ApplicationWebService
 	{
 		// redux needs 2012 build for java
+		// integrate as GearVr / Google Cardboard
 
 
 		//        F/libc(27439): Fatal signal 11 (SIGSEGV), code 1, fault addr 0x8 in tid 27484 (Thread-280)
