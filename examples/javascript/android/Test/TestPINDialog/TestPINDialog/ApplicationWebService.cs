@@ -19,10 +19,30 @@ using ScriptCoreLib.Android.Extensions;
 
 namespace TestPINDialog
 {
+    struct HopToUIAwaitable : INotifyCompletion
+    {
+        public HopToUIAwaitable GetAwaiter() { return this; }
+        public bool IsCompleted { get { return false; } }
+        public void OnCompleted(Action continuation)
+        {
+            var a = ((Activity)ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext);
+
+            a.runOnUiThread(
+                delegate
+                {
+                    continuation();
+                }
+            );
+
+        }
+        public void GetResult() { }
+    }
+
+
     // X:\jsc.svn\examples\javascript\android\Test\TestPINLayoutDialog\TestPINLayoutDialog\ApplicationActivity.cs
     // will jsc pick em up here?
     // http://developer.android.com/guide/topics/manifest/uses-sdk-element.html
-    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "21")]
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "22")]
     [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:minSdkVersion", value = "10")]
     public class ApplicationWebService
     {
@@ -52,94 +72,95 @@ namespace TestPINDialog
 
             var a = new AutoResetEvent(false);
 
-
-            c.runOnUiThread(
-                delegate
-            {
-
-                //// the context. lets find it
-                //var alertDialogBuilder = new AlertDialog.Builder(c);
-
-
-                //LayoutInflater inflater = LayoutInflater.from(c);
-
-                // https://github.com/chinloong/Android-PinView/blob/master/res/layout/activity_pin_entry_view.xml
-                // http://lifehacker.com/three-ways-to-improve-your-androids-lock-screen-securi-1293317441
-
-                var alertDialog = new AlertDialog.Builder(c);
-
-                alertDialog.setTitle("Authentication");
-                alertDialog.setMessage("PIN1");
-
-
-
-                var xll = new LinearLayout(c);
-                xll.setOrientation(LinearLayout.VERTICAL);
-
-                var xt = new EditText(c);
-
-                //http://stackoverflow.com/questions/6443286/type-number-variation-password-not-present-in-inputtype-class
-                // https://groups.google.com/forum/#!topic/android-developers/UZuZjEbAnLE
-
-
-                // http://kmansoft.com/2011/02/27/an-edittext-for-entering-ip-addresses/
-                xt.setInputType(
-
-                    android.text.InputType.TYPE_CLASS_NUMBER |
-                    android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-                xt.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
-                xll.addView(xt);
-
-
-                alertDialog.setPositiveButton("OK",
-               new xOnClickListener
+            //c.runOnUiThread(
+            new { }.With(
+                async delegate
                 {
-                    yield = delegate
+                    await default(HopToUIAwaitable);
+
+                    //// the context. lets find it
+                    //var alertDialogBuilder = new AlertDialog.Builder(c);
+
+
+                    //LayoutInflater inflater = LayoutInflater.from(c);
+
+                    // https://github.com/chinloong/Android-PinView/blob/master/res/layout/activity_pin_entry_view.xml
+                    // http://lifehacker.com/three-ways-to-improve-your-androids-lock-screen-securi-1293317441
+
+                    var alertDialog = new AlertDialog.Builder(c);
+
+                    alertDialog.setTitle("Authentication");
+                    alertDialog.setMessage("PIN1");
+
+
+
+                    var xll = new LinearLayout(c);
+                    xll.setOrientation(LinearLayout.VERTICAL);
+
+                    var xt = new EditText(c);
+
+                    //http://stackoverflow.com/questions/6443286/type-number-variation-password-not-present-in-inputtype-class
+                    // https://groups.google.com/forum/#!topic/android-developers/UZuZjEbAnLE
+
+
+                    // http://kmansoft.com/2011/02/27/an-edittext-for-entering-ip-addresses/
+                    xt.setInputType(
+
+                        android.text.InputType.TYPE_CLASS_NUMBER |
+                        android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                    xt.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
+                    xll.addView(xt);
+
+                    // set button
+                    alertDialog.setPositiveButton("OK",
+                   new xOnClickListener
                     {
-                        // I/System.Console(23890): OK {{ ManagedThreadId = 1 }}
-                        Console.WriteLine(
-                            "OK " +
-                 new { Thread.CurrentThread.ManagedThreadId }
+                        yield = delegate
+                        {
+                            // I/System.Console(23890): OK {{ ManagedThreadId = 1 }}
+                            Console.WriteLine(
+                                "OK " +
+                     new { Thread.CurrentThread.ManagedThreadId }
 
-                            );
+                                );
 
-                        a.Set();
+                            a.Set();
+                        }
                     }
+
+                   );
+
+                    //{
+                    //    var xb = new Button(this);
+                    //    xb.setText("1");
+                    //    xll.addView(xb);
+                    //}
+
+                    //{
+                    //    var xb = new Button(this);
+                    //    xb.setText("2");
+                    //    xll.addView(xb);
+                    //}
+
+                    //{
+                    //    var xb = new Button(this);
+                    //    xb.setText("3");
+                    //    xll.addView(xb);
+                    //}
+
+
+
+                    alertDialog.setView(xll);
+
+
+                    // skip icons?
+                    //alertDialog.setIcon(android.R.drawable.star_off);
+
+                    // can we do async yet?
+                    alertDialog.create().show();
+
                 }
-
-               );
-
-                //{
-                //    var xb = new Button(this);
-                //    xb.setText("1");
-                //    xll.addView(xb);
-                //}
-
-                //{
-                //    var xb = new Button(this);
-                //    xb.setText("2");
-                //    xll.addView(xb);
-                //}
-
-                //{
-                //    var xb = new Button(this);
-                //    xb.setText("3");
-                //    xll.addView(xb);
-                //}
-
-
-
-                alertDialog.setView(xll);
-
-
-                // skip icons?
-                //alertDialog.setIcon(android.R.drawable.star_off);
-
-                // can we do async yet?
-                alertDialog.create().show();
-
-            }
-                );
+            );
 
 
             a.WaitOne();

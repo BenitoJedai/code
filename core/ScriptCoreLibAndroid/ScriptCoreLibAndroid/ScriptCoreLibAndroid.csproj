@@ -954,6 +954,7 @@
     <Compile Include="android\opengl\GLSurfaceView.cs" />
     <Compile Include="android\os\BatteryManager.cs" />
     <Compile Include="android\os\BaseBundle.cs" />
+    <Compile Include="android\os\Build.cs" />
     <Compile Include="android\os\Looper.cs" />
     <Compile Include="android\os\Parcel.cs" />
     <Compile Include="android\os\Handler.cs" />
@@ -971,6 +972,7 @@
     <Compile Include="android\speech\tts\AndroidKeyStore.cs" />
     <Compile Include="android\telephony\TelephonyManager.cs" />
     <Compile Include="android\test\ActivityTestCase.cs" />
+    <Compile Include="android\text\InputType.cs" />
     <Compile Include="android\text\TextWatcher.cs" />
     <Compile Include="android\text\method\TransformationMethod.cs" />
     <Compile Include="android\text\method\PasswordTransformationMethod.cs" />
