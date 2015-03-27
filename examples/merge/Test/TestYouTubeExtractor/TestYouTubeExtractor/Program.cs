@@ -257,9 +257,9 @@ namespace TestYouTubeExtractor
 
 			for (int p = 1; p < 96; p++)
 				foreach (var src in new[] {
-					//"http://consciousresonance.net/?page_id=1587&paged=\{p}"
-					//"https://faustuscrow.wordpress.com/page/\{p}/",
-					//"https://hiddenlighthouse.wordpress.com/page/\{p}/",
+					$"http://consciousresonance.net/?page_id=1587&paged={p}",
+                    $"https://faustuscrow.wordpress.com/page/{p}/",
+					$"https://hiddenlighthouse.wordpress.com/page/{p}/",
 					$"https://zproxy.wordpress.com/page/{p}/"
 
 				})

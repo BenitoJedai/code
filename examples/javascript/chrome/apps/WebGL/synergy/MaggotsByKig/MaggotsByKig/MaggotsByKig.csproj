@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A701E721-28A4-4885-BE7E-CDFCA6FAC2CA}</ProjectGuid>
+    <ProjectGuid>{BCF21B7A-99FD-4EC8-BEB9-5BF4085952D2}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simlicity3DByRunouw</RootNamespace>
-    <AssemblyName>Simlicity3DByRunouw</AssemblyName>
+    <RootNamespace>MaggotsByKig</RootNamespace>
+    <AssemblyName>MaggotsByKig</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>Simlicity3DByRunouw.Program</StartupObject>
+    <StartupObject>MaggotsByKig.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -126,8 +126,8 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="Simlicity3DByRunouw.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\Simlicity3DByRunouw.AssetsLibrary.dll</HintPath>
+    <Reference Include="MaggotsByKig.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\MaggotsByKig.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

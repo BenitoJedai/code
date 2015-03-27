@@ -258,6 +258,8 @@ namespace ChromeShaderToyPrograms
 			["ChromeShaderToyMaterialMenuByTekF"] = () => new ChromeShaderToyMaterialMenuByTekF.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyMinecraftBlocksByReinder"] = () => new ChromeShaderToyMinecraftBlocksByReinder.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyMetatunnelByDuprat"] = () => new ChromeShaderToyMetatunnelByDuprat.Shaders.ProgramFragmentShader(),
+			["MaggotsByKig"] = () => new MaggotsByKig.Shaders.ProgramFragmentShader(),
+			["MarbleFantasies"] = () => new MarbleFantasies.Shaders.ProgramFragmentShader(),
 			["MarioMushroomByAlgorithm"] = () => new MarioMushroomByAlgorithm.Shaders.ProgramFragmentShader(),
 			["MarioCrossEye3DByHLorenzi"] = () => new MarioCrossEye3DByHLorenzi.Shaders.ProgramFragmentShader(),
 			["MidnightCommsByFizzer"] = () => new MidnightCommsByFizzer.Shaders.ProgramFragmentShader(),
@@ -270,6 +272,7 @@ namespace ChromeShaderToyPrograms
 			["ChromeShaderToyMountainsByHoskins"] = () => new ChromeShaderToyMountainsByHoskins.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyMorphingTeapotByIapafoto"] = () => new ChromeShaderToyMorphingTeapotByIapafoto.Shaders.ProgramFragmentShader(),
 			["MonumentValleyByGltracy"] = () => new MonumentValleyByGltracy.Shaders.ProgramFragmentShader(),
+			["MoonCratersByGuil"] = () => new MoonCratersByGuil.Shaders.ProgramFragmentShader(),
 			["MusicMarioByIq"] = () => new MusicMarioByIq.Shaders.ProgramFragmentShader(),
 			["MyAstronautByLio"] = () => new MyAstronautByLio.Shaders.ProgramFragmentShader(),
 			#endregion
@@ -345,6 +348,7 @@ namespace ChromeShaderToyPrograms
 			["RainbowSlicesByFizzer"] = () => new RainbowSlicesByFizzer.Shaders.ProgramFragmentShader(),
 			["RayBertByHoskins"] = () => new RayBertByHoskins.Shaders.ProgramFragmentShader(),
 			["RayConeRayFrustumByRobert"] = () => new RayConeRayFrustumByRobert.Shaders.ProgramFragmentShader(),
+			["RaymarchingAttempt2ByCraxic"] = () => new RaymarchingAttempt2ByCraxic.Shaders.ProgramFragmentShader(),
 			["RaymarchingDisplacementByJcanabald"] = () => new RaymarchingDisplacementByJcanabald.Shaders.ProgramFragmentShader(),
 			["RaymarchingTutorialByObjelisks"] = () => new RaymarchingTutorialByObjelisks.Shaders.ProgramFragmentShader(),
 			["RaymarchingTweaksByLanza"] = () => new RaymarchingTweaksByLanza.Shaders.ProgramFragmentShader(),
@@ -436,6 +440,7 @@ namespace ChromeShaderToyPrograms
 			["TraceConeWithCRTByKlk"] = () => new TraceConeWithCRTByKlk.Shaders.ProgramFragmentShader(),
 			["TreeInGrassBySphinx"] = () => new TreeInGrassBySphinx.Shaders.ProgramFragmentShader(),
 			["TreesByGuil"] = () => new TreesByGuil.Shaders.ProgramFragmentShader(),
+			["TrollsCaveByFatumR"] = () => new TrollsCaveByFatumR.Shaders.ProgramFragmentShader(),
 			["TruchetTentaclesByWaha"] = () => new TruchetTentaclesByWaha.Shaders.ProgramFragmentShader(),
 			["TrumpetByBaldand"] = () => new TrumpetByBaldand.Shaders.ProgramFragmentShader(),
 			["Tunnel1ByWaha"] = () => new Tunnel1ByWaha.Shaders.ProgramFragmentShader(),
@@ -443,6 +448,7 @@ namespace ChromeShaderToyPrograms
 
 
 			["UselessBoxByMovax"] = () => new UselessBoxByMovax.Shaders.ProgramFragmentShader(),
+			["UglyBrickByPsykotic"] = () => new UglyBrickByPsykotic.Shaders.ProgramFragmentShader(),
 
 
 			#region /v/
@@ -473,6 +479,7 @@ namespace ChromeShaderToyPrograms
 			#endregion
 
 
+			["Xor3DAlienLandByXor"] = () => new Xor3DAlienLandByXor.Shaders.ProgramFragmentShader(),
 			["XorMountainsByXor"] = () => new XorMountainsByXor.Shaders.ProgramFragmentShader(),
 			["XorStormByXor"] = () => new XorStormByXor.Shaders.ProgramFragmentShader(),
 			["x2001SpaceStationByOtavio"] = () => new x2001SpaceStationByOtavio.Shaders.ProgramFragmentShader(),
