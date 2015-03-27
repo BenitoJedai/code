@@ -96,7 +96,7 @@ namespace WebGLMD2MorphtargetExample
             var ambient = new THREE.AmbientLight(0x333333);
             scene.add(ambient);
 
-            var light = new THREE.SpotLight(0xffffff);
+            var light = new THREE.SpotLight(0xffffff, 1.0);
             light.position.set(100, 350, 140);
             light.target.position.set(0, -94, 0);
 
@@ -149,7 +149,7 @@ namespace WebGLMD2MorphtargetExample
                         // renderer
                         var renderer = new THREE.WebGLRenderer(new { antialias = false });
                         //renderer.setClearColorHex(0x111111, 1);
-                        renderer.setClearColorHex(0x111111);
+                        //renderer.setClearColorHex(0x111111);
                         renderer.setSize();
                         renderer.domElement.AttachToDocument();
                         renderer.domElement.style.SetLocation(0, 0);
