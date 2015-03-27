@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using globalandroid::android.view;
 using globalandroid::android.widget;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLib.Android.Extensions
 {
@@ -19,6 +20,17 @@ namespace ScriptCoreLib.Android.Extensions
             {
                 h();
             }
+        }
+
+        [Obsolete("useful for 2012 web, await .async.onclick. CTP6 support will follow...")]
+        public static Task<T> AtClickAsync<T>(this T v) where T : View
+        {
+            var c = new TaskCompletionSource<T>();
+
+
+            v.AtClick(c.SetResult);
+
+            return c.Task;
         }
 
         public static T AtClick<T>(this T v, Action<T> h) where T : View
