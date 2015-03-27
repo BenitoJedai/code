@@ -12,6 +12,9 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 	[Script(Implements = typeof(global::System.Net.Sockets.Socket))]
 	public class __Socket
 	{
+		// https://www.chromium.org/developers/how-tos/how-to-set-up-visual-studio-debugger-visualizers
+		// https://www.chromium.org/developers/how-tos/build-instructions-windows/work-around-for-msvs-2013
+
 		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150306/udp
 
 		public static implicit operator global::System.Net.Sockets.Socket(__Socket i) => (global::System.Net.Sockets.Socket)(object)i;
