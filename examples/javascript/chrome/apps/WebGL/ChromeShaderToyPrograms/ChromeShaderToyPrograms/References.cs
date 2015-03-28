@@ -415,6 +415,7 @@ namespace ChromeShaderToyPrograms
 			["SparseGridMarchingByNimitz"] = () => new SparseGridMarchingByNimitz.Shaders.ProgramFragmentShader(),
 			["SpeedingInTheDarkByWilddev"] = () => new SpeedingInTheDarkByWilddev.Shaders.ProgramFragmentShader(),
 			["SphereMappingsByNimitz"] = () => new SphereMappingsByNimitz.Shaders.ProgramFragmentShader(),
+			["SphericalVoronoiByMattz"] = () => new SphericalVoronoiByMattz.Shaders.ProgramFragmentShader(),
 			["SpiningRingsBySquid"] = () => new SpiningRingsBySquid.Shaders.ProgramFragmentShader(),
 			["SpoutByPMalin"] = () => new SpoutByPMalin.Shaders.ProgramFragmentShader(),
 			["SpriteEncodingByNikos"] = () => new SpriteEncodingByNikos.Shaders.ProgramFragmentShader(),
