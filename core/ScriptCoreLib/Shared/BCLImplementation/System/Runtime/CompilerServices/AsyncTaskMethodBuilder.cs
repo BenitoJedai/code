@@ -94,9 +94,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
         //where TAwaiter : global::System.Runtime.CompilerServices.INotifyCompletion
         //where TStateMachine : __IAsyncStateMachine
         {
-            //Console.WriteLine("__AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted");
+			// X:\jsc.svn\examples\java\hybrid\JVMCLRSwitchToCLRContextAsync\JVMCLRSwitchToCLRContextAsync\Program.cs
 
-            var xstateMachine = (__IAsyncStateMachine)stateMachine;
+			//Console.WriteLine("__AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted");
+			// AsyncMethodBuilderCore+MoveNextRunner
+
+			var xstateMachine = (__IAsyncStateMachine)stateMachine;
             var zstateMachine = xstateMachine;
 
             Action yield = () => zstateMachine.MoveNext();
