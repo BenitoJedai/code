@@ -102,7 +102,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 			var xstateMachine = (__IAsyncStateMachine)stateMachine;
             var zstateMachine = xstateMachine;
 
-            Action yield = () => zstateMachine.MoveNext();
+			// m_stateMachine
+			Action yield = () => zstateMachine.MoveNext();
 
             var xawaiter = (__INotifyCompletion)(object)awaiter;
 
