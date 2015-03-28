@@ -12,9 +12,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.IAsyncStateMachine")]
     public interface __IAsyncStateMachine
     {
-        // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Runtime.CompilerServices/IAsyncStateMachine.cs
+		// X:\jsc.svn\examples\java\hybrid\JVMCLRSwitchToCLRContextAsync\JVMCLRSwitchToCLRContextAsync\Program.cs
 
-        void MoveNext();
+		// https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Runtime.CompilerServices/IAsyncStateMachine.cs
+
+		void MoveNext();
 
 
         // does jsc know about replicas?

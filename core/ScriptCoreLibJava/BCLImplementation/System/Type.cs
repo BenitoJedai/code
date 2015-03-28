@@ -494,6 +494,38 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return InternalEquals(left, right);
         }
 
+
+
+        // X:\jsc.svn\examples\java\hybrid\JVMCLRSwitchToCLRContextAsync\JVMCLRSwitchToCLRContextAsync\Program.cs
+        public FieldInfo[] GetFields(BindingFlags bindingAttr)
+        {
+            //0001 02000303 ScriptCoreLibJava::<>f__AnonymousType18`2
+            //script: error JSC1000: Java : invalid br opcode at
+            // assembly: C:\util\jsc\bin\ScriptCoreLibJava.dll
+            // type: ScriptCoreLibJava.BCLImplementation.System.__Type+<>c__DisplayClasse, ScriptCoreLibJava, Version=4.5.0.0, Culture=neutral, PublicKeyToken=null
+            // offset: 0x001b
+            //  method:Boolean <GetFields>b__a(<>f__AnonymousType18`2[java.lang.reflect.Field,System.Boolean])
+
+            Func<Field, bool> FilterByStatic =
+                fi =>
+                {
+                    var isStatic = Modifier.isStatic(fi.getModifiers());
+
+
+                    return !isStatic || (isStatic && ((bindingAttr & BindingFlags.Static) == BindingFlags.Static));
+                };
+
+            return Enumerable.ToArray(
+                from fi in this.InternalTypeDescription.getFields()
+
+
+                where FilterByStatic(fi)
+
+                select (FieldInfo)
+                    new __FieldInfo { InternalField = fi }
+            );
+        }
+
         // Returns all the public fields of the current System.Type.
         public __FieldInfo[] GetFields()
         {

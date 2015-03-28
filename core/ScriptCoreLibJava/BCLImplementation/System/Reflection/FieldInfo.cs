@@ -158,5 +158,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
         {
             return this.FieldType.FullName + " " + this.Name;
         }
+
+
+
+        public static implicit operator FieldInfo(__FieldInfo f)
+        {
+            return (FieldInfo)(object)f;
+
+        }
     }
 }
