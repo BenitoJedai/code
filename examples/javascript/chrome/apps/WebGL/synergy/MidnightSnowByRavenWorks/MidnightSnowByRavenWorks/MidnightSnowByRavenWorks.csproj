@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F43B9A37-627A-4F46-8BAD-75C3E8C549FB}</ProjectGuid>
+    <ProjectGuid>{5F2AD6DA-385D-498B-B46A-59D9EA608E64}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TruePinballPhysicsByArchee</RootNamespace>
-    <AssemblyName>TruePinballPhysicsByArchee</AssemblyName>
+    <RootNamespace>MidnightSnowByRavenWorks</RootNamespace>
+    <AssemblyName>MidnightSnowByRavenWorks</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>TruePinballPhysicsByArchee.Program</StartupObject>
+    <StartupObject>MidnightSnowByRavenWorks.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -126,8 +126,8 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="TruePinballPhysicsByArchee.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\TruePinballPhysicsByArchee.AssetsLibrary.dll</HintPath>
+    <Reference Include="MidnightSnowByRavenWorks.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\MidnightSnowByRavenWorks.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
