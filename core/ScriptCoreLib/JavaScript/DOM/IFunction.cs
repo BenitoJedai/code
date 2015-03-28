@@ -15,9 +15,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "Function")]
     public class IFunction
     {
-        // X:\jsc.svn\examples\javascript\test\TestChromeStackFrames\TestChromeStackFrames\Application.cs
-        // while jsc uses tokens as function names, it does save the IL name for debugging
-        public string displayName;
+		// X:\jsc.svn\examples\javascript\android\com.abstractatech.dcimgalleryapp\com.abstractatech.dcimgalleryapp\Application.cs
+		// X:\jsc.svn\examples\javascript\test\TestChromeStackFrames\TestChromeStackFrames\Application.cs
+		// while jsc uses tokens as function names, it does save the IL name for debugging
+		public string displayName;
 
         public Expando prototype;
 

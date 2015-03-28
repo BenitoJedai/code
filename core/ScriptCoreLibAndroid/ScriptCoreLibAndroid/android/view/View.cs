@@ -12,6 +12,17 @@ namespace android.view
     [Script(IsNative = true)]
     public class View
     {
+        public const int SYSTEM_UI_FLAG_HIDE_NAVIGATION = 0x00000002;
+
+        public const int SYSTEM_UI_FLAG_FULLSCREEN = 0x00000004;
+
+        public const int SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION = 0x00000200;
+        public const int SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN = 0x00000400;
+        public const int SYSTEM_UI_FLAG_IMMERSIVE_STICKY = 0x00001000;
+
+        public void setSystemUiVisibility(int visibility)
+        {
+        }
 
         public void forceLayout() { }
         public void requestLayout() { }

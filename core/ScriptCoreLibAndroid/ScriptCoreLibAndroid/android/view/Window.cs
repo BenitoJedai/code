@@ -28,5 +28,7 @@ namespace android.view
         {
 
         }
+
+        public abstract View getDecorView();
     }
 }
