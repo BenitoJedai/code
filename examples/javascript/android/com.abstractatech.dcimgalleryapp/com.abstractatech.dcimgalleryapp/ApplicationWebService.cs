@@ -9,6 +9,7 @@ using java.net;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Android.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLibJava.Extensions;
 using System;
@@ -20,7 +21,9 @@ using System.Xml.Linq;
 
 namespace com.abstractatech.dcimgalleryapp
 {
+	using android.app;
 	using System.ComponentModel;
+	using System.Diagnostics;
 	using System.Threading.Tasks;
 	using ystring = Action<string>;
 
@@ -556,11 +559,15 @@ namespace com.abstractatech.dcimgalleryapp
 		public int take = 4;
 
 		public Task File_list(
-			// jsc, can we have events yet, thanks
+			// jsc, can we have events yet, thanks, webrtc?
 			ystring yfile
 			)
 		{
 			// this will crash for empty nexus
+			// ?
+
+			var sw = Stopwatch.StartNew();
+			Console.WriteLine("enter File_list " + new { sw.ElapsedMilliseconds });
 
 			var skip = this.skip;
 			var take = this.take;
@@ -572,55 +579,30 @@ namespace com.abstractatech.dcimgalleryapp
 			path += "/Camera";
 
 
-
-			var aa = Enumerable.ToArray(
+			// X:\jsc.svn\examples\java\hybrid\JVMCLRLINQOrderByLastWriteTime\JVMCLRLINQOrderByLastWriteTime\Program.cs
+			var AllFiles = Enumerable.ToArray(
 				from fname in System.IO.Directory.GetFiles(path)
 				let ff = new System.IO.FileInfo(fname)
-				let lm = ff.LastWriteTime
-				orderby lm
-				select new { fname, ff, lm }
+				let LastWriteTime = ff.LastWriteTime
+				orderby LastWriteTime
+				select new { fname, ff, LastWriteTime }
 			);
 
-			//var a = System.IO.Directory.GetFiles(path).OrderBy(k => );
-			//var dir = new System.IO.Directory(path).get
+			Console.WriteLine("File_list " + new { AllFiles = AllFiles.Length, sw.ElapsedMilliseconds });
 
-			var f = new File(path);
+			var FilesAfterSkipAndTake = AllFiles.Skip(skip).Take(take).ToArray();
 
-			//Caused by: java.lang.Runtim
-			//eException: Implement IComparable for java.lang.Long vs java.lang.Long
-			//       at ScriptCoreLibJava.BCLImplementation.System.Collections.__Comparer.Compare(__Comparer.java:136)
+			Console.WriteLine("File_list " + new { FilesAfterSkipAndTake = FilesAfterSkipAndTake.Length, sw.ElapsedMilliseconds });
 
-			var a = f.listFiles().OrderByDescending(k => (double)k.lastModified()).ToArray();
-
-			//foreach (var item in a)
-			//{
-			//    if (new File(path + "/" + item).isDirectory())
-			//        ydirectory(path + "/" + item);
-			//}
-
-			for (int i = 0; i < a.Length; i++)
-			{
-				var item = a[i];
-				if (skip > 0)
+			FilesAfterSkipAndTake.WithEach(
+				item =>
 				{
-					skip--;
+					yfile(item.ff.FullName);
 				}
-				else
-				{
-					if (take > 0)
-					{
-						take--;
+			);
 
+			Console.WriteLine("exit File_list " + new { sw.ElapsedMilliseconds });
 
-						yfile(path + "/" + item.getName());
-
-					}
-					else
-					{
-						break;
-					}
-				}
-			}
 
 			return "".AsResult();
 		}
@@ -717,17 +699,32 @@ namespace com.abstractatech.dcimgalleryapp
 
 		private static byte[] InternalReadBytes(string filepath, bool thumb = true)
 		{
-			var mImageData = (sbyte[])(object)System.IO.File.ReadAllBytes(filepath);
+			//I/System.Console(28925): enter InternalReadBytes {{ filepath = //storage/emulated/0/DCIM/Camera/IMG_20150110_160133.jpg, thumb = true, ElapsedMilliseconds = 0 }}
+			//I/System.Console(28925): #10 GET /thumb//storage/emulated/0/DCIM/Camera/IMG_20150110_160133.jpg HTTP/1.1 error:
+			//I/System.Console(28925): #10 java.lang.NullPointerException: Attempt to get length of null array
+			//I/System.Console(28925): #10 java.lang.NullPointerException: Attempt to get length of null array
+			//I/System.Console(28925):        at com.abstractatech.dcimgalleryapp.ApplicationWebService.InternalReadBytes(ApplicationWebService.java:285)
+			//I/System.Console(28925):        at com.abstractatech.dcimgalleryapp.ApplicationWebService.Handler(ApplicationWebService.java:197)
 
-			if (thumb)
+			var sw = Stopwatch.StartNew();
+			Console.WriteLine("enter InternalReadBytes " + new { filepath, thumb, sw.ElapsedMilliseconds });
+
+			//var mImageData = (sbyte[])(object)System.IO.File.ReadAllBytes(filepath);
+
+			if (!thumb)
 			{
-				// X:\jsc.svn\examples\javascript\android\EXIFThumbnail\EXIFThumbnail\ApplicationWebService.cs
+				return System.IO.File.ReadAllBytes(filepath);
+			}
+			// X:\jsc.svn\examples\javascript\android\EXIFThumbnail\EXIFThumbnail\ApplicationWebService.cs
 
-				//                [javac] V:\src\com\abstractatech\dcimgalleryapp\ApplicationWebService.java:263: error: unreported exception ImageProcessingException; must be caught or declared to be thrown
-				//[javac]             metadata1 = ImageMetadataReader.readMetadata(new File(filepath));
+			//                [javac] V:\src\com\abstractatech\dcimgalleryapp\ApplicationWebService.java:263: error: unreported exception ImageProcessingException; must be caught or declared to be thrown
+			//[javac]             metadata1 = ImageMetadataReader.readMetadata(new File(filepath));
 
-				try
-				{
+
+			var mImageData = default(byte[]);
+
+			try
+			{
 #if xmetadata
   //<package id="AndroidMetadataExtractor" version="1.0.0.0" targetFramework="net40" />
                     var m = ImageMetadataReader.readMetadata(new File(filepath));
@@ -748,43 +745,46 @@ namespace com.abstractatech.dcimgalleryapp
                     }
 #endif
 
-				}
-				catch
-				{
-					// skip
-				}
-
-
-				if (mImageData == null)
-				{
-
-
-					// http://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail
-					int THUMBNAIL_HEIGHT = 96;
-
-					//int THUMBNAIL_WIDTH = 66;
-
-					var imageBitmap = BitmapFactory.decodeByteArray(mImageData, 0, mImageData.Length);
-					float width = imageBitmap.getWidth();
-					float height = imageBitmap.getHeight();
-					float ratio = width / height;
-					imageBitmap = Bitmap.createScaledBitmap(imageBitmap, (int)(THUMBNAIL_HEIGHT * ratio), THUMBNAIL_HEIGHT, false);
-
-					//int padding = (THUMBNAIL_WIDTH - imageBitmap.getWidth()) / 2;
-					//imageView.setPadding(padding, 0, padding, 0);
-					//imageView.setImageBitmap(imageBitmap);
-
-
-
-					ByteArrayOutputStream baos = new ByteArrayOutputStream();
-					// http://developer.android.com/reference/android/graphics/Bitmap.html
-					imageBitmap.compress(Bitmap.CompressFormat.PNG, 0, baos);
-					mImageData = baos.toByteArray();
-				}
-
+			}
+			catch
+			{
+				// skip
 			}
 
-			return (byte[])(object)mImageData;
+			if (mImageData == null)
+			{
+				var smImageData = (sbyte[])(object)System.IO.File.ReadAllBytes(filepath);
+
+
+				// http://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail
+				int THUMBNAIL_HEIGHT = 96;
+
+				//int THUMBNAIL_WIDTH = 66;
+
+				var imageBitmap = BitmapFactory.decodeByteArray(smImageData, 0, smImageData.Length);
+				float width = imageBitmap.getWidth();
+				float height = imageBitmap.getHeight();
+				float ratio = width / height;
+				imageBitmap = Bitmap.createScaledBitmap(imageBitmap, (int)(THUMBNAIL_HEIGHT * ratio), THUMBNAIL_HEIGHT, false);
+
+				//int padding = (THUMBNAIL_WIDTH - imageBitmap.getWidth()) / 2;
+				//imageView.setPadding(padding, 0, padding, 0);
+				//imageView.setImageBitmap(imageBitmap);
+
+
+
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				// http://developer.android.com/reference/android/graphics/Bitmap.html
+				imageBitmap.compress(Bitmap.CompressFormat.PNG, 0, baos);
+				mImageData = (byte[])(object)baos.toByteArray();
+			}
+
+			//I/System.Console(29677): exit InternalReadBytes {{ filepath = //storage/emulated/0/DCIM/Camera/IMG_20150110_160133.jpg, thumb = true, ElapsedMilliseconds = 318 }}
+			//I/System.Console(29677): exit InternalReadBytes {{ filepath = //storage/emulated/0/DCIM/Camera/IMG_20150111_110950.jpg, thumb = true, ElapsedMilliseconds = 453 }}
+			//I/System.Console(29677): exit InternalReadBytes {{ filepath = //storage/emulated/0/DCIM/Camera/IMG_20150111_110957.jpg, thumb = true, ElapsedMilliseconds = 508 }}
+			//I/System.Console(29677): exit InternalReadBytes {{ filepath = //storage/emulated/0/DCIM/Camera/IMG_20150110_160140.jpg, thumb = true, ElapsedMilliseconds = 478 }}
+			Console.WriteLine("exit InternalReadBytes " + new { filepath, thumb, sw.ElapsedMilliseconds });
+			return mImageData;
 		}
 
 
@@ -835,6 +835,37 @@ namespace com.abstractatech.dcimgalleryapp
 
 		//#endif
 
+		static ApplicationWebService()
+		{
+			// http://stackoverflow.com/questions/19750700/detecting-when-system-buttons-are-visible-while-using-immersive-mode
+			// https://developer.android.com/training/system-ui/immersive.html
+			// http://stackoverflow.com/questions/22265945/full-screen-action-bar-immersive
+
+			(ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext as ScriptCoreLib.Android.CoreAndroidWebServiceActivity).With(
+				activity =>
+				{
+					activity.AtResume +=
+					delegate
+					{
+						Console.WriteLine("set SYSTEM_UI_FLAG_IMMERSIVE_STICKY");
+
+						//activity.get
+						// Set the IMMERSIVE flag.
+						// Set the content to appear under the system bars so that the content
+						// doesn't resize when the system bars hide and show.
+						activity.getWindow().getDecorView().setSystemUiVisibility(
+							View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+								| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+								| View.SYSTEM_UI_FLAG_FULLSCREEN
+								| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+					};
+
+				}
+			);
+
+
+
+		}
 	}
 
 
@@ -991,15 +1022,15 @@ namespace com.abstractatech.dcimgalleryapp
 
 	public static class X
 	{
-		//public static void Orphanize(this View SurfaceView)
-		//{
-		//	(SurfaceView.getParent() as ViewGroup).With(
-		//		vg =>
-		//		{
-		//			vg.removeView(SurfaceView);
-		//		}
-		//	);
-		//}
+		public static void Orphanize(this View SurfaceView)
+		{
+			(SurfaceView.getParent() as ViewGroup).With(
+				vg =>
+				{
+					vg.removeView(SurfaceView);
+				}
+			);
+		}
 
 		public static void print(this File file, ystring yield)
 		{
