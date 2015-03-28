@@ -38,6 +38,26 @@ namespace com.abstractatech.dcimgalleryapp
 			//I/chromium(30870): [INFO:CONSOLE(51092)] "Uncaught Error: InvalidOperationException", source: http://192.168.1.228:13883/view-source (51092)
 			// android floa faults?
 
+
+			//		I/chromium(32085): [INFO:CONSOLE(50800)] "18ms {{ message = Uncaught Error: InvalidOperationException, error = Error: InvalidOperationException, stack = Error: InvalidOperationException
+			//I/chromium(32085):     at kAsABqEShzuSUuAZjYIdtQ (http://192.168.1.228:26501/view-source:34623:55)
+			//I/chromium(32085):     at vw0ABrkV9zepFYr_a8mjvTg (http://192.168.1.228:26501/view-source:34678:9)
+			//I/chromium(32085):     at tx8ABsg9tT_aQKItT0_aEVWQ (http://192.168.1.228:26501/view-source:51092:13)
+			//I/chromium(32085):     at BgYABpy_aQje8vXLgiLNaLw (http://192.168.1.228:26501/view-source:16001:79)
+			//I/chromium(32085):     at X_a1ZMtTPtzu_ahhJMj_bfMGQ.type$cnqFo9QlKTGMCod2TxSFYg.BQAABtQlKTGMCod2TxSFYg (http://192.168.1.228:26501/view-source:72971:41)
+			//I/chromium(32085):     at X_a1ZMtTPtzu_ahhJMj_bfMGQ.type$X_a1ZMtTPtzu_ahhJMj_bfMGQ.AwAABtTPtzu_ahhJMj_bfMGQ (http://192.168.1.228:26501/view-source:73043:10)
+			//I/chromium(32085):     at X_a1ZMtTPtzu_ahhJMj_bfMGQ.$ctor$.f (http://192.168.1.228:26501/view-source:31:23)
+			//I/chromium(32085):     at EgEABoPJXDeM0OAvrVUGow (http://192.168.1.228:26501/view-source:77680:9)
+			//I/chromium(32085):     at http://192.168.1.228:26501/view-source:7654:84 }}", source: http://192.168.1.228:26501/view-source (50800)
+			//I/chromium(32085): [INFO:CONSOLE(50800)] "23ms {{ frameIndex = 1, location_line = 34623, displayName = ScriptCoreLib.JavaScript.BCLImplementation.System.__Exception.InternalConstructor }}", source: http://192.168.1.228:26501/view-source (50800)
+			//I/chromium(32085): [INFO:CONSOLE(50800)] "25ms {{ frameIndex = 2, location_line = 34678, displayName = ScriptCoreLib.JavaScript.BCLImplementation.System.__InvalidOperationException.InternalConstructor }}", source: http://192.168.1.228:26501/view-source (50800)
+			//I/chromium(32085): [INFO:CONSOLE(50800)] "26ms {{ frameIndex = 3, location_line = 51092, displayName = ScriptCoreLib.JavaScript.BCLImplementation.System.__Int32.Parse }}", source: http://192.168.1.228:26501/view-source (50800)
+			//I/chromium(32085): [INFO:CONSOLE(50800)] "34ms {{ frameIndex = 4, location_line = 16001, displayName = null }}", source: http://192.168.1.228:26501/view-source (50800)
+			//I/chromium(32085): [INFO:CONSOLE(50800)] "36ms {{ frameIndex = 5, location_line = 72971, displayName = com.abstractatech.dcimgalleryapp.ApplicationWebService..ctor }}", source: http://192.168.1.228:26501/view-source (50800)
+			//I/chromium(32085): [INFO:CONSOLE(50800)] "37ms {{ frameIndex = 6, location_line = 73043, displayName = com.abstractatech.dcimgalleryapp.Application..ctor }}", source: http://192.168.1.228:26501/view-source (50800)
+			//I/chromium(32085): [INFO:CONSOLE(50800)] "38ms {{ frameIndex = 7, location_line = 31, displayName = X_a1ZMtTPtzu_ahhJMj_bfMGQ.$ctor$.f }}", source: http://192.168.1.228:26501/view-source (50800)
+			//I/chromium(32085): [INFO:CONSOLE(50800)] "39ms {{ frameIndex = 8, location_line = 77680, displayName = com.abstractatech.dcimgalleryapp.ApplicationBootstrap.<.cctor>b__0 }}", source: http://192.168.1.228:26501/view-source (50800)
+
 			Action<string> InspectStackTrace =
 				StackTrace =>
 				{
@@ -45,12 +65,17 @@ namespace com.abstractatech.dcimgalleryapp
 
 					for (int frameIndex = 1; frameIndex < StackTraceLines.Length; frameIndex++)
 					{
+						//Console.WriteLine(new { frameIndex });
 						//at _0gAABign_bj2W47U_adfGttA(https://192.168.43.252:13078/view-source:75912:5)
 						//at Aq_afTERoTzCRSXcBCi_akMQ.type$Aq_afTERoTzCRSXcBCi_akMQ.qgAABkRoTzCRSXcBCi_akMQ(https://192.168.43.252:13078/view-source:75171:32)
 
 						var StackTraceLine = StackTraceLines[frameIndex];
 
 						var ExternalTarget = StackTraceLine.TakeUntilOrEmpty(" (").SkipUntilOrEmpty("at ");
+
+						// nameless caller?
+						//Console.WriteLine(new { frameIndex, ExternalTarget });
+
 
 						var locationURI_line_column = StackTraceLine.SkipUntilOrEmpty(" (").TakeUntilOrEmpty(")");
 
@@ -66,41 +91,44 @@ namespace com.abstractatech.dcimgalleryapp
 
 						//var f = IFunction.ByName(ExternalTarget);
 
-
 						var displayName = ExternalTarget;
 
-						var f = IFunction.Of(Native.self, ExternalTarget);
-						if (f != null)
+						if (!string.IsNullOrEmpty(ExternalTarget))
 						{
-							displayName = f.displayName;
-						}
 
-						// DstVs7OHoT6VDScV62l1nQ.TypeName = "___ctor_b__2_d__0";
-						// for types we should also start using displayName?
-						//   var type$DstVs7OHoT6VDScV62l1nQ = DstVs7OHoT6VDScV62l1nQ.prototype;
-
-						// TestChromeStackFrames.Application+<>c__DisplayClass1+<<_ctor>b__2>d__0.MoveNext
-						//type$DstVs7OHoT6VDScV62l1nQ.fgAABrOHoT6VDScV62l1nQ = function()
-
-						var type_constructor = ExternalTarget.TakeUntilOrNull(".");
-						var type_prototype = ExternalTarget.SkipUntilOrEmpty(".").TakeUntilOrEmpty(".");
-						var type_prototype_method = ExternalTarget.SkipUntilOrEmpty(".").SkipUntilOrEmpty(".");
-
-						if (type_constructor != null)
-						{
-							var __constructor = IFunction.Of(Native.self, type_constructor);
-							var __method = IFunction.Of(__constructor.prototype, type_prototype_method);
-
-							//__constructor.prototype[]
-
-							if (__method != null)
+							var f = IFunction.Of(Native.self, ExternalTarget);
+							if (f != null)
 							{
-								displayName = __method.displayName;
+								displayName = f.displayName;
 							}
+
+							// DstVs7OHoT6VDScV62l1nQ.TypeName = "___ctor_b__2_d__0";
+							// for types we should also start using displayName?
+							//   var type$DstVs7OHoT6VDScV62l1nQ = DstVs7OHoT6VDScV62l1nQ.prototype;
+
+							// TestChromeStackFrames.Application+<>c__DisplayClass1+<<_ctor>b__2>d__0.MoveNext
+							//type$DstVs7OHoT6VDScV62l1nQ.fgAABrOHoT6VDScV62l1nQ = function()
+
+							var type_constructor = ExternalTarget.TakeUntilOrNull(".");
+							var type_prototype = ExternalTarget.SkipUntilOrEmpty(".").TakeUntilOrEmpty(".");
+							var type_prototype_method = ExternalTarget.SkipUntilOrEmpty(".").SkipUntilOrEmpty(".");
+
+							if (type_constructor != null)
+							{
+								var __constructor = IFunction.Of(Native.self, type_constructor);
+								var __method = IFunction.Of(__constructor.prototype, type_prototype_method);
+
+								//__constructor.prototype[]
+
+								if (__method != null)
+								{
+									displayName = __method.displayName;
+								}
+							}
+
 						}
 
-
-						Console.WriteLine(displayName);
+						Console.WriteLine(new { frameIndex, location_line, displayName });
 
 
 						//new IHTMLPre { displayName }.AttachToDocument().title = new

@@ -22,708 +22,713 @@ using WebGLVRHZTeaser.HTML.Pages;
 
 namespace WebGLVRHZTeaser
 {
-    /// <summary>
-    /// Your client side code running inside a web browser as JavaScript.
-    /// </summary>
-    public sealed class Application : ApplicationWebService
-    {
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
-        {
-            // 
-            Native.document.body.style.margin = "0px";
-            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            Native.body.style.backgroundColor = "black";
-            Native.document.body.Clear();
-
-            double SCREEN_WIDTH = Native.window.Width;
-            double SCREEN_HEIGHT = Native.window.Height;
-
-            #region scene
-            var scene = new THREE.Scene();
-            var clock = new THREE.Clock();
-
-            var sceneRenderTarget = new THREE.Scene();
-            var cameraOrtho = new THREE.OrthographicCamera(
-                (int)SCREEN_WIDTH / -2,
-                (int)SCREEN_WIDTH / 2,
-                (int)SCREEN_HEIGHT / 2,
-                (int)SCREEN_HEIGHT / -2,
-                -100000,
-                100000
-            );
-
-            cameraOrtho.position.z = 100;
-            sceneRenderTarget.add(cameraOrtho);
-
-
-
-            var camera = new THREE.PerspectiveCamera(
-
-                //40,
-                20,
-                //10,
-
-                Native.window.aspect, 2,
-
-                // how far out do we want to zoom?
-                200000
-                //9000
-                );
-            camera.position.set(-1200, 800, 1200);
-            var target = new THREE.Vector3(0, 0, 0);
-
-            scene.add(camera);
-            //scene.add(new THREE.AmbientLight(0x212121));
-
-            //var spotLight = new THREE.SpotLight(0xffffff, 1.15);
-            //spotLight.position.set(500, 2000, 0);
-            //spotLight.castShadow = true;
-            //scene.add(spotLight);
-
-            //var pointLight = new THREE.PointLight(0xff4400, 1.5);
-            //pointLight.position.set(0, 0, 0);
-            //scene.add(pointLight);
-
-
-            //scene.add(new THREE.AmbientLight(0xaaaaaa));
-            scene.add(new THREE.AmbientLight(0x101030));
-            #endregion
-
-
-            #region light
-            //var light = new THREE.DirectionalLight(0xffffff, 1.0);
-            var light = new THREE.DirectionalLight(0xffffff, 2.5);
-            //var light = new THREE.DirectionalLight(0xffffff, 2.5);
-            //var light = new THREE.DirectionalLight(0xffffff, 1.5);
-            //var lightOffset = new THREE.Vector3(0, 1000, 2500.0);
-            var lightOffset = new THREE.Vector3(
-                2000,
-                700,
-
-                // lower makes longer shadows 
-                700.0
-                );
-            light.position.copy(lightOffset);
-            light.castShadow = true;
-
-            var xlight = light as dynamic;
-            xlight.shadowMapWidth = 4096;
-            xlight.shadowMapHeight = 2048;
-
-            xlight.shadowDarkness = 0.1;
-            //xlight.shadowDarkness = 0.5;
-
-            xlight.shadowCameraNear = 10;
-            xlight.shadowCameraFar = 10000;
-            xlight.shadowBias = 0.00001;
-            xlight.shadowCameraRight = 4000;
-            xlight.shadowCameraLeft = -4000;
-            xlight.shadowCameraTop = 4000;
-            xlight.shadowCameraBottom = -4000;
+	/// <summary>
+	/// Your client side code running inside a web browser as JavaScript.
+	/// </summary>
+	public sealed class Application : ApplicationWebService
+	{
+		//I/Web Console(25108): 0ms NewInstanceConstructor restore fields.. at http://10.144.157.179:23222/view-source:50800
+		//I/Web Console(25108): THREE.WebGLRenderer at http://10.144.157.179:23222/view-source:90370
+		//E/Web Console(25108): Error creating WebGL context. at http://10.144.157.179:23222/view-source:90581
+		//E/Web Console(25108): Uncaught TypeError: Cannot read property 'getShaderPrecisionFormat' of null at http://10.144.157.179:23222/view-source:90585
+
+		/// <summary>
+		/// This is a javascript application.
+		/// </summary>
+		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+		public Application(IApp page)
+		{
+			// 
+			Native.document.body.style.margin = "0px";
+			Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
+			Native.body.style.backgroundColor = "black";
+			Native.document.body.Clear();
+
+			double SCREEN_WIDTH = Native.window.Width;
+			double SCREEN_HEIGHT = Native.window.Height;
+
+			#region scene
+			var scene = new THREE.Scene();
+			var clock = new THREE.Clock();
+
+			var sceneRenderTarget = new THREE.Scene();
+			var cameraOrtho = new THREE.OrthographicCamera(
+				(int)SCREEN_WIDTH / -2,
+				(int)SCREEN_WIDTH / 2,
+				(int)SCREEN_HEIGHT / 2,
+				(int)SCREEN_HEIGHT / -2,
+				-100000,
+				100000
+			);
+
+			cameraOrtho.position.z = 100;
+			sceneRenderTarget.add(cameraOrtho);
+
+
+
+			var camera = new THREE.PerspectiveCamera(
+
+				//40,
+				20,
+				//10,
+
+				Native.window.aspect, 2,
+
+				// how far out do we want to zoom?
+				200000
+				//9000
+				);
+			camera.position.set(-1200, 800, 1200);
+			var target = new THREE.Vector3(0, 0, 0);
+
+			scene.add(camera);
+			//scene.add(new THREE.AmbientLight(0x212121));
+
+			//var spotLight = new THREE.SpotLight(0xffffff, 1.15);
+			//spotLight.position.set(500, 2000, 0);
+			//spotLight.castShadow = true;
+			//scene.add(spotLight);
+
+			//var pointLight = new THREE.PointLight(0xff4400, 1.5);
+			//pointLight.position.set(0, 0, 0);
+			//scene.add(pointLight);
+
+
+			//scene.add(new THREE.AmbientLight(0xaaaaaa));
+			scene.add(new THREE.AmbientLight(0x101030));
+			#endregion
+
+
+			#region light
+			//var light = new THREE.DirectionalLight(0xffffff, 1.0);
+			var light = new THREE.DirectionalLight(0xffffff, 2.5);
+			//var light = new THREE.DirectionalLight(0xffffff, 2.5);
+			//var light = new THREE.DirectionalLight(0xffffff, 1.5);
+			//var lightOffset = new THREE.Vector3(0, 1000, 2500.0);
+			var lightOffset = new THREE.Vector3(
+				2000,
+				700,
+
+				// lower makes longer shadows 
+				700.0
+				);
+			light.position.copy(lightOffset);
+			light.castShadow = true;
+
+			var xlight = light as dynamic;
+			xlight.shadowMapWidth = 4096;
+			xlight.shadowMapHeight = 2048;
+
+			xlight.shadowDarkness = 0.1;
+			//xlight.shadowDarkness = 0.5;
+
+			xlight.shadowCameraNear = 10;
+			xlight.shadowCameraFar = 10000;
+			xlight.shadowBias = 0.00001;
+			xlight.shadowCameraRight = 4000;
+			xlight.shadowCameraLeft = -4000;
+			xlight.shadowCameraTop = 4000;
+			xlight.shadowCameraBottom = -4000;
 
-            xlight.shadowCameraVisible = true;
+			xlight.shadowCameraVisible = true;
 
-            scene.add(light);
-            #endregion
+			scene.add(light);
+			#endregion
 
 
 
-            var renderer = new THREE.WebGLRenderer(
-                new
-                {
+			var renderer = new THREE.WebGLRenderer(
+				new
+				{
 
-                    // http://stackoverflow.com/questions/20495302/transparent-background-with-three-js
-                    alpha = true,
-                    preserveDrawingBuffer = true,
-                    antialias = true
-                }
+					// http://stackoverflow.com/questions/20495302/transparent-background-with-three-js
+					alpha = true,
+					preserveDrawingBuffer = true,
+					antialias = true
+				}
 
-                );
-            renderer.setSize(1920, 1080);
-            renderer.domElement.AttachToDocument();
-            renderer.shadowMapEnabled = true;
-            renderer.shadowMapType = THREE.PCFSoftShadowMap;
+				);
+			renderer.setSize(1920, 1080);
+			renderer.domElement.AttachToDocument();
+			renderer.shadowMapEnabled = true;
+			renderer.shadowMapType = THREE.PCFSoftShadowMap;
 
 
 
-            var renderTarget = new THREE.WebGLRenderTarget(
-                   Native.window.Width, Native.window.Height,
-                   new
-                   {
-                       minFilter = THREE.LinearFilter,
-                       magFilter = THREE.LinearFilter,
-                       format = THREE.RGBAFormat,
-                       stencilBufer = false
-                   }
-               );
+			var renderTarget = new THREE.WebGLRenderTarget(
+				   Native.window.Width, Native.window.Height,
+				   new
+				   {
+					   minFilter = THREE.LinearFilter,
+					   magFilter = THREE.LinearFilter,
+					   format = THREE.RGBAFormat,
+					   stencilBufer = false
+				   }
+			   );
 
-            //var composer = new THREE.EffectComposer(renderer, renderTarget);
-            //var renderModel = new THREE.RenderPass(scene, camera);
-            //composer.addPass(renderModel);
+			//var composer = new THREE.EffectComposer(renderer, renderTarget);
+			//var renderModel = new THREE.RenderPass(scene, camera);
+			//composer.addPass(renderModel);
 
-            //#region vblur
-            //var hblur = new THREE.ShaderPass(THREE.HorizontalTiltShiftShader);
-            //var vblur = new THREE.ShaderPass(THREE.VerticalTiltShiftShader);
+			//#region vblur
+			//var hblur = new THREE.ShaderPass(THREE.HorizontalTiltShiftShader);
+			//var vblur = new THREE.ShaderPass(THREE.VerticalTiltShiftShader);
 
-            ////var bluriness = 6.0;
-            //var bluriness = 4.0;
+			////var bluriness = 6.0;
+			//var bluriness = 4.0;
 
-            //// Show Details	Severity	Code	Description	Project	File	Line
-            ////Error CS0656  Missing compiler required member 'Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo.Create' WebGLTiltShift Application.cs  183
+			//// Show Details	Severity	Code	Description	Project	File	Line
+			////Error CS0656  Missing compiler required member 'Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo.Create' WebGLTiltShift Application.cs  183
 
-            //(hblur.uniforms as dynamic).h.value = bluriness / Native.window.Width;
-            //(vblur.uniforms as dynamic).v.value = bluriness / Native.window.Height;
+			//(hblur.uniforms as dynamic).h.value = bluriness / Native.window.Width;
+			//(vblur.uniforms as dynamic).v.value = bluriness / Native.window.Height;
 
-            //(hblur.uniforms as dynamic).r.value = 0.5;
-            //(vblur.uniforms as dynamic).r.value = 0.5;
-            ////vblur.renderToScreen = true;
+			//(hblur.uniforms as dynamic).r.value = 0.5;
+			//(vblur.uniforms as dynamic).r.value = 0.5;
+			////vblur.renderToScreen = true;
 
-            //composer.addPass(hblur);
-            //composer.addPass(vblur);
-            //#endregion
+			//composer.addPass(hblur);
+			//composer.addPass(vblur);
+			//#endregion
 
-            // Uncaught TypeError: renderer.setSize is not a function
-            // Uncaught TypeError: renderer.getClearColor is not a function
+			// Uncaught TypeError: renderer.setSize is not a function
+			// Uncaught TypeError: renderer.getClearColor is not a function
 
-            var effect = new THREE.OculusRiftEffect(
-                renderer,
+			var effect = new THREE.OculusRiftEffect(
+				renderer,
 
-                // how to get the vblur into oculus effect?
+				// how to get the vblur into oculus effect?
 
-                //renderModel,
-                //composer,
-                //renderTarget,
-                new
-                {
-                    worldScale = 100,
+				//renderModel,
+				//composer,
+				//renderTarget,
+				new
+				{
+					worldScale = 100,
 
-                    //HMD
-                }
-                );
+					//HMD
+				}
+				);
 
-            effect.setSize(1920, 1080);
+			effect.setSize(1920, 1080);
 
-            #region WebGLRah66Comanche
-            // why isnt it being found?
-            new global::WebGLRah66Comanche.Comanche(
-            ).Source.Task.ContinueWithResult(
-                dae =>
-                {
+			#region WebGLRah66Comanche
+			// why isnt it being found?
+			new global::WebGLRah66Comanche.Comanche(
+			).Source.Task.ContinueWithResult(
+				dae =>
+				{
 
-                    //dae.position.y = -40;
-                    //dae.position.z = 280;
-                    scene.add(dae);
-                    //oo.Add(dae);
+					//dae.position.y = -40;
+					//dae.position.z = 280;
+					scene.add(dae);
+					//oo.Add(dae);
 
-                    // wont do it
-                    //dae.castShadow = true;
+					// wont do it
+					//dae.castShadow = true;
 
-                    dae.children[0].children[0].children.WithEach(x => x.castShadow = true);
+					dae.children[0].children[0].children.WithEach(x => x.castShadow = true);
 
 
-                    // the rotors?
-                    dae.children[0].children[0].children.Last().children.WithEach(x => x.castShadow = true);
+					// the rotors?
+					dae.children[0].children[0].children.Last().children.WithEach(x => x.castShadow = true);
 
 
-                    dae.scale.set(0.5, 0.5, 0.5);
-                    dae.position.x = -900;
-                    dae.position.z = +900;
+					dae.scale.set(0.5, 0.5, 0.5);
+					dae.position.x = -900;
+					dae.position.z = +900;
 
-                    // raise it up
-                    dae.position.y = 400;
+					// raise it up
+					dae.position.y = 400;
 
-                    //var sw = Stopwatch.StartNew();
+					//var sw = Stopwatch.StartNew();
 
-                    //Native.window.onframe += delegate
-                    //{
-                    //    //dae.children[0].children[0].children.Last().al
-                    //    //dae.children[0].children[0].children.Last().rotation.z = sw.ElapsedMilliseconds * 0.01;
-                    //    //dae.children[0].children[0].children.Last().rotation.x = sw.ElapsedMilliseconds * 0.01;
-                    //    dae.children[0].children[0].children.Last().rotation.y = sw.ElapsedMilliseconds * 0.01;
-                    //};
-                }
-            );
-            #endregion
+					//Native.window.onframe += delegate
+					//{
+					//    //dae.children[0].children[0].children.Last().al
+					//    //dae.children[0].children[0].children.Last().rotation.z = sw.ElapsedMilliseconds * 0.01;
+					//    //dae.children[0].children[0].children.Last().rotation.x = sw.ElapsedMilliseconds * 0.01;
+					//    dae.children[0].children[0].children.Last().rotation.y = sw.ElapsedMilliseconds * 0.01;
+					//};
+				}
+			);
+			#endregion
 
 
 
-            #region tree
-            // X:\jsc.svn\examples\javascript\WebGL\WebGLGodRay\WebGLGodRay\Application.cs
+			#region tree
+			// X:\jsc.svn\examples\javascript\WebGL\WebGLGodRay\WebGLGodRay\Application.cs
 
-            var materialScene = new THREE.MeshBasicMaterial(new { color = 0x000000, shading = THREE.FlatShading });
-            var tloader = new THREE.JSONLoader();
+			var materialScene = new THREE.MeshBasicMaterial(new { color = 0x000000, shading = THREE.FlatShading });
+			var tloader = new THREE.JSONLoader();
 
-            // http://stackoverflow.com/questions/16539736/do-not-use-system-runtime-compilerservices-dynamicattribute-use-the-dynamic
-            // https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.dynamicattribute%28v=vs.110%29.aspx
-            //System.Runtime.CompilerServices.DynamicAttribute
+			// http://stackoverflow.com/questions/16539736/do-not-use-system-runtime-compilerservices-dynamicattribute-use-the-dynamic
+			// https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.dynamicattribute%28v=vs.110%29.aspx
+			//System.Runtime.CompilerServices.DynamicAttribute
 
-            tloader.load(
+			tloader.load(
 
-                new WebGLGodRay.Models.tree().Content.src,
+				new WebGLGodRay.Models.tree().Content.src,
 
-                new Action<THREE.Geometry>(
-                xgeometry =>
-                {
+				new Action<THREE.Geometry>(
+				xgeometry =>
+				{
 
-                    var treeMesh = new THREE.Mesh(xgeometry, materialScene);
-                    treeMesh.position.set(0, -150, -150);
-                    treeMesh.position.x = -900;
-                    treeMesh.position.z = -900;
+					var treeMesh = new THREE.Mesh(xgeometry, materialScene);
+					treeMesh.position.set(0, -150, -150);
+					treeMesh.position.x = -900;
+					treeMesh.position.z = -900;
 
-                    treeMesh.position.y = 25;
+					treeMesh.position.y = 25;
 
-                    var tsc = 400;
-                    treeMesh.scale.set(tsc, tsc, tsc);
+					var tsc = 400;
+					treeMesh.scale.set(tsc, tsc, tsc);
 
-                    treeMesh.matrixAutoUpdate = false;
-                    treeMesh.updateMatrix();
+					treeMesh.matrixAutoUpdate = false;
+					treeMesh.updateMatrix();
 
 
-                    treeMesh.AttachTo(scene);
+					treeMesh.AttachTo(scene);
 
-                }
-                )
-                );
-            #endregion
+				}
+				)
+				);
+			#endregion
 
-            #region create field
+			#region create field
 
-            // THREE.PlaneGeometry: Consider using THREE.PlaneBufferGeometry for lower memory footprint.
+			// THREE.PlaneGeometry: Consider using THREE.PlaneBufferGeometry for lower memory footprint.
 
-            // could we get some film grain?
-            var planeGeometry = new THREE.CubeGeometry(512, 512, 1);
-            var plane = new THREE.Mesh(planeGeometry,
-                    new THREE.MeshPhongMaterial(new { ambient = 0x101010, color = 0xA26D41, specular = 0xA26D41, shininess = 1 })
+			// could we get some film grain?
+			var planeGeometry = new THREE.CubeGeometry(512, 512, 1);
+			var plane = new THREE.Mesh(planeGeometry,
+					new THREE.MeshPhongMaterial(new { ambient = 0x101010, color = 0xA26D41, specular = 0xA26D41, shininess = 1 })
 
-                );
-            //plane.castShadow = false;
-            plane.receiveShadow = true;
+				);
+			//plane.castShadow = false;
+			plane.receiveShadow = true;
 
 
-            {
+			{
 
-                var parent = new THREE.Object3D();
-                parent.add(plane);
-                parent.rotation.x = -Math.PI / 2;
-                parent.scale.set(10, 10, 10);
+				var parent = new THREE.Object3D();
+				parent.add(plane);
+				parent.rotation.x = -Math.PI / 2;
+				parent.scale.set(10, 10, 10);
 
-                scene.add(parent);
-            }
+				scene.add(parent);
+			}
 
-            var random = new Random();
-            var meshArray = new List<THREE.Mesh>();
-            var geometry = new THREE.CubeGeometry(1, 1, 1);
-            var sw = Stopwatch.StartNew();
+			var random = new Random();
+			var meshArray = new List<THREE.Mesh>();
+			var geometry = new THREE.CubeGeometry(1, 1, 1);
+			var sw = Stopwatch.StartNew();
 
-            for (var i = 3; i < 9; i++)
-            {
+			for (var i = 3; i < 9; i++)
+			{
 
-                //THREE.MeshPhongMaterial
-                var ii = new THREE.Mesh(geometry,
+				//THREE.MeshPhongMaterial
+				var ii = new THREE.Mesh(geometry,
 
 
-                    new THREE.MeshPhongMaterial(new { ambient = 0x000000, color = 0xA06040, specular = 0xA26D41, shininess = 1 })
+					new THREE.MeshPhongMaterial(new { ambient = 0x000000, color = 0xA06040, specular = 0xA26D41, shininess = 1 })
 
-                    //new THREE.MeshLambertMaterial(
-                    //new
-                    //{
-                    //    color = (Convert.ToInt32(0xffffff * random.NextDouble())),
-                    //    specular = 0xffaaaa,
-                    //    ambient= 0x050505, 
-                    //})
+					//new THREE.MeshLambertMaterial(
+					//new
+					//{
+					//    color = (Convert.ToInt32(0xffffff * random.NextDouble())),
+					//    specular = 0xffaaaa,
+					//    ambient= 0x050505, 
+					//})
 
-                    );
-                ii.position.x = i % 7 * 200 - 2.5f;
+					);
+				ii.position.x = i % 7 * 200 - 2.5f;
 
-                // raise it up
-                ii.position.y = .5f * 100;
-                ii.position.z = -1 * i * 100;
-                ii.castShadow = true;
-                ii.receiveShadow = true;
-                //ii.scale.set(100, 100, 100 * i);
-                ii.scale.set(100, 100 * i, 100);
+				// raise it up
+				ii.position.y = .5f * 100;
+				ii.position.z = -1 * i * 100;
+				ii.castShadow = true;
+				ii.receiveShadow = true;
+				//ii.scale.set(100, 100, 100 * i);
+				ii.scale.set(100, 100 * i, 100);
 
 
-                meshArray.Add(ii);
+				meshArray.Add(ii);
 
-                scene.add(ii);
+				scene.add(ii);
 
-                if (i % 2 == 0)
-                {
+				if (i % 2 == 0)
+				{
 #if FWebGLHZBlendCharacter
-                    #region SpeedBlendCharacter
-                    var _i = i;
-                    { WebGLHZBlendCharacter.HTML.Pages.TexturesImages ref0; }
+					#region SpeedBlendCharacter
+					var _i = i;
+					{ WebGLHZBlendCharacter.HTML.Pages.TexturesImages ref0; }
 
-                    var blendMesh = new THREE.SpeedBlendCharacter();
-                    blendMesh.load(
-                        new WebGLHZBlendCharacter.Models.marine_anims().Content.src,
-                        new Action(
-                            delegate
-                            {
-                                // buildScene
-                                //blendMesh.rotation.y = Math.PI * -135 / 180;
-                                blendMesh.castShadow = true;
-                                // we cannot scale down we want our shadows
-                                //blendMesh.scale.set(0.1, 0.1, 0.1);
+					var blendMesh = new THREE.SpeedBlendCharacter();
+					blendMesh.load(
+						new WebGLHZBlendCharacter.Models.marine_anims().Content.src,
+						new Action(
+							delegate
+							{
+								// buildScene
+								//blendMesh.rotation.y = Math.PI * -135 / 180;
+								blendMesh.castShadow = true;
+								// we cannot scale down we want our shadows
+								//blendMesh.scale.set(0.1, 0.1, 0.1);
 
-                                blendMesh.position.x = (_i + 2) % 7 * 200 - 2.5f;
+								blendMesh.position.x = (_i + 2) % 7 * 200 - 2.5f;
 
-                                // raise it up
-                                //blendMesh.position.y = .5f * 100;
-                                blendMesh.position.z = -1 * _i * 100;
-
-
-                                var xtrue = true;
-                                // run
-                                blendMesh.setSpeed(1.0);
-
-                                // will in turn call THREE.AnimationHandler.play( this );
-                                //blendMesh.run.play();
-                                // this wont help. bokah does not see the animation it seems.
-                                //blendMesh.run.update(1);
-
-                                blendMesh.showSkeleton(!xtrue);
-
-                                scene.add(blendMesh);
+								// raise it up
+								//blendMesh.position.y = .5f * 100;
+								blendMesh.position.z = -1 * _i * 100;
 
 
-                                Native.window.onframe +=
-                                 delegate
-                                 {
+								var xtrue = true;
+								// run
+								blendMesh.setSpeed(1.0);
 
-                                     blendMesh.rotation.y = Math.PI * 0.0002 * sw.ElapsedMilliseconds;
+								// will in turn call THREE.AnimationHandler.play( this );
+								//blendMesh.run.play();
+								// this wont help. bokah does not see the animation it seems.
+								//blendMesh.run.update(1);
+
+								blendMesh.showSkeleton(!xtrue);
+
+								scene.add(blendMesh);
+
+
+								Native.window.onframe +=
+								 delegate
+								 {
+
+									 blendMesh.rotation.y = Math.PI * 0.0002 * sw.ElapsedMilliseconds;
 
 
 
-                                     ii.rotation.y = Math.PI * 0.0002 * sw.ElapsedMilliseconds;
+									 ii.rotation.y = Math.PI * 0.0002 * sw.ElapsedMilliseconds;
 
-                                 };
+								 };
 
-                            }
-                        )
-                    );
-                    #endregion
+							}
+						)
+					);
+					#endregion
 #endif
-                }
+				}
 
-            }
-            #endregion
+			}
+			#endregion
 
 
-            #region HZCannon
-            new HeatZeekerRTSOrto.HZCannon().Source.Task.ContinueWithResult(
-                async cube =>
-                {
-                    // https://github.com/mrdoob/three.js/issues/1285
-                    //cube.children.WithEach(c => c.castShadow = true);
+			#region HZCannon
+			new HeatZeekerRTSOrto.HZCannon().Source.Task.ContinueWithResult(
+				async cube =>
+				{
+					// https://github.com/mrdoob/three.js/issues/1285
+					//cube.children.WithEach(c => c.castShadow = true);
 
-                    //cube.traverse(
-                    //    new Action<THREE.Object3D>(
-                    //        child =>
-                    //        {
-                    //            // does it work? do we need it?
-                    //            //if (child is THREE.Mesh)
+					//cube.traverse(
+					//    new Action<THREE.Object3D>(
+					//        child =>
+					//        {
+					//            // does it work? do we need it?
+					//            //if (child is THREE.Mesh)
 
-                    //            child.castShadow = true;
-                    //            //child.receiveShadow = true;
+					//            child.castShadow = true;
+					//            //child.receiveShadow = true;
 
-                    //        }
-                    //    )
-                    //);
+					//        }
+					//    )
+					//);
 
-                    // um can edit and continue insert code going back in time?
-                    cube.scale.x = 10.0;
-                    cube.scale.y = 10.0;
-                    cube.scale.z = 10.0;
+					// um can edit and continue insert code going back in time?
+					cube.scale.x = 10.0;
+					cube.scale.y = 10.0;
+					cube.scale.z = 10.0;
 
 
 
-                    //cube.castShadow = true;
-                    //dae.receiveShadow = true;
+					//cube.castShadow = true;
+					//dae.receiveShadow = true;
 
-                    //cube.position.x = -100;
+					//cube.position.x = -100;
 
-                    ////cube.position.y = (cube.scale.y * 50) / 2;
-                    //cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+					////cube.position.y = (cube.scale.y * 50) / 2;
+					//cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
 
 
 
-                    // if i want to rotate, how do I do it?
-                    //cube.rotation.z = random() + Math.PI;
-                    //cube.rotation.x = random() + Math.PI;
-                    var sw2 = Stopwatch.StartNew();
+					// if i want to rotate, how do I do it?
+					//cube.rotation.z = random() + Math.PI;
+					//cube.rotation.x = random() + Math.PI;
+					var sw2 = Stopwatch.StartNew();
 
 
 
-                    scene.add(cube);
-                    //interactiveObjects.Add(cube);
+					scene.add(cube);
+					//interactiveObjects.Add(cube);
 
-                    // offset is wrong
-                    //while (true)
-                    //{
-                    //    await Native.window.async.onframe;
+					// offset is wrong
+					//while (true)
+					//{
+					//    await Native.window.async.onframe;
 
-                    //    cube.rotation.y = Math.PI * 0.0002 * sw2.ElapsedMilliseconds;
+					//    cube.rotation.y = Math.PI * 0.0002 * sw2.ElapsedMilliseconds;
 
-                    //}
-                }
-            );
-            #endregion
+					//}
+				}
+			);
+			#endregion
 
 
-            #region HZCannon
-            new HeatZeekerRTSOrto.HZCannon().Source.Task.ContinueWithResult(
-                async cube =>
-                {
-                    // https://github.com/mrdoob/three.js/issues/1285
-                    //cube.children.WithEach(c => c.castShadow = true);
+			#region HZCannon
+			new HeatZeekerRTSOrto.HZCannon().Source.Task.ContinueWithResult(
+				async cube =>
+				{
+					// https://github.com/mrdoob/three.js/issues/1285
+					//cube.children.WithEach(c => c.castShadow = true);
 
-                    //cube.traverse(
-                    //    new Action<THREE.Object3D>(
-                    //        child =>
-                    //        {
-                    //            // does it work? do we need it?
-                    //            //if (child is THREE.Mesh)
+					//cube.traverse(
+					//    new Action<THREE.Object3D>(
+					//        child =>
+					//        {
+					//            // does it work? do we need it?
+					//            //if (child is THREE.Mesh)
 
-                    //            child.castShadow = true;
-                    //            //child.receiveShadow = true;
+					//            child.castShadow = true;
+					//            //child.receiveShadow = true;
 
-                    //        }
-                    //    )
-                    //);
+					//        }
+					//    )
+					//);
 
-                    // um can edit and continue insert code going back in time?
-                    cube.scale.x = 10.0;
-                    cube.scale.y = 10.0;
-                    cube.scale.z = 10.0;
+					// um can edit and continue insert code going back in time?
+					cube.scale.x = 10.0;
+					cube.scale.y = 10.0;
+					cube.scale.z = 10.0;
 
 
 
-                    //cube.castShadow = true;
-                    //dae.receiveShadow = true;
+					//cube.castShadow = true;
+					//dae.receiveShadow = true;
 
 
-                    // jsc shat about out of band code patching?
-                    cube.position.z = 600;
-                    cube.position.x = -900;
-                    //cube.position.y = -400;
+					// jsc shat about out of band code patching?
+					cube.position.z = 600;
+					cube.position.x = -900;
+					//cube.position.y = -400;
 
-                    //cube.position.x = -100;
-                    //cube.position.y = -400;
+					//cube.position.x = -100;
+					//cube.position.y = -400;
 
-                    ////cube.position.y = (cube.scale.y * 50) / 2;
-                    //cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+					////cube.position.y = (cube.scale.y * 50) / 2;
+					//cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
 
 
 
-                    // if i want to rotate, how do I do it?
-                    //cube.rotation.z = random() + Math.PI;
-                    //cube.rotation.x = random() + Math.PI;
-                    var sw2 = Stopwatch.StartNew();
+					// if i want to rotate, how do I do it?
+					//cube.rotation.z = random() + Math.PI;
+					//cube.rotation.x = random() + Math.PI;
+					var sw2 = Stopwatch.StartNew();
 
 
 
-                    scene.add(cube);
-                    //interactiveObjects.Add(cube);
+					scene.add(cube);
+					//interactiveObjects.Add(cube);
 
-                    // offset is wrong
-                    //while (true)
-                    //{
-                    //    await Native.window.async.onframe;
+					// offset is wrong
+					//while (true)
+					//{
+					//    await Native.window.async.onframe;
 
-                    //    cube.rotation.y = Math.PI * 0.0002 * sw2.ElapsedMilliseconds;
+					//    cube.rotation.y = Math.PI * 0.0002 * sw2.ElapsedMilliseconds;
 
-                    //}
-                }
-            );
-            #endregion
+					//}
+				}
+			);
+			#endregion
 
 
-            #region HZBunker
-            new HeatZeekerRTSOrto.HZBunker().Source.Task.ContinueWithResult(
-                     cube =>
-                     {
-                         // https://github.com/mrdoob/three.js/issues/1285
-                         //cube.children.WithEach(c => c.castShadow = true);
-                         cube.castShadow = true;
+			#region HZBunker
+			new HeatZeekerRTSOrto.HZBunker().Source.Task.ContinueWithResult(
+					 cube =>
+					 {
+						 // https://github.com/mrdoob/three.js/issues/1285
+						 //cube.children.WithEach(c => c.castShadow = true);
+						 cube.castShadow = true;
 
-                         //cube.traverse(
-                         //    new Action<THREE.Object3D>(
-                         //        child =>
-                         //        {
-                         //            // does it work? do we need it?
-                         //            //if (child is THREE.Mesh)
-                         //            child.castShadow = true;
-                         //            //child.receiveShadow = true;
+						 //cube.traverse(
+						 //    new Action<THREE.Object3D>(
+						 //        child =>
+						 //        {
+						 //            // does it work? do we need it?
+						 //            //if (child is THREE.Mesh)
+						 //            child.castShadow = true;
+						 //            //child.receiveShadow = true;
 
-                         //        }
-                         //    )
-                         //);
+						 //        }
+						 //    )
+						 //);
 
-                         // um can edit and continue insert code going back in time?
-                         cube.scale.x = 10.0;
-                         cube.scale.y = 10.0;
-                         cube.scale.z = 10.0;
+						 // um can edit and continue insert code going back in time?
+						 cube.scale.x = 10.0;
+						 cube.scale.y = 10.0;
+						 cube.scale.z = 10.0;
 
-                         //cube.castShadow = true;
-                         //dae.receiveShadow = true;
+						 //cube.castShadow = true;
+						 //dae.receiveShadow = true;
 
-                         cube.position.x = -1000;
-                         //cube.position.y = (cube.scale.y * 50) / 2;
-                         cube.position.z = 0;
+						 cube.position.x = -1000;
+						 //cube.position.y = (cube.scale.y * 50) / 2;
+						 cube.position.z = 0;
 
-                         scene.add(cube);
-                     }
-                 );
-            #endregion
+						 scene.add(cube);
+					 }
+				 );
+			#endregion
 
 
-           
 
 
 
-            var lon0 = -45.0;
-            var lon1 = 0.0;
 
-            var lon = new sum(
-                 () => lon0,
-                 () => lon1
-             );
+			var lon0 = -45.0;
+			var lon1 = 0.0;
 
-            var lat0 = 0.0;
-            var lat1 = 0.0;
+			var lon = new sum(
+				 () => lon0,
+				 () => lon1
+			 );
 
-            // or could we do it with byref or pointers?
-            var lat = new sum(
-                () => lat0,
-                () => lat1
-            );
+			var lat0 = 0.0;
+			var lat1 = 0.0;
 
-            var phi = 0.0;
-            var theta = 0.0;
+			// or could we do it with byref or pointers?
+			var lat = new sum(
+				() => lat0,
+				() => lat1
+			);
 
-            //var controls = new THREE.OrbitControls(camera);
-            var camera_rotation_z = 0.0;
+			var phi = 0.0;
+			var theta = 0.0;
 
-            Native.window.onframe +=
-                delegate
-                {
-                    ////var delta = clock.getDelta();
+			//var controls = new THREE.OrbitControls(camera);
+			var camera_rotation_z = 0.0;
 
-                    //controls.update();
+			Native.window.onframe +=
+				delegate
+				{
+					////var delta = clock.getDelta();
 
+					//controls.update();
 
 
-                    var scale = 1.0;
-                    var delta = clock.getDelta();
-                    var stepSize = delta * scale;
 
-                    if (stepSize > 0)
-                    {
-                        //characterController.update(stepSize, scale);
-                        //gui.setSpeed(blendMesh.speed);
+					var scale = 1.0;
+					var delta = clock.getDelta();
+					var stepSize = delta * scale;
 
-                        THREE.AnimationHandler.update(stepSize);
-                    }
+					if (stepSize > 0)
+					{
+						//characterController.update(stepSize, scale);
+						//gui.setSpeed(blendMesh.speed);
 
-                    //camera.position = controls.center.clone();
+						THREE.AnimationHandler.update(stepSize);
+					}
 
-                    //if (Native.document.pointerLockElement == Native.document.body)
-                    //    lon += 0.00;
-                    //else
-                    //    lon += 0.01;
+					//camera.position = controls.center.clone();
 
-                    //var lat2 = Math.Max(-85, Math.Min(85, lat));
+					//if (Native.document.pointerLockElement == Native.document.body)
+					//    lon += 0.00;
+					//else
+					//    lon += 0.01;
 
-                    //Native.document.title = new { lon, lat }.ToString();
-                    //Native.document.title = new { lon0 }.ToString();
+					//var lat2 = Math.Max(-85, Math.Min(85, lat));
 
+					//Native.document.title = new { lon, lat }.ToString();
+					//Native.document.title = new { lon0 }.ToString();
 
-                    phi = THREE.Math.degToRad(90 - lat);
-                    theta = THREE.Math.degToRad(lon);
 
-                    target.x = camera.position.x + (500 * Math.Sin(phi) * Math.Cos(theta));
-                    target.y = camera.position.y + (500 * Math.Cos(phi));
-                    target.z = camera.position.z + (500 * Math.Sin(phi) * Math.Sin(theta));
+					phi = THREE.Math.degToRad(90 - lat);
+					theta = THREE.Math.degToRad(lon);
 
+					target.x = camera.position.x + (500 * Math.Sin(phi) * Math.Cos(theta));
+					target.y = camera.position.y + (500 * Math.Cos(phi));
+					target.z = camera.position.z + (500 * Math.Sin(phi) * Math.Sin(theta));
 
-                    //controls.update();
-                    //camera.position = controls.center.clone();
 
-                    // camera beta tilt?
+					//controls.update();
+					//camera.position = controls.center.clone();
 
-                    camera.lookAt(target);
-                    camera.rotation.z += camera_rotation_z;
+					// camera beta tilt?
 
-                    //composer.render(0.1);
-                    //renderer.render(scene, camera);
-                    effect.render(scene, camera);
-                };
+					camera.lookAt(target);
+					camera.rotation.z += camera_rotation_z;
 
+					//composer.render(0.1);
+					//renderer.render(scene, camera);
+					effect.render(scene, camera);
+				};
 
-            new { }.With(
-                     async delegate
-                     {
-                         retry:
 
-                         var s = (double)Native.window.Width / 1920.0;
+			new { }.With(
+					 async delegate
+					 {
+						 retry:
 
+						 var s = (double)Native.window.Width / 1920.0;
 
-                         Native.document.body.style.transform = "scale(" + s + ")";
-                         Native.document.body.style.transformOrigin = "0% 0%";
 
-                         await Native.window.async.onresize;
-                         goto retry;
-                     }
-                   );
+						 Native.document.body.style.transform = "scale(" + s + ")";
+						 Native.document.body.style.transformOrigin = "0% 0%";
 
-            // gamma -0 .. -90
+						 await Native.window.async.onresize;
+						 goto retry;
+					 }
+				   );
 
-            var compassHeadingOffset = 0.0;
-            var compassHeadingInitialized = 0;
+			// gamma -0 .. -90
 
-            #region compassHeading
-            // X:\jsc.svn\examples\javascript\android\Test\TestCompassHeading\TestCompassHeading\Application.cs
-            Native.window.ondeviceorientation +=
-              dataValues =>
-              {
-                  // Convert degrees to radians
-                  var alphaRad = dataValues.alpha * (Math.PI / 180);
-                  var betaRad = dataValues.beta * (Math.PI / 180);
-                  var gammaRad = dataValues.gamma * (Math.PI / 180);
+			var compassHeadingOffset = 0.0;
+			var compassHeadingInitialized = 0;
 
-                  // Calculate equation components
-                  var cA = Math.Cos(alphaRad);
-                  var sA = Math.Sin(alphaRad);
-                  var cB = Math.Cos(betaRad);
-                  var sB = Math.Sin(betaRad);
-                  var cG = Math.Cos(gammaRad);
-                  var sG = Math.Sin(gammaRad);
+			#region compassHeading
+			// X:\jsc.svn\examples\javascript\android\Test\TestCompassHeading\TestCompassHeading\Application.cs
+			Native.window.ondeviceorientation +=
+			  dataValues =>
+			  {
+				  // Convert degrees to radians
+				  var alphaRad = dataValues.alpha * (Math.PI / 180);
+				  var betaRad = dataValues.beta * (Math.PI / 180);
+				  var gammaRad = dataValues.gamma * (Math.PI / 180);
 
-                  // Calculate A, B, C rotation components
-                  var rA = -cA * sG - sA * sB * cG;
-                  var rB = -sA * sG + cA * sB * cG;
-                  var rC = -cB * cG;
+				  // Calculate equation components
+				  var cA = Math.Cos(alphaRad);
+				  var sA = Math.Sin(alphaRad);
+				  var cB = Math.Cos(betaRad);
+				  var sB = Math.Sin(betaRad);
+				  var cG = Math.Cos(gammaRad);
+				  var sG = Math.Sin(gammaRad);
 
-                  // Calculate compass heading
-                  var compassHeading = Math.Atan(rA / rB);
+				  // Calculate A, B, C rotation components
+				  var rA = -cA * sG - sA * sB * cG;
+				  var rB = -sA * sG + cA * sB * cG;
+				  var rC = -cB * cG;
 
-                  // Convert from half unit circle to whole unit circle
-                  if (rB < 0)
-                  {
-                      compassHeading += Math.PI;
-                  }
-                  else if (rA < 0)
-                  {
-                      compassHeading += 2 * Math.PI;
-                  }
+				  // Calculate compass heading
+				  var compassHeading = Math.Atan(rA / rB);
 
-                  /*
+				  // Convert from half unit circle to whole unit circle
+				  if (rB < 0)
+				  {
+					  compassHeading += Math.PI;
+				  }
+				  else if (rA < 0)
+				  {
+					  compassHeading += 2 * Math.PI;
+				  }
+
+				  /*
                   Alternative calculation (replacing lines 99-107 above):
 
                     var compassHeading = Math.atan2(rA, rB);
@@ -733,140 +738,140 @@ namespace WebGLVRHZTeaser
                     }
                   */
 
-                  // Convert radians to degrees
-                  compassHeading *= 180 / Math.PI;
+				  // Convert radians to degrees
+				  compassHeading *= 180 / Math.PI;
 
-                  // Compass heading can only be derived if returned values are 'absolute'
+				  // Compass heading can only be derived if returned values are 'absolute'
 
-                  // X:\jsc.svn\examples\javascript\android\Test\TestCompassHeadingWithReset\TestCompassHeadingWithReset\Application.cs
+				  // X:\jsc.svn\examples\javascript\android\Test\TestCompassHeadingWithReset\TestCompassHeadingWithReset\Application.cs
 
-                  //Native.document.body.innerText = new { compassHeading }.ToString();
-                  if (compassHeadingInitialized > 0)
-                  {
-                      lon1 = compassHeading - compassHeadingOffset;
-                  }
-                  else
-                  {
-                      compassHeadingOffset = compassHeading;
-                      compassHeadingInitialized++;
-                  }
+				  //Native.document.body.innerText = new { compassHeading }.ToString();
+				  if (compassHeadingInitialized > 0)
+				  {
+					  lon1 = compassHeading - compassHeadingOffset;
+				  }
+				  else
+				  {
+					  compassHeadingOffset = compassHeading;
+					  compassHeadingInitialized++;
+				  }
 
-              };
-            #endregion
+			  };
+			#endregion
 
-            #region gamma
-            Native.window.ondeviceorientation +=
-                //e => Native.body.innerText = new { e.alpha, e.beta, e.gamma }.ToString();
-                //e => lon = e.gamma;
-                e =>
-                {
-                    lat1 = e.gamma;
+			#region gamma
+			Native.window.ondeviceorientation +=
+				//e => Native.body.innerText = new { e.alpha, e.beta, e.gamma }.ToString();
+				//e => lon = e.gamma;
+				e =>
+				{
+					lat1 = e.gamma;
 
-                    // after servicing a running instance would be nice
-                    // either by patching or just re running the whole iteration in the backgrou
-                    camera_rotation_z = e.beta * 0.02;
-                };
-            #endregion
-
-
-
-            #region camera rotation
-            var old = new { clientX = 0, clientY = 0 };
-
-            Native.document.body.ontouchstart +=
-                e =>
-                {
-                    var n = new { e.touches[0].clientX, e.touches[0].clientY };
-                    old = n;
-                };
-
-            Native.document.body.ontouchmove +=
-                    e =>
-                    {
-                        var n = new { e.touches[0].clientX, e.touches[0].clientY };
-
-                        e.preventDefault();
-
-                        lon0 += (n.clientX - old.clientX) * 0.2;
-                        lat0 -= (n.clientY - old.clientY) * 0.2;
-
-                        old = n;
-                    };
+					// after servicing a running instance would be nice
+					// either by patching or just re running the whole iteration in the backgrou
+					camera_rotation_z = e.beta * 0.02;
+				};
+			#endregion
 
 
-            Native.document.body.onmousemove +=
-                e =>
-                {
-                    e.preventDefault();
 
-                    if (Native.document.pointerLockElement == Native.document.body)
-                    {
-                        lon0 += e.movementX * 0.1;
-                        lat0 -= e.movementY * 0.1;
+			#region camera rotation
+			var old = new { clientX = 0, clientY = 0 };
 
-                        //Console.WriteLine(new { lon, lat, e.movementX, e.movementY });
-                    }
-                };
+			Native.document.body.ontouchstart +=
+				e =>
+				{
+					var n = new { e.touches[0].clientX, e.touches[0].clientY };
+					old = n;
+				};
 
+			Native.document.body.ontouchmove +=
+					e =>
+					{
+						var n = new { e.touches[0].clientX, e.touches[0].clientY };
 
-            Native.document.body.onmouseup +=
-              e =>
-              {
-                  //drag = false;
-                  e.preventDefault();
-              };
+						e.preventDefault();
 
-            Native.document.body.onmousedown +=
-                e =>
-                {
-                    //e.CaptureMouse();
+						lon0 += (n.clientX - old.clientX) * 0.2;
+						lat0 -= (n.clientY - old.clientY) * 0.2;
 
-                    //drag = true;
-                    e.preventDefault();
-                    Native.document.body.requestPointerLock();
-
-                };
+						old = n;
+					};
 
 
-            Native.document.body.ondblclick +=
-                e =>
-                {
-                    e.preventDefault();
+			Native.document.body.onmousemove +=
+				e =>
+				{
+					e.preventDefault();
 
-                    Console.WriteLine("requestPointerLock");
-                };
+					if (Native.document.pointerLockElement == Native.document.body)
+					{
+						lon0 += e.movementX * 0.1;
+						lat0 -= e.movementY * 0.1;
 
-            #endregion
-
-            Native.body.onmousewheel +=
-                e =>
-                {
-
-                    camera_rotation_z += 0.1 * e.WheelDirection; ;
-
-                };
-        }
-
-    }
-
-    // http://stackoverflow.com/questions/32664/is-there-a-constraint-that-restricts-my-generic-method-to-numeric-types
-    class sum //<T>
-    {
-        public static implicit operator double (sum that)
-        {
-            return that.i.Sum(x => x());
-        }
+						//Console.WriteLine(new { lon, lat, e.movementX, e.movementY });
+					}
+				};
 
 
-        Func<double>[] i;
-        public sum(params Func<double>[] i)
-        {
-            this.i = i;
-        }
+			Native.document.body.onmouseup +=
+			  e =>
+			  {
+				  //drag = false;
+				  e.preventDefault();
+			  };
 
-        //public sum(params ref double[] i)
-        //{
-        //}
-    }
+			Native.document.body.onmousedown +=
+				e =>
+				{
+					//e.CaptureMouse();
+
+					//drag = true;
+					e.preventDefault();
+					Native.document.body.requestPointerLock();
+
+				};
+
+
+			Native.document.body.ondblclick +=
+				e =>
+				{
+					e.preventDefault();
+
+					Console.WriteLine("requestPointerLock");
+				};
+
+			#endregion
+
+			Native.body.onmousewheel +=
+				e =>
+				{
+
+					camera_rotation_z += 0.1 * e.WheelDirection; ;
+
+				};
+		}
+
+	}
+
+	// http://stackoverflow.com/questions/32664/is-there-a-constraint-that-restricts-my-generic-method-to-numeric-types
+	class sum //<T>
+	{
+		public static implicit operator double (sum that)
+		{
+			return that.i.Sum(x => x());
+		}
+
+
+		Func<double>[] i;
+		public sum(params Func<double>[] i)
+		{
+			this.i = i;
+		}
+
+		//public sum(params ref double[] i)
+		//{
+		//}
+	}
 
 }
