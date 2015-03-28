@@ -7,12 +7,18 @@ using ScriptCoreLib;
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/datetime.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/DateTime.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/DateTime.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/DateTime.cs
+
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\DateTime.cs
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\DateTime.cs
 
 
     [Script(Implements = typeof(global::System.DateTime))]
-    internal class __DateTime // : __NativeDateTime
+    internal class __DateTime : IComparable<DateTime>, IComparable
+
+        // : __NativeDateTime
     {
         public global::java.util.Calendar InternalValue;
 
@@ -113,12 +119,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public static int DaysInMonth(int year, int month)
         {
-            return ScriptCoreLib.Shared.BCLImplementation.System.DateTimeDaysInMonth.DaysInMonth(year, month);           
+            return ScriptCoreLib.Shared.BCLImplementation.System.DateTimeDaysInMonth.DaysInMonth(year, month);
         }
 
         public static bool IsLeapYear(int year)
         {
-            return ScriptCoreLib.Shared.BCLImplementation.System.DateTimeDaysInMonth.IsLeapYear(year);           
+            return ScriptCoreLib.Shared.BCLImplementation.System.DateTimeDaysInMonth.IsLeapYear(year);
         }
 
         public static TimeSpan operator -(__DateTime d1, __DateTime d2)
@@ -144,16 +150,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         {
             long ticks = TimeSpan.TicksPerDay;
 
-            if(value > 0)
+            if (value > 0)
             {
                 double tempTicks = 0;
-                for(int i = 0; i < value; i++)
+                for (int i = 0; i < value; i++)
                 {
                     tempTicks += (double)DateTime.DaysInMonth(this.Year, this.Month + i) * ticks;
                 }
                 return new DateTime((long)Math.Floor(this.Ticks + tempTicks));
             }
-            else 
+            else
             {
                 double tempTicks = 0;
                 for (int i = -1; i >= value; i--)
@@ -203,7 +209,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return false;
         }
         #endregion
-        
+
         public string ToString(string format)
         {
             if (format == "ddMMMyyyyHHmmss")
@@ -372,5 +378,44 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return arr[month - 1];
         }
 
+
+        public int CompareTo(DateTime other)
+        {
+            if (other.Ticks < this.Ticks)
+                return 1;
+
+            if (other.Ticks > this.Ticks)
+                return -1;
+
+            return 0;
+        }
+
+        public int CompareTo(object obj)
+        {
+            // bugcheck, stackoverflow?
+            //if (obj is DateTime)
+            //    return CompareTo((DateTime)obj);
+
+            //- javac
+            //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRLINQOrderByLastWriteTime\Program.java
+            //Y:\staging\web\java\ScriptCoreLibJava\BCLImplementation\System\__DateTime.java:463: error: incompatible types
+            //        time0 = obj;
+            //                ^
+            //  required: __DateTime
+            //  found:    Object
+
+            var flag = obj is DateTime;
+            if (!flag)
+                return -1;
+
+            var other = (__DateTime)obj;
+            if (other.Ticks < this.Ticks)
+                return 1;
+
+            if (other.Ticks > this.Ticks)
+                return -1;
+
+            return 0;
+        }
     }
 }

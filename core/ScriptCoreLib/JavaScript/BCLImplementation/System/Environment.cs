@@ -6,20 +6,22 @@ using System.Threading;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/environment.cs
-    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Environment.cs
-    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/environment.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Environment.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/environment.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Environment.cs
+	// https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/environment.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Environment.cs
 
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Environment.cs
-    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Environment.cs
-    // https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Environment.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Environment.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Environment.cs
+	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Environment.cs
 
-    // System.Environment
-    [Script(Implements = typeof(global::System.Environment))]
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Environment.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Environment.cs
+
+	// System.Environment
+	[Script(Implements = typeof(global::System.Environment))]
     internal static class __Environment
     {
-        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Environment.cs
 
         // by
         // X:\jsc.svn\examples\javascript\forms\AsyncTaskYieldViaProgress\AsyncTaskYieldViaProgress\ApplicationControl.cs

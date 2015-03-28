@@ -7,12 +7,21 @@ using System.Threading;
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/environment.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Environment.cs
+    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/environment.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Environment.cs
+
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Environment.cs
+    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Environment.cs
+    // https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Environment.cs
+
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Environment.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Environment.cs
+
 
     [Script(Implements = typeof(global::System.Environment))]
     internal class __Environment
     {
-        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Environment.cs
         // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRYieldStatement\TestJVMCLRYieldStatement\Program.cs
         // X:\jsc.svn\examples\java\hybrid\JVMCLRLoadLibrary\JVMCLRLoadLibrary\Program.cs
 
@@ -49,6 +58,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public static string CurrentDirectory
         {
+            // X:\jsc.svn\examples\java\hybrid\JVMCLRLINQOrderByLastWriteTime\JVMCLRLINQOrderByLastWriteTime\Program.cs
+
             // You cannot change the library path for a running JVM.
             // http://stackoverflow.com/questions/5013547/how-to-influence-search-path-of-system-loadlibrary-through-java-code
 

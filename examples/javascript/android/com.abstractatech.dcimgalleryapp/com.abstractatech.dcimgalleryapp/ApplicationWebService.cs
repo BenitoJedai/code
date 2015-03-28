@@ -571,6 +571,19 @@ namespace com.abstractatech.dcimgalleryapp
 			var path = global::android.os.Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM).getAbsolutePath();
 			path += "/Camera";
 
+
+
+			var aa = Enumerable.ToArray(
+				from fname in System.IO.Directory.GetFiles(path)
+				let ff = new System.IO.FileInfo(fname)
+				let lm = ff.LastWriteTime
+				orderby lm
+				select new { fname, ff, lm }
+			);
+
+			//var a = System.IO.Directory.GetFiles(path).OrderBy(k => );
+			//var dir = new System.IO.Directory(path).get
+
 			var f = new File(path);
 
 			//Caused by: java.lang.Runtim
@@ -978,15 +991,15 @@ namespace com.abstractatech.dcimgalleryapp
 
 	public static class X
 	{
-		public static void Orphanize(this View SurfaceView)
-		{
-			(SurfaceView.getParent() as ViewGroup).With(
-				vg =>
-				{
-					vg.removeView(SurfaceView);
-				}
-			);
-		}
+		//public static void Orphanize(this View SurfaceView)
+		//{
+		//	(SurfaceView.getParent() as ViewGroup).With(
+		//		vg =>
+		//		{
+		//			vg.removeView(SurfaceView);
+		//		}
+		//	);
+		//}
 
 		public static void print(this File file, ystring yield)
 		{

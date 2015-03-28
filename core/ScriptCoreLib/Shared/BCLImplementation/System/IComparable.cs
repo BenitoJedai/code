@@ -5,7 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
-    [Script(Implements = typeof(IComparable))]
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\DateTime.cs
+
+	[Script(Implements = typeof(IComparable))]
     internal interface __IComparable
     {
         // Methods
