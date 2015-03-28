@@ -70,7 +70,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 
         public void SetException(Exception exception)
         {
-            Debugger.Break();
+			Console.WriteLine("__AsyncTaskMethodBuilder.SetException " + new { exception });
+			Debugger.Break();
         }
 
         public void AwaitOnCompleted<TAwaiter, TStateMachine>(

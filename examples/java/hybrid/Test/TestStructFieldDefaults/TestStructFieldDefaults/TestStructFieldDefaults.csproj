@@ -8,8 +8,8 @@
     <ProjectGuid>{A0A72609-60E7-42AE-920B-E2A84A340633}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JVMCLRSwitchToCLRContextAsync</RootNamespace>
-    <AssemblyName>JVMCLRSwitchToCLRContextAsync</AssemblyName>
+    <RootNamespace>TestStructFieldDefaults</RootNamespace>
+    <AssemblyName>TestStructFieldDefaults</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -90,10 +90,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+start /WAIT c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToDev12:true
+)
 
 if $(ConfigurationName)==Release (
-start  /WAIT  cmd /C C:\util\jsc\bin\jsc.meta.exe  RewriteToHybridJavaApplication /assembly:$(TargetPath) /xDiagnosticsShowStagingFolder:true
+start  /WAIT  cmd /C C:\util\jsc\bin\jsc.meta.exe  RewriteToHybridJavaApplication /assembly:$(TargetPath)
 )
 </PostBuildEvent>
   </PropertyGroup>

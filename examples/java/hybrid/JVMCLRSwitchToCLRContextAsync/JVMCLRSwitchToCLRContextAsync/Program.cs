@@ -20,6 +20,8 @@ using System.Reflection;
 
 namespace JVMCLRSwitchToCLRContextAsync
 {
+    // X:\jsc.svn\examples\java\hybrid\test\TestStructFieldDefaults\TestStructFieldDefaults\Program.cs
+
     #region HopToThreadPoolAwaitable
     // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/CryptoStream.cs
     // simple awaitable that allows for hopping to the thread pool
@@ -54,6 +56,8 @@ namespace JVMCLRSwitchToCLRContextAsync
     {
         static Program()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150328
+
             Console.WriteLine(typeof(object) + " Program prep for " + typeof(SharedProgram) + new { Thread.CurrentThread.ManagedThreadId });
 
             HopToCLR.VirtualOnCompleted =
@@ -170,8 +174,10 @@ namespace JVMCLRSwitchToCLRContextAsync
                     //e   null    string
 
                     // how can we send the type ref over the wire? encypt it?
-                    var NewStateMachine = Activator.CreateInstance(AsyncStateMachineType);
-                    var NewStateMachineI = NewStateMachine as IAsyncStateMachine;
+
+
+                    //var NewStateMachine = Activator.CreateInstance(AsyncStateMachineType);
+                    //var NewStateMachineI = NewStateMachine as IAsyncStateMachine;
 
                     // this will take step into next await.
                     //NewStateMachineI.MoveNext();
@@ -179,7 +185,11 @@ namespace JVMCLRSwitchToCLRContextAsync
 
                     //CLRProgram.CLRInvoke(
                     var ShadowIAsyncStateMachine = Program.CLRInvoke(
-                        AsyncStateMachineType.FullName
+                        new ShadowIAsyncStateMachine
+                        {
+                            TypeName = AsyncStateMachineType.FullName,
+                            state = (int)AsyncStateMachineStateField.GetValue(AsyncStateMachineSource)
+                        }
                     );
 
                     Console.WriteLine("can we skip a step? " + new { AsyncStateMachineStateField, ShadowIAsyncStateMachine.state, AsyncStateMachineSource });
@@ -199,22 +209,24 @@ namespace JVMCLRSwitchToCLRContextAsync
                     //time to jump back? { state = 1 }
                     //                   time to jump back? { state = 1 }
                     //can we skip a step? { AsyncStateMachineStateField = int __1__state, state = 1, AsyncStateMachineSource = JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0@4437c4 }
-                    //enter catch { mname = <01a8> ldloca.s.try }
+                    // enter catch { mname = <01a8> ldloca.s.try } ClauseCatchLocal:
 
-                    //enter catch { mname = <00a8> ldarg.0.try }
+                    //__AsyncTaskMethodBuilder.SetException { exception =  }
+                    //enter catch { mname = <00a8> ldarg.0.try } ClauseCatchLocal:
 
+                    //__AsyncTaskMethodBuilder.SetException { exception =  }
                     //{ Message = System.Diagnostics.Debugger.Break, StackTrace = java.lang.RuntimeException: System.Diagnostics.Debugger.Break
                     //        at ScriptCoreLibJava.BCLImplementation.System.Diagnostics.__Debugger.Break(__Debugger.java:32)
-                    //        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.SetException(__AsyncTaskMethodBuilder.java:55)
-                    //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._0209__stloc_1(SharedProgram__Invoke_d__0__MoveNext_06000055.java:253)
+                    //        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.SetException(__AsyncTaskMethodBuilder.java:58)
+                    //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._0214__stloc_1(SharedProgram__Invoke_d__0__MoveNext_06000055.java:253)
                     //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._00a8__ldarg_0(SharedProgram__Invoke_d__0__MoveNext_06000055.java:425)
                     //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__workflow(SharedProgram__Invoke_d__0__MoveNext_06000055.java:81)
                     //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__forwardref(SharedProgram__Invoke_d__0__MoveNext_06000055.java:49)
                     //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.MoveNext(SharedProgram__Invoke_d__0.java:34)
                     //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.System_Runtime_CompilerServices_IAsyncStateMachine_MoveNext(SharedProgram__Invoke_d__0.java:51)
-                    //        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.Start(__AsyncTaskMethodBuilder.java:41)
+                    //        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.Start(__AsyncTaskMethodBuilder.java:43)
                     //        at JVMCLRSwitchToCLRContextAsync.SharedProgram.Invoke(SharedProgram.java:36)
-                    //        at JVMCLRSwitchToCLRContextAsync.Program.main(Program.java:124)
+                    //        at JVMCLRSwitchToCLRContextAsync.Program.main(Program.java:128)
                     // }
 
 
@@ -231,6 +243,21 @@ namespace JVMCLRSwitchToCLRContextAsync
 
 
 
+
+
+
+
+
+
+
+                    ////var NewStateMachine = Activator.CreateInstance(AsyncStateMachineType);
+                    ////var NewStateMachineI = NewStateMachine as IAsyncStateMachine;
+
+
+                    ////AsyncStateMachineStateField.SetValue(NewStateMachine, ShadowIAsyncStateMachine.state);
+
+                    //////this will take step into next await.
+                    ////NewStateMachineI.MoveNext();
 
                     AsyncStateMachineStateField.SetValue(AsyncStateMachineSource, ShadowIAsyncStateMachine.state);
                     AsyncStateMachineSource.MoveNext();
@@ -271,7 +298,7 @@ namespace JVMCLRSwitchToCLRContextAsync
 
         }
 
-        public static ShadowIAsyncStateMachine CLRInvoke(string e)
+        public static ShadowIAsyncStateMachine CLRInvoke(ShadowIAsyncStateMachine e)
         {
             // 23e8:02:01 RewriteToAssembly error: System.IO.FileLoadException: Could not load file or assembly 'JVMCLRSwitchToCLRContextAsync.dll' or one of its dependencies. A dynamic link library (DLL) initialization routine failed. (Exception from HRESULT: 0x8007045A)
 
@@ -293,7 +320,7 @@ namespace JVMCLRSwitchToCLRContextAsync
             try
             {
                 SharedProgram.Invoke("hi").Wait();
-
+                Console.WriteLine("all done");
 
 
 
@@ -306,7 +333,9 @@ namespace JVMCLRSwitchToCLRContextAsync
             {
                 Console.WriteLine(new { ex.Message, ex.StackTrace });
             }
-            Thread.Sleep(10000);
+            //Thread.Sleep(10000);
+
+            Console.ReadLine();
         }
 
 
@@ -316,16 +345,27 @@ namespace JVMCLRSwitchToCLRContextAsync
     {
         // not roslyn
 
+        //Error	1	The type 'JVMCLRSwitchToCLRContextAsync.HopToCLR' cannot be declared const	X:\jsc.svn\examples\java\hybrid\JVMCLRSwitchToCLRContextAsync\JVMCLRSwitchToCLRContextAsync\Program.cs	349	9	JVMCLRSwitchToCLRContextAsync
+        // Error	1	The type 'JVMCLRSwitchToCLRContextAsync.HopToCLR' cannot be declared const	X:\jsc.svn\examples\java\hybrid\JVMCLRSwitchToCLRContextAsync\JVMCLRSwitchToCLRContextAsync\Program.cs	348	9	JVMCLRSwitchToCLRContextAsync
+        static readonly HopToCLR CLR = default(HopToCLR);
+
         public static async Task Invoke(string e)
         {
             Console.WriteLine(typeof(object) + " enter " + typeof(SharedProgram) + new { Thread.CurrentThread.ManagedThreadId });
 
-            await default(HopToCLR);
+            await CLR;
 
-            Console.WriteLine(typeof(object) + " state 1 " + typeof(SharedProgram) + new { Thread.CurrentThread.ManagedThreadId });
+            Console.WriteLine(typeof(object) + " CLR state 1 " + typeof(SharedProgram) + new { Thread.CurrentThread.ManagedThreadId });
 
             await default(HopToJVM);
-            Console.WriteLine("enter state 2");
+
+            Console.WriteLine(typeof(object) + " JVM state 2 " + typeof(SharedProgram) + new { Thread.CurrentThread.ManagedThreadId });
+
+            await default(HopToCLR);
+
+            Console.WriteLine(typeof(object) + " CLR state 3 " + typeof(SharedProgram) + new { Thread.CurrentThread.ManagedThreadId });
+
+            await default(HopToJVM);
 
             Console.WriteLine(typeof(object) + " exit " + typeof(SharedProgram) + new { Thread.CurrentThread.ManagedThreadId });
         }
@@ -348,6 +388,7 @@ namespace JVMCLRSwitchToCLRContextAsync
 
     class ShadowIAsyncStateMachine
     {
+        public string TypeName;
         public int state;
     }
 
@@ -366,16 +407,19 @@ namespace JVMCLRSwitchToCLRContextAsync
 
 
         public static ShadowIAsyncStateMachine CLRInvoke(
-            string xAsyncStateMachineTypeName
+            ShadowIAsyncStateMachine that
             )
         {
+            var xAsyncStateMachineTypeName = that.TypeName;
+
             Console.WriteLine(typeof(object) + " CLRInvoke "
                 //+ typeof(SharedProgram) 
                 + new
             {
                 Thread.CurrentThread.ManagedThreadId,
 
-                xAsyncStateMachineTypeName
+                that.TypeName,
+                that.state
             });
 
             // do we have the type mentioned loaded?
@@ -412,7 +456,7 @@ namespace JVMCLRSwitchToCLRContextAsync
             var xAsyncStateMachineType = typeof(CLRProgram).Assembly.GetTypes().FirstOrDefault(
                 x =>
                 {
-                    Console.WriteLine(new { x.FullName });
+                    //Console.WriteLine(new { x.FullName });
 
                     return x.FullName.Replace("+", "_").Replace("<", "_").Replace(">", "_")
                     == xAsyncStateMachineTypeName.Replace("+", "_").Replace("<", "_").Replace(">", "_");
@@ -468,9 +512,35 @@ namespace JVMCLRSwitchToCLRContextAsync
                 xAsyncStateMachineType
             });
 
+
+
+
             // how can we send the type ref over the wire? encypt it?
             var NewStateMachine = Activator.CreateInstance(xAsyncStateMachineType);
             var NewStateMachineI = NewStateMachine as IAsyncStateMachine;
+
+            #region 1__state
+            xAsyncStateMachineType.GetFields(
+                      System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
+                  ).WithEach(
+                   AsyncStateMachineSourceField =>
+                   {
+                       if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
+                       {
+                           AsyncStateMachineSourceField.SetValue(
+                               NewStateMachineI,
+                               that.state
+                            );
+
+                       }
+                   }
+              );
+            #endregion
+
+
+
+
+
 
             var ShadowIAsyncStateMachine = new ShadowIAsyncStateMachine();
 
@@ -570,3 +640,101 @@ namespace JVMCLRSwitchToCLRContextAsync
 
 
 }
+
+//time to jump back? { state = 1 }
+//can we skip a step? { AsyncStateMachineStateField = int __1__state, state = 1, AsyncStateMachineSource = JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0@4437c4 }
+//JVMCLRSwitchToCLRContextAsync.SharedProgram+<Invoke>d__0 <0000> ldc.i4.1
+//JVMCLRSwitchToCLRContextAsync.SharedProgram+<Invoke>d__0 <0035> br
+//JVMCLRSwitchToCLRContextAsync.SharedProgram+<Invoke>d__0 <0189> ldarg.0
+//JVMCLRSwitchToCLRContextAsync.SharedProgram+<Invoke>d__0 <01a8> ldloca.s
+//enter catch { mname = <01a8> ldloca.s.try } ClauseCatchLocal:
+//{ Message = , StackTrace = java.lang.NullPointerException
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._01a8__ldloca_s_try(SharedProgram__Invoke_d__0__MoveNext_06000055.java:604)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._01a8__ldloca_s(SharedProgram__Invoke_d__0__MoveNext_06000055.java:579)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__workflow(SharedProgram__Invoke_d__0__MoveNext_06000055.java:105)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__forwardref(SharedProgram__Invoke_d__0__MoveNext_06000055.java:49)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.MoveNext(SharedProgram__Invoke_d__0.java:34)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.System_Runtime_CompilerServices_IAsyncStateMachine_MoveNext(SharedProgram__Invoke_d__0.java:51)
+//        at JVMCLRSwitchToCLRContextAsync.Program.__cctor_b__1(Program.java:106)
+//        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+//        at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+//        at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+//        at java.lang.reflect.Method.invoke(Unknown Source)
+//        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:93)
+//        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:71)
+//        at ScriptCoreLib.Shared.BCLImplementation.System.__Action_1.Invoke(__Action_1.java:28)
+//        at JVMCLRSwitchToCLRContextAsync.HopToCLR.OnCompleted(HopToCLR.java:34)
+//        at JVMCLRSwitchToCLRContextAsync.HopToCLR.System_Runtime_CompilerServices_INotifyCompletion_OnCompleted(HopToCLR.java:44)
+//        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted(__AsyncTaskMethodBuilder.java:92)
+//        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.AwaitOnCompleted(__AsyncTaskMethodBuilder.java:66)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._00a8__ldarg_0_try(SharedProgram__Invoke_d__0__MoveNext_06000055.java:451)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._00a8__ldarg_0(SharedProgram__Invoke_d__0__MoveNext_06000055.java:424)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__workflow(SharedProgram__Invoke_d__0__MoveNext_06000055.java:81)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__forwardref(SharedProgram__Invoke_d__0__MoveNext_06000055.java:49)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.MoveNext(SharedProgram__Invoke_d__0.java:34)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.System_Runtime_CompilerServices_IAsyncStateMachine_MoveNext(SharedProgram__Invoke_d__0.java:51)
+//        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.Start(__AsyncTaskMethodBuilder.java:43)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram.Invoke(SharedProgram.java:36)
+//        at JVMCLRSwitchToCLRContextAsync.Program.main(Program.java:123)
+// }
+//JVMCLRSwitchToCLRContextAsync.SharedProgram+<Invoke>d__0 <0214> stloc.1
+//__AsyncTaskMethodBuilder.SetException { exception =  }
+//enter catch { mname = <00a8> ldarg.0.try } ClauseCatchLocal:
+//{ Message = , StackTrace = java.lang.RuntimeException
+//        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:97)
+//        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:71)
+//        at ScriptCoreLib.Shared.BCLImplementation.System.__Action_1.Invoke(__Action_1.java:28)
+//        at JVMCLRSwitchToCLRContextAsync.HopToCLR.OnCompleted(HopToCLR.java:34)
+//        at JVMCLRSwitchToCLRContextAsync.HopToCLR.System_Runtime_CompilerServices_INotifyCompletion_OnCompleted(HopToCLR.java:44)
+//        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted(__AsyncTaskMethodBuilder.java:92)
+//        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.AwaitOnCompleted(__AsyncTaskMethodBuilder.java:66)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._00a8__ldarg_0_try(SharedProgram__Invoke_d__0__MoveNext_06000055.java:451)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._00a8__ldarg_0(SharedProgram__Invoke_d__0__MoveNext_06000055.java:424)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__workflow(SharedProgram__Invoke_d__0__MoveNext_06000055.java:81)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__forwardref(SharedProgram__Invoke_d__0__MoveNext_06000055.java:49)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.MoveNext(SharedProgram__Invoke_d__0.java:34)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.System_Runtime_CompilerServices_IAsyncStateMachine_MoveNext(SharedProgram__Invoke_d__0.java:51)
+//        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.Start(__AsyncTaskMethodBuilder.java:43)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram.Invoke(SharedProgram.java:36)
+//        at JVMCLRSwitchToCLRContextAsync.Program.main(Program.java:123)
+//Caused by: java.lang.reflect.InvocationTargetException
+//        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+//        at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+//        at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+//        at java.lang.reflect.Method.invoke(Unknown Source)
+//        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:93)
+//        ... 15 more
+//Caused by: java.lang.RuntimeException: System.Diagnostics.Debugger.Break
+//        at ScriptCoreLibJava.BCLImplementation.System.Diagnostics.__Debugger.Break(__Debugger.java:32)
+//        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.SetException(__AsyncTaskMethodBuilder.java:58)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._0214__stloc_1(SharedProgram__Invoke_d__0__MoveNext_06000055.java:255)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._01a8__ldloca_s(SharedProgram__Invoke_d__0__MoveNext_06000055.java:586)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__workflow(SharedProgram__Invoke_d__0__MoveNext_06000055.java:105)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__forwardref(SharedProgram__Invoke_d__0__MoveNext_06000055.java:49)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.MoveNext(SharedProgram__Invoke_d__0.java:34)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.System_Runtime_CompilerServices_IAsyncStateMachine_MoveNext(SharedProgram__Invoke_d__0.java:51)
+//        at JVMCLRSwitchToCLRContextAsync.Program.__cctor_b__1(Program.java:106)
+//        ... 20 more
+// }
+//JVMCLRSwitchToCLRContextAsync.SharedProgram+<Invoke>d__0 <0214> stloc.1
+//__AsyncTaskMethodBuilder.SetException { exception =  }
+//{ Message = System.Diagnostics.Debugger.Break, StackTrace = java.lang.RuntimeException: System.Diagnostics.Debugger.Break
+//        at ScriptCoreLibJava.BCLImplementation.System.Diagnostics.__Debugger.Break(__Debugger.java:32)
+//        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.SetException(__AsyncTaskMethodBuilder.java:58)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._0214__stloc_1(SharedProgram__Invoke_d__0__MoveNext_06000055.java:255)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._00a8__ldarg_0(SharedProgram__Invoke_d__0__MoveNext_06000055.java:431)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__workflow(SharedProgram__Invoke_d__0__MoveNext_06000055.java:81)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__forwardref(SharedProgram__Invoke_d__0__MoveNext_06000055.java:49)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.MoveNext(SharedProgram__Invoke_d__0.java:34)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.System_Runtime_CompilerServices_IAsyncStateMachine_MoveNext(SharedProgram__Invoke_d__0.java:51)
+//        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.Start(__AsyncTaskMethodBuilder.java:43)
+//        at JVMCLRSwitchToCLRContextAsync.SharedProgram.Invoke(SharedProgram.java:36)
+//        at JVMCLRSwitchToCLRContextAsync.Program.main(Program.java:123)
+// }
+
+
+
+
+
+
+
