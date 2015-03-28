@@ -177,7 +177,8 @@ namespace ScriptCoreLib.JavaScript
 
         public static void __ToBase64String()
         {
-            return;
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLVRCreativeLeadership\WebGLVRCreativeLeadership\Application.cs
+            //return;
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150226
             Console.WriteLine("__ToBase64String");
