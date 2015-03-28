@@ -810,6 +810,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeOcubeByFred", "..\syner
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceRingsByMu6k", "..\synergy\SpaceRingsByMu6k\SpaceRingsByMu6k\SpaceRingsByMu6k.csproj", "{449A9283-ADAF-40C5-90C8-81E1033AE708}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TruePinballPhysicsByArchee", "..\synergy\TruePinballPhysicsByArchee\TruePinballPhysicsByArchee\TruePinballPhysicsByArchee.csproj", "{F43B9A37-627A-4F46-8BAD-75C3E8C549FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidnightSnowByRavenWorks", "..\synergy\MidnightSnowByRavenWorks\MidnightSnowByRavenWorks\MidnightSnowByRavenWorks.csproj", "{5F2AD6DA-385D-498B-B46A-59D9EA608E64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MercuryCratersByGuil", "..\synergy\MercuryCratersByGuil\MercuryCratersByGuil\MercuryCratersByGuil.csproj", "{5638645A-BC35-4742-A450-1DE8822BCD32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrahedronByCandycat", "..\synergy\TetrahedronByCandycat\TetrahedronByCandycat\TetrahedronByCandycat.csproj", "{6019D0FB-8615-4F65-A58C-75FCD963BD0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -2316,6 +2324,22 @@ Global
 		{449A9283-ADAF-40C5-90C8-81E1033AE708}.Debug|x86.Build.0 = Debug|x86
 		{449A9283-ADAF-40C5-90C8-81E1033AE708}.Release|x86.ActiveCfg = Release|x86
 		{449A9283-ADAF-40C5-90C8-81E1033AE708}.Release|x86.Build.0 = Release|x86
+		{F43B9A37-627A-4F46-8BAD-75C3E8C549FB}.Debug|x86.ActiveCfg = Debug|x86
+		{F43B9A37-627A-4F46-8BAD-75C3E8C549FB}.Debug|x86.Build.0 = Debug|x86
+		{F43B9A37-627A-4F46-8BAD-75C3E8C549FB}.Release|x86.ActiveCfg = Release|x86
+		{F43B9A37-627A-4F46-8BAD-75C3E8C549FB}.Release|x86.Build.0 = Release|x86
+		{5F2AD6DA-385D-498B-B46A-59D9EA608E64}.Debug|x86.ActiveCfg = Debug|x86
+		{5F2AD6DA-385D-498B-B46A-59D9EA608E64}.Debug|x86.Build.0 = Debug|x86
+		{5F2AD6DA-385D-498B-B46A-59D9EA608E64}.Release|x86.ActiveCfg = Release|x86
+		{5F2AD6DA-385D-498B-B46A-59D9EA608E64}.Release|x86.Build.0 = Release|x86
+		{5638645A-BC35-4742-A450-1DE8822BCD32}.Debug|x86.ActiveCfg = Debug|x86
+		{5638645A-BC35-4742-A450-1DE8822BCD32}.Debug|x86.Build.0 = Debug|x86
+		{5638645A-BC35-4742-A450-1DE8822BCD32}.Release|x86.ActiveCfg = Release|x86
+		{5638645A-BC35-4742-A450-1DE8822BCD32}.Release|x86.Build.0 = Release|x86
+		{6019D0FB-8615-4F65-A58C-75FCD963BD0E}.Debug|x86.ActiveCfg = Debug|x86
+		{6019D0FB-8615-4F65-A58C-75FCD963BD0E}.Debug|x86.Build.0 = Debug|x86
+		{6019D0FB-8615-4F65-A58C-75FCD963BD0E}.Release|x86.ActiveCfg = Release|x86
+		{6019D0FB-8615-4F65-A58C-75FCD963BD0E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2720,5 +2744,9 @@ Global
 		{74D9BC3A-E8E1-427C-AD2B-4BCCC4789FBE} = {5ADD4CE9-E26C-47C7-BFAA-6F63ED11CF48}
 		{D4211163-6747-4670-90C2-98FB068A2018} = {E52AEDA5-00B9-4FA3-AC2D-6A13A92ED282}
 		{449A9283-ADAF-40C5-90C8-81E1033AE708} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
+		{F43B9A37-627A-4F46-8BAD-75C3E8C549FB} = {6B99A4F6-D079-4F85-82EF-B462C36F92A0}
+		{5F2AD6DA-385D-498B-B46A-59D9EA608E64} = {A51F8D8D-236B-4EC4-9BB3-745BB19F6404}
+		{5638645A-BC35-4742-A450-1DE8822BCD32} = {A51F8D8D-236B-4EC4-9BB3-745BB19F6404}
+		{6019D0FB-8615-4F65-A58C-75FCD963BD0E} = {6B99A4F6-D079-4F85-82EF-B462C36F92A0}
 	EndGlobalSection
 EndGlobal
