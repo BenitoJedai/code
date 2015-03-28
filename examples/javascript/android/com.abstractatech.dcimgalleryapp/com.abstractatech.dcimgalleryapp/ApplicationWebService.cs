@@ -837,6 +837,8 @@ namespace com.abstractatech.dcimgalleryapp
 
 		static ApplicationWebService()
 		{
+			// X:\jsc.svn\examples\javascript\android\com.abstractatech.dcimgalleryapp\com.abstractatech.dcimgalleryapp\ApplicationWebService.cs
+
 			// http://stackoverflow.com/questions/19750700/detecting-when-system-buttons-are-visible-while-using-immersive-mode
 			// https://developer.android.com/training/system-ui/immersive.html
 			// http://stackoverflow.com/questions/22265945/full-screen-action-bar-immersive
