@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E970C4D0-E8E0-44DF-9375-DD5CB55EC3D1}</ProjectGuid>
+    <ProjectGuid>{7C664C3B-EEAA-4EB1-BE5E-EBFA707F6D0B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SwirlingRingsByyJimmikaelkael</RootNamespace>
-    <AssemblyName>SwirlingRingsByyJimmikaelkael</AssemblyName>
+    <RootNamespace>x3DLightingByXor</RootNamespace>
+    <AssemblyName>x3DLightingByXor</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>SwirlingRingsByyJimmikaelkael.Program</StartupObject>
+    <StartupObject>x3DLightingByXor.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -126,8 +126,8 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="SwirlingRingsByyJimmikaelkael.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\SwirlingRingsByyJimmikaelkael.AssetsLibrary.dll</HintPath>
+    <Reference Include="x3DLightingByXor.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\x3DLightingByXor.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

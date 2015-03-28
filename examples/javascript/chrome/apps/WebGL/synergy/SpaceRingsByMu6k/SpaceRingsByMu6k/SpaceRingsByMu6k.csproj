@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E970C4D0-E8E0-44DF-9375-DD5CB55EC3D1}</ProjectGuid>
+    <ProjectGuid>{449A9283-ADAF-40C5-90C8-81E1033AE708}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SwirlingRingsByyJimmikaelkael</RootNamespace>
-    <AssemblyName>SwirlingRingsByyJimmikaelkael</AssemblyName>
+    <RootNamespace>SpaceRingsByMu6k</RootNamespace>
+    <AssemblyName>SpaceRingsByMu6k</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>SwirlingRingsByyJimmikaelkael.Program</StartupObject>
+    <StartupObject>SpaceRingsByMu6k.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -126,8 +126,8 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="SwirlingRingsByyJimmikaelkael.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\SwirlingRingsByyJimmikaelkael.AssetsLibrary.dll</HintPath>
+    <Reference Include="SpaceRingsByMu6k.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\SpaceRingsByMu6k.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
