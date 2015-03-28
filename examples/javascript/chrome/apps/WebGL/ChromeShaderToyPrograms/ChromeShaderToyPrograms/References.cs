@@ -416,6 +416,7 @@ namespace ChromeShaderToyPrograms
 			["SteamLogoByYakoudbz"] = () => new SteamLogoByYakoudbz.Shaders.ProgramFragmentShader(),
 			["SubmergedByFizzer"] = () => new SubmergedByFizzer.Shaders.ProgramFragmentShader(),
 			["SunsetOnTheSeaByRiccardo"] = () => new SunsetOnTheSeaByRiccardo.Shaders.ProgramFragmentShader(),
+			["SwirlingRingsByyJimmikaelkael"] = () => new SwirlingRingsByyJimmikaelkael.Shaders.ProgramFragmentShader(),
 			#endregion
 
 
@@ -473,6 +474,7 @@ namespace ChromeShaderToyPrograms
 			["ChromeShaderToyWetStoneByTDM"] = () => new ChromeShaderToyWetStoneByTDM.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToyWolfensteinByReinder"] = () => new ChromeShaderToyWolfensteinByReinder.Shaders.ProgramFragmentShader(),
 			["WinterByIapafoto"] = () => new WinterByIapafoto.Shaders.ProgramFragmentShader(),
+			["WireEggsByEiffie"] = () => new WireEggsByEiffie.Shaders.ProgramFragmentShader(),
 			["WobblyThingByAvix"] = () => new WobblyThingByAvix.Shaders.ProgramFragmentShader(),
 			["Wolf128ByFinalPatch"] = () => new Wolf128ByFinalPatch.Shaders.ProgramFragmentShader(),
 			["WormsByIq"] = () => new WormsByIq.Shaders.ProgramFragmentShader(),
@@ -487,6 +489,7 @@ namespace ChromeShaderToyPrograms
 			["x2DShadowCastingByTharich"] = () => new x2DShadowCastingByTharich.Shaders.ProgramFragmentShader(),
 			["x2DSkullByStanton"] = () => new x2DSkullByStanton.Shaders.ProgramFragmentShader(),
 			["x3DExcQByGaz"] = () => new x3DExcQByGaz.Shaders.ProgramFragmentShader(),
+			["x3DLightingByXor"] = () => new x3DLightingByXor.Shaders.ProgramFragmentShader(),
 			["x3DMetashapesByLewiz"] = () => new x3DMetashapesByLewiz.Shaders.ProgramFragmentShader(),
 
 			["YellowMothByDr2"] = () => new YellowMothByDr2.Shaders.ProgramFragmentShader(),
