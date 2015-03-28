@@ -17,9 +17,52 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         [Script]
         public class __ConsoleOut : TextWriter
         {
+            // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\IO\TextWriter.cs
+
             public override Encoding Encoding
             {
                 get { return Encoding.UTF8; }
+            }
+
+            public override void Write(object value)
+            {
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150328
+
+                //enter catch { mname = <01a8> ldloca.s.try } ClauseCatchLocal:
+                //java.lang.NullPointerException
+                //__AsyncTaskMethodBuilder.SetException { exception =  }
+                //enter catch { mname = <00a8> ldarg.0.try } ClauseCatchLocal:
+                //java.lang.RuntimeException
+                //__AsyncTaskMethodBuilder.SetException { exception =  }
+                //{ Message = System.Diagnostics.Debugger.Break, StackTrace = java.lang.RuntimeException: System.Diagnostics.Debugger.Break
+                //        at ScriptCoreLibJava.BCLImplementation.System.Diagnostics.__Debugger.Break(__Debugger.java:32)
+                //        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.SetException(__AsyncTaskMethodBuilder.java:58)
+                //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._0214__stloc_1(SharedProgram__Invoke_d__0__MoveNext_06000055.java:253)
+                //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055._00a8__ldarg_0(SharedProgram__Invoke_d__0__MoveNext_06000055.java:425)
+                //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__workflow(SharedProgram__Invoke_d__0__MoveNext_06000055.java:81)
+                //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0__MoveNext_06000055.__forwardref(SharedProgram__Invoke_d__0__MoveNext_06000055.java:49)
+                //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.MoveNext(SharedProgram__Invoke_d__0.java:34)
+                //        at JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0.System_Runtime_CompilerServices_IAsyncStateMachine_MoveNext(SharedProgram__Invoke_d__0.java:51)
+                //        at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder.Start(__AsyncTaskMethodBuilder.java:43)
+                //        at JVMCLRSwitchToCLRContextAsync.SharedProgram.Invoke(SharedProgram.java:36)
+                //        at JVMCLRSwitchToCLRContextAsync.Program.main(Program.java:128)
+                // }
+
+
+
+                var ex = value as Exception;
+                if (ex != null)
+                {
+                    Write(new { ex.Message, ex.StackTrace }.ToString());
+
+
+
+                    return;
+                }
+
+
+
+                Write("" + value);
             }
 
             public override void Write(string value)
@@ -134,7 +177,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public static void WriteLine(object e)
         {
-            Out.WriteLine("" + e);
+            // X:\jsc.svn\examples\java\hybrid\test\TestStructFieldDefaults\TestStructFieldDefaults\Program.cs
+            Out.WriteLine(e);
         }
 
         public static void WriteLine(string e)

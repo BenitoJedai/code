@@ -9,6 +9,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
     [Script(Implements = typeof(global::System.ValueType))]
     internal abstract class __ValueType
     {
+        // X:\jsc.svn\examples\java\test\TestStructFieldDefaults\TestStructFieldDefaults\Program.cs
 
     }
 }
