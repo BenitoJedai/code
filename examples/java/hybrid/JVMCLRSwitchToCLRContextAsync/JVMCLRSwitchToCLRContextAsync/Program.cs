@@ -102,16 +102,15 @@ namespace JVMCLRSwitchToCLRContextAsync
             //{ continuation = ScriptCoreLib.Shared.BCLImplementation.System.__Action@123ec81 }
             //{ Method = void _AwaitUnsafeOnCompleted_b__1() }
             //{ Target = ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncTaskMethodBuilder___c__DisplayClass2_2@f87f48 }
+            //{ SourceField = ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__IAsyncStateMachine zstateMachine, value = JVMCLRSwitchToCLRContextAsync.SharedProgram__Invoke_d__0@ffa5d }
+            //{ SourceField = ScriptCoreLib.Shared.BCLImplementation.System.__Action yield, value = ScriptCoreLib.Shared.BCLImplementation.System.__Action@117ae12 }
             //java.lang.Object CLRProgram prep for JVMCLRSwitchToCLRContextAsync.SharedProgram{ ManagedThreadId = 1 }
             //java.lang.Object CLRInvoke { ManagedThreadId = 1 }
 
             // whats the _AwaitUnsafeOnCompleted_b__1 ?
 
-
-
-
-
-
+            // both have __IAsyncStateMachine, but CLR has ExecutionContext, while others have .__Action yield
+            // shall we test on roslyn, then inspect that __IAsyncStateMachine?
 
             CLRProgram.CLRInvoke();
         }
