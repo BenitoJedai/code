@@ -818,6 +818,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MercuryCratersByGuil", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrahedronByCandycat", "..\synergy\TetrahedronByCandycat\TetrahedronByCandycat\TetrahedronByCandycat.csproj", "{6019D0FB-8615-4F65-A58C-75FCD963BD0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SunsetCloudByKuvkar", "..\synergy\SunsetCloudByKuvkar\SunsetCloudByKuvkar\SunsetCloudByKuvkar.csproj", "{C368B92C-5F6A-48C5-9EA3-85AFBF2032B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -2340,6 +2342,10 @@ Global
 		{6019D0FB-8615-4F65-A58C-75FCD963BD0E}.Debug|x86.Build.0 = Debug|x86
 		{6019D0FB-8615-4F65-A58C-75FCD963BD0E}.Release|x86.ActiveCfg = Release|x86
 		{6019D0FB-8615-4F65-A58C-75FCD963BD0E}.Release|x86.Build.0 = Release|x86
+		{C368B92C-5F6A-48C5-9EA3-85AFBF2032B0}.Debug|x86.ActiveCfg = Debug|x86
+		{C368B92C-5F6A-48C5-9EA3-85AFBF2032B0}.Debug|x86.Build.0 = Debug|x86
+		{C368B92C-5F6A-48C5-9EA3-85AFBF2032B0}.Release|x86.ActiveCfg = Release|x86
+		{C368B92C-5F6A-48C5-9EA3-85AFBF2032B0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2748,5 +2754,6 @@ Global
 		{5F2AD6DA-385D-498B-B46A-59D9EA608E64} = {A51F8D8D-236B-4EC4-9BB3-745BB19F6404}
 		{5638645A-BC35-4742-A450-1DE8822BCD32} = {A51F8D8D-236B-4EC4-9BB3-745BB19F6404}
 		{6019D0FB-8615-4F65-A58C-75FCD963BD0E} = {6B99A4F6-D079-4F85-82EF-B462C36F92A0}
+		{C368B92C-5F6A-48C5-9EA3-85AFBF2032B0} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
 	EndGlobalSection
 EndGlobal
