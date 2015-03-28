@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using WebGLAudi.__AssetsLibrary__;
-using WebGLEarthByBjorn.HTML.Images.FromAssets;
+//using WebGLEarthByBjorn.HTML.Images.FromAssets;
 using WebGLNexus7;
 using WebGLVRCreativeLeadership;
 using WebGLSVGSprite.HTML.Pages;

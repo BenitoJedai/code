@@ -27,7 +27,10 @@ namespace WebGLSVGSprite
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
     public sealed class Application : ApplicationWebService
-    {
+	{
+
+
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
