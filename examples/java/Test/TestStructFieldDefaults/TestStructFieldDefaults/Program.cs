@@ -19,11 +19,13 @@ namespace TestStructFieldDefaults
 	{
 		// 1>script : error JSC1000: Java : class import: no implementation for System.ValueType at TestStructFieldDefaults.HopToJVM
 
+		//   type$XxiemAzjFzyZAGeXDJiGdg.__u___awaiter2 = null;
 		public HopToJVM __u___awaiter2;
 
 
 		static void Main()
 		{
+			HopToJVM loc1;
 		}
 	}
 
