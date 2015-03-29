@@ -7,8 +7,10 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 {
-    // http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/ConstantExpression.cs
-    [Script(Implements = typeof(global::System.Linq.Expressions.ConstantExpression))]
+	// http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/ConstantExpression.cs
+	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Linq/Expressions/ConstantExpression.cs
+
+	[Script(Implements = typeof(global::System.Linq.Expressions.ConstantExpression))]
     internal class __ConstantExpression : __Expression
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression

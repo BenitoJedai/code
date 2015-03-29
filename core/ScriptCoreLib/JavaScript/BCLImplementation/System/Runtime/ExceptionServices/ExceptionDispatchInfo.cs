@@ -11,20 +11,23 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.ExceptionServices
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/runtime/exceptionservices/exceptionservicescommon.cs
-    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/ExceptionServices/ExceptionServicesCommon.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/runtime/exceptionservices/exceptionservicescommon.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/ExceptionServices/ExceptionServicesCommon.cs
+	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Runtime/ExceptionServices/ExceptionDispatchInfo.cs
 
 
 #if NET45
     [Script(Implements = typeof(global::System.Runtime.ExceptionServices.ExceptionDispatchInfo))]
 #else
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.ExceptionServices.ExceptionDispatchInfo")]
+	[Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.ExceptionServices.ExceptionDispatchInfo")]
 #endif
     internal class __ExceptionDispatchInfo
     {
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140524
+		// X:\jsc.svn\examples\java\async\test\TestFromException\TestFromException\Application.cs
 
-        public Exception SourceException { get; set; }
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140524
+
+		public Exception SourceException { get; set; }
 
         public __ExceptionDispatchInfo(Exception e)
         {

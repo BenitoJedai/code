@@ -26,692 +26,695 @@ using WebGLSVGSprite.HTML.Images.FromAssets;
 //namespace WebGLVRCreativeLeadership
 namespace com.abstractatech.vr
 {
-    /// <summary>
-    /// Your client side code running inside a web browser as JavaScript.
-    /// </summary>
-    public sealed class Application : WebGLVRCreativeLeadershipApplicationWebService
-    {
-        //0001 02000178 ScriptCoreLib::ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProvider
-        //script: error JSC1000: Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
-        //internal compiler error at method
+	/// <summary>
+	/// Your client side code running inside a web browser as JavaScript.
+	/// </summary>
+	public sealed class Application : WebGLVRCreativeLeadershipApplicationWebService
+	{
+		//0001 02000178 ScriptCoreLib::ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProvider
+		//script: error JSC1000: Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
+		//internal compiler error at method
 
-        //       script: error JSC1000: Java :
-        //BCL needs another method, please define it.
-        //Cannot call type without script attribute :
-        //System.Threading.Monitor for Void Enter(System.Object, Boolean ByRef) used at
-        //WebGLVRCreativeLeadership.Activities.ApplicationWebServiceActivity+<>c__DisplayClass24.<CreateServer>b__29 at offset 0018.
-        //If the use of this method is intended, an implementation should be provided with the attribute[Script(Implements = typeof(...)] set.You may have mistyped it.
+		//       script: error JSC1000: Java :
+		//BCL needs another method, please define it.
+		//Cannot call type without script attribute :
+		//System.Threading.Monitor for Void Enter(System.Object, Boolean ByRef) used at
+		//WebGLVRCreativeLeadership.Activities.ApplicationWebServiceActivity+<>c__DisplayClass24.<CreateServer>b__29 at offset 0018.
+		//If the use of this method is intended, an implementation should be provided with the attribute[Script(Implements = typeof(...)] set.You may have mistyped it.
 
-        public Application(com.abstractatech.apps.vr.HTML.Pages.IApp page)
-        {
-            // https://play.google.com/store/apps/details?id=com.abstractatech.vr
-            // could we display LAN UDP notifications too. like
-            // which youtube video is playing?
+		//		I/chromium(13596): [INFO: CONSOLE(97050)] "THREE.WebGLRenderer: Texture is not power of two. Texture.minFilter is set to THREE.LinearFilter or THREE.NearestFilter. ( undefined )", source: http://192.168.1.228:23993/view-source (97050)
+		//I/chromium(13596): [INFO: CONSOLE(97050)] "THREE.WebGLRenderer: Texture is not power of two. Texture.minFilter is set to THREE.LinearFilter or THREE.NearestFilter. ( undefined )", source: http://192.168.1.228:23993/view-source (97050)
 
-            Native.body.Clear();
-            Native.body.style.margin = "0px";
-            Native.body.style.backgroundColor = "black";
-
-            // https://vronecontest.zeiss.com/index.php?controller=ideas&view=show&id=652
-
-            //          hResolution: 1920,
-            //vResolution: 1080,
-
-            // "X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEquirectangularPanorama\WebGLEquirectangularPanorama.sln"
+		public Application(com.abstractatech.apps.vr.HTML.Pages.IApp page)
+		{
+			// https://play.google.com/store/apps/details?id=com.abstractatech.vr
+			// could we display LAN UDP notifications too. like
+			// which youtube video is playing?
 
-            // http://oculusstreetview.eu.pn/?lat=44.301987&lng=9.211561999999958&q=3&s=false&heading=0
-            // https://github.com/troffmo5/OculusStreetView
+			Native.body.Clear();
+			Native.body.style.margin = "0px";
+			Native.body.style.backgroundColor = "black";
 
-            // http://stackoverflow.com/questions/23817633/threejs-using-a-sprite-with-the-oculusrifteffect
-            // http://laht.info/dk2-parameters-for-three-oculusrifteffect-js/
+			// https://vronecontest.zeiss.com/index.php?controller=ideas&view=show&id=652
+
+			//          hResolution: 1920,
+			//vResolution: 1080,
+
+			// "X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEquirectangularPanorama\WebGLEquirectangularPanorama.sln"
 
-            // http://stemkoski.github.io/Three.js/Sprites.html
-            // http://stemkoski.github.io/Three.js/Texture-Animation.html
-            // http://blog.thematicmapping.org/2013/10/terrain-visualization-with-threejs-and.html
+			// http://oculusstreetview.eu.pn/?lat=44.301987&lng=9.211561999999958&q=3&s=false&heading=0
+			// https://github.com/troffmo5/OculusStreetView
 
-            // http://mrdoob.github.io/three.js/examples/webgl_panorama_equirectangular.html
+			// http://stackoverflow.com/questions/23817633/threejs-using-a-sprite-with-the-oculusrifteffect
+			// http://laht.info/dk2-parameters-for-three-oculusrifteffect-js/
 
-            var window = Native.window;
+			// http://stemkoski.github.io/Three.js/Sprites.html
+			// http://stemkoski.github.io/Three.js/Texture-Animation.html
+			// http://blog.thematicmapping.org/2013/10/terrain-visualization-with-threejs-and.html
 
-            var fov = 70.0;
+			// http://mrdoob.github.io/three.js/examples/webgl_panorama_equirectangular.html
 
-            var camera = new THREE.PerspectiveCamera(fov,
-                window.aspect, 1, 1100);
-            var target = new THREE.Vector3(0, 0, 0);
+			var window = Native.window;
 
-            //(camera as dynamic).target = target;
+			var fov = 70.0;
 
-            var scene = new THREE.Scene();
-            //scene.add(new THREE.AmbientLight(0xffffff));
-            //scene.add(new THREE.AmbientLight(0xafafaf));
+			var camera = new THREE.PerspectiveCamera(fov,
+				window.aspect, 1, 1100);
+			var target = new THREE.Vector3(0, 0, 0);
 
-            // http://www.html5canvastutorials.com/three/html5-canvas-webgl-ambient-lighting-with-three-js/
+			//(camera as dynamic).target = target;
 
-            // http://stackoverflow.com/questions/14717135/three-js-ambient-light-unexpected-effect
+			var scene = new THREE.Scene();
+			//scene.add(new THREE.AmbientLight(0xffffff));
+			//scene.add(new THREE.AmbientLight(0xafafaf));
 
-            scene.add(new THREE.AmbientLight(0x2f2f2f));
+			// http://www.html5canvastutorials.com/three/html5-canvas-webgl-ambient-lighting-with-three-js/
 
+			// http://stackoverflow.com/questions/14717135/three-js-ambient-light-unexpected-effect
 
-            //var light = new THREE.DirectionalLight(0xffffff, 1.0);
-            #region light
-            var light = new THREE.DirectionalLight(0xffffff, 2.5);
-            //var light = new THREE.DirectionalLight(0xffffff, 2.5);
-            //var light = new THREE.DirectionalLight(0xffffff, 1.5);
-            //var lightOffset = new THREE.Vector3(0, 1000, 2500.0);
-            var lightOffset = new THREE.Vector3(
-                2000,
-                700,
+			scene.add(new THREE.AmbientLight(0x2f2f2f));
 
-                // lower makes longer shadows 
-                700.0
-                );
-            light.position.copy(lightOffset);
-            light.castShadow = true;
 
-            var xlight = light as dynamic;
-            xlight.shadowMapWidth = 4096;
-            xlight.shadowMapHeight = 2048;
+			//var light = new THREE.DirectionalLight(0xffffff, 1.0);
+			#region light
+			var light = new THREE.DirectionalLight(0xffffff, 2.5);
+			//var light = new THREE.DirectionalLight(0xffffff, 2.5);
+			//var light = new THREE.DirectionalLight(0xffffff, 1.5);
+			//var lightOffset = new THREE.Vector3(0, 1000, 2500.0);
+			var lightOffset = new THREE.Vector3(
+				2000,
+				700,
 
-            xlight.shadowDarkness = 0.3;
-            //xlight.shadowDarkness = 0.5;
+				// lower makes longer shadows 
+				700.0
+				);
+			light.position.copy(lightOffset);
+			light.castShadow = true;
 
-            xlight.shadowCameraNear = 10;
-            xlight.shadowCameraFar = 10000;
-            xlight.shadowBias = 0.00001;
-            xlight.shadowCameraRight = 4000;
-            xlight.shadowCameraLeft = -4000;
-            xlight.shadowCameraTop = 4000;
-            xlight.shadowCameraBottom = -4000;
+			var xlight = light as dynamic;
+			xlight.shadowMapWidth = 4096;
+			xlight.shadowMapHeight = 2048;
 
-            xlight.shadowCameraVisible = true;
+			xlight.shadowDarkness = 0.3;
+			//xlight.shadowDarkness = 0.5;
 
-            scene.add(light);
-            #endregion
+			xlight.shadowCameraNear = 10;
+			xlight.shadowCameraFar = 10000;
+			xlight.shadowBias = 0.00001;
+			xlight.shadowCameraRight = 4000;
+			xlight.shadowCameraLeft = -4000;
+			xlight.shadowCameraTop = 4000;
+			xlight.shadowCameraBottom = -4000;
 
-            var mesh = new THREE.Mesh(new THREE.SphereGeometry(500, 60, 40),
-                new THREE.MeshBasicMaterial(new
-                {
-                    map = THREE.ImageUtils.loadTexture(
-                        new _2294472375_24a3b8ef46_o().src
-                        //new WebGLEquirectangularPanorama.HTML.Images.FromAssets.PANO_20130616_222058().src
-                        //new WebGLEquirectangularPanorama.HTML.Images.FromAssets.PANO_20121225_210448().src
+			xlight.shadowCameraVisible = true;
 
-                        )
-                }));
-            mesh.scale.x = -1;
-            scene.add(mesh);
+			scene.add(light);
+			#endregion
 
-            #region sprite2
-            var crateTexture = THREE.ImageUtils.loadTexture(
-                new ChromeCreativeLeadership.HTML.Images.FromAssets.Mockup().src
+			var mesh = new THREE.Mesh(new THREE.SphereGeometry(500, 60, 40),
+				new THREE.MeshBasicMaterial(new
+				{
+					map = THREE.ImageUtils.loadTexture(
+						new _2294472375_24a3b8ef46_o().src
+						//new WebGLEquirectangularPanorama.HTML.Images.FromAssets.PANO_20130616_222058().src
+						//new WebGLEquirectangularPanorama.HTML.Images.FromAssets.PANO_20121225_210448().src
 
-            );
+						)
+				}));
+			mesh.scale.x = -1;
+			scene.add(mesh);
 
-            var crateMaterial = new THREE.SpriteMaterial(
-                new
-                {
-                    map = crateTexture,
-                    useScreenCoordinates = false,
-                    //color = 0xff0000
-                    color = 0xffffff
-                }
-        );
+			#region sprite2
+			var crateTexture = THREE.ImageUtils.loadTexture(
+				new ChromeCreativeLeadership.HTML.Images.FromAssets.Mockup().src
 
+			);
 
+			var crateMaterial = new THREE.SpriteMaterial(
+				new
+				{
+					map = crateTexture,
+					useScreenCoordinates = false,
+					//color = 0xff0000
+					color = 0xffffff
+				}
+		);
 
-            var sprite2 = new THREE.Sprite(crateMaterial);
 
-            //floor
-            //sprite2.position.set(0, -200, 0);
 
-            // left
-            //sprite2.position.set(200, 50, 0);
+			var sprite2 = new THREE.Sprite(crateMaterial);
 
-            sprite2.position.set(0, 0, 200);
+			//floor
+			//sprite2.position.set(0, -200, 0);
 
-            //sprite2.position.set(-100, 0, 0);
-            sprite2.scale.set(
-               _2294472375_24a3b8ef46_o.ImageDefaultWidth * 0.08,
-               _2294472375_24a3b8ef46_o.ImageDefaultHeight * 0.08,
-                //64, 64,
-                1.0); // imageWidth, imageHeight
-            scene.add(sprite2);
-            #endregion
+			// left
+			//sprite2.position.set(200, 50, 0);
 
+			sprite2.position.set(0, 0, 200);
 
-            #region ColladaAudiA4
-            new ColladaAudiA4().Source.Task.ContinueWithResult(
-                   dae =>
-                   {
-                       // 90deg
-                       //dae.rotation.x = -Math.Cos(Math.PI);
+			//sprite2.position.set(-100, 0, 0);
+			sprite2.scale.set(
+			   _2294472375_24a3b8ef46_o.ImageDefaultWidth * 0.08,
+			   _2294472375_24a3b8ef46_o.ImageDefaultHeight * 0.08,
+				//64, 64,
+				1.0); // imageWidth, imageHeight
+			scene.add(sprite2);
+			#endregion
 
-                       //dae.scale.x = 30;
-                       //dae.scale.y = 30;
-                       //dae.scale.z = 30;
-                       //dae.position.z = 65;
 
-                       // right
-                       dae.position.z = -20;
-                       dae.position.x = -100;
-                       dae.position.y = -90;
+			#region ColladaAudiA4
+			new ColladaAudiA4().Source.Task.ContinueWithResult(
+				   dae =>
+				   {
+					   // 90deg
+					   //dae.rotation.x = -Math.Cos(Math.PI);
 
+					   //dae.scale.x = 30;
+					   //dae.scale.y = 30;
+					   //dae.scale.z = 30;
+					   //dae.position.z = 65;
 
-                       // jsc, do we have ILObserver available yet?
-                       dae.scale.x = 1.0;
-                       dae.scale.y = 1.0;
-                       dae.scale.z = 1.0;
+					   // right
+					   dae.position.z = -20;
+					   dae.position.x = -100;
+					   dae.position.y = -90;
 
-                       //dae.position.y = -80;
 
-                       scene.add(dae);
-                       //oo.Add(dae);
+					   // jsc, do we have ILObserver available yet?
+					   dae.scale.x = 1.0;
+					   dae.scale.y = 1.0;
+					   dae.scale.z = 1.0;
 
+					   //dae.position.y = -80;
 
-                   }
-               );
-            #endregion
+					   scene.add(dae);
+					   //oo.Add(dae);
 
 
+				   }
+			   );
+			#endregion
 
 
-            #region nexus7
-            new nexus7().Source.Task.ContinueWithResult(
-                   dae =>
-                   {
-                       // 90deg
-                       dae.rotation.x = -Math.Cos(Math.PI);
 
-                       //dae.scale.x = 30;
-                       //dae.scale.y = 30;
-                       //dae.scale.z = 30;
-                       //dae.position.z = 65;
 
-                       // left
-                       //dae.position.x = 200;
+			#region nexus7
+			new nexus7().Source.Task.ContinueWithResult(
+				   dae =>
+				   {
+					   // 90deg
+					   dae.rotation.x = -Math.Cos(Math.PI);
 
-                       dae.position.z = -100;
-                       dae.position.y = -50;
+					   //dae.scale.x = 30;
+					   //dae.scale.y = 30;
+					   //dae.scale.z = 30;
+					   //dae.position.z = 65;
 
-                       //dae.position.z = 100;
+					   // left
+					   //dae.position.x = 200;
 
+					   dae.position.z = -100;
+					   dae.position.y = -50;
 
+					   //dae.position.z = 100;
 
-                       // jsc, do we have ILObserver available yet?
-                       dae.scale.x = 13.5;
-                       dae.scale.y = 13.5;
-                       dae.scale.z = 13.5;
 
-                       //dae.position.y = -80;
 
-                       scene.add(dae);
-                       //oo.Add(dae);
+					   // jsc, do we have ILObserver available yet?
+					   dae.scale.x = 13.5;
+					   dae.scale.y = 13.5;
+					   dae.scale.z = 13.5;
 
+					   //dae.position.y = -80;
 
-                   }
-               );
-            #endregion
+					   scene.add(dae);
+					   //oo.Add(dae);
 
 
+				   }
+			   );
+			#endregion
 
 
 
-            //          // DK2
-            //          hResolution: 1920,
-            //vResolution: 1080,
 
-            var renderer = new THREE.WebGLRenderer();
-            renderer.setSize(1920, 1080);
 
+			//          // DK2
+			//          hResolution: 1920,
+			//vResolution: 1080,
 
-            // broken?
-            var distortionK = new double[] { 1.0, 0.22, 0.24, 0.0 };
-            var chromaAbParameter = new double[] { 0.996, -0.004, 1.014, 0.0 };
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize(1920, 1080);
 
-            var HMD = new OculusRiftEffectOptions
-            {
-                hResolution = window.Width,
-                vResolution = window.Height,
 
-                hScreenSize = 0.12576,
-                vScreenSize = 0.07074,
-                interpupillaryDistance = 0.0635,
-                lensSeparationDistance = 0.0635,
-                eyeToScreenDistance = 0.041,
+			// broken?
+			var distortionK = new double[] { 1.0, 0.22, 0.24, 0.0 };
+			var chromaAbParameter = new double[] { 0.996, -0.004, 1.014, 0.0 };
 
-                //  j.distortionK = [0, 1.875, -71.68, 1.595, -3.218644E+26, 1.615, 0, 0];
-                //distortionK = new double[] { 1.0, 0.22, 0.24, 0.0 },
-                distortionK = distortionK,
+			var HMD = new OculusRiftEffectOptions
+			{
+				hResolution = window.Width,
+				vResolution = window.Height,
 
-                // j.chromaAbParameter = [1.609382E+22, 1.874, -5.189695E+11, -0.939, 4.463059E-29, 1.87675, 0, 0];
-                //chromaAbParameter = new double[] { 0.996, -0.004, 1.014, 0.0 }
-                chromaAbParameter = chromaAbParameter
+				hScreenSize = 0.12576,
+				vScreenSize = 0.07074,
+				interpupillaryDistance = 0.0635,
+				lensSeparationDistance = 0.0635,
+				eyeToScreenDistance = 0.041,
 
-            };
+				//  j.distortionK = [0, 1.875, -71.68, 1.595, -3.218644E+26, 1.615, 0, 0];
+				//distortionK = new double[] { 1.0, 0.22, 0.24, 0.0 },
+				distortionK = distortionK,
 
-            var effect = new THREE.OculusRiftEffect(
-                renderer, new
-                {
-                    worldScale = 100,
+				// j.chromaAbParameter = [1.609382E+22, 1.874, -5.189695E+11, -0.939, 4.463059E-29, 1.87675, 0, 0];
+				//chromaAbParameter = new double[] { 0.996, -0.004, 1.014, 0.0 }
+				chromaAbParameter = chromaAbParameter
 
-                    //HMD
-                }
-                );
+			};
 
-            effect.setSize(1920, 1080);
+			var effect = new THREE.OculusRiftEffect(
+				renderer, new
+				{
+					worldScale = 100,
 
+					//HMD
+				}
+				);
 
-            renderer.domElement.AttachToDocument();
+			effect.setSize(1920, 1080);
 
-            //renderer.domElement.style.position = IStyle.PositionEnum.absolute;
-            renderer.domElement.style.SetLocation(0, 0);
 
-            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
+			renderer.domElement.AttachToDocument();
 
-            // x:\jsc.svn\examples\javascript\synergy\comanchebysiorki\comanchebysiorki\application.cs
+			//renderer.domElement.style.position = IStyle.PositionEnum.absolute;
+			renderer.domElement.style.SetLocation(0, 0);
 
+			Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-            #region onresize
-            new { }.With(
-                     async delegate
-                     {
-                         retry:
+			// x:\jsc.svn\examples\javascript\synergy\comanchebysiorki\comanchebysiorki\application.cs
 
-                         var s = (double)Native.window.Width / 1920.0;
 
+			#region onresize
+			new { }.With(
+					 async delegate
+					 {
+						 retry:
 
-                         Native.document.body.style.transform = "scale(" + s + ")";
-                         Native.document.body.style.transformOrigin = "0% 0%";
+						 var s = (double)Native.window.Width / 1920.0;
 
-                         await Native.window.async.onresize;
-                         goto retry;
-                     }
-                   );
-            #endregion
 
+						 Native.document.body.style.transform = "scale(" + s + ")";
+						 Native.document.body.style.transformOrigin = "0% 0%";
 
+						 await Native.window.async.onresize;
+						 goto retry;
+					 }
+				   );
+			#endregion
 
-            //#region onresize
-            //Native.window.onresize +=
-            //    delegate
-            //    {
-            //        camera.aspect = Native.window.aspect;
-            //        camera.updateProjectionMatrix();
 
-            //        renderer.setSize(window.Width, window.Height);
-            //        effect.setSize(window.Width, window.Height);
-            //    };
-            //#endregion
 
+			//#region onresize
+			//Native.window.onresize +=
+			//    delegate
+			//    {
+			//        camera.aspect = Native.window.aspect;
+			//        camera.updateProjectionMatrix();
 
-            //Native.document.body.onmousewheel +=
-            //    e =>
-            //    {
-            //        fov -= e.WheelDirection * 5.0;
-            //        camera.projectionMatrix.makePerspective(fov,
-            //            (double)window.Width / window.Height, 1, 1100);
-            //    };
+			//        renderer.setSize(window.Width, window.Height);
+			//        effect.setSize(window.Width, window.Height);
+			//    };
+			//#endregion
 
-            var lon0 = -45.0;
-            var lon1 = 0.0;
 
-            var lon = new sum(
-                 () => lon0,
-                 () => lon1
-             );
+			//Native.document.body.onmousewheel +=
+			//    e =>
+			//    {
+			//        fov -= e.WheelDirection * 5.0;
+			//        camera.projectionMatrix.makePerspective(fov,
+			//            (double)window.Width / window.Height, 1, 1100);
+			//    };
 
-            var lat0 = 0.0;
-            var lat1 = 0.0;
+			var lon0 = -45.0;
+			var lon1 = 0.0;
 
-            // or could we do it with byref or pointers?
-            var lat = new sum(
-                () => lat0,
-                () => lat1
-            );
+			var lon = new sum(
+				 () => lon0,
+				 () => lon1
+			 );
 
-            var phi = 0.0;
-            var theta = 0.0;
+			var lat0 = 0.0;
+			var lat1 = 0.0;
 
-            var camera_rotation_z = 0.0;
+			// or could we do it with byref or pointers?
+			var lat = new sum(
+				() => lat0,
+				() => lat1
+			);
 
+			var phi = 0.0;
+			var theta = 0.0;
 
-            var labove = new NotificationLayout();
+			var camera_rotation_z = 0.0;
 
-            #region sprite2 above
-            {
-                labove.Message.innerText = "VR CREATIVE LEADERSHIP";
-                labove.layout.style.background = "";
 
-                new { }.With(
-                    async delegate
-                    {
-                        retry:
+			var labove = new NotificationLayout();
 
-                        // make it blink. gaze cursor is on it?
+			#region sprite2 above
+			{
+				labove.Message.innerText = "VR CREATIVE LEADERSHIP";
+				labove.layout.style.background = "";
 
+				new { }.With(
+					async delegate
+					{
+						retry:
 
-                        labove.box.style.background = "rgba(255,255,0,0.7)";
-                        labove.box.setAttribute("invoke", "onmutation1");
-                        await Task.Delay(1500);
+						// make it blink. gaze cursor is on it?
 
-                        // is mutation observer noticing it?
-                        labove.box.style.background = "rgba(255,255,255,0.7)";
-                        labove.box.setAttribute("invoke", "onmutation2");
-                        await Task.Delay(1500);
 
+						labove.box.style.background = "rgba(255,255,0,0.7)";
+						labove.box.setAttribute("invoke", "onmutation1");
+						await Task.Delay(1500);
 
-                        goto retry;
-                    }
-                );
+						// is mutation observer noticing it?
+						labove.box.style.background = "rgba(255,255,255,0.7)";
+						labove.box.setAttribute("invoke", "onmutation2");
+						await Task.Delay(1500);
 
 
+						goto retry;
+					}
+				);
 
-                var c = labove.AsCanvas();
 
-                var xcrateTexture = new THREE.Texture(c);
 
-                // like video texture
-                Native.window.onframe += delegate { xcrateTexture.needsUpdate = true; };
+				var c = labove.AsCanvas();
 
-                var xcrateMaterial = new THREE.SpriteMaterial(
-                    new
-                    {
-                        map = xcrateTexture,
-                        useScreenCoordinates = false,
-                        //color = 0xff0000
-                        color = 0xffffff
-                    }
-            );
+				var xcrateTexture = new THREE.Texture(c);
 
+				// like video texture
+				Native.window.onframe += delegate { xcrateTexture.needsUpdate = true; };
 
+				var xcrateMaterial = new THREE.SpriteMaterial(
+					new
+					{
+						map = xcrateTexture,
+						useScreenCoordinates = false,
+						//color = 0xff0000
+						color = 0xffffff
+					}
+			);
 
-                var xsprite2 = new THREE.Sprite(xcrateMaterial);
 
-                //floor
-                //sprite2.position.set(0, -200, 0);
 
-                // left
-                xsprite2.position.set(200, 0, 0);
+				var xsprite2 = new THREE.Sprite(xcrateMaterial);
 
-                //sprite2.position.set(0, 0, 200);
+				//floor
+				//sprite2.position.set(0, -200, 0);
 
-                //sprite2.position.set(-100, 0, 0);
-                xsprite2.scale.set(
-                   c.width * 0.5,
-                   c.height * 0.5,
-                    //64, 64,
-                    1.0); // imageWidth, imageHeight
-                scene.add(xsprite2);
-            }
-            #endregion
+				// left
+				xsprite2.position.set(200, 0, 0);
 
+				//sprite2.position.set(0, 0, 200);
 
+				//sprite2.position.set(-100, 0, 0);
+				xsprite2.scale.set(
+				   c.width * 0.5,
+				   c.height * 0.5,
+					//64, 64,
+					1.0); // imageWidth, imageHeight
+				scene.add(xsprite2);
+			}
+			#endregion
 
 
-            //var lineTo = new List<THREE.Vector3>();
-            var others = new
-            {
-                ui = default(NotificationLayout),
-                canvas = default(IHTMLCanvas),
 
-                map = default(THREE.Texture),
 
-                sprite = default(THREE.Sprite)
+			//var lineTo = new List<THREE.Vector3>();
+			var others = new
+			{
+				ui = default(NotificationLayout),
+				canvas = default(IHTMLCanvas),
 
-            }.ToEmptyList();
+				map = default(THREE.Texture),
 
-            #region add
-            Action<NotificationLayout> add = ui =>
-            {
-                ui.layout.style.background = "";
+				sprite = default(THREE.Sprite)
 
-                var canvas = ui.AsCanvas();
-                var index = others.Count;
+			}.ToEmptyList();
 
-                //ui.Message  += new { index };
-                //ui.Message.innerText += new { index };
+			#region add
+			Action<NotificationLayout> add = ui =>
+			{
+				ui.layout.style.background = "";
 
-                //lbelow0.Message = new { THREE.REVISION }.ToString();
+				var canvas = ui.AsCanvas();
+				var index = others.Count;
 
-                // THREE.WebGLRenderer: Texture is not power of two. Texture.minFilter is set to THREE.LinearFilter or THREE.NearestFilter. ( undefined )
+				//ui.Message  += new { index };
+				//ui.Message.innerText += new { index };
 
-                var map = new THREE.Texture(canvas);
+				//lbelow0.Message = new { THREE.REVISION }.ToString();
 
-                map.minFilter = THREE.LinearFilter;
+				// THREE.WebGLRenderer: Texture is not power of two. Texture.minFilter is set to THREE.LinearFilter or THREE.NearestFilter. ( undefined )
 
-                // like video texture
+				var map = new THREE.Texture(canvas);
 
-                var xcrateMaterial = new THREE.SpriteMaterial(
-                    new
-                    {
-                        map,
-                        useScreenCoordinates = false,
-                        //color = 0xff0000
-                        color = 0xffffff
-                    }
-                );
+				map.minFilter = THREE.LinearFilter;
 
+				// like video texture
 
+				var xcrateMaterial = new THREE.SpriteMaterial(
+					new
+					{
+						map,
+						useScreenCoordinates = false,
+						//color = 0xff0000
+						color = 0xffffff
+					}
+				);
 
-                var sprite = new THREE.Sprite(xcrateMaterial);
 
-                //floor
-                //sprite2.position.set(0, -200, 0);
 
-                // left middle
-                //sprite2.position.set(200, 0, 0);
-                //sprite.position.set(250, -50, 50);
-                //lineTo.Add(sprite.position);
+				var sprite = new THREE.Sprite(xcrateMaterial);
 
+				//floor
+				//sprite2.position.set(0, -200, 0);
 
+				// left middle
+				//sprite2.position.set(200, 0, 0);
+				//sprite.position.set(250, -50, 50);
+				//lineTo.Add(sprite.position);
 
 
-                //sprite2.position.set(0, 0, 200);
 
-                //sprite2.position.set(-100, 0, 0);
-                sprite.scale.set(
-                   canvas.width * 0.5,
-                   canvas.height * 0.5,
-                    //64, 64,
-                    1.0); // imageWidth, imageHeight
-                scene.add(sprite);
 
-                others.Add(
-                    new
-                    {
-                        ui,
-                        canvas,
-                        map,
-                        sprite
-                    }
-                );
+				//sprite2.position.set(0, 0, 200);
 
-                var sw = Stopwatch.StartNew();
+				//sprite2.position.set(-100, 0, 0);
+				sprite.scale.set(
+				   canvas.width * 0.5,
+				   canvas.height * 0.5,
+					//64, 64,
+					1.0); // imageWidth, imageHeight
+				scene.add(sprite);
 
-                Native.window.onframe += delegate
-                {
-                    // can we get some of the crazy c++ template bitmapbuffer code from the past?
-                    map.needsUpdate = true;
+				others.Add(
+					new
+					{
+						ui,
+						canvas,
+						map,
+						sprite
+					}
+				);
 
-                    var offset = Math.PI * 2 * ((double)(index + 1) / others.Count);
+				var sw = Stopwatch.StartNew();
 
-                    sprite.position.x = 300;
+				Native.window.onframe += delegate
+				{
+					// can we get some of the crazy c++ template bitmapbuffer code from the past?
+					map.needsUpdate = true;
 
-                    sprite.position.z = Math.Sin(sw.ElapsedMilliseconds * 0.00001 + offset) * 120;
-                    sprite.position.y = Math.Cos(sw.ElapsedMilliseconds * 0.00001 + offset) * 120;
-                };
+					var offset = Math.PI * 2 * ((double)(index + 1) / others.Count);
 
-            };
-            #endregion
+					sprite.position.x = 300;
 
+					sprite.position.z = Math.Sin(sw.ElapsedMilliseconds * 0.00001 + offset) * 120;
+					sprite.position.y = Math.Cos(sw.ElapsedMilliseconds * 0.00001 + offset) * 120;
+				};
 
-            #region NotificationLayout
-            add(
-                new NotificationLayout
-                {
-                    // keep attributes around?
-                    // like we do with XElement sync?
-                    Icon = new _0_10122014_ECAF4B1F638429B44F4B142C2A4F38EE().With(
-                        x =>
-                        {
-                            x.style.width = "96px";
-                            x.style.height = "96px";
-                        }
-                    ),
-                    Message = "Advanced Mechanics by Portugal Design Lab"
-                }
-              );
+			};
+			#endregion
 
-            add(
-                   new NotificationLayout
-                   {
-                       // keep attributes around?
-                       // like we do with XElement sync?
-                       Icon = new _42_08122014_D2639E0AAA3E54E5F4568760AEE605EE().With(
-                           x =>
-                           {
-                               x.style.width = "96px";
-                               x.style.height = "96px";
-                           }
-                       ),
-                       Message = "Face Value by mshariful"
-                   }
-                 );
 
+			#region NotificationLayout
+			add(
+				new NotificationLayout
+				{
+					// keep attributes around?
+					// like we do with XElement sync?
+					Icon = new _0_10122014_ECAF4B1F638429B44F4B142C2A4F38EE().With(
+						x =>
+						{
+							x.style.width = "96px";
+							x.style.height = "96px";
+						}
+					),
+					Message = "Advanced Mechanics by Portugal Design Lab"
+				}
+			  );
 
+			add(
+				   new NotificationLayout
+				   {
+					   // keep attributes around?
+					   // like we do with XElement sync?
+					   Icon = new _42_08122014_D2639E0AAA3E54E5F4568760AEE605EE().With(
+						   x =>
+						   {
+							   x.style.width = "96px";
+							   x.style.height = "96px";
+						   }
+					   ),
+					   Message = "Face Value by mshariful"
+				   }
+				 );
 
-            add(
-                   new NotificationLayout
-                   {
-                       // keep attributes around?
-                       // like we do with XElement sync?
-                       Icon = new _371_28122014_2045510F2F7974319A9F7E9F4B39DF07().With(
-                           x =>
-                           {
-                               x.style.width = "96px";
-                               x.style.height = "96px";
-                           }
-                       ),
-                       Message = "Mind Wall. by Sumit Goski"
-                   }
-                 );
-            #endregion
 
 
+			add(
+				   new NotificationLayout
+				   {
+					   // keep attributes around?
+					   // like we do with XElement sync?
+					   Icon = new _371_28122014_2045510F2F7974319A9F7E9F4B39DF07().With(
+						   x =>
+						   {
+							   x.style.width = "96px";
+							   x.style.height = "96px";
+						   }
+					   ),
+					   Message = "Mind Wall. by Sumit Goski"
+				   }
+				 );
+			#endregion
 
 
-            #region lines
-            {
-                var geometry = new THREE.Geometry
-                {
-                    // how can we keep streaming verticies data points to gpu?
-                    vertices =
 
-                        others.SelectMany(
-                            lineTo =>
-                                new[]
-                                {
-                                    new THREE.Vector3(200, 0, 0),
-                                    lineTo.sprite.position
-                                }
-                        ).ToArray()
 
-                    // https://github.com/mrdoob/three.js/wiki/Updates
-                    // http://stackoverflow.com/questions/17842521/adding-geometry-to-a-three-js-mesh-after-render
-                    //verticesNeedUpdate = true
-                };
+			#region lines
+			{
+				var geometry = new THREE.Geometry
+				{
+					// how can we keep streaming verticies data points to gpu?
+					vertices =
 
-                Native.window.onframe += delegate { geometry.verticesNeedUpdate = true; };
+						others.SelectMany(
+							lineTo =>
+								new[]
+								{
+									new THREE.Vector3(200, 0, 0),
+									lineTo.sprite.position
+								}
+						).ToArray()
 
-                var o = new THREE.Line(geometry, new THREE.LineDashedMaterial(
-                    new { color = 0x00aaff, dashSize = 1, gapSize = 0.5, linewidth = 1 }
-                    ), THREE.LineStrip);
+					// https://github.com/mrdoob/three.js/wiki/Updates
+					// http://stackoverflow.com/questions/17842521/adding-geometry-to-a-three-js-mesh-after-render
+					//verticesNeedUpdate = true
+				};
 
-                //objects.Add(o);
-                scene.add(o);
-            }
-            #endregion
+				Native.window.onframe += delegate { geometry.verticesNeedUpdate = true; };
 
-            Native.window.onframe +=
-                ee =>
-                {
+				var o = new THREE.Line(geometry, new THREE.LineDashedMaterial(
+					new { color = 0x00aaff, dashSize = 1, gapSize = 0.5, linewidth = 1 }
+					), THREE.LineStrip);
 
-                    // look we are having html in 3D in VR!
+				//objects.Add(o);
+				scene.add(o);
+			}
+			#endregion
 
+			Native.window.onframe +=
+				ee =>
+				{
 
+					// look we are having html in 3D in VR!
 
-                    //if (Native.document.pointerLockElement == Native.document.body)
-                    //    lon += 0.00;
-                    //else
-                    //    lon += 0.01;
 
-                    //lat = Math.Max(-85, Math.Min(85, lat));
 
-                    //Native.document.title = new { lon, lat }.ToString();
+					//if (Native.document.pointerLockElement == Native.document.body)
+					//    lon += 0.00;
+					//else
+					//    lon += 0.01;
 
+					//lat = Math.Max(-85, Math.Min(85, lat));
 
-                    phi = THREE.Math.degToRad(90 - lat);
-                    theta = THREE.Math.degToRad(lon);
+					//Native.document.title = new { lon, lat }.ToString();
 
-                    target.x = 500 * Math.Sin(phi) * Math.Cos(theta);
-                    target.y = 500 * Math.Cos(phi);
-                    target.z = 500 * Math.Sin(phi) * Math.Sin(theta);
 
-                    camera.lookAt(target);
-                    camera.rotation.z += camera_rotation_z;
+					phi = THREE.Math.degToRad(90 - lat);
+					theta = THREE.Math.degToRad(lon);
 
-                    //renderer.render(scene, camera);
-                    effect.render(scene, camera);
-                };
+					target.x = 500 * Math.Sin(phi) * Math.Cos(theta);
+					target.y = 500 * Math.Cos(phi);
+					target.z = 500 * Math.Sin(phi) * Math.Sin(theta);
 
+					camera.lookAt(target);
+					camera.rotation.z += camera_rotation_z;
 
+					//renderer.render(scene, camera);
+					effect.render(scene, camera);
+				};
 
-            // http://blog.thematicmapping.org/2013/10/terrain-visualization-with-threejs-and.html
 
-            // http://stackoverflow.com/questions/13278087/determine-vertical-direction-of-a-touchmove
 
+			// http://blog.thematicmapping.org/2013/10/terrain-visualization-with-threejs-and.html
 
+			// http://stackoverflow.com/questions/13278087/determine-vertical-direction-of-a-touchmove
 
-            var compassHeadingOffset = 0.0;
-            var compassHeadingInitialized = 0;
 
-            #region compassHeading
-            // X:\jsc.svn\examples\javascript\android\Test\TestCompassHeading\TestCompassHeading\Application.cs
-            Native.window.ondeviceorientation +=
-              dataValues =>
-              {
-                  // Convert degrees to radians
-                  var alphaRad = dataValues.alpha * (Math.PI / 180);
-                  var betaRad = dataValues.beta * (Math.PI / 180);
-                  var gammaRad = dataValues.gamma * (Math.PI / 180);
 
-                  // Calculate equation components
-                  var cA = Math.Cos(alphaRad);
-                  var sA = Math.Sin(alphaRad);
-                  var cB = Math.Cos(betaRad);
-                  var sB = Math.Sin(betaRad);
-                  var cG = Math.Cos(gammaRad);
-                  var sG = Math.Sin(gammaRad);
+			var compassHeadingOffset = 0.0;
+			var compassHeadingInitialized = 0;
 
-                  // Calculate A, B, C rotation components
-                  var rA = -cA * sG - sA * sB * cG;
-                  var rB = -sA * sG + cA * sB * cG;
-                  var rC = -cB * cG;
+			#region compassHeading
+			// X:\jsc.svn\examples\javascript\android\Test\TestCompassHeading\TestCompassHeading\Application.cs
+			Native.window.ondeviceorientation +=
+			  dataValues =>
+			  {
+				  // Convert degrees to radians
+				  var alphaRad = dataValues.alpha * (Math.PI / 180);
+				  var betaRad = dataValues.beta * (Math.PI / 180);
+				  var gammaRad = dataValues.gamma * (Math.PI / 180);
 
-                  // Calculate compass heading
-                  var compassHeading = Math.Atan(rA / rB);
+				  // Calculate equation components
+				  var cA = Math.Cos(alphaRad);
+				  var sA = Math.Sin(alphaRad);
+				  var cB = Math.Cos(betaRad);
+				  var sB = Math.Sin(betaRad);
+				  var cG = Math.Cos(gammaRad);
+				  var sG = Math.Sin(gammaRad);
 
-                  // Convert from half unit circle to whole unit circle
-                  if (rB < 0)
-                  {
-                      compassHeading += Math.PI;
-                  }
-                  else if (rA < 0)
-                  {
-                      compassHeading += 2 * Math.PI;
-                  }
+				  // Calculate A, B, C rotation components
+				  var rA = -cA * sG - sA * sB * cG;
+				  var rB = -sA * sG + cA * sB * cG;
+				  var rC = -cB * cG;
 
-                  /*
+				  // Calculate compass heading
+				  var compassHeading = Math.Atan(rA / rB);
+
+				  // Convert from half unit circle to whole unit circle
+				  if (rB < 0)
+				  {
+					  compassHeading += Math.PI;
+				  }
+				  else if (rA < 0)
+				  {
+					  compassHeading += 2 * Math.PI;
+				  }
+
+				  /*
                   Alternative calculation (replacing lines 99-107 above):
 
                     var compassHeading = Math.atan2(rA, rB);
@@ -721,154 +724,154 @@ namespace com.abstractatech.vr
                     }
                   */
 
-                  // Convert radians to degrees
-                  compassHeading *= 180 / Math.PI;
+				  // Convert radians to degrees
+				  compassHeading *= 180 / Math.PI;
 
-                  // Compass heading can only be derived if returned values are 'absolute'
+				  // Compass heading can only be derived if returned values are 'absolute'
 
-                  // X:\jsc.svn\examples\javascript\android\Test\TestCompassHeadingWithReset\TestCompassHeadingWithReset\Application.cs
+				  // X:\jsc.svn\examples\javascript\android\Test\TestCompassHeadingWithReset\TestCompassHeadingWithReset\Application.cs
 
-                  //Native.document.body.innerText = new { compassHeading }.ToString();
-                  if (compassHeadingInitialized > 0)
-                  {
-                      lon1 = compassHeading - compassHeadingOffset;
-                  }
-                  else
-                  {
-                      compassHeadingOffset = compassHeading;
-                      compassHeadingInitialized++;
-                  }
+				  //Native.document.body.innerText = new { compassHeading }.ToString();
+				  if (compassHeadingInitialized > 0)
+				  {
+					  lon1 = compassHeading - compassHeadingOffset;
+				  }
+				  else
+				  {
+					  compassHeadingOffset = compassHeading;
+					  compassHeadingInitialized++;
+				  }
 
-              };
-            #endregion
+			  };
+			#endregion
 
-            #region gamma
-            Native.window.ondeviceorientation +=
-                //e => Native.body.innerText = new { e.alpha, e.beta, e.gamma }.ToString();
-                //e => lon = e.gamma;
-                e =>
-                {
-                    lat1 = e.gamma;
+			#region gamma
+			Native.window.ondeviceorientation +=
+				//e => Native.body.innerText = new { e.alpha, e.beta, e.gamma }.ToString();
+				//e => lon = e.gamma;
+				e =>
+				{
+					lat1 = e.gamma;
 
-                    // after servicing a running instance would be nice
-                    // either by patching or just re running the whole iteration in the backgrou
-                    camera_rotation_z = e.beta * 0.02;
-                };
-            #endregion
-
-
-
-            #region camera rotation
-            var old = new { clientX = 0, clientY = 0 };
-
-            Native.document.body.ontouchstart +=
-                e =>
-                {
-                    var n = new { e.touches[0].clientX, e.touches[0].clientY };
-                    old = n;
-                };
-
-            Native.document.body.ontouchmove +=
-                    e =>
-                    {
-                        var n = new { e.touches[0].clientX, e.touches[0].clientY };
-
-                        e.preventDefault();
-
-                        lon0 += (n.clientX - old.clientX) * 0.2;
-                        lat0 -= (n.clientY - old.clientY) * 0.2;
-
-                        old = n;
-                    };
+					// after servicing a running instance would be nice
+					// either by patching or just re running the whole iteration in the backgrou
+					camera_rotation_z = e.beta * 0.02;
+				};
+			#endregion
 
 
-            Native.document.body.onmousemove +=
-                e =>
-                {
-                    e.preventDefault();
 
-                    if (Native.document.pointerLockElement == Native.document.body)
-                    {
-                        lon0 += e.movementX * 0.1;
-                        lat0 -= e.movementY * 0.1;
+			#region camera rotation
+			var old = new { clientX = 0, clientY = 0 };
 
-                        //Console.WriteLine(new { lon, lat, e.movementX, e.movementY });
-                    }
-                };
+			Native.document.body.ontouchstart +=
+				e =>
+				{
+					var n = new { e.touches[0].clientX, e.touches[0].clientY };
+					old = n;
+				};
 
+			Native.document.body.ontouchmove +=
+					e =>
+					{
+						var n = new { e.touches[0].clientX, e.touches[0].clientY };
 
-            Native.document.body.onmouseup +=
-              e =>
-              {
-                  //drag = false;
-                  e.preventDefault();
-              };
+						e.preventDefault();
 
-            Native.document.body.onmousedown +=
-                e =>
-                {
-                    //e.CaptureMouse();
+						lon0 += (n.clientX - old.clientX) * 0.2;
+						lat0 -= (n.clientY - old.clientY) * 0.2;
 
-                    //drag = true;
-                    e.preventDefault();
-                    Native.document.body.requestPointerLock();
-
-                };
+						old = n;
+					};
 
 
-            Native.document.body.ondblclick +=
-                e =>
-                {
-                    e.preventDefault();
+			Native.document.body.onmousemove +=
+				e =>
+				{
+					e.preventDefault();
 
-                    Console.WriteLine("requestPointerLock");
-                };
+					if (Native.document.pointerLockElement == Native.document.body)
+					{
+						lon0 += e.movementX * 0.1;
+						lat0 -= e.movementY * 0.1;
 
-            #endregion
-
-            Native.body.onmousewheel +=
-                e =>
-                {
-
-                    camera_rotation_z += 0.1 * e.WheelDirection; ;
-
-                };
-            // https://developer.android.com/training/system-ui/immersive.html
-
-        }
-
-    }
-
-    internal class OculusRiftEffectOptions
-    {
-        internal double[] chromaAbParameter;
-        internal double[] distortionK;
-        internal double eyeToScreenDistance;
-        internal int hResolution;
-        internal double hScreenSize;
-        internal double interpupillaryDistance;
-        internal double lensSeparationDistance;
-        internal int vResolution;
-        internal double vScreenSize;
-    }
-
-    // http://stackoverflow.com/questions/32664/is-there-a-constraint-that-restricts-my-generic-method-to-numeric-types
-    class sum //<T>
-    {
-        public static implicit operator double (sum that)
-        {
-            return that.i.Sum(x => x());
-        }
+						//Console.WriteLine(new { lon, lat, e.movementX, e.movementY });
+					}
+				};
 
 
-        Func<double>[] i;
-        public sum(params Func<double>[] i)
-        {
-            this.i = i;
-        }
+			Native.document.body.onmouseup +=
+			  e =>
+			  {
+				  //drag = false;
+				  e.preventDefault();
+			  };
 
-        //public sum(params ref double[] i)
-        //{
-        //}
-    }
+			Native.document.body.onmousedown +=
+				e =>
+				{
+					//e.CaptureMouse();
+
+					//drag = true;
+					e.preventDefault();
+					Native.document.body.requestPointerLock();
+
+				};
+
+
+			Native.document.body.ondblclick +=
+				e =>
+				{
+					e.preventDefault();
+
+					Console.WriteLine("requestPointerLock");
+				};
+
+			#endregion
+
+			Native.body.onmousewheel +=
+				e =>
+				{
+
+					camera_rotation_z += 0.1 * e.WheelDirection; ;
+
+				};
+			// https://developer.android.com/training/system-ui/immersive.html
+
+		}
+
+	}
+
+	internal class OculusRiftEffectOptions
+	{
+		internal double[] chromaAbParameter;
+		internal double[] distortionK;
+		internal double eyeToScreenDistance;
+		internal int hResolution;
+		internal double hScreenSize;
+		internal double interpupillaryDistance;
+		internal double lensSeparationDistance;
+		internal int vResolution;
+		internal double vScreenSize;
+	}
+
+	// http://stackoverflow.com/questions/32664/is-there-a-constraint-that-restricts-my-generic-method-to-numeric-types
+	class sum //<T>
+	{
+		public static implicit operator double (sum that)
+		{
+			return that.i.Sum(x => x());
+		}
+
+
+		Func<double>[] i;
+		public sum(params Func<double>[] i)
+		{
+			this.i = i;
+		}
+
+		//public sum(params ref double[] i)
+		//{
+		//}
+	}
 }

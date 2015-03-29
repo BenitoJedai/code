@@ -18,10 +18,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
     }
 
 
-    // http://referencesource.microsoft.com/#mscorlib/system/reflection/assembly.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/Assembly.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/reflection/assembly.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/Assembly.cs
+	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Reflection/Assembly.cs
 
-    [Script(Implements = typeof(global::System.Reflection.Assembly))]
+	[Script(Implements = typeof(global::System.Reflection.Assembly))]
     public class __Assembly
     {
         public virtual AssemblyName GetName()
