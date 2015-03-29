@@ -20,12 +20,33 @@ namespace TestStructFieldDefaults
 		// 1>script : error JSC1000: Java : class import: no implementation for System.ValueType at TestStructFieldDefaults.HopToJVM
 
 		//   type$XxiemAzjFzyZAGeXDJiGdg.__u___awaiter2 = null;
+		// set by ctor?
+		//type$XxiemAzjFzyZAGeXDJiGdg.__u___awaiter2 = /* struct */null;
 		public HopToJVM __u___awaiter2;
 
 
 		static void Main()
 		{
 			HopToJVM loc1;
+			Program loc2;
+		}
+	}
+
+
+	class Program2
+	{
+		// 1>script : error JSC1000: Java : class import: no implementation for System.ValueType at TestStructFieldDefaults.HopToJVM
+
+		//   type$XxiemAzjFzyZAGeXDJiGdg.__u___awaiter2 = null;
+		// set by ctor?
+		//type$XxiemAzjFzyZAGeXDJiGdg.__u___awaiter2 = /* struct */null;
+		public HopToJVM __u___awaiter2;
+
+
+		public Program2()
+		{
+			// did we call type ctor to init our fields?
+
 		}
 	}
 

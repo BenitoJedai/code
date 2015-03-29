@@ -48,7 +48,7 @@ namespace TestSwitchToServiceContextAsync
 			//Error	CS0177	The out parameter 'AsyncStateMachineSource' must be assigned to before control leaves the current method	TestSwitchToServiceContextAsync	X:\jsc.svn\examples\javascript\async\test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\Application.cs	284
 			//out IAsyncStateMachine AsyncStateMachineSource // = default(IAsyncStateMachine)
 
-			ref Action<int> MoveNext
+			ref Action<ShadowIAsyncStateMachine> MoveNext
 			)
 		{
 			var AsyncStateMachineSource = default(IAsyncStateMachine);
@@ -178,10 +178,41 @@ namespace TestSwitchToServiceContextAsync
 
 			Console.WriteLine(new { s.state, s.TypeName });
 
+
+			Func<string, string> DecoratedString =
+				x => x.Replace("-", "_").Replace("+", "_").Replace("<", "_").Replace(">", "_");
+
+
 			MoveNext =
-				NextState =>
+				that =>
 				{
-					Console.WriteLine("enter MoveNext " + new { NextState });
+					var NextState = that.state;
+
+					Console.WriteLine("enter MoveNext " + new { NextState, StringFields = that.StringFields.Count });
+
+					AsyncStateMachineSource.GetType().GetFields(
+					  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
+					  ).WithEach(
+					   AsyncStateMachineSourceField =>
+					   {
+						   var xStringField = that.StringFields.FirstOrDefault(
+							  ff => DecoratedString(ff.FieldName) == DecoratedString(AsyncStateMachineSourceField.Name)
+						  );
+
+						   if (xStringField != null)
+						   {
+							   // once we are to go back to client. we need to reverse it?
+
+							   AsyncStateMachineSourceField.SetValue(
+								   AsyncStateMachineSource,
+								   xStringField.value
+								);
+							   // next xml?
+							   // before lets send our strings back with the new state!
+							   // what about exceptions?
+						   }
+					   }
+				   );
 
 					// TypeError: ref$f[0]._4gAABnvBZz_auB7QhDebdPQ is not a function
 					AsyncStateMachineStateField.SetValue(AsyncStateMachineSource, NextState);

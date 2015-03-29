@@ -119,7 +119,7 @@ namespace TestSwitchToServiceContextAsync
 			HopFromService.VirtualOnCompleted =
 				(Action continuation) =>
 				{
-					Action<int> MoveNext = null;
+					Action<ShadowIAsyncStateMachine> MoveNext = null;
 					s = ShadowIAsyncStateMachine.FromContinuation(continuation, ref MoveNext);
 
 					// should be the same state machine!
