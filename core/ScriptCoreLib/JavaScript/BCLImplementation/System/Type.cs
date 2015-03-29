@@ -398,7 +398,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         // used by X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.ctor.cs
         public static object GetTypeIndex(string Name, Type TargetType)
         {
-            var AllMemberNames = Expando.Of(Native.self).GetMemberNames();
+			// X:\jsc.svn\examples\javascript\async\test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\ApplicationWebService.cs
+
+			var AllMemberNames = Expando.Of(Native.self).GetMemberNames();
 
             var TargetTypeHandle = TargetType.TypeHandle;
 
