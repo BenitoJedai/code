@@ -1212,6 +1212,30 @@
     <Reference Include="SpiningRingsBySquid.AssetsLibrary">
       <HintPath>..\..\synergy\SpiningRingsBySquid\SpiningRingsBySquid\bin\staging.AssetsLibrary\SpiningRingsBySquid.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="MaggotsByKig.AssetsLibrary">
+      <HintPath>..\..\synergy\MaggotsByKig\MaggotsByKig\bin\staging.AssetsLibrary\MaggotsByKig.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MarbleFantasies.AssetsLibrary">
+      <HintPath>..\..\synergy\MarbleFantasies\MarbleFantasies\bin\staging.AssetsLibrary\MarbleFantasies.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MoonCratersByGuil.AssetsLibrary">
+      <HintPath>..\..\synergy\MoonCratersByGuil\MoonCratersByGuil\bin\staging.AssetsLibrary\MoonCratersByGuil.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="RaymarchingAttempt2ByCraxic.AssetsLibrary">
+      <HintPath>..\..\synergy\RaymarchingAttempt2ByCraxic\RaymarchingAttempt2ByCraxic\bin\staging.AssetsLibrary\RaymarchingAttempt2ByCraxic.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Simlicity3DByRunouw.AssetsLibrary">
+      <HintPath>..\..\synergy\Simlicity3DByRunouw\Simlicity3DByRunouw\bin\staging.AssetsLibrary\Simlicity3DByRunouw.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TrollsCaveByFatumR.AssetsLibrary">
+      <HintPath>..\..\synergy\TrollsCaveByFatumR\TrollsCaveByFatumR\bin\staging.AssetsLibrary\TrollsCaveByFatumR.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="UglyBrickByPsykotic.AssetsLibrary">
+      <HintPath>..\..\synergy\UglyBrickByPsykotic\UglyBrickByPsykotic\bin\staging.AssetsLibrary\UglyBrickByPsykotic.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Xor3DAlienLandByXor.AssetsLibrary">
+      <HintPath>..\..\synergy\Xor3DAlienLandByXor\Xor3DAlienLandByXor\bin\staging.AssetsLibrary\Xor3DAlienLandByXor.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete.csproj">
