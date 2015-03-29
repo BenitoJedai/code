@@ -94,6 +94,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Net\IPEndPoint.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\IPAddress.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\Sockets\NetworkStream.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Reflection\Module.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Reflection\MethodBody.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\SecureString.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\ExecutionContext.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\SemaphoreSlim.cs" />
