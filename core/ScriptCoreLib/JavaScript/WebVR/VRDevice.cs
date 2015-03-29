@@ -22,6 +22,10 @@ namespace ScriptCoreLib.JavaScript.WebVR
 		// yay. vr!
 
 
+		// https://docs.google.com/document/d/1dP9m3WLh2lsBs9jJ9LRwv1l0AtuBQAqGLAV-fUbtz2U/edit
+		// https://www.google.com/get/cardboard/get-cardboard.html
+		// http://timesofindia.indiatimes.com/tech/more-gadgets/Google-Cardboard-a-VR-gadget-for-the-masses/articleshow/46687802.cms
+
 
 	}
 
