@@ -27,7 +27,7 @@ namespace TestSwitchToServiceContextAsync
 	#region HopToThreadPoolAwaitable
 	// http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/CryptoStream.cs
 	// simple awaitable that allows for hopping to the thread pool
-	struct HopFromService : System.Runtime.CompilerServices.INotifyCompletion
+	public struct HopFromService : System.Runtime.CompilerServices.INotifyCompletion
 	{
 		// could we fork ? run in parallerl?
 
@@ -42,7 +42,7 @@ namespace TestSwitchToServiceContextAsync
 	#endregion
 
 
-	struct HopToService : System.Runtime.CompilerServices.INotifyCompletion
+	public struct HopToService : System.Runtime.CompilerServices.INotifyCompletion
 	{
 		// basically we have to hibernate the current state to resume
 		public HopToService GetAwaiter() { return this; }
@@ -165,6 +165,7 @@ namespace TestSwitchToServiceContextAsync
 					// live gpu programming yet?
 					// can we reference base or this?
 					// debugger visualizers?
+					// can we send back a result yet?
 					Debugger.Break();
 
 					// can we do debugger, break, edit n contnue yet?
@@ -377,7 +378,7 @@ namespace TestSwitchToServiceContextAsync
 	#region xConsole
 	//class xConsole : StringWriter
 	[Obsolete("jsc:js does not allow to overrider an override?")]
-	class xConsole : TextWriter
+	public class xConsole : TextWriter
 	{
 		// http://www.danielmiessler.com/study/encoding_encryption_hashing/
 		[Obsolete("can we have encrypted encoding?")]
