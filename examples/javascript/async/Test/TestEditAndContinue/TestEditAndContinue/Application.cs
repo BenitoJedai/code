@@ -86,6 +86,9 @@ namespace TestEditAndContinue
 				async delegate
 				{
 					// http://blogs.msdn.com/b/csharpfaq/archive/2015/02/23/edit-and-continue-and-make-object-id-improvements-in-ctp-6.aspx?PageIndex=2#comments
+					// CLR: { AsyncStateMachineSourceField = System.String <localString>5__1 }
+					// chrome: {{ AsyncStateMachineSourceField = _localString_5__1, value = can server see and modify this string? }}
+					// would the jsc rewriter be kind and add analysis, where this field is to be used, so we could know when a field can be optimized out of LAN sync?
 					var localString = "can server see and modify this string?";
 
 					new IHTMLHorizontalRule { }.AttachToDocument();
