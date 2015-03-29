@@ -101,5 +101,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 			}
 		}
 
+
+		public virtual Module ManifestModule
+		{
+			get
+			{
+				// allow ldstr updates?
+				// sync device thrads?
+
+				return null;
+			}
+		}
+
 	}
 }

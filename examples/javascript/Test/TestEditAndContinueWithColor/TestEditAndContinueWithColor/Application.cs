@@ -65,6 +65,10 @@ namespace TestEditAndContinueWithColor
 		// can we change the implementation of this during ENC?
 		// how would we know?
 		static string ENCGetString() => "hello world";
+		// or what if we were to change static field?
+		// what does it mean for ENC to change a static string
+		public static string ENCStaticStringField = "hey";
+
 
 		static string hex(byte[] bytes)
 		{
@@ -78,11 +82,21 @@ namespace TestEditAndContinueWithColor
 			return w.ToString();
 		}
 
+		//Error ENC0278 Modifying 'method' which contains a lambda expression will prevent the debug session from continuing.TestEditAndContinueWithColor    X:\jsc.svn\examples\javascript\test\TestEditAndContinueWithColor\TestEditAndContinueWithColor\Application.cs    89
+
+		void StartILChangeDetector()
+		{
+			new IHTMLPre { () => ENCGetString() }.AttachToDocument();
+			new IHTMLPre { () => ENCStaticStringField }.AttachToDocument();
+		}
+
+		// setting the stage... refresh?
 		async void Document_onclick(IEvent obj)
 		{
 			Native.body.Clear();
 
-			new IHTMLPre { () => ENCGetString() }.AttachToDocument();
+			StartILChangeDetector();
+
 
 			var backgroundColor = "blue";
 			var color = "white";
@@ -108,9 +122,21 @@ namespace TestEditAndContinueWithColor
 			// xx_TypesBeforeENC = {System.Type[7]}
 			var xx_TypesBeforeENC = xx.Assembly.GetTypes();
 			var xx_ENCGetString = hex(new Func<string>(ENCGetString).Method.GetMethodBody().GetILAsByteArray());
+			var xx_ldstr = xx.Assembly.ManifestModule.ResolveString(0x3a010070);
+
+
+			// xx_ENCGetString = "72 3a 01 00 70 0a 2b 00 06 2a "
+			// 
+			// "72 3a 01 00 70 ldstr
+			// 0a stloc 
+			// 2b 00  br +0
+			// 06 ldloc 
+			// 2a ret "
 
 			// now go change xx_ENCGetString
 			Debugger.Break();
+			// ENC changes should be done only if  a break is reached. otherwise out of sync it seems?
+			// where is the example we did to control webgl on the server?
 
 			// do we have to add a local ahead  of time to debug it?
 #if !XENC1

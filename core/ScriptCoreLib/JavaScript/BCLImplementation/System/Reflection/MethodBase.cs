@@ -12,21 +12,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
 
 	[Script(Implements = typeof(global::System.Reflection.MethodBase))]
-    public abstract class __MethodBase : __MemberInfo
-    {
-        // https://github.com/dotnet/coreclr/blob/master/Documentation/method-descriptor.md
+	public abstract class __MethodBase : __MemberInfo
+	{
+		// https://github.com/dotnet/coreclr/blob/master/Documentation/method-descriptor.md
 
-        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\MethodBase.cs
+		// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\MethodBase.cs
 
-        public abstract ParameterInfo[] GetParameters();
+		public abstract ParameterInfo[] GetParameters();
 
 
-        public abstract object InternalInvoke(object obj, object[] parameters);
+		public abstract object InternalInvoke(object obj, object[] parameters);
 
-        public object Invoke(object obj, object[] parameters)
-        {
-            return InternalInvoke(obj, parameters);
-        }
+		public object Invoke(object obj, object[] parameters)
+		{
+			return InternalInvoke(obj, parameters);
+		}
 
 		// whats with IsDynamicallyInvokable
 
@@ -37,9 +37,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 			// stack would know where we are...
 			// X:\jsc.svn\examples\javascript\test\TestEditAndContinueWithColor\TestEditAndContinueWithColor\Application.cs
 
+			//wootz:             // This will be a fun one to try to implement.  Probably just need to instrument each method body to 
+			// declare a $currentMethod$ variable to Type.prototype.method or Type.method
+
+			// forum in code.
+
 			return null;
 		}
 
 		// script: error JSC1000: No implementation found for this native method, please implement [System.Reflection.MethodBody.GetILAsByteArray()]
+		public virtual MethodBody GetMethodBody()
+		{
+			// ENC databinding?
+			return null;
+		}
 	}
 }
