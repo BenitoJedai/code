@@ -17,9 +17,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.Serializatio
 
         public static object GetUninitializedObject(Type type)
         {
-            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Activator.cs
+			// X:\jsc.svn\examples\javascript\async\test\TestEditAndContinue\TestEditAndContinue\ApplicationWebService.cs
+			// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Activator.cs
 
-            var ctor = ((__Type)type).AsExpando().constructor;
+			var ctor = ((__Type)type).AsExpando().constructor;
 
             // 0:31ms { type = <Namespace>.Foo, ctor = function (b)
 

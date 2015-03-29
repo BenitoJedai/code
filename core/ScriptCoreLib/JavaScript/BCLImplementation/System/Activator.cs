@@ -28,6 +28,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         // use by?
         public static object CreateInstance(Type type, params object[] args)
         {
+			
             if ((object)type == null)
                 throw new NotSupportedException();
 
@@ -68,7 +69,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static object CreateInstance(Type type)
         {
-            if ((object)type == null)
+			// X:\jsc.svn\examples\javascript\async\test\TestEditAndContinue\TestEditAndContinue\ApplicationWebService.cs
+
+			if ((object)type == null)
                 throw new NotSupportedException();
 
             // X:\jsc.svn\examples\javascript\forms\test\TestTypeActivatorRef\TestTypeActivatorRef\Class1.cs
