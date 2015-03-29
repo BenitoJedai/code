@@ -28,6 +28,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
             return InternalInvoke(obj, parameters);
         }
 
-        // whats with IsDynamicallyInvokable
-    }
+		// whats with IsDynamicallyInvokable
+
+
+
+		public static MethodBase GetCurrentMethod()
+		{
+			// stack would know where we are...
+			// X:\jsc.svn\examples\javascript\test\TestEditAndContinueWithColor\TestEditAndContinueWithColor\Application.cs
+
+			return null;
+		}
+
+		// script: error JSC1000: No implementation found for this native method, please implement [System.Reflection.MethodBody.GetILAsByteArray()]
+	}
 }
