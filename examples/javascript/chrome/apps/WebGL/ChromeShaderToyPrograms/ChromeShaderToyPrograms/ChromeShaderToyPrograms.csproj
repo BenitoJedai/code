@@ -1227,6 +1227,45 @@
     <Reference Include="Xor3DAlienLandByXor.AssetsLibrary">
       <HintPath>..\..\synergy\Xor3DAlienLandByXor\Xor3DAlienLandByXor\bin\staging.AssetsLibrary\Xor3DAlienLandByXor.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="CubeOcubeByFred.AssetsLibrary">
+      <HintPath>..\..\synergy\CubeOcubeByFred\CubeOcubeByFred\bin\staging.AssetsLibrary\CubeOcubeByFred.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FuturisticDoorKnobByDiLemming.AssetsLibrary">
+      <HintPath>..\..\synergy\FuturisticDoorKnobByDiLemming\FuturisticDoorKnobByDiLemming\bin\staging.AssetsLibrary\FuturisticDoorKnobByDiLemming.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="KalizylByBergi.AssetsLibrary">
+      <HintPath>..\..\synergy\KalizylByBergi\KalizylByBergi\bin\staging.AssetsLibrary\KalizylByBergi.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MercuryCratersByGuil.AssetsLibrary">
+      <HintPath>..\..\synergy\MercuryCratersByGuil\MercuryCratersByGuil\bin\staging.AssetsLibrary\MercuryCratersByGuil.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MidnightSnowByRavenWorks.AssetsLibrary">
+      <HintPath>..\..\synergy\MidnightSnowByRavenWorks\MidnightSnowByRavenWorks\bin\staging.AssetsLibrary\MidnightSnowByRavenWorks.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SpaceRingsByMu6k.AssetsLibrary">
+      <HintPath>..\..\synergy\SpaceRingsByMu6k\SpaceRingsByMu6k\bin\staging.AssetsLibrary\SpaceRingsByMu6k.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SunsetCloudByKuvkar.AssetsLibrary">
+      <HintPath>..\..\synergy\SunsetCloudByKuvkar\SunsetCloudByKuvkar\bin\staging.AssetsLibrary\SunsetCloudByKuvkar.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SwirlingRingsByyJimmikaelkael.AssetsLibrary">
+      <HintPath>..\..\synergy\SwirlingRingsByyJimmikaelkael\SwirlingRingsByyJimmikaelkael\bin\staging.AssetsLibrary\SwirlingRingsByyJimmikaelkael.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TetrahedronByCandycat.AssetsLibrary">
+      <HintPath>..\..\synergy\TetrahedronByCandycat\TetrahedronByCandycat\bin\staging.AssetsLibrary\TetrahedronByCandycat.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TruePinballPhysicsByArchee.AssetsLibrary">
+      <HintPath>..\..\synergy\TruePinballPhysicsByArchee\TruePinballPhysicsByArchee\bin\staging.AssetsLibrary\TruePinballPhysicsByArchee.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WireEggsByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\WireEggsByEiffie\WireEggsByEiffie\bin\staging.AssetsLibrary\WireEggsByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="x3DLightingByXor.AssetsLibrary">
+      <HintPath>..\..\synergy\x3DLightingByXor\x3DLightingByXor\bin\staging.AssetsLibrary\x3DLightingByXor.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SphericalVoronoiByMattz.AssetsLibrary">
+      <HintPath>..\..\synergy\SphericalVoronoiByMattz\SphericalVoronoiByMattz\bin\staging.AssetsLibrary\SphericalVoronoiByMattz.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1871,6 +1910,10 @@
       <Project>{29050a98-700e-43cc-ac87-1a25bf0b6a94}</Project>
       <Name>CrystalBallByAaecheve</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\CubeOcubeByFred\CubeOcubeByFred\CubeOcubeByFred.csproj">
+      <Project>{d4211163-6747-4670-90c2-98fb068a2018}</Project>
+      <Name>CubeOcubeByFred</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\CubitreeByXt\CubitreeByXt\CubitreeByXt.csproj">
       <Project>{101ed08d-9fd7-4ac0-9823-47ec98cba46d}</Project>
       <Name>CubitreeByXt</Name>
@@ -2019,6 +2062,10 @@
       <Project>{14ab7ab0-7612-4026-98f6-ebbae5cdf750}</Project>
       <Name>FractalSphereByGuil</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\FuturisticDoorKnobByDiLemming\FuturisticDoorKnobByDiLemming\FuturisticDoorKnobByDiLemming.csproj">
+      <Project>{74d9bc3a-e8e1-427c-ad2b-4bccc4789fbe}</Project>
+      <Name>FuturisticDoorKnobByDiLemming</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\GalaxySpiralsByGuil\GalaxySpiralsByGuil\GalaxySpiralsByGuil.csproj">
       <Project>{9bc41670-5487-425c-9cf1-7a33af7822fb}</Project>
       <Name>GalaxySpiralsByGuil</Name>
@@ -2139,6 +2186,10 @@
       <Project>{556fdc09-e0ed-46b2-bb12-a0ce6c72356d}</Project>
       <Name>JusterBeaverByMovax</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\KalizylByBergi\KalizylByBergi\KalizylByBergi.csproj">
+      <Project>{777e77bc-cefb-4e21-89b5-9929dd79ba62}</Project>
+      <Name>KalizylByBergi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\KMoonByKali\KMoonByKali\KMoonByKali.csproj">
       <Project>{d73739d2-d2e3-4d75-b645-e93a67aee4eb}</Project>
       <Name>KMoonByKali</Name>
@@ -2199,9 +2250,17 @@
       <Project>{b228659f-a2ea-4a2a-ae54-a41c8dc23b9e}</Project>
       <Name>MarioMushroomByAlgorithm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\MercuryCratersByGuil\MercuryCratersByGuil\MercuryCratersByGuil.csproj">
+      <Project>{5638645a-bc35-4742-a450-1de8822bcd32}</Project>
+      <Name>MercuryCratersByGuil</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\MidnightCommsByFizzer\MidnightCommsByFizzer\MidnightCommsByFizzer.csproj">
       <Project>{0beec98a-0faa-4e3c-95d4-cd0cd82878f1}</Project>
       <Name>MidnightCommsByFizzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\MidnightSnowByRavenWorks\MidnightSnowByRavenWorks\MidnightSnowByRavenWorks.csproj">
+      <Project>{5f2ad6da-385d-498b-b46a-59d9ea608e64}</Project>
+      <Name>MidnightSnowByRavenWorks</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\MikeByIq\MikeByIq\MikeByIq.csproj">
       <Project>{0ae0c5b7-d71a-4cd5-896c-dd38a4f655ab}</Project>
@@ -2479,6 +2538,10 @@
       <Project>{d23d3804-de75-4922-a1a3-f620b9b43273}</Project>
       <Name>SpaceByReinder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SpaceRingsByMu6k\SpaceRingsByMu6k\SpaceRingsByMu6k.csproj">
+      <Project>{449a9283-adaf-40c5-90c8-81e1033ae708}</Project>
+      <Name>SpaceRingsByMu6k</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\SparksByVanburgler\SparksByVanburgler\SparksByVanburgler.csproj">
       <Project>{0ce211c2-b788-4e19-a553-72fd08e0036c}</Project>
       <Name>SparksByVanburgler</Name>
@@ -2494,6 +2557,10 @@
     <ProjectReference Include="..\..\synergy\SphereMappingsByNimitz\SphereMappingsByNimitz\SphereMappingsByNimitz.csproj">
       <Project>{468bb917-135c-4d48-b806-a2a4d968e124}</Project>
       <Name>SphereMappingsByNimitz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SphericalVoronoiByMattz\SphericalVoronoiByMattz\SphericalVoronoiByMattz.csproj">
+      <Project>{ff7c34bc-805a-4fb1-9129-23065b4f2cd1}</Project>
+      <Name>SphericalVoronoiByMattz</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\SpiningRingsBySquid\SpiningRingsBySquid\SpiningRingsBySquid.csproj">
       <Project>{7f4ac1c6-ab4e-4b0c-b845-123b68f35728}</Project>
@@ -2523,9 +2590,17 @@
       <Project>{3e2c629b-a827-40bc-96f8-2eafd02c10fd}</Project>
       <Name>SubmergedByFizzer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SunsetCloudByKuvkar\SunsetCloudByKuvkar\SunsetCloudByKuvkar.csproj">
+      <Project>{c368b92c-5f6a-48c5-9ea3-85afbf2032b0}</Project>
+      <Name>SunsetCloudByKuvkar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\SunsetOnTheSeaByRiccardo\SunsetOnTheSeaByRiccardo\SunsetOnTheSeaByRiccardo.csproj">
       <Project>{da87ef69-c1d6-4cb6-bf8b-1c49cfcff0e2}</Project>
       <Name>SunsetOnTheSeaByRiccardo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SwirlingRingsByyJimmikaelkael\SwirlingRingsByyJimmikaelkael\SwirlingRingsByyJimmikaelkael.csproj">
+      <Project>{e970c4d0-e8e0-44df-9375-dd5cb55ec3d1}</Project>
+      <Name>SwirlingRingsByyJimmikaelkael</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\TestOfBleedingColorByPredatiti\TestOfBleedingColorByPredatiti\TestOfBleedingColorByPredatiti.csproj">
       <Project>{686a0464-6d5e-4741-b7b3-5c20c6959160}</Project>
@@ -2538,6 +2613,10 @@
     <ProjectReference Include="..\..\synergy\TetrahedronatorByEiffie\TetrahedronatorByEiffie\TetrahedronatorByEiffie.csproj">
       <Project>{fa4bc7ce-1216-405b-94a8-2298a74fea1e}</Project>
       <Name>TetrahedronatorByEiffie</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\TetrahedronByCandycat\TetrahedronByCandycat\TetrahedronByCandycat.csproj">
+      <Project>{6019d0fb-8615-4f65-a58c-75fcd963bd0e}</Project>
+      <Name>TetrahedronByCandycat</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\TetrisByKali\TetrisByKali\TetrisByKali.csproj">
       <Project>{9e77ffa5-275f-4cc6-9e40-5e3c9cdbac7a}</Project>
@@ -2590,6 +2669,10 @@
     <ProjectReference Include="..\..\synergy\TruchetTentaclesByWaha\TruchetTentaclesByWaha\TruchetTentaclesByWaha.csproj">
       <Project>{e687f5fc-7041-4fe1-8323-10fe55f010d9}</Project>
       <Name>TruchetTentaclesByWaha</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\TruePinballPhysicsByArchee\TruePinballPhysicsByArchee\TruePinballPhysicsByArchee.csproj">
+      <Project>{f43b9a37-627a-4f46-8bad-75c3e8c549fb}</Project>
+      <Name>TruePinballPhysicsByArchee</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\TrumpetByBaldand\TrumpetByBaldand\TrumpetByBaldand.csproj">
       <Project>{5a2ca6f4-f6cc-43d4-b618-f6746c539b57}</Project>
@@ -2655,6 +2738,10 @@
       <Project>{3a90cebf-454b-4e38-a0b5-79d165e8882e}</Project>
       <Name>WinterByIapafoto</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\WireEggsByEiffie\WireEggsByEiffie\WireEggsByEiffie.csproj">
+      <Project>{8e6cbc59-86a1-4bd7-b64a-710b2a7ce0d6}</Project>
+      <Name>WireEggsByEiffie</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\WobblyThingByAvix\WobblyThingByAvix\WobblyThingByAvix.csproj">
       <Project>{5f36a402-7b9e-4e59-a061-70f0ff88cfa6}</Project>
       <Name>WobblyThingByAvix</Name>
@@ -2686,6 +2773,10 @@
     <ProjectReference Include="..\..\synergy\x3DExcQByGaz\x3DExcQByGaz\x3DExcQByGaz.csproj">
       <Project>{6c2ae8b7-b6ac-4c9a-84d2-ad0b835d0e1c}</Project>
       <Name>x3DExcQByGaz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\x3DLightingByXor\x3DLightingByXor\x3DLightingByXor.csproj">
+      <Project>{7c664c3b-eeaa-4eb1-be5e-ebfa707f6d0b}</Project>
+      <Name>x3DLightingByXor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\x3DMetashapesByLewiz\x3DMetashapesByLewiz\x3DMetashapesByLewiz.csproj">
       <Project>{fc580905-625d-4b1c-865b-a5620b319c9c}</Project>
