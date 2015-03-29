@@ -64,7 +64,7 @@ namespace TestEditAndContinueWithColor
 
 		// can we change the implementation of this during ENC?
 		// how would we know?
-		static string ENCGetString() => "hello world";
+		static string ENCGetString() => "hello world. the other string";
 		// or what if we were to change static field?
 		// what does it mean for ENC to change a static string
 		public static string ENCStaticStringField = "hey";
@@ -122,9 +122,18 @@ namespace TestEditAndContinueWithColor
 			// xx_TypesBeforeENC = {System.Type[7]}
 			var xx_TypesBeforeENC = xx.Assembly.GetTypes();
 			var xx_ENCGetString = hex(new Func<string>(ENCGetString).Method.GetMethodBody().GetILAsByteArray());
-			var xx_ldstr = xx.Assembly.ManifestModule.ResolveString(0x3a010070);
 
-
+			// 
+			//Additional information: Token 3a010070 is not a valid string token in the scope of module TestEditAndContinueWithColor.exe.
+			//var xx_ldstr = xx.Assembly.ManifestModule.ResolveString(0x7000013a);
+			// changng a constant will add a new constant!
+			// how would we know which method changed?
+			// Additional information: Token 7000043a is not a valid string token in the scope of module TestEditAndContinueWithColor.exe.
+			var xx_ldstr = xx.Assembly.ManifestModule.ResolveString(0x7000043d);
+			// um we see new IL but cant see new text? but its there!
+			// xx_ldstr = "hello world"
+			// xx_ENCGetString = "72 3d 04 00 70 0a 2b 00 06 2a "
+			// xx_ENCGetString = "72 3a 01 00 70 0a 2b 00 06 2a "
 			// xx_ENCGetString = "72 3a 01 00 70 0a 2b 00 06 2a "
 			// 
 			// "72 3a 01 00 70 ldstr
@@ -153,7 +162,7 @@ namespace TestEditAndContinueWithColor
 			backgroundColor = "blue";
 
 
-			buttonText = $"buttonText set by the server xx_TypesBeforeENC: {xx_TypesBeforeENC.Length}  xx_TypesAfterENC: {xx_TypesAfterENC.Length} before {xx_ENCGetString} after {xx_AfterENCGetString}";
+			buttonText = $"buttonText set by the server xx_ldstr: {xx_ldstr} xx_TypesBeforeENC: {xx_TypesBeforeENC.Length}  xx_TypesAfterENC: {xx_TypesAfterENC.Length} before {xx_ENCGetString} after {xx_AfterENCGetString}";
 
 			await default(HopFromService);
 
