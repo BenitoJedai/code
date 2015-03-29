@@ -140,6 +140,8 @@ namespace TestSwitchToServiceContextAsync
 			new { }.With(
 				async delegate
 				{
+					//var xbase = base;
+
 					await new IHTMLButton { "click to start inline context hop " + new { this.shared } }.AttachToDocument().async.onclick;
 
 					new IHTMLHorizontalRule { }.AttachToDocument();
