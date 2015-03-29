@@ -248,7 +248,15 @@ namespace TestSwitchToServiceContextAsync
 					await default(HopToService);
 
 					// can we fake the stacktrace yet?
-					// can we share data yet?
+					// can we share data yet? xml?
+
+					// https://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/4079440-edit-continue-allow-the-modification-of-lambdas
+					// http://blogs.msdn.com/b/csharpfaq/archive/2015/02/23/edit-and-continue-and-make-object-id-improvements-in-ctp-6.aspx
+					// https://msdn.microsoft.com/en-us/library/ms164927.aspx
+					//Error ENC0280 Modifying 'constructor' which contains an anonymous type will prevent the debug session from continuing.TestSwitchToServiceContextAsync X:\jsc.svn\examples\javascript\async\test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\Application.cs    220
+					var loc1 = "can we change il while on debugger, and send a patch back to the client?";
+
+					// live gpu programming yet?
 					Debugger.Break();
 
 					// can we do debugger, break, edit n contnue yet?
