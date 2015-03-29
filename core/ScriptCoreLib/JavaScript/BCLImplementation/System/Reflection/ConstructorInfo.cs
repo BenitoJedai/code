@@ -5,10 +5,11 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/reflection/ConstructorInfo.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/ConstructorInfo.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/reflection/ConstructorInfo.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/ConstructorInfo.cs
+	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Reflection/ConstructorInfo.cs
 
-    [Script(Implements = typeof(global::System.Reflection.ConstructorInfo))]
+	[Script(Implements = typeof(global::System.Reflection.ConstructorInfo))]
     public class __ConstructorInfo : __MethodBase
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\ConstructorInfo.cs
