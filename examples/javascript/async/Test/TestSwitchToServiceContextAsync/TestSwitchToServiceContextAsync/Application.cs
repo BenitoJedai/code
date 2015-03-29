@@ -162,6 +162,7 @@ namespace TestSwitchToServiceContextAsync
 					// we should pass an encrypted type to server
 					// live gpu programming yet?
 					// can we reference base or this?
+					// debugger visualizers?
 					Debugger.Break();
 
 					// can we do debugger, break, edit n contnue yet?
