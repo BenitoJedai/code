@@ -7,14 +7,12 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TestSwitchToServiceContextAsync;
 
-namespace TestEditAndContinue
+namespace TestEditAndContinueWithColor
 {
 	/// <summary>
 	/// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -39,7 +37,7 @@ namespace TestEditAndContinue
 
 
 		[Obsolete("jsc needs to send encrypted Type and FieldInfo init ops ")]
-		public  Task<ShadowIAsyncStateMachine> Invoke(ShadowIAsyncStateMachine that) =>
+		public Task<ShadowIAsyncStateMachine> Invoke(ShadowIAsyncStateMachine that) =>
 			CLRWebServiceInvoke.Invoke(
 				typeof(ApplicationWebService),
 				that
