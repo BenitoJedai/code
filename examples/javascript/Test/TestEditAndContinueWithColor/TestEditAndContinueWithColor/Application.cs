@@ -1,3 +1,5 @@
+#define XENC1
+
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -29,7 +31,7 @@ namespace TestEditAndContinueWithColor
 		static Application()
 		{
 			// patch the awaiter..
-			Console.SetOut(new xConsole());
+			//Console.SetOut(new xConsole());
 			HopToService.VirtualOnCompleted =
 				 continuation =>
 				 {
@@ -55,13 +57,32 @@ namespace TestEditAndContinueWithColor
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
+			Native.body.innerText = "click me to test ENC, during pause, change code. server side changes apply.";
 
 			Native.document.onclick += Document_onclick;
+		}
+
+		// can we change the implementation of this during ENC?
+		// how would we know?
+		static string ENCGetString() => "hello world";
+
+		static string hex(byte[] bytes)
+		{
+			var w = new StringBuilder();
+
+			for (int i = 0; i < bytes.Length; i++)
+			{
+				w.Append(bytes[i].ToString("x2") + " ");
+			}
+
+			return w.ToString();
 		}
 
 		async void Document_onclick(IEvent obj)
 		{
 			Native.body.Clear();
+
+			new IHTMLPre { () => ENCGetString() }.AttachToDocument();
 
 			var backgroundColor = "blue";
 			var color = "white";
@@ -73,12 +94,40 @@ namespace TestEditAndContinueWithColor
 			await default(HopToService);
 			//Debugger.Break();
 
+			// is t better if we do ENC on first await?
+			var x = System.Reflection.MethodInfo.GetCurrentMethod();
+			// can we add a comment without current statment jumping to the end?
+			// yes?
+			// loc = "C:\\Users\\Arvo\\AppData\\Local\\Temp\\Temporary ASP.NET Files\\root\\3ea1022a\\80f01a9\\assembly\\dl3\\c9dda0a3\\6fdc1561_446ad001\\TestEditAndContinueWithColor.exe"
+			var loc = x.DeclaringType.Assembly.Location;
+			// can we add a new type now?
+			// watch
+			// +		typeof(ManualPauseAddClass)	null	System.Type
+
+			var xx = typeof(ApplicationWebService);
+			// xx_TypesBeforeENC = {System.Type[7]}
+			var xx_TypesBeforeENC = xx.Assembly.GetTypes();
+			var xx_ENCGetString = hex(new Func<string>(ENCGetString).Method.GetMethodBody().GetILAsByteArray());
+
+			// now go change xx_ENCGetString
+			Debugger.Break();
+
+			// do we have to add a local ahead  of time to debug it?
+#if !XENC1
+			xx = typeof(ManualPauseAddClass);
+#endif
+			// jsc could spawn a blank app while it is loading the actual app..
+
+			// xx_TypesAfterENC = {System.Type[8]}
+			var xx_TypesAfterENC = xx.Assembly.GetTypes();
+			var xx_AfterENCGetString = hex(new Func<string>(ENCGetString).Method.GetMethodBody().GetILAsByteArray());
+
 			color = "yellow";
 			//backgroundColor = "red";
 			backgroundColor = "blue";
 
 
-			buttonText = "buttonText set by the server";
+			buttonText = $"buttonText set by the server xx_TypesBeforeENC: {xx_TypesBeforeENC.Length}  xx_TypesAfterENC: {xx_TypesAfterENC.Length} before {xx_ENCGetString} after {xx_AfterENCGetString}";
 
 			await default(HopFromService);
 
@@ -101,6 +150,24 @@ namespace TestEditAndContinueWithColor
 			var sw = Stopwatch.StartNew();
 
 			await default(HopToService);
+
+			// 		Message	"Cannot evaluate a security function."	string
+			// "C:\Users\Arvo\AppData\Local\Temp\Temporary ASP.NET Files\root\3ea1022a\80f01a9\assembly\dl3\c9dda0a3\f83b653a_406ad001\TestEditAndContinueWithColor.EXE"
+			// +		typeof(ManualPauseAddClass)	null	System.Type
+			// 		ManualPauseAddClass	error CS0119: 'ManualPauseAddClass' is a type, which is not valid in the given context	
+
+			//Debugger.Break();
+			//var x = System.Reflection.MethodInfo.GetCurrentMethod();
+			//var loc = x.DeclaringType.Assembly.Location;
+			// where are we loaded?
+			// loc = "C:\\Users\\Arvo\\AppData\\Local\\Temp\\Temporary ASP.NET Files\\root\\3ea1022a\\80f01a9\\assembly\\dl3\\c9dda0a3\\38a710a3_436ad001\\TestEditAndContinueWithColor.exe"
+
+			//+x   { Void MoveNext()}
+			//System.Reflection.MethodBase { System.Reflection.RuntimeMethodInfo}
+			//x.DeclaringType.AssemblyQualifiedName   "TestEditAndContinueWithColor.Application+<Document_onclick>d__2, TestEditAndContinueWithColor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"  string
+			// C:\Users\Arvo\AppData\Local\Temp\Temporary ASP.NET Files\root\3ea1022a\80f01a9\assembly\dl3\c9dda0a3\9c8a23ef_416ad001\TestEditAndContinueWithColor.exe
+			// is the module being replaced at the first edit?
+
 			;
 			// remember, jsc will compile this for the client too..
 
@@ -110,6 +177,7 @@ namespace TestEditAndContinueWithColor
 			// where is that new method defined?
 
 			// next statement wont work
+
 			//var value = GetString();
 
 			// hy does the hop take 1400ms?
@@ -133,8 +201,10 @@ namespace TestEditAndContinueWithColor
 		}
 	}
 
-	// uncomment during ENC
+	// uncomment during ENC, this will move the next statement to exit current method?
+	//Error ENC0033 Deleting 'class' will prevent the debug session from continuing.TestEditAndContinueWithColor X:\jsc.svn\examples\javascript\test\TestEditAndContinueWithColor\TestEditAndContinueWithColor\Application.cs	22
 
+	// adding a type does show up at GetTypes
 	//static class ManualPauseAddClass
 	//{
 	//	public static string GetString() => "hello!";
