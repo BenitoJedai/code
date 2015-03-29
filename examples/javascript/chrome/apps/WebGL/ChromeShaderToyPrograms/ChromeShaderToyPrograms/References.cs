@@ -206,6 +206,7 @@ namespace ChromeShaderToyPrograms
 			#region /i/
 			["ChromeShaderToyInfiniteRepetitionBySsdsa"] = () => new ChromeShaderToyInfiniteRepetitionBySsdsa.Shaders.ProgramFragmentShader(),
 			["IcyMoonByDr2"] = () => new IcyMoonByDr2.Shaders.ProgramFragmentShader(),
+			["IkaChanBy301"] = () => new IkaChanBy301.Shaders.ProgramFragmentShader(),
 			["IKSolverByIq"] = () => new IKSolverByIq.Shaders.ProgramFragmentShader(),
 			["ImpactByCabbibo"] = () => new ImpactByCabbibo.Shaders.ProgramFragmentShader(),
 			["ImpactTextTestByCabbibo"] = () => new ImpactTextTestByCabbibo.Shaders.ProgramFragmentShader(),
@@ -265,6 +266,7 @@ namespace ChromeShaderToyPrograms
 			["MaggotsByKig"] = () => new MaggotsByKig.Shaders.ProgramFragmentShader(),
 			["MarbleFantasies"] = () => new MarbleFantasies.Shaders.ProgramFragmentShader(),
 			["MarioMushroomByAlgorithm"] = () => new MarioMushroomByAlgorithm.Shaders.ProgramFragmentShader(),
+			["MechanicalByIq"] = () => new MechanicalByIq.Shaders.ProgramFragmentShader(),
 			["MercuryCratersByGuil"] = () => new MercuryCratersByGuil.Shaders.ProgramFragmentShader(),
 			["MarioCrossEye3DByHLorenzi"] = () => new MarioCrossEye3DByHLorenzi.Shaders.ProgramFragmentShader(),
 			["MidnightCommsByFizzer"] = () => new MidnightCommsByFizzer.Shaders.ProgramFragmentShader(),
@@ -323,6 +325,7 @@ namespace ChromeShaderToyPrograms
 			["ParallaxMappingByNimitz"] = () => new ParallaxMappingByNimitz.Shaders.ProgramFragmentShader(),
 			["PlasticReflectingCubesByDen"] = () => new PlasticReflectingCubesByDen.Shaders.ProgramFragmentShader(),
 			["PlayingWithRefleksByEiffie"] = () => new PlayingWithRefleksByEiffie.Shaders.ProgramFragmentShader(),
+			["PlottingFunctionsByHornet"] = () => new PlottingFunctionsByHornet.Shaders.ProgramFragmentShader(),
 			["PolygonRaytracingByBranch"] = () => new PolygonRaytracingByBranch.Shaders.ProgramFragmentShader(),
 			["PopularShaderByFizzer"] = () => new PopularShaderByFizzer.Shaders.ProgramFragmentShader(),
 			["PortalGunByRamocles"] = () => new PortalGunByRamocles.Shaders.ProgramFragmentShader(),
@@ -390,6 +393,7 @@ namespace ChromeShaderToyPrograms
 			["SchroedingersCatByDr2"] = () => new SchroedingersCatByDr2.Shaders.ProgramFragmentShader(),
 			["SDFCollisionCheckingByMattz"] = () => new SDFCollisionCheckingByMattz.Shaders.ProgramFragmentShader(),
 			["SeagullByAvix"] = () => new SeagullByAvix.Shaders.ProgramFragmentShader(),
+			["SelfPlayingInterferenceByFatumR"] = () => new SelfPlayingInterferenceByFatumR.Shaders.ProgramFragmentShader(),
 			["SegmentByArthursw"] = () => new SegmentByArthursw.Shaders.ProgramFragmentShader(),
 			["ShaderingChameleonByIapafoto"] = () => new ShaderingChameleonByIapafoto.Shaders.ProgramFragmentShader(),
 			["ShadeyMcShadishByDcoombes"] = () => new ShadeyMcShadishByDcoombes.Shaders.ProgramFragmentShader(),
@@ -456,6 +460,7 @@ namespace ChromeShaderToyPrograms
 			["TruePinballPhysicsByArchee"] = () => new TruePinballPhysicsByArchee.Shaders.ProgramFragmentShader(),
 			["TrumpetByBaldand"] = () => new TrumpetByBaldand.Shaders.ProgramFragmentShader(),
 			["Tunnel1ByWaha"] = () => new Tunnel1ByWaha.Shaders.ProgramFragmentShader(),
+			["TwistyTorusByBloxard"] = () => new TwistyTorusByBloxard.Shaders.ProgramFragmentShader(),
 			#endregion
 
 
