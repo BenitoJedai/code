@@ -11,7 +11,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
     [Script(Implements = typeof(global::System.IO.TextWriter))]
     internal abstract class __TextWriter : IDisposable
     {
-        public virtual void Write(object value)
+		// X:\jsc.svn\examples\javascript\async\test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\Application.cs
+
+		public virtual void Write(object value)
         {
         }
 
