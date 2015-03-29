@@ -110,7 +110,7 @@ namespace TestSwitchToServiceContextAsync
 			  );
 			#endregion
 
-			var ShadowIAsyncStateMachine = new ShadowIAsyncStateMachine();
+			var s = default(ShadowIAsyncStateMachine);
 
 			var reset = new AutoResetEvent(false);
 
@@ -119,7 +119,11 @@ namespace TestSwitchToServiceContextAsync
 			HopFromService.VirtualOnCompleted =
 				(Action continuation) =>
 				{
-					Console.WriteLine("time to jump back? yes");
+					Action<int> MoveNext = null;
+					s = ShadowIAsyncStateMachine.FromContinuation(continuation, ref MoveNext);
+
+					// should be the same state machine!
+					Console.WriteLine("time to jump back? yes " + new { s.state, s.TypeName });
 
 					reset.Set();
 				};
@@ -140,10 +144,7 @@ namespace TestSwitchToServiceContextAsync
 
 			Console.WriteLine("time to jump back? " + new { xAsyncStateMachineType, that.state });
 
-			return new ShadowIAsyncStateMachine
-			{
-				state = -3
-			};
+			return s;
 		}
 	}
 }

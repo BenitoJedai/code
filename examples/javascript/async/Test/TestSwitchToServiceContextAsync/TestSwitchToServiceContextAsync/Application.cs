@@ -67,126 +67,20 @@ namespace TestSwitchToServiceContextAsync
 
 
 			HopToService.VirtualOnCompleted =
-				continuation =>
+				 //async continuation =>
+				 continuation =>
 				{
 					// now what?
 					Console.WriteLine("enter VirtualOnCompleted..");
 
-					Console.WriteLine(new { continuation });
-					Console.WriteLine(new { continuation.Method });
-					Console.WriteLine(new { continuation.Target });
+					Action<int> MoveNext = null;
 
-					var f = continuation.Target.GetType().GetFields(
-						  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
-					  );
+					// async dont like ref?
+					var s = ShadowIAsyncStateMachine.FromContinuation(continuation, ref MoveNext);
 
-
-					//var AsyncStateMachineSource = continuation.Target as IAsyncStateMachine;
-					var AsyncStateMachineSource = default(IAsyncStateMachine);
-					var AsyncStateMachineType = default(Type);
-					var AsyncStateMachineFields = default(FieldInfo[]);
-
-					var AsyncStateMachineStateField = default(FieldInfo);
-
-					if (continuation.Target is IAsyncStateMachine)
-					{
-						AsyncStateMachineSource = (IAsyncStateMachine)continuation.Target;
-					}
-
-					if (AsyncStateMachineSource == null)
-					{
-						f.WithEach(
-							SourceField =>
-							{
-								var SourceField_value = SourceField.GetValue(continuation.Target);
-								Console.WriteLine(new { SourceField, value = SourceField_value });
-
-								// could it be, we are already enumerating asyncstatemachine ?
-
-								var m_stateMachine = SourceField_value as IAsyncStateMachine;
-								if (m_stateMachine != null)
-								{
-									AsyncStateMachineSource = m_stateMachine;
-									AsyncStateMachineType = m_stateMachine.GetType();
-
-									AsyncStateMachineFields = AsyncStateMachineType.GetFields(
-										System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
-									);
-
-									AsyncStateMachineFields.WithEach(
-										AsyncStateMachineSourceField =>
-										{
-											var value = AsyncStateMachineSourceField.GetValue(AsyncStateMachineSource);
-
-											if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
-											{
-												AsyncStateMachineStateField = AsyncStateMachineSourceField;
-											}
-
-											Console.WriteLine(new { AsyncStateMachineSourceField, value });
-										}
-									);
-								}
-
-							}
-						);
-					}
-					else
-					{
-						AsyncStateMachineType = AsyncStateMachineSource.GetType();
-
-						// inline mode?
-
-						f.WithEach(
-							AsyncStateMachineSourceField =>
-							{
-
-								var value = AsyncStateMachineSourceField.GetValue(AsyncStateMachineSource);
-
-								if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
-								{
-									AsyncStateMachineStateField = AsyncStateMachineSourceField;
-								}
-
-								Console.WriteLine(new { AsyncStateMachineSourceField, value });
-
-							}
-						);
-					}
-
-					// does it look like in JVM?
-
-					//enter VirtualOnCompleted..
-					//{{ continuation = [object Object] }}
-					//{{ Method = {{ InternalMethodToken = MycABsh3zjevXeqty6qy4w }} }}
-					//{{ Target = [object Object] }}
-					//{{ SourceField = zstateMachine, value = [object Object] }}
-					//{{ AsyncStateMachineSourceField = __t__builder, value = [object Object] }}
-					//{{ AsyncStateMachineSourceField = __1__state, value = 0 }}
-					//{{ AsyncStateMachineSourceField = e, value = hello from server }}
-					//{{ AsyncStateMachineSourceField = __u__1, value = [object Object] }}
-					//{{ AsyncStateMachineSourceField = __u__2, value = null }}
-					//{{ SourceField = yield, value = [object Object] }}
-
-					// js seems to have the same issue where, struct fields are not inited?
-					// for js, the ctor needs to do it? or can we do it on prototype level? 
-
-					Console.WriteLine(new { AsyncStateMachineType, AsyncStateMachineStateField });
-
-					if (AsyncStateMachineType == null)
-						return;
-
-					if (AsyncStateMachineStateField == null)
-						return;
-
-					var ShadowIAsyncStateMachine = new ShadowIAsyncStateMachine
-					{
-						TypeName = AsyncStateMachineType.FullName,
-						state = (int)AsyncStateMachineStateField.GetValue(AsyncStateMachineSource)
-					};
+					Action<int> MoveNext1 = MoveNext;
 
 					// types need to be signed by the server, so we could trust a jump?
-					Console.WriteLine(new { ShadowIAsyncStateMachine.state, ShadowIAsyncStateMachine.TypeName });
 					// {{ state = 0, TypeName = <Namespace>._Invoke_d__3 }}
 					// um we dont have the full type name available?
 					// what did we use to jump into worker?
@@ -199,10 +93,16 @@ namespace TestSwitchToServiceContextAsync
 
 					// time to implement .displayName for types?
 
-					new { }.With(
-						async delegate
+
+					//var sNext = await new ApplicationWebService { }.Invoke(s);
+					new ApplicationWebService { }.Invoke(s).ContinueWith(
+						x =>
 						{
-							ShadowIAsyncStateMachine = await new ApplicationWebService { }.Invoke(ShadowIAsyncStateMachine);
+							var sNext = x.Result;
+
+							Console.WriteLine("exit VirtualOnCompleted.. " + new { sNext.state });
+
+							MoveNext1(sNext.state);
 						}
 					);
 
@@ -235,6 +135,8 @@ namespace TestSwitchToServiceContextAsync
 				}
 			);
 
+			// http://blogs.msdn.com/b/csharpfaq/archive/2015/02/23/edit-and-continue-and-make-object-id-improvements-in-ctp-6.aspx
+			// Modifying await expressions wrapped inside other expressions (e.g., G(await F());)
 			new { }.With(
 				async delegate
 				{
@@ -256,11 +158,20 @@ namespace TestSwitchToServiceContextAsync
 					//Error ENC0280 Modifying 'constructor' which contains an anonymous type will prevent the debug session from continuing.TestSwitchToServiceContextAsync X:\jsc.svn\examples\javascript\async\test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\Application.cs    220
 					var loc1 = "can we change il while on debugger, and send a patch back to the client?";
 
+					// return jump can only be to the same state machine
+					// we should pass an encrypted type to server
 					// live gpu programming yet?
+					// can we reference base or this?
 					Debugger.Break();
 
 					// can we do debugger, break, edit n contnue yet?
 					Console.WriteLine(typeof(object) + " server " + typeof(SharedProgram) + new { Thread.CurrentThread.ManagedThreadId });
+
+					await default(HopFromService);
+
+					//Error ENC0021 Adding 'await expression' will prevent the debug session from continuing.TestSwitchToServiceContextAsync X:\jsc.svn\examples\javascript\async\test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\Application.cs    267
+
+					Console.WriteLine(typeof(object) + " client " + typeof(SharedProgram) + new { Thread.CurrentThread.ManagedThreadId });
 				}
 			);
 		}
@@ -271,6 +182,145 @@ namespace TestSwitchToServiceContextAsync
 	{
 		public string TypeName;
 		public int state;
+
+		public static ShadowIAsyncStateMachine FromContinuation(
+			Action continuation,
+
+			//Error	CS0177	The out parameter 'AsyncStateMachineSource' must be assigned to before control leaves the current method	TestSwitchToServiceContextAsync	X:\jsc.svn\examples\javascript\async\test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\Application.cs	284
+			//out IAsyncStateMachine AsyncStateMachineSource // = default(IAsyncStateMachine)
+
+			ref Action<int> MoveNext
+			)
+		{
+			var AsyncStateMachineSource = default(IAsyncStateMachine);
+
+			Console.WriteLine(new { continuation });
+			Console.WriteLine(new { continuation.Method });
+			Console.WriteLine(new { continuation.Target });
+
+			var f = continuation.Target.GetType().GetFields(
+				  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
+			  );
+
+
+			//var AsyncStateMachineSource = continuation.Target as IAsyncStateMachine;
+			var AsyncStateMachineType = default(Type);
+			var AsyncStateMachineFields = default(FieldInfo[]);
+
+			var AsyncStateMachineStateField = default(FieldInfo);
+
+			if (continuation.Target is IAsyncStateMachine)
+			{
+				AsyncStateMachineSource = (IAsyncStateMachine)continuation.Target;
+			}
+
+			if (AsyncStateMachineSource == null)
+			{
+				f.WithEach(
+					SourceField =>
+					{
+						var SourceField_value = SourceField.GetValue(continuation.Target);
+						Console.WriteLine(new { SourceField, value = SourceField_value });
+
+						// could it be, we are already enumerating asyncstatemachine ?
+
+						var m_stateMachine = SourceField_value as IAsyncStateMachine;
+						if (m_stateMachine != null)
+						{
+							//Error CS1628  Cannot use ref or out parameter 'AsyncStateMachineSource' inside an anonymous method, lambda expression, or query expression TestSwitchToServiceContextAsync X:\jsc.svn\examples\javascript\async\test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\Application.cs    219
+
+							AsyncStateMachineSource = m_stateMachine;
+							AsyncStateMachineType = m_stateMachine.GetType();
+
+							AsyncStateMachineFields = AsyncStateMachineType.GetFields(
+								System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
+							);
+
+							AsyncStateMachineFields.WithEach(
+								AsyncStateMachineSourceField =>
+								{
+									var value = AsyncStateMachineSourceField.GetValue(AsyncStateMachineSource);
+
+									if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
+									{
+										AsyncStateMachineStateField = AsyncStateMachineSourceField;
+									}
+
+									Console.WriteLine(new { AsyncStateMachineSourceField, value });
+								}
+							);
+						}
+
+					}
+				);
+			}
+			else
+			{
+				AsyncStateMachineType = AsyncStateMachineSource.GetType();
+
+				// inline mode?
+
+				f.WithEach(
+					AsyncStateMachineSourceField =>
+					{
+
+						var value = AsyncStateMachineSourceField.GetValue(AsyncStateMachineSource);
+
+						if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
+						{
+							AsyncStateMachineStateField = AsyncStateMachineSourceField;
+						}
+
+						Console.WriteLine(new { AsyncStateMachineSourceField, value });
+
+					}
+				);
+			}
+
+			// does it look like in JVM?
+
+			//enter VirtualOnCompleted..
+			//{{ continuation = [object Object] }}
+			//{{ Method = {{ InternalMethodToken = MycABsh3zjevXeqty6qy4w }} }}
+			//{{ Target = [object Object] }}
+			//{{ SourceField = zstateMachine, value = [object Object] }}
+			//{{ AsyncStateMachineSourceField = __t__builder, value = [object Object] }}
+			//{{ AsyncStateMachineSourceField = __1__state, value = 0 }}
+			//{{ AsyncStateMachineSourceField = e, value = hello from server }}
+			//{{ AsyncStateMachineSourceField = __u__1, value = [object Object] }}
+			//{{ AsyncStateMachineSourceField = __u__2, value = null }}
+			//{{ SourceField = yield, value = [object Object] }}
+
+			// js seems to have the same issue where, struct fields are not inited?
+			// for js, the ctor needs to do it? or can we do it on prototype level? 
+
+			Console.WriteLine(new { AsyncStateMachineType, AsyncStateMachineStateField });
+
+			if (AsyncStateMachineType == null)
+				return null;
+
+			if (AsyncStateMachineStateField == null)
+				return null;
+
+			var s = new ShadowIAsyncStateMachine
+			{
+				TypeName = AsyncStateMachineType.FullName,
+				state = (int)AsyncStateMachineStateField.GetValue(AsyncStateMachineSource)
+			};
+
+			Console.WriteLine(new { s.state, s.TypeName });
+
+			MoveNext =
+				NextState =>
+				{
+					Console.WriteLine("enter MoveNext " + new { NextState });
+
+					AsyncStateMachineStateField.SetValue(AsyncStateMachineSource, NextState);
+					AsyncStateMachineSource.MoveNext();
+				};
+
+			return s;
+		}
 	}
 
 	public class SharedProgram
