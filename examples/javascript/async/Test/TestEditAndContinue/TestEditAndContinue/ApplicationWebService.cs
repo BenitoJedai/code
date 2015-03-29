@@ -97,6 +97,7 @@ namespace TestEditAndContinue
 
 					   if (xStringField != null)
 					   {
+						   // once we are to go back to client. we need to reverse it?
 
 						   AsyncStateMachineSourceField.SetValue(
 							   NewStateMachineI,
@@ -119,7 +120,7 @@ namespace TestEditAndContinue
 			HopFromService.VirtualOnCompleted =
 				(Action continuation) =>
 				{
-					Action<int> MoveNext = null;
+					Action<ShadowIAsyncStateMachine> MoveNext = null;
 					s = ShadowIAsyncStateMachine.FromContinuation(continuation, ref MoveNext);
 
 					// should be the same state machine!

@@ -73,12 +73,12 @@ namespace TestSwitchToServiceContextAsync
 					// now what?
 					Console.WriteLine("enter VirtualOnCompleted..");
 
-					Action<int> MoveNext = null;
+					Action<ShadowIAsyncStateMachine> MoveNext = null;
 
 					// async dont like ref?
 					var s = ShadowIAsyncStateMachine.FromContinuation(continuation, ref MoveNext);
 
-					Action<int> MoveNext1 = MoveNext;
+					var MoveNext1 = MoveNext;
 
 					// types need to be signed by the server, so we could trust a jump?
 					// {{ state = 0, TypeName = <Namespace>._Invoke_d__3 }}
@@ -102,7 +102,7 @@ namespace TestSwitchToServiceContextAsync
 
 							Console.WriteLine("exit VirtualOnCompleted.. " + new { sNext.state });
 
-							MoveNext1(sNext.state);
+							MoveNext1(sNext);
 						}
 					);
 
