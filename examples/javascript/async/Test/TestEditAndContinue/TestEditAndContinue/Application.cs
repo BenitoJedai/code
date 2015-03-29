@@ -89,6 +89,7 @@ namespace TestEditAndContinue
 
 		private async void Application_onclick(IEvent<IHTMLButton> obj)
 		{
+			// http://stackoverflow.com/questions/937049/edit-and-continue-quit-working-for-me-at-some-point
 			// http://stackoverflow.com/questions/14183810/how-to-continue-debugging-after-editing-a-method-containing-a-lambda-expression
 
 			// http://blogs.msdn.com/b/csharpfaq/archive/2015/02/23/edit-and-continue-and-make-object-id-improvements-in-ctp-6.aspx?PageIndex=2#comments
@@ -105,6 +106,10 @@ namespace TestEditAndContinue
 
 			await default(HopToService);
 
+			// at times, will it revert to original, ?
+			// could we get jsc to be or code visualizer?
+			// https://msdn.microsoft.com/en-us/library/zayyhzts.aspx
+			// can we get to be out of sync?
 			// can we move strings?
 			Debugger.Break();
 
@@ -116,6 +121,7 @@ namespace TestEditAndContinue
 
 			var canWeAddANewLocalWeCouldUseOnTheServer = "hello. once paused. dont forget to unpause! would jsc analyzer be able to pick up the change? is it IL visible?";
 
+			// conditional invoke?
 			localString = "ENC changed by the server? we can edit here. and let go to see it in effect. what if we manually pause/ edit and resume? at the next cycle the change can be sent back. " + canWeAddANewLocalWeCouldUseOnTheServer;
 
 			await default(HopFromService);
@@ -137,12 +143,3 @@ namespace TestEditAndContinue
 
 
 
-
-//function Syaw6T1E9j6fbBSwpXT1cQ() { }
-//Syaw6T1E9j6fbBSwpXT1cQ.TypeName = "IXMLHttpRequestActivity";
-//  Syaw6T1E9j6fbBSwpXT1cQ.Assembly = k3t2sLuctk6WjRLgvnWy6A;
-//  var type$Syaw6T1E9j6fbBSwpXT1cQ = Syaw6T1E9j6fbBSwpXT1cQ.prototype;
-//  type$Syaw6T1E9j6fbBSwpXT1cQ.constructor = Syaw6T1E9j6fbBSwpXT1cQ;
-//  var qgMABD1E9j6fbBSwpXT1cQ = null;
-//type$Syaw6T1E9j6fbBSwpXT1cQ.request = null;
-//  type$Syaw6T1E9j6fbBSwpXT1cQ.method = new bfi74BFxMT6t1mmafZr4oA();
