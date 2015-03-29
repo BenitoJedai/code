@@ -343,6 +343,9 @@ namespace JVMCLRSwitchToCLRContextAsync
 
     class SharedProgram
     {
+        // X:\jsc.svn\examples\java\hybrid\JVMCLRSwitchToCLRContextAsync\JVMCLRSwitchToCLRContextAsync\Program.cs
+        // X:\jsc.svn\examples\javascript\async\test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\Application.cs
+
         // not roslyn
 
         //Error	1	The type 'JVMCLRSwitchToCLRContextAsync.HopToCLR' cannot be declared const	X:\jsc.svn\examples\java\hybrid\JVMCLRSwitchToCLRContextAsync\JVMCLRSwitchToCLRContextAsync\Program.cs	349	9	JVMCLRSwitchToCLRContextAsync
