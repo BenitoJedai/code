@@ -80,6 +80,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         [Obsolete("jsc updated for roslyn while yet?")]
         public static void Sleep(int ms)
         {
+			// teste by?
+
             // unless jsc now has learned how to do a global async?
             // fake sleep. keep cpu busy!
             throw null;
@@ -112,6 +114,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public int ManagedThreadId { get; set; }
 
+		// test for terminated threads?
         public bool IsAlive { get; set; }
 
         public bool IsBackground { get; set; }

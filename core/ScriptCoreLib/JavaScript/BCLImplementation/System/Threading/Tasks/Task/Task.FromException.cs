@@ -16,15 +16,26 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
-    public partial class __Task
-    {
-        public static Task<TResult> FromResult<TResult>(TResult result)
-        {
-            var x = new TaskCompletionSource<TResult>();
-            x.SetResult(result);
-            return x.Task;
-        }
+	public partial class __Task
+	{
+		public bool IsFaulted { get; set; }
 
-		
+		public AggregateException Exception { get; set; }
+
+		public static Task FromException(Exception exception)
+		{
+			return FromException<object>(exception);
+		}
+
+		public static Task<TResult> FromException<TResult>(Exception exception)
+		{
+			// X:\jsc.svn\examples\java\async\test\TestFromException\TestFromException\Application.cs
+
+			var x = new TaskCompletionSource<TResult>();
+			x.SetException(exception);
+			return x.Task;
+		}
+
+
 	}
 }

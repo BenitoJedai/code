@@ -30,7 +30,19 @@ namespace TestFromException
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
-			var t = Task.FromException(new Exception());
+                // X:\jsc.svn\examples\javascript\async\Test\TestCompletedTask\TestCompletedTask\Application.cs
+			var t = Task.FromException(new Exception("testing FromException"));
+
+			new IHTMLPre {
+				new {
+					t.IsCompleted,
+					t.IsFaulted,
+					t.Exception
+				}
+			}.AttachToDocument();
+
+			// {{ IsCompleted = false, IsFaulted = true, Exception = Error: AggregateException: testing FromException }}
+
 
 		}
 

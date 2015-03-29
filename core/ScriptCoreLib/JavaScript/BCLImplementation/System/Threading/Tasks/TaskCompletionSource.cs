@@ -16,32 +16,39 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs
 
 	[Script(Implements = typeof(global::System.Threading.Tasks.TaskCompletionSource<>))]
-    internal class __TaskCompletionSource<TResult>
-    {
-        // X:\jsc.svn\examples\javascript\async\Test\TestCompletedTask\TestCompletedTask\Application.cs
+	internal class __TaskCompletionSource<TResult>
+	{
+		// X:\jsc.svn\examples\javascript\async\Test\TestCompletedTask\TestCompletedTask\Application.cs
 
-        // http://stackoverflow.com/questions/15316613/real-life-scenarios-for-using-taskcompletionsourcet
+		// http://stackoverflow.com/questions/15316613/real-life-scenarios-for-using-taskcompletionsourcet
 
-        public __Task<TResult> InternalTask;
+		public __Task<TResult> InternalTask;
 
-        public Task<TResult> Task { get { return this.InternalTask; } }
+		public Task<TResult> Task { get { return this.InternalTask; } }
 
-        public __TaskCompletionSource()
-        {
-            this.InternalTask = new __Task<TResult> { InternalStart = null };
-        }
+		public __TaskCompletionSource()
+		{
+			this.InternalTask = new __Task<TResult> { InternalStart = null };
+		}
 
-        public void SetResult(TResult result)
-        {
-            this.InternalTask.InternalSetCompleteAndYield(result);
-        }
+		public void SetResult(TResult result)
+		{
+			this.InternalTask.InternalSetCompleteAndYield(result);
+		}
 
 		public void SetException(Exception exception)
 		{
 			// now what?
 			// X:\jsc.svn\examples\java\async\test\TestFromException\TestFromException\Application.cs
+
+			InternalTask.IsFaulted = true;
+			InternalTask.Exception = new AggregateException(exception.Message);
+
+			// will it cause it to be throw to the async catch?
+			// need a test for that?
+			// how does it work for CLR?
 		}
 	}
 
-  
+
 }
