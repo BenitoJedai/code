@@ -82,6 +82,8 @@ namespace TestEditAndContinue
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150329
+
 			new IHTMLButton { "click me!" }.AttachToDocument().onclick +=
 				async delegate
 				{
@@ -90,7 +92,8 @@ namespace TestEditAndContinue
 					// chrome: {{ AsyncStateMachineSourceField = _localString_5__1, value = can server see and modify this string? }}
 					// would the jsc rewriter be kind and add analysis, where this field is to be used, so we could know when a field can be optimized out of LAN sync?
 					var localString = "can server see and modify this string?";
-
+					// what about other types? primitives? glsl? structs? memory?
+					// stacktrace next?
 					new IHTMLHorizontalRule { }.AttachToDocument();
 
 					Console.WriteLine(typeof(object) + " client " + typeof(ApplicationWebService) + new { Thread.CurrentThread.ManagedThreadId, localString });
@@ -115,3 +118,16 @@ namespace TestEditAndContinue
 
 	}
 }
+
+
+
+
+
+//function Syaw6T1E9j6fbBSwpXT1cQ() { }
+//Syaw6T1E9j6fbBSwpXT1cQ.TypeName = "IXMLHttpRequestActivity";
+//  Syaw6T1E9j6fbBSwpXT1cQ.Assembly = k3t2sLuctk6WjRLgvnWy6A;
+//  var type$Syaw6T1E9j6fbBSwpXT1cQ = Syaw6T1E9j6fbBSwpXT1cQ.prototype;
+//  type$Syaw6T1E9j6fbBSwpXT1cQ.constructor = Syaw6T1E9j6fbBSwpXT1cQ;
+//  var qgMABD1E9j6fbBSwpXT1cQ = null;
+//type$Syaw6T1E9j6fbBSwpXT1cQ.request = null;
+//  type$Syaw6T1E9j6fbBSwpXT1cQ.method = new bfi74BFxMT6t1mmafZr4oA();

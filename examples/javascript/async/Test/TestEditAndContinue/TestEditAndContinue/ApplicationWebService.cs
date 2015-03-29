@@ -38,7 +38,7 @@ namespace TestEditAndContinue
 		}
 
 
-
+		[Obsolete("jsc needs to send encrypted Type and FieldInfo init ops ")]
 		public async Task<ShadowIAsyncStateMachine> Invoke(ShadowIAsyncStateMachine that)
 		{
 			Console.WriteLine("looking for the type...");
