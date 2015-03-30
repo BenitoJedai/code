@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,7 +53,33 @@ namespace TestSwitchToIFrame
 				 var s = ShadowIAsyncStateMachine.FromContinuation(continuation, ref MoveNext);
 
 				 // we want to run in it!
-				 new IHTMLIFrame { src = Native.document.location.href }.AttachToDocument();
+				 new IHTMLIFrame { src = Native.document.location.href }.With(
+					 async f =>
+					 {
+						 var sw = Stopwatch.StartNew();
+
+						 //var mm = f.contentWindow.async.onmessage;
+						 await f.async.onload;
+
+						 Console.WriteLine("loaded in " + new { sw.ElapsedMilliseconds });
+
+						 // loaded in {{ ElapsedMilliseconds = 2417 }}
+
+						 //var m = await f.contentWindow.async.onmessage;
+						 //var m = await Native.window.async.onmessage;
+						 //var m = await f.ownerDocument.defaultView.async.onmessage;
+						 //var m = await f.ownerDocument.defaultView.async.onmessage;
+						 var m = await f.async.onmessage;
+
+						 //var m = await mm;
+
+						 Console.WriteLine("onmessage in " + new { sw.ElapsedMilliseconds });
+
+						 // wait for response?
+						 m.postMessage(s);
+					 }
+				 ).AttachToDocument();
+
 			 };
 
 		}
@@ -68,10 +95,31 @@ namespace TestSwitchToIFrame
 				new { Native.window.parent }
 				);
 
-			if (Native.window.parent != null)
+			if (Native.window.parent != Native.window)
 			{
 				// we are an iframe?
 
+				new { }.With(
+					async delegate
+					{
+						var sw = Stopwatch.StartNew();
+
+						Console.WriteLine("postMessageAsync ... ");
+
+						// start the handshake
+						// we gain intellisense, but the type is partal, likely not respawned, acivated, initialized 
+						var m = await Native.window.parent.postMessageAsync<ShadowIAsyncStateMachine>();
+
+
+
+						Console.WriteLine("postMessageAsync in " + new { sw.ElapsedMilliseconds, m.data.TypeName, m.data.state });
+
+						// ElapsedMilliseconds = 12, data = [object Object] }}
+
+						// will we find the type based on typename?
+						// or do we need typeindex?
+					}
+				);
 
 				return;
 			}
@@ -87,7 +135,7 @@ namespace TestSwitchToIFrame
 
 				Console.WriteLine("on other thread");
 
-				// hop back?
+				// hop to parent?
 			};
 		}
 
