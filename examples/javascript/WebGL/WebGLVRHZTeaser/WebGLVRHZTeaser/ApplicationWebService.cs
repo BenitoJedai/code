@@ -44,6 +44,7 @@ namespace WebGLVRHZTeaser
 
 		static ApplicationWebService()
 		{
+			// X:\jsc.svn\examples\javascript\WebGL\WebGLVRHZTeaser\WebGLVRHZTeaser\ApplicationWebService.cs
 			// X:\jsc.svn\examples\javascript\android\com.abstractatech.dcimgalleryapp\com.abstractatech.dcimgalleryapp\ApplicationWebService.cs
 
 			// http://stackoverflow.com/questions/19750700/detecting-when-system-buttons-are-visible-while-using-immersive-mode
@@ -53,8 +54,7 @@ namespace WebGLVRHZTeaser
 			(ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext as ScriptCoreLib.Android.CoreAndroidWebServiceActivity).With(
 				activity =>
 				{
-					activity.AtResume +=
-					delegate
+					activity.AtResume += delegate
 					{
 						Console.WriteLine("set SYSTEM_UI_FLAG_IMMERSIVE_STICKY");
 
@@ -71,8 +71,6 @@ namespace WebGLVRHZTeaser
 
 				}
 			);
-
-
 
 		}
 	}
