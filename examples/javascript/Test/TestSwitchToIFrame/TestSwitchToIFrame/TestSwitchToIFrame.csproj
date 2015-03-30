@@ -1,19 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9A1F5234-675E-4B8E-8E26-AAD983393A23}</ProjectGuid>
+    <ProjectGuid>{76843B5B-EB0A-4E49-8B36-037969E0545F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebGLEarthByBjorn</RootNamespace>
-    <AssemblyName>WebGLEarthByBjorn</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RootNamespace>TestSwitchToIFrame</RootNamespace>
+    <AssemblyName>TestSwitchToIFrame</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>WebGLEarthByBjorn.Program</StartupObject>
-    <TargetFrameworkProfile />
+    <StartupObject>TestSwitchToIFrame.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -36,7 +34,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
@@ -110,31 +107,21 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="THREE">
-      <HintPath>..\packages\THREE.1.0.0.0\lib\THREE.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLEarthByBjorn.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\WebGLEarthByBjorn.AssetsLibrary.dll</HintPath>
+    <Reference Include="TestSwitchToIFrame.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestSwitchToIFrame.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Async.AssetsLibrary">
-      <HintPath>..\..\..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\bin\staging.AssetsLibrary\ScriptCoreLib.Async.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="WebGLRah66Comanche.AssetsLibrary">
-      <HintPath>..\..\..\..\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\bin\staging.AssetsLibrary\WebGLRah66Comanche.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="WebGLColladaExperiment.AssetsLibrary">
-      <HintPath>..\..\..\..\WebGL\WebGLColladaExperiment\WebGLColladaExperiment\bin\staging.AssetsLibrary\WebGLColladaExperiment.AssetsLibrary.dll</HintPath>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Audio\SatelliteBeep-Sputnik1.mp3" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="ApplicationWebService.cs" />
@@ -142,38 +129,14 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Textures\2_no_clouds_4k.jpg" />
-    <Content Include="Textures\2_no_clouds_4k_low.jpg" />
-    <Content Include="Textures\2_no_clouds_DEAGEL_CIMSS_4k_low.png" />
-    <Content Include="Textures\elev_bump_4k.jpg" />
-    <Content Include="Textures\fair_clouds_4k.png" />
-    <Content Include="Textures\fair_clouds_4k_low.png" />
-    <Content Include="Textures\galaxy_starfield.png" />
-    <Content Include="Textures\water_4k.png" />
-    <Content Include="Textures\water_4k_low.png" />
-    <Content Include="Textures\2_no_clouds_DEAGEL_4k_low.png" />
-    <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\ScriptCoreLib.Async.csproj">
-      <Project>{88c3c260-d1da-4fb3-a53d-79462913e80c}</Project>
-      <Name>ScriptCoreLib.Async</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\WebGLRah66Comanche.csproj">
-      <Project>{5a75fa08-3af1-4d27-a726-20b58b6cd608}</Project>
-      <Name>WebGLRah66Comanche</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\WebGL\WebGLColladaExperiment\WebGLColladaExperiment\WebGLColladaExperiment.csproj">
-      <Project>{5d093f42-02cc-4ed6-bd9f-3ac636479fb9}</Project>
-      <Name>WebGLColladaExperiment</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT cmd /C  c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget  /PackageID:$(ProjectName)   /OutputName:$(ProjectName) /ProjectFileName:"$(ProjectPath)"
-
-rem c:/util/jsc/bin/jsc.bc.exe $(ProjectPath) /rewrite /xclear /run $(TargetPath) "C:\util\jsc\bin\ScriptCoreLib.Extensions.dll"</PostBuildEvent>
+    <PostBuildEvent>
+		if $(ConfigurationName)==Release (
+		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
+		)</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
 		            </PreBuildEvent>
   </PropertyGroup>
