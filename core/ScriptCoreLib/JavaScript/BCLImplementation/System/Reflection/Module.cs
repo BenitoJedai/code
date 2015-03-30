@@ -33,5 +33,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
 			return "";
 		}
+
+		public   global::System.Security.Cryptography.X509Certificates.X509Certificate GetSignerCertificate()
+		{
+			// all callsites, async context switches between processes need to be signed to prevent injection
+			return null;
+		}
 	}
 }

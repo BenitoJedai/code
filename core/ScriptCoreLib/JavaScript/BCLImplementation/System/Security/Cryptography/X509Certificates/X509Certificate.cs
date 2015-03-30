@@ -28,6 +28,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
 	[Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.X509Certificate))]
     internal class __X509Certificate
     {
+		// x:\jsc.svn\core\scriptcorelib\javascript\bclimplementation\system\reflection\module.cs
+
 		// http://en.wikipedia.org/wiki/Common_Access_Card
 
 
