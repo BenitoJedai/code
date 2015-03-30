@@ -130,7 +130,9 @@
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="ApplicationWebService.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
@@ -148,9 +150,9 @@
     <PostBuildEvent>if $(ConfigurationName)==Debug (
 start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /DefaultToDev11:true
 )
-if $(ConfigurationName)==Release (
+
 start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false  /WebServiceAndroidSettings.key_store:"X:\jsc.internal.git\keystore\asus\my-release-key.keystore" /WebServiceAndroidSettings.versionCode:25
-)</PostBuildEvent>
+</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget /LinkedAssets:X:\jsc.internal.svn\examples\javascript\android\com.abstractatech.dcimgalleryapp\com.abstractatech.dcimgalleryappclr\publish
 
 </PreBuildEvent>

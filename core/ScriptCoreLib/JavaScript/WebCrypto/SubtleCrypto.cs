@@ -216,6 +216,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 			promise.@catch(
 				err =>
 				{// X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\Application.cs
+					// setexception?
 
 					Console.WriteLine(
 						"decryptAsync " + new { err }
@@ -239,6 +240,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 			byte[] data
 		)
 		{
+			// X:\jsc.svn\examples\javascript\async\AsyncWorkerSourceSHA1\AsyncWorkerSourceSHA1\Application.cs
 			// X:\jsc.svn\examples\javascript\Test\TestWebCryptoSHA1\TestWebCryptoSHA1\Application.cs
 
 			var x = new TaskCompletionSource<byte[]>();
