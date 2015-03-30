@@ -91,6 +91,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\AggregateException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Concurrent\ConcurrentStack.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteCommand.InternalCreateStatement.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\IO\FileStream.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\IPEndPoint.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\IPAddress.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\Sockets\NetworkStream.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\Module.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MethodBody.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\SecureString.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\SynchronizationContext.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\ExecutionContext.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\SemaphoreSlim.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Interlocked.cs" />

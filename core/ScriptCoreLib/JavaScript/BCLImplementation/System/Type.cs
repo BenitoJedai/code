@@ -42,7 +42,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 		// https://github.com/dotnet/coreclr/blob/master/Documentation/type-loader.md
 
 		// http://developers.slashdot.org/story/15/02/21/0142230/the-robots-that-will-put-coders-out-of-work
-		//Strong AI is the first "computer program" that has the potential to automate the act of creativity.Everything less can be a compiler, a pattern recognizer, an Uber driver, and in general a tool that does what it is told.
+		//Strong AI is the first "computer program" that has the potential to automate the act of creativity.
+		// Everything less can be a compiler, a pattern recognizer, an Uber driver, and in general a tool that does what it is told.
 
 
 		// http://thenewstack.io/why-you-should-care-about-the-new-open-source-net-core/
@@ -117,7 +118,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 				var constructor = AsExpando().constructor;
 
 
-
+				// tested by?
 				// ScriptCoreLib has marked that type as Native?
 				return (bool)Expando.InternalIsMember(constructor, "IsNative");
 			}
@@ -403,7 +404,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 			var AllMemberNames = Expando.Of(Native.self).GetMemberNames();
 
 			var TargetTypeHandle = TargetType.TypeHandle;
-
 			var prototype = (object)TargetTypeHandle.Value;
 
 
@@ -457,14 +457,76 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
-		public virtual bool IsAssignableFrom(Type c)
+		public virtual bool IsAssignableFrom(Type TargetType)
 		{
+			// jsc rewriter could replace it with is operator for static cases?
+
 			// X:\jsc.svn\examples\javascript\test\TestIsAssignableFrom\TestIsAssignableFrom\Application.cs
 			// X:\jsc.svn\examples\javascript\test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
 
 			// IAsyncStateMachine vs c
 
-			return false;
+			//o33aimgYBj_aJ1Gk6clAOrw.Interfaces = 
+			//  {
+			//    f7G82WqfyzOLoZ_b8v0KVxw: 1
+			//  };
+
+			//// TestIsAssignableFrom.foo
+			//function o33aimgYBj_aJ1Gk6clAOrw() { }
+			//o33aimgYBj_aJ1Gk6clAOrw.TypeName = "foo";
+			//  o33aimgYBj_aJ1Gk6clAOrw.Assembly = YQ3YcnWoDE6CyQ7lsi20IQ;
+
+			var TargetTypeHandle = TargetType.TypeHandle;
+			var prototype = (object)TargetTypeHandle.Value;
+
+			if (prototype == null)
+			{
+				//throw new Exception("IsAssignableFrom:482 prototype null " + new { TargetType });
+				return false;
+			}
+
+			var prototype_constructor = Expando.InternalGetMember(prototype, "constructor");
+			if (prototype_constructor == null)
+				return false;
+
+
+			//0:4257ms { Name = foo, prototype_constructor_TypeName =  } 
+
+			var prototype_constructor_Interfaces = Expando.InternalGetMember(prototype_constructor, "Interfaces");
+			if (prototype_constructor_Interfaces == null)
+				return false;
+
+			// now if we are an interface, then there will be a match
+
+			var this_prototype = (object)this.TypeHandle.Value;
+
+			if (this_prototype == null)
+			{
+				return false;
+			}
+			//throw new Exception("IsAssignableFrom:501 this_prototype null " + new { TargetType });
+
+			var this_prototype_constructor = Expando.InternalGetMember(this_prototype, "constructor");
+
+			// we should not compare names, we should resolve and compare refs
+
+			var any = Expando.InternalGetMemberNames(prototype_constructor_Interfaces).AsEnumerable().Any(
+				item =>
+				{
+					dynamic self = Native.self;
+					object value = self[item];
+
+					if (value == this_prototype_constructor)
+					{
+						//Console.WriteLine(new { item, f });
+						return true;
+					}
+					return false;
+				}
+			);
+
+
+			return any;
 		}
 
 	}
