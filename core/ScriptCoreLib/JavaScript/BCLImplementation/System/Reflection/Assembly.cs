@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.IO;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
@@ -120,6 +121,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
 				return null;
 			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		public virtual FileStream GetFile(string name)
+		{
+			// is this how a binary payload should be loaded on the worker?
+
+			return null;
 		}
 
 	}
