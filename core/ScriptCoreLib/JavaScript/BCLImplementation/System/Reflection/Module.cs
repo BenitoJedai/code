@@ -14,6 +14,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 	[Script(Implements = typeof(global::System.Reflection.Module))]
 	public class __Module
 	{
+		// ENC can add types during live code edits. can we sync it?
+		public virtual Type[] GetTypes()
+		{
+			throw new NotImplementedException();
+		}
+
+		// can we have encrypted tokens?
+		public Type ResolveType(int metadataToken)
+		{
+			return null;
+		}
+
 		public virtual string ResolveString(int metadataToken)
 		{
 			// X:\jsc.svn\examples\javascript\test\TestEditAndContinueWithColor\TestEditAndContinueWithColor\Application.cs

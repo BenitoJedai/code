@@ -11,19 +11,20 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    // X:\opensource\github\WootzJs\WootzJs.Runtime\Console.cs
-    // http://referencesource.microsoft.com/#mscorlib/system/console.cs
-    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Console.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Console.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Console.cs
-    // https://github.com/dotnet/corefx/blob/master/src/System.Console/src/System/Console.cs
+	// X:\opensource\github\WootzJs\WootzJs.Runtime\Console.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/console.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Console.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Console.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Console.cs
+	// https://github.com/dotnet/corefx/blob/master/src/System.Console/src/System/Console.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Console.cs
 
-    // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Console.cs
-    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Console.cs
-    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Console.cs
-    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Console.cs
+	// X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Console.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Console.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Console.cs
+	// X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Console.cs
 
-    [Script(Implements = typeof(global::System.Console))]
+	[Script(Implements = typeof(global::System.Console))]
     internal class __Console
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141223

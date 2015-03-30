@@ -19,8 +19,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
 
 	// http://referencesource.microsoft.com/#mscorlib/system/reflection/assembly.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/Assembly.cs
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/Assembly.cs
 	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Reflection/Assembly.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Reflection/Assembly.cs
 
 	[Script(Implements = typeof(global::System.Reflection.Assembly))]
 	public class __Assembly
@@ -32,6 +34,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
 		internal __AssemblyValue __Value;
 
+		// jsc merges and packages an app with its nugets into view-source. secondary applications are available for async loading...
 		public __AssemblyName[] GetReferencedAssemblies()
 		{
 			var z = __Value.References;
@@ -63,6 +66,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 			// the server would need to notify the client of a new type!
 
 			// X:\jsc.svn\examples\javascript\test\TestEditAndContinueWithColor\TestEditAndContinueWithColor\Application.cs
+
+			// would a sub application, running in an iframe
+			// be able to merge with the host applicationa and switch to it?
+			// only if the corelib is the same?
+			// its like downloading a secondary app from the server
+			// like chrome extension tab injection?
 
 			var t = this.__Value.Types;
 			var x = new __Type[t.Length];

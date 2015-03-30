@@ -4,10 +4,12 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/reflection/memberinfo.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/MemberInfo.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/reflection/memberinfo.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/MemberInfo.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/MemberInfo.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Reflection/MemberInfo.cs
 
-    [Script(Implements = typeof(global::System.Reflection.MemberInfo))]
+	[Script(Implements = typeof(global::System.Reflection.MemberInfo))]
     public abstract class __MemberInfo
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\MemberInfo.cs

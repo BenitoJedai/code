@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/MethodBase.cs
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/MethodBase.cs
 	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Reflection/MethodBase.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Reflection/MethodBase.cs
 
 
 	[Script(Implements = typeof(global::System.Reflection.MethodBase))]
@@ -42,13 +43,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
 			// forum in code.
 
+			// didnt javascript provide arguments, callee, caller?
+
 			return null;
 		}
 
-		// script: error JSC1000: No implementation found for this native method, please implement [System.Reflection.MethodBody.GetILAsByteArray()]
 		public virtual MethodBody GetMethodBody()
 		{
 			// ENC databinding?
+
+			// would we allow some methods to be defined in IL?
+			// would need runtime IL decompiler to run in webview then?
+			// run on worker thread, load async on demand, only if debuger attached to server?
+
 			return null;
 		}
 	}

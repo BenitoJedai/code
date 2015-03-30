@@ -12,6 +12,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 	// http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/BinaryExpression.cs
 	// https://github.com/mono/mono/blob/master/mcs/class/dlr/Runtime/Microsoft.Scripting.Core/Ast/BinaryExpression.cs
 	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Linq/Expressions/BinaryExpression.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Linq/Expressions/BinaryExpression.cs
 
 	[Script(Implements = typeof(global::System.Linq.Expressions.BinaryExpression))]
     internal class __BinaryExpression : __Expression

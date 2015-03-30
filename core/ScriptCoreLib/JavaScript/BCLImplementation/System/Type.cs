@@ -10,28 +10,28 @@ using System.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    // this is the most popular type?
+	// this is the most popular type?
 
-    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Type.cs
-    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
-    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Type.cs
-    // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Type.cs
-    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/type.cs
-    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs
-    // http://referencesource.microsoft.com/#mscorlib/system/type.cs
-    // https://github.com/mono/mono/tree/master/mcs/class/corlib/System/Type.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Type.cs
+	// X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Type.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Type.cs
+	// http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Type.cs
+	// https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/type.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/type.cs
+	// https://github.com/mono/mono/tree/master/mcs/class/corlib/System/Type.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Type.cs
 
-    // X:\opensource\github\JSIL\Proxies\Reflection.cs
-    // "X:\opensource\github\Netjs\mscorlib.ts"
-    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
-    // https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Type.cs
-    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
+	// X:\opensource\github\JSIL\Proxies\Reflection.cs
+	// "X:\opensource\github\Netjs\mscorlib.ts"
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
+	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Type.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
 
-    [Script(Implements = typeof(global::System.Type))]
-    public class __Type : __MemberInfo
-    // IReflect ??
-    {
+	[Script(Implements = typeof(global::System.Type))]
+	public class __Type : __MemberInfo
+	// IReflect ??
+	{
 		// https://github.com/dotnet/corefx/blob/master/src/Microsoft.CSharp/src/Microsoft/CSharp/RuntimeBinder/Semantics/Types/PredefinedTypes.cs
 
 		// https://msdn.microsoft.com/en-us/library/dn600644(v=vs.110).aspx
@@ -53,407 +53,418 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 		// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
 
 		public Type GetElementType()
-        {
-            // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
-            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.AsEnumerable.cs
-            // MakeArray ?
+		{
+			// X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+			// X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.AsEnumerable.cs
+			// MakeArray ?
 
-            return null;
-        }
-
-        public virtual bool IsEnum
-        {
-            get
-            {
-                // jsc erases enum typeinfo for jvm.
-
-                return false;
-            }
-        }
+			return null;
+		}
+
+		public virtual bool IsEnum
+		{
+			get
+			{
+				// jsc erases enum typeinfo for jvm.
+
+				return false;
+			}
+		}
 
 
-        public override string ToString()
-        {
-            // set by?
-            if (IsNative)
-                return "[native] " + this.Name;
+		public override string ToString()
+		{
+			// set by?
+			if (IsNative)
+				return "[native] " + this.Name;
 
-            // X:\jsc.svn\examples\javascript\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\Library\ZeProperties.cs
-            // mimic nameof?
-            return this.Name;
-        }
+			// X:\jsc.svn\examples\javascript\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\Library\ZeProperties.cs
+			// mimic nameof?
+			return this.Name;
+		}
 
-        [Script]
-        internal sealed class __AttributeReflection
-        {
-            public IFunction Type;
-            public object Value;
-        }
+		[Script]
+		internal sealed class __AttributeReflection
+		{
+			public IFunction Type;
+			public object Value;
+		}
 
-        [Script]
-        internal sealed class __TypeReflection
-        {
-            public IFunction GetAttributes;
-        }
+		[Script]
+		internal sealed class __TypeReflection
+		{
+			public IFunction GetAttributes;
+		}
 
-        public __Assembly Assembly
-        {
-            get
-            {
-                return new __Assembly
-                {
+		public __Assembly Assembly
+		{
+			get
+			{
+				return new __Assembly
+				{
 
-                    __Value = (__AssemblyValue)Expando.InternalGetMember(AsExpando().constructor, "Assembly")
-                };
-            }
-        }
+					__Value = (__AssemblyValue)Expando.InternalGetMember(AsExpando().constructor, "Assembly")
+				};
+			}
+		}
 
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
-        [Obsolete("InternalIsNative")]
-        public bool IsNative
-        {
-            get
-            {
-                var constructor = AsExpando().constructor;
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
+		[Obsolete("InternalIsNative")]
+		public bool IsNative
+		{
+			get
+			{
+				var constructor = AsExpando().constructor;
 
 
 
-                // ScriptCoreLib has marked that type as Native?
-                return (bool)Expando.InternalIsMember(constructor, "IsNative");
-            }
-        }
+				// ScriptCoreLib has marked that type as Native?
+				return (bool)Expando.InternalIsMember(constructor, "IsNative");
+			}
+		}
 
 
-        // where is this used?
+		// where is this used?
 
 
-        public static RuntimeTypeHandle GetTypeHandle(object o)
-        {
-            // X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
-            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.ctor.cs
+		public static RuntimeTypeHandle GetTypeHandle(object o)
+		{
+			// X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
+			// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.ctor.cs
 
-            return o.GetType().TypeHandle;
-        }
+			return o.GetType().TypeHandle;
+		}
 
-        public RuntimeTypeHandle TypeHandle
-        {
-            get;
-            set;
-        }
+		public RuntimeTypeHandle TypeHandle
+		{
+			get;
+			set;
+		}
 
 
 
 
-        #region GetFields
-        public __FieldInfo GetField(string name)
-        {
-            __FieldInfo r = null;
+		#region GetFields
+		public __FieldInfo GetField(string name)
+		{
+			__FieldInfo r = null;
 
-            if (this.IsNative)
-            {
-                // we do not have the type information. behave as if dynamic
-                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
-                return r = new __FieldInfo { _Name = name, InternalDeclaringType = this };
-            }
+			if (this.IsNative)
+			{
+				// we do not have the type information. behave as if dynamic
+				// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
+				return r = new __FieldInfo { _Name = name, InternalDeclaringType = this };
+			}
 
-            foreach (var m in global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(this.TypeHandle.Value).GetFields())
-            {
-                if (m.Name == name)
-                {
-                    r = new __FieldInfo { _Name = m.Name, InternalDeclaringType = this };
+			foreach (var m in global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(this.TypeHandle.Value).GetFields())
+			{
+				if (m.Name == name)
+				{
+					r = new __FieldInfo { _Name = m.Name, InternalDeclaringType = this };
 
-                    break;
-                }
+					break;
+				}
 
-            }
+			}
 
-            return r;
-        }
+			return r;
+		}
 
 
 
-        //public abstract FieldInfo[] GetFields(BindingFlags bindingAttr)
-        public virtual FieldInfo[] GetFields(BindingFlags bindingAttr)
-        {
-            // X:\jsc.svn\examples\javascript\async\Test\TestDelegateObjectScopeInspection\TestDelegateObjectScopeInspection\Application.cs
-            // do know how to treat binding attr?
+		//public abstract FieldInfo[] GetFields(BindingFlags bindingAttr)
+		public virtual FieldInfo[] GetFields(BindingFlags bindingAttr)
+		{
+			// X:\jsc.svn\examples\javascript\async\Test\TestDelegateObjectScopeInspection\TestDelegateObjectScopeInspection\Application.cs
+			// do know how to treat binding attr?
 
-            return GetFields();
-        }
+			return GetFields();
+		}
 
-        public FieldInfo[] GetFields()
-        {
-            var a = new List<FieldInfo>();
+		public FieldInfo[] GetFields()
+		{
+			var a = new List<FieldInfo>();
 
-            foreach (var m in AsExpando().GetFields())
-            {
-                a.Add(new __FieldInfo { _Name = m.Name, InternalDeclaringType = this });
+			foreach (var m in AsExpando().GetFields())
+			{
+				a.Add(new __FieldInfo { _Name = m.Name, InternalDeclaringType = this });
 
-            }
+			}
 
 
-            return a.ToArray();
-        }
-        #endregion
+			return a.ToArray();
+		}
+		#endregion
 
 
 
 
-        public Expando AsExpando()
-        {
-            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Activator.cs
+		public Expando AsExpando()
+		{
+			// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Activator.cs
 
-            return global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(this.TypeHandle.Value);
-        }
+			return global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(this.TypeHandle.Value);
+		}
 
-        public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
-        {
-            return new __Type { TypeHandle = TypeHandle };
-        }
+		public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
+		{
+			return new __Type { TypeHandle = TypeHandle };
+		}
 
-        public static implicit operator Type(__Type e)
-        {
-            return (Type)(object)e;
-        }
-        public static implicit operator __Type(Type e)
-        {
-            return (__Type)(object)e;
-        }
+		public static implicit operator Type(__Type e)
+		{
+			return (Type)(object)e;
+		}
+		public static implicit operator __Type(Type e)
+		{
+			return (__Type)(object)e;
+		}
 
 
-        public override string Name
-        {
-            get
-            {
-                // X:\jsc.svn\examples\javascript\forms\test\TestTypeActivatorRef\TestTypeActivatorRef\Class1.cs
+		public override string Name
+		{
+			get
+			{
+				// X:\jsc.svn\examples\javascript\forms\test\TestTypeActivatorRef\TestTypeActivatorRef\Class1.cs
 
-                // http://msdn.microsoft.com/en-us/library/dd264736.aspx
-                //dynamic constructor = AsExpando().constructor;
+				// http://msdn.microsoft.com/en-us/library/dd264736.aspx
+				//dynamic constructor = AsExpando().constructor;
 
-                //return constructor.TypeName;
+				//return constructor.TypeName;
 
-                var n = (string)Expando.InternalGetMember(
-                    AsExpando().constructor,
-                    "TypeName"
-                );
+				var n = (string)Expando.InternalGetMember(
+					AsExpando().constructor,
+					"TypeName"
+				);
 
-                // X:\jsc.svn\examples\javascript\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\Library\ZeProperties.cs
-                if (string.IsNullOrEmpty(n))
-                    return "?";
+				// X:\jsc.svn\examples\javascript\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\Library\ZeProperties.cs
+				if (string.IsNullOrEmpty(n))
+					return "?";
 
-                return n;
-            }
-        }
+				return n;
+			}
+		}
 
-        public string Namespace
-        {
-            get
-            {
-                // jsc does not yet emit namespace info
-                return "<Namespace>";
-            }
-        }
+		public string Namespace
+		{
+			get
+			{
+				// jsc does not yet emit namespace info
+				return "<Namespace>";
+			}
+		}
 
-        public string FullName
-        {
-            get
-            {
-                return Namespace + "." + Name;
-            }
-        }
+		public string FullName
+		{
+			get
+			{
+				return Namespace + "." + Name;
+			}
+		}
 
-        __TypeReflection Reflection
-        {
-            get
-            {
-                return ((__TypeReflection)(object)AsExpando().constructor);
-            }
-        }
+		__TypeReflection Reflection
+		{
+			get
+			{
+				return ((__TypeReflection)(object)AsExpando().constructor);
+			}
+		}
 
 
 
-        public Type[] GetInterfaces()
-        {
-            // does jsc keep interface type info yet?
-            // X:\jsc.svn\examples\javascript\Test\TestRoslynYieldReturn\TestRoslynYieldReturn\Application.cs
+		public Type[] GetInterfaces()
+		{
+			// does jsc keep interface type info yet?
+			// X:\jsc.svn\examples\javascript\Test\TestRoslynYieldReturn\TestRoslynYieldReturn\Application.cs
 
-            // wo do dont we, how else the as is works?
-            return new Type[0];
-        }
+			// wo do dont we, how else the as is works?
+			return new Type[0];
+		}
 
-        public global::System.Reflection.ConstructorInfo GetConstructor(Type[] t)
-        {
-            // X:\jsc.svn\examples\javascript\linq\visualized\VisualizeWhere\VisualizeWhere\Application.cs
-            // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+		public global::System.Reflection.ConstructorInfo GetConstructor(Type[] t)
+		{
+			// X:\jsc.svn\examples\javascript\linq\visualized\VisualizeWhere\VisualizeWhere\Application.cs
+			// X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
-            var c = new __ConstructorInfo
-            {
-                // do we support the primaryConstructor?
+			var c = new __ConstructorInfo
+			{
+				// do we support the primaryConstructor?
 
-                InternalDeclaringType = this,
-                InternalParameterTypes = t
-            };
+				InternalDeclaringType = this,
+				InternalParameterTypes = t
+			};
 
-            return c;
-        }
+			return c;
+		}
 
 
 
 
 
-        #region GetCustomAttributes
-        public override object[] GetCustomAttributes(bool inherit)
-        {
-            return GetCustomAttributes(null, false);
-        }
+		#region GetCustomAttributes
+		public override object[] GetCustomAttributes(bool inherit)
+		{
+			return GetCustomAttributes(null, false);
+		}
 
 
-        public override object[] GetCustomAttributes(Type x, bool inherit)
-        {
-            if (inherit)
-                throw new NotSupportedException();
+		public override object[] GetCustomAttributes(Type x, bool inherit)
+		{
+			if (inherit)
+				throw new NotSupportedException();
 
-            if (Reflection.GetAttributes == null)
-                return new object[0];
+			if (Reflection.GetAttributes == null)
+				return new object[0];
 
-            var i = new List<object>();
+			var i = new List<object>();
 
-            foreach (var v in (__AttributeReflection[])Reflection.GetAttributes.apply(Reflection))
-            {
-                var c = true;
+			foreach (var v in (__AttributeReflection[])Reflection.GetAttributes.apply(Reflection))
+			{
+				var c = true;
 
-                if (x != null)
-                    if (!object.ReferenceEquals(v.Type.prototype, x.TypeHandle.Value))
-                        c = false;
+				if (x != null)
+					if (!object.ReferenceEquals(v.Type.prototype, x.TypeHandle.Value))
+						c = false;
 
-                // todo: rebuild to known type
-                if (c)
-                    i.Add(v.Value);
-            }
+				// todo: rebuild to known type
+				if (c)
+					i.Add(v.Value);
+			}
 
-            return i.ToArray();
-        }
-        #endregion
+			return i.ToArray();
+		}
+		#endregion
 
 
 
 
 
-        #region InternalEquals
-        public bool Equals(Type o)
-        {
-            return InternalEquals(this, (__Type)(object)o);
-        }
+		#region InternalEquals
+		public bool Equals(Type o)
+		{
+			return InternalEquals(this, (__Type)(object)o);
+		}
 
-        public static bool operator !=(__Type left, __Type right)
-        {
-            return !InternalEquals(left, right);
-        }
+		public static bool operator !=(__Type left, __Type right)
+		{
+			return !InternalEquals(left, right);
+		}
 
-        public static bool operator ==(__Type left, __Type right)
-        {
-            return InternalEquals(left, right);
-        }
+		public static bool operator ==(__Type left, __Type right)
+		{
+			return InternalEquals(left, right);
+		}
 
-        public bool Equals(__Type e)
-        {
-            return InternalEquals(this, e);
-        }
+		public bool Equals(__Type e)
+		{
+			return InternalEquals(this, e);
+		}
 
-        private static bool InternalEquals(__Type x, __Type e)
-        {
-            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.DataSource.cs
+		private static bool InternalEquals(__Type x, __Type e)
+		{
+			// X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.DataSource.cs
 
-            object xx = x;
-            object ee = e;
+			object xx = x;
+			object ee = e;
 
-            if (xx == null)
-            {
-                if (ee == null)
-                    return true;
+			if (xx == null)
+			{
+				if (ee == null)
+					return true;
 
-                return false;
-            }
+				return false;
+			}
 
-            if (ee == null)
-            {
-                return false;
-            }
+			if (ee == null)
+			{
+				return false;
+			}
 
-            object a = x.TypeHandle.Value;
-            object b = e.TypeHandle.Value;
+			object a = x.TypeHandle.Value;
+			object b = e.TypeHandle.Value;
 
-            return a == b;
-        }
-        #endregion
+			return a == b;
+		}
+		#endregion
 
 
-        public override Type DeclaringType
-        {
-            get { throw new NotImplementedException(); }
-        }
+		public override Type DeclaringType
+		{
+			get { throw new NotImplementedException(); }
+		}
 
 
-        #region GetTypeIndex
-        // used by X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.ctor.cs
-        public static object GetTypeIndex(string Name, Type TargetType)
-        {
+		#region GetTypeIndex
+		// used by X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.ctor.cs
+		public static object GetTypeIndex(string Name, Type TargetType)
+		{
 			// X:\jsc.svn\examples\javascript\async\test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\ApplicationWebService.cs
 
 			var AllMemberNames = Expando.Of(Native.self).GetMemberNames();
 
-            var TargetTypeHandle = TargetType.TypeHandle;
+			var TargetTypeHandle = TargetType.TypeHandle;
 
-            var prototype = (object)TargetTypeHandle.Value;
-
-
-            //function IzkeSBiD_aTGMsWPjgYVYEg() {}
-            //IzkeSBiD_aTGMsWPjgYVYEg.TypeName = "IDataParameter";
-            //IzkeSBiD_aTGMsWPjgYVYEg.Assembly = _7ryscGGN80KExNOXH5xlgw;
-            //IzkeSBiD_aTGMsWPjgYVYEg.Interfaces = 
-            //{
-            //  f7G82WqfyzOLoZ_b8v0KVxw: 1
-            //};
-
-            //var type$IzkeSBiD_aTGMsWPjgYVYEg = IzkeSBiD_aTGMsWPjgYVYEg.prototype;
-            //type$IzkeSBiD_aTGMsWPjgYVYEg.constructor = IzkeSBiD_aTGMsWPjgYVYEg;
+			var prototype = (object)TargetTypeHandle.Value;
 
 
-            var prototype_constructor = Expando.InternalGetMember(prototype, "constructor");
-            if (prototype_constructor == null)
-                return null;
+			//function IzkeSBiD_aTGMsWPjgYVYEg() {}
+			//IzkeSBiD_aTGMsWPjgYVYEg.TypeName = "IDataParameter";
+			//IzkeSBiD_aTGMsWPjgYVYEg.Assembly = _7ryscGGN80KExNOXH5xlgw;
+			//IzkeSBiD_aTGMsWPjgYVYEg.Interfaces = 
+			//{
+			//  f7G82WqfyzOLoZ_b8v0KVxw: 1
+			//};
+
+			//var type$IzkeSBiD_aTGMsWPjgYVYEg = IzkeSBiD_aTGMsWPjgYVYEg.prototype;
+			//type$IzkeSBiD_aTGMsWPjgYVYEg.constructor = IzkeSBiD_aTGMsWPjgYVYEg;
 
 
-            //0:4257ms { Name = foo, prototype_constructor_TypeName =  } 
-
-            var prototype_constructor_TypeName = Expando.InternalGetMember(prototype_constructor, "TypeName");
-            if (prototype_constructor_TypeName == null)
-                return null;
-
-            //Console.WriteLine(new { Name, prototype_constructor_TypeName });
-
-            var TargetTypeIndex = AllMemberNames.FirstOrDefault(
-                  item =>
-                  {
-                      // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-                      dynamic self = Native.self;
-                      object value = self[item];
-
-                      if (value == prototype)
-                      {
-                          //Console.WriteLine(new { item, f });
-                          return true;
-                      }
-
-                      return false;
-                  }
-            );
+			var prototype_constructor = Expando.InternalGetMember(prototype, "constructor");
+			if (prototype_constructor == null)
+				return null;
 
 
-            // what are we to return?
-            return TargetTypeIndex;
-        }
-        #endregion
+			//0:4257ms { Name = foo, prototype_constructor_TypeName =  } 
 
-    }
+			var prototype_constructor_TypeName = Expando.InternalGetMember(prototype_constructor, "TypeName");
+			if (prototype_constructor_TypeName == null)
+				return null;
+
+			//Console.WriteLine(new { Name, prototype_constructor_TypeName });
+
+			var TargetTypeIndex = AllMemberNames.FirstOrDefault(
+				  item =>
+				  {
+					  // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
+					  dynamic self = Native.self;
+					  object value = self[item];
+
+					  if (value == prototype)
+					  {
+						  //Console.WriteLine(new { item, f });
+						  return true;
+					  }
+
+					  return false;
+				  }
+			);
+
+
+			// what are we to return?
+			return TargetTypeIndex;
+		}
+		#endregion
+
+
+
+		public virtual bool IsAssignableFrom(Type c)
+		{
+			// X:\jsc.svn\examples\javascript\test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
+
+			// IAsyncStateMachine vs c
+
+			return false;
+		}
+
+	}
 }

@@ -6,8 +6,10 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
 	// http://referencesource.microsoft.com/#mscorlib/system/reflection/ConstructorInfo.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/ConstructorInfo.cs
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/ConstructorInfo.cs
 	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Reflection/ConstructorInfo.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Reflection/ConstructorInfo.cs
 
 	[Script(Implements = typeof(global::System.Reflection.ConstructorInfo))]
     public class __ConstructorInfo : __MethodBase
