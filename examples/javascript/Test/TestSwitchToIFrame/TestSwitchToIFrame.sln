@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSwitchToIFrame", "TestSwitchToIFrame\TestSwitchToIFrame.csproj", "{76843B5B-EB0A-4E49-8B36-037969E0545F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSwitchToServiceContextAsync", "..\..\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync.csproj", "{C76D511F-BAE1-4D30-A8E6-96274F2A8BD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMessagingExample", "..\..\WebMessagingExample\WebMessagingExample\WebMessagingExample.csproj", "{4EA355F5-A14A-48DD-8D12-9539BEED0335}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -15,6 +19,14 @@ Global
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|x86.Build.0 = Debug|x86
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.ActiveCfg = Release|x86
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.Build.0 = Release|x86
+		{C76D511F-BAE1-4D30-A8E6-96274F2A8BD2}.Debug|x86.ActiveCfg = Debug|x86
+		{C76D511F-BAE1-4D30-A8E6-96274F2A8BD2}.Debug|x86.Build.0 = Debug|x86
+		{C76D511F-BAE1-4D30-A8E6-96274F2A8BD2}.Release|x86.ActiveCfg = Release|x86
+		{C76D511F-BAE1-4D30-A8E6-96274F2A8BD2}.Release|x86.Build.0 = Release|x86
+		{4EA355F5-A14A-48DD-8D12-9539BEED0335}.Debug|x86.ActiveCfg = Debug|x86
+		{4EA355F5-A14A-48DD-8D12-9539BEED0335}.Debug|x86.Build.0 = Debug|x86
+		{4EA355F5-A14A-48DD-8D12-9539BEED0335}.Release|x86.ActiveCfg = Release|x86
+		{4EA355F5-A14A-48DD-8D12-9539BEED0335}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
