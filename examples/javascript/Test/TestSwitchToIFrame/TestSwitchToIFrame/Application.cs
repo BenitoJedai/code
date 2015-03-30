@@ -55,7 +55,14 @@ namespace TestSwitchToIFrame
 				 var s = ShadowIAsyncStateMachine.FromContinuation(continuation, ref MoveNext);
 
 				 // we want to run in it!
-				 new IHTMLIFrame { src = Native.document.location.href }.With(
+				 new IHTMLIFrame
+				 {
+
+					 allowTransparency = true,
+					 frameBorder = "0",
+
+					 src = Native.document.location.href
+				 }.With(
 					 async f =>
 					 {
 						 f.style.width = "100%";
@@ -248,9 +255,12 @@ namespace TestSwitchToIFrame
 
 
 			// we are a window/tab?
+			// X:\jsc.svn\examples\javascript\chrome\NestedIFrameExperiment\NestedIFrameExperiment\Application.cs
 
 			new IHTMLButton { "click to switch" }.AttachToDocument().onclick += async delegate
 			{
+				Native.body.style.backgroundColor = "yellow";
+
 				new IHTMLPre {
 					"on UI thread " + new { Native.document.location.href, Native.window.Width }
 				}.AttachToDocument();
@@ -260,6 +270,8 @@ namespace TestSwitchToIFrame
 
 				// a chrome extenstion could inject itself like it to any tab?
 				await default(HopToIFrame);
+				// what about reload
+				// css effects on iframe?
 
 				// no scope data was synced at this point...
 				// perhaps we should send struct data via postmessage and reattach interface methods later?
@@ -268,7 +280,7 @@ namespace TestSwitchToIFrame
 				//var sw = Stopwatch.StartNew();
 
 				Native.window.history.replaceState(null, "iframe2", "/iframe2");
-
+				Native.body.style.borderLeft = "1em solid blue";
 				new IHTMLPre {
 					"on iframe thread " + new { Native.document.location.href, Native.window.Width }
 					, () => new { sw.ElapsedMilliseconds }
@@ -282,6 +294,7 @@ namespace TestSwitchToIFrame
 				// nested fram wont show up if url is the same as parent?
 				await default(HopToIFrame);
 
+				Native.body.style.borderLeft = "1em solid red";
 				new IHTMLPre {
 					"on neste iframe thread " + new { Native.document.location.href, Native.window.Width }
 				}.AttachToDocument();
