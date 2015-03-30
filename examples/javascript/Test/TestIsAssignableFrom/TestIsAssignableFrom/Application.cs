@@ -62,3 +62,18 @@ namespace TestIsAssignableFrom
 //{{ xIsIDisposable = true }}
 //{{ xType = foo }}
 //{{ xIsAssignableFrom = false }}
+
+//o33aimgYBj_aJ1Gk6clAOrw.Interfaces = 
+//  {
+//    f7G82WqfyzOLoZ_b8v0KVxw: 1
+//  };
+
+//// TestIsAssignableFrom.foo
+//function o33aimgYBj_aJ1Gk6clAOrw() { }
+//o33aimgYBj_aJ1Gk6clAOrw.TypeName = "foo";
+//  o33aimgYBj_aJ1Gk6clAOrw.Assembly = YQ3YcnWoDE6CyQ7lsi20IQ;
+
+//	{{ x = [object Object] }}
+//{{ xIsIDisposable = true }}
+//{{ xType = foo }}
+//{{ xIsAssignableFrom = true }}
