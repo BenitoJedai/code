@@ -17,6 +17,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public class IHTMLIFrame : IHTMLElement
     {
+		// X:\jsc.svn\examples\javascript\test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
+
 		// http://www.chromium.org/developers/design-documents/oop-iframes
 		// https://code.google.com/p/chromium/issues/detail?id=245884
 
