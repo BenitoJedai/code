@@ -459,6 +459,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 		public virtual bool IsAssignableFrom(Type c)
 		{
+			// X:\jsc.svn\examples\javascript\test\TestIsAssignableFrom\TestIsAssignableFrom\Application.cs
 			// X:\jsc.svn\examples\javascript\test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
 
 			// IAsyncStateMachine vs c

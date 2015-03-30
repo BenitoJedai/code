@@ -36,13 +36,29 @@ namespace TestIsAssignableFrom
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
-			@"Hello world".ToDocumentTitle();
-			// Send data from JavaScript to the server tier
-			this.WebMethod2(
-				@"A string from JavaScript.",
-				value => value.ToDocumentTitle()
-			);
+			var x = new foo();
+
+			new IHTMLPre { new { x } }.AttachToDocument();
+
+			var xIsIDisposable = x is IDisposable;
+
+			new IHTMLPre { new { xIsIDisposable } }.AttachToDocument();
+
+
+			var xType = x.GetType();
+
+			new IHTMLPre { new { xType } }.AttachToDocument();
+
+			var xIsAssignableFrom = typeof(IDisposable).IsAssignableFrom(xType);
+
+			new IHTMLPre { new { xIsAssignableFrom } }.AttachToDocument();
+
 		}
 
 	}
 }
+
+//{{ x = [object Object] }}
+//{{ xIsIDisposable = true }}
+//{{ xType = foo }}
+//{{ xIsAssignableFrom = false }}
