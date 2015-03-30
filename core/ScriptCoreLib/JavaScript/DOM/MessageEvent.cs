@@ -5,21 +5,30 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/MessageEvent.webidl
+	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/MessageEvent.webidl
 
-    [Script(HasNoPrototype = true, ExternalTarget = "MessageEvent")]
-    public class MessageEvent : IEvent
-    {
-        // rename to window?
-        public IWindow source;
+	[Script(HasNoPrototype = true, ExternalTarget = "MessageEvent")]
+	public class MessageEvent : MessageEvent<object> // dynamic?
+	{
+
+	}
+
+	[Script(HasNoPrototype = true, ExternalTarget = "MessageEvent")]
+	public class MessageEvent<TData> : IEvent
+	{
+		// X:\jsc.svn\examples\javascript\test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
+
+		// idl dictates the field names, doesnt it
+		// rename to window?
+		public IWindow source;
 
 
-        // X:\jsc.svn\examples\javascript\NewWindowMessagingExperiment\NewWindowMessagingExperiment\Application.cs
-        public string origin;
+		// X:\jsc.svn\examples\javascript\NewWindowMessagingExperiment\NewWindowMessagingExperiment\Application.cs
+		public string origin;
 
-        public object data;
+		public TData data;
 
-        public readonly MessagePort[] ports;
+		public readonly MessagePort[] ports;
 
-    }
+	}
 }

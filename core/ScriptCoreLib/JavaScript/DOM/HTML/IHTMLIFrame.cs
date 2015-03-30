@@ -133,7 +133,31 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                     return x.Task;
                 }
             }
-        }
+
+
+			[System.Obsolete("should jsc expose events as async tasks until C# chooses to allow that?")]
+			public Task<MessageEvent> onmessage
+			{
+				[Script(DefineAsStatic = true)]
+				get
+				{
+					var x = new TaskCompletionSource<MessageEvent>();
+
+					// tested by
+					// X:\jsc.svn\examples\javascript\test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
+					that_IHTMLIFrame.ownerDocument.defaultView.onmessage +=
+						e =>
+						{
+							if (e.source != that_IHTMLIFrame.contentWindow)
+								return;
+
+							x.SetResult(e);
+						};
+
+					return x.Task;
+				}
+			}
+		}
 
         [System.Obsolete("is this the best way to expose events as async?")]
         public new Tasks async
