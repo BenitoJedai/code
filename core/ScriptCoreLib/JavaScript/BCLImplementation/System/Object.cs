@@ -10,6 +10,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Object.cs
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Object.cs
 	// https://github.com/konsoletyper/teavm/blob/master/teavm-classlib/src/main/java/org/teavm/classlib/java/lang/TObject.java
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Object.cs
 
 	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Object.cs
 	// X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Object.cs

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -56,6 +57,9 @@ namespace TestSwitchToIFrame
 				 new IHTMLIFrame { src = Native.document.location.href }.With(
 					 async f =>
 					 {
+						 f.style.width = "100%";
+						 f.style.height = "30em";
+
 						 var sw = Stopwatch.StartNew();
 
 						 //var mm = f.contentWindow.async.onmessage;
@@ -115,9 +119,24 @@ namespace TestSwitchToIFrame
 						Console.WriteLine("postMessageAsync in " + new { sw.ElapsedMilliseconds, m.data.TypeName, m.data.state });
 
 						// ElapsedMilliseconds = 12, data = [object Object] }}
+						// ElapsedMilliseconds = 13, TypeName = <Namespace>.___ctor_b__1_1_d, state = 0 }}
 
 						// will we find the type based on typename?
 						// or do we need typeindex?
+
+						var types = typeof(Application).Assembly.GetTypes();
+
+						Console.WriteLine(new { types = types.Length });
+
+						foreach (var item in types)
+						{
+							// safety check 1
+
+
+							var isIAsyncStateMachine = typeof(IAsyncStateMachine).IsAssignableFrom(item);
+
+							Console.WriteLine(new { item.FullName, isIAsyncStateMachine });
+						}
 					}
 				);
 

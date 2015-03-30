@@ -11,6 +11,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 	// https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/threading/Tasks/TaskCompletionSource.cs
 
 	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Threading/Tasks/TaskCompletionSource.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Threading/Tasks/TaskCompletionSource.cs
 
 
 	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs

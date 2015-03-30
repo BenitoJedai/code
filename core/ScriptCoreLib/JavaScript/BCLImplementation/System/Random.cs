@@ -4,11 +4,12 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/random.cs
-    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Random.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Random.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/random.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Random.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Random.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Random.cs
 
-    [Script(Implements = typeof(global::System.Random))]
+	[Script(Implements = typeof(global::System.Random))]
     internal class __Random
     {
         public __Random()
