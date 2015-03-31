@@ -7,27 +7,27 @@ using System.Xml.Linq;
 
 namespace WebGLTiltShift
 {
-    /// <summary>
-    /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
-    /// </summary>
-    public class ApplicationWebService
-    {
-        // jsc java does not yet like roslyn 2015
+	/// <summary>
+	/// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
+	/// </summary>
+	public class ApplicationWebService
+	{
+		// jsc java does not yet like roslyn 2015
 
-        //0001 02000178 ScriptCoreLib::ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProvider
-        //script: error JSC1000: Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
-        //internal compiler error at method
-        // assembly: C:\util\jsc\bin\ScriptCoreLib.dll at
-        // type: ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood, ScriptCoreLib, Version=4.6.0.0, Culture=neutral, PublicKeyToken=null
-        // method: CreatePaddedBuffer
-        // Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
+		//0001 02000178 ScriptCoreLib::ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProvider
+		//script: error JSC1000: Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
+		//internal compiler error at method
+		// assembly: C:\util\jsc\bin\ScriptCoreLib.dll at
+		// type: ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood, ScriptCoreLib, Version=4.6.0.0, Culture=neutral, PublicKeyToken=null
+		// method: CreatePaddedBuffer
+		// Java : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
 
 
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // Send it back to the caller.
-            y(e);
-        }
+		public void WebMethod2(string e, Action<string> y)
+		{
+			// Send it back to the caller.
+			y(e);
+		}
 
 		static ApplicationWebService()
 		{
@@ -38,6 +38,7 @@ namespace WebGLTiltShift
 			// https://developer.android.com/training/system-ui/immersive.html
 			// http://stackoverflow.com/questions/22265945/full-screen-action-bar-immersive
 
+#if ANDROID5
 			(ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext as ScriptCoreLib.Android.CoreAndroidWebServiceActivity).With(
 				activity =>
 				{
@@ -58,6 +59,8 @@ namespace WebGLTiltShift
 
 				}
 			);
+#endif
+
 
 		}
 	}
