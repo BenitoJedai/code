@@ -6,6 +6,10 @@ using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+	// http://referencesource.microsoft.com/#System.Windows.Forms/winforms/Managed/System/WinForms/MessageBox.cs,e426fc24b95c791e
+	// X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\MessageBox.cs
+	// X:\jsc.svn\core\ScriptCoreLibAndroid.Windows.Forms\ScriptCoreLibAndroid.Windows.Forms\Android\BCLImplementation\System\Windows\Forms\MessageBox.cs
+
 	[Script(Implements = typeof(global::System.Windows.Forms.MessageBox))]
 	internal class __MessageBox
 	{
@@ -21,6 +25,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public static DialogResult Show(string text, string c, MessageBoxButtons b)
         {
+			// or should worker threads be allowed to do fire and forget?
+			// as sync await wont work?
+			// or, would we be able to resume a worker thread, after we interrupt it? terminate it?
+
+
             // we could emulate this via html
             // we could show new window/popup
 

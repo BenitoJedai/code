@@ -94,6 +94,9 @@ namespace WebGLTiltShift
 
 
 
+			//			I / chromium(7069): [INFO: CONSOLE(91150)] "THREE.WebGLRenderer", source: http://192.168.1.212:24430/view-source (91150)
+			//I/chromium( 7069): [INFO: CONSOLE(91361)] "Error creating WebGL context.", source: http://192.168.1.212:24430/view-source (91361)
+
 
 			#region svg cursor
 			new IXMLHttpRequest(ScriptCoreLib.Shared.HTTPMethodEnum.GET,
