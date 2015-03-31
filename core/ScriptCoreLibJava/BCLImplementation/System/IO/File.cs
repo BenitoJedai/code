@@ -7,24 +7,31 @@ using ScriptCoreLibJava.BCLImplementation.System.Net.Sockets;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.IO
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/io/file.cs
+    // https://github.com/dotnet/corefx/blob/master/src/System.IO.FileSystem/src/System/IO/File.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\File.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\File.cs
+
+
     [Script(Implements = typeof(global::System.IO.File))]
     internal class __File
     {
-        
 
 
 
+
+        // virtual override by?
         public static Func<string, FileStream> InternalOpenRead =
             path =>
             {
                 java.io.FileInputStream fis = null;
-                var x =  default(FileStream);
+                var x = default(FileStream);
 
                 try
                 {
                     fis = new java.io.FileInputStream(path);
 
-                    x=new __FileStream { InternalStream = (__NetworkStream) fis};
+                    x = new __FileStream { InternalStream = (__NetworkStream)fis };
 
                 }
                 catch
@@ -34,7 +41,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
                 }
 
                 return x;
-                    
+
             };
 
         public static FileStream OpenRead(string path)
@@ -73,7 +80,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
                 var stream = new global::java.io.RandomAccessFile(path, "rw");
 
                 stream.setLength(0);
-                stream.write(InternalByteArrayToSByteArray(value));
+                stream.write((sbyte[])(object)value);
 
                 stream.close();
             }
@@ -100,7 +107,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
             var x = getBytesFromFile(new java.io.File(path));
 
-            return InternalSByteArrayToByteArray(x);
+            return (byte[])(object)(x);
         }
 
         [Obsolete("Should use (sbyte[])(object)e instead!")]
