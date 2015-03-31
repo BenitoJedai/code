@@ -6,10 +6,12 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/io/file.cs
-    // https://github.com/dotnet/corefx/blob/master/src/System.IO.FileSystem/src/System/IO/File.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/io/file.cs
+	// https://github.com/dotnet/corefx/blob/master/src/System.IO.FileSystem/src/System/IO/File.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\File.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\File.cs
 
-    [Script(Implements = typeof(global::System.IO.File))]
+	[Script(Implements = typeof(global::System.IO.File))]
     public static class __File
     {
         // wuold service worker be able to enable file io via cached vhd?

@@ -9,8 +9,9 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+	// http://referencesource.microsoft.com/#System.Windows.Forms/winforms/Managed/System/WinForms/TreeNode.cs
 
-    [Script(Implements = typeof(global::System.Windows.Forms.TreeNode))]
+	[Script(Implements = typeof(global::System.Windows.Forms.TreeNode))]
     internal unsafe class __TreeNode
     {
         // X:\jsc.svn\examples\javascript\canvas\FormsSVGTreeView\FormsSVGTreeView\Application.cs
