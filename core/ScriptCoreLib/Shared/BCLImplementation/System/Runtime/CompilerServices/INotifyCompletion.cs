@@ -5,7 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 {
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.INotifyCompletion")]
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/INotifyCompletion.cs
+
+	[Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.INotifyCompletion")]
     public interface __INotifyCompletion
     {
         // http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.inotifycompletion.aspx

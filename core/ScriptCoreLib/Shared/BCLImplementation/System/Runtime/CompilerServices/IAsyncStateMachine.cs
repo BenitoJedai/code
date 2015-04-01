@@ -10,6 +10,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 
 	// http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.iasyncstatemachine.aspx
 	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Runtime.CompilerServices/IAsyncStateMachine.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/IAsyncStateMachine.cs
 
 	[Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.IAsyncStateMachine")]
 	public interface __IAsyncStateMachine
@@ -20,7 +21,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 		// X:\jsc.svn\examples\javascript\test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
 		// x:\jsc.svn\examples\javascript\async\test\testeditandcontinue\testeditandcontinue\application.cs
 		// X:\jsc.svn\examples\java\hybrid\JVMCLRSwitchToCLRContextAsync\JVMCLRSwitchToCLRContextAsync\Program.cs
-
+		// X:\jsc.svn\examples\javascript\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\Application.cs
 
 		void MoveNext();
 
