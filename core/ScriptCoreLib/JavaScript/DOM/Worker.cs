@@ -315,7 +315,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-		static void __worker_onfirstmessage(MessageEvent e,
+		// who is calling?
+		// triggered by InternalInvoke
+		static void __worker_onfirstmessage(
+			MessageEvent e,
+
 			int InternalThreadCounter,
 			 object data___string,
 
@@ -814,7 +818,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 				}
 				#endregion
 
-
+				//e.post
 				foreach (MessagePort port in e.ports)
 				{
 					port.postMessage((object)zdata, new MessagePort[0]);
@@ -909,16 +913,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 						// X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
 						// X:\jsc.svn\examples\javascript\test\TestDynamicToArray\TestDynamicToArray\Application.cs
 						// dynamic to array not supported yet?
-						object MethodTargetObjectDataIsProgress0 = e_data.MethodTargetObjectDataIsProgress;
-						var MethodTargetObjectDataIsProgress = (bool[])MethodTargetObjectDataIsProgress0;
+						bool[] MethodTargetObjectDataIsProgress = e_data.MethodTargetObjectDataIsProgress;
+						//var MethodTargetObjectDataIsProgress = (bool[])MethodTargetObjectDataIsProgress0;
 
 						// type$AAAAAAAAAAAAAAAAAAAAAA
 						// dynamic to array not supported yet?
-						object MethodTargetObjectData0 = e_data.MethodTargetObjectData;
-						var MethodTargetObjectData = (object[])MethodTargetObjectData0;
+						object[] MethodTargetObjectData = e_data.MethodTargetObjectData;
+						//var MethodTargetObjectData = (object[])MethodTargetObjectData0;
 
-						object MethodTargetObjectDataTypes0 = e_data.MethodTargetObjectDataTypes;
-						var MethodTargetObjectDataTypes = (object[])MethodTargetObjectDataTypes0;
+						object[] MethodTargetObjectDataTypes = e_data.MethodTargetObjectDataTypes;
+						//var MethodTargetObjectDataTypes = (object[])MethodTargetObjectDataTypes0;
 
 						object MethodTargetTypeIndex = e_data.MethodTargetTypeIndex;
 

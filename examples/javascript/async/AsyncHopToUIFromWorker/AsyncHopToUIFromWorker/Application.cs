@@ -31,7 +31,9 @@ namespace AsyncHopToUIFromWorker
 
 		public HopToThreadPoolAwaitable GetAwaiter() { return this; }
 		public bool IsCompleted { get { return false; } }
-		public void OnCompleted(Action continuation) { Task.Run(continuation); }
+		public static Action<Action> VirtualOnCompleted;
+		public void OnCompleted(Action continuation) { VirtualOnCompleted(continuation); }
+		//public void OnCompleted(Action continuation) { Task.Run(continuation); }
 		public void GetResult() { }
 	}
 	#endregion
@@ -57,6 +59,7 @@ namespace AsyncHopToUIFromWorker
 
 		static Application()
 		{
+			#region document
 			if (Native.document != null)
 			{
 				// patch the awaiter..
@@ -78,24 +81,55 @@ namespace AsyncHopToUIFromWorker
 				// IsIProgress = false }}
 				// 
 
+				// can we start a task, yet also have special access for the posted messages?
+
+				// what about threads that did not hop to background?
+				// dont they want to hop to background?
+				HopToThreadPoolAwaitable.VirtualOnCompleted = continuation =>
+				{
+					Console.WriteLine("enter HopToThreadPoolAwaitable.VirtualOnCompleted");
+
+					// post a message to the document 
+
+
+
+				};
+
 				return;
 			}
+			#endregion
 
+
+			#region worker
 			if (Native.worker != null)
 			{
 				Console.WriteLine("about to enable HopToUIAwaitable...");
 
-				HopToUIAwaitable.VirtualOnCompleted =
-					continuation =>
+				Native.worker.onfirstmessage += e =>
+				{
+					Console.WriteLine("enter onfirstmessage");
+
+					HopToUIAwaitable.VirtualOnCompleted = continuation =>
 					{
-						Console.WriteLine("enter HopToUIAwaitable.VirtualOnCompleted");
+						Console.WriteLine("enter HopToUIAwaitable.VirtualOnCompleted, postMessage");
 
 						// post a message to the document 
+
+						e.postMessage(
+							new
+							{
+								VirtualOnCompleted = ""
+							}
+						);
+
 					};
+				};
 
 
 				return;
 			}
+			#endregion
+
 		}
 
 		/// <summary>
@@ -224,7 +258,7 @@ namespace AsyncHopToUIFromWorker
 					//Task scope {{ MemberName = __u__2, IsString = false, IsNumber = false, IsDelegate = false, IsProgress = false, TypeIndex = type$QxQ8n4UOATqy1xnL7bpBtQ }}
 
 					//__worker_onfirstmessage: {{ ManagedThreadId = 10, href = https://192.168.1.196:13946/view-source#worker, MethodTargetTypeIndex = type$PgZysaxv_bTu4GEkwmJdJrQ, MethodTargetType = ___ctor_b__1_5_d, MethodToken = jwsABpdwBjGQu09dvBXjxw, MethodType = FuncOfObjectToObject, stateTypeHandleIndex = null, stateType = null, state = [object Object], IsIProgress = false }}
-					
+
 					//{{ xMember = __1__state, xMethodTargetObjectDataTypeIndex = null, xObjectData = 0, xIsProgress = null }}
 					//{{ xMember = __t__builder, xMethodTargetObjectDataTypeIndex = type$NhpqFU35Cju_bC8JMN6oaCA, xObjectData = [object Object], xIsProgress = null }}
 					//{{ xMember = __04000021__, xMethodTargetObjectDataTypeIndex = null, xObjectData = null, xIsProgress = null }}
