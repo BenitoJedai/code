@@ -72,6 +72,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 		public override string ToString()
 		{
+			// X:\jsc.svn\examples\javascript\test\TestTypeOfByteArray\TestTypeOfByteArray\Application.cs
+
 			if (IsArray)
 			{
 				// X:\jsc.svn\examples\javascript\test\TestTypeOfArray\TestTypeOfArray\Application.cs
@@ -216,8 +218,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 		// ldtoken
 		public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
 		{
+			// or called by object? 
 			return new __Type { TypeHandle = TypeHandle };
 		}
+
+
+		// set by X:\jsc.svn\core\ScriptCoreLib\JavaScript\WebGL\Uint8ClampedArray.cs
+		//public static Type InternalTypeOfByteArrayViaMakeArrayType;
+		//public static Type InternalTypeOfByteArrayViaGetType;
 
 		public static implicit operator Type(__Type e)
 		{
@@ -233,6 +241,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 		{
 			get
 			{
+				// X:\jsc.svn\examples\javascript\test\TestTypeOfByteArray\TestTypeOfByteArray\Application.cs
 				// X:\jsc.svn\examples\javascript\forms\test\TestTypeActivatorRef\TestTypeActivatorRef\Class1.cs
 
 				// http://msdn.microsoft.com/en-us/library/dd264736.aspx
@@ -240,14 +249,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 				//return constructor.TypeName;
 
+
+				var c = AsExpando().constructor;
+
+
 				var n = (string)Expando.InternalGetMember(
-					AsExpando().constructor,
+					c,
 					"TypeName"
 				);
 
 				// X:\jsc.svn\examples\javascript\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\Library\ZeProperties.cs
 				if (string.IsNullOrEmpty(n))
-					return "?";
+				{
+					return ("?" + c);
+				}
 
 				return n;
 			}
