@@ -19,6 +19,7 @@ using AsyncHopToUIFromWorker.HTML.Pages;
 using TestSwitchToServiceContextAsync;
 using System.Threading;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AsyncHopToUIFromWorker
 {
@@ -88,7 +89,13 @@ namespace AsyncHopToUIFromWorker
 				// dont they want to hop to background?
 				HopToThreadPoolAwaitable.VirtualOnCompleted = continuation =>
 				{
-					Console.WriteLine("enter HopToThreadPoolAwaitable.VirtualOnCompleted");
+					Action<ShadowIAsyncStateMachine> MoveNext0 = null;
+
+					// async dont like ref?
+					var shadowstate = ShadowIAsyncStateMachine.FromContinuation(continuation, ref MoveNext0);
+					var MoveNext = MoveNext0;
+
+					Console.WriteLine("enter HopToThreadPoolAwaitable.VirtualOnCompleted " + new { shadowstate.state });
 
 					// post a message to the document 
 					var xx = new __Task.InternalTaskExtensionsScope { InternalTaskExtensionsScope_function = continuation };
@@ -96,6 +103,7 @@ namespace AsyncHopToUIFromWorker
 
 					var x = new __Task<object>();
 
+					// reusing thread init for generic task start, although, resuming needs special implementation..
 					x.InternalInitializeInlineWorker(
 						new Action(xx.f),
 						//action,
@@ -115,6 +123,8 @@ namespace AsyncHopToUIFromWorker
 								HopToUIAwaitable = new
 								{
 									// state to hop back
+
+									shadowstate = default(ShadowIAsyncStateMachine)
 								}
 							};
 
@@ -122,24 +132,25 @@ namespace AsyncHopToUIFromWorker
 
 							//if (data.HopToUIAwaitable )
 
-							data.HopToUIAwaitable.With(
-								HopToUIAwaitable =>
-								{
-									// time to hop back on continuation?
-
-									Console.ForegroundColor = ConsoleColor.Blue;
-									Console.WriteLine("enter HopToThreadPoolAwaitable yield HopToUIAwaitable, resume state?");
-									Console.ForegroundColor = ConsoleColor.Black;
+							if (data.HopToUIAwaitable == null)
+								return;
 
 
-									//enter HopToThreadPoolAwaitable yield HopToUIAwaitable
-									//worker Task Run function has returned {{ value_Task = null, value_TaskOfT = null }}
-									//__Task.InternalStart inner complete {{ yield = {{ value = null }} }}
+							// time to hop back on continuation?
 
-									// the worker should be in a suspended state, as we may want to jump back?
-								}
-							);
+							Console.ForegroundColor = ConsoleColor.Blue;
+							Console.WriteLine("enter HopToThreadPoolAwaitable yield HopToUIAwaitable, resume state? " + new { data.HopToUIAwaitable.shadowstate.state });
+							Console.ForegroundColor = ConsoleColor.Black;
 
+
+							//enter HopToThreadPoolAwaitable yield HopToUIAwaitable
+							//worker Task Run function has returned {{ value_Task = null, value_TaskOfT = null }}
+							//__Task.InternalStart inner complete {{ yield = {{ value = null }} }}
+
+							// the worker should be in a suspended state, as we may want to jump back?
+
+							// 
+							MoveNext(data.HopToUIAwaitable.shadowstate);
 
 						}
 					);
@@ -166,7 +177,6 @@ namespace AsyncHopToUIFromWorker
 
 					HopToUIAwaitable.VirtualOnCompleted = continuation =>
 					{
-						Console.WriteLine("enter HopToUIAwaitable.VirtualOnCompleted, postMessage");
 
 						// first jump out?
 						InternalInlineWorker.InternalOverrideTaskOfT = new TaskCompletionSource<object>().Task;
@@ -175,12 +185,24 @@ namespace AsyncHopToUIFromWorker
 
 						// um. how can we signal that we are not done?
 
+
+						Action<ShadowIAsyncStateMachine> MoveNext = null;
+
+						// async dont like ref?
+						var shadowstate = ShadowIAsyncStateMachine.FromContinuation(continuation, ref MoveNext);
+
+						Console.WriteLine("enter HopToUIAwaitable.VirtualOnCompleted, postMessage " + new { shadowstate.state });
+
+
+						// postMessageAsync ? if ui wants to return, instead of restaring this thread?
 						e.postMessage(
 							new
 							{
 								HopToUIAwaitable = new
 								{
 									// state to hop back
+
+									shadowstate
 								}
 							}
 						);
@@ -297,9 +319,16 @@ namespace AsyncHopToUIFromWorker
 					//Native.body.Clear();
 					Console.Clear();
 
+					var sw = Stopwatch.StartNew();
+					var uistring = "hello world. first time a string will hop to worker and back. can we do it for xml, and bytes soon too? " + new { Thread.CurrentThread.ManagedThreadId };
+
 					Console.WriteLine("about to start a new worker..");
 
+					// will it redownload source? cache it with or without  a service worker? yes, each time new SSL download. 800ms it seems
 					await default(HopToThreadPoolAwaitable);
+
+					uistring += " at worker! " + new { Thread.CurrentThread.ManagedThreadId };
+
 
 					Console.WriteLine("in another thread.. " + new { Thread.CurrentThread.ManagedThreadId });
 
@@ -309,7 +338,10 @@ namespace AsyncHopToUIFromWorker
 					// or just terminate/recycle the thread?
 					await default(HopToUIAwaitable);
 
-					Console.WriteLine("back in ui yet?");
+					// back in ui yet? {{ uistring = hello world. first time a string will hop to worker and back. can we do it for xml, and bytes soon too? {{ ManagedThreadId = 1 }} at worker! {{ ManagedThreadId = 10 }} }}
+					new IHTMLPre { "back in ui yet? " + new { uistring, sw.ElapsedMilliseconds } }.AttachToDocument().style.backgroundColor = "yellow";
+
+					// can we resume?
 
 					//about to start a new worker..
 					//enter InternalInitializeInlineWorker

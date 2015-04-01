@@ -24,6 +24,33 @@ using TestSwitchToServiceContextAsync.HTML.Pages;
 
 namespace TestSwitchToServiceContextAsync
 {
+	// json tranferable, jsc should make all methods static, if no interfaces and a sealed class?
+	public sealed class ArrayList<T>
+	{
+		//public T[] items = new T[0];
+		internal T[] items = new T[0];
+
+		// if we were to implement an interface via a member,
+		// such methods need to be inlined. jsc analysis up for it yet?
+	}
+
+	public static class ArrayListExtensions
+	{
+		public static IEnumerable<T> AsEnumerable<T>(this ArrayList<T> that)
+		{
+			return that.items.AsEnumerable();
+		}
+
+		public static ArrayList<T> Add<T>(this ArrayList<T> that, T value)
+		{
+			var x = that.items.ToList();
+			x.Add(value);
+
+			that.items = x.ToArray();
+
+			return that;
+		}
+	}
 
 	public partial class ShadowIAsyncStateMachine
 	{
@@ -39,7 +66,10 @@ namespace TestSwitchToServiceContextAsync
 
 		// first steps to get async string sharing to work
 		// jsc should add analysis so a runtime could know if its worth to send a value over to the other side
-		public List<xStringField> StringFields = new List<xStringField>();
+
+		// for chrome trasnferables.. store as array instead?
+		//public List<xStringField> StringFields = new List<xStringField>();
+		public ArrayList<xStringField> StringFields = new ArrayList<xStringField>();
 
 
 		public static ShadowIAsyncStateMachine FromContinuation(
@@ -188,14 +218,14 @@ namespace TestSwitchToServiceContextAsync
 				{
 					var NextState = that.state;
 
-					Console.WriteLine("enter MoveNext " + new { NextState, StringFields = that.StringFields.Count });
+					Console.WriteLine("enter MoveNext " + new { NextState, StringFields = that.StringFields.AsEnumerable().Count() });
 
 					AsyncStateMachineSource.GetType().GetFields(
 					  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
 					  ).WithEach(
 					   AsyncStateMachineSourceField =>
 					   {
-						   var xStringField = that.StringFields.FirstOrDefault(
+						   var xStringField = that.StringFields.AsEnumerable().FirstOrDefault(
 							  ff => DecoratedString(ff.FieldName) == DecoratedString(AsyncStateMachineSourceField.Name)
 						  );
 
