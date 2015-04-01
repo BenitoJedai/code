@@ -21,6 +21,9 @@ using JanusVRExperiment.HTML.Pages;
 [Script(HasNoPrototype = true)]
 public class FireBoxRoom
 {
+	[Script(OptimizedCode = "print(e);")]
+	public static void print(string e) { }
+
 	//  Room Contents
 	[Script(HasNoPrototype = true)]
 	public class Objects
@@ -40,21 +43,94 @@ public class FireBoxRoom
 
 	// a pseudo type
 	[Script(HasNoPrototype = true, InternalConstructor = true)]
+	public sealed class Cube : Object
+	{
+		public static List<Cube> Elements = new List<Cube>();
+
+
+		public Cube()
+		{
+
+		}
+
+		static Cube InternalConstructor()
+		{
+			var js_id = "js_id_Cube" + Elements.Count;
+
+			var x = (Cube)room.createObject("Object", new
+			{
+				id = "cube",
+				js_id
+				//, collision_id = "", collision_radius = 2
+			});
+
+			Elements.Add(x);
+
+			return x;
+		}
+	}
+
+	[Script(HasNoPrototype = true, InternalConstructor = true)]
+	public sealed class Pyramid : Object
+	{
+		public static List<Pyramid> Elements = new List<Pyramid>();
+
+
+		public Pyramid()
+		{
+
+		}
+
+		static Pyramid InternalConstructor()
+		{
+			var js_id = "js_id_Pyramid" + Elements.Count;
+
+			var x = (Pyramid)room.createObject("Object", new { id = "pyramid", js_id });
+
+			Elements.Add(x);
+
+			return x;
+		}
+	}
+
+	// a pseudo type
+	[Script(HasNoPrototype = true, InternalConstructor = true)]
 	public sealed class Text : Object
 	{
+		public static List<Text> Elements = new List<Text>();
+
+
 		public Text(string js_id)
 		{
 
 		}
 
-
 		static Text InternalConstructor(string js_id)
 		{
 			return (Text)room.createObject("Text", new { js_id });
+			//return (Text)room.createObject("Text");// crash
 			//return (Text)room.objects[js_id];
 
 		}
+
+		public Text()
+		{
+
+		}
+
+		static Text InternalConstructor()
+		{
+			var js_id = "js_id_Text" + Elements.Count;
+
+			var x = (Text)room.createObject("Text", new { js_id });
+
+			Elements.Add(x);
+
+			return x;
+		}
 	}
+
+
 
 	[Script(HasNoPrototype = true)]
 	public class Object
@@ -69,9 +145,24 @@ public class FireBoxRoom
 		public Vector fwd;
 	}
 
+	[Script(HasNoPrototype = true)]
+	public class Player
+	{
+		public Vector pos;
 
+		/// <summary>
+		///  String for the URL of the room.  Can be compared with player.url
+		/// to determine if player is in the room.
+		/// </summary>
+		public string url;
+
+		public Vector view_dir;
+	}
 
 	//[Script(OptimizedCode = "room")]
+	[Script(ExternalTarget = "player")]
+	public static Player player;
+
 	[Script(ExternalTarget = "room")]
 	public static Room room;
 
@@ -79,16 +170,46 @@ public class FireBoxRoom
 	public class Room
 	{
 		//public Action onLoad;
+		/// <summary>
+		/// Invoked before the first update of the room. Note that this is not when the room is loaded, but when the user first steps into the room.
+		/// </summary>
 		public IFunction onLoad;
 
+		//public IFunction<double> update;
+		/// <summary>
+		/// Invoked on each frame before the world is drawn. dt, an
+		/// optional parameter, is the amount of time that elapsed between this update
+		/// and the previous update, useful for ensuring objects move at the same speed
+		/// regardless of framerate.
+		/// </summary>
+		public IFunction update;
+
+		public IFunction onClick;
+
+		public IFunction onCollision;
+
+		/// <summary>
+		///  The objects in the room. Instantiated after the user
+		/// enters the room, before onLoad is invoked.A dictionary that maps the js_id
+		/// attribute of each object to a script object that has that object's
+		/// attributes.Modifying the attributes of this object will modify the
+		/// attributes of the object in the room.
+		/// </summary>
 		public Objects objects;
 
+
+		public void removeObject(Object e) { }
 		public Object createObject(string text, object args) { return null; }
+		//public Object createObject(string text) { return null; }
 	}
 
 	[Script(HasNoPrototype = true, InternalConstructor = true)]
 	public class Vector
 	{
+		public double x;
+		public double y;
+		public double z;
+
 		public Vector(double x, double y, double z)
 		{
 
@@ -105,6 +226,7 @@ public class FireBoxRoom
 
 namespace JanusVRExperiment
 {
+	using System.Diagnostics;
 	// this is the way to import js apis
 	using static FireBoxRoom;
 
@@ -121,54 +243,154 @@ namespace JanusVRExperiment
 		{
 			// [K apr 1 22:09:33 2015] JavaScript error in view-source (line 76902): TypeError: Result of expression 'AQAABDWbFDuQBN_brmZIFqQ' [null] is not an object.
 
+			// click c to see it
+			print("enter Application");
 			Console.WriteLine("enter Application");
 
 			room.onLoad = IFunction.OfDelegate(
 				(Action)delegate
 			   {
+				   new Cube
+				   {
+					   pos = new Vector(0, 0, -4),
 
+					   fwd = new Vector(-1, 0, 0),
+					   // hightower
+					   //scale = new Vector(1, 10, 1),
+					   scale = new Vector(4.0, 4.0, 18.0),
+					   col = new Vector(.5, 0.5, .5)
+				   };
 
-				   for (var i = 0; i < 9; ++i)
+				   for (var i = 0; i < 29; ++i)
 				   {
 
 					   var textid = "new_text" + i;
 
 					   room.createObject("Text", new { js_id = textid });
 
-					   room.objects[textid].pos = new Vector(5 + i, 1 + i, i * 0.1);
+					   room.objects[textid].pos = new Vector(2 + i, 1 + i * 0.7, 4);
 					   room.objects[textid].fwd = new Vector(-1, 0, 0);
 					   room.objects[textid].text = "Application This is new text with js_id: " + new { room.objects[textid].js_id, i };
 					   room.objects[textid].scale = new Vector(5, 5, 5);
 					   room.objects[textid].col = new Vector(.5, 1, .5);
+
+
+					   new Cube
+					   {
+						   pos = new Vector(2 + i, 1 + i * 0.6, 0),
+
+						   fwd = new Vector(-1, 0, 0),
+						   // hightower
+						   //scale = new Vector(1, 10, 1),
+						   scale = new Vector(3, 0.5, 1),
+						   col = new Vector(.5, 1, .5)
+					   };
 				   }
 
-					// how will we interact with the document then?
-					// do we have a window? no.
-					//room.objects["new_text0"].text = new { hello = "world", Native.self, Native.window }.ToString();
-					// are we a worker? no
-					//room.objects["new_text0"].text = new { hello = "world", Native.self, Native.worker }.ToString();
+				   // how will we interact with the document then?
+				   // do we have a window? no.
+				   //room.objects["new_text0"].text = new { hello = "world", Native.self, Native.window }.ToString();
+				   // are we a worker? no
+				   //room.objects["new_text0"].text = new { hello = "world", Native.self, Native.worker }.ToString();
 
-				    //var keys = ScriptCoreLib.JavaScript.Runtime.Expando.
-					room.objects["new_text0"].text = new { hello = "world", Native.self }.ToString();
+				   //var keys = ScriptCoreLib.JavaScript.Runtime.Expando.
+				   room.objects["new_text0"].text = new { hello = "world", Native.self }.ToString();
 
-					// red
-					//room.objects["new_text0"].col = new FireBoxRoom.Vector(1, 0, 0);
+				   // red
+				   //room.objects["new_text0"].col = new FireBoxRoom.Vector(1, 0, 0);
 
-					// blue
-					room.objects["new_text0"].col = new Vector(0, 0, 1);
+				   // blue
+				   room.objects["new_text0"].col = new Vector(0, 0, 1);
 
-				   var x = new Text("new_textX")
+
+
+				   new Pyramid
+				   {
+					   pos = new Vector(4, 0, 4),
+
+					   fwd = new Vector(-1, 0, 0),
+					   scale = new Vector(1, 1, 1),
+					   col = new Vector(.5, 1, .5)
+				   };
+
+				   var x = new Text
 				   {
 					   text = "look at this",
-
 
 					   pos = new Vector(6, 1, 0),
 
 					   fwd = new Vector(-1, 0, 0),
-					   scale = new Vector(5, 5, 5),
+					   scale = new Vector(8, 8, 8),
 					   col = new Vector(.5, 1, .5)
 				   };
 
+				   var sw = Stopwatch.StartNew();
+				   var onCollisionCounter = 0;
+				   var clickCounter = 0;
+				   var c = 0;
+
+				   room.onCollision = new Action<Object, Object>(
+					   (o, other) =>
+					   {
+						   onCollisionCounter++;
+					   }
+				   );
+
+				   room.onClick = new Action(
+					   delegate
+					   {
+						   clickCounter++;
+					   }
+				   );
+
+				   // look we found onframe.
+				   room.update = new Action(
+					   delegate
+					   {
+						   c++;
+
+
+						   x.text = "status: " + new
+						   {
+							   c,
+							   sw.ElapsedMilliseconds,
+							   clickCounter,
+							   onCollisionCounter,
+
+							   player = new { player.pos.x, player.pos.y, player.pos.z }
+
+						   };
+						   x.col = new Vector(
+							   (Math.Sin(sw.ElapsedMilliseconds * 0.01) + 1.0) / 2.0,
+							   0,
+							   0
+						   );
+
+
+
+						   //this causes the image to always face the player
+						   // its flipped?
+						   //x.fwd = player.view_dir;
+
+						   // stariways?
+						   // ceiling
+						   //player.pos.y = Math.Min(player.pos.y, player.pos.x * 0.5);
+
+						   if (player.pos.z < -1)
+							   player.pos.y = Math.Max(player.pos.y, 4.5);
+						   else if (player.pos.z < 2)
+							   player.pos.y = Math.Max(player.pos.y, player.pos.x * 0.6);
+
+
+						   x.pos = new Vector(
+							   player.pos.x + 2,
+							   player.pos.y + 1,
+							   player.pos.z
+						   );
+
+						   //player.pos.y += (1 / 15.0) * (Math.Max(player.pos.y, player.pos.x * 0.5) - player.pos.y);
+					   }
+				   );
 			   }
 			)
 			;
