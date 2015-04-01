@@ -5,10 +5,11 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/text/encoding.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Text/Encoding.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/text/encoding.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/Encoding.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Text/Encoding.cs
 
-    [Script(Implements = typeof(global::System.Text.Encoding))]
+	[Script(Implements = typeof(global::System.Text.Encoding))]
     internal abstract class __Encoding
     {
 		// https://github.com/dotnet/corefx/tree/master/src/System.Text.Encoding.CodePages/src/System/Text

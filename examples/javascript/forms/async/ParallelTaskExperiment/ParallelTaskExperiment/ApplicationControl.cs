@@ -21,7 +21,9 @@ namespace ParallelTaskExperiment
 
         private void button1_Click(object sender, System.EventArgs e)
         {
-            button1.Enabled = false;
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150401
+
+			button1.Enabled = false;
 
             //enter { ms = 800, text = task1, Caller = 1, Current = 10 }
             // view-source:24898

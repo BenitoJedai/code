@@ -10,7 +10,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// http://referencesource.microsoft.com/#mscorlib/system/string.cs
 	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/String.cs
 	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System/String.cs
-	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/String.cs
 
 	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\String.cs
 	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\String.cs
@@ -18,6 +17,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\String.cs
 
 	// X:\opensource\github\WootzJs\WootzJs.Runtime\String.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/String.cs
+	// https://github.com/sq/JSIL/blob/master/Proxies/String.cs
 
 	// haha. Purpose: Your favorite String class.
 

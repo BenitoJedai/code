@@ -226,6 +226,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
 			#region GetMember
 			{
+				// X:\jsc.svn\examples\javascript\test\TestDynamicToArray\TestDynamicToArray\Application.cs
+
 				var GetMember = (object)binder as __GetMemberBinder;
 				if (GetMember != null)
 				{

@@ -11,6 +11,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     // static class?
     public class JSON
     {
+		// tested by?
+
         // http://dev.w3.org/2006/webapi/FileAPI/#url
 
         [Script(ExternalTarget = "JSON.stringify")]

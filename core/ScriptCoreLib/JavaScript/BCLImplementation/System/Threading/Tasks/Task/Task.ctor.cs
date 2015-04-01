@@ -289,6 +289,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 			#region CreateWorker
 			Action<string> CreateWorker = uri =>
 			{
+				// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150401
+				// since we can start scope sharing, static sync may be turned off?
+
 				#region xdata___string
 				// X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
 				dynamic xdata___string = new object();
@@ -329,6 +332,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 				if (state == null)
 					state = new object();
 
+
+				// what about delegates to the interface? 
 				#region IsIProgress
 				var IsIProgress = state is __IProgress<object>;
 
@@ -377,7 +382,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 						// fields
 
 
-
+						// are we in state machine hop?
 						state_SerializableMembers = default(object),
 						state_ObjectData,
 
@@ -415,6 +420,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 						 dynamic zdata = e.data;
 
 
+						 // is it the same for service worker?
 						 #region AtWrite
 						 string AtWrite = zdata.AtWrite;
 
@@ -537,6 +543,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 						 }
 						 #endregion
 
+
 						 #region yield
 						 {
 							 // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
@@ -585,6 +592,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 								 xProgress.Report(value);
 							 }
 						 }
+						 #endregion
+
+
+						 // X:\jsc.svn\examples\javascript\async\AsyncHopToUIFromWorker\AsyncHopToUIFromWorker\Application.cs
+						 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150401
+						 #region  HopToUIAwaitable
+						 // where can we send the signal?
+
 						 #endregion
 					 }
 				);

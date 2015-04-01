@@ -5,16 +5,18 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/datetime.cs
-    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/DateTime.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/DateTime.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/DateTime.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/datetime.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/DateTime.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System/DateTime.cs
 
-    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\DateTime.cs
-    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\DateTime.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/DateTime.cs
+	// https://github.com/sq/JSIL/blob/master/Proxies/DateTime.cs
+
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\DateTime.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\DateTime.cs
 
 
-    [Script(Implements = typeof(global::System.DateTime))]
+	[Script(Implements = typeof(global::System.DateTime))]
     internal class __DateTime // : __NativeDateTime
     {
         public IDate InternalValue;

@@ -8,6 +8,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
 	// http://referencesource.microsoft.com/#mscorlib/system/io/file.cs
 	// https://github.com/dotnet/corefx/blob/master/src/System.IO.FileSystem/src/System/IO/File.cs
+
 	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\File.cs
 	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\File.cs
 

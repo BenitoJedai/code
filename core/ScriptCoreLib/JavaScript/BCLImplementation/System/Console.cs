@@ -19,6 +19,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// https://github.com/dotnet/corefx/blob/master/src/System.Console/src/System/Console.cs
 	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Console.cs
 	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Console.cs
+	// https://github.com/sq/JSIL/blob/master/Proxies/Console.cs
 
 	// X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Console.cs
 	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Console.cs
