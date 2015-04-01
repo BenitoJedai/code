@@ -323,6 +323,7 @@ namespace ChromeShaderToyPrograms
 			["PacmanByTsone"] = () => new PacmanByTsone.Shaders.ProgramFragmentShader(),
 			["PalmettoStalkByEiffie"] = () => new PalmettoStalkByEiffie.Shaders.ProgramFragmentShader(),
 			["ParallaxMappingByNimitz"] = () => new ParallaxMappingByNimitz.Shaders.ProgramFragmentShader(),
+			["PlanetShadertoyByReinder"] = () => new PlanetShadertoyByReinder.Shaders.ProgramFragmentShader(),
 			["PlasticReflectingCubesByDen"] = () => new PlasticReflectingCubesByDen.Shaders.ProgramFragmentShader(),
 			["PlayingWithRefleksByEiffie"] = () => new PlayingWithRefleksByEiffie.Shaders.ProgramFragmentShader(),
 			["PlottingFunctionsByHornet"] = () => new PlottingFunctionsByHornet.Shaders.ProgramFragmentShader(),
