@@ -241,11 +241,17 @@ namespace JanusVRExperiment
 
 		static Application()
 		{
+			if (room == null)
+				return;
+
+
 			// [K apr 1 22:09:33 2015] JavaScript error in view-source (line 76902): TypeError: Result of expression 'AQAABDWbFDuQBN_brmZIFqQ' [null] is not an object.
 
 			// click c to see it
-			print("enter Application");
+			//print("enter Application");
+
 			Console.WriteLine("enter Application");
+
 
 			room.onLoad = IFunction.OfDelegate(
 				(Action)delegate
@@ -403,6 +409,15 @@ namespace JanusVRExperiment
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
+			// Cookies can also be saved/loaded via the JS (in addition to those cookies set through AssetWebSurfaces). This can be used for inter-communication between the FireBoxRoom, the JS/AssetScripts, and AssetWebSurfaces in the room.)
+
+			// AssetWebSurface
+
+			if (Native.document != null)
+				Native.document.body.style.backgroundColor = "cyan";
+
+			Console.WriteLine("enter Application");
+
 			// .\..\..\..\jsc.svn\examples\javascript\examples\JanusVRExperiment\JanusVRExperiment\Design\App.htm
 			// "X:\util\janusvr_windows\JanusVR_Win32\workspaces.txt"
 

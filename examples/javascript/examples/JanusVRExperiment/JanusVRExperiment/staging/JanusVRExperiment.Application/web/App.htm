@@ -2,9 +2,11 @@
 <head>
 <title>Example title</title>
 </head>
-<body>
+<body style="background-color: yellow;">
+	<button>hello</button>
 <FireBoxRoom>
 	<Assets>
+		<AssetWebSurface src="#surface" id="webpage_id" width="800" height="400" />
 	<AssetScript src="view-source" />
 		</Assets>
 <Room use_local_asset="room_plane"  pos="0 0 0" fwd="0 0 1" >
@@ -14,6 +16,7 @@
 
 <Link url="bookmarks" title="Bookmarks" draw_text="false" auto_load="true" pos="4 4 -3" fwd="0 0 1"  scale="2.3 2.8 1.0" />
 
+	<Object id="plane" pos="-4 1 -1" fwd="0 0 1" scale="2 2 4" websurface_id="webpage_id" />
 </Room>	
 </FireBoxRoom>
 </body>
