@@ -12,10 +12,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Int64))]
     internal class __Int64
     {
-        // time to start marking it as a struct for
-        // ServiceWorker contexts?
+		// http://www.viva64.com/en/d/0306/
 
-        static public long Parse(string e)
+		// time to start marking it as a struct for
+		// ServiceWorker contexts?
+
+		static public long Parse(string e)
         {
             var value = parseInt(e);
 
