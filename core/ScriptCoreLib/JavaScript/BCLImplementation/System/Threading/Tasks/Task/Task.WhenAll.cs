@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
+	// can we keep a type partiall shared and partially platform specific?
     public partial class __Task
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAll.cs

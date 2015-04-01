@@ -12,12 +12,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
     // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/System/Xml/Linq/XElement.cs
     // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/src/System/Xml/Linq/XElement.cs
     // https://github.com/mono/mono/blob/master/mcs/class/System.Xml.Linq/System.Xml.Linq/XElement.cs
+
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Xml\Linq\XElement.cs
     // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Xml\Linq\XElement.cs
 
     [Script(Implements = typeof(XElement))]
     internal class __XElement : __XContainer
     {
+		// what if we are in a worker thread?
+
         // what about binary xml?
         // http://en.wikipedia.org/wiki/Binary_XML
         // could aswell use TLV?

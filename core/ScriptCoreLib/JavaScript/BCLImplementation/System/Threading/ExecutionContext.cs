@@ -15,6 +15,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 	{
 		// tested by?
 
-
+		public static ExecutionContext Capture()
+		{
+			// we should have one test to ty to capture the stacktrace. where is it?
+			return null;
+		}
 	}
 }

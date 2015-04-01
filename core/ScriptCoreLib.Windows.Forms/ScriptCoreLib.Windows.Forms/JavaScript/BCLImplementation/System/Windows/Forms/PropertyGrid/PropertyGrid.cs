@@ -9,11 +9,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.PropertyGrid))]
     internal class __PropertyGrid : __ContainerControl
     {
-        // didnt we implement a property grid in vb in 1999?
-        // can we connect a property grid from chrome into android via udp yet?
+		// didnt we implement a property grid in vb in 1999?
+		// can we connect a property grid from chrome into android via udp yet?
 
-        // datagrid view implements resizers
-        // split implements resizers.
-        // do we have enough RTTI available?
-    }
+		// datagrid view implements resizers
+		// split implements resizers.
+		// do we have enough RTTI available?
+
+		// X:\jsc.svn\examples\javascript\css\CSSTransform\CSSTransform\Application.cs
+	}
 }

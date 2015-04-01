@@ -26,6 +26,9 @@ namespace AsyncHopToUIFromWorker
 	// simple awaitable that allows for hopping to the thread pool
 	struct HopToThreadPoolAwaitable : System.Runtime.CompilerServices.INotifyCompletion
 	{
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150401
+		// X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
+
 		public HopToThreadPoolAwaitable GetAwaiter() { return this; }
 		public bool IsCompleted { get { return false; } }
 		public void OnCompleted(Action continuation) { Task.Run(continuation); }
@@ -54,8 +57,45 @@ namespace AsyncHopToUIFromWorker
 
 		static Application()
 		{
-			// patch the awaiter..
-			Console.SetOut(new xConsole());
+			if (Native.document != null)
+			{
+				// patch the awaiter..
+				Console.SetOut(new xConsole());
+
+
+				// also. all workers we will be creating will need to start to expect switch commands...
+				// how can we tap in them?
+
+				//__worker_onfirstmessage: {{ 
+				// ManagedThreadId = 10, href = https://192.168.1.196:13946/view-source#worker, 
+				// MethodTargetTypeIndex = type$PgZysaxv_bTu4GEkwmJdJrQ, 
+				// MethodTargetType = ___ctor_b__1_5_d, 
+				// MethodToken = jwsABpdwBjGQu09dvBXjxw, 
+				// MethodType = FuncOfObjectToObject, 
+				// stateTypeHandleIndex = null, 
+				// stateType = null, 
+				// state = [object Object], 
+				// IsIProgress = false }}
+				// 
+
+				return;
+			}
+
+			if (Native.worker != null)
+			{
+				Console.WriteLine("about to enable HopToUIAwaitable...");
+
+				HopToUIAwaitable.VirtualOnCompleted =
+					continuation =>
+					{
+						Console.WriteLine("enter HopToUIAwaitable.VirtualOnCompleted");
+
+						// post a message to the document 
+					};
+
+
+				return;
+			}
 		}
 
 		/// <summary>
@@ -67,6 +107,7 @@ namespace AsyncHopToUIFromWorker
 			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150401
 			Console.Clear();
 
+			#region start worker
 			new IHTMLButton { "start worker" }.AttachTo(Native.document.documentElement).onclick +=
 				async delegate
 				{
@@ -93,7 +134,9 @@ namespace AsyncHopToUIFromWorker
 					Console.WriteLine(new { x });
 
 				};
+			#endregion
 
+			#region hop to worker, do progress
 			new IHTMLButton { "hop to worker, do progress" }.AttachTo(Native.document.documentElement).onclick +=
 				async delegate
 				{
@@ -148,6 +191,54 @@ namespace AsyncHopToUIFromWorker
 					//worker Task Run function has returned {{ value_Task = null, value_TaskOfT = null }}
 					//__Task.InternalStart inner complete {{ yield = {{ value = null }} }}
 				};
+			#endregion
+
+			#region hop to worker, do progress
+			new IHTMLButton { "hop to worker, then hop to ui" }.AttachTo(Native.document.documentElement).onclick +=
+				async delegate
+				{
+					//Native.body.Clear();
+					Console.Clear();
+
+					Console.WriteLine("about to start a new worker..");
+
+					await default(HopToThreadPoolAwaitable);
+
+					Console.WriteLine("in another thread.. " + new { Thread.CurrentThread.ManagedThreadId });
+
+					// what if we want to hop back to the same pending state machine?
+					// and then back to the thread?
+					// we need to makr the thread as suspended for this statemachine for to be able to jump back?
+					// or just terminate/recycle the thread?
+					await default(HopToUIAwaitable);
+
+					Console.WriteLine("back in ui yet?");
+
+					//about to start a new worker..
+					//enter InternalInitializeInlineWorker
+					//Task scope {{ MemberName = __1__state, IsString = false, IsNumber = true, IsDelegate = false, IsProgress = false, TypeIndex = null }}
+					//Task scope {{ MemberName = __t__builder, IsString = false, IsNumber = false, IsDelegate = false, IsProgress = false, TypeIndex = type$NhpqFU35Cju_bC8JMN6oaCA }}
+					//Task scope {{ MemberName = __04000021__, IsString = false, IsNumber = false, IsDelegate = false, IsProgress = false, TypeIndex = null }}
+					//Task scope {{ MemberName = __4__this, IsString = false, IsNumber = false, IsDelegate = false, IsProgress = false, TypeIndex = type$Z_bJ0C5kF9zuuN0pxwoSkTg }}
+					//Task scope {{ MemberName = __u__1, IsString = false, IsNumber = false, IsDelegate = false, IsProgress = false, TypeIndex = type$_5ypLuXqv3zicwYxPrOc5CQ }}
+					//Task scope {{ MemberName = __u__2, IsString = false, IsNumber = false, IsDelegate = false, IsProgress = false, TypeIndex = type$QxQ8n4UOATqy1xnL7bpBtQ }}
+
+					//__worker_onfirstmessage: {{ ManagedThreadId = 10, href = https://192.168.1.196:13946/view-source#worker, MethodTargetTypeIndex = type$PgZysaxv_bTu4GEkwmJdJrQ, MethodTargetType = ___ctor_b__1_5_d, MethodToken = jwsABpdwBjGQu09dvBXjxw, MethodType = FuncOfObjectToObject, stateTypeHandleIndex = null, stateType = null, state = [object Object], IsIProgress = false }}
+					
+					//{{ xMember = __1__state, xMethodTargetObjectDataTypeIndex = null, xObjectData = 0, xIsProgress = null }}
+					//{{ xMember = __t__builder, xMethodTargetObjectDataTypeIndex = type$NhpqFU35Cju_bC8JMN6oaCA, xObjectData = [object Object], xIsProgress = null }}
+					//{{ xMember = __04000021__, xMethodTargetObjectDataTypeIndex = null, xObjectData = null, xIsProgress = null }}
+					//{{ xMember = __4__this, xMethodTargetObjectDataTypeIndex = type$Z_bJ0C5kF9zuuN0pxwoSkTg, xObjectData = [object Object], xIsProgress = null }}
+					//{{ xMember = __u__1, xMethodTargetObjectDataTypeIndex = type$_5ypLuXqv3zicwYxPrOc5CQ, xObjectData = [object Object], xIsProgress = null }}
+					//{{ xMember = __u__2, xMethodTargetObjectDataTypeIndex = type$QxQ8n4UOATqy1xnL7bpBtQ, xObjectData = [object Object], xIsProgress = null }}
+					//worker Task Run function call
+					//in another thread.. {{ ManagedThreadId = 10 }}
+					//enter HopToUIAwaitable.VirtualOnCompleted
+					//worker Task Run function has returned {{ value_Task = null, value_TaskOfT = null }}
+					//__Task.InternalStart inner complete {{ yield = {{ value = null }} }}
+				};
+			#endregion
+
 
 		}
 

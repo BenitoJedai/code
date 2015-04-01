@@ -99,6 +99,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\Emit\ILGenerator.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\Module.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\MethodBody.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Runtime\Remoting\Contexts\Context.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\SecureString.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\SynchronizationContext.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\ExecutionContext.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAny.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.FromResult.cs" />
     <Compile Include="JavaScript\DOM\Entry.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLDocument.currentScript.cs" />
     <Compile Include="JavaScript\DOM\JSON.cs" />
     <Compile Include="JavaScript\DOM\DeviceOrientationEvent.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLHorizontalRule.cs" />

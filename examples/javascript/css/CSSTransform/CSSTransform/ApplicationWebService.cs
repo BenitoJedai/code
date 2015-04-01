@@ -16,6 +16,7 @@ namespace CSSTransform
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
+	[DesignerCategory("code")]
     public partial class ApplicationWebService : Component
     {
         /// <summary>

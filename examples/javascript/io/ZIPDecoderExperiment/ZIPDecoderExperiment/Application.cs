@@ -439,3 +439,14 @@ namespace ZIPDecoderExperiment
 
     }
 }
+
+//02000032 Abstractatech.ZIPDecoder.ZIPArchive+<ReadAsFuncBoolean>d__3
+//script: error JSC1000: if block not detected correctly, opcode was { Branch = [0x0008]
+//bne.un.s   +0 -2{[0x0001]
+//ldfld      +1 -1{[0x0000]
+//ldarg.0    +1 -0} } {[0x0006]
+//ldc.i4.s   +1 -0} , Location =
+// assembly: V:\ZIPDecoderExperiment.Application.exe
+// type: Abstractatech.ZIPDecoder.ZIPArchive+<ReadAsFuncBoolean>d__3, ZIPDecoderExperiment.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// offset: 0x0008
+//  method:System.Collections.Generic.IEnumerator`1[System.Func`1[System.Boolean]] System.Collections.Generic.IEnumerable<System.Func<System.Boolean>>.GetEnumerator() }
