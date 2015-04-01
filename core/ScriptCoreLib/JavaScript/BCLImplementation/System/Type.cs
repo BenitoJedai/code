@@ -57,6 +57,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
+		// what about string enums and complex enums, what about encypted enums?
+		// "X:\jsc.svn\examples\javascript\Test\TestTypeOfEnum\TestTypeOfEnum.sln"
 		public virtual bool IsEnum
 		{
 			get
@@ -209,6 +211,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 			return global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(this.TypeHandle.Value);
 		}
 
+
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150401
+		// ldtoken
 		public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
 		{
 			return new __Type { TypeHandle = TypeHandle };
