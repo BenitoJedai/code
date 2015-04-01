@@ -27,6 +27,7 @@ namespace ScriptCoreLib.JavaScript.WebVR
 		// http://timesofindia.indiatimes.com/tech/more-gadgets/Google-Cardboard-a-VR-gadget-for-the-masses/articleshow/46687802.cms
 
 
+		// http://janusvr.com/
 	}
 
 	//partial interface Navigator
