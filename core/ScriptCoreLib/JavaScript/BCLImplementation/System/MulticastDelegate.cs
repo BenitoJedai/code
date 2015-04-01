@@ -15,6 +15,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\MulticastDelegate.cs
 
 	// X:\opensource\github\WootzJs\WootzJs.Runtime\MulticastDelegate.cs
+	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/MulticastDelegate.cs
 
 	[Script(Implements = typeof(global::System.MulticastDelegate))]
     internal class __MulticastDelegate : __Delegate
@@ -44,6 +45,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         protected override __Delegate RemoveImpl(__Delegate d)
         {
+			// 2015, could replace this by roslyn linq?
+
             var j = -1;
 
             for (int i = 0; i < list.length; i++)

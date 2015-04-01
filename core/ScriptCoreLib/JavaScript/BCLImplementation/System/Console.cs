@@ -18,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Console.cs
 	// https://github.com/dotnet/corefx/blob/master/src/System.Console/src/System/Console.cs
 	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Console.cs
+	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Console.cs
 
 	// X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Console.cs
 	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Console.cs
@@ -25,343 +26,358 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Console.cs
 
 	[Script(Implements = typeof(global::System.Console))]
-    internal class __Console
-    {
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141223
+	internal class __Console
+	{
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141223
 
-        //console: WorkerConsole
-        //this: ServiceWorkerGlobalScope
-        //this.console: WorkerConsole
-        //this.console.log("hi"): undefined
+		//console: WorkerConsole
+		//this: ServiceWorkerGlobalScope
+		//this.console: WorkerConsole
+		//this.console.log("hi"): undefined
 
 
-        /// <summary>
-        /// firefox: run with -console
-        /// and about:config must be altered
-        /// explorer: activex addin required
-        /// 
-        /// browser.dom.window.dump.enabled
-        /// 
-        /// <see>http://kb.mozillazine.org/Viewing_dump%28%29_output</see>
-        /// </summary>
-        /// 
+		/// <summary>
+		/// firefox: run with -console
+		/// and about:config must be altered
+		/// explorer: activex addin required
+		/// 
+		/// browser.dom.window.dump.enabled
+		/// 
+		/// <see>http://kb.mozillazine.org/Viewing_dump%28%29_output</see>
+		/// </summary>
+		/// 
 
-        public static ConsoleColor ForegroundColor { get; set; }
-        public static ConsoleColor BackgroundColor { get; set; }
+		public static ConsoleColor ForegroundColor { get; set; }
+		public static ConsoleColor BackgroundColor { get; set; }
 
+		public static void Clear()
+		{
+			// X:\jsc.svn\examples\javascript\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\xConsole.cs
+			// http://bytes.com/topic/c-sharp/answers/761002-telnet-clear-screen
 
+			// are we a telnet session?
+			//http://www.theasciicode.com.ar/ascii-control-characters/delete-ascii-code-127.html
+			//Console.Out.Write((byte)127);
+			Console.Out.Write((char)127);
+		}
 
-        #region WriteLine
-        public static void WriteLine(object e)
-        {
-            Out.WriteLine(e);
-        }
 
-        public static void WriteLine(string e)
-        {
-            Out.WriteLine(e);
-        }
-        public static void WriteLine(long e)
-        {
-            Out.WriteLine("" + e);
-        }
+		#region WriteLine
+		public static void WriteLine(object e)
+		{
+			Out.WriteLine(e);
+		}
 
-        public static void WriteLine(double e)
-        {
-            // X:\jsc.svn\examples\javascript\RoslynEndUserPreviewExperiment\RoslynEndUserPreviewExperiment\Application.cs
+		public static void WriteLine(string e)
+		{
+			Out.WriteLine(e);
+		}
+		public static void WriteLine(long e)
+		{
+			Out.WriteLine("" + e);
+		}
 
-            Out.WriteLine("" + e);
-        }
+		public static void WriteLine(double e)
+		{
+			// X:\jsc.svn\examples\javascript\RoslynEndUserPreviewExperiment\RoslynEndUserPreviewExperiment\Application.cs
 
-        public static void WriteLine()
-        {
-            Out.WriteLine("");
-        }
+			Out.WriteLine("" + e);
+		}
 
-        public static void WriteLine(string e, object x)
-        {
-            // ?
-            Out.WriteLine(string.Format(e, x));
-        }
-        #endregion
+		public static void WriteLine()
+		{
+			Out.WriteLine("");
+		}
 
+		public static void WriteLine(string e, object x)
+		{
+			// ?
+			Out.WriteLine(string.Format(e, x));
+		}
+		#endregion
 
 
 
-        public static void Write(string e)
-        {
-            Out.Write(e);
-        }
 
-        public static void Write(object e)
-        {
-            Out.Write(e);
-        }
+		public static void Write(string e)
+		{
+			Out.Write(e);
+		}
+
+		public static void Write(object e)
+		{
+			Out.Write(e);
+		}
 
 
 
 
 
 
-        #region Beep
-        static WebAudio.AudioContext __AudioContext;
-        public static void Beep(int frequency, int duration)
-        {
-            // AsyncBeep?
-            // X:\jsc.svn\examples\javascript\audio\StandardOscillator\StandardOscillator\Application.cs
+		#region Beep
+		static WebAudio.AudioContext __AudioContext;
+		public static void Beep(int frequency, int duration)
+		{
+			// AsyncBeep?
+			// X:\jsc.svn\examples\javascript\audio\StandardOscillator\StandardOscillator\Application.cs
 
-            //  number of hardware contexts reached maximum (6).
+			//  number of hardware contexts reached maximum (6).
 
-            if (__AudioContext == null)
-                __AudioContext = new WebAudio.AudioContext();
+			if (__AudioContext == null)
+				__AudioContext = new WebAudio.AudioContext();
 
-            var a = __AudioContext;
-            var o = a.createOscillator();
+			var a = __AudioContext;
+			var o = a.createOscillator();
+
+			o.start(0);
+			o.frequency.value = frequency;
+			o.type = WebAudio.OscillatorType.square;
+			o.connect(o.context.destination);
+
+			__Task.Delay(duration).ContinueWith(
+				delegate
+				{
+					o.disconnect();
+
+					//a.close();
+				}
+			);
+
+		}
+
+		public static void Beep()
+		{
+			// AsyncBeep?
+			// X:\jsc.svn\examples\javascript\audio\StandardOscillator\StandardOscillator\Application.cs
+			// X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\AudioContext.cs
+
+			// does it still work? :P
+			SystemSounds.Beep.Play();
+		}
+		#endregion
+
+
+
+		// X:\jsc.svn\examples\javascript\VisualConsole\VisualConsole\Application.cs
+		public static string Title
+		{
+			get { return Native.document.title; }
+			set { Native.document.title = value; }
+		}
+
+		#region SetOut
+		static global::System.IO.TextWriter InternalOut;
+		public static global::System.IO.TextWriter Out
+		{
+			get
+			{
+				// X:\jsc.svn\examples\javascript\VisualConsole\VisualConsole\Application.cs
+
+				if (InternalOut == null)
+					InternalOut = new __OutWriter();
+
+				return InternalOut;
+			}
+		}
 
-            o.start(0);
-            o.frequency.value = frequency;
-            o.type = WebAudio.OscillatorType.square;
-            o.connect(o.context.destination);
+		public static void SetOut(global::System.IO.TextWriter newOut)
+		{
+			InternalOut = newOut;
+		}
 
-            __Task.Delay(duration).ContinueWith(
-                delegate
-                {
-                    o.disconnect();
+		[Script]
+		class __OutWriter : TextWriter
+		{
+			Stopwatch w = Stopwatch.StartNew();
 
-                    //a.close();
-                }
-            );
+			string href;
 
-        }
+			string GetPrefix()
+			{
+				var ww = "";
 
-        public static void Beep()
-        {
-            // AsyncBeep?
-            // X:\jsc.svn\examples\javascript\audio\StandardOscillator\StandardOscillator\Application.cs
-            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\AudioContext.cs
+				// what about web workers?
+				if (Native.document != null)
+				{
+					if (href != Native.document.location.href)
+					{
+						w = Stopwatch.StartNew();
+						href = Native.document.location.href;
+					}
 
-            // does it still work? :P
-            SystemSounds.Beep.Play();
-        }
-        #endregion
+					//w = Native.css
+					// start reporting how many .css rules we have
 
+					// should not invoke other members, which would end up printing to console!
+					// x:\jsc.svn\examples\javascript\test\testutf8frombase64stringordefault\testutf8frombase64stringordefault\application.cs
 
-
-        // X:\jsc.svn\examples\javascript\VisualConsole\VisualConsole\Application.cs
-        public static string Title
-        {
-            get { return Native.document.title; }
-            set { Native.document.title = value; }
-        }
+					//ww = IStyleSheet.all.Rules.Length + ":";
 
-        #region SetOut
-        static global::System.IO.TextWriter InternalOut;
-        public static global::System.IO.TextWriter Out
-        {
-            get
-            {
-                // X:\jsc.svn\examples\javascript\VisualConsole\VisualConsole\Application.cs
+				}
 
-                if (InternalOut == null)
-                    InternalOut = new __OutWriter();
+				return ww + w.ElapsedMilliseconds + "ms ";
+			}
 
-                return InternalOut;
-            }
-        }
+			public override void Write(object value)
+			{
+				__BrowserConsole.Write(value);
+			}
 
-        public static void SetOut(global::System.IO.TextWriter newOut)
-        {
-            InternalOut = newOut;
-        }
+			public override void Write(char value)
+			{
+				__BrowserConsole.Write(new string(value, 1));
+			}
 
-        [Script]
-        class __OutWriter : TextWriter
-        {
-            Stopwatch w = Stopwatch.StartNew();
+			public override void Write(string value)
+			{
+				__BrowserConsole.Write(value);
+			}
 
-            string href;
+			long oldRuleCount = 0;
+			public override void WriteLine(string value)
+			{
+				// X:\jsc.svn\examples\javascript\Test\TestImplicitTimelineRecordingEvents\TestImplicitTimelineRecordingEvents\Application.cs
 
-            string GetPrefix()
-            {
-                var ww = "";
 
-                // what about web workers?
-                if (Native.document != null)
-                {
-                    if (href != Native.document.location.href)
-                    {
-                        w = Stopwatch.StartNew();
-                        href = Native.document.location.href;
-                    }
+				if (value.StartsWith("event:"))
+				{
+					// he console.timeStamp() method only functions while a Timeline recording is in progress.
 
-                    //w = Native.css
-                    // start reporting how many .css rules we have
+					var old = new { Console.BackgroundColor };
+					Console.BackgroundColor = ConsoleColor.Yellow;
 
-                    // should not invoke other members, which would end up printing to console!
-                    // x:\jsc.svn\examples\javascript\test\testutf8frombase64stringordefault\testutf8frombase64stringordefault\application.cs
+					// what does it do?
+					new IFunction("text", "if (this.console && this.console.timeStamp) this.console.timeStamp(text);").apply(
+						 Native.window,
+						 value
+					 );
 
-                    //ww = IStyleSheet.all.Rules.Length + ":";
+					__BrowserConsole.WriteLine(GetPrefix() + value);
+					Console.BackgroundColor = old.BackgroundColor;
 
-                }
+					return;
+				}
 
-                return ww + w.ElapsedMilliseconds + "ms ";
-            }
+				// what about web workers?
+				if (Native.document != null)
+				{
+					// should not invoke other members, which would end up printing to console!
+					// x:\jsc.svn\examples\javascript\test\testutf8frombase64stringordefault\testutf8frombase64stringordefault\application.cs
 
-            public override void Write(object value)
-            {
-                __BrowserConsole.Write(value);
-            }
+					//////if (IStyleSheet.all.Rules.Length == oldRuleCount)
+					//////{
+					//////    var old = new { Console.ForegroundColor };
+					//////    Console.ForegroundColor = ConsoleColor.Gray;
 
-            public override void Write(string value)
-            {
-                __BrowserConsole.Write(value);
-            }
+					//////    __BrowserConsole.WriteLine(GetPrefix() + value);
+					//////    Console.ForegroundColor = old.ForegroundColor;
 
-            long oldRuleCount = 0;
-            public override void WriteLine(string value)
-            {
-                // X:\jsc.svn\examples\javascript\Test\TestImplicitTimelineRecordingEvents\TestImplicitTimelineRecordingEvents\Application.cs
 
+					//////    return;
+					//////}
+					//////oldRuleCount = IStyleSheet.all.Rules.Length;
+				}
 
-                if (value.StartsWith("event:"))
-                {
-                    // he console.timeStamp() method only functions while a Timeline recording is in progress.
 
-                    var old = new { Console.BackgroundColor };
-                    Console.BackgroundColor = ConsoleColor.Yellow;
 
-                    // what does it do?
-                    new IFunction("text", "if (this.console && this.console.timeStamp) this.console.timeStamp(text);").apply(
-                         Native.window,
-                         value
-                     );
+				__BrowserConsole.WriteLine(GetPrefix() + value);
+			}
 
-                    __BrowserConsole.WriteLine(GetPrefix() + value);
-                    Console.BackgroundColor = old.BackgroundColor;
+			public override void WriteLine(object value)
+			{
+				__BrowserConsole.WriteLine(GetPrefix() + value);
 
-                    return;
-                }
+			}
 
-                // what about web workers?
-                if (Native.document != null)
-                {
-                    // should not invoke other members, which would end up printing to console!
-                    // x:\jsc.svn\examples\javascript\test\testutf8frombase64stringordefault\testutf8frombase64stringordefault\application.cs
 
-                    //////if (IStyleSheet.all.Rules.Length == oldRuleCount)
-                    //////{
-                    //////    var old = new { Console.ForegroundColor };
-                    //////    Console.ForegroundColor = ConsoleColor.Gray;
+			public override Encoding Encoding
+			{
+				get { return Encoding.UTF8; }
+			}
+		}
+		#endregion
 
-                    //////    __BrowserConsole.WriteLine(GetPrefix() + value);
-                    //////    Console.ForegroundColor = old.ForegroundColor;
+	}
 
 
-                    //////    return;
-                    //////}
-                    //////oldRuleCount = IStyleSheet.all.Rules.Length;
-                }
 
 
+	[Script]
+	internal class __BrowserConsole : global::System.IDisposable
+	{
+		//[Script(InternalConstructor = true)]
+		//class ConsoleImplementation : IActiveX
+		//{
+		//    public bool CloseConsole()
+		//    {
+		//        return default(bool);
+		//    }
 
-                __BrowserConsole.WriteLine(GetPrefix() + value);
-            }
+		//    public bool OpenConsole()
+		//    {
+		//        return default(bool);
+		//    }
 
-            public override void WriteLine(object value)
-            {
-                __BrowserConsole.WriteLine(GetPrefix() + value);
+		//    public bool WriteString(string e)
+		//    {
+		//        return default(bool);
+		//    }
+		//}
 
-            }
+		#region IDisposable Members
 
+		string _task;
 
-            public override Encoding Encoding
-            {
-                get { return Encoding.UTF8; }
-            }
-        }
-        #endregion
+		static int _ident;
 
-    }
+		//static ConsoleImplementation _ci = null;
 
+		static __BrowserConsole()
+		{
 
 
+		}
 
-    [Script]
-    internal class __BrowserConsole : global::System.IDisposable
-    {
-        //[Script(InternalConstructor = true)]
-        //class ConsoleImplementation : IActiveX
-        //{
-        //    public bool CloseConsole()
-        //    {
-        //        return default(bool);
-        //    }
+		///// <summary>
+		///// Your internet explorer needs to allow creating the activex object.
+		///// Also you should register the ActiveXConsole.dll
+		///// </summary>
+		//public static void EnableActiveXConsole()
+		//{
+		//    if (_ci == null)
+		//    {
+		//        _ci = (ConsoleImplementation)new IActiveX("ActiveXConsole.Console");
 
-        //    public bool OpenConsole()
-        //    {
-        //        return default(bool);
-        //    }
+		//        if (_ci != null)
+		//            _ci.OpenConsole();
+		//    }
+		//}
 
-        //    public bool WriteString(string e)
-        //    {
-        //        return default(bool);
-        //    }
-        //}
+		double StartTime;
 
-        #region IDisposable Members
+		public __BrowserConsole(string task)
+		{
+			_task = task;
 
-        string _task;
+			StartTime = IDate.Now;
 
-        static int _ident;
+			//WriteIdent();
+			WriteLine("<" + _task + ">");
 
-        //static ConsoleImplementation _ci = null;
+			_ident++;
+		}
 
-        static __BrowserConsole()
-        {
+		//void WriteIdent()
+		//{
+		//    int i = _ident;
 
+		//    while (i-- > 0)
+		//        Write(" ");
+		//}
 
-        }
 
-        ///// <summary>
-        ///// Your internet explorer needs to allow creating the activex object.
-        ///// Also you should register the ActiveXConsole.dll
-        ///// </summary>
-        //public static void EnableActiveXConsole()
-        //{
-        //    if (_ci == null)
-        //    {
-        //        _ci = (ConsoleImplementation)new IActiveX("ActiveXConsole.Console");
 
-        //        if (_ci != null)
-        //            _ci.OpenConsole();
-        //    }
-        //}
-
-        double StartTime;
-
-        public __BrowserConsole(string task)
-        {
-            _task = task;
-
-            StartTime = IDate.Now;
-
-            //WriteIdent();
-            WriteLine("<" + _task + ">");
-
-            _ident++;
-        }
-
-        //void WriteIdent()
-        //{
-        //    int i = _ident;
-
-        //    while (i-- > 0)
-        //        Write(" ");
-        //}
-
-
-
-        [Script(OptimizedCode = @"
+		[Script(OptimizedCode = @"
 
     if (w0)
     {
@@ -373,151 +389,151 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     }
 
             ")]
-        internal static void InternalDump(object w0, object e0) { }
+		internal static void InternalDump(object w0, object e0) { }
 
-        internal static void Dump(object e)
-        {
-            try
-            {
-                DumpWithinTry(e);
-            }
-            catch
-            {
-                // X:\jsc.svn\examples\javascript\WebWorkerExperiment\WebWorkerExperiment\Application.cs
-                // web worker wont have direct access to console?
-            }
-        }
+		internal static void Dump(object e)
+		{
+			try
+			{
+				DumpWithinTry(e);
+			}
+			catch
+			{
+				// X:\jsc.svn\examples\javascript\WebWorkerExperiment\WebWorkerExperiment\Application.cs
+				// web worker wont have direct access to console?
+			}
+		}
 
-        private static void DumpWithinTry(object e)
-        {
-            // Styling console output with CSS
-            // https://developers.google.com/chrome-developer-tools/docs/console
-            // X:\jsc.svn\examples\javascript\Test\TestConsoleBackground\TestConsoleBackground\Application.cs
+		private static void DumpWithinTry(object e)
+		{
+			// Styling console output with CSS
+			// https://developers.google.com/chrome-developer-tools/docs/console
+			// X:\jsc.svn\examples\javascript\Test\TestConsoleBackground\TestConsoleBackground\Application.cs
 
-            if (Console.BackgroundColor == ConsoleColor.Yellow)
-            {
-                // +		$exception	{"recursion detected at stack 32"}	System.Exception
-
-
-                // console.log("%cThis will be formatted with large, blue text", "color: blue; font-size: x-large");
-
-                var args = new object[]{
-                             "%c" + e,
-                            "background-color: yellow;"
-                        };
-                new IFunction("text", "css", "this.console.log(text, css);").apply(
-                    Native.window,
-                    args
-                );
-
-                return;
-            }
-
-            // why not all colors? :P
-            if (Console.ForegroundColor == ConsoleColor.Gray)
-            {
-                // +		$exception	{"recursion detected at stack 32"}	System.Exception
+			if (Console.BackgroundColor == ConsoleColor.Yellow)
+			{
+				// +		$exception	{"recursion detected at stack 32"}	System.Exception
 
 
-                // console.log("%cThis will be formatted with large, blue text", "color: blue; font-size: x-large");
+				// console.log("%cThis will be formatted with large, blue text", "color: blue; font-size: x-large");
 
-                var args = new object[]{
-                             "%c" + e,
-                            "color: gray;"
-                        };
-                new IFunction("text", "css", "this.console.log(text, css);").apply(
-                    Native.window,
-                    args
-                );
+				var args = new object[]{
+							 "%c" + e,
+							"background-color: yellow;"
+						};
+				new IFunction("text", "css", "this.console.log(text, css);").apply(
+					Native.window,
+					args
+				);
 
-                return;
-            }
+				return;
+			}
 
-
-            if (Native.serviceworker != null)
-            {
-                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141223
-                // X:\jsc.svn\examples\javascript\test\TestServiceWorker\TestServiceWorker\Application.cs
-                InternalDump(Native.serviceworker, e);
-                return;
-            }
-
-            InternalDump(Native.window, e);
-        }
-
-        static string __WritePending = "";
-
-        public static void Write(object e)
-        {
-            // capture console colors?
-            __WritePending += e;
-
-            //if (_ci == null)
-            //Dump("" + e);
-            //else
-            //    _ci.WriteString(e + "");
-        }
-
-        public static void WriteLine(string e)
-        {
-            Dump(__WritePending + e);
-            __WritePending = "";
-        }
-
-        public static void WriteLine(object e)
-        {
-            WriteLine("" + e);
-        }
-
-        public static void WriteLine()
-        {
-            WriteLine("");
-        }
-
-        [Obsolete]
-        public void Dispose()
-        {
-            _ident--;
-
-            var end = IDate.Now - StartTime;
-
-            //WriteIdent();
-            WriteLine("</" + _task + " - " + end + "ms >");
-        }
-
-        #endregion
-
-        // ?
-        public static bool ShowLogAsStatus = false;
-
-        [Obsolete]
-        public static void Log(string p)
-        {
-            if (Native.Document == null)
-                return;
-
-            // browsers dont use status anymore?
-            if (ShowLogAsStatus)
-                Native.window.status = p;
-
-            WriteLine(IDate.Now.toLocaleString() + " " + p);
-        }
-
-        [Obsolete]
-        public static void LogError(string u)
-        {
-            Log("*** " + u);
-
-        }
-
-        [Obsolete]
-        public static void LogError(object u)
-        {
-            Log("*** " + u.ToString());
-
-        }
+			// why not all colors? :P
+			if (Console.ForegroundColor == ConsoleColor.Gray)
+			{
+				// +		$exception	{"recursion detected at stack 32"}	System.Exception
 
 
-    }
+				// console.log("%cThis will be formatted with large, blue text", "color: blue; font-size: x-large");
+
+				var args = new object[]{
+							 "%c" + e,
+							"color: gray;"
+						};
+				new IFunction("text", "css", "this.console.log(text, css);").apply(
+					Native.window,
+					args
+				);
+
+				return;
+			}
+
+
+			if (Native.serviceworker != null)
+			{
+				// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141223
+				// X:\jsc.svn\examples\javascript\test\TestServiceWorker\TestServiceWorker\Application.cs
+				InternalDump(Native.serviceworker, e);
+				return;
+			}
+
+			InternalDump(Native.window, e);
+		}
+
+		static string __WritePending = "";
+
+		public static void Write(object e)
+		{
+			// capture console colors?
+			__WritePending += e;
+
+			//if (_ci == null)
+			//Dump("" + e);
+			//else
+			//    _ci.WriteString(e + "");
+		}
+
+		public static void WriteLine(string e)
+		{
+			Dump(__WritePending + e);
+			__WritePending = "";
+		}
+
+		public static void WriteLine(object e)
+		{
+			WriteLine("" + e);
+		}
+
+		public static void WriteLine()
+		{
+			WriteLine("");
+		}
+
+		[Obsolete]
+		public void Dispose()
+		{
+			_ident--;
+
+			var end = IDate.Now - StartTime;
+
+			//WriteIdent();
+			WriteLine("</" + _task + " - " + end + "ms >");
+		}
+
+		#endregion
+
+		// ?
+		public static bool ShowLogAsStatus = false;
+
+		[Obsolete]
+		public static void Log(string p)
+		{
+			if (Native.Document == null)
+				return;
+
+			// browsers dont use status anymore?
+			if (ShowLogAsStatus)
+				Native.window.status = p;
+
+			WriteLine(IDate.Now.toLocaleString() + " " + p);
+		}
+
+		[Obsolete]
+		public static void LogError(string u)
+		{
+			Log("*** " + u);
+
+		}
+
+		[Obsolete]
+		public static void LogError(object u)
+		{
+			Log("*** " + u.ToString());
+
+		}
+
+
+	}
 
 }

@@ -230,52 +230,5 @@ namespace TestSwitchToServiceContextAsync
 	// 	mscorlib.dll!System.Threading.ThreadHelper.ThreadStart()    Unknown
 	// 	[Native to Managed Transition]
 
-	#region xConsole
-	//class xConsole : StringWriter
-	[Obsolete("jsc:js does not allow to overrider an override?")]
-	public class xConsole : TextWriter
-	{
-		// http://www.danielmiessler.com/study/encoding_encryption_hashing/
-		[Obsolete("can we have encrypted encoding?")]
-		public override Encoding Encoding
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
 
-		public override void Write(string value)
-		{
-			var p = new IHTMLCode { innerText = value }.AttachToDocument();
-			var s = p.style;
-
-			// jsc, enum tostring?
-			if (Console.ForegroundColor == ConsoleColor.Red)
-				s.color = "red";
-
-			if (Console.ForegroundColor == ConsoleColor.Blue)
-				s.color = "blue";
-
-			if (Console.ForegroundColor == ConsoleColor.Gray)
-				s.color = "gray";
-		}
-
-		public override void WriteLine(object value)
-		{
-			Write("" + value);
-
-			new IHTMLBreak { }.AttachToDocument();
-		}
-		public override void WriteLine(string value)
-		{
-			//Console.WriteLine(new { value });
-
-
-			Write(value);
-
-			new IHTMLBreak { }.AttachToDocument();
-		}
-	}
-	#endregion
 }
