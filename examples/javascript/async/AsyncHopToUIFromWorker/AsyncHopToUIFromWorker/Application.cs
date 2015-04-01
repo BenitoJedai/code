@@ -106,7 +106,37 @@ namespace AsyncHopToUIFromWorker
 
 						yield: (worker, e) =>
 						{
-							Console.WriteLine("enter HopToThreadPoolAwaitable InternalInitializeInlineWorker yield");
+							// like operator for JSON?
+
+							//Console.WriteLine("enter HopToThreadPoolAwaitable InternalInitializeInlineWorker yield");
+
+							var data = new
+							{
+								HopToUIAwaitable = new
+								{
+									// state to hop back
+								}
+							};
+
+							data = (dynamic)e.data;
+
+							//if (data.HopToUIAwaitable )
+
+							data.HopToUIAwaitable.With(
+								HopToUIAwaitable =>
+								{
+									// time to hop back on continuation?
+
+									Console.WriteLine("enter HopToThreadPoolAwaitable yield HopToUIAwaitable");
+
+									//enter HopToThreadPoolAwaitable yield HopToUIAwaitable
+									//worker Task Run function has returned {{ value_Task = null, value_TaskOfT = null }}
+									//__Task.InternalStart inner complete {{ yield = {{ value = null }} }}
+
+									// the worker should be in a suspended state, as we may want to jump back?
+								}
+							);
+
 
 						}
 					);
@@ -137,10 +167,15 @@ namespace AsyncHopToUIFromWorker
 
 						// post a message to the document 
 
+						// um. how can we signal that we are not done?
+
 						e.postMessage(
 							new
 							{
-								VirtualOnCompleted = ""
+								HopToUIAwaitable = new
+								{
+									// state to hop back
+								}
 							}
 						);
 
