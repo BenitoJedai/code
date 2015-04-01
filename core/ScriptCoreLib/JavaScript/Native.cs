@@ -181,7 +181,7 @@ namespace ScriptCoreLib.JavaScript
             //return;
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150226
-            Console.WriteLine("__ToBase64String");
+            //Console.WriteLine("__ToBase64String");
 
             // X:\jsc.svn\examples\javascript\test\TestPackageAsApplication\TestPackageAsApplication\Application.cs
             // x:\jsc.svn\examples\javascript\test\testutf8frombase64stringordefault\testutf8frombase64stringordefault\application.cs
