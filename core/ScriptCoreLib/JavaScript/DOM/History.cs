@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/History.webidl
-    // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/History.idl
-    // https://github.com/mono/mono/blob/master/mcs/class/Mono.WebBrowser/Mono.WebBrowser/DOM/IHistory.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/Mono.WebBrowser/Mono.Mozilla/DOM/History.cs
-    // http://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.History
+	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/History.webidl
+	// https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/History.idl
+	// https://github.com/mono/mono/blob/master/mcs/class/Mono.WebBrowser/Mono.WebBrowser/DOM/IHistory.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/Mono.WebBrowser/Mono.Mozilla/DOM/History.cs
+	// http://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.History
+	// http://sharpkit.net/help/SharpKit.Html4/SharpKit.Html4/History/
 
-    [Script(HasNoPrototype = true)]
+	[Script(HasNoPrototype = true)]
     public class History
     {
         // remoting.phistory?

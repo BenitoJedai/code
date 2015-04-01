@@ -8,6 +8,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 	[Script(Implements = typeof(global::System.ComponentModel.ISupportInitialize))]
 	internal interface __ISupportInitialize
 	{
+		// tested by ?
+
         void BeginInit();
         void EndInit();
 	}

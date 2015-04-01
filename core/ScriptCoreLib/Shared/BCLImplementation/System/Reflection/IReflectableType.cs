@@ -6,6 +6,7 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Reflection
 {
+	// https://msdn.microsoft.com/en-us/library/system.reflection.ireflectabletype
 	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/IReflectableType.cs
 
 	//[Script(Implements = typeof(global::System.Reflection.IReflectableType))]
