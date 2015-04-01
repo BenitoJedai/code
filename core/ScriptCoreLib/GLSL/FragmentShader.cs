@@ -48,5 +48,10 @@ namespace ScriptCoreLib.GLSL
 		// https://www.khronos.org/opengles/sdk/docs/man31/html/gl_PointCoord.xhtml
 		[mediump]
         protected vec2 gl_PointCoord;
-    }
+
+
+
+		// http://aras-p.info/blog/2014/03/28/cross-platform-shaders-in-2014/
+		// http://aras-p.info/texts/files/FastMobileShaders_siggraph2011.pdf
+	}
 }
