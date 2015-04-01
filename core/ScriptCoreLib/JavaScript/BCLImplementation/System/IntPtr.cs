@@ -20,6 +20,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	[Script(Implements = typeof(global::System.IntPtr))]
     internal class __IntPtr
     {
+		// http://www.viva64.com/en/b/0287/
+
 		// X:\jsc.svn\examples\javascript\Test\Test453DefaultIntPtr\Test453DefaultIntPtr\Class1.cs
 
 		// can we share
