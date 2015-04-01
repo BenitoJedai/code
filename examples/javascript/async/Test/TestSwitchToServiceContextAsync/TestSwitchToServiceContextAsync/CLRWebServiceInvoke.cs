@@ -71,7 +71,7 @@ namespace TestSwitchToServiceContextAsync
 					   // field names/ tokens need to be encrypted like typeinfo.
 
 					   // or, are we supposed to initialize a string value here?
-					   var xStringField = that.StringFields.FirstOrDefault(
+					   var xStringField = that.StringFields.AsEnumerable().FirstOrDefault(
 						   f => DecoratedString(f.FieldName) == DecoratedString(AsyncStateMachineSourceField.Name)
 					   );
 
