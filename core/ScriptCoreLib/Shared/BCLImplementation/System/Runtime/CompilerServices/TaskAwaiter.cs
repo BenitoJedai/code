@@ -8,6 +8,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
     // http://referencesource.microsoft.com/#mscorlib/system/runtime/compilerservices/TaskAwaiter.cs
     // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Runtime/CompilerServices/TaskAwaiter.cs
     // see: http://msdn.microsoft.com/en-us/library/hh138386(v=vs.110).aspx
+
+
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.TaskAwaiter`1")]
     //"System.Runtime.CompilerServices.TaskAwaiter`1, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
     public class __TaskAwaiter<TResult> : __INotifyCompletion
@@ -59,7 +61,6 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
             }
         }
 
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Runtime.CompilerServices.TaskAwaiter.GetResult()]
         // http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.taskawaiter.getresult.aspx
         public void GetResult()
         {

@@ -46,6 +46,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 			return new { IsCompleted }.ToString();
 		}
 
+
+		// what happens if task is disposed? cancel?
 		public Action InternalDispose;
 		public void Dispose()
 		{
@@ -57,7 +59,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
 
-		//script: error JSC1000: No implementation found for this native method, please implement [static System.Threading.Tasks.Task.Run(System.F
 
 		[Obsolete("jsc would have to write all application into a global async")]
 		public void Wait()

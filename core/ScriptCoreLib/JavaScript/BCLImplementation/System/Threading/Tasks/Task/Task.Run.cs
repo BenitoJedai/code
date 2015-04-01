@@ -17,13 +17,13 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
-    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs
-    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs
-    // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs
-    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs
+	// X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs
+	// X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs
 
-    public partial class __Task
-    {
+	public partial class __Task
+	{
 		// X:\jsc.svn\examples\java\hybrid\JVMCLRSwitchToCLRContextAsync\JVMCLRSwitchToCLRContextAsync\Program.cs
 		// X:\jsc.svn\examples\java\hybrid\JVMCLRHopToThreadPool\JVMCLRHopToThreadPool\Program.cs
 
@@ -34,80 +34,82 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 		// X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
 
 		public static Task Run<TResult>(Func<Task> function)
-        {
-            // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
+		{
+			// X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
 
-            return Task.Factory.StartNew(function).Unwrap();
-        }
+			return Task.Factory.StartNew(function).Unwrap();
+		}
 
-        public static Task<TResult> Run<TResult>(Func<Task<TResult>> function)
-        {
-            return Task.Factory.StartNew(function).Unwrap();
-        }
+		public static Task<TResult> Run<TResult>(Func<Task<TResult>> function)
+		{
+			return Task.Factory.StartNew(function).Unwrap();
+		}
 
-        public static Task<TResult> Run<TResult>(Func<TResult> function)
-        {
-            // X:\jsc.svn\examples\javascript\WorkerMD5Experiment\WorkerMD5Experiment\Application.cs
+		public static Task<TResult> Run<TResult>(Func<TResult> function)
+		{
+			// X:\jsc.svn\examples\javascript\WorkerMD5Experiment\WorkerMD5Experiment\Application.cs
 
-            //new Task(
-            return Task.Factory.StartNew(function);
-        }
-
-
-        //public static Task<TResult> Unwrap<TResult>(this Task<Task<TResult>> task);
+			//new Task(
+			return Task.Factory.StartNew(function);
+		}
 
 
-
-
-        [Script]
-        sealed class InternalTaskExtensionsScope
-        {
-            [Obsolete("Special hint for JavaScript runtime, until scope sharing is implemented..")]
-            public Action InternalTaskExtensionsScope_function;
-
-            public void f()
-            {
-                this.InternalTaskExtensionsScope_function();
-            }
-        }
-
-        [Obsolete("scope sharing, do we have it yet?")]
-        public static Task Run(Action action)
-        {
-            // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Extensions\TaskAsyncExtensions.cs
-            // X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
-            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\TaskExtensions.cs
-
-            //return Task.Factory.StartNew(action);
+		//public static Task<TResult> Unwrap<TResult>(this Task<Task<TResult>> task);
 
 
 
-            //// ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncVoidMethodBuilder+<>c__DisplayClass2`2.<AwaitUnsafeOnCompleted>b__1
-            //type$O_b44J8AxbTiq5EFPbq1SVA.nicABsAxbTiq5EFPbq1SVA = function ()
-            //{
-            //  var a = [this];
-            //  a[0].yield.hCAABiRtYD2yr4CzwPIbLw();
-            //};
+		// used by?
+		[Script]
+		sealed class InternalTaskExtensionsScope
+		{
+			// scope sharing is required for roslyn/thread hopping
+
+			[Obsolete("Special hint for JavaScript runtime, until scope sharing is implemented..")]
+			public Action InternalTaskExtensionsScope_function;
+
+			public void f()
+			{
+				this.InternalTaskExtensionsScope_function();
+			}
+		}
+
+		[Obsolete("scope sharing, do we have it yet?")]
+		public static Task Run(Action action)
+		{
+			// X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Extensions\TaskAsyncExtensions.cs
+			// X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
+			// X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\TaskExtensions.cs
+
+			//return Task.Factory.StartNew(action);
 
 
-            var xx = new InternalTaskExtensionsScope { InternalTaskExtensionsScope_function = action };
+
+			//// ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncVoidMethodBuilder+<>c__DisplayClass2`2.<AwaitUnsafeOnCompleted>b__1
+			//type$O_b44J8AxbTiq5EFPbq1SVA.nicABsAxbTiq5EFPbq1SVA = function ()
+			//{
+			//  var a = [this];
+			//  a[0].yield.hCAABiRtYD2yr4CzwPIbLw();
+			//};
 
 
-            var x = new __Task<object>();
-
-            x.InternalInitializeInlineWorker(
-                new Action(xx.f),
-                //action,
-                default(object),
-                default(CancellationToken),
-                default(TaskCreationOptions),
-                TaskScheduler.Default
-            );
+			var xx = new InternalTaskExtensionsScope { InternalTaskExtensionsScope_function = action };
 
 
-            x.Start();
+			var x = new __Task<object>();
 
-            return (Task<object>)x;
-        }
-    }
+			x.InternalInitializeInlineWorker(
+				new Action(xx.f),
+				//action,
+				default(object),
+				default(CancellationToken),
+				default(TaskCreationOptions),
+				TaskScheduler.Default
+			);
+
+
+			x.Start();
+
+			return (Task<object>)x;
+		}
+	}
 }

@@ -17,34 +17,38 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 
 	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
 	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\MemoryStream.css
-	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
+	// X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\IO\MemoryStream.cs
 
-
+	// why ist it in shared yet?
 	[Script(Implements = typeof(global::System.IO.MemoryStream))]
     internal class __MemoryStream : __Stream
     {
-        //20150119
-        // can async webethod send back a copy of memory stream just yet?
-        // X:\jsc.svn\examples\javascript\test\TestdecodeURIComponent\TestdecodeURIComponent\Application.cs
+		// 20150401 
+		// could byte[] or MemoryStream be context switched yet?
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150401
+
+		//20150119
+		// can async webethod send back a copy of memory stream just yet?
+		// X:\jsc.svn\examples\javascript\test\TestdecodeURIComponent\TestdecodeURIComponent\Application.cs
 
 
-        // X:\jsc.svn\examples\javascript\io\ZIPDecoderExperiment\ZIPDecoderExperiment\Application.cs
+		// X:\jsc.svn\examples\javascript\io\ZIPDecoderExperiment\ZIPDecoderExperiment\Application.cs
 
 
 
 
-        // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
-        // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\Experimental\X.cs
-        // X:\jsc.svn\examples\javascript\WebCamAvatarsExperiment\WebCamAvatarsExperiment\ApplicationWebService.cs
-        // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\UCLImplementation\AvalonExtensions.cs
+		// X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
+		// X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\Experimental\X.cs
+		// X:\jsc.svn\examples\javascript\WebCamAvatarsExperiment\WebCamAvatarsExperiment\ApplicationWebService.cs
+		// X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\UCLImplementation\AvalonExtensions.cs
 
 
-        // ByteArrayInputStream 
-        // http://www.koders.com/java/fid654B227C95A99C7C2ACA686E7BC6BA584491A6B7.aspx
+		// ByteArrayInputStream 
+		// http://www.koders.com/java/fid654B227C95A99C7C2ACA686E7BC6BA584491A6B7.aspx
 
-        // InputStream
-        // http://www.koders.com/java/fidF990D954151F15A618183172871A1403F719D971.aspx
-        byte[] InternalBuffer = new byte[0];
+		// InputStream
+		// http://www.koders.com/java/fidF990D954151F15A618183172871A1403F719D971.aspx
+		byte[] InternalBuffer = new byte[0];
 
         long InternalPosition;
         long InternalLength;
@@ -54,10 +58,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
         public override void Flush()
         {
             // ?
+			// sync to another thread?
         }
 
 
-
+		// jsc rewriter need to be more agressive with the while loop detection?
         // X:\jsc.svn\examples\javascript\io\synergy\PNGEncoderExperiment\PNGEncoderExperiment\Application.cs
         public __MemoryStream(int capacity)
             : this(new byte[capacity])
