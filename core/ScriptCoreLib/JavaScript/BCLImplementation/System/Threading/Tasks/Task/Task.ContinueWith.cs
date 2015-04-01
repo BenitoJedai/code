@@ -35,7 +35,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 	}
 
-	internal partial class __Task<TResult> : __Task
+	public partial class __Task<TResult> : __Task
 	{
 
 

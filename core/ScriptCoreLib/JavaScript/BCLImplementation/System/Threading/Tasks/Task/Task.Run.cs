@@ -60,7 +60,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 		// used by?
 		[Script]
-		sealed class InternalTaskExtensionsScope
+		public sealed class InternalTaskExtensionsScope
 		{
 			// scope sharing is required for roslyn/thread hopping
 
@@ -76,6 +76,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 		[Obsolete("scope sharing, do we have it yet?")]
 		public static Task Run(Action action)
 		{
+			// X:\jsc.svn\examples\javascript\async\AsyncHopToUIFromWorker\AsyncHopToUIFromWorker\Application.cs
+
 			// X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Extensions\TaskAsyncExtensions.cs
 			// X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
 			// X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\TaskExtensions.cs
@@ -84,14 +86,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
 
-			//// ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__AsyncVoidMethodBuilder+<>c__DisplayClass2`2.<AwaitUnsafeOnCompleted>b__1
-			//type$O_b44J8AxbTiq5EFPbq1SVA.nicABsAxbTiq5EFPbq1SVA = function ()
-			//{
-			//  var a = [this];
-			//  a[0].yield.hCAABiRtYD2yr4CzwPIbLw();
-			//};
 
-
+			// do we need InternalTaskExtensionsScope ?
 			var xx = new InternalTaskExtensionsScope { InternalTaskExtensionsScope_function = action };
 
 

@@ -18,6 +18,7 @@ using AsyncHopToUIFromWorker.Design;
 using AsyncHopToUIFromWorker.HTML.Pages;
 using TestSwitchToServiceContextAsync;
 using System.Threading;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
 
 namespace AsyncHopToUIFromWorker
 {
@@ -90,7 +91,28 @@ namespace AsyncHopToUIFromWorker
 					Console.WriteLine("enter HopToThreadPoolAwaitable.VirtualOnCompleted");
 
 					// post a message to the document 
+					var xx = new __Task.InternalTaskExtensionsScope { InternalTaskExtensionsScope_function = continuation };
 
+
+					var x = new __Task<object>();
+
+					x.InternalInitializeInlineWorker(
+						new Action(xx.f),
+						//action,
+						default(object),
+						default(CancellationToken),
+						default(TaskCreationOptions),
+						TaskScheduler.Default,
+
+						yield: (worker, e) =>
+						{
+							Console.WriteLine("enter HopToThreadPoolAwaitable InternalInitializeInlineWorker yield");
+
+						}
+					);
+
+
+					x.Start();
 
 
 				};
