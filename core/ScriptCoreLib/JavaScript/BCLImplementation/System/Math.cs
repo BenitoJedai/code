@@ -11,8 +11,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/math.cs
 	// http://referencesource.microsoft.com/#mscorlib/system/math.cs
 	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Math.cs
+
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Math.cs
 	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Math.cs
+	// https://github.com/sq/JSIL/blob/master/Proxies/Math.cs
 
 
 	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Math.cs

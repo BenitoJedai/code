@@ -20,18 +20,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Type.cs
 	// http://referencesource.microsoft.com/#mscorlib/system/type.cs
 	// https://github.com/mono/mono/tree/master/mcs/class/corlib/System/Type.cs
-	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Type.cs
 
 	// X:\opensource\github\JSIL\Proxies\Reflection.cs
 	// "X:\opensource\github\Netjs\mscorlib.ts"
 	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
 	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Type.cs
-	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Type.cs
 
 	[Script(Implements = typeof(global::System.Type))]
 	public class __Type : __MemberInfo
 	// IReflect ??
 	{
+		//  // System.Type is appdomain agile type. Appdomain agile types cannot have precise static constructors. Make
+		// sure to never introduce one here!
+
 		// https://github.com/dotnet/corefx/blob/master/src/Microsoft.CSharp/src/Microsoft/CSharp/RuntimeBinder/Semantics/Types/PredefinedTypes.cs
 
 		// https://msdn.microsoft.com/en-us/library/dn600644(v=vs.110).aspx
@@ -53,14 +55,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 		// X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
 		// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
 
-		public Type GetElementType()
-		{
-			// X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
-			// X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.AsEnumerable.cs
-			// MakeArray ?
 
-			return null;
-		}
 
 		public virtual bool IsEnum
 		{
@@ -75,6 +70,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 		public override string ToString()
 		{
+			if (IsArray)
+			{
+				// X:\jsc.svn\examples\javascript\test\TestTypeOfArray\TestTypeOfArray\Application.cs
+				return this.GetElementType() + "[]";
+			}
+
+
 			// set by?
 			if (IsNative)
 				return "[native] " + this.Name;
@@ -250,6 +252,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 		{
 			get
 			{
+				// would we be able to zipit and send it for a worker to search in?
+
 				// jsc does not yet emit namespace info
 				return "<Namespace>";
 			}
@@ -263,6 +267,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 			}
 		}
 
+
+		// called by?
 		__TypeReflection Reflection
 		{
 			get
@@ -275,7 +281,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 		public Type[] GetInterfaces()
 		{
-			// does jsc keep interface type info yet?
+			// does jsc keep interface type info yet? should have it by now yes..
+
 			// X:\jsc.svn\examples\javascript\Test\TestRoslynYieldReturn\TestRoslynYieldReturn\Application.cs
 
 			// wo do dont we, how else the as is works?
@@ -302,6 +309,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
+		// tested by?
 		#region GetCustomAttributes
 		public override object[] GetCustomAttributes(bool inherit)
 		{
@@ -389,6 +397,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 		#endregion
 
 
+		// when should we keep the nested type info?
 		public override Type DeclaringType
 		{
 			get { throw new NotImplementedException(); }
@@ -529,5 +538,46 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 			return any;
 		}
 
+		public virtual bool IsInstanceOfType(object o)
+		{
+			if (o == null)
+				return false;
+
+			return IsAssignableFrom(o.GetType());
+		}
+
+
+
+
+		public bool IsArray { get; set; }
+
+		public virtual Type MakeArrayType()
+		{
+			// X:\jsc.svn\examples\javascript\test\TestDynamicToArray\TestDynamicToArray\Application.cs
+
+			return new __Type
+			{
+				InternalElementType = this,
+
+				IsArray = true
+			};
+		}
+
+		public Type InternalElementType;
+
+		public Type GetElementType()
+		{
+			// X:\jsc.svn\examples\javascript\test\TestTypeOfArray\TestTypeOfArray\Application.cs
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150401
+
+			// tested by?
+			// typeofArray?
+
+			// X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+			// X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.AsEnumerable.cs
+			// MakeArray ?
+
+			return InternalElementType;
+		}
 	}
 }

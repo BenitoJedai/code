@@ -7,6 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Resources
 {
     // http://referencesource.microsoft.com/#mscorlib/system/resources/resourcemanager.cs
+
     [Script(Implements = typeof(global::System.Resources.ResourceManager))]
     public class __ResourceManager
     {

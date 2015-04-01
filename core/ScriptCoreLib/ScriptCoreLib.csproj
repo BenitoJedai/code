@@ -95,6 +95,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Net\IPEndPoint.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\IPAddress.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\Sockets\NetworkStream.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Reflection\Emit\DynamicMethod.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Reflection\Emit\DynamicILInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\TypeInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\Emit\ILGenerator.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\Module.cs" />

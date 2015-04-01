@@ -18,6 +18,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp
     [Script(Implements = typeof(global::Microsoft.CSharp.RuntimeBinder.Binder))]
     public static partial class __Binder
     {
+		// or is it part of roslyn not clr?
+
         public static CallSiteBinder BinaryOperation(CSharpBinderFlags flags, ExpressionType operation, Type context, IEnumerable<CSharpArgumentInfo> argumentInfo)
         {
             return (CallSiteBinder)(object)new __BinaryOperationBinder

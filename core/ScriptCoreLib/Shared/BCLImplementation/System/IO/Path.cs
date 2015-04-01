@@ -5,10 +5,13 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/io/path.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.IO/Path.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/io/path.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System.IO/Path.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/pal/src/file/path.cpp
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/Path.cs
 
-    [Script(Implements = typeof(global::System.IO.Path))]
+
+	[Script(Implements = typeof(global::System.IO.Path))]
     internal static class __Path
     {
         public static bool HasExtension(string path)

@@ -16,1101 +16,1107 @@ using System.Reflection;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    [Script]
-    public delegate void ActionOfDedicatedWorkerGlobalScope(DedicatedWorkerGlobalScope scope);
+	[Script]
+	public delegate void ActionOfDedicatedWorkerGlobalScope(DedicatedWorkerGlobalScope scope);
 
 
-    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Worker.webidl
-    // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/Worker.idl
-    // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/Worker.cpp
-    // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/Worker/
+	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Worker.webidl
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/Worker.idl
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/Worker.cpp
+	// http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/Worker/
 
-    // http://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.Worker
+	// http://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.Worker
 
-    [Script(HasNoPrototype = true, ExternalTarget = "Worker")]
-    public class Worker : IEventTarget
-    {
-        // http://developers.slashdot.org/story/14/10/18/2117247/javascript-and-the-netflix-user-interface
+	[Script(HasNoPrototype = true, ExternalTarget = "Worker")]
+	public class Worker : IEventTarget
+	{
+		// http://developers.slashdot.org/story/14/10/18/2117247/javascript-and-the-netflix-user-interface
 
-        //Web-workers are not cutting it. For the following reason.
-        //Real multi-threaded programs have a shared address space. Web-workers do not.
+		//Web-workers are not cutting it. For the following reason.
+		//Real multi-threaded programs have a shared address space. Web-workers do not.
+		// would async thread hopping fix that?
 
 
-        // http://philogb.github.io/blog/2012/11/04/web-workers-extension/
+		// http://philogb.github.io/blog/2012/11/04/web-workers-extension/
 
-        // http://msdn.microsoft.com/en-us/library/windows/apps/hh453409.aspx
-        // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
-        public const string ScriptApplicationSource = "view-source";
-        // X:\jsc.svn\examples\javascript\Test\TestScriptApplicationIntegrity\TestScriptApplicationIntegrity\Application.cs
+		// http://msdn.microsoft.com/en-us/library/windows/apps/hh453409.aspx
+		// X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
+		public const string ScriptApplicationSource = "view-source";
+		// X:\jsc.svn\examples\javascript\Test\TestScriptApplicationIntegrity\TestScriptApplicationIntegrity\Application.cs
 
 
-        //public const string ScriptApplicationSourceForInlineWorker = ScriptApplicationSource + "#worker";
+		//public const string ScriptApplicationSourceForInlineWorker = ScriptApplicationSource + "#worker";
 
 
 
-        #region event onmessage
-        public event System.Action<MessageEvent> onmessage
-        {
-            [Script(DefineAsStatic = true)]
-            add
-            {
-                base.InternalEvent(true, value, "message");
-            }
-            [Script(DefineAsStatic = true)]
-            remove
-            {
-                base.InternalEvent(false, value, "message");
-            }
-        }
-        #endregion
+		#region event onmessage
+		public event System.Action<MessageEvent> onmessage
+		{
+			[Script(DefineAsStatic = true)]
+			add
+			{
+				base.InternalEvent(true, value, "message");
+			}
+			[Script(DefineAsStatic = true)]
+			remove
+			{
+				base.InternalEvent(false, value, "message");
+			}
+		}
+		#endregion
 
-        public void postMessage(object message, MessagePort[] transfer) { }
+		public void postMessage(object message, MessagePort[] transfer) { }
 
 
-        #region ctor
-        public Worker(string uri = ScriptApplicationSource)
-        {
-            // where does it continue?
-        }
+		#region ctor
+		public Worker(string uri = ScriptApplicationSource)
+		{
+			// where does it continue?
+		}
 
 
 
 
-        //[Obsolete("https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130816-web-worker")]
-        public Worker(Action<DedicatedWorkerGlobalScope> yield)
-        {
+		//[Obsolete("https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130816-web-worker")]
+		public Worker(Action<DedicatedWorkerGlobalScope> yield)
+		{
 
-        }
-        #endregion
+		}
+		#endregion
 
-        public void terminate()
-        {
-        }
-    }
+		public void terminate()
+		{
+		}
+	}
 
 
-    [Script]
-    public class InternalInlineWorker
-    {
-        static InternalInlineWorker()
-        {
+	[Script]
+	public class InternalInlineWorker
+	{
+		static InternalInlineWorker()
+		{
 
-        }
+		}
 
-        public static string ScriptApplicationSourceForInlineWorker = Worker.ScriptApplicationSource;
+		public static string ScriptApplicationSourceForInlineWorker = Worker.ScriptApplicationSource;
 
-        // capture early.
-        //public static string ScriptApplicationSourceForInlineWorker = GetScriptApplicationSourceForInlineWorker();
+		// capture early.
+		//public static string ScriptApplicationSourceForInlineWorker = GetScriptApplicationSourceForInlineWorker();
 
-        [Obsolete("what if core is loaded once. how would the worker then know where it should run from?")]
-        public static string GetScriptApplicationSourceForInlineWorker()
-        {
-            // ncaught TypeError: Cannot use 'in' operator to search for 'InternalScriptApplicationSource' in null 
+		[Obsolete("what if core is loaded once. how would the worker then know where it should run from?")]
+		public static string GetScriptApplicationSourceForInlineWorker()
+		{
+			// ncaught TypeError: Cannot use 'in' operator to search for 'InternalScriptApplicationSource' in null 
 
-            var value = ScriptApplicationSourceForInlineWorker;
+			var value = ScriptApplicationSourceForInlineWorker;
 
-            //if (ScriptApplicationSourceForInlineWorker == null)
-            {
-                var x = Expando.Of(Native.self);
+			//if (ScriptApplicationSourceForInlineWorker == null)
+			{
+				var x = Expando.Of(Native.self);
 
-                // by default we should be running as view-source
-                // what if we are being loaded from a blob?
+				// by default we should be running as view-source
+				// what if we are being loaded from a blob?
 
-                //value = Worker.ScriptApplicationSource;
+				//value = Worker.ScriptApplicationSource;
 
 
-                if (x.Contains("InternalScriptApplicationSource"))
-                {
-                    value = (string)Expando.InternalGetMember(Native.self, "InternalScriptApplicationSource");
+				if (x.Contains("InternalScriptApplicationSource"))
+				{
+					value = (string)Expando.InternalGetMember(Native.self, "InternalScriptApplicationSource");
 
-                }
+				}
 
-                // GetScriptApplicationSourceForInlineWorker { source = view-source }
+				// GetScriptApplicationSourceForInlineWorker { source = view-source }
 
-                // { InternalScriptApplicationSource = blob:http%3A//192.168.43.252%3A21646/b74d8ef2-5b0a-4eee-8721-2f1ad91826ee } 
-                // GetScriptApplicationSourceForInlineWorker { source = blob:http%3A//192.168.43.252%3A21646/b74d8ef2-5b0a-4eee-8721-2f1ad91826ee }
+				// { InternalScriptApplicationSource = blob:http%3A//192.168.43.252%3A21646/b74d8ef2-5b0a-4eee-8721-2f1ad91826ee } 
+				// GetScriptApplicationSourceForInlineWorker { source = blob:http%3A//192.168.43.252%3A21646/b74d8ef2-5b0a-4eee-8721-2f1ad91826ee }
 
 
 
-                value += "#worker";
+				value += "#worker";
 
-            }
+			}
 
 
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141112
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141112
 
-            //Console.WriteLine("GetScriptApplicationSourceForInlineWorker "
-            //    + new { value });
+			//Console.WriteLine("GetScriptApplicationSourceForInlineWorker "
+			//    + new { value });
 
-            return value;
-        }
+			return value;
+		}
 
 
-        // WorkerGlobalScope
+		// WorkerGlobalScope
 
-        //static readonly List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>> Handlers = new List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>>();
-        static readonly List<Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope>> SharedWorkerHandlers = new List<Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope>>();
+		//static readonly List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>> Handlers = new List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>>();
+		static readonly List<Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope>> SharedWorkerHandlers = new List<Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope>>();
 
 
-        // is it used?
-        [Obsolete]
-        public static void InternalAddSharedWorker(Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope> yield)
-        {
-            Console.WriteLine("InternalInlineWorker InternalAddSharedWorker");
+		// is it used?
+		[Obsolete]
+		public static void InternalAddSharedWorker(Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope> yield)
+		{
+			Console.WriteLine("InternalInlineWorker InternalAddSharedWorker");
 
-            SharedWorkerHandlers.Add(yield);
-        }
+			SharedWorkerHandlers.Add(yield);
+		}
 
-        [Obsolete("the hacky way to share static string fields..")]
-        internal static object __string
-        {
-            get
-            {
-                return new IFunction("return __string;").apply(Native.window);
-            }
-        }
 
-        [Obsolete]
-        public static void InternalAdd(Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope> yield)
-        {
-            // thanks compiler, but we are doing this now on runtime
-        }
 
-        // how many threads have we created? lets start at ten
-        internal static int InternalThreadCounter = 10;
+		// once scope sharing is available, no direct need to sync statics?
+		[Obsolete("the hacky way to share static string fields..")]
+		internal static object __string
+		{
+			get
+			{
+				return new IFunction("return __string;").apply(Native.window);
+			}
+		}
 
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130812-sharedworker
-        // called by ?
-        public static global::ScriptCoreLib.JavaScript.DOM.SharedWorker InternalSharedWorkerConstructor(Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope> yield)
-        {
-            var index = -1;
+		[Obsolete]
+		public static void InternalAdd(Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope> yield)
+		{
+			// thanks compiler, but we are doing this now on runtime
+		}
 
-            for (int i = 0; i < SharedWorkerHandlers.Count; i++)
-            {
-                if (SharedWorkerHandlers[i] == yield)
-                    index = i;
-            }
+		// how many threads have we created? lets start at ten
+		internal static int InternalThreadCounter = 10;
 
-            Console.WriteLine("InternalInlineWorker InternalSharedWorkerConstructor " + new { index });
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130812-sharedworker
+		// called by ?
+		public static global::ScriptCoreLib.JavaScript.DOM.SharedWorker InternalSharedWorkerConstructor(Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope> yield)
+		{
+			var index = -1;
 
+			for (int i = 0; i < SharedWorkerHandlers.Count; i++)
+			{
+				if (SharedWorkerHandlers[i] == yield)
+					index = i;
+			}
 
-            var w = new global::ScriptCoreLib.JavaScript.DOM.SharedWorker(
-                    global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSource
-                    + "#" + index
-                    + "#sharedworker"
-            );
+			Console.WriteLine("InternalInlineWorker InternalSharedWorkerConstructor " + new { index });
 
-            //w.port.start();
-            //w.port.postMessage("" + index,
-            //      e =>
-            //      {
-            //          // since this is shared, we actually need it only once
-            //          // need to deduplicate
 
-            //          Console.Write("" + e.data);
-            //      }
-            // );
+			var w = new global::ScriptCoreLib.JavaScript.DOM.SharedWorker(
+					global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSource
+					+ "#" + index
+					+ "#sharedworker"
+			);
 
+			//w.port.start();
+			//w.port.postMessage("" + index,
+			//      e =>
+			//      {
+			//          // since this is shared, we actually need it only once
+			//          // need to deduplicate
 
-            return w;
-        }
+			//          Console.Write("" + e.data);
+			//      }
+			// );
 
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130816-web-worker
-        // called by?
-        public static global::ScriptCoreLib.JavaScript.DOM.Worker InternalConstructor(
-            Action<DedicatedWorkerGlobalScope> yield
-            )
-        {
-            var MethodToken = ((__MethodInfo)yield.Method).InternalMethodToken;
 
-            Console.WriteLine("InternalInlineWorker InternalConstructor " + new
-            {
-                MethodToken,
-                InternalThreadCounter
-            });
+			return w;
+		}
 
-            // discard params
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130816-web-worker
+		// called by?
+		public static global::ScriptCoreLib.JavaScript.DOM.Worker InternalConstructor(
+			Action<DedicatedWorkerGlobalScope> yield
+			)
+		{
+			var MethodToken = ((__MethodInfo)yield.Method).InternalMethodToken;
 
+			Console.WriteLine("InternalInlineWorker InternalConstructor " + new
+			{
+				MethodToken,
+				InternalThreadCounter
+			});
 
+			// discard params
 
 
-            // we need some kind of per Application activation index
-            // so multiple inline workers could know which they are.
 
-            // x:\jsc.svn\examples\javascript\Test\TestThreadStart\TestThreadStart\Application.cs
-            // share scope
 
-            // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-            dynamic xdata = new object();
+			// we need some kind of per Application activation index
+			// so multiple inline workers could know which they are.
 
-            xdata.InternalThreadCounter = InternalInlineWorker.InternalThreadCounter;
-            xdata.MethodToken = MethodToken;
-            xdata.MethodType = typeof(ActionOfDedicatedWorkerGlobalScope).Name;
+			// x:\jsc.svn\examples\javascript\Test\TestThreadStart\TestThreadStart\Application.cs
+			// share scope
 
-            #region xdata___string
-            dynamic xdata___string = new object();
+			// X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
+			dynamic xdata = new object();
 
-            // how much does this slow us down?
-            // connecting to a new scope, we need a fresh copy of everything
-            // we can start with strings
-            foreach (ExpandoMember nn in Expando.Of(__string).GetMembers())
-            {
-                if (nn.Value != null)
-                    xdata___string[nn.Name] = nn.Value;
-            }
-            #endregion
+			xdata.InternalThreadCounter = InternalInlineWorker.InternalThreadCounter;
+			xdata.MethodToken = MethodToken;
+			xdata.MethodType = typeof(ActionOfDedicatedWorkerGlobalScope).Name;
 
-            xdata.__string = xdata___string;
+			#region xdata___string
+			dynamic xdata___string = new object();
 
-            InternalInlineWorker.InternalThreadCounter++;
+			// how much does this slow us down?
+			// connecting to a new scope, we need a fresh copy of everything
+			// we can start with strings
+			foreach (ExpandoMember nn in Expando.Of(__string).GetMembers())
+			{
+				if (nn.Value != null)
+					xdata___string[nn.Name] = nn.Value;
+			}
+			#endregion
 
-            var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
-                GetScriptApplicationSourceForInlineWorker()
-            );
+			xdata.__string = xdata___string;
 
-            w.postMessage((object)xdata,
-                 e =>
-                 {
-                     // what kind of write backs do we expect?
-                     // for now it should be console only
+			InternalInlineWorker.InternalThreadCounter++;
 
-                     // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-                     dynamic zdata = e.data;
+			var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
+				GetScriptApplicationSourceForInlineWorker()
+			);
 
-                     #region AtWrite
-                     string AtWrite = zdata.AtWrite;
+			w.postMessage((object)xdata,
+				 e =>
+				 {
+					 // what kind of write backs do we expect?
+					 // for now it should be console only
 
-                     if (!string.IsNullOrEmpty(AtWrite))
-                         Console.Write(AtWrite);
-                     #endregion
+					 // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
+					 dynamic zdata = e.data;
 
-                     #region __string
-                     var zdata___string = (object)zdata.__string;
-                     if (zdata___string != null)
-                     {
-                         #region __string
-                         dynamic target = __string;
-                         var m = Expando.Of(zdata___string).GetMembers();
+					 #region AtWrite
+					 string AtWrite = zdata.AtWrite;
 
-                         foreach (ExpandoMember nn in m)
-                         {
-                             Console.WriteLine("Worker has sent changes " + new { nn.Name });
+					 if (!string.IsNullOrEmpty(AtWrite))
+						 Console.Write(AtWrite);
+					 #endregion
 
-                             target[nn.Name] = nn.Value;
-                         }
-                         #endregion
-                     }
-                     #endregion
+					 #region __string
+					 var zdata___string = (object)zdata.__string;
+					 if (zdata___string != null)
+					 {
+						 #region __string
+						 dynamic target = __string;
+						 var m = Expando.Of(zdata___string).GetMembers();
 
-                 }
-            );
+						 foreach (ExpandoMember nn in m)
+						 {
+							 Console.WriteLine("Worker has sent changes " + new { nn.Name });
 
-            return w;
-        }
+							 target[nn.Name] = nn.Value;
+						 }
+						 #endregion
+					 }
+					 #endregion
 
+				 }
+			);
 
+			return w;
+		}
 
 
-        static void __worker_onfirstmessage(MessageEvent e,
-            int InternalThreadCounter,
-             object data___string,
 
-            bool[] MethodTargetObjectDataIsProgress,
-            object[] MethodTargetObjectData,
 
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141112
-            object[] MethodTargetObjectDataTypes,
+		static void __worker_onfirstmessage(MessageEvent e,
+			int InternalThreadCounter,
+			 object data___string,
 
-            object MethodTargetTypeIndex,
+			bool[] MethodTargetObjectDataIsProgress,
+			object[] MethodTargetObjectData,
 
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141112
+			object[] MethodTargetObjectDataTypes,
 
-            // set by ?
-              string MethodToken,
-            string MethodType,
+			object MethodTargetTypeIndex,
 
 
-            object state_ObjectData,
-            object stateTypeHandleIndex,
-            object state,
+			  // set by ?
+			  string MethodToken,
+			string MethodType,
 
-            bool IsIProgress,
-            //bool IsTuple2_Item1_IsIProgress,
 
-            __Task<object>[] TaskArray
-            )
-        {
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111
+			object state_ObjectData,
+			object stateTypeHandleIndex,
+			object state,
 
-            #region ConsoleFormWriter
-            var w = new InternalInlineWorkerTextWriter();
+			bool IsIProgress,
+			//bool IsTuple2_Item1_IsIProgress,
 
-            var o = Console.Out;
+			__Task<object>[] TaskArray
+			)
+		{
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150111
 
-            Console.SetOut(w);
+			#region ConsoleFormWriter
+			var w = new InternalInlineWorkerTextWriter();
 
-            w.AtWrite =
-                 x =>
-                 {
-                     // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-                     dynamic zdata = new object();
+			var o = Console.Out;
 
-                     zdata.AtWrite = x;
+			Console.SetOut(w);
 
+			w.AtWrite =
+				 x =>
+				 {
+					 // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
+					 dynamic zdata = new object();
 
-                     foreach (MessagePort port in e.ports)
-                     {
+					 zdata.AtWrite = x;
 
 
-                         port.postMessage((object)zdata, new MessagePort[0]);
-                     }
+					 foreach (MessagePort port in e.ports)
+					 {
 
-                 };
 
-            #endregion
+						 port.postMessage((object)zdata, new MessagePort[0]);
+					 }
 
-            __Thread.InternalCurrentThread.ManagedThreadId = InternalThreadCounter;
-            __Thread.InternalCurrentThread.IsBackground = true;
+				 };
 
-            // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-            dynamic self = Native.self;
+			#endregion
 
-            var stateType = default(Type);
+			__Thread.InternalCurrentThread.ManagedThreadId = InternalThreadCounter;
+			__Thread.InternalCurrentThread.IsBackground = true;
 
-            if (stateTypeHandleIndex != null)
-                stateType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[stateTypeHandleIndex]));
+			// X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
+			dynamic self = Native.self;
 
-            // X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
-            var MethodTargetType = default(Type);
+			var stateType = default(Type);
 
-            if (MethodTargetTypeIndex != null)
-                MethodTargetType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[MethodTargetTypeIndex]));
-            // stateType = <Namespace>.xFoo,
+			if (stateTypeHandleIndex != null)
+				stateType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[stateTypeHandleIndex]));
 
+			// X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
+			var MethodTargetType = default(Type);
 
+			if (MethodTargetTypeIndex != null)
+				MethodTargetType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[MethodTargetTypeIndex]));
+			// stateType = <Namespace>.xFoo,
 
-            // MethodTargetTypeIndex = type$GV0nCx_bM8z6My5NDh7GXlQ, 
 
-            Console.WriteLine(
-                "__worker_onfirstmessage: " +
-                new
-                {
-                    Thread.CurrentThread.ManagedThreadId,
-                    Native.worker.location.href,
 
-                    MethodTargetTypeIndex,
-                    MethodTargetType,
+			// MethodTargetTypeIndex = type$GV0nCx_bM8z6My5NDh7GXlQ, 
 
-                    MethodToken,
-                    MethodType,
+			Console.WriteLine(
+				"__worker_onfirstmessage: " +
+				new
+				{
+					Thread.CurrentThread.ManagedThreadId,
+					Native.worker.location.href,
 
+					MethodTargetTypeIndex,
+					MethodTargetType,
 
-                    //IsTuple2_Item1_IsIProgress,
+					MethodToken,
+					MethodType,
 
 
-                    // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
-                    stateTypeHandleIndex,
-                    stateType,
-                    state,
-                    IsIProgress,
+					//IsTuple2_Item1_IsIProgress,
 
-                    //MethodTokenReference
-                }
-            );
 
-            #region MethodTokenReference
-            var MethodTokenReference = default(IFunction);
-            var MethodTarget = default(object);
+					// X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
+					stateTypeHandleIndex,
+					stateType,
+					state,
+					IsIProgress,
 
-            if (MethodTargetType == null)
-            {
-                MethodTokenReference = IFunction.Of(MethodToken);
-            }
-            else
-            {
-                MethodTarget = FormatterServices.GetUninitializedObject(MethodTargetType);
+					//MethodTokenReference
+				}
+			);
 
-                var MethodTargetTypeSerializableMembers = FormatterServices.GetSerializableMembers(MethodTargetType);
+			#region MethodTokenReference
+			var MethodTokenReference = default(IFunction);
+			var MethodTarget = default(object);
 
-                // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
+			if (MethodTargetType == null)
+			{
+				MethodTokenReference = IFunction.Of(MethodToken);
+			}
+			else
+			{
+				MethodTarget = FormatterServices.GetUninitializedObject(MethodTargetType);
 
-                for (int i = 0; i < MethodTargetTypeSerializableMembers.Length; i++)
-                {
-                    var xMember = MethodTargetTypeSerializableMembers[i] as FieldInfo;
-                    var xObjectData = MethodTargetObjectData[i];
+				var MethodTargetTypeSerializableMembers = FormatterServices.GetSerializableMembers(MethodTargetType);
 
-                    var xMethodTargetObjectDataTypeIndex = MethodTargetObjectDataTypes[i];
+				// X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
 
+				for (int i = 0; i < MethodTargetTypeSerializableMembers.Length; i++)
+				{
+					var xMember = MethodTargetTypeSerializableMembers[i] as FieldInfo;
+					var xObjectData = MethodTargetObjectData[i];
 
-                    var xIsProgress = MethodTargetObjectDataIsProgress[i];
+					var xMethodTargetObjectDataTypeIndex = MethodTargetObjectDataTypes[i];
 
-                    // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServer\ChromeTCPServer\Application.cs
-                    // does our chrome tcp server get the damn path?
-                    Console.WriteLine(new { xMember, xMethodTargetObjectDataTypeIndex, xObjectData, xIsProgress });
 
-                    #region MethodTargetObjectDataIsProgress
-                    // cant we use xMethodTargetObjectDataType instead?
-                    if (xIsProgress)
-                    {
+					var xIsProgress = MethodTargetObjectDataIsProgress[i];
 
-                        var ii = i;
-                        MethodTargetObjectData[ii] = new __Progress<object>(
-                            ProgressEvent =>
-                            {
-                                // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-                                dynamic zdata = new object();
+					// X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServer\ChromeTCPServer\Application.cs
+					// does our chrome tcp server get the damn path?
+					Console.WriteLine(new { xMember, xMethodTargetObjectDataTypeIndex, xObjectData, xIsProgress });
 
-                                zdata.MethodTargetObjectDataProgressReport = new { ProgressEvent, ii };
+					#region MethodTargetObjectDataIsProgress
+					// cant we use xMethodTargetObjectDataType instead?
+					if (xIsProgress)
+					{
 
-                                foreach (MessagePort port in e.ports)
-                                {
-                                    port.postMessage((object)zdata, new MessagePort[0]);
-                                }
+						var ii = i;
+						MethodTargetObjectData[ii] = new __Progress<object>(
+							ProgressEvent =>
+							{
+								// X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
+								dynamic zdata = new object();
 
-                                //Console.WriteLine(new { MethodTargetTypeSerializableMember, MethodTargetTypeSerializableMemberIsProgress, ProgressEvent });
-                            }
-                        );
-                    }
-                    #endregion
+								zdata.MethodTargetObjectDataProgressReport = new { ProgressEvent, ii };
 
-                    else
-                    {
-                        var xMethodTargetObjectDataType = default(Type);
-                        if (xMethodTargetObjectDataTypeIndex != null)
-                            xMethodTargetObjectDataType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[xMethodTargetObjectDataTypeIndex]));
+								foreach (MessagePort port in e.ports)
+								{
+									port.postMessage((object)zdata, new MessagePort[0]);
+								}
 
-                        // now we know the type. should we review it?
+								//Console.WriteLine(new { MethodTargetTypeSerializableMember, MethodTargetTypeSerializableMemberIsProgress, ProgressEvent });
+							}
+						);
+					}
+					#endregion
 
-                        if (xMethodTargetObjectDataType != null)
-                        {
-                            var scope2copy = FormatterServices.GetUninitializedObject(xMethodTargetObjectDataType);
+					else
+					{
+						var xMethodTargetObjectDataType = default(Type);
+						if (xMethodTargetObjectDataTypeIndex != null)
+							xMethodTargetObjectDataType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[xMethodTargetObjectDataTypeIndex]));
 
-                            //shall we copy the members too?
-                            //FormatterServices.PopulateObjectMembers(scope2copy, scope2TypeSerializableMembers, scope2ObjectData);
+						// now we know the type. should we review it?
 
-                            MethodTargetObjectData[i] = scope2copy;
+						if (xMethodTargetObjectDataType != null)
+						{
+							var scope2copy = FormatterServices.GetUninitializedObject(xMethodTargetObjectDataType);
 
-                        }
-                    }
-                }
+							//shall we copy the members too?
+							//FormatterServices.PopulateObjectMembers(scope2copy, scope2TypeSerializableMembers, scope2ObjectData);
 
-                FormatterServices.PopulateObjectMembers(
-                    MethodTarget,
-                    MethodTargetTypeSerializableMembers,
-                    MethodTargetObjectData
-                );
+							MethodTargetObjectData[i] = scope2copy;
 
+						}
+					}
+				}
 
+				FormatterServices.PopulateObjectMembers(
+					MethodTarget,
+					MethodTargetTypeSerializableMembers,
+					MethodTargetObjectData
+				);
 
-                // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-                MethodTokenReference = (MethodTarget as dynamic)[MethodToken];
-            }
 
-            // what if we are being called from within a secondary app?
 
-            //  stateTypeHandleIndex = type$XjKww8iSKT_aFTpY_bSs5vBQ,
-            if (MethodTokenReference == null)
-            {
-                // tested at
-                // X:\jsc.svn\examples\javascript\WorkerInsideSecondaryApplication\WorkerInsideSecondaryApplication\Application.cs
+				// X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
+				MethodTokenReference = (MethodTarget as dynamic)[MethodToken];
+			}
 
+			// what if we are being called from within a secondary app?
 
-                // X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
-                // why?
-                throw new InvalidOperationException(
-                    new { MethodToken } + " function is not available at " + new { Native.worker.location.href }
-                );
-            }
-            #endregion
+			//  stateTypeHandleIndex = type$XjKww8iSKT_aFTpY_bSs5vBQ,
+			if (MethodTokenReference == null)
+			{
+				// tested at
+				// X:\jsc.svn\examples\javascript\WorkerInsideSecondaryApplication\WorkerInsideSecondaryApplication\Application.cs
 
-            //Console.WriteLine(
-            //     new
-            //     {
-            //         MethodTokenReference,
-            //         Thread.CurrentThread.ManagedThreadId
-            //     }
-            // );
 
-            // whats the type?
+				// X:\jsc.svn\examples\javascript\Test\TestHopToThreadPoolAwaitable\TestHopToThreadPoolAwaitable\Application.cs
+				// why?
+				throw new InvalidOperationException(
+					new { MethodToken } + " function is not available at " + new { Native.worker.location.href }
+				);
+			}
+			#endregion
 
+			//Console.WriteLine(
+			//     new
+			//     {
+			//         MethodTokenReference,
+			//         Thread.CurrentThread.ManagedThreadId
+			//     }
+			// );
 
+			// whats the type?
 
-            #region xstate
-            var xstate = default(object);
 
-            if (stateType != null)
-            {
-                xstate = FormatterServices.GetUninitializedObject(stateType);
-                var xstate_SerializableMembers = FormatterServices.GetSerializableMembers(stateType);
 
-                FormatterServices.PopulateObjectMembers(
-                    xstate,
-                    xstate_SerializableMembers,
-                    (object[])state_ObjectData
-                );
+			#region xstate
+			var xstate = default(object);
 
-                // MethodType = FuncOfObjectToObject
-                //Console.WriteLine("as FuncOfObjectToObject");
-            }
-            #endregion
+			if (stateType != null)
+			{
+				xstate = FormatterServices.GetUninitializedObject(stateType);
+				var xstate_SerializableMembers = FormatterServices.GetSerializableMembers(stateType);
 
-            #region CreateProgress
-            Func<__Progress<object>> CreateProgress =
-                () => new __Progress<object>(
-                    value =>
-                    {
-                        //Console.WriteLine("__IProgress_Report " + new { value });
+				FormatterServices.PopulateObjectMembers(
+					xstate,
+					xstate_SerializableMembers,
+					(object[])state_ObjectData
+				);
 
-                        // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-                        dynamic zdata = new object();
+				// MethodType = FuncOfObjectToObject
+				//Console.WriteLine("as FuncOfObjectToObject");
+			}
+			#endregion
 
-                        zdata.__IProgress_Report = new { value };
+			#region CreateProgress
+			Func<__Progress<object>> CreateProgress =
+				() => new __Progress<object>(
+					value =>
+					{
+						//Console.WriteLine("__IProgress_Report " + new { value });
 
-                        foreach (MessagePort port in e.ports)
-                        {
-                            port.postMessage((object)zdata, new MessagePort[0]);
-                        }
-                    }
-                );
+						// X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
+						dynamic zdata = new object();
 
-            // X:\jsc.svn\examples\javascript\async\Test\TestWorkerProgress\TestWorkerProgress\Application.cs
-            if (IsIProgress)
-                xstate = CreateProgress();
+						zdata.__IProgress_Report = new { value };
 
+						foreach (MessagePort port in e.ports)
+						{
+							port.postMessage((object)zdata, new MessagePort[0]);
+						}
+					}
+				);
 
-            #endregion
+			// X:\jsc.svn\examples\javascript\async\Test\TestWorkerProgress\TestWorkerProgress\Application.cs
+			if (IsIProgress)
+				xstate = CreateProgress();
 
 
+			#endregion
 
-            #region __string
-            // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-            dynamic target = __string;
-            var m = Expando.Of(data___string).GetMembers();
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130826-domainmemory
-            foreach (ExpandoMember nn in m)
-            {
-                target[nn.Name] = nn.Value;
 
-                var trigger = "set_" + nn.Name;
-                var trigger_default = IFunction.Of(trigger);
 
-                (Native.self as dynamic)[trigger] = IFunction.OfDelegate(
-                    new Action<string>(
-                        Value =>
-                        {
-                            if (nn.Value == Value)
-                                return;
+			#region __string
+			// X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
+			dynamic target = __string;
+			var m = Expando.Of(data___string).GetMembers();
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130826-domainmemory
+			foreach (ExpandoMember nn in m)
+			{
+				target[nn.Name] = nn.Value;
 
-                            trigger_default.apply(null, Value);
+				var trigger = "set_" + nn.Name;
+				var trigger_default = IFunction.Of(trigger);
 
-                            #region sync one field only
+				(Native.self as dynamic)[trigger] = IFunction.OfDelegate(
+					new Action<string>(
+						Value =>
+						{
+							if (nn.Value == Value)
+								return;
 
-                            {
-                                dynamic zdata = new object();
-                                dynamic zdata___string = new object();
+							trigger_default.apply(null, Value);
 
-                                zdata.__string = zdata___string;
+							#region sync one field only
 
+							{
+								dynamic zdata = new object();
+								dynamic zdata___string = new object();
 
-                                zdata___string[nn.Name] = Value;
+								zdata.__string = zdata___string;
 
-                                // prevent sync via diff
-                                nn.Value = Value;
 
-                                foreach (MessagePort port in e.ports)
-                                {
-                                    port.postMessage((object)zdata, new MessagePort[0]);
-                                }
+								zdata___string[nn.Name] = Value;
 
-                            }
+								// prevent sync via diff
+								nn.Value = Value;
 
+								foreach (MessagePort port in e.ports)
+								{
+									port.postMessage((object)zdata, new MessagePort[0]);
+								}
 
-                            #endregion
-                        }
-                    )
-                );
-            }
-            #endregion
+							}
 
 
-            {
-                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
-                // for now we only support static calls
+							#endregion
+						}
+					)
+				);
+			}
+			#endregion
 
 
-                // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-                dynamic zdata = new object();
+			{
+				// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
+				// for now we only support static calls
 
 
-                if (MethodType == typeof(ActionOfDedicatedWorkerGlobalScope).Name)
-                {
-                    MethodTokenReference.apply(null, Native.worker);
-                }
-                else if (MethodType == typeof(FuncOfObjectToObject).Name)
-                {
+				// X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
+				dynamic zdata = new object();
 
-                    Console.WriteLine("worker Task Run function call");
 
+				if (MethodType == typeof(ActionOfDedicatedWorkerGlobalScope).Name)
+				{
+					MethodTokenReference.apply(null, Native.worker);
+				}
+				else if (MethodType == typeof(FuncOfObjectToObject).Name)
+				{
 
-                    #region FuncOfObjectToObject
-                    // X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
-                    // X:\jsc.svn\examples\javascript\async\test\TestTaskRun\TestTaskRun\Application.cs
-                    // X:\jsc.svn\examples\javascript\Test\TestGetUninitializedObject\TestGetUninitializedObject\Application.cs
+					Console.WriteLine("worker Task Run function call");
 
 
-                    var value = MethodTokenReference.apply(MethodTarget, xstate);
+					#region FuncOfObjectToObject
+					// X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
+					// X:\jsc.svn\examples\javascript\async\test\TestTaskRun\TestTaskRun\Application.cs
+					// X:\jsc.svn\examples\javascript\Test\TestGetUninitializedObject\TestGetUninitializedObject\Application.cs
 
-                    // X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
 
-                    var value_Task = value as __Task;
-                    var value_TaskOfT = value as __Task<object>;
+					var value = MethodTokenReference.apply(MethodTarget, xstate);
 
-                    // 0:25611ms Task Run function has returned { value_Task = [object Object], value_TaskOfT = [object Object] } 
-                    Console.WriteLine("worker Task Run function has returned " + new { value_Task, value_TaskOfT });
-                    // 0:4284ms Task Run function has returned { value_Task = { IsCompleted = 1, Result =  }, value_TaskOfT = { IsCompleted = 1, Result =  } } 
-                    // 0:5523ms Task Run function has returned { value_Task = { IsCompleted = false, Result =  }, value_TaskOfT = { IsCompleted = false, Result =  } } 
+					// X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
 
-                    if (value_TaskOfT != null)
-                    {
-                        // special situation
+					var value_Task = value as __Task;
+					var value_TaskOfT = value as __Task<object>;
 
-                        // if IsCompleted, called twice? or heard twice?
-                        value_TaskOfT.ContinueWith(
-                            t =>
-                            {
-                                Console.WriteLine("worker Task Run ContinueWith " + new { t });
+					// 0:25611ms Task Run function has returned { value_Task = [object Object], value_TaskOfT = [object Object] } 
+					Console.WriteLine("worker Task Run function has returned " + new { value_Task, value_TaskOfT });
+					// 0:4284ms Task Run function has returned { value_Task = { IsCompleted = 1, Result =  }, value_TaskOfT = { IsCompleted = 1, Result =  } } 
+					// 0:5523ms Task Run function has returned { value_Task = { IsCompleted = false, Result =  }, value_TaskOfT = { IsCompleted = false, Result =  } } 
 
+					if (value_TaskOfT != null)
+					{
+						// special situation
 
-                                // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-                                dynamic zzdata = new object();
+						// if IsCompleted, called twice? or heard twice?
+						value_TaskOfT.ContinueWith(
+							t =>
+							{
+								Console.WriteLine("worker Task Run ContinueWith " + new { t });
 
-                                // null?
-                                if (t.Result == null)
-                                {
-                                    zzdata.ContinueWithResult = new { t.Result };
-                                    foreach (MessagePort port in e.ports)
-                                    {
-                                        port.postMessage((object)zzdata, new MessagePort[0]);
-                                    }
-                                    return;
-                                }
 
-                                var ResultType = t.Result.GetType();
-                                var ResultTypeIndex = __Type.GetTypeIndex("workerResult", ResultType);
+								// X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
+								dynamic zzdata = new object();
 
-                                var ResultTypeSerializableMembers = FormatterServices.GetSerializableMembers(ResultType);
-                                var ResultObjectData = FormatterServices.GetObjectData(t.Result, ResultTypeSerializableMembers);
+								// null?
+								if (t.Result == null)
+								{
+									zzdata.ContinueWithResult = new { t.Result };
+									foreach (MessagePort port in e.ports)
+									{
+										port.postMessage((object)zzdata, new MessagePort[0]);
+									}
+									return;
+								}
 
-                                var ContinueWithResult = new
-                                {
-                                    ResultTypeIndex,
-                                    ResultObjectData,
+								var ResultType = t.Result.GetType();
+								var ResultTypeIndex = __Type.GetTypeIndex("workerResult", ResultType);
 
-                                    t.Result
+								var ResultTypeSerializableMembers = FormatterServices.GetSerializableMembers(ResultType);
+								var ResultObjectData = FormatterServices.GetObjectData(t.Result, ResultTypeSerializableMembers);
 
-                                };
+								var ContinueWithResult = new
+								{
+									ResultTypeIndex,
+									ResultObjectData,
 
-                                zzdata.ContinueWithResult = ContinueWithResult;
+									t.Result
 
-                                foreach (MessagePort port in e.ports)
-                                {
-                                    port.postMessage((object)zzdata, new MessagePort[0]);
-                                }
-                            }
-                        );
+								};
 
-                    }
-                    else
-                    {
+								zzdata.ContinueWithResult = ContinueWithResult;
 
-                        if (value_Task != null)
-                        {
-                            // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
+								foreach (MessagePort port in e.ports)
+								{
+									port.postMessage((object)zzdata, new MessagePort[0]);
+								}
+							}
+						);
 
-                            throw new NotImplementedException();
-                        }
-                        else
-                        {
+					}
+					else
+					{
 
-                            var yield = new { value };
+						if (value_Task != null)
+						{
+							// X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
 
-                            //Console.WriteLine(new { yield });
+							throw new NotImplementedException();
+						}
+						else
+						{
 
-                            zdata.yield = yield;
-                        }
-                    }
-                    #endregion
-                    // now what?
-                }
-                else if (MethodType == typeof(FuncOfTaskToObject).Name)
-                {
-                    // tested by?
-                    #region FuncOfTaskToObject
-                    // need to reconstruct the caller task?
+							var yield = new { value };
 
+							//Console.WriteLine(new { yield });
 
-                    var value = MethodTokenReference.apply(null, TaskArray.Single());
-                    var yield = new { value };
+							zdata.yield = yield;
+						}
+					}
+					#endregion
+					// now what?
+				}
+				else if (MethodType == typeof(FuncOfTaskToObject).Name)
+				{
+					// tested by?
+					#region FuncOfTaskToObject
+					// need to reconstruct the caller task?
 
-                    //Console.WriteLine(new { yield });
 
-                    zdata.yield = yield;
-                    #endregion
-                    // now what?
-                }
-                else if (MethodType == typeof(FuncOfTaskOfObjectArrayToObject).Name)
-                {
-                    // tested by?
+					var value = MethodTokenReference.apply(null, TaskArray.Single());
+					var yield = new { value };
 
-                    #region FuncOfTaskOfObjectArrayToObject
-                    // need to reconstruct the caller task?
+					//Console.WriteLine(new { yield });
 
-                    Console.WriteLine("__worker_onfirstmessage: " + new { TaskArray = TaskArray.Length });
+					zdata.yield = yield;
+					#endregion
+					// now what?
+				}
+				else if (MethodType == typeof(FuncOfTaskOfObjectArrayToObject).Name)
+				{
+					// tested by?
 
-                    //Debugger.Break();
+					#region FuncOfTaskOfObjectArrayToObject
+					// need to reconstruct the caller task?
 
-                    var args = new object[] { TaskArray };
+					Console.WriteLine("__worker_onfirstmessage: " + new { TaskArray = TaskArray.Length });
 
-                    var value = MethodTokenReference.apply(
-                        o: null,
+					//Debugger.Break();
 
-                        // watch out
-                        args: args
-                    );
+					var args = new object[] { TaskArray };
 
-                    var yield = new { value };
+					var value = MethodTokenReference.apply(
+						o: null,
 
-                    //Console.WriteLine(new { yield });
+						// watch out
+						args: args
+					);
 
-                    zdata.yield = yield;
-                    #endregion
-                    // now what?
-                }
+					var yield = new { value };
 
-                #region [sync] diff and upload changes to DOM context, the latest now
-                {
-                    dynamic zdata___string = new object();
+					//Console.WriteLine(new { yield });
 
-                    zdata.__string = zdata___string;
+					zdata.yield = yield;
+					#endregion
+					// now what?
+				}
 
-                    foreach (ExpandoMember nn in m)
-                    {
-                        string Value = (string)Expando.InternalGetMember((object)target, nn.Name);
-                        // this is preferred:
-                        //string Value = target[nn.Name];
+				#region [sync] diff and upload changes to DOM context, the latest now
+				{
+					dynamic zdata___string = new object();
 
-                        if (Value != nn.Value)
-                        {
-                            zdata___string[nn.Name] = Value;
-                        }
-                    }
+					zdata.__string = zdata___string;
 
+					foreach (ExpandoMember nn in m)
+					{
+						string Value = (string)Expando.InternalGetMember((object)target, nn.Name);
+						// this is preferred:
+						//string Value = target[nn.Name];
 
+						if (Value != nn.Value)
+						{
+							zdata___string[nn.Name] = Value;
+						}
+					}
 
 
-                }
-                #endregion
 
 
-                foreach (MessagePort port in e.ports)
-                {
-                    port.postMessage((object)zdata, new MessagePort[0]);
-                }
-            }
-        }
+				}
+				#endregion
 
 
-        [System.ComponentModel.Description("Will run as JavaScript Web Worker")]
-        // called by
-        // X:\jsc.internal.git\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.InjectJavaScriptBootstrap.cs
-        public static void InternalInvoke(Action default_yield)
-        {
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
+				foreach (MessagePort port in e.ports)
+				{
+					port.postMessage((object)zdata, new MessagePort[0]);
+				}
+			}
+		}
 
-            #region serviceworker
-            if (Native.serviceworker != null)
-            {
-                // https://gauntface.com/blog/2014/12/15/push-notifications-service-worker
-                // http://2014.jsconf.eu/speakers/jake-archibald-the-serviceworker-is-coming-look-busy.html
 
+		[System.ComponentModel.Description("Will run as JavaScript Web Worker")]
+		// called by
+		// X:\jsc.internal.git\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.InjectJavaScriptBootstrap.cs
+		public static void InternalInvoke(Action default_yield)
+		{
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
 
-                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141223
-                // X:\jsc.svn\examples\javascript\test\TestServiceWorker\TestServiceWorker\Application.cs
-                // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
+			#region serviceworker
+			if (Native.serviceworker != null)
+			{
+				// https://gauntface.com/blog/2014/12/15/push-notifications-service-worker
+				// http://2014.jsconf.eu/speakers/jake-archibald-the-serviceworker-is-coming-look-busy.html
 
-                // ?
-                // how can we debug it?
-                // chrome://inspect/#service-workers
 
-                // the function we need to call.
-                // what is it?
-                // how do we share scope/data?
-                // sessionStorage?
+				// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141223
+				// X:\jsc.svn\examples\javascript\test\TestServiceWorker\TestServiceWorker\Application.cs
+				// X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
 
-                // http://stackoverflow.com/questions/6179159/accessing-localstorage-from-a-webworker
-                // https://code.google.com/p/chromium/issues/detail?id=105495
+				// ?
+				// how can we debug it?
+				// chrome://inspect/#service-workers
 
-                //Debugger.Break();
+				// the function we need to call.
+				// what is it?
+				// how do we share scope/data?
+				// sessionStorage?
 
-                // cant see the console?
-                Console.WriteLine("serviceworker! "
-                    + new
-                    {
-                        // chrome removed it
-                        //Native.serviceworker.scope,
+				// http://stackoverflow.com/questions/6179159/accessing-localstorage-from-a-webworker
+				// https://code.google.com/p/chromium/issues/detail?id=105495
 
-                        Native.serviceworker.location.href,
-                        Native.serviceworker.location.hash
+				//Debugger.Break();
 
+				// cant see the console?
+				Console.WriteLine("serviceworker! "
+					+ new
+					{
+						// chrome removed it
+						//Native.serviceworker.scope,
 
+						Native.serviceworker.location.href,
+						Native.serviceworker.location.hash
 
-                    });
 
-                // there will be no onfirstmessage
-                // how do we know which function to call?
 
-                //Debugger.Break();
+					});
 
-                // what are we supposed to do now?
-                // invoke a static callback like we did with shared worker?
+				// there will be no onfirstmessage
+				// how do we know which function to call?
 
-                // um. how to do it.
-                // just call the app code like we do on chrome background worker?
+				//Debugger.Break();
 
-                // message: "ServiceWorker cannot be started"
-                default_yield();
+				// what are we supposed to do now?
+				// invoke a static callback like we did with shared worker?
 
-                return;
+				// um. how to do it.
+				// just call the app code like we do on chrome background worker?
 
-            }
-            #endregion
+				// message: "ServiceWorker cannot be started"
+				default_yield();
 
+				return;
 
-            #region worker
-            if (Native.worker != null)
-                if (Native.worker.location.href.EndsWith("#worker"))
-                {
-                    Native.worker.onfirstmessage +=
-                        e =>
-                        {
+			}
+			#endregion
 
 
-                            // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-                            dynamic e_data = e.data;
+			#region worker
+			if (Native.worker != null)
+				if (Native.worker.location.href.EndsWith("#worker"))
+				{
+					// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150401
 
-                            int InternalThreadCounter = e_data.InternalThreadCounter;
-                            object data___string = e_data.__string;
+					Native.worker.onfirstmessage += e =>
+					{
 
 
-                            // X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
+						// X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
+						dynamic e_data = e.data;
 
-                            // dynamic to array not supported yet?
-                            object MethodTargetObjectDataIsProgress0 = e_data.MethodTargetObjectDataIsProgress;
-                            var MethodTargetObjectDataIsProgress = (bool[])MethodTargetObjectDataIsProgress0;
+						int InternalThreadCounter = e_data.InternalThreadCounter;
+						object data___string = e_data.__string;
 
-                            // type$AAAAAAAAAAAAAAAAAAAAAA
-                            // dynamic to array not supported yet?
-                            object MethodTargetObjectData0 = e_data.MethodTargetObjectData;
-                            var MethodTargetObjectData = (object[])MethodTargetObjectData0;
 
-                            object MethodTargetObjectDataTypes0 = e_data.MethodTargetObjectDataTypes;
-                            var MethodTargetObjectDataTypes = (object[])MethodTargetObjectDataTypes0;
+						// X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
+						// X:\jsc.svn\examples\javascript\test\TestDynamicToArray\TestDynamicToArray\Application.cs
+						// dynamic to array not supported yet?
+						object MethodTargetObjectDataIsProgress0 = e_data.MethodTargetObjectDataIsProgress;
+						var MethodTargetObjectDataIsProgress = (bool[])MethodTargetObjectDataIsProgress0;
 
-                            object MethodTargetTypeIndex = e_data.MethodTargetTypeIndex;
+						// type$AAAAAAAAAAAAAAAAAAAAAA
+						// dynamic to array not supported yet?
+						object MethodTargetObjectData0 = e_data.MethodTargetObjectData;
+						var MethodTargetObjectData = (object[])MethodTargetObjectData0;
 
-                            // set by?
-                            string MethodToken = e_data.MethodToken;
+						object MethodTargetObjectDataTypes0 = e_data.MethodTargetObjectDataTypes;
+						var MethodTargetObjectDataTypes = (object[])MethodTargetObjectDataTypes0;
 
-                            string MethodType = e_data.MethodType;
+						object MethodTargetTypeIndex = e_data.MethodTargetTypeIndex;
 
+						// set by?
+						string MethodToken = e_data.MethodToken;
 
-                            // X:\jsc.svn\examples\javascript\async\test\TestWorkerProgress\TestWorkerProgress\Application.cs
-                            bool IsIProgress = e_data.IsIProgress;
-                            //bool IsTuple2_Item1_IsIProgress = e_data.IsTuple2_Item1_IsIProgress;
+						string MethodType = e_data.MethodType;
 
 
-                            // used byTask.ctor 
+						// X:\jsc.svn\examples\javascript\async\test\TestWorkerProgress\TestWorkerProgress\Application.cs
+						bool IsIProgress = e_data.IsIProgress;
+						//bool IsTuple2_Item1_IsIProgress = e_data.IsTuple2_Item1_IsIProgress;
 
-                            // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
 
+						// used byTask.ctor 
 
-                            //object state_SerializableMembers = e_data.state_SerializableMembers;
-                            object state_ObjectData = e_data.state_ObjectData;
+						// X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
 
-                            object stateTypeHandleIndex = e_data.stateTypeHandleIndex;
-                            object state = e_data.state;
 
+						//object state_SerializableMembers = e_data.state_SerializableMembers;
+						object state_ObjectData = e_data.state_ObjectData;
 
-                            //                            if (!(WwoABMesEj6KKMa59FrqOw))
-                            //{
-                            //  WwoABMesEj6KKMa59FrqOw = _6QIABkmHWjqHBHzPjs4Qsg(kAIABiO2_aTySKN41_aKL3ew(0, sBkABtC6ljmbrk8x5kK6iA(new ctor$UBkABhfpfj6IFLf_a4gLSZg(type$AAAAAAAAAAAAAAAAAAAAAA)), sBkABtC6ljmbrk8x5kK6iA(new ctor$UBkABhfpfj6IFLf_a4gLSZg(type$G74_bZyECQzqq6_bVD_ak58Wg))));
-                            //}
-                            // X:\jsc.svn\examples\javascript\forms\ParallelTaskExperiment\ParallelTaskExperiment\ApplicationControl.cs
+						object stateTypeHandleIndex = e_data.stateTypeHandleIndex;
+						object state = e_data.state;
 
 
-                            // used by ContinueWith
+						//                            if (!(WwoABMesEj6KKMa59FrqOw))
+						//{
+						//  WwoABMesEj6KKMa59FrqOw = _6QIABkmHWjqHBHzPjs4Qsg(kAIABiO2_aTySKN41_aKL3ew(0, sBkABtC6ljmbrk8x5kK6iA(new ctor$UBkABhfpfj6IFLf_a4gLSZg(type$AAAAAAAAAAAAAAAAAAAAAA)), sBkABtC6ljmbrk8x5kK6iA(new ctor$UBkABhfpfj6IFLf_a4gLSZg(type$G74_bZyECQzqq6_bVD_ak58Wg))));
+						//}
+						// X:\jsc.svn\examples\javascript\forms\ParallelTaskExperiment\ParallelTaskExperiment\ApplicationControl.cs
 
-                            // jsc, why cant i do arrays?
 
+						// used by ContinueWith
 
-                            #region TaskArray ?
-                            var __TaskArray = (object[])(object)e_data.TaskArray;
+						// jsc, why cant i do arrays?
 
-                            //Console.WriteLine(new { __TaskArray });
 
+						#region TaskArray ?
+						// tested by?
+						var __TaskArray = (object[])(object)e_data.TaskArray;
 
-                            __Task<object>[] TaskArray = null;
+						//Console.WriteLine(new { __TaskArray });
 
-                            if (__TaskArray != null)
-                            {
-                                // reviwing parent tasks the primitive way
-                                TaskArray = __TaskArray.Select(
-                                    (dynamic k) =>
-                                    {
-                                        object Result = k.Result;
 
-                                        return new __Task<object> { Result = Result };
-                                    }
-                                ).ToArray();
+						__Task<object>[] TaskArray = null;
 
-                            }
-                            #endregion
+						if (__TaskArray != null)
+						{
+							// reviwing parent tasks the primitive way
+							TaskArray = __TaskArray.Select(
+								(dynamic k) =>
+								{
+									object Result = k.Result;
 
-                            //var task = new __Task<object> { Result  = ResuWot };
+									return new __Task<object> { Result = Result };
+								}
+							).ToArray();
 
+						}
+						#endregion
 
+						//var task = new __Task<object> { Result  = ResuWot };
 
-                            // 3 dynamic uses messes up jsc? why?
+						// 3 dynamic uses messes up jsc? why?
 
-                            __worker_onfirstmessage(
-                                e,
-                                InternalThreadCounter,
-                                data___string,
+						__worker_onfirstmessage(
+							e,
+							InternalThreadCounter,
+							data___string,
 
-                                MethodTargetObjectDataIsProgress,
-                                MethodTargetObjectData,
-                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141112
-                                MethodTargetObjectDataTypes,
+							MethodTargetObjectDataIsProgress,
+							MethodTargetObjectData,
+							// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141112
+							MethodTargetObjectDataTypes,
 
-                                MethodTargetTypeIndex,
+							MethodTargetTypeIndex,
 
-                                // set by ?
-                                MethodToken,
-                                MethodType,
+							// set by ?
+							MethodToken,
+							MethodType,
 
 
-                                state_ObjectData,
+							state_ObjectData,
 
-                                stateTypeHandleIndex,
-                                state,
+							stateTypeHandleIndex,
+							state,
 
-                                IsIProgress,
-                                //IsTuple2_Item1_IsIProgress,
+							IsIProgress,
+							//IsTuple2_Item1_IsIProgress,
 
-                                TaskArray
-                                );
-                        };
+							TaskArray
+							);
+					};
 
-                    return;
-                }
-            #endregion
+					return;
+				}
+			#endregion
 
 
-            #region sharedworker
-            // tested by X:\jsc.svn\examples\javascript\SharedWorkerExperiment\Application.cs
+			#region sharedworker
+			// tested by X:\jsc.svn\examples\javascript\SharedWorkerExperiment\Application.cs
 
-            if (Native.sharedworker != null)
-            {
-                var href = Native.sharedworker.location.href;
-                if (href.EndsWith("#sharedworker"))
-                {
-                    var s = href.Substring(0, href.Length - "#sharedworker".Length);
-                    var si = s.LastIndexOf("#");
+			if (Native.sharedworker != null)
+			{
+				var href = Native.sharedworker.location.href;
+				if (href.EndsWith("#sharedworker"))
+				{
+					var s = href.Substring(0, href.Length - "#sharedworker".Length);
+					var si = s.LastIndexOf("#");
 
-                    s = s.Substring(si + 1);
+					s = s.Substring(si + 1);
 
-                    if (!string.IsNullOrEmpty(s))
-                    {
-                        var index = int.Parse(s);
-                        if (index >= 0)
-                            if (index < SharedWorkerHandlers.Count)
-                            {
-                                var yield = SharedWorkerHandlers[index];
+					if (!string.IsNullOrEmpty(s))
+					{
+						var index = int.Parse(s);
+						if (index >= 0)
+							if (index < SharedWorkerHandlers.Count)
+							{
+								var yield = SharedWorkerHandlers[index];
 
 
-                                // do we have to regenerate onconnect event?
-                                yield(Native.sharedworker);
-                            }
+								// do we have to regenerate onconnect event?
+								yield(Native.sharedworker);
+							}
 
-                    }
+					}
 
 
 
 
-                    return;
-                }
+					return;
+				}
 
-            }
-            #endregion
+			}
+			#endregion
 
-            default_yield();
+			default_yield();
 
-        }
-    }
+		}
+	}
 
-    // set by ?
-    [Script]
-    public class InternalInlineWorkerTextWriter : TextWriter
-    {
-        // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
 
-        //public bool Disabled = true;
-        public bool Disabled = false;
+	//xConsole
+	// set by ?
+	[Script]
+	public class InternalInlineWorkerTextWriter : TextWriter
+	{
+		// X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
 
-        public Action<string> AtWrite;
-        //public Action<string> AtWriteLine;
+		//public bool Disabled = true;
+		public bool Disabled = false;
 
-        public override void Write(object value)
-        {
-            if (Disabled)
-                return;
+		public Action<string> AtWrite;
+		//public Action<string> AtWriteLine;
 
-            if (AtWrite != null)
-                AtWrite("" + value);
-        }
+		public override void Write(object value)
+		{
+			if (Disabled)
+				return;
 
+			if (AtWrite != null)
+				AtWrite("" + value);
+		}
 
-        public override void Write(string value)
-        {
-            if (Disabled)
-                return;
 
+		public override void Write(string value)
+		{
+			if (Disabled)
+				return;
 
-            if (AtWrite != null)
-                AtWrite(value);
-        }
 
-        public override void WriteLine(string value)
-        {
-            if (Disabled)
-                return;
+			if (AtWrite != null)
+				AtWrite(value);
+		}
 
+		public override void WriteLine(string value)
+		{
+			if (Disabled)
+				return;
 
-            // why would it be null?
 
-            if (AtWrite != null)
-            {
-                AtWrite(value + "\r\n");
+			// why would it be null?
 
-                // X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
-                // what if someone wants to show a line break as <br />
-                //AtWrite("\r\n");
-            }
+			if (AtWrite != null)
+			{
+				AtWrite(value + "\r\n");
 
-        }
+				// X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
+				// what if someone wants to show a line break as <br />
+				//AtWrite("\r\n");
+			}
 
-        public override Encoding Encoding
-        {
-            get { return Encoding.UTF8; }
-        }
-    }
+		}
+
+		public override Encoding Encoding
+		{
+			get { return Encoding.UTF8; }
+		}
+	}
 }
