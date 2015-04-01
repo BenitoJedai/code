@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
-	internal partial class __Task<TResult> : __Task
+	public partial class __Task<TResult> : __Task
 	{
 		// X:\jsc.svn\examples\javascript\async\test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\Application.cs
 
@@ -34,7 +34,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 			CancellationToken c,
 			TaskCreationOptions o,
-			TaskScheduler s)
+			TaskScheduler s,
+
+
+			// X:\jsc.svn\examples\javascript\async\AsyncHopToUIFromWorker\AsyncHopToUIFromWorker\Application.cs
+			// allow special callbacks
+			Action<Worker, MessageEvent> yield = null
+			)
 		{
 			Delegate xfunction = function;
 
@@ -547,11 +553,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 						 #region yield
 						 {
 							 // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-							 dynamic yield = zdata.yield;
-							 if ((object)yield != null)
+							 dynamic xyield = zdata.yield;
+							 if ((object)xyield != null)
 							 {
 
-								 object value = yield.value;
+								 object value = xyield.value;
 
 								 Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
 
@@ -601,6 +607,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 						 // where can we send the signal?
 
 						 #endregion
+
+						 if (yield != null)
+							 yield(worker, e);
+
 					 }
 				);
 				#endregion

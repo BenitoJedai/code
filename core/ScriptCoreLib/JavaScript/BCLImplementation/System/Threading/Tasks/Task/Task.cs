@@ -154,6 +154,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 		public Action InternalYield;
 
+
+
+
+		// called by Run
 		public void Start()
 		{
 			//Console.WriteLine("__Task.Start");
@@ -210,7 +214,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 	// http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/Future.cs
 	[Script(Implements = typeof(global::System.Threading.Tasks.Task<>))]
-	internal partial class __Task<TResult> : __Task,
+	public partial class __Task<TResult> : __Task,
 		//SUPPORT_IOBSERVABLE
 		IObservable<TResult>
 	{
