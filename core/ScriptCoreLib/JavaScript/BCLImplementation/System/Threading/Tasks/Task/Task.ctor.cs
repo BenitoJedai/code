@@ -552,6 +552,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 						 #region yield
 						 {
+							 // X:\jsc.svn\examples\javascript\async\AsyncHopToUIFromWorker\AsyncHopToUIFromWorker\Application.cs
+							 // this should be disabled if we hopped to ui? how?
 							 // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
 							 dynamic xyield = zdata.yield;
 							 if ((object)xyield != null)
