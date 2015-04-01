@@ -220,7 +220,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 	{
 		public override string ToString()
 		{
-			return new { IsCompleted, this.Result }.ToString();
+			if (IsCompleted)
+				return new { IsCompleted, this.Result }.ToString();
+			return new { IsCompleted }.ToString();
 		}
 
 		// see also: http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.getawaiter(v=vs.110).aspx

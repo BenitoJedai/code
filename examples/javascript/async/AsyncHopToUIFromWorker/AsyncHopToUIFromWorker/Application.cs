@@ -127,7 +127,10 @@ namespace AsyncHopToUIFromWorker
 								{
 									// time to hop back on continuation?
 
-									Console.WriteLine("enter HopToThreadPoolAwaitable yield HopToUIAwaitable");
+									Console.ForegroundColor = ConsoleColor.Blue;
+									Console.WriteLine("enter HopToThreadPoolAwaitable yield HopToUIAwaitable, resume state?");
+									Console.ForegroundColor = ConsoleColor.Black;
+
 
 									//enter HopToThreadPoolAwaitable yield HopToUIAwaitable
 									//worker Task Run function has returned {{ value_Task = null, value_TaskOfT = null }}
@@ -164,6 +167,9 @@ namespace AsyncHopToUIFromWorker
 					HopToUIAwaitable.VirtualOnCompleted = continuation =>
 					{
 						Console.WriteLine("enter HopToUIAwaitable.VirtualOnCompleted, postMessage");
+
+						// first jump out?
+						InternalInlineWorker.InternalOverrideTaskOfT = new TaskCompletionSource<object>().Task;
 
 						// post a message to the document 
 

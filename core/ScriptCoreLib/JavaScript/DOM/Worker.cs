@@ -313,7 +313,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 		}
 
 
-
+		// are we in an async hop?
+		// X:\jsc.svn\examples\javascript\async\AsyncHopToUIFromWorker\AsyncHopToUIFromWorker\Application.cs
+		public static __Task<object> InternalOverrideTaskOfT = null;
 
 		// who is calling?
 		// triggered by InternalInvoke
@@ -669,11 +671,21 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 					// X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
 
+					// whatif its an Action not a Func?
+					//enter HopToThreadPoolAwaitable yield HopToUIAwaitable
+					//worker Task Run function has returned {{ value_Task = null, value_TaskOfT = null }}
+					//__Task.InternalStart inner complete {{ yield = {{ value = null }} }}
+
 					var value_Task = value as __Task;
 					var value_TaskOfT = value as __Task<object>;
 
+					// if we are in a hop. allow the return task to be overriden.
+					if (InternalOverrideTaskOfT != null)
+						value_TaskOfT = InternalOverrideTaskOfT;
+
+
 					// 0:25611ms Task Run function has returned { value_Task = [object Object], value_TaskOfT = [object Object] } 
-					Console.WriteLine("worker Task Run function has returned " + new { value_Task, value_TaskOfT });
+					Console.WriteLine("worker Task Run function has returned " + new { value_Task, value_TaskOfT, InternalOverrideTaskOfT });
 					// 0:4284ms Task Run function has returned { value_Task = { IsCompleted = 1, Result =  }, value_TaskOfT = { IsCompleted = 1, Result =  } } 
 					// 0:5523ms Task Run function has returned { value_Task = { IsCompleted = false, Result =  }, value_TaskOfT = { IsCompleted = false, Result =  } } 
 
@@ -912,18 +924,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 						// X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
 						// X:\jsc.svn\examples\javascript\test\TestDynamicToArray\TestDynamicToArray\Application.cs
-						// dynamic to array not supported yet?
 						bool[] MethodTargetObjectDataIsProgress = e_data.MethodTargetObjectDataIsProgress;
-						//var MethodTargetObjectDataIsProgress = (bool[])MethodTargetObjectDataIsProgress0;
-
-						// type$AAAAAAAAAAAAAAAAAAAAAA
-						// dynamic to array not supported yet?
 						object[] MethodTargetObjectData = e_data.MethodTargetObjectData;
-						//var MethodTargetObjectData = (object[])MethodTargetObjectData0;
-
 						object[] MethodTargetObjectDataTypes = e_data.MethodTargetObjectDataTypes;
-						//var MethodTargetObjectDataTypes = (object[])MethodTargetObjectDataTypes0;
-
 						object MethodTargetTypeIndex = e_data.MethodTargetTypeIndex;
 
 						// set by?
@@ -935,31 +938,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 						// X:\jsc.svn\examples\javascript\async\test\TestWorkerProgress\TestWorkerProgress\Application.cs
 						bool IsIProgress = e_data.IsIProgress;
 						//bool IsTuple2_Item1_IsIProgress = e_data.IsTuple2_Item1_IsIProgress;
-
-
 						// used byTask.ctor 
-
 						// X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
-
-
 						//object state_SerializableMembers = e_data.state_SerializableMembers;
 						object state_ObjectData = e_data.state_ObjectData;
 
 						object stateTypeHandleIndex = e_data.stateTypeHandleIndex;
 						object state = e_data.state;
 
-
-						//                            if (!(WwoABMesEj6KKMa59FrqOw))
-						//{
-						//  WwoABMesEj6KKMa59FrqOw = _6QIABkmHWjqHBHzPjs4Qsg(kAIABiO2_aTySKN41_aKL3ew(0, sBkABtC6ljmbrk8x5kK6iA(new ctor$UBkABhfpfj6IFLf_a4gLSZg(type$AAAAAAAAAAAAAAAAAAAAAA)), sBkABtC6ljmbrk8x5kK6iA(new ctor$UBkABhfpfj6IFLf_a4gLSZg(type$G74_bZyECQzqq6_bVD_ak58Wg))));
-						//}
 						// X:\jsc.svn\examples\javascript\forms\ParallelTaskExperiment\ParallelTaskExperiment\ApplicationControl.cs
-
-
 						// used by ContinueWith
-
-						// jsc, why cant i do arrays?
-
 
 						#region TaskArray ?
 						// tested by?
@@ -986,8 +974,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 						#endregion
 
 						//var task = new __Task<object> { Result  = ResuWot };
-
-						// 3 dynamic uses messes up jsc? why?
+						// 3 dynamic uses messes up jsc? why? fixed yet?
 
 						__worker_onfirstmessage(
 							e,
