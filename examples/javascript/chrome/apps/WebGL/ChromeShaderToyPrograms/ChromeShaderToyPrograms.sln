@@ -834,6 +834,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlottingFunctionsByHornet",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfPlayingInterferenceByFatumR", "..\synergy\SelfPlayingInterferenceByFatumR\SelfPlayingInterferenceByFatumR\SelfPlayingInterferenceByFatumR.csproj", "{FE185202-2017-4FED-AFC2-B3E0F4506053}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetShadertoyByReinder", "..\synergy\PlanetShadertoyByReinder\PlanetShadertoyByReinder\PlanetShadertoyByReinder.csproj", "{BD7C48E1-240A-46E5-936B-724AC7F620B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -2388,6 +2390,10 @@ Global
 		{FE185202-2017-4FED-AFC2-B3E0F4506053}.Debug|x86.Build.0 = Debug|x86
 		{FE185202-2017-4FED-AFC2-B3E0F4506053}.Release|x86.ActiveCfg = Release|x86
 		{FE185202-2017-4FED-AFC2-B3E0F4506053}.Release|x86.Build.0 = Release|x86
+		{BD7C48E1-240A-46E5-936B-724AC7F620B5}.Debug|x86.ActiveCfg = Debug|x86
+		{BD7C48E1-240A-46E5-936B-724AC7F620B5}.Debug|x86.Build.0 = Debug|x86
+		{BD7C48E1-240A-46E5-936B-724AC7F620B5}.Release|x86.ActiveCfg = Release|x86
+		{BD7C48E1-240A-46E5-936B-724AC7F620B5}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2804,5 +2810,6 @@ Global
 		{D27C8A98-70A7-49E5-92C7-AB8D005BB17C} = {8442C1DC-6AF5-4FDD-8E33-9DDB0070CC66}
 		{C8FC3B0B-98B2-457D-B557-47AEEA525C3E} = {F938B933-5FAD-41D4-8813-7F51CEFF1B8E}
 		{FE185202-2017-4FED-AFC2-B3E0F4506053} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
+		{BD7C48E1-240A-46E5-936B-724AC7F620B5} = {F938B933-5FAD-41D4-8813-7F51CEFF1B8E}
 	EndGlobalSection
 EndGlobal
