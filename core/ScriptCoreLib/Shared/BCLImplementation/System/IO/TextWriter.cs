@@ -17,7 +17,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
         {
         }
 
-        public virtual void Write(string value)
+		public virtual void Write(char value)
+		{
+		}
+
+		public virtual void Write(string value)
         {
         }
 

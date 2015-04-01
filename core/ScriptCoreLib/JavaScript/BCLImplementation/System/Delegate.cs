@@ -7,261 +7,279 @@ using System.Reflection;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/delegate.cs
-    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Delegate.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Delegate.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/delegate.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Delegate.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Delegate.cs
 
-    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Delegate.cs
-    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Delegate.cs
-    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Delegate.cs
-    // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Delegate.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Delegate.cs
+	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Delegate.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Delegate.cs
 
-    [Script(Implements = typeof(global::System.Delegate))]
-    internal class __Delegate
-    {
-        // https://github.com/dotnet/coreclr/blob/master/Documentation/method-descriptor.md
-        // EEImpl
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Delegate.cs
+	// X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Delegate.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Delegate.cs
+	// X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Delegate.cs
 
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130825
+	[Script(Implements = typeof(global::System.Delegate))]
+	internal class __Delegate
+	{
+		// https://github.com/dotnet/coreclr/blob/master/Documentation/method-descriptor.md
+		// EEImpl
 
-        // script: error JSC1000: No implementation found for this native method, please implement [static System.Delegate.op_Equality(System.Delegate, System.Delegate)]
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130825
 
-        [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Target)]
-        public object InternalTarget;
 
-        public object Target { get { return this.InternalTarget; } }
+		[ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Target)]
+		public object InternalTarget;
 
+		public object Target { get { return this.InternalTarget; } }
 
-        // public MethodInfo Method { get; }
-        // Method: "BAAABm4i9DaI0uFGgA1UPA"
-        [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Method)]
-        // string instead?
-        public global::System.IntPtr InternalMethod;
 
-        public IFunction InternalMethodReference;
+		// public MethodInfo Method { get; }
+		// Method: "BAAABm4i9DaI0uFGgA1UPA"
+		[ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Method)]
+		// string instead?
+		public global::System.IntPtr InternalMethod;
 
+		public IFunction InternalMethodReference;
 
-        // X:\jsc.svn\examples\javascript\test\TestIDLDelegateToFunction\TestIDLDelegateToFunction\Class1.cs
-        [method: ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.AsFunction)]
-        [Obsolete("called by the compiler")]
-        public static IFunction AsFunction(__Delegate x)
-        {
-            if (x == null)
-                return null;
 
-            return x.InvokePointer;
-        }
+		// X:\jsc.svn\examples\javascript\test\TestIDLDelegateToFunction\TestIDLDelegateToFunction\Class1.cs
+		[method: ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.AsFunction)]
+		[Obsolete("called by the compiler")]
+		public static IFunction AsFunction(__Delegate x)
+		{
+			if (x == null)
+				return null;
 
+			return x.InvokePointer;
+		}
 
-        // TODO: dom events and delay events do not support truly multiple targets
-        public IFunction InvokePointer
-        {
 
-            get
-            {
-                // called by
-                // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\IFunction.cs
+		// TODO: dom events and delay events do not support truly multiple targets
+		public IFunction InvokePointer
+		{
 
-                if (InternalMethodReference == null)
-                    InternalMethodReference = InternalGetAsyncInvoke(InternalTarget, InternalMethod);
-
-                return InternalMethodReference;
-            }
-        }
+			get
+			{
+				// called by
+				// X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\IFunction.cs
 
-        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\MethodInfo.cs
-        public global::System.Reflection.MethodInfo Method
-        {
-            get
-            {
-                // for now, this will only work with static methods
-                // tested by x:\jsc.svn\examples\javascript\Test\TestThreadStart\TestThreadStart\Application.cs
+				if (InternalMethodReference == null)
+					InternalMethodReference = InternalGetAsyncInvoke(InternalTarget, InternalMethod);
 
-                //global::System.Runtime.InteropServices.Expando
-                //ScriptCoreLib.JavaScript.Runtime.Expando.
+				return InternalMethodReference;
+			}
+		}
 
-                var MethodToken = (string)(object)this.InternalMethod;
+		// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\MethodInfo.cs
+		public global::System.Reflection.MethodInfo Method
+		{
+			get
+			{
+				// for now, this will only work with static methods
+				// tested by x:\jsc.svn\examples\javascript\Test\TestThreadStart\TestThreadStart\Application.cs
 
-                if (InternalMethodReference == null)
-                    InternalMethodReference = IFunction.Of(MethodToken);
+				//global::System.Runtime.InteropServices.Expando
+				//ScriptCoreLib.JavaScript.Runtime.Expando.
 
-                var m = new __MethodInfo
-                {
-                    InternalMethodToken = MethodToken,
-                    InternalMethodReference = InternalMethodReference
-                };
+				var MethodToken = (string)(object)this.InternalMethod;
 
-                return (global::System.Reflection.MethodInfo)(object)m;
-            }
-        }
+				if (InternalMethodReference == null)
+					InternalMethodReference = IFunction.Of(MethodToken);
 
+				var m = new __MethodInfo
+				{
+					InternalMethodToken = MethodToken,
+					InternalMethodReference = InternalMethodReference
+				};
 
+				return (global::System.Reflection.MethodInfo)(object)m;
+			}
+		}
 
 
-        //public __Delegate()
-        //{
 
-        //}
 
-        // CLR, you using string?
-        //  protected Delegate(object target, string method);
-        public __Delegate(object e, global::System.IntPtr p)
-        {
-            // X:\jsc.svn\examples\javascript\WebWorkerExperiment\WebWorkerExperiment\Application.cs
-            //if (e == null)
-            //    e = Native.Window;
-
-            InternalTarget = e;
-            InternalMethod = p;
-        }
-
-
-
-        // X:\jsc.svn\examples\javascript\test\TestIDLDelegateToFunction\TestIDLDelegateToFunction\Class1.cs
-        // special!
-        [Script(OptimizedCode = "return function() { return o[p].apply(o, arguments); }")]
-        internal static IFunction InternalGetAsyncInvoke(object o, global::System.IntPtr p)
-        {
-            return default(IFunction);
-        }
+		//public __Delegate()
+		//{
 
+		//}
 
-        #region Combine
-        public static __Delegate Combine(__Delegate a, __Delegate b)
-        {
-            if ((object)a == null)
-            {
-                return b;
-            }
-            if ((object)b == null)
-            {
-                return a;
-            }
+		// CLR, you using string?
+		//  protected Delegate(object target, string method);
+		public __Delegate(object e, global::System.IntPtr p)
+		{
+			// X:\jsc.svn\examples\javascript\WebWorkerExperiment\WebWorkerExperiment\Application.cs
+			//if (e == null)
+			//    e = Native.Window;
+
+			InternalTarget = e;
+			InternalMethod = p;
+		}
+
+
+
+		// X:\jsc.svn\examples\javascript\test\TestIDLDelegateToFunction\TestIDLDelegateToFunction\Class1.cs
+		// special!
+		[Script(OptimizedCode = "return function() { return o[p].apply(o, arguments); }")]
+		internal static IFunction InternalGetAsyncInvoke(object o, global::System.IntPtr p)
+		{
+			return default(IFunction);
+		}
 
-            return a.CombineImpl(b);
-        }
+
+		#region Combine
+		public static __Delegate Combine(__Delegate a, __Delegate b)
+		{
+			if ((object)a == null)
+			{
+				return b;
+			}
+			if ((object)b == null)
+			{
+				return a;
+			}
+
+			return a.CombineImpl(b);
+		}
 
-        protected virtual __Delegate CombineImpl(__Delegate d)
-        {
-            throw new global::System.Exception("use MulticastDelegate instead");
-        }
+		protected virtual __Delegate CombineImpl(__Delegate d)
+		{
+			throw new global::System.Exception("use MulticastDelegate instead");
+		}
+
+		public static __Delegate Remove(__Delegate source, __Delegate value)
+		{
+			if (source == null)
+			{
+				return null;
+			}
+			if (value == null)
+			{
+				return source;
+			}
+			return source.RemoveImpl(value);
+		}
 
-        public static __Delegate Remove(__Delegate source, __Delegate value)
-        {
-            if (source == null)
-            {
-                return null;
-            }
-            if (value == null)
-            {
-                return source;
-            }
-            return source.RemoveImpl(value);
-        }
+		protected virtual __Delegate RemoveImpl(__Delegate d)
+		{
+			throw new global::System.Exception("use MulticastDelegate instead");
+		}
+		#endregion
 
-        protected virtual __Delegate RemoveImpl(__Delegate d)
-        {
-            throw new global::System.Exception("use MulticastDelegate instead");
-        }
-        #endregion
 
+		#region IsEqual
+		public override bool Equals(object obj)
+		{
+			return IsEqual(this, (BCLImplementation.System.__Delegate)obj);
 
-        #region IsEqual
-        public override bool Equals(object obj)
-        {
-            return IsEqual(this, (BCLImplementation.System.__Delegate)obj);
+		}
 
-        }
 
+		public static bool IsEqual(__Delegate a, __Delegate b)
+		{
+			// X:\jsc.svn\examples\javascript\Test\TestWebSQLDatabase\TestWebSQLDatabase\Application.cs
 
-        public static bool IsEqual(__Delegate a, __Delegate b)
-        {
-            // X:\jsc.svn\examples\javascript\Test\TestWebSQLDatabase\TestWebSQLDatabase\Application.cs
+			if ((object)a == null)
+				if ((object)b == null)
+					return true;
+				else
+					return false;
 
-            if ((object)a == null)
-                if ((object)b == null)
-                    return true;
-                else
-                    return false;
+			if ((object)b == null)
+				return false;
 
-            if ((object)b == null)
-                return false;
+			if (a.InternalMethod == b.InternalMethod)
+				if (a.InternalTarget == b.InternalTarget)
+					return true;
 
-            if (a.InternalMethod == b.InternalMethod)
-                if (a.InternalTarget == b.InternalTarget)
-                    return true;
+			return false;
+		}
 
-            return false;
-        }
+		// a bug if the operator itself compares to nulls
 
-        // a bug if the operator itself compares to nulls
+		public static bool operator ==(__Delegate a, __Delegate b)
+		{
+			return IsEqual(a, b);
+		}
 
-        public static bool operator ==(__Delegate a, __Delegate b)
-        {
-            return IsEqual(a, b);
-        }
+		public static bool operator !=(__Delegate a, __Delegate b)
+		{
+			return !IsEqual(a, b);
+		}
 
-        public static bool operator !=(__Delegate a, __Delegate b)
-        {
-            return !IsEqual(a, b);
-        }
+		public override int GetHashCode()
+		{
+			return default(int);
+		}
+		#endregion
 
-        public override int GetHashCode()
-        {
-            return default(int);
-        }
-        #endregion
 
 
 
+		public static Delegate CreateDelegate(Type type, object firstArgument, global::System.Reflection.MethodInfo method)
+		{
+			// X:\jsc.svn\examples\javascript\async\Test\TestDelegateObjectScopeInspection\TestDelegateObjectScopeInspection\Application.cs
 
-        public static Delegate CreateDelegate(Type type, object firstArgument, global::System.Reflection.MethodInfo method)
-        {
-            // X:\jsc.svn\examples\javascript\async\Test\TestDelegateObjectScopeInspection\TestDelegateObjectScopeInspection\Application.cs
+			//   firstArgument:
+			//     The object to which the delegate is bound, or null to treat method as static
 
-            //   firstArgument:
-            //     The object to which the delegate is bound, or null to treat method as static
+			// can we actually call the type.ctor?
 
-            // can we actually call the type.ctor?
+			__MethodInfo m = method;
 
-            __MethodInfo m = method;
+			// um. we are marking it as IntPtr but actually it seems we are using string.
 
-            // um. we are marking it as IntPtr but actually it seems we are using string.
+			//var MethodToken = (string)(object)this.InternalMethod;
+			// reverse of .Method
+			var xIntPtr = (IntPtr)(object)m.InternalMethodToken;
 
-            //var MethodToken = (string)(object)this.InternalMethod;
-            // reverse of .Method
-            var xIntPtr = (IntPtr)(object)m.InternalMethodToken;
+			// [0] = {Void .ctor(System.Object, IntPtr)}
+			//var yy = Activator.CreateInstance(typeof(Func<string>),
+			//    nRow,
+			//    y.Method
+			//);
 
-            // [0] = {Void .ctor(System.Object, IntPtr)}
-            //var yy = Activator.CreateInstance(typeof(Func<string>),
-            //    nRow,
-            //    y.Method
-            //);
+			// can we call CreateInstance with args?
+			var withType = Activator.CreateInstance(
+				type,
+				firstArgument,
+				xIntPtr
+			);
 
-            // can we call CreateInstance with args?
-            var withType = Activator.CreateInstance(
-                type,
-                firstArgument,
-                xIntPtr
-            );
 
+			//var typeless = new __MulticastDelegate(
+			//    firstArgument,
+			//    i
+			//);
 
-            //var typeless = new __MulticastDelegate(
-            //    firstArgument,
-            //    i
-            //);
 
+			return (MulticastDelegate)withType;
+		}
 
-            return (MulticastDelegate)withType;
-        }
 
+		public static implicit operator __Delegate(Delegate e)
+		{
+			// X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\IFunction.cs
+			return (__Delegate)(object)e;
+		}
 
-        public static implicit operator __Delegate(Delegate e)
-        {
-            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\IFunction.cs
-            return (__Delegate)(object)e;
-        }
-    }
+
+
+		public override string ToString()
+		{
+			// X:\jsc.svn\examples\javascript\async\AsyncHopToUIFromWorker\AsyncHopToUIFromWorker\Application.cs
+
+			// can we pass around delegates between context switches?
+			// how about passing back a new Edit And Continue delegate?
+			// would the debugger send IL stream?
+			// would jsc need to an ondemand rewrite, and conversion?
+
+			// not only do the typerefs, fieldsrefs need to be encrypted, but also delegates to methods?
+
+			return "delegate " + this.Target + this.Method.Name + "()";
+		}
+	}
 
 }
