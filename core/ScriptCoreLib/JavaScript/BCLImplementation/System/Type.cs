@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using System.Reflection;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
 using System.Linq;
+using ScriptCoreLib.Shared.BCLImplementation.System.Reflection;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
@@ -28,8 +29,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Type.cs
 
 	[Script(Implements = typeof(global::System.Type))]
-	public class __Type : __MemberInfo
-	// IReflect ??
+	public class __Type : __MemberInfo, __IReflect
 	{
 		//  // System.Type is appdomain agile type. Appdomain agile types cannot have precise static constructors. Make
 		// sure to never introduce one here!

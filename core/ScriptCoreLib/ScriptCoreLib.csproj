@@ -156,6 +156,7 @@
     <Compile Include="Shared\BCLImplementation\System\IObservable.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\EndPoint.cs" />
     <Compile Include="Shared\BCLImplementation\System\Numerics\Vector4.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Reflection\IReflect.cs" />
     <Compile Include="Shared\BCLImplementation\System\Reflection\IReflectableType.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\AsyncTaskMethodBuilder.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
@@ -383,6 +384,7 @@
     <Compile Include="Shared\BCLImplementation\System\Resources\ResourceManager.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\INotifyCompletion.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\InteropServices\Expando\IExpando.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\CspParameters.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\ICryptoTransform.cs" />
@@ -1266,7 +1268,6 @@
     <Folder Include="PHP\BCLImplementation\System\Diagnostics\" />
     <Folder Include="PHP\Web\" />
     <Folder Include="Shared\BCLImplementation\Abstractatech\" />
-    <Folder Include="Shared\BCLImplementation\System\Runtime\InteropServices\Expando\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
