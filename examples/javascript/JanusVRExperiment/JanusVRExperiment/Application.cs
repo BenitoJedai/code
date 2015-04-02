@@ -143,7 +143,7 @@ public class FireBoxRoom
 	}
 
 
-
+	// http://www.dgp.toronto.edu/~mccrae/projects/firebox/notes.html#image
 	[Script(HasNoPrototype = true)]
 	public class Object
 	{
@@ -151,7 +151,12 @@ public class FireBoxRoom
 
 		public string text;
 
-		public Vector col;
+		public string image_id;
+		// (default "") - set to the id of an AssetImage to shade the Object using the image as a texture(see the section on AssetImages for more information). Note that the AssetImage will work even if SBS/UO formatted, or has animation.
+
+		public double collision_radius;
+
+        public Vector col;
 		public Vector pos;
 		public Vector scale;
 		public Vector fwd;
@@ -222,6 +227,10 @@ public class FireBoxRoom
 
 		public Cookies cookies;
 		public void addCookie(string text, string value) { }
+
+		public void playSound(string v)
+		{
+		}
 		//public Object createObject(string text) { return null; }
 	}
 
@@ -260,10 +269,16 @@ namespace JanusVRExperiment
 	public sealed class Application : ApplicationWebService
 	{
 
+		public static Task<Room> async_room;
+
+		public static event Action onclick;
 
 
 		static Application()
 		{
+			var sroom = new TaskCompletionSource<Room>();
+			async_room = sroom.Task;
+
 			if (room == null)
 			{
 				//Native.document.body.style.backgroundColor = "red";
@@ -277,6 +292,7 @@ namespace JanusVRExperiment
 			//print("enter Application");
 
 			Console.WriteLine("enter Application");
+
 
 
 			room.onLoad = IFunction.OfDelegate(
@@ -372,6 +388,9 @@ namespace JanusVRExperiment
 					   delegate
 					   {
 						   clickCounter++;
+
+						   if (onclick != null)
+							   onclick();
 					   }
 				   );
 
@@ -432,6 +451,10 @@ namespace JanusVRExperiment
 						   //player.pos.y += (1 / 15.0) * (Math.Max(player.pos.y, player.pos.x * 0.5) - player.pos.y);
 					   }
 				   );
+
+
+				   // somewhat ready!
+				   sroom.SetResult(room);
 			   }
 			)
 			;

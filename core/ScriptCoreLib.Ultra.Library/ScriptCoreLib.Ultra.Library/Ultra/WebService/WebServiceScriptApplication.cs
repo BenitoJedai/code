@@ -15,6 +15,8 @@ namespace ScriptCoreLib.Ultra.WebService
         public const string Image = "assets/ScriptCoreLib/jsc.png";
     }
 
+
+	[Obsolete("service worker")]
     public static class WebApplicationCacheManifest
     {
         public const string ManifestContentType = "text/cache-manifest";
