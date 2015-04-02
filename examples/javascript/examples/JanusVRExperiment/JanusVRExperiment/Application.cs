@@ -41,6 +41,18 @@ public class FireBoxRoom
 		}
 	}
 
+	[Script(HasNoPrototype = true)]
+	public class Cookies
+	{
+		public string this[string key]
+		{
+			get
+			{
+				return null;
+			}
+		}
+	}
+
 	// a pseudo type
 	[Script(HasNoPrototype = true, InternalConstructor = true)]
 	public sealed class Cube : Object
@@ -207,6 +219,9 @@ public class FireBoxRoom
 
 		public void removeObject(Object e) { }
 		public Object createObject(string text, object args) { return null; }
+
+		public Cookies cookies;
+		public void addCookie(string text, string value) { }
 		//public Object createObject(string text) { return null; }
 	}
 
@@ -251,7 +266,7 @@ namespace JanusVRExperiment
 		{
 			if (room == null)
 			{
-				Native.document.body.style.backgroundColor = "red";
+				//Native.document.body.style.backgroundColor = "red";
 				return;
 			}
 
@@ -360,17 +375,23 @@ namespace JanusVRExperiment
 					   }
 				   );
 
+				   room.addCookie("cookie1", "cookie1");
+
 				   // look we found onframe.
 				   room.update = new Action(
 					   delegate
 					   {
 						   c++;
 
+						   var cookie1 = room.cookies["cookie1"];
 
 						   x.text = "status: " + new
 						   {
 							   c,
 							   sw.ElapsedMilliseconds,
+
+							   cookie1,
+
 							   clickCounter,
 							   onCollisionCounter,
 
@@ -420,15 +441,23 @@ namespace JanusVRExperiment
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
-			// Cookies can also be saved/loaded via the JS (in addition to those cookies set through AssetWebSurfaces). This can be used for inter-communication between the FireBoxRoom, the JS/AssetScripts, and AssetWebSurfaces in the room.)
-
-			// AssetWebSurface
 			if (Native.window == null)
 				return;
+
+			// Cookies can also be saved/loaded via the JS (in addition to those cookies set through AssetWebSurfaces). 
+			// This can be used for inter-communication between the FireBoxRoom, the JS/AssetScripts, and AssetWebSurfaces in the room.)
+
+			// AssetWebSurface
+
 
 			Native.document.body.style.backgroundColor = "cyan";
 
 			Console.WriteLine("enter Application");
+
+			new IHTMLCode {
+				() => "are we hosted within JanusVR? " + new { Native.window.navigator.userAgent, Native.document.location, Native.document.cookie
+				} }.AttachToDocument();
+
 
 			// file:///X:/jsc.svn/examples/javascript/examples/JanusVRExperiment/JanusVRExperiment/bin/Debug/staging/JanusVRExperiment.Application/web/App.htm
 
