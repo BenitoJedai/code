@@ -614,7 +614,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         }
 
         [Script(OptimizedCode = @"var x = []; for (var z in e) x.push(z); return x;")]
-        internal static string[] InternalGetMemberNames(object e)
+        public static string[] InternalGetMemberNames(object e)
         {
             return default(string[]);
         }
