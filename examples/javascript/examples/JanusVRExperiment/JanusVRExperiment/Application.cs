@@ -163,8 +163,15 @@ public class FireBoxRoom
 	[Script(ExternalTarget = "player")]
 	public static Player player;
 
-	[Script(ExternalTarget = "room")]
-	public static Room room;
+	//[Script(ExternalTarget = "room")]
+	public static Room room
+	{
+		get
+		{
+			// variable ma or may not exist, if running inside JanusVR or not 
+			return (Native.self as dynamic).room;
+		}
+	}
 
 	[Script(HasNoPrototype = true)]
 	public class Room
