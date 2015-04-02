@@ -29,6 +29,8 @@ namespace ScriptCoreLib.JavaScript.WebVR
 
 		// http://janusvr.com/
 		// http://www.reddit.com/r/janusVR/comments/2vbzya/lowlevel_hmds_and_gear_vr/
+
+		// X:\jsc.svn\examples\javascript\examples\JanusVRExperiment\JanusVRExperiment\Application.cs
 	}
 
 	//partial interface Navigator

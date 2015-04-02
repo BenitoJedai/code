@@ -20,5 +20,10 @@ namespace android.os
 
         public static void loop()
         { }
+
+        public static Looper myLooper()
+        {
+            return null;
+        }
     }
 }

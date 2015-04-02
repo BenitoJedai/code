@@ -173,10 +173,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 		#endregion
 
 
+        // Error	39	'ScriptCoreLib.JavaScript.BCLImplementation.System.__Thread.CurrentContext.get' must declare a body because it is not marked abstract or extern. Automatically implemented properties must define both get and set accessors.	X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Thread.cs	179	42	ScriptCoreLib
 
-		public ExecutionContext ExecutionContext { get; }
+		public ExecutionContext ExecutionContext { get; set;}
 
-		public static Context CurrentContext { get; }
+        public static Context CurrentContext { get; set; }
 	}
 
 
