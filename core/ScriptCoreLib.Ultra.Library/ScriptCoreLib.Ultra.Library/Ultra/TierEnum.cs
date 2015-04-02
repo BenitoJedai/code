@@ -11,8 +11,8 @@ namespace ScriptCoreLib.Ultra
 		JavaScript,
 		Flash,
 		Applet,
-		Alchemy,
-		Silverlight,
+		//Alchemy,
+		//Silverlight,
 		Shared
 	}
 }

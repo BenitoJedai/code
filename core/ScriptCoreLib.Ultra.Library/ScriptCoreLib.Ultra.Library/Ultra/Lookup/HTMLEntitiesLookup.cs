@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Ultra.Lookup
 {
+	// used by?
 	public static class HTMLEntitiesLookup
 	{
 		// http://www.w3.org/TR/REC-html40/sgml/entities.html

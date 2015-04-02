@@ -48,21 +48,7 @@ namespace ScriptCoreLib.Ultra
 		{
 		}
 
-		/// <summary>
-		/// Methods marked as Tier.Alchemy will run inside Flash Virtual Machine as Alchemy
-		/// </summary>
-		[Tier(TierEnum.Alchemy, RequestTierSwitchAtCaller = true)]
-		public static void Alchemy()
-		{
-		}
-
-		/// <summary>
-		/// Methods marked as Tier.Silverlight will run inside Silverlight
-		/// </summary>
-		[Tier(TierEnum.Silverlight, RequestTierSwitchAtCaller = true)]
-		public static void Silverlight()
-		{
-		}
+	
 
 		/// <summary>
 		/// Passing a Tier.Shared delegate to other tiers will instruct the other tier to use a local version of it.
