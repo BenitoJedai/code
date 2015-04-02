@@ -226,6 +226,7 @@ public class FireBoxRoom
 
 namespace JanusVRExperiment
 {
+	using ScriptCoreLib.JavaScript.Runtime;
 	using System.Diagnostics;
 	// this is the way to import js apis
 	using static FireBoxRoom;
@@ -242,7 +243,10 @@ namespace JanusVRExperiment
 		static Application()
 		{
 			if (room == null)
+			{
+				Native.document.body.style.backgroundColor = "red";
 				return;
+			}
 
 
 			// [K apr 1 22:09:33 2015] JavaScript error in view-source (line 76902): TypeError: Result of expression 'AQAABDWbFDuQBN_brmZIFqQ' [null] is not an object.
@@ -412,12 +416,30 @@ namespace JanusVRExperiment
 			// Cookies can also be saved/loaded via the JS (in addition to those cookies set through AssetWebSurfaces). This can be used for inter-communication between the FireBoxRoom, the JS/AssetScripts, and AssetWebSurfaces in the room.)
 
 			// AssetWebSurface
+			if (Native.window == null)
+				return;
 
-			if (Native.document != null)
-				Native.document.body.style.backgroundColor = "cyan";
+			Native.document.body.style.backgroundColor = "cyan";
 
 			Console.WriteLine("enter Application");
 
+			// file:///X:/jsc.svn/examples/javascript/examples/JanusVRExperiment/JanusVRExperiment/bin/Debug/staging/JanusVRExperiment.Application/web/App.htm
+
+			//var w = new IFunction("return window;").apply(null);
+			//var doc = new IFunction("return document;").apply(null);
+
+			//var selfp = (Native.self as dynamic).prototype;
+			//var selfpc = (Native.self as dynamic).prototype.constructor;
+
+			//var m = string.Join(",\r\n", Expando.InternalGetMemberNames(Native.self));
+			// print, gc, version, __FILE__, __LINE__, room, Vector, V, translate, equals, scalarMultiply, cross, normalized, distance, removeKey, uniqueId, debug, __string, __this,
+
+			//throw new Exception(new { Native.self, selfp, selfpc, m }.ToString());
+
+
+			// http://www.reddit.com/r/janusVR/comments/2pg82o/release_310_the_janusvr_is_now_a_functional_web/
+			//	To specify a new URL for an AssetWebSurface, press tab while the mouse / keyboard are bound to it and specify a URL. When you press enter, the AssetWebSurface will navigate to the URL given.
+			//Next up -collaborative web browsing with AssetWebSurfaces!
 			// .\..\..\..\jsc.svn\examples\javascript\examples\JanusVRExperiment\JanusVRExperiment\Design\App.htm
 			// "X:\util\janusvr_windows\JanusVR_Win32\workspaces.txt"
 
