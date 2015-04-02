@@ -157,7 +157,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
                 }
                 else
                 {
-                    RSACipher = Cipher.getInstance("RSA");
+                    // http://stackoverflow.com/questions/17819183/android-rsa-decryption-fails-server-side-encryption-openssl-public-encrypt
+
+                    //RSACipher = Cipher.getInstance("RSA");
+                    RSACipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
                 }
             }
             catch { throw; }

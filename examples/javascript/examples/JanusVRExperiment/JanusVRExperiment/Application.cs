@@ -385,6 +385,9 @@ namespace JanusVRExperiment
 
 						   var cookie1 = room.cookies["cookie1"];
 
+						   room.addCookie("cookie1", "cookie1 " + new { c });
+
+
 						   x.text = "status: " + new
 						   {
 							   c,

@@ -6,6 +6,7 @@ using android.app;
 using android.content;
 using System.Threading;
 using ScriptCoreLib.Android.Extensions;
+using android.os;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 {
@@ -29,18 +30,23 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 
         public static global::System.Windows.Forms.DialogResult Show(string text, string caption)
         {
+
             // or are we called on a background thread? 
             // for java, we can block a worker thread until ui is shown. for javascript cannot do it without async?
             // assume we are activity based..
             var context = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext as Activity;
+            var ui = context.getMainLooper() == Looper.myLooper();
+            Console.WriteLine("enter MessageBox.Show " + new { ui });
 
             var value = default(global::System.Windows.Forms.DialogResult);
+            var thread0 = Thread.CurrentThread;
             var sync = new AutoResetEvent(false);
 
             context.runOnUiThread(
                 a =>
                 {
-
+                    //thread0 = Thread.CurrentThread;
+                    //sync0ui.Set();
 
                     // X:\jsc.svn\examples\java\android\forms\FormsMessageBox\FormsMessageBox\Library\ApplicationControl.cs
                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141025
@@ -61,12 +67,14 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 
                     alertDialog.setPositiveButton("OK",
                             new xDialogInterface_OnClickListener
-                    {
-                        yield = delegate
-                        {
-                            value = global::System.Windows.Forms.DialogResult.OK;
-                        }
-                    }
+                            {
+                                yield = delegate
+                                {
+                                    Console.WriteLine(" alertDialog.setPositiveButton");
+                                    value = global::System.Windows.Forms.DialogResult.OK;
+                                    //sync.Set();
+                                }
+                            }
                         );
 
                     // skip icons?
@@ -74,7 +82,17 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
                     var dialog = alertDialog.create();
 
                     dialog.setOnDismissListener(
-                        new xDialogInterface_OnDismissListener()
+                        new xDialogInterface_OnDismissListener
+                        {
+                            yield = delegate
+                            {
+                                Console.WriteLine("  dialog.setOnDismissListener");
+                                sync.Set();
+
+                                if (ui)
+                                    throw null;
+                            }
+                        }
                     );
 
                     dialog.show();
@@ -83,23 +101,36 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
                     // http://stackoverflow.com/questions/13974661/runonuithread-vs-looper-getmainlooper-post-in-android
                     // http://developer.android.com/reference/android/os/Looper.html
 
-                    try
-                    {
-                        // loop until we throw null
-                        // where is it thrown?
-                        android.os.Looper.loop();
-                    }
-                    catch
-                    {
-                    }
 
-                    sync.Set();
+
+                    //sync.Set();
                 }
             );
 
 
 
-            sync.WaitOne();
+
+            // need to poll? discard?
+
+
+            if (ui)
+            {
+                try
+                {
+                    // loop until we throw null
+                    // where is it thrown?
+                    android.os.Looper.loop();
+                }
+                catch
+                {
+                }
+            }
+            else
+            {
+                sync.WaitOne();
+            }
+
+            Console.WriteLine("exit MessageBox.Show " + new { ui, value });
             return value;
         }
 
@@ -117,9 +148,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 
         public void onDismiss(DialogInterface value)
         {
-            //yield(value);
+            yield(value);
 
-            throw null;
+            //throw null;
         }
     }
 
