@@ -50,6 +50,12 @@ namespace ChromeExtensionHopToTab
 					if (tab.url.StartsWith("chrome://"))
 						return;
 
+
+					// while running tabs.insertCSS: The extensions gallery cannot be scripted.
+					if (tab.url.StartsWith("https://chrome.google.com/webstore/"))
+						return;
+
+
 					if (tab.status != "complete")
 						return;
 
@@ -64,8 +70,14 @@ namespace ChromeExtensionHopToTab
 						}
 					};
 
+
+					// while running tabs.insertCSS: The tab was closed.
+
 					// 		public static Task<object> insertCSS(this TabIdInteger tabId, object details);
 					// public static void insertCSS(this TabIdInteger tabId, object details, IFunction callback);
+
+
+					// for some sites the bar wont show as they html element height is 0?
 					await tab.id.insertCSS(
 						new
 						{
@@ -81,7 +93,13 @@ padding-left: 1em;
 						}
 					);
 
-					//tab.i
+					Console.WriteLine(
+						"insertCSS done " + new { tab.id, tab.url }
+						);
+
+
+					// where is the hop to iframe?
+					// X:\jsc.svn\examples\javascript\Test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
 				};
 
 
