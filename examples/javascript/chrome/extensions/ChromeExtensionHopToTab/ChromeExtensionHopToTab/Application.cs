@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using ChromeExtensionHopToTab;
 using ChromeExtensionHopToTab.Design;
 using ChromeExtensionHopToTab.HTML.Pages;
+using chrome;
 
 namespace ChromeExtensionHopToTab
 {
@@ -64,12 +65,12 @@ namespace ChromeExtensionHopToTab
 							}
 						};
 
+						// public static void insertCSS(this TabIdInteger tabId, object details, IFunction callback);
 						tab.id.insertCSS(
 							new
 							{
 								code = "body { background-color: cyan; }"
-							},
-							null
+							}
 						);
 
 						//tab.i

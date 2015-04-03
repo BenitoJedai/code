@@ -127,7 +127,12 @@ interface chrome.tabs
 	async static extension void duplicate(chrome.TabIdInteger tabId, function<chrome.Tab> callback);
 
 	async static extension void executeScript(chrome.TabIdInteger tabId, any details, function<any> callback);
-	async static extension void insertCSS(chrome.TabIdInteger tabId, any details, function callback);
+
+
+
+
+	// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTab\ChromeExtensionHopToTab\Application.cs
+	async static extension void insertCSS(chrome.TabIdInteger tabId, any details, function<any> callback);
 };
 
 
