@@ -25,10 +25,17 @@ namespace TestRedirectWebWorker
 	/// </summary>
 	public sealed class Application : ApplicationWebService
 	{
-		/// <summary>
-		/// This is a javascript application.
-		/// </summary>
-		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+		static Application()
+		{
+			// 1ms {{ src = https://192.168.1.196:24813/view-source }}
+			// 0ms {{ currentScript = [object HTMLScriptElement] }}
+			Console.WriteLine(
+				new { Native.document.currentScript.src }
+
+				);
+
+		}
+
 		public Application(IApp page)
 		{
 			// GetScriptApplicationSourceForInlineWorker { value = view-source#worker }
