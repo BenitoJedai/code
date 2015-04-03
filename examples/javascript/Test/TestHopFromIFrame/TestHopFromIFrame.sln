@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSwitchToIFrame", "..\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptDynamicSourceBuilder", "..\..\ScriptDynamicSourceBuilder\ScriptDynamicSourceBuilder\ScriptDynamicSourceBuilder.csproj", "{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSwitchToServiceContextAsync", "..\..\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync.csproj", "{5A6A3B8C-35E2-49E4-9856-73956C94D149}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -35,6 +37,10 @@ Global
 		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|x86.Build.0 = Debug|x86
 		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|x86.ActiveCfg = Release|x86
 		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|x86.Build.0 = Release|x86
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Debug|x86.ActiveCfg = Debug|x86
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Debug|x86.Build.0 = Debug|x86
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Release|x86.ActiveCfg = Release|x86
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,5 +49,6 @@ Global
 		{B1E16B52-D61C-4CB2-9133-3A629C42D388} = {15C1E4A7-C86B-4AA5-AD07-CB7026D86697}
 		{E88F583A-F361-4D97-8642-13EDB6DDC9C1} = {15C1E4A7-C86B-4AA5-AD07-CB7026D86697}
 		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D} = {15C1E4A7-C86B-4AA5-AD07-CB7026D86697}
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149} = {15C1E4A7-C86B-4AA5-AD07-CB7026D86697}
 	EndGlobalSection
 EndGlobal
