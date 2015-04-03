@@ -61,6 +61,7 @@ namespace ChromeExtensionHopToTab
 
 		static Application()
 		{
+
 			// what about console? consolidate all core apps into one?
 
 			// 0ms  cctor Application did we make the jump yet? {{ href = http://example.com/ }}
@@ -138,6 +139,11 @@ namespace ChromeExtensionHopToTab
 				);
 
 				// now what?
+
+				// send a SETI message?
+
+				/// whats duplicate
+				that.id.
 			};
 			#endregion
 
@@ -236,6 +242,7 @@ namespace ChromeExtensionHopToTab
 					// are we now on the tab?
 					// can we jump back?
 
+					// what about jumping with files/uploads?
 					Console.WriteLine("// are we now on the tab yet?");
 				};
 
@@ -250,6 +257,15 @@ namespace ChromeExtensionHopToTab
 			Native.body.style.borderLeft = "1em solid red";
 
 			// yes we did. can we talk to the chrome extension?
+
+			// lets do some SETI
+
+			Native.window.onmessage = e =>
+			{
+				Console.WriteLine("onmessage " + new { e.data });
+
+				Native.body.style.borderLeft = "1em solid blue";
+			};
 		}
 
 	}

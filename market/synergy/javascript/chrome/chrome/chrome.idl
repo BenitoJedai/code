@@ -57,10 +57,10 @@ interface chrome.Tab
 	attribute chrome.TabIdInteger        id;
 
 
-	attribute int        index ;
+	attribute int        index;
 
 	// WindowKey?
-	attribute int        windowId ;
+	attribute int        windowId;
 
 	attribute boolean        highlighted;
 	attribute boolean        active;
@@ -139,7 +139,7 @@ interface chrome.tabs
 
 // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
 // http://developer.chrome.com/extensions/pageAction.html#method-show
-interface chrome.pageAction 
+interface chrome.pageAction
 {
 	event static attribute chrome.ChromeEventTarget<chrome.Tab> onClicked;
 
@@ -178,7 +178,7 @@ interface chrome.runtime
 	static attribute string        lastError;
 	static attribute string        id;
 
-	
+
 	// http://stackoverflow.com/questions/2963260/how-do-i-auto-reload-a-chrome-extension-im-developing
 	static void reload();
 
@@ -206,18 +206,18 @@ interface chrome.runtime
 };
 
 // http://developer.chrome.com/extensions/runtime.html#type-Port
-interface chrome.Port 
+interface chrome.Port
 {
 	attribute string name;
 
 	attribute chrome.ChromeEventTarget onDisconnect;
-	attribute chrome.ChromeEventTarget onMessage ;
+	attribute chrome.ChromeEventTarget onMessage;
 	attribute chrome.MessageSender sender;
 
 	void postMessage(any message);
 };
 
-interface chrome.MessageSender 
+interface chrome.MessageSender
 {
 	attribute string id;
 };
@@ -261,7 +261,7 @@ interface chrome.app.window
 // http://developer.chrome.com/trunk/apps/app.window.html#type-AppWindow
 // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/app_window.idl
 //[Constructor]
-interface chrome.AppWindow 
+interface chrome.AppWindow
 {
 	// can we have a jsc proxy for live debgging?
 	// live edit and continue loop
@@ -290,7 +290,7 @@ interface chrome.AppWindow
   //    style.
   // 5- When the window is created but before it is presented, call
   //    DwmExtendFrameIntoClientArea passing -1 as the margins.
-	
+
 	// chromium idl seems to mark em static?
 	void focus();
 
@@ -314,7 +314,7 @@ interface chrome.AppWindow
 
 	void show();
 	void hide();
-	
+
 
 	// permission
 	// alwaysOnTopWindows
@@ -326,7 +326,7 @@ interface chrome.AppWindow
 
 
 
-	readonly attribute WindowProxy? contentWindow;
+	readonly attribute WindowProxy ? contentWindow;
 
 
 	attribute chrome.ChromeEventTarget onBoundsChanged;
@@ -372,7 +372,7 @@ interface chrome.app.runtime.FileEntry
 
 	attribute any   moveTo;
 
-	
+
 	attribute any   copyTo;
 
 
@@ -404,7 +404,7 @@ interface chrome.app.runtime.LaunchData
 // http://developer.chrome.com/trunk/apps/app.runtime.html
 interface chrome.app.runtime
 {
-	static attribute string        id  ;
+	static attribute string        id;
 
 	// https://developer.chrome.com/apps/app_lifecycle
 	event static attribute chrome.ChromeEventTarget<chrome.app.runtime.LaunchData> onLaunched;
@@ -415,28 +415,29 @@ interface chrome.app.runtime
 	// <appview> element.
 	// https://developer.chrome.com/apps/app_runtime#event-onEmbedRequested
 	event static attribute chrome.ChromeEventTarget onEmbedRequested;
+	// tested by?
 
 
 };
 
 
-interface chrome.CreateInfo 
+interface chrome.CreateInfo
 {
 	attribute chrome.socketId socketId;
 };
 
-interface chrome.WriteInfo 
+interface chrome.WriteInfo
 {
 	attribute long bytesWritten;
 };
 
-interface chrome.ReadInfo 
+interface chrome.ReadInfo
 {
 	attribute long resultCode;
 	attribute ArrayBuffer data;
 };
 
-interface chrome.RecvFromInfo 
+interface chrome.RecvFromInfo
 {
 	attribute long resultCode;
 	attribute long port;
@@ -445,7 +446,7 @@ interface chrome.RecvFromInfo
 };
 
 
-interface chrome.AcceptInfo 
+interface chrome.AcceptInfo
 {
 	attribute long resultCode;
 	attribute chrome.socketId socketId;
@@ -454,7 +455,7 @@ interface chrome.AcceptInfo
 
 
 // not a real type?
-interface chrome.onReceiveInfo 
+interface chrome.onReceiveInfo
 {
 	attribute chrome.socketId socketId;
 	attribute ArrayBuffer data;
@@ -465,7 +466,7 @@ interface chrome.onReceiveInfo
 
 
 // dictionary
-interface chrome.SocketProperties 
+interface chrome.SocketProperties
 {
 	//attribute boolean persistent = false;
 	attribute boolean persistent;
@@ -499,10 +500,10 @@ interface chrome.sockets.udp
 	event static attribute chrome.ChromeEventTarget<any> onReceiveError;
 };
 
-interface chrome.socketId 
+interface chrome.socketId
 	// make it an enum	
 	//: int 
-{ 
+{
 
 };
 
@@ -515,7 +516,7 @@ interface chrome.socket
 	// X:\jsc.svn\examples\javascript\chrome\apps\MulticastListenExperiment\MulticastListenExperiment\Application.cs
 	// http://developer.chrome.com/trunk/apps/socket.html#method-listen
 
-	async static extension void listen (chrome.socketId socketId, string address, int port, int backlog, function<int> callback);
+	async static extension void listen(chrome.socketId socketId, string address, int port, int backlog, function<int> callback);
 	async static extension void accept(chrome.socketId socketId, function<chrome.AcceptInfo> callback);
 	// void create(SocketType type, CreateOptions options, function callback);
 
@@ -561,10 +562,10 @@ interface chrome.socket
 
 // http://developer.chrome.com/trunk/apps/socket.html#type-NetworkInterface
 // https://developer.chrome.com/apps/socket#method-getNetworkList
-interface chrome.NetworkInterface 
+interface chrome.NetworkInterface
 {
-	attribute DOMString name ;
-	attribute DOMString address ;
+	attribute DOMString name;
+	attribute DOMString address;
 	attribute int prefixLength;
 };
 
@@ -585,10 +586,10 @@ interface chrome.ContextMenuClickArgs
 	attribute boolean checked;
 	attribute boolean editable;
 
-	attribute DOMString pageUrl ;
+	attribute DOMString pageUrl;
 
 	// string or int ?
-	attribute any menuItemId ;
+	attribute any menuItemId;
 
 	// image
 	attribute DOMString linkUrl;
@@ -598,14 +599,14 @@ interface chrome.ContextMenuClickArgs
 
 
 	// selection
-	attribute DOMString selectionText ;
+	attribute DOMString selectionText;
 
 
 
 };
 
 
-interface chrome.contextMenus 
+interface chrome.contextMenus
 {
 	// async static void create(object createProperties, function<any> callback);
 	async static void create(any createProperties, function<any> callback);
@@ -621,14 +622,14 @@ interface chrome.contextMenus
 // seems like it is coming to chromeOS but not available for testing as of 2014
 // https://code.google.com/p/chromium/issues/detail?id=142450&q=systemIndicator&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
 // Permission 'systemIndicator' is unknown or URL pattern is malformed.
-interface chrome.systemIndicator 
+interface chrome.systemIndicator
 {
 	// dropped?
 	// tested by?
 
 	static void enable();
 	static void disable();
-	
+
 	event static attribute chrome.ChromeEventTarget onClicked;
 };
 
