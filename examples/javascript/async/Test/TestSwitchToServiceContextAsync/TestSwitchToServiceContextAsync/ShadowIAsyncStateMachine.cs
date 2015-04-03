@@ -72,6 +72,45 @@ namespace TestSwitchToServiceContextAsync
 		public ArrayList<xStringField> StringFields = new ArrayList<xStringField>();
 
 
+		// first test by 
+		// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTab\ChromeExtensionHopToTab\Application.cs
+		//public class ResumeableContinuation
+		public struct ResumeableContinuation
+		{
+			public Action<ShadowIAsyncStateMachine> MoveNext;
+
+			public ShadowIAsyncStateMachine shadowstate;
+		}
+
+		public static ResumeableContinuation ResumeableFromContinuation(Action continuation)
+		{
+			// testing autoinit...
+			var value = default(ResumeableContinuation);
+			var MoveNext = value.MoveNext;
+
+			// can we take byref of a field yet in js?
+			//value.shadowstate = FromContinuation(continuation, ref value.MoveNext);
+			value.shadowstate = FromContinuation(continuation, ref MoveNext);
+
+			// when can we context switch a byref field? 
+			value.MoveNext = MoveNext;
+
+			//02000036 TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine
+			//{ Location =
+			// assembly: W:\ChromeExtensionHopToTab.Application.exe
+			// type: TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine, ChromeExtensionHopToTab.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+			// offset: 0x0013
+			//  method:ResumeableContinuation ResumeableFromContinuation(System.Action) }
+			//script: error JSC1000: Method: ResumeableFromContinuation, Type: TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine; emmiting failed : System.NotImplementedException: { ParameterType = System.Action`1[TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine]&, p = [0x0018] stfld      +0 -2{[0x0009]
+			//   at jsc.IdentWriter.JavaScript_WriteParameters(Prestatement p, ILInstruction i, ILFlowStackItem[] s, Int32 offset, MethodBase m) in X:\jsc.internal.git\compiler\jsc\Languages\IdentWriter.cs:line 846
+			//   at jsc.IL2ScriptGenerator.OpCode_call_override(IdentWriter w, Prestatement p, ILInstruction i, ILFlowStackItem[] s, MethodBase m) in X:\jsc.internal.git\compiler\jsc\Languages\JavaScript\IL2ScriptGenerator.cs:line 410
+
+			return value;
+		}
+
+
+
+		[Obsolete("jsc async rewriter wont like byref that much")]
 		public static ShadowIAsyncStateMachine FromContinuation(
 			Action continuation,
 

@@ -17,6 +17,7 @@ using ChromeExtensionHopToTab;
 using ChromeExtensionHopToTab.Design;
 using ChromeExtensionHopToTab.HTML.Pages;
 using chrome;
+using System.Net;
 
 namespace ChromeExtensionHopToTab
 {
@@ -62,8 +63,18 @@ namespace ChromeExtensionHopToTab
 		{
 			// what about console? consolidate all core apps into one?
 
-			Console.WriteLine(" cctor Application");
+			// 0ms  cctor Application did we make the jump yet? {{ href = http://example.com/ }}
+			Console.WriteLine(" cctor Application did we make the jump yet? " + new { Native.document.location.href });
 
+
+
+			// or. were we injected? then our source is different?
+			// makeURL ? did chrome extension prep the special url yet?
+			var codetask = new WebClient().DownloadStringTaskAsync(
+						 new Uri(Worker.ScriptApplicationSource, UriKind.Relative)
+					);
+
+			#region HopToChromeTab.VirtualOnCompleted
 			HopToChromeTab.VirtualOnCompleted = async (that, continuation) =>
 			{
 				//Console.WriteLine("HopToChromeTab.VirtualOnCompleted ");
@@ -88,19 +99,41 @@ namespace ChromeExtensionHopToTab
 
 				// where is it defined?
 				// X:\jsc.svn\examples\javascript\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\ShadowIAsyncStateMachine.cs
-				Action<TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine> MoveNext0 = null;
 
 				// async dont like ref?
-				var shadowstate = TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine.FromContinuation(continuation, ref MoveNext0);
-				var MoveNext = MoveNext0;
+				var r = TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine.ResumeableFromContinuation(continuation);
 
 				// um. now what?
 				// send shadowstate over?
 				// first we have to open a channel
 
 				// do we have our view-source yet?
+				var code = await codetask;
 
+				// 5240ms HopToChromeTab.VirtualOnCompleted {{ id = 449, state = 1, Length = 3232941 }}
+				Console.WriteLine("HopToChromeTab.VirtualOnCompleted " + new { that.id, r.shadowstate.state, code.Length });
+
+				//// how can we inject ourselves and send a signal back to set this thing up?
+
+				//// https://developer.chrome.com/extensions/tabs#method-executeScript
+				//// https://developer.chrome.com/extensions/tabs#type-InjectDetails
+				//// https://developer.chrome.com/extensions/content_scripts#pi
+
+				//// Content scripts execute in a special environment called an isolated world. 
+				//// They have access to the DOM of the page they are injected into, but not to any JavaScript variables or 
+				//// functions created by the page. It looks to each content script as if there is no other JavaScript executing
+				//// on the page it is running on. The same is true in reverse: JavaScript running on the page cannot call any 
+				//// functions or access any variables defined by content scripts.
+
+				var result = await that.id.executeScript(
+					//new { file = url }
+					new { code }
+				);
+
+				// now what?
 			};
+			#endregion
+
 		}
 
 		public Application(IApp page)
@@ -120,7 +153,7 @@ namespace ChromeExtensionHopToTab
 			//at jsc.ILInstruction.ByOffset(Int32 i) in X:\jsc.internal.git\compiler\jsc\CodeModel\ILInstruction.cs:line 1184
 			//at jsc.ILInstruction.get_BranchTargets() in X:\jsc.internal.git\compiler\jsc\CodeModel\ILInstruction.cs:line 1225
 
-
+			#region self_chrome_tabs
 			if (self_chrome_tabs != null)
 			{
 
@@ -198,9 +231,14 @@ namespace ChromeExtensionHopToTab
 					Console.WriteLine("// are we now on the tab yet?");
 				};
 
+
+
+				return;
 			}
+			#endregion
 
 
+			// ?
 		}
 
 	}
