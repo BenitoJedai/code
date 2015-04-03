@@ -11,6 +11,7 @@ namespace android.hardware
     public partial class Camera
     {
         // include/ui/Camera.h
+        // http://developer.samsung.com/galaxy#camera
 
         // X:\jsc.svn\examples\java\android\AndroidCameraActivity\AndroidCameraActivity\ApplicationActivity.cs
         // X:\jsc.svn\examples\javascript\android\com.abstractatech.dcimgalleryapp\com.abstractatech.dcimgalleryapp\ApplicationWebService.cs
