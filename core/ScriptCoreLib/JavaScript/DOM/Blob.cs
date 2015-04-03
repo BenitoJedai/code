@@ -35,12 +35,14 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public static class BlobExtensions
     {
-        public static string ToObjectURL(this Blob e)
+		// X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
+
+		public static string ToObjectURL(this Blob e)
         {
             // tested by
             // X:\jsc.svn\examples\javascript\ScriptDynamicSourceBuilder\ScriptDynamicSourceBuilder\Application.cs
 
-            Console.WriteLine("ToObjectURL");
+            //Console.WriteLine("ToObjectURL");
 
             // is jsc trying to inline without the line above?
             return URL.createObjectURL(e);

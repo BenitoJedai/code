@@ -64,10 +64,17 @@ namespace ChromeExtensionHopToTab
 			// what about console? consolidate all core apps into one?
 
 			// 0ms  cctor Application did we make the jump yet? {{ href = http://example.com/ }}
-			Console.WriteLine(" cctor Application did we make the jump yet? " + new { Native.document.location.href });
+			Console.WriteLine(" cctor Application did we make the jump yet? " + new
+			{
 
+				// wont be available
+				//Native.document.currentScript.src,
 
+				Native.document.location.href
+			});
 
+			// X:\jsc.svn\examples\javascript\ScriptDynamicSourceBuilder\ScriptDynamicSourceBuilder\Application.cs
+			// X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
 			// or. were we injected? then our source is different?
 			// makeURL ? did chrome extension prep the special url yet?
 			var codetask = new WebClient().DownloadStringTaskAsync(
@@ -156,6 +163,7 @@ namespace ChromeExtensionHopToTab
 			#region self_chrome_tabs
 			if (self_chrome_tabs != null)
 			{
+				Console.WriteLine("self_chrome_tabs");
 
 				chrome.tabs.Updated += async (i, x, tab) =>
 				{
@@ -238,7 +246,10 @@ namespace ChromeExtensionHopToTab
 			#endregion
 
 
-			// ?
+			// we made the jump?
+			Native.body.style.borderLeft = "1em solid red";
+
+			// yes we did. can we talk to the chrome extension?
 		}
 
 	}

@@ -178,6 +178,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 		public ExecutionContext ExecutionContext { get; set;}
 
         public static Context CurrentContext { get; set; }
+
+
+		public static void MemoryBarrier()
+		{
+			// sync memory across thread hops?
+			// PLINQ?
+
+		}
 	}
 
 

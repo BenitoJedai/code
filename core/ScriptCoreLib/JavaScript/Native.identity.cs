@@ -11,22 +11,25 @@ namespace ScriptCoreLib.JavaScript
     // C# 6 shall import this static type and make members available!
     public static partial class Native
     {
-        // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
-        // x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
-        // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
-        // X:\jsc.svn\examples\javascript\Test\TestCryptoUIThreadIdentityKeyPair\TestCryptoUIThreadIdentityKeyPair\Application.cs
-        // X:\jsc.svn\examples\javascript\Test\TestEncryptedPrivateFields\TestEncryptedPrivateFields\ApplicationWebService.cs
-        // X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
+		// we should send idenity with the thread jumps?
+		// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTab\ChromeExtensionHopToTab\Application.cs
 
-        // can we binary encrypt and sign our data uploads?
+		// X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
+		// x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
+		// X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
+		// X:\jsc.svn\examples\javascript\Test\TestCryptoUIThreadIdentityKeyPair\TestCryptoUIThreadIdentityKeyPair\Application.cs
+		// X:\jsc.svn\examples\javascript\Test\TestEncryptedPrivateFields\TestEncryptedPrivateFields\ApplicationWebService.cs
+		// X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
+
+		// can we binary encrypt and sign our data uploads?
 
 
 
-        // http://jim.com/security/replacing_TCP.html
-        // You will notice that the server only allocates memory and does heavy computation *after*
-        // the client has successfully performed proof of work and shown that it is indeed capable 
-        // of receiving data sent to the advertised network address.
-        [Obsolete("experimental. allows us to sign/encrypt our data uploads for our session.")]
+		// http://jim.com/security/replacing_TCP.html
+		// You will notice that the server only allocates memory and does heavy computation *after*
+		// the client has successfully performed proof of work and shown that it is indeed capable 
+		// of receiving data sent to the advertised network address.
+		[Obsolete("experimental. allows us to sign/encrypt our data uploads for our session.")]
         // Error	89	A static readonly field cannot be assigned to (except in a static constructor or a variable initializer)	X:\jsc.svn\core\ScriptCoreLib\JavaScript\Native.identity.cs	57	25	ScriptCoreLib
         public static Task<KeyPair> identity { get; private set; }
 
