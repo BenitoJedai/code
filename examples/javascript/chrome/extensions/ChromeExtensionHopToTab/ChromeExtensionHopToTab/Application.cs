@@ -271,30 +271,40 @@ namespace ChromeExtensionHopToTab
 					// X:\jsc.svn\examples\javascript\xml\FindByClassAndObserve\FindByClassAndObserve\Application.cs
 
 					// luckyly its only hidden... no need to await the element and find it later
-					Native.document.querySelectorAll(" [class='player-video-title']").WithEach(
-							async e =>
-							{
-								do
-								{
-									Native.document.title = e.innerText;
 
-									// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTab\ChromeExtensionHopToTab\Application.cs
-									// we would need to jump back here to do extension notification
-									// the jump back would be to another state machine tho
-									// we would need other ports opened?
+					// <span id="eow-title" class="watch-title " dir="ltr" title="THORnews Weird Weather Watch! Wind Dragon inbound to USA Pacific Coast!">
 
-									for (int xi = 0; xi < 5; xi++)
-									{
-										Native.body.style.borderLeft = "1em solid yellow";
-										await Task.Delay(100);
-										Native.body.style.borderLeft = "1em solid black";
-										await Task.Delay(100);
-									}
 
-								}
-								while (await e.async.onmutation);
-							}
-						);
+					var yt0 = Native.document.querySelectorAll(" [class='player-video-title']");
+					var yt1 = Native.document.querySelectorAll(" [class='watch-title ']");
+
+					yt0.Concat(yt1).WithEach(
+						 async e =>
+						 {
+							 do
+							 {
+								 Native.document.title = e.innerText;
+
+								 // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTab\ChromeExtensionHopToTab\Application.cs
+								 // we would need to jump back here to do extension notification
+								 // the jump back would be to another state machine tho
+								 // we would need other ports opened?
+
+								 Native.document.documentElement.style.borderLeft = "1em solid yellow";
+								 for (int xi = 0; xi < 5; xi++)
+								 {
+									 Native.body.style.borderLeft = "1em solid yellow";
+									 await Task.Delay(100);
+									 Native.body.style.borderLeft = "1em solid black";
+									 await Task.Delay(100);
+								 }
+								 Native.document.documentElement.style.borderLeft = "1em solid red";
+
+								 // or actually instead of jumping back we need to send back progress?
+							 }
+							 while (await e.async.onmutation);
+						 }
+					 );
 
 					// lets start monitoring
 				};
