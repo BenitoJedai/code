@@ -40,41 +40,49 @@ namespace ChromeExtensionHopToTab
 			if (self_chrome_tabs != null)
 			{
 
-				chrome.tabs.Updated +=
-					(i, x, tab) =>
+				chrome.tabs.Updated += async (i, x, tab) =>
+				{
+					// chrome://newtab/
+
+					if (tab.url.StartsWith("chrome-devtools://"))
+						return;
+
+					if (tab.url.StartsWith("chrome://"))
+						return;
+
+					if (tab.status != "complete")
+						return;
+
+					new chrome.Notification
 					{
-						// chrome://newtab/
-
-						if (tab.url.StartsWith("chrome-devtools://"))
-							return;
-
-						if (tab.url.StartsWith("chrome://"))
-							return;
-
-						if (tab.status != "complete")
-							return;
-
-						new chrome.Notification
+						Message = "chrome.tabs.Updated " + new
 						{
-							Message = "chrome.tabs.Updated " + new
-							{
-								tab.id,
-								tab.url,
-								tab.status,
-								tab.title
-							}
-						};
-
-						// public static void insertCSS(this TabIdInteger tabId, object details, IFunction callback);
-						tab.id.insertCSS(
-							new
-							{
-								code = "body { background-color: cyan; }"
-							}
-						);
-
-						//tab.i
+							tab.id,
+							tab.url,
+							tab.status,
+							tab.title
+						}
 					};
+
+					// 		public static Task<object> insertCSS(this TabIdInteger tabId, object details);
+					// public static void insertCSS(this TabIdInteger tabId, object details, IFunction callback);
+					await tab.id.insertCSS(
+						new
+						{
+							code = @"
+
+html { 
+border-left: 1em solid cyan;
+padding-left: 1em; 
+}
+
+
+"
+						}
+					);
+
+					//tab.i
+				};
 
 
 				return;
