@@ -59,6 +59,10 @@ namespace TestHopFromIFrame
 			{
 				Console.WriteLine("enter VirtualOnCompleted..");
 
+				var r = TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine.ResumeableFromContinuation(continuation);
+
+
+				that.frame.contentWindow.pos
 			};
 
 			// fsharpy look
@@ -79,6 +83,18 @@ namespace TestHopFromIFrame
 					new IHTMLPre {
 						"inside iframe"
 					}.AttachToDocument();
+
+					new { }.With(
+						async delegate
+						{
+							// start the handshake
+							// we gain intellisense, but the type is partal, likely not respawned, acivated, initialized 
+							//var m = await Native.window.parent.postMessageAsync<TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine>();
+
+							var m = await Native.window.parent.async.onmessage;
+						}
+					);
+
 
 					return;
 				}
@@ -124,6 +140,9 @@ namespace TestHopFromIFrame
 						// can we jump back?
 						// can we ask how many frames are there?
 						// can we jump in any other frame?
+
+						// if we jump back to another statemachine, can we reference the outer statemachine?
+						// can we call the server?
 					};
 
 
