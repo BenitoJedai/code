@@ -12,387 +12,396 @@ using ScriptCoreLib.JavaScript.DOM.SVG;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
-    [Script]
-    public static class Extensions
-    {
-        public static string toDataURL(this IHTMLImage img)
-        {
-            var context = new CanvasRenderingContext2D();
-
-            context.canvas.width = img.width;
-            context.canvas.height = img.height;
-
-            context.drawImage(img, 0, 0, img.width, img.height);
+	[Script]
+	public static class Extensions
+	{
+		public static string toDataURL(this IHTMLImage img)
+		{
+			var context = new CanvasRenderingContext2D();
+
+			context.canvas.width = img.width;
+			context.canvas.height = img.height;
+
+			context.drawImage(img, 0, 0, img.width, img.height);
 
-            var dataURL = context.canvas.toDataURL();
+			var dataURL = context.canvas.toDataURL();
 
-            return dataURL;
-        }
+			return dataURL;
+		}
 
-        /// <summary>
-        /// shows element and sets opacity to 1
-        /// </summary>
-        public static T Show<T>(this T e)
-            where T : IHTMLElement
-        {
-            e.style.display = IStyle.DisplayEnum.empty;
-            e.style.Opacity = 1;
+		/// <summary>
+		/// shows element and sets opacity to 1
+		/// </summary>
+		public static T Show<T>(this T e)
+			where T : IHTMLElement
+		{
+			e.style.display = IStyle.DisplayEnum.empty;
+			e.style.Opacity = 1;
 
-            return e;
-        }
+			return e;
+		}
 
 
 
-        public static T Show<T>(this T e, bool bVisible)
-            where T : IHTMLElement
-        {
-            if (bVisible)
-                return e.Show();
-            else
-                return e.Hide();
-        }
+		public static T Show<T>(this T e, bool bVisible)
+			where T : IHTMLElement
+		{
+			if (bVisible)
+				return e.Show();
+			else
+				return e.Hide();
+		}
 
-        public static T Hide<T>(this T e)
-            where T : IHTMLElement
-        {
-            e.style.display = IStyle.DisplayEnum.none;
+		public static T Hide<T>(this T e)
+			where T : IHTMLElement
+		{
+			e.style.display = IStyle.DisplayEnum.none;
 
-            return e;
-        }
+			return e;
+		}
 
 
-        public static bool ToggleVisible<T>(this T e)
-            where T : IHTMLElement
-        {
-            IStyle.DisplayEnum v = IStyle.DisplayEnum.empty;
+		public static bool ToggleVisible<T>(this T e)
+			where T : IHTMLElement
+		{
+			IStyle.DisplayEnum v = IStyle.DisplayEnum.empty;
 
-            if (e.style.display == v)
-            {
-                e.Hide();
+			if (e.style.display == v)
+			{
+				e.Hide();
 
-                return false;
-            }
-            else
-            {
-                e.Show();
+				return false;
+			}
+			else
+			{
+				e.Show();
 
-                return true;
-            }
-        }
+				return true;
+			}
+		}
 
-        /// <summary>
-        /// detaches the node from dom; should be renamed to Orphanize
-        /// </summary>
-        //[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)
-        //, ObsoleteAttribute("", false)
-        //]
-        //public static T Dispose<T>(this T e)
-        //    where T : INode
-        //{
-        //    return e.Orphanize();
-        //}
+		/// <summary>
+		/// detaches the node from dom; should be renamed to Orphanize
+		/// </summary>
+		//[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)
+		//, ObsoleteAttribute("", false)
+		//]
+		//public static T Dispose<T>(this T e)
+		//    where T : INode
+		//{
+		//    return e.Orphanize();
+		//}
 
 
 
-        public static void Clear(this INodeConvertible<IHTMLElement> ee)
-        {
-            var e = ee.AsNode();
+		public static void Clear(this INodeConvertible<IHTMLElement> ee)
+		{
+			var e = ee.AsNode();
 
-            var p = e.firstChild;
+			var p = e.firstChild;
 
-            while (p != null)
-            {
-                e.removeChild(p);
-                p = e.firstChild;
-            }
-        }
+			while (p != null)
+			{
+				e.removeChild(p);
+				p = e.firstChild;
+			}
+		}
 
-        public static void ReplaceWith(this INodeConvertible<IHTMLElement> ee, INodeConvertible<IHTMLElement> evalue)
-        {
-            var e = ee.AsNode();
-            var value = evalue.AsNode();
+		public static void ReplaceWith(this INodeConvertible<IHTMLElement> ee, INodeConvertible<IHTMLElement> evalue)
+		{
+			var e = ee.AsNode();
+			var value = evalue.AsNode();
 
-            // http://msdn.microsoft.com/en-us/library/system.xml.linq.xnode.replacewith.aspx
+			// http://msdn.microsoft.com/en-us/library/system.xml.linq.xnode.replacewith.aspx
 
-            if (e.parentNode == null)
-                return;
+			if (e.parentNode == null)
+				return;
 
-            // tested by
-            // X:\jsc.svn\examples\javascript\appengine\RemainingMillisExperiment\RemainingMillisExperiment\Application.cs
-            // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Application.cs
+			// tested by
+			// X:\jsc.svn\examples\javascript\appengine\RemainingMillisExperiment\RemainingMillisExperiment\Application.cs
+			// X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Application.cs
 
 
-            var old = e.attributes.Select(x => new { x.name, x.value }).ToArray();
+			var old = e.attributes.Select(x => new { x.name, x.value }).ToArray();
 
-            var old_id = ((IHTMLElement)e).id;
+			var old_id = ((IHTMLElement)e).id;
 
-            e.parentNode.replaceChild(value, e);
+			e.parentNode.replaceChild(value, e);
 
 
-            // merge attributes
-            foreach (var item in old)
-            {
-                if (!value.hasAttribute(item.name))
-                    value.setAttribute(item.name, item.value);
-            }
+			// merge attributes
+			foreach (var item in old)
+			{
+				if (!value.hasAttribute(item.name))
+					value.setAttribute(item.name, item.value);
+			}
 
-            if (!string.IsNullOrEmpty(old_id))
-            {
-                //((IHTMLElement)value).id = old_id;
+			if (!string.IsNullOrEmpty(old_id))
+			{
+				//((IHTMLElement)value).id = old_id;
 
-                // we just swapped out id's. make the old element forget its id
-                e.id = "";
-            }
-        }
+				// we just swapped out id's. make the old element forget its id
+				e.id = "";
+			}
+		}
 
-        // jsc eXperience
-        public static IEnumerable<IHTMLElement> Orphanize(this IHTMLElement.HTMLElementEnum className)
-        {
-            return className.AsEnumerable().Orphanize();
-        }
+		// jsc eXperience
+		public static IEnumerable<IHTMLElement> Orphanize(this IHTMLElement.HTMLElementEnum className)
+		{
+			return className.AsEnumerable().Orphanize();
+		}
 
-        public static IEnumerable<T> Orphanize<T>(this IEnumerable<T> z)
-            where T : INodeConvertible<IHTMLElement>
-        {
-            // Error	2	The type 'System.Collections.Generic.IEnumerable<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement>' cannot be used as type parameter 'T' in the generic type or method 'ScriptCoreLib.JavaScript.Extensions.Extensions.Orphanize<T>(T)'. There is no implicit reference conversion from 'System.Collections.Generic.IEnumerable<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement>' to 'ScriptCoreLib.JavaScript.Extensions.INodeConvertible<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement>'.	X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs	53	22	RemoveByQuerySelectorAll
+		public static IEnumerable<T> Orphanize<T>(this IEnumerable<T> z)
+			where T : INodeConvertible<IHTMLElement>
+		{
+			// Error	2	The type 'System.Collections.Generic.IEnumerable<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement>' cannot be used as type parameter 'T' in the generic type or method 'ScriptCoreLib.JavaScript.Extensions.Extensions.Orphanize<T>(T)'. There is no implicit reference conversion from 'System.Collections.Generic.IEnumerable<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement>' to 'ScriptCoreLib.JavaScript.Extensions.INodeConvertible<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement>'.	X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs	53	22	RemoveByQuerySelectorAll
 
 
-            // tested by
-            // X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs
+			// tested by
+			// X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs
 
 
-            foreach (var item in z)
-            {
-                item.Orphanize();
-            }
+			foreach (var item in z)
+			{
+				item.Orphanize();
+			}
 
-            return z;
-        }
+			return z;
+		}
 
-        public static T Orphanize<T>(this T e)
-            where T : INodeConvertible<IHTMLElement>
-        {
-            if (e == null)
-                return e;
+		public static T Orphanize<T>(this T e)
+			where T : INodeConvertible<IHTMLElement>
+		{
+			if (e == null)
+				return e;
 
-            var ee = e.AsNode();
-            var n = ee.parentNode;
-            if (n != null)
-                n.removeChild(ee);
+			var ee = e.AsNode();
+			var n = ee.parentNode;
+			if (n != null)
+				n.removeChild(ee);
 
-            return e;
-        }
+			return e;
+		}
 
-        /// <summary>
-        /// attaches this element to the current document body
-        /// </summary>
-        //public static T AttachToDocument<T>(this T e)
-        //    where T : INode
-        //{
-        //    return e.AttachTo(Native.Document.body);
-        //}
+		/// <summary>
+		/// attaches this element to the current document body
+		/// </summary>
+		//public static T AttachToDocument<T>(this T e)
+		//    where T : INode
+		//{
+		//    return e.AttachTo(Native.Document.body);
+		//}
 
 
 
-        #region AttachToDocument
-        public static IEnumerable<T> AttachToDocument<T>(this IEnumerable<T> e)
-       where T : INodeConvertible<IHTMLElement>
-        {
-            if (e != null)
-            {
-                foreach (var item in e)
-                {
-                    item.AttachToDocument();
-                }
-            }
+		#region AttachToDocument
+		public static IEnumerable<T> AttachToDocument<T>(this IEnumerable<T> e)
+	   where T : INodeConvertible<IHTMLElement>
+		{
+			if (e != null)
+			{
+				foreach (var item in e)
+				{
+					item.AttachToDocument();
+				}
+			}
 
-            return e;
-        }
+			return e;
+		}
 
 
-        // RewriteToAssembly error: System.MissingMethodException: Method not found: '!!0 ScriptCoreLib.JavaScript.Extensions.Extensions.AttachToDocument(!!0)'.
-        public static T AttachToDocument<T>(this T e)
-            where T : INodeConvertible<IHTMLElement>
-        {
-            if (e != null)
-                Native.Document.body.appendChild(e.AsNode());
+		// RewriteToAssembly error: System.MissingMethodException: Method not found: '!!0 ScriptCoreLib.JavaScript.Extensions.Extensions.AttachToDocument(!!0)'.
+		public static T AttachToDocument<T>(this T e)
+			where T : INodeConvertible<IHTMLElement>
+		{
+			if (e == null)
+				return e;
 
-            return e;
-        }
+			if (Native.document.body == null)
+			{
+				// can happen.
+				// X:\jsc.svn\examples\javascript\test\TestHopFromIFrame\TestHopFromIFrame\Application.cs
+				Native.document.documentElement.appendChild(e.AsNode());
+				return e;
+			}
 
-        public static IHTMLElement AttachToDocument(this XElement e)
-        {
-            // tested by
-            // X:\jsc.svn\examples\javascript\appengine\StopwatchTimetravelExperiment\StopwatchTimetravelExperiment\Application.cs
+			Native.document.body.appendChild(e.AsNode());
+			return e;
+		}
 
-            return e.AsHTMLElement().AttachToDocument();
-        }
+		public static IHTMLElement AttachToDocument(this XElement e)
+		{
+			// tested by
+			// X:\jsc.svn\examples\javascript\appengine\StopwatchTimetravelExperiment\StopwatchTimetravelExperiment\Application.cs
 
-        #endregion
+			return e.AsHTMLElement().AttachToDocument();
+		}
 
+		#endregion
 
-        #region AttachTo
 
-        public static XAttribute AttachTo(this XAttribute e, IHTMLElement c)
-        {
-            // tested by
+		#region AttachTo
 
-            c.AsXElement().Add(e);
+		public static XAttribute AttachTo(this XAttribute e, IHTMLElement c)
+		{
+			// tested by
 
-            return e;
-        }
+			c.AsXElement().Add(e);
 
-        public static IEnumerable<T> AttachTo<T>(this IEnumerable<T> e, IHTMLElement c)
-            where T : INodeConvertible<IHTMLElement>
-        {
-            if (e != null)
-            {
-                foreach (var item in e)
-                {
-                    item.AttachTo(c);
-                }
-            }
+			return e;
+		}
 
-            return e;
-        }
+		public static IEnumerable<T> AttachTo<T>(this IEnumerable<T> e, IHTMLElement c)
+			where T : INodeConvertible<IHTMLElement>
+		{
+			if (e != null)
+			{
+				foreach (var item in e)
+				{
+					item.AttachTo(c);
+				}
+			}
 
-        // 
+			return e;
+		}
 
-        public static T AttachTo<T>(this T e, ISVGElementBase c)
-            where T : INodeConvertible<IHTMLElement>
-        {
-            // what about shadow DOM?
+		// 
 
-            if (e != null)
-            {
-                var n = e.AsNode();
+		public static T AttachTo<T>(this T e, ISVGElementBase c)
+			where T : INodeConvertible<IHTMLElement>
+		{
+			// what about shadow DOM?
 
-                if (c.localName == "foreignObject")
-                {
-                    //xmlns='http://www.w3.org/1999/xhtml'
-                    // X:\jsc.svn\examples\javascript\svg\SVGCSSContent\SVGCSSContent\Application.cs
-                    n.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns", "http://www.w3.org/1999/xhtml");
-                }
+			if (e != null)
+			{
+				var n = e.AsNode();
 
-                c.appendChild(n);
-            }
+				if (c.localName == "foreignObject")
+				{
+					//xmlns='http://www.w3.org/1999/xhtml'
+					// X:\jsc.svn\examples\javascript\svg\SVGCSSContent\SVGCSSContent\Application.cs
+					n.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns", "http://www.w3.org/1999/xhtml");
+				}
+
+				c.appendChild(n);
+			}
+
+			return e;
+		}
 
-            return e;
-        }
+
+
+
+
+		public static T AttachTo<T>(this T e, IDocumentFragment c)
+			 where T : INodeConvertible<IHTMLElement>
+		{
+			// X:\jsc.svn\examples\javascript\Avalon\Test\TestShadowTextBox\TestShadowTextBox\ApplicationCanvas.cs
+			// X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\BCLImplementation\System\Windows\Controls\TextBox.cs
+
+			if (e != null)
+				c.appendChild(e.AsNode());
+
+			return e;
+		}
 
 
+		public static T AttachTo<T>(this T e, IHTMLElement c)
+			where T : INodeConvertible<IHTMLElement>
+		{
+			if (e != null)
+				c.appendChild(e.AsNode());
 
+			return e;
+		}
+		#endregion
 
+		#region Obsolete
+		[Obsolete]
+		public static T Deserialize<T>(this IXMLDocument e, object[] k)
+					where T : class, new()
+		{
+			if (k == null)
+				throw new Exception("Deserialize: k is null");
 
-        public static T AttachTo<T>(this T e, IDocumentFragment c)
-             where T : INodeConvertible<IHTMLElement>
-        {
-            // X:\jsc.svn\examples\javascript\Avalon\Test\TestShadowTextBox\TestShadowTextBox\ApplicationCanvas.cs
-            // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\BCLImplementation\System\Windows\Controls\TextBox.cs
-
-            if (e != null)
-                c.appendChild(e.AsNode());
+			return new IXMLSerializer<T>(k).Deserialize(e);
+		}
 
-            return e;
-        }
+		[Obsolete]
+		public static void Spawn(this Type alias)
+		{
+			ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => Activator.CreateInstance(alias));
+		}
 
+		[Obsolete]
+		public static void SpawnEntrypointWithBrandning(this Type alias)
+		{
+			if (Native.window == null)
+				return;
 
-        public static T AttachTo<T>(this T e, IHTMLElement c)
-            where T : INodeConvertible<IHTMLElement>
-        {
-            if (e != null)
-                c.appendChild(e.AsNode());
+			Native.window.onload +=
+				delegate
+				{
+					IHTMLImage i = "assets/ScriptCoreLib/jsc.png";
 
-            return e;
-        }
-        #endregion
+					i.style.position = IStyle.PositionEnum.absolute;
+					i.style.right = "1em";
+					i.style.bottom = "1em";
+					i.AttachToDocument();
+				};
 
-        #region Obsolete
-        [Obsolete]
-        public static T Deserialize<T>(this IXMLDocument e, object[] k)
-                    where T : class, new()
-        {
-            if (k == null)
-                throw new Exception("Deserialize: k is null");
+			ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => Activator.CreateInstance(alias));
+		}
 
-            return new IXMLSerializer<T>(k).Deserialize(e);
-        }
+		[Obsolete]
+		public static void SpawnTo(this Type alias, Action<IHTMLElement> h)
+		{
+			// note: this method is used by jsc.meta
 
-        [Obsolete]
-        public static void Spawn(this Type alias)
-        {
-            ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => Activator.CreateInstance(alias));
-        }
+			ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => h(i));
+		}
 
-        [Obsolete]
-        public static void SpawnEntrypointWithBrandning(this Type alias)
-        {
-            if (Native.window == null)
-                return;
+		[Obsolete]
+		public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T> h)
+			 where T : class, new()
+		{
+			SpawnTo<T>(alias, KnownTypes, (t, i) => h(t));
+		}
 
-            Native.window.onload +=
-                delegate
-                {
-                    IHTMLImage i = "assets/ScriptCoreLib/jsc.png";
+		[Obsolete]
+		public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T, IHTMLElement> h)
+			where T : class, new()
+		{
+			if (KnownTypes == null)
+				throw new Exception("GetKnownTypes is null");
 
-                    i.style.position = IStyle.PositionEnum.absolute;
-                    i.style.right = "1em";
-                    i.style.bottom = "1em";
-                    i.AttachToDocument();
-                };
+			ScriptCoreLib.JavaScript.Native.Spawn(alias.Name,
+				i =>
+				{
+					if (i.nodeName == "SCRIPT")
+					{
+						var tag = (IHTMLScript)i;
+						var text = i.text;
 
-            ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => Activator.CreateInstance(alias));
-        }
+						if (tag.type == "text/xml")
+						{
+							var doc = IXMLDocument.Parse(text);
 
-        [Obsolete]
-        public static void SpawnTo(this Type alias, Action<IHTMLElement> h)
-        {
-            // note: this method is used by jsc.meta
+							h(doc.Deserialize<T>(KnownTypes), i);
+						}
+						else if (tag.type == "text/json")
+						{
+							// reflection info will be lost here?
 
-            ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => h(i));
-        }
+							h((T)(object)Expando.FromJSON(text), i);
+						}
+					}
+				}
+			);
+		}
+		#endregion
 
-        [Obsolete]
-        public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T> h)
-             where T : class, new()
-        {
-            SpawnTo<T>(alias, KnownTypes, (t, i) => h(t));
-        }
 
-        [Obsolete]
-        public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T, IHTMLElement> h)
-            where T : class, new()
-        {
-            if (KnownTypes == null)
-                throw new Exception("GetKnownTypes is null");
 
-            ScriptCoreLib.JavaScript.Native.Spawn(alias.Name,
-                i =>
-                {
-                    if (i.nodeName == "SCRIPT")
-                    {
-                        var tag = (IHTMLScript)i;
-                        var text = i.text;
-
-                        if (tag.type == "text/xml")
-                        {
-                            var doc = IXMLDocument.Parse(text);
-
-                            h(doc.Deserialize<T>(KnownTypes), i);
-                        }
-                        else if (tag.type == "text/json")
-                        {
-                            // reflection info will be lost here?
-
-                            h((T)(object)Expando.FromJSON(text), i);
-                        }
-                    }
-                }
-            );
-        }
-        #endregion
-
-
-
-    }
+	}
 }
