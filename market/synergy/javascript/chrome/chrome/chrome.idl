@@ -123,6 +123,8 @@ interface chrome.tabs
 	async static void get(int tabId, function<chrome.Tab> callback);
 
 	async static void getCurrent(function<chrome.Tab> callback);
+
+	// x:\jsc.svn\examples\javascript\chrome\extensions\chromeextensionhoptotab\chromeextensionhoptotab\application.cs
 	async static extension void sendMessage(chrome.TabIdInteger tabId, any message, function<any> callback);
 	async static extension void duplicate(chrome.TabIdInteger tabId, function<chrome.Tab> callback);
 
@@ -200,7 +202,9 @@ interface chrome.runtime
 	event static attribute chrome.ChromeEventTarget<chrome.Port> onConnect;
 	event static attribute chrome.ChromeEventTarget<chrome.Port> onConnectExternal;
 
-	event static attribute chrome.ChromeEventTarget<any, any, any> onMessage;
+	
+		//event static attribute chrome.ChromeEventTarget<any, any, any> onMessage;
+	event static attribute chrome.ChromeEventTarget<any, chrome.MessageSender, function<any>> onMessage;
 	event static attribute chrome.ChromeEventTarget<any, any, any> onMessageExternal;
 	event static attribute chrome.ChromeEventTarget<any> onRestartRequired;
 };
@@ -326,7 +330,7 @@ interface chrome.AppWindow
 
 
 
-	readonly attribute WindowProxy ? contentWindow;
+	readonly attribute WindowProxy? contentWindow;
 
 
 	attribute chrome.ChromeEventTarget onBoundsChanged;

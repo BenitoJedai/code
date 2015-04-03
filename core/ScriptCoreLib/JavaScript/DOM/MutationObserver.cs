@@ -13,17 +13,19 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "MutationObserver")]
     public class MutationObserver
     {
-        // https://code.google.com/p/chromium/issues/detail?id=390807
-        // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionPreShadow\ChromeExtensionPreShadow\Application.cs
+		// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Xml\Linq\XNode.cs
+
+		// https://code.google.com/p/chromium/issues/detail?id=390807
+		// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionPreShadow\ChromeExtensionPreShadow\Application.cs
 
 
 
-        // Uncaught TypeError: Failed to construct 'MutationObserver': Callback argument must be a function 
-        // jsc is not yet doing the correct thing here.
+		// Uncaught TypeError: Failed to construct 'MutationObserver': Callback argument must be a function 
+		// jsc is not yet doing the correct thing here.
 
-        //public MutationObserver(MutationCallback callback)
+		//public MutationObserver(MutationCallback callback)
 
-        public MutationObserver(IFunction callback)
+		public MutationObserver(IFunction callback)
         {
 
         }

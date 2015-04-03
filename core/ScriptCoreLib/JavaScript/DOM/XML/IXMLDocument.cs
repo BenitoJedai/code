@@ -34,6 +34,7 @@ namespace ScriptCoreLib.JavaScript.DOM.XML
 			}
 		}
 
+		// called by?
 		[Script(DefineAsStatic = true)]
 		public INode selectSingleNode(string path)
 		{

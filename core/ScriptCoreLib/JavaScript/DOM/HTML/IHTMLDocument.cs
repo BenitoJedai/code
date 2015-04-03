@@ -146,6 +146,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             return default(IHTMLElement);
         }
 
+		[System.Obsolete]
         [Script(DefineAsStatic = true)]
         public IArray<IHTMLElement> getElementsByClassName(string tagName, string className)
         {
@@ -177,7 +178,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
 
         [Script(DefineAsStatic = true)]
-        public IArray<IHTMLElement> getElementsByClassName(string className)
+		[System.Obsolete]
+		public IArray<IHTMLElement> getElementsByClassName(string className)
         {
             return getElementsByClassName("*", className);
         }

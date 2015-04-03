@@ -22,6 +22,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 		// x:\jsc.svn\examples\javascript\async\test\testeditandcontinue\testeditandcontinue\application.cs
 		// X:\jsc.svn\examples\java\hybrid\JVMCLRSwitchToCLRContextAsync\JVMCLRSwitchToCLRContextAsync\Program.cs
 		// X:\jsc.svn\examples\javascript\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\Application.cs
+		// x:\jsc.svn\examples\javascript\chrome\extensions\chromeextensionhoptotab\chromeextensionhoptotab\application.cs
 
 		void MoveNext();
 

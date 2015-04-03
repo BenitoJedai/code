@@ -154,6 +154,7 @@
     <Compile Include="JavaScript\WebRTC\RTCPeerConnection.cs" />
     <Compile Include="JavaScript\WebVR\HMDVRDevice.cs" />
     <Compile Include="JavaScript\WebVR\VRDevice.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\ObjectModel\ObservableCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\IExtenderProvider.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\ICustomTypeDescriptor.cs" />
     <Compile Include="Shared\BCLImplementation\System\IObserver.cs" />
