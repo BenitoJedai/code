@@ -126,9 +126,10 @@ namespace ChromeExtensionShadowExperiment
                             Message = "Clicked " + new { tab.id, tab.url }
                         };
 
+						// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTab\ChromeExtensionHopToTab\Application.cs
 
-                        // document.currentScript?
-                        var code = await new WebClient().DownloadStringTaskAsync(
+						// document.currentScript?
+						var code = await new WebClient().DownloadStringTaskAsync(
                               new Uri(Worker.ScriptApplicationSource, UriKind.Relative)
                          );
 

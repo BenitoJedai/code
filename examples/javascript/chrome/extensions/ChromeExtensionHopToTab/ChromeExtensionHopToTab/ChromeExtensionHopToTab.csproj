@@ -123,6 +123,9 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
+    <Reference Include="TestSwitchToServiceContextAsync.AssetsLibrary">
+      <HintPath>..\..\..\..\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\bin\staging.AssetsLibrary\TestSwitchToServiceContextAsync.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
