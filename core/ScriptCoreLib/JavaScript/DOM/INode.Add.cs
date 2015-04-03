@@ -13,367 +13,380 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    public partial class INode
-    {
-        // will roslyn allow Add extensions?
+	public partial class INode
+	{
+		// will roslyn allow Add extensions?
 
 
 
 
-        [Script(DefineAsStatic = true)]
-        public void Add(INode e)
-        {
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
+		[Script(DefineAsStatic = true)]
+		public void Add(INode e)
+		{
+			// Implementing Collection Initializers
+			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-            this.appendChild(e);
-        }
+			this.appendChild(e);
+		}
 
-        [Script(DefineAsStatic = true)]
-        public void Add(INode[] e)
-        {
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
+		[Script(DefineAsStatic = true)]
+		public void Add(INode[] e)
+		{
+			// Implementing Collection Initializers
+			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-            foreach (var item in e)
-            {
-                this.appendChild(item);
-            }
-        }
+			foreach (var item in e)
+			{
+				this.appendChild(item);
+			}
+		}
 
-        [Script(DefineAsStatic = true)]
-        public virtual void Add(string e)
-        {
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
+		[Script(DefineAsStatic = true)]
+		public virtual void Add(string e)
+		{
+			// Implementing Collection Initializers
+			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-            this.appendChild(new ITextNode(e));
-        }
+			this.appendChild(new ITextNode(e));
+		}
 
 
-        [Script(DefineAsStatic = true)]
-        public void Add(byte[] e)
-        {
-            // x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
+		[Script(DefineAsStatic = true)]
+		public void Add(byte[] e)
+		{
+			// x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
 
-            var w = "";
+			var w = "";
 
-            foreach (var item in e)
-            {
-                w += item.ToString("x2");
+			foreach (var item in e)
+			{
+				w += item.ToString("x2");
 
-            }
+			}
 
-            var x = new ITextNode(w);
+			var x = new ITextNode(w);
 
-            this.appendChild(x);
-        }
+			this.appendChild(x);
+		}
 
-        [Script(DefineAsStatic = true)]
-        public void Add(object e)
-        {
-            // would this work for the compiled assets/html blocks too?
+		[Script(DefineAsStatic = true)]
+		public void Add(object e)
+		{
+			// would this work for the compiled assets/html blocks too?
 
-            var xXElement = e as XElement;
-            if (xXElement != null)
-            {
-                // X:\jsc.svn\examples\javascript\Test\vb\TestXElementLiteral\TestXElementLiteral\Application.vb
-                this.appendChild(
-                    xXElement.AsHTMLElement()
-                    );
+			var xXElement = e as XElement;
+			if (xXElement != null)
+			{
+				// X:\jsc.svn\examples\javascript\test\TestHopFromIFrame\TestHopFromIFrame\Application.cs
+				if (this.nodeName.ToLower() == "iframe")
+				{
+					var aFileParts = new[] { xXElement.ToString() };
+					var oMyBlob = new Blob(aFileParts, new { type = "text/html" });
 
-                return;
-            }
+					var url = URL.createObjectURL(oMyBlob);
 
-            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
+					((IHTMLIFrame)this).src = url;
 
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
+					return;
+				}
 
-            // x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
-            var x = new ITextNode("" + e);
+				// X:\jsc.svn\examples\javascript\Test\vb\TestXElementLiteral\TestXElementLiteral\Application.vb
+				this.appendChild(
+					xXElement.AsHTMLElement()
+					);
 
-            // what if the object is anonymous
-            // could we have special logic for it?
+				return;
+			}
 
-            // actually all we want to know is will ToString change. IToStringChangedEvent ?
-            if (e is Stopwatch)
-            {
-                Native.window.onframe +=
-                    ee =>
-                    {
-                        x.nodeValue = "" + e;
+			// X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
 
+			// Implementing Collection Initializers
+			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-                        // stop when stopwatch is paused?
-                    };
-            }
+			// x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
+			var x = new ITextNode("" + e);
 
-            this.appendChild(x);
-        }
+			// what if the object is anonymous
+			// could we have special logic for it?
 
-        [Script(DefineAsStatic = true)]
-        public void Add(System.Func<object> e)
-        {
-            // what about implicit operators for other elements?
-            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
+			// actually all we want to know is will ToString change. IToStringChangedEvent ?
+			if (e is Stopwatch)
+			{
+				Native.window.onframe +=
+					ee =>
+					{
+						x.nodeValue = "" + e;
 
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-            var x = e().ToString();
-            var text = new ITextNode(x);
+						// stop when stopwatch is paused?
+					};
+			}
 
-            this.appendChild(text);
+			this.appendChild(x);
+		}
 
-            new Timer(
-                t =>
-                {
-                    if (text.parentNode == null)
-                    {
-                        System.Console.WriteLine("INode.Add timer stopped");
-                        t.Stop();
-                        return;
-                    }
+		[Script(DefineAsStatic = true)]
+		public void Add(System.Func<object> e)
+		{
+			// what about implicit operators for other elements?
+			// X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
 
-                    var y = e().ToString();
-                    if (y != text.nodeValue)
-                    {
-                        text.nodeValue = y;
+			// Implementing Collection Initializers
+			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-                        return;
-                    }
+			var x = e().ToString();
+			var text = new ITextNode(x);
 
-                    // how many iterations before we stop the timer?
-                },
+			this.appendChild(text);
 
-                // time to attach to DOM
-                duetime: 33,
-                interval: 1000 / 15
-            );
+			new Timer(
+				t =>
+				{
+					if (text.parentNode == null)
+					{
+						System.Console.WriteLine("INode.Add timer stopped");
+						t.Stop();
+						return;
+					}
 
+					var y = e().ToString();
+					if (y != text.nodeValue)
+					{
+						text.nodeValue = y;
 
-        }
+						return;
+					}
 
+					// how many iterations before we stop the timer?
+				},
 
+				// time to attach to DOM
+				duetime: 33,
+				interval: 1000 / 15
+			);
 
-        [Script(DefineAsStatic = true)]
-        public void Add(System.Func<Task<XElement>> e)
-        {
-            // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
-            // what about implicit operators for other elements?
-            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
+		}
 
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-            //var text = new ITextNode("");
-            INode text = new IHTMLSpan("");
 
-            this.appendChild(text);
+		[Script(DefineAsStatic = true)]
+		public void Add(System.Func<Task<XElement>> e)
+		{
+			// X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
-            var TotalElapsedMilliseconds = 0L;
+			// what about implicit operators for other elements?
+			// X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
 
-            new Timer(
-                t =>
-                {
-                    if (text.parentNode == null)
-                    {
-                        System.Console.WriteLine("INode.Add timer stopped");
-                        t.Stop();
-                        return;
-                    }
+			// Implementing Collection Initializers
+			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-                    t.Enabled = false;
+			//var text = new ITextNode("");
+			INode text = new IHTMLSpan("");
 
-                    var sw = Stopwatch.StartNew();
+			this.appendChild(text);
 
-                    e().ContinueWith(
-                        x =>
-                        {
-                            var Result = x.Result.AsHTMLElement();
+			var TotalElapsedMilliseconds = 0L;
 
-                            // what if there is no data?
-                            if (Result != null)
-                            {
-                                // DOM rewrite in process. is the caller trusted? is data trusted?
-                                this.replaceChild(
-                                    Result,
-                                    text
-                                );
+			new Timer(
+				t =>
+				{
+					if (text.parentNode == null)
+					{
+						System.Console.WriteLine("INode.Add timer stopped");
+						t.Stop();
+						return;
+					}
 
-                                text = Result;
+					t.Enabled = false;
 
-                            }
+					var sw = Stopwatch.StartNew();
 
-                            t.Enabled = true;
-                        }
-                    );
+					e().ContinueWith(
+						x =>
+						{
+							var Result = x.Result.AsHTMLElement();
 
+							// what if there is no data?
+							if (Result != null)
+							{
+								// DOM rewrite in process. is the caller trusted? is data trusted?
+								this.replaceChild(
+									Result,
+									text
+								);
 
-                    // how many iterations before we stop the timer?
-                },
+								text = Result;
 
-                // time to attach to DOM
-                duetime: 33,
-                interval: 1000 / 15
-            );
+							}
 
+							t.Enabled = true;
+						}
+					);
 
-        }
 
+					// how many iterations before we stop the timer?
+				},
 
+				// time to attach to DOM
+				duetime: 33,
+				interval: 1000 / 15
+			);
 
-        [Script(DefineAsStatic = true)]
-        public void Add(Task<XElement> e)
-        {
-            // x:\jsc.svn\examples\javascript\xml\xclickcounter\xclickcounter\application.cs
-            // placeholder.
-            var text = new IHTMLSpan("");
 
-            this.appendChild(text);
+		}
 
 
-            e.ContinueWith(
-                x =>
-                {
-                    var Result = x.Result.AsHTMLElement();
 
+		[Script(DefineAsStatic = true)]
+		public void Add(Task<XElement> e)
+		{
+			// x:\jsc.svn\examples\javascript\xml\xclickcounter\xclickcounter\application.cs
+			// placeholder.
+			var text = new IHTMLSpan("");
 
+			this.appendChild(text);
 
-                    // DOM rewrite in process. is the caller trusted? is data trusted?
-                    this.replaceChild(
-                        Result,
-                        text
-                    );
-                }
-            );
-        }
 
+			e.ContinueWith(
+				x =>
+				{
+					var Result = x.Result.AsHTMLElement();
 
-        [Script(DefineAsStatic = true)]
-        public void Add<TResult>(Task<TResult> e)
-        {
-            // x:\jsc.svn\examples\javascript\xml\xclickcounter\xclickcounter\application.cs
 
-            // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
-            // what about implicit operators for other elements?
-            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
+					// DOM rewrite in process. is the caller trusted? is data trusted?
+					this.replaceChild(
+						Result,
+						text
+					);
+				}
+			);
+		}
 
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-            //var text = new ITextNode("");
-            var text = new IHTMLSpan("");
+		[Script(DefineAsStatic = true)]
+		public void Add<TResult>(Task<TResult> e)
+		{
+			// x:\jsc.svn\examples\javascript\xml\xclickcounter\xclickcounter\application.cs
 
-            this.appendChild(text);
+			// X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
+			// what about implicit operators for other elements?
+			// X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
 
+			// Implementing Collection Initializers
+			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-            var sw = Stopwatch.StartNew();
+			//var text = new ITextNode("");
+			var text = new IHTMLSpan("");
 
-            e.ContinueWith(
-                x =>
-                {
+			this.appendChild(text);
 
-                    var xx = (__Task<object>)x;
 
-                    var Result = xx.Result;
 
-                    // if its xml would we want to do something special?
+			var sw = Stopwatch.StartNew();
 
-                    var y = System.Convert.ToString(
-                        xx.Result
-                    );
+			e.ContinueWith(
+				x =>
+				{
 
-                    //TotalElapsedMilliseconds += sw.ElapsedMilliseconds;
-                    //text.title = new { TotalElapsedMilliseconds, sw.ElapsedMilliseconds }.ToString();
+					var xx = (__Task<object>)x;
 
+					var Result = xx.Result;
 
-                    if (y != text.innerText)
-                    {
-                        text.innerText = y;
-                    }
+					// if its xml would we want to do something special?
 
-                }
-            );
+					var y = System.Convert.ToString(
+						xx.Result
+					);
 
+					//TotalElapsedMilliseconds += sw.ElapsedMilliseconds;
+					//text.title = new { TotalElapsedMilliseconds, sw.ElapsedMilliseconds }.ToString();
 
 
+					if (y != text.innerText)
+					{
+						text.innerText = y;
+					}
 
+				}
+			);
 
-        }
 
-        [Script(DefineAsStatic = true)]
-        public void Add<TResult>(System.Func<Task<TResult>> e)
-        {
-            // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
-            // what about implicit operators for other elements?
-            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
 
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-            //var text = new ITextNode("");
-            var text = new IHTMLSpan("");
+		}
 
-            this.appendChild(text);
+		[Script(DefineAsStatic = true)]
+		public void Add<TResult>(System.Func<Task<TResult>> e)
+		{
+			// X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
-            var TotalElapsedMilliseconds = 0L;
+			// what about implicit operators for other elements?
+			// X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
 
-            new Timer(
-                t =>
-                {
-                    if (text.parentNode == null)
-                    {
-                        System.Console.WriteLine("INode.Add timer stopped");
-                        t.Stop();
-                        return;
-                    }
+			// Implementing Collection Initializers
+			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-                    t.Enabled = false;
+			//var text = new ITextNode("");
+			var text = new IHTMLSpan("");
 
-                    var sw = Stopwatch.StartNew();
+			this.appendChild(text);
 
-                    e().ContinueWith(
-                        x =>
-                        {
+			var TotalElapsedMilliseconds = 0L;
 
-                            var xx = (__Task<object>)x;
+			new Timer(
+				t =>
+				{
+					if (text.parentNode == null)
+					{
+						System.Console.WriteLine("INode.Add timer stopped");
+						t.Stop();
+						return;
+					}
 
-                            var Result = xx.Result;
+					t.Enabled = false;
 
+					var sw = Stopwatch.StartNew();
 
-                            var y = System.Convert.ToString(
-                                xx.Result
-                            );
+					e().ContinueWith(
+						x =>
+						{
 
-                            TotalElapsedMilliseconds += sw.ElapsedMilliseconds;
-                            text.title = new { TotalElapsedMilliseconds, sw.ElapsedMilliseconds }.ToString();
+							var xx = (__Task<object>)x;
 
+							var Result = xx.Result;
 
-                            if (y != text.innerText)
-                            {
-                                text.innerText = y;
-                            }
 
-                            t.Enabled = true;
-                        }
-                    );
+							var y = System.Convert.ToString(
+								xx.Result
+							);
 
+							TotalElapsedMilliseconds += sw.ElapsedMilliseconds;
+							text.title = new { TotalElapsedMilliseconds, sw.ElapsedMilliseconds }.ToString();
 
-                    // how many iterations before we stop the timer?
-                },
 
-                // time to attach to DOM
-                duetime: 33,
-                interval: 1000 / 15
-            );
+							if (y != text.innerText)
+							{
+								text.innerText = y;
+							}
 
+							t.Enabled = true;
+						}
+					);
 
-        }
-    }
+
+					// how many iterations before we stop the timer?
+				},
+
+				// time to attach to DOM
+				duetime: 33,
+				interval: 1000 / 15
+			);
+
+
+		}
+	}
 }

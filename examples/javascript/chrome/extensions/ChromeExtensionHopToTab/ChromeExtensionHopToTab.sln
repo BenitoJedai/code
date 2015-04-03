@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncHopToUIFromWorker", ".
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSwitchToServiceContextAsync", "..\..\..\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync.csproj", "{5A6A3B8C-35E2-49E4-9856-73956C94D149}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRedirectWebWorker", "..\..\..\Test\TestRedirectWebWorker\TestRedirectWebWorker\TestRedirectWebWorker.csproj", "{B1E16B52-D61C-4CB2-9133-3A629C42D388}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -55,6 +57,10 @@ Global
 		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Debug|x86.Build.0 = Debug|x86
 		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Release|x86.ActiveCfg = Release|x86
 		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Release|x86.Build.0 = Release|x86
+		{B1E16B52-D61C-4CB2-9133-3A629C42D388}.Debug|x86.ActiveCfg = Debug|x86
+		{B1E16B52-D61C-4CB2-9133-3A629C42D388}.Debug|x86.Build.0 = Debug|x86
+		{B1E16B52-D61C-4CB2-9133-3A629C42D388}.Release|x86.ActiveCfg = Release|x86
+		{B1E16B52-D61C-4CB2-9133-3A629C42D388}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,5 +72,6 @@ Global
 		{E88F583A-F361-4D97-8642-13EDB6DDC9C1} = {85BEAB59-0DEE-4419-B050-AEB0175CF146}
 		{F2E012CC-17C4-4DCA-A881-6477F05DE6DA} = {85BEAB59-0DEE-4419-B050-AEB0175CF146}
 		{5A6A3B8C-35E2-49E4-9856-73956C94D149} = {85BEAB59-0DEE-4419-B050-AEB0175CF146}
+		{B1E16B52-D61C-4CB2-9133-3A629C42D388} = {85BEAB59-0DEE-4419-B050-AEB0175CF146}
 	EndGlobalSection
 EndGlobal
