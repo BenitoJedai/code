@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeExtensionShadowExperi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSwitchToIFrame", "..\..\..\Test\TestSwitchToIFrame\TestSwitchToIFrame\TestSwitchToIFrame.csproj", "{E88F583A-F361-4D97-8642-13EDB6DDC9C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncHopToUIFromWorker", "..\..\..\async\AsyncHopToUIFromWorker\AsyncHopToUIFromWorker\AsyncHopToUIFromWorker.csproj", "{F2E012CC-17C4-4DCA-A881-6477F05DE6DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSwitchToServiceContextAsync", "..\..\..\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync.csproj", "{5A6A3B8C-35E2-49E4-9856-73956C94D149}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -43,6 +47,14 @@ Global
 		{E88F583A-F361-4D97-8642-13EDB6DDC9C1}.Debug|x86.Build.0 = Debug|x86
 		{E88F583A-F361-4D97-8642-13EDB6DDC9C1}.Release|x86.ActiveCfg = Release|x86
 		{E88F583A-F361-4D97-8642-13EDB6DDC9C1}.Release|x86.Build.0 = Release|x86
+		{F2E012CC-17C4-4DCA-A881-6477F05DE6DA}.Debug|x86.ActiveCfg = Debug|x86
+		{F2E012CC-17C4-4DCA-A881-6477F05DE6DA}.Debug|x86.Build.0 = Debug|x86
+		{F2E012CC-17C4-4DCA-A881-6477F05DE6DA}.Release|x86.ActiveCfg = Release|x86
+		{F2E012CC-17C4-4DCA-A881-6477F05DE6DA}.Release|x86.Build.0 = Release|x86
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Debug|x86.ActiveCfg = Debug|x86
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Debug|x86.Build.0 = Debug|x86
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Release|x86.ActiveCfg = Release|x86
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +64,7 @@ Global
 		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D} = {85BEAB59-0DEE-4419-B050-AEB0175CF146}
 		{5B60DC35-20F6-4FEF-8C20-5CC06D39EBA9} = {85BEAB59-0DEE-4419-B050-AEB0175CF146}
 		{E88F583A-F361-4D97-8642-13EDB6DDC9C1} = {85BEAB59-0DEE-4419-B050-AEB0175CF146}
+		{F2E012CC-17C4-4DCA-A881-6477F05DE6DA} = {85BEAB59-0DEE-4419-B050-AEB0175CF146}
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149} = {85BEAB59-0DEE-4419-B050-AEB0175CF146}
 	EndGlobalSection
 EndGlobal
