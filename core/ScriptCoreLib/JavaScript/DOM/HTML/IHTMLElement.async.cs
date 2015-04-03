@@ -41,9 +41,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 [Script(DefineAsStatic = true)]
                 get
                 {
-                    // X:\jsc.svn\examples\javascript\svg\SVGFromHTMLDivObservable\SVGFromHTMLDivObservable\Application.cs
+					// X:\jsc.svn\examples\javascript\xml\FindByClassAndObserve\FindByClassAndObserve\Application.cs
+					// X:\jsc.svn\examples\javascript\svg\SVGFromHTMLDivObservable\SVGFromHTMLDivObservable\Application.cs
 
-                    var x = new TaskCompletionSource<IEvent>();
+					var x = new TaskCompletionSource<IEvent>();
                     //that.onmouseover += x.SetResult;
 
                     new MutationObserver(

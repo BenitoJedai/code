@@ -17,6 +17,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         {
 
         }
+
         // X:\jsc.svn\examples\javascript\Test\TestShadowIFrame\TestShadowIFrame\Application.cs
         public event EventHandler<XObjectChangeEventArgs> Changed
         {

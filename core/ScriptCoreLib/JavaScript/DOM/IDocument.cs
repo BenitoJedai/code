@@ -12,12 +12,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     // http://www.w3schools.com/dom/dom_document.asp
     [Script(HasNoPrototype = true)]
-    public class IDocument : INode
+    public partial class IDocument : INode
     {
-   
+		// https://developer.mozilla.org/en-US/docs/Web/API/Document/registerElement
 
-        // or is it to be moved to IHTMLDocument?
-        [Script(DefineAsStatic = true)]
+
+		// or is it to be moved to IHTMLDocument?
+		[Script(DefineAsStatic = true)]
         public IFunction registerElement<TElement>(
             string name,
             Action<TElement> createdCallback,

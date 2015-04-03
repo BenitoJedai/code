@@ -18,6 +18,8 @@ using ChromeExtensionHopToTab.Design;
 using ChromeExtensionHopToTab.HTML.Pages;
 using chrome;
 using System.Net;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace ChromeExtensionHopToTab
 {
@@ -140,10 +142,23 @@ namespace ChromeExtensionHopToTab
 
 				// now what?
 
+				Console.WriteLine("HopToChromeTab.VirtualOnCompleted after executeScript");
+
 				// send a SETI message?
 
 				/// whats duplicate
-				that.id.
+				var response = await that.id.sendMessage(
+					//"hello"
+
+					r.shadowstate
+				);
+
+				Console.WriteLine("HopToChromeTab.VirtualOnCompleted after sendMessage " + new { response });
+
+				// HopToChromeTab.VirtualOnCompleted after sendMessage {{ response = response }}
+
+				// https://developer.chrome.com/extensions/messaging#connect
+
 			};
 			#endregion
 
@@ -190,16 +205,16 @@ namespace ChromeExtensionHopToTab
 					if (tab.status != "complete")
 						return;
 
-					new chrome.Notification
-					{
-						Message = "chrome.tabs.Updated " + new
-						{
-							tab.id,
-							tab.url,
-							tab.status,
-							tab.title
-						}
-					};
+					//new chrome.Notification
+					//{
+					//	Message = "chrome.tabs.Updated " + new
+					//	{
+					//		tab.id,
+					//		tab.url,
+					//		tab.status,
+					//		tab.title
+					//	}
+					//};
 
 
 					// while running tabs.insertCSS: The tab was closed.
@@ -244,6 +259,44 @@ namespace ChromeExtensionHopToTab
 
 					// what about jumping with files/uploads?
 					Console.WriteLine("// are we now on the tab yet?");
+
+					Native.body.style.borderLeft = "1em solid black";
+					Native.document.documentElement.style.borderLeft = "1em solid red";
+
+
+					// <div class="player-video-title">Ariana Grande - One Last Time (Official)</div>
+
+					Native.document.title = "(" + Native.document.title + ")";
+
+					// X:\jsc.svn\examples\javascript\xml\FindByClassAndObserve\FindByClassAndObserve\Application.cs
+
+					// luckyly its only hidden... no need to await the element and find it later
+					Native.document.querySelectorAll(" [class='player-video-title']").WithEach(
+							async e =>
+							{
+								do
+								{
+									Native.document.title = e.innerText;
+
+									// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTab\ChromeExtensionHopToTab\Application.cs
+									// we would need to jump back here to do extension notification
+									// the jump back would be to another state machine tho
+									// we would need other ports opened?
+
+									for (int xi = 0; xi < 5; xi++)
+									{
+										Native.body.style.borderLeft = "1em solid yellow";
+										await Task.Delay(100);
+										Native.body.style.borderLeft = "1em solid black";
+										await Task.Delay(100);
+									}
+
+								}
+								while (await e.async.onmutation);
+							}
+						);
+
+					// lets start monitoring
 				};
 
 
@@ -260,12 +313,82 @@ namespace ChromeExtensionHopToTab
 
 			// lets do some SETI
 
-			Native.window.onmessage = e =>
-			{
-				Console.WriteLine("onmessage " + new { e.data });
+			// The runtime.onMessage event is fired in each content script running in the specified tab for the current extension.
 
-				Native.body.style.borderLeft = "1em solid blue";
+			// Severity	Code	Description	Project	File	Line
+			//Error       'runtime.onMessage' is inaccessible due to its protection level ChromeExtensionHopToTab X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTab\ChromeExtensionHopToTab\Application.cs 272
+
+			// public static event System.Action<object, object, object> Message
+			chrome.runtime.Message += (object message, chrome.MessageSender sender, IFunction sendResponse) =>
+			{
+				var s = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)message;
+
+				// 59ms onmessage {{ message = hello, id = aemlnmcokphbneegoefdckonejmknohh }}
+				Console.WriteLine("xonmessage " + new { s.state, sender.id });
+				Native.body.style.borderLeft = "1px solid blue";
+
+				var xAsyncStateMachineType = typeof(Application).Assembly.GetTypes().FirstOrDefault(
+					item =>
+					{
+						// safety check 1
+
+						//Console.WriteLine(new { sw.ElapsedMilliseconds, item.FullName });
+
+						var xisIAsyncStateMachine = typeof(IAsyncStateMachine).IsAssignableFrom(item);
+						if (xisIAsyncStateMachine)
+						{
+							//Console.WriteLine(new { item.FullName, isIAsyncStateMachine });
+
+							return item.FullName == s.TypeName;
+						}
+
+						return false;
+					}
+				);
+
+
+				var NewStateMachine = FormatterServices.GetUninitializedObject(xAsyncStateMachineType);
+				var isIAsyncStateMachine = NewStateMachine is IAsyncStateMachine;
+
+				var NewStateMachineI = (IAsyncStateMachine)NewStateMachine;
+
+				#region 1__state
+				xAsyncStateMachineType.GetFields(
+						  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
+					  ).WithEach(
+					   AsyncStateMachineSourceField =>
+					   {
+
+						   Console.WriteLine(new { AsyncStateMachineSourceField });
+
+						   if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
+						   {
+							   AsyncStateMachineSourceField.SetValue(
+								   NewStateMachineI,
+								   s.state
+								);
+						   }
+
+
+					   }
+				  );
+				#endregion
+
+				NewStateMachineI.MoveNext();
+
+				//Task.Delay(1000).ContinueWith(
+				//	delegate
+				//	{
+				//		sendResponse.apply(null, "response");
+				//	}
+				//);
+
 			};
+
+			//         Native.window.onmessage += e =>
+			//{
+
+			//};
 		}
 
 	}

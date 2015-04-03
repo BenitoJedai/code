@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace ScriptCoreLib.JavaScript
 {
 
-    // C# 6 shall import this static type and make members available!
-    public static partial class Native
-    {
+	// C# 6 shall import this static type and make members available!
+	public static partial class Native
+	{
 		// we should send idenity with the thread jumps?
 		// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTab\ChromeExtensionHopToTab\Application.cs
 
@@ -30,75 +30,78 @@ namespace ScriptCoreLib.JavaScript
 		// the client has successfully performed proof of work and shown that it is indeed capable 
 		// of receiving data sent to the advertised network address.
 		[Obsolete("experimental. allows us to sign/encrypt our data uploads for our session.")]
-        // Error	89	A static readonly field cannot be assigned to (except in a static constructor or a variable initializer)	X:\jsc.svn\core\ScriptCoreLib\JavaScript\Native.identity.cs	57	25	ScriptCoreLib
-        public static Task<KeyPair> identity { get; private set; }
+		// Error	89	A static readonly field cannot be assigned to (except in a static constructor or a variable initializer)	X:\jsc.svn\core\ScriptCoreLib\JavaScript\Native.identity.cs	57	25	ScriptCoreLib
+		public static Task<KeyPair> identity { get; private set; }
 
-        // the server can now track the client
-        // by keystore identity.
-        // able to sign the stacktrace?
+		// the server can now track the client
+		// by keystore identity.
+		// able to sign the stacktrace?
 
-        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Security\Cryptography\CryptoStream.cs
-
-
-
-        #region __initialize_identity
-        static void __initialize_identity()
-        {
-            // X:\jsc.svn\examples\javascript\android\Test\TestAndroidCryptoKeyGenerate\TestAndroidCryptoKeyGenerate\Application.cs
-
-            if (Native.crypto != null)
-                if (Native.crypto.subtle != null)
-                {
-                    // do we even have crypto capability?
-
-
-                    // I/chromium( 6625): [INFO:CONSOLE(1751)] "Uncaught TypeError: Cannot call method 'generateKey' of undefined", source: http://127.0.0.1:14272/view-source (1751)
-
-                    try
-                    {
-                        var publicExponent = new Uint8Array(new byte[] { 0x01, 0x00, 0x01 });
-
-                        // http://social.msdn.microsoft.com/Forums/en-US/d12a2c2e-22b0-44ab-bab5-8202a0c8edcc/rsa-signature-with-rsassapkcs1v15?forum=csharpgeneral
-                        // Asymmetric private keys should never be stored verbatim or in plain text on the local computer. If you need to store a private key, you should use a key container. 
-                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140831
+		// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Security\Cryptography\CryptoStream.cs
 
 
 
-                        Native.identity = Native.crypto.subtle.generateKeyAsync(
-                                new
-                            {
-                                name = "RSASSA-PKCS1-v1_5",
+		#region __initialize_identity
+		static void __initialize_identity()
+		{
+			// X:\jsc.svn\examples\javascript\android\Test\TestAndroidCryptoKeyGenerate\TestAndroidCryptoKeyGenerate\Application.cs
 
-                                // for SSL we seem to need to use SHA1 tho?
-                                hash = new { name = "SHA-256" },
+			// are we running as chrome extension?
+			// x:\jsc.svn\examples\javascript\chrome\extensions\chromeextensionhoptotab\chromeextensionhoptotab\application.cs
+
+			if (Native.crypto != null)
+				if (Native.crypto.subtle != null)
+				{
+					// do we even have crypto capability?
 
 
-                                modulusLength = 2048,
-                                publicExponent,
+					// I/chromium( 6625): [INFO:CONSOLE(1751)] "Uncaught TypeError: Cannot call method 'generateKey' of undefined", source: http://127.0.0.1:14272/view-source (1751)
 
-                                //  RsaHashedKeyGenParams: hash: Algorithm: Not an object
-                            },
-                                false,
-                            //new[] { "encrypt", "decrypt" }
-                                new[] { "sign", "verify" }
-                            );
-                    }
-                    catch
-                    {
-                        // no crypto?
-                    }
-                }
+					try
+					{
+						var publicExponent = new Uint8Array(new byte[] { 0x01, 0x00, 0x01 });
 
+						// http://social.msdn.microsoft.com/Forums/en-US/d12a2c2e-22b0-44ab-bab5-8202a0c8edcc/rsa-signature-with-rsassapkcs1v15?forum=csharpgeneral
+						// Asymmetric private keys should never be stored verbatim or in plain text on the local computer. If you need to store a private key, you should use a key container. 
+						// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140831
 
 
 
+						Native.identity = Native.crypto.subtle.generateKeyAsync(
+								new
+								{
+									name = "RSASSA-PKCS1-v1_5",
+
+									// for SSL we seem to need to use SHA1 tho?
+									hash = new { name = "SHA-256" },
 
 
-        }
-        #endregion
+									modulusLength = 2048,
+									publicExponent,
+
+									//  RsaHashedKeyGenParams: hash: Algorithm: Not an object
+								},
+								false,
+								//new[] { "encrypt", "decrypt" }
+								new[] { "sign", "verify" }
+							);
+					}
+					catch
+					{
+						// no crypto?
+					}
+				}
 
 
-    }
+
+
+
+
+		}
+		#endregion
+
+
+	}
 
 
 
