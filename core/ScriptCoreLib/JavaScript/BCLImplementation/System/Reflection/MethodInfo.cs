@@ -9,17 +9,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 	// http://referencesource.microsoft.com/#mscorlib/system/reflection/methodinfo.cs
 	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Reflection/MethodInfo.cs
 	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Reflection/MethodInfo.cs
-	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/MethodInfo.cs
-	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Reflection/MethodInfo.cs
-	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Reflection/MethodInfo.cs
+
 
 	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\MethodInfo.cs
 	// X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Reflection\MethodInfo.cs
 	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Reflection\MethodInfo.cs
 	// X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Reflection\MethodInfo.cs
 
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Reflection/MethodInfo.cs
+	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Reflection/MethodInfo.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Reflection/MethodInfo.cs
+
 	// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140714
-	// WootzJs.Runtime\Reflection\MethodInfo.cs
+
 	[Script(Implements = typeof(global::System.Reflection.MethodInfo))]
     public class __MethodInfo : __MethodBase
     {
