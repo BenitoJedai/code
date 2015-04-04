@@ -20,6 +20,7 @@ using TestHopFromIFrame.HTML.Pages;
 
 namespace TestHopFromIFrame
 {
+	#region HopToIFrame
 	public struct HopToIFrame : System.Runtime.CompilerServices.INotifyCompletion
 	{
 		// basically we have to hibernate the current state to resume
@@ -38,6 +39,8 @@ namespace TestHopFromIFrame
 			return new HopToIFrame { frame = frame };
 		}
 	}
+	#endregion
+
 
 	/// <summary>
 	/// Your client side code running inside a web browser as JavaScript.
@@ -55,15 +58,32 @@ namespace TestHopFromIFrame
 			}.AttachToDocument();
 
 
-			HopToIFrame.VirtualOnCompleted = (that, continuation) =>
+
+			#region VirtualOnCompleted
+			HopToIFrame.VirtualOnCompleted = async (that, continuation) =>
 			{
-				Console.WriteLine("enter VirtualOnCompleted..");
+				new IHTMLPre {
+					"enter VirtualOnCompleted.."
+				}.AttachToDocument();
 
 				var r = TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine.ResumeableFromContinuation(continuation);
 
+				// X:\jsc.svn\examples\javascript\Test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
+				//var m = await that.frame.contentWindow.async.onmessage;
+				var m = await that.frame.async.onmessage;
 
-				that.frame.contentWindow.pos
+				new IHTMLPre {
+					" VirtualOnCompleted postMessageAsync " + new { r.shadowstate.state }
+				}.AttachToDocument();
+
+
+				// um. we need to tell that iframe, where to jump to..
+				//var firstmessageback = that.frame.contentWindow.postMessageAsync(r.shadowstate);
+
+				m.postMessage(r.shadowstate);
 			};
+			#endregion
+
 
 			// fsharpy look
 			vctor = (IApp page) =>
@@ -71,18 +91,14 @@ namespace TestHopFromIFrame
 				// {{ href = blob:https%3A//192.168.1.196%3A27831/bafa8242-82bd-44ef-8581-9f76f909cd86 }}
 
 				new IHTMLPre {
-					new { Native.document.location.href,
-					}
-
+					new { Native.document.location.href }
 				}.AttachToDocument();
 
 				if (Native.window.parent != Native.window)
 				{
 					// inside iframe
 
-					new IHTMLPre {
-						"inside iframe"
-					}.AttachToDocument();
+
 
 					new { }.With(
 						async delegate
@@ -91,7 +107,21 @@ namespace TestHopFromIFrame
 							// we gain intellisense, but the type is partal, likely not respawned, acivated, initialized 
 							//var m = await Native.window.parent.postMessageAsync<TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine>();
 
-							var m = await Native.window.parent.async.onmessage;
+							new IHTMLPre {
+								"inside iframe awaiting onmessage"
+							}.AttachToDocument();
+
+							var m = await Native.window.parent.postMessageAsync<TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine>();
+							var shadowstate = m.data;
+
+							//var m = await Native.window.parent.async.onmessage;
+							//var shadowstate = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)m.data;
+
+							new IHTMLPre {
+								new { shadowstate.state }
+							}.AttachToDocument();
+
+							// about to invoke
 						}
 					);
 
@@ -103,6 +133,7 @@ namespace TestHopFromIFrame
 						 new Uri(Worker.ScriptApplicationSource, UriKind.Relative)
 				);
 
+				#region click to switch
 				new IHTMLButton { "click to switch" }.AttachToDocument().onclick += async delegate
 				{
 					Native.body.style.backgroundColor = "yellow";
@@ -147,6 +178,8 @@ namespace TestHopFromIFrame
 
 
 				};
+				#endregion
+
 
 			};
 
