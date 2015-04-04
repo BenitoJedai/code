@@ -28,14 +28,14 @@ Copyright   :   Copyright 2014 Oculus VR, LLC. All Rights reserved.
 class OvrApp : public OVR::VrAppInterface
 {
 public:
-	virtual void		OneTimeInit( const char * launchIntent );
+						OvrApp();
+    virtual				~OvrApp();
+
+	virtual void		OneTimeInit( const char * fromPackage, const char * launchIntentJSON, const char * launchIntentURI );
 	virtual void		OneTimeShutdown();
 	virtual Matrix4f 	DrawEyeView( const int eye, const float fovDegrees );
 	virtual Matrix4f 	Frame( VrFrame vrFrame );
 	virtual void		Command( const char * msg );
-
-	OvrApp();
-	~OvrApp();
 
 	OvrSceneView		Scene;
 };

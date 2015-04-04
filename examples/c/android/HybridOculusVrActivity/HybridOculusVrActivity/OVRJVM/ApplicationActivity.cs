@@ -102,8 +102,17 @@ namespace HybridOculusVrActivity.OVRJVM
             // if we do not set it we are going to crash.
             //var appPtr = nativeSetAppInterface(ref0);
 
+            android.content.Intent intent = getIntent();
+            var commandString = com.oculusvr.vrlib.VrLib.getCommandStringFromIntent(intent);
+            var fromPackageNameString = com.oculusvr.vrlib.VrLib.getPackageStringFromIntent(intent);
+            var uriString = com.oculusvr.vrlib.VrLib.getUriStringFromIntent(intent);
+            // why are we roundtriping intent details?
+
+
             // https://forums.oculus.com/viewtopic.php?f=67&t=17790
-            this.appPtr = nativeSetAppInterface(this);
+            this.appPtr = nativeSetAppInterface(this,
+                    fromPackageNameString, commandString, uriString                
+                );
 
             //nativeResume(appPtr);
         }
@@ -133,6 +142,7 @@ namespace HybridOculusVrActivity.OVRJVM
             // LOCAL_MODULE    := HybridOculusVrActivity
             // X:\jsc.svn\examples\c\android\Test\HybridOculusVrActivity\HybridOculusVrActivity\staging\jni\Android.mk
 
+            // PInvoke wont load implictly? 
             java.lang.System.loadLibrary("HybridOculusVrActivity");
         }
 
@@ -140,7 +150,8 @@ namespace HybridOculusVrActivity.OVRJVM
         //public static native long nativeSetAppInterface( VrActivity act ); 
 
         [Script(IsPInvoke = true)]
-        public static long nativeSetAppInterface(com.oculusvr.vrlib.VrActivity act) { return default(long); }
+        public static long nativeSetAppInterface(com.oculusvr.vrlib.VrActivity act, 
+            string fromPackageNameString, string commandString, string uriString) { return default(long); }
 
 
 
@@ -166,7 +177,8 @@ namespace HybridOculusVrActivity.OVRNDK
 
         public static string cxxGetString() { return default(string); }
         //jlong cxxSetAppInterface(JNIEnv* jni, jclass clazz, jobject activity);
-        public static jlong cxxSetAppInterface(ref JNIEnv jni, jclass c, jobject activity) { return (jlong)(object)0; }
+        public static jlong cxxSetAppInterface(ref JNIEnv jni, jclass c, jobject activity, 
+            jstring fromPackageNameString, jstring commandString, jstring uriString) { return (jlong)(object)0; }
     }
 
     public partial class xNativeActivity
@@ -181,7 +193,10 @@ namespace HybridOculusVrActivity.OVRNDK
         static jlong Java_HybridOculusVrActivity_OVRJVM_ApplicationActivity_nativeSetAppInterface(
             ref JNIEnv env,
             jclass clazz,
-            jobject activity)
+            jobject activity,
+
+            jstring fromPackageNameString, jstring commandString, jstring uriString            
+            )
         {
             log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "enter Java_HybridOculusVrActivity_OVRJVM_ApplicationActivity_nativeSetAppInterface");
 
@@ -208,7 +223,11 @@ namespace HybridOculusVrActivity.OVRNDK
             return OvrApp.cxxSetAppInterface(
                 ref env,
                 clazz,
-                activity
+                activity,
+
+
+                // added by oculus050
+                fromPackageNameString, commandString, uriString
            );
         }
 
