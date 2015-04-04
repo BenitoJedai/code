@@ -24,12 +24,21 @@ namespace JVMCLRBase64
         [STAThread]
         public static void Main(string[] args)
         {
+            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402/frombase64string
+
             // jsc needs to see args to make Main into main for javac..
 
 
             System.Console.WriteLine(
                typeof(object).AssemblyQualifiedName
             );
+
+            // bugcheck  __Convert.FromBase64String { inputLength = 84, value = 61, input = amF2YS51dGlsLmNvbmN1cnJlbnQuRm9ya0pvaW5Qb29sJEZvcmtKb2luV29ya2VyVGhyZWFkRmFjdG9yeQ== }
+
+            var x = "amF2YS51dGlsLmNvbmN1cnJlbnQuRm9ya0pvaW5Qb29sJEZvcmtKb2luV29ya2VyVGhyZWFkRmFjdG9yeQ==";
+
+            var xx = Convert.FromBase64String(x);
+
 
             //24a8:02:01 after worker yield...
             //24a8:01:01 [jsc.meta] worker unloading... { Count = 0 }
@@ -68,6 +77,11 @@ namespace JVMCLRBase64
                 var w1 = System.Diagnostics.Stopwatch.StartNew();
 
                 var bytes = Convert.FromBase64String(string0);
+
+                //java.lang.Object, rt
+                //{{ i = 0 }}
+                //{{ w0ms = 363, w1ms = 17, bytes = 589824, bytes999 = 589824, string0 = 786432 }}
+                //System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
 
                 //Implementation not found for type import :
                 //type: System.Diagnostics.Stopwatch

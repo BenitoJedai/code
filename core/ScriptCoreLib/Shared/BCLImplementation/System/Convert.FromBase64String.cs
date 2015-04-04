@@ -53,6 +53,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
     {
         public static byte[] FromBase64String(string input)
         {
+            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402/frombase64string
+            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402
+
             // X:\jsc.svn\examples\javascript\test\TestIntPostfixIncrement\TestIntPostfixIncrement\Class1.cs
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201502/20150226
@@ -159,9 +162,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
             //Console.WriteLine("exit __Convert.FromBase64String " + new { value.Length });
 
+            // value 61 is also valid?
+#if BUGCHECK
             if (input.Length == 84)
                 if (value.Length != 63)
-                    throw new Exception("bugcheck  __Convert.FromBase64String");
+                    throw new Exception(
+                        "bugcheck  __Convert.FromBase64String " + new { inputLength = input.Length, value = value.Length, input });
+#endif
+
 
             return value;
             //return m_inline_array;
