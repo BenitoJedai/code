@@ -96,10 +96,19 @@
     </None>
     <None Include="tools\build.bat" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra.csproj">
+      <Project>{e1c195a9-73eb-458a-afc4-f8c9995e0e4f}</Project>
+      <Name>ScriptCoreLib.Ultra</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="X:\opensource\ovr_mobile_sdk_0.5.0\VRLib\src\**\*.*">
       <Link>staging\src\%(RecursiveDir)%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="X:\opensource\ovr_mobile_sdk_0.5.0\VRLib\res\raw\**\*.*">
+      <Link>staging\res\raw\%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

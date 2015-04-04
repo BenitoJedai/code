@@ -36,7 +36,7 @@ call "x:\util\android-sdk-windows\tools\android.bat" update project -p . -s --ta
 
 :: https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402/android-mk
 echo ndk-build pause
-pause
+::pause
 echo ndk-build
 call X:\opensource\android-ndk-r10c\ndk-build.cmd
 pause
