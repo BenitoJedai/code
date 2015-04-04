@@ -23,7 +23,7 @@ char* cxxGetString()
 
 // "X:\opensource\ovr_mobile_sdk_0.5.0\VrNative\VrTemplate\jni\OvrApp.cpp"
 jlong cxxSetAppInterface(JNIEnv *jni, jclass clazz, jobject activity,
-						 jstring fromPackageName, jstring commandString, jstring uriString )
+						 jstring javaFromPackageNameString, jstring javaCommandString, jstring javaUriString )
 {
        LOG( "cxxSetAppInterface");
 	   
@@ -34,6 +34,7 @@ jlong cxxSetAppInterface(JNIEnv *jni, jclass clazz, jobject activity,
 	   // return (new JavaSample())->SetActivity( jni, clazz, activity, javaFromPackageNameString, javaCommandString, javaUriString );
        //return (new OvrApp())->SetActivity( jni, clazz, activity );
 	   // X:\opensource\ovr_mobile_sdk_0.5.0\VRLib\jni\App.cpp
+	   // "X:\opensource\ovr_mobile_sdk_0.5.0\VrNative\VrTemplate\jni\OvrApp.cpp"
 
        return (new OvrApp())->SetActivity( jni, clazz, activity, javaFromPackageNameString, javaCommandString, javaUriString );
 }
