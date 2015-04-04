@@ -42,6 +42,14 @@ namespace HybridOculusVrActivity.OVRNDK
         [Script(NoDecoration = true)]
         static void android_main(android_native_app_glue.android_app state)
         {
+            // "X:\opensource\ovr_mobile_sdk_0.5.0\VRLib\cflags.mk"
+            // X:\jsc.svn\examples\c\android\HybridOculusVrActivity\HybridOculusVrActivity\staging\cflags.mk
+
+            // X:\jsc.svn\examples\c\android\HybridOculusVrActivity\HybridOculusVrActivity\staging\import_vrlib.mk
+            // "X:\opensource\ovr_mobile_sdk_0.5.0\VRLib\import_vrlib.mk"
+
+            // "X:\opensource\ovr_mobile_sdk_0.5.0\VrNative\VrTemplate\jni\OvrApp.h"
+            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402/android-mk
             // http://supersegfault.com/three-ways-to-set-up-ndk-apps/
 
             // jsc is not printing the target name?
