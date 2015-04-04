@@ -292,22 +292,34 @@ namespace ChromeShaderToyPrograms
 						}
 					);
 
+					var framesInSecond = 0;
+					var theSecond = Stopwatch.StartNew();
 
 					var frame = 0;
 					do
 					{
 						frame++;
+						framesInSecond++;
 
-						//option.innerText = key + new { frame };
-						option.innerText = text + " " + new
+                        if (theSecond.ElapsedMilliseconds >= 1000)
 						{
-							frame,
-							load = load.ElapsedMilliseconds + "ms ",
+							//option.innerText = key + new { frame };
+							option.innerText = text + " " + new
+							{
+								//frame,
+								framesInSecond,
+                                load = load.ElapsedMilliseconds + "ms ",
 
-							frag = len + "bytes ",
-							// a telemetry to track while running on actual hardware
-							fragGPU = pass0.xCreateShader.fsTranslatedShaderSource.Length + " bytes"
-						};
+								frag = len + "bytes ",
+								// a telemetry to track while running on actual hardware
+								fragGPU = pass0.xCreateShader.fsTranslatedShaderSource.Length + " bytes"
+							};
+
+							framesInSecond = 0;
+							//theSecond.Restart();
+							theSecond = Stopwatch.StartNew();
+						}
+
 
 						// can we scale?
 						pass0.Paint_Image(
