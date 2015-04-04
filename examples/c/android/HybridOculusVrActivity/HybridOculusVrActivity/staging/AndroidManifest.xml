@@ -6,7 +6,7 @@
         android:versionName="1.0">
 
     <!-- This is the platform API where NativeActivity was introduced. -->
-    <uses-sdk android:minSdkVersion="9" />
+    <uses-sdk android:minSdkVersion="19" />
 
 
   <!-- Tell the system this app requires OpenGL ES 3.0. 

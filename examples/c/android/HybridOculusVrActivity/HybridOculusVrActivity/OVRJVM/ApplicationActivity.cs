@@ -318,3 +318,13 @@ namespace HybridOculusVrActivity.OVRNDK
 //I/dalvikvm(22337):      at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:737)
 //I/dalvikvm(22337):      at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:553)
 //I/dalvikvm(22337):      at dalvik.system.NativeStart.main(Native Method)
+
+//I/DEBUG   (  122): backtrace:
+//I/DEBUG   (  122):     #00  pc 00000000  <unknown>
+//I/DEBUG   (  122):     #01  pc 000b9d34  /data/app-lib/HybridOculusVrActivity.OVRJVM-1/libHybridOculusVrActivity.so (OVR::GlGeometry::Create(OVR::VertexAttribs const&, OVR::Array<unsigned short, OVR::ArrayDefaultPolicy> const&)+88)
+//I/DEBUG   (  122):     #02  pc 000bc578  /data/app-lib/HybridOculusVrActivity.OVRJVM-1/libHybridOculusVrActivity.so (OVR::BuildTesselatedQuad(int, int, bool)+1216)
+//I/DEBUG   (  122):     #03  pc 000c7470  /data/app-lib/HybridOculusVrActivity.OVRJVM-1/libHybridOculusVrActivity.so (OVR::AppLocal::InitGlObjects()+480)
+//I/DEBUG   (  122):     #04  pc 000c9a6c  /data/app-lib/HybridOculusVrActivity.OVRJVM-1/libHybridOculusVrActivity.so (OVR::AppLocal::VrThreadFunction()+324)
+//I/DEBUG   (  122):     #05  pc 000cb164  /data/app-lib/HybridOculusVrActivity.OVRJVM-1/libHybridOculusVrActivity.so (OVR::AppLocal::ThreadStarter(void*)+4)
+//I/DEBUG   (  122):     #06  pc 0000d228  /system/lib/libc.so (__thread_entry+72)
+//I/DEBUG   (  122):     #07  pc 0000d3c0  /system/lib/libc.so (pthread_create+240)
