@@ -775,6 +775,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Enumeration.cs">
       <Link>java\util\Enumeration.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\GregorianCalendar.cs">
+      <Link>java\util\GregorianCalendar.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\HashMap.cs">
       <Link>java\util\HashMap.cs</Link>
     </Compile>
