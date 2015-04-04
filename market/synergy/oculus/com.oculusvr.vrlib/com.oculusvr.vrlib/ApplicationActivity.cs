@@ -32,6 +32,7 @@ namespace com.oculusvr.vrlib.Activities
 
 
 		// http://stackoverflow.com/questions/9821875/where-is-buildconfig-debug
+		// tested by?
 
 		protected override void onCreate(global::android.os.Bundle savedInstanceState)
 		{
