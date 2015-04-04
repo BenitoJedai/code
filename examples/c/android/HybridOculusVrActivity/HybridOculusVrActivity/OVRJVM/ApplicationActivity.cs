@@ -169,7 +169,7 @@ namespace HybridOculusVrActivity.OVRNDK
 
     public partial class xNativeActivity
     {
-
+        // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402
 
         //jlong Java_oculus_MainActivity_nativeSetAppInterface(JNIEnv *jni, jclass clazz, jobject activity )
 
