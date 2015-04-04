@@ -21,14 +21,7 @@ LOCAL_PATH := $(call my-dir)
 OCULUS := ../jni
 
 
-
-# jpeg
-include $(CLEAR_VARS)
-
-LOCAL_MODULE          := jpeg
-LOCAL_SRC_FILES := $(OCULUS)/3rdParty/libjpeg.a
-
-include $(PREBUILT_STATIC_LIBRARY)
+ 
 
 include $(CLEAR_VARS)				# clean everything up to prepare for a module
 
@@ -43,12 +36,11 @@ include $(CLEAR_VARS)				# clean everything up to prepare for a module
 
 LOCAL_MODULE    := HybridOculusVrActivity
 LOCAL_ARM_MODE  := arm				# full speed arm instead of thumb
+# wtf is neon
+# https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402/android-mk
+LOCAL_ARM_NEON  := true				# compile with neon support enabled
 
-
-#Android NDK: WARNING: Unsupported source file extensions in jni/Android.mk for module HybridOculusVrActivity
-#Android NDK:   ../jni/3rdParty/libjpeg.a
-
-LOCAL_SRC_FILES := $(OCULUS)/3rdParty/libjpeg.a
+ 
 
 
 include cflags.mk
@@ -73,92 +65,99 @@ LOCAL_SRC_FILES  := LibOVR/Src/Kernel/OVR_Alg.cpp \
                     LibOVR/Src/Kernel/OVR_String_PathUtil.cpp \
                     LibOVR/Src/Kernel/OVR_SysFile.cpp \
                     LibOVR/Src/Kernel/OVR_System.cpp \
+                    LibOVR/Src/Kernel/OVR_ThreadCommandQueue.cpp \
                     LibOVR/Src/Kernel/OVR_ThreadsPthread.cpp \
                     LibOVR/Src/Kernel/OVR_Timer.cpp \
                     LibOVR/Src/Kernel/OVR_UTF8Util.cpp \
-                    LibOVR/Src/Util/Util_LatencyTest.cpp \
-                    LibOVR/Src/CAPI/CAPI_GlobalState.cpp \
-                    LibOVR/Src/CAPI/CAPI_HMDState.cpp \
-                    LibOVR/Src/OVR_CAPI.cpp \
-                    LibOVR/Src/OVR_DeviceHandle.cpp \
-                    LibOVR/Src/OVR_DeviceImpl.cpp \
-                    LibOVR/Src/OVR_JSON.cpp \
-                    LibOVR/Src/OVR_BinaryFile.cpp \
-                    LibOVR/Src/OVR_MappedFile.cpp \
-                    LibOVR/Src/OVR_LatencyTestImpl.cpp \
-                    LibOVR/Src/OVR_Profile.cpp \
-                    LibOVR/Src/OVR_SensorFilter.cpp \
-                    LibOVR/Src/OVR_SensorCalibration.cpp \
-                    LibOVR/Src/OVR_GyroTempCalibration.cpp \
-                    LibOVR/Src/OVR_SensorFusion.cpp \
-                    LibOVR/Src/OVR_SensorTimeFilter.cpp \
-                    LibOVR/Src/OVR_SensorImpl.cpp \
-                    LibOVR/Src/OVR_ThreadCommandQueue.cpp \
-                    LibOVR/Src/OVR_Android_DeviceManager.cpp \
-                    LibOVR/Src/OVR_Android_HIDDevice.cpp \
-                    LibOVR/Src/OVR_Android_HMDDevice.cpp \
-                    LibOVR/Src/OVR_Android_SensorDevice.cpp \
-                    LibOVR/Src/OVR_Android_PhoneSensors.cpp \
-                    LibOVR/Src/OVR_Stereo.cpp \
-					RayTracer/RtIntersect.cpp \
-					RayTracer/RtTrace.cpp \
-					VRMenu/VRMenuComponent.cpp \
-					VRMenu/VRMenuMgr.cpp \
-					VRMenu/VRMenuObjectLocal.cpp \
-					VRMenu/VRMenuEvent.cpp \
-					VRMenu/VRMenuEventHandler.cpp \
-					VRMenu/SoundLimiter.cpp \
-					VRMenu/VRMenu.cpp \
-					VRMenu/GuiSys.cpp \
-					VRMenu/FolderBrowser.cpp \
-					VRMenu/Fader.cpp \
-					VRMenu/DefaultComponent.cpp \
-					VRMenu/GlobalMenu.cpp \
-					VRMenu/TextFade_Component.cpp \
-					VRMenu/CollisionPrimitive.cpp \
-					VRMenu/ActionComponents.cpp \
-					VRMenu/AnimComponents.cpp \
-					VRMenu/VolumePopup.cpp \
-					VRMenu/SliderComponent.cpp \
-					VrApi/VrApi.cpp \
+                    LibOVR/Src/Kernel/OVR_JSON.cpp \
+                    LibOVR/Src/Kernel/OVR_BinaryFile.cpp \
+                    LibOVR/Src/Kernel/OVR_MappedFile.cpp \
+                    LibOVR/Src/Kernel/OVR_MemBuffer.cpp \
+                    LibOVR/Src/Android/GlUtils.cpp \
+                    LibOVR/Src/Android/JniUtils.cpp \
+                    LibOVR/Src/Android/LogUtils.cpp \
+                    LibOVR/Src/Android/NativeBuildStrings.cpp \
+                    LibOVR/Src/Android/OVRVersion.cpp \
+                    VrApi/VrApi.cpp \
                     VrApi/Vsync.cpp \
                     VrApi/DirectRender.cpp \
                     VrApi/HmdInfo.cpp \
+                    VrApi/HmdSensors.cpp \
                     VrApi/Distortion.cpp \
+                    VrApi/SystemActivities.cpp \
                     VrApi/TimeWarp.cpp \
+                    VrApi/TimeWarpProgs.cpp \
                     VrApi/ImageServer.cpp \
                     VrApi/LocalPreferences.cpp \
-                    VrApi/NativeBuildStrings.cpp \
-					VrApi/JniUtils.cpp \
-					BitmapFont.cpp \
-					ImageData.cpp \
-                    GlUtils.cpp \
+                    VrApi/WarpGeometry.cpp \
+                    VrApi/WarpProgram.cpp \
+                    VrApi/Sensors/OVR_DeviceHandle.cpp \
+                    VrApi/Sensors/OVR_DeviceImpl.cpp \
+                    VrApi/Sensors/OVR_LatencyTest.cpp \
+                    VrApi/Sensors/OVR_LatencyTestDeviceImpl.cpp \
+                    VrApi/Sensors/OVR_Profile.cpp \
+                    VrApi/Sensors/OVR_SensorFilter.cpp \
+                    VrApi/Sensors/OVR_SensorCalibration.cpp \
+                    VrApi/Sensors/OVR_GyroTempCalibration.cpp \
+                    VrApi/Sensors/OVR_SensorFusion.cpp \
+                    VrApi/Sensors/OVR_SensorTimeFilter.cpp \
+                    VrApi/Sensors/OVR_SensorDeviceImpl.cpp \
+                    VrApi/Sensors/OVR_Android_DeviceManager.cpp \
+                    VrApi/Sensors/OVR_Android_HIDDevice.cpp \
+                    VrApi/Sensors/OVR_Android_HMDDevice.cpp \
+                    VrApi/Sensors/OVR_Android_SensorDevice.cpp \
+                    VrApi/Sensors/OVR_Android_PhoneSensors.cpp \
+                    VrApi/Sensors/OVR_Stereo.cpp \
+                    VRMenu/VRMenuComponent.cpp \
+                    VRMenu/VRMenuMgr.cpp \
+                    VRMenu/VRMenuObjectLocal.cpp \
+                    VRMenu/VRMenuEvent.cpp \
+                    VRMenu/VRMenuEventHandler.cpp \
+                    VRMenu/SoundLimiter.cpp \
+                    VRMenu/VRMenu.cpp \
+                    VRMenu/GuiSys.cpp \
+                    VRMenu/FolderBrowser.cpp \
+                    VRMenu/Fader.cpp \
+                    VRMenu/DefaultComponent.cpp \
+                    VRMenu/TextFade_Component.cpp \
+                    VRMenu/CollisionPrimitive.cpp \
+                    VRMenu/ActionComponents.cpp \
+                    VRMenu/AnimComponents.cpp \
+                    VRMenu/VolumePopup.cpp \
+                    VRMenu/ScrollManager.cpp \
+                    VRMenu/ScrollBarComponent.cpp \
+                    VRMenu/SwipeHintComponent.cpp \
+                    VRMenu/MetaDataManager.cpp \
+					VRMenu/OutOfSpaceMenu.cpp \
+                    BitmapFont.cpp \
+                    ImageData.cpp \
+                    GlSetup.cpp \
                     GlTexture.cpp \
                     GlProgram.cpp \
                     GlGeometry.cpp \
-                    Log.cpp \
                     PackageFiles.cpp \
                     SurfaceTexture.cpp \
                     VrCommon.cpp \
                     EyeBuffers.cpp \
                     MessageQueue.cpp \
                     TalkToJava.cpp \
-					KeyState.cpp \
+                    KeyState.cpp \
                     App.cpp \
                     AppRender.cpp \
-                    PlatformActivity.cpp \
+                    PathUtils.cpp \
                     EyePostRender.cpp \
-                    MemBuffer.cpp \
                     ModelRender.cpp \
                     ModelFile.cpp \
-					ModelCollision.cpp \
+                    ModelCollision.cpp \
+                    ModelTrace.cpp \
                     ModelView.cpp \
                     DebugLines.cpp \
-					GazeCursor.cpp \
-					SwipeView.cpp \
-					SwipeDir.cpp \
-					SearchPaths.cpp \
-					SoundManager.cpp
+                    GazeCursor.cpp \
+                    SwipeView.cpp \
+                    SoundManager.cpp \
+                    UserProfile.cpp \
+                    VrLocale.cpp \
+                    Console.cpp
 
 
 
@@ -186,7 +185,7 @@ LOCAL_LDLIBS	+= -lz				# For minizip
 LOCAL_LDLIBS	+= -lOpenSLES		# audio
 
 LOCAL_STATIC_LIBRARIES := android_native_app_glue
-LOCAL_STATIC_LIBRARIES += jpeg
+
 
 include $(BUILD_SHARED_LIBRARY)
 

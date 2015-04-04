@@ -170,6 +170,7 @@ namespace HybridOculusVrActivity.OVRNDK
     public partial class xNativeActivity
     {
         // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402
+        // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402/android-mk
 
         //jlong Java_oculus_MainActivity_nativeSetAppInterface(JNIEnv *jni, jclass clazz, jobject activity )
 
@@ -217,7 +218,9 @@ namespace HybridOculusVrActivity.OVRNDK
             ref JNIEnv env,
             jobject thiz)
         {
-            log.__android_log_print(log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "enter Java_HybridOculusVrActivity_OVRJVM_ApplicationActivity_stringFromJNI");
+            log.__android_log_print(
+                log.android_LogPriority.ANDROID_LOG_INFO, "xNativeActivity", "enter Java_HybridOculusVrActivity_OVRJVM_ApplicationActivity_stringFromJNI"
+            );
 
             var n = env.NewStringUTF;
 

@@ -33,11 +33,11 @@ namespace ScriptCoreLibNative.SystemHeaders.android
             ANDROID_LOG_SILENT,     /* only for SetMinPriority(); must be last */
         }
 
-        //public static int __android_log_print(android_LogPriority prio, string tag, string fmt) { return default(int); }
+        public static int __android_log_print(android_LogPriority prio, string tag, string fmt) { return default(int); }
 
         // X:\jsc.svn\examples\c\android\HybridOculusVrActivity\HybridOculusVrActivity\OVRNDK\xNativeActivity.cs
         // would be callable if it were a shared code project?
-        public static int __android_log_print(android_LogPriority prio, string tag, string fmt, __arglist) { return default(int); }
+        internal static int __android_log_print(android_LogPriority prio, string tag, string fmt, __arglist) { return default(int); }
 
 
     }
