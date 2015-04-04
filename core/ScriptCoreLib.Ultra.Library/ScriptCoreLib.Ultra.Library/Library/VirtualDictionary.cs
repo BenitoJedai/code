@@ -156,6 +156,8 @@ namespace jsc.Library
         [method: DebuggerHidden]
         private void RaiseResolve(TKey k)
         {
+            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402/scriptcorelibandroid-natives
+
             var FrameCount = new StackTrace().FrameCount;
             if (FrameCount < 0x400)
             {

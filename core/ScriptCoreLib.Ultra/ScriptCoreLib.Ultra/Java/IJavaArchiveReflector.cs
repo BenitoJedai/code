@@ -298,7 +298,12 @@ namespace ScriptCoreLib.Java
 
             try
             {
-                f = t.GetMethods(); // what about protected members?
+                // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402/scriptcorelibandroid-natives
+
+                //f = t.GetMethods(); // what about protected members?
+                f = t.GetMethods(
+                    BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public 
+                ); // what about protected members?
             }
             catch
             {
@@ -623,12 +628,18 @@ namespace ScriptCoreLib.Java
 
         public string Type_GetBaseTypeFullName(string TypeName)
         {
+            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402/scriptcorelibandroid-natives
+            //Console.WriteLine("enter Type_GetBaseTypeFullName" + new { TypeName });
+
             var BaseType = this.clazzLoader.GetType(TypeName).BaseType;
 
             if (BaseType == null)
                 return null;
 
-            return BaseType.FullName;
+            var value = BaseType.FullName;
+
+            //Console.WriteLine("exit Type_GetBaseTypeFullName" + new { TypeName, value });
+            return value;
         }
 
 

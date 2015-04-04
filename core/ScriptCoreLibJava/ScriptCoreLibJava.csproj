@@ -920,6 +920,7 @@
     <Compile Include="java\util\Collections.cs" />
     <Compile Include="java\util\AbstractSet.cs" />
     <Compile Include="java\util\AbstractCollection.cs" />
+    <Compile Include="java\util\concurrent\ConcurrentNavigableMap.cs" />
     <Compile Include="java\util\concurrent\Future.cs" />
     <Compile Include="java\util\Dictionary.cs" />
     <Compile Include="java\util\EventObject.cs" />
