@@ -14,10 +14,10 @@ namespace ScriptCoreLibNative.SystemHeaders
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Exception.cs
 
 
-        public static string strerror(int errnum) => default(string);
+        public static string strerror(int errnum) { return default(string); }
 
         /* internal function returning the address of the thread-specific errno */
-        public static int* __errno() => default(int*);
+        public static int* __errno() { return default(int*); }
 
 
 

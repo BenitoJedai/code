@@ -30,10 +30,13 @@ namespace JVMCLRHopToThreadPool
 
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
+		// need 2012 compiler!
+		// https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402
+
+		/// <summary>
+		/// The main entry point for the application.
+		/// </summary>
+		[STAThread]
         public static void Main(string[] args)
         {
             // X:\jsc.svn\examples\actionscript\Test\TestUploadValuesTaskAsync\TestUploadValuesTaskAsync\ApplicationSprite.cs

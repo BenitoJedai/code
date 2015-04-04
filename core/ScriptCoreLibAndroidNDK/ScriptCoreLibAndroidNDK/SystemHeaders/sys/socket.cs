@@ -44,6 +44,7 @@ namespace ScriptCoreLibNative.SystemHeaders.sys
 
         // http://mobilepearls.com/labs/native-android-api/
 
+        // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402
         // X:\jsc.svn\examples\c\android\Test\TestNDK\TestNDK\xNativeActivity.cs
         // X:\jsc.svn\examples\c\android\Test\TestNDKUDP\TestNDKUDP\xNativeActivity.cs
 
@@ -55,13 +56,13 @@ namespace ScriptCoreLibNative.SystemHeaders.sys
         //Error CS0542	'socket': member names cannot be the same as their enclosing type ScriptCoreLibAndroidNDK socket.cs	35
 
         // https://msdn.microsoft.com/en-us/library/windows/desktop/ms740506(v=vs.85).aspx
-        public static SOCKET socket(int af, int sock, int ipproto) => default(int);
+        public static SOCKET socket(int af, int sock, int ipproto)  { return default(int);}
 
 
-        public unsafe static int setsockopt(this SOCKET s, int level, int optname, void* optval, int optlen) => default(int);
+        public unsafe static int setsockopt(this SOCKET s, int level, int optname, void* optval, int optlen)  { return default(int);}
         //int setsockopt(int s, int level, int optname, const void* optval, int optlen);
 
-        public unsafe static int bind(this SOCKET s, sockaddr* name, int namelen) => default(int);
+        public unsafe static int bind(this SOCKET s, sockaddr* name, int namelen)  { return default(int); }
         //__socketcall int bind(int, const struct sockaddr *, int);
 
 
@@ -73,7 +74,7 @@ namespace ScriptCoreLibNative.SystemHeaders.sys
           uint flags,
           sockaddr* from,
           int* fromlen
-        ) => default(int);
+        ) { return default(int);}
 
 
 
@@ -89,14 +90,14 @@ namespace ScriptCoreLibNative.SystemHeaders.sys
 
 
         // "X:\opensource\android-ndk-r10c\platforms\android-12\arch-arm\usr\include\arpa\inet.h"
-        public static ulong inet_addr(this string cp) => default(long);
+        public static ulong inet_addr(this string cp) { return default(long);}
 
         // http://www.beej.us/guide/bgnet/output/html/multipage/inet_ntoaman.html
-        public static string inet_ntoa(this in_addr cp) => default(string);
+        public static string inet_ntoa(this in_addr cp) { return default(string);}
 
         // https://msdn.microsoft.com/en-us/library/windows/desktop/ms738557(v=vs.85).aspx
-        public static ushort htons(this ushort hostshort) => default(ushort);
-        public static uint htonl(this uint hostshort) => default(uint);
+        public static ushort htons(this ushort hostshort){ return default(ushort);}
+        public static uint htonl(this uint hostshort) { return default(uint); }
 
         [Script(IsNative = true)]
         public struct ip_mreq
