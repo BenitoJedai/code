@@ -44,14 +44,17 @@ public:
 
 extern "C" {
 char* cxxGetString();
-jlong cxxSetAppInterface(JNIEnv *jni, jclass clazz, jobject activity );
+jlong cxxSetAppInterface(JNIEnv *jni, jclass clazz, jobject activity,
+						 jstring fromPackageName, jstring commandString, jstring uriString);
 }
 
 #else
+// jsc is not generating c++ but is generating c and java
 
 // can we call C++ from C?
 // did we update Android.mk
 char* cxxGetString();
-jlong cxxSetAppInterface(JNIEnv *jni, jclass clazz, jobject activity );
+jlong cxxSetAppInterface(JNIEnv *jni, jclass clazz, jobject activity,
+						 jstring fromPackageName, jstring commandString, jstring uriString);
 
 #endif

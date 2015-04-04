@@ -155,6 +155,8 @@ namespace HybridOculusVrActivity.OVRNDK
     using ScriptCoreLibNative.SystemHeaders;
     using ScriptCoreLibNative.SystemHeaders.android;
 
+    // what is this good for? just to reference the header?
+    // it is the cpp export header for our c code to consume. 
     [Script(IsNative = true, Header = "OvrApp.h")]
     public class OvrApp
     {
