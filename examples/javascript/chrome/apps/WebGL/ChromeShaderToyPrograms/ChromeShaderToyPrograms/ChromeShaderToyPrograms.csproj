@@ -1266,6 +1266,24 @@
     <Reference Include="SphericalVoronoiByMattz.AssetsLibrary">
       <HintPath>..\..\synergy\SphericalVoronoiByMattz\SphericalVoronoiByMattz\bin\staging.AssetsLibrary\SphericalVoronoiByMattz.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="BitPackedSprites2ByFlyguy.AssetsLibrary">
+      <HintPath>..\..\synergy\BitPackedSprites2ByFlyguy\BitPackedSprites2ByFlyguy\bin\staging.AssetsLibrary\BitPackedSprites2ByFlyguy.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="IkaChanBy301.AssetsLibrary">
+      <HintPath>..\..\synergy\IkaChanBy301\IkaChanBy301\bin\staging.AssetsLibrary\IkaChanBy301.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MechanicalByIq.AssetsLibrary">
+      <HintPath>..\..\synergy\MechanicalByIq\MechanicalByIq\bin\staging.AssetsLibrary\MechanicalByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PlottingFunctionsByHornet.AssetsLibrary">
+      <HintPath>..\..\synergy\PlottingFunctionsByHornet\PlottingFunctionsByHornet\bin\staging.AssetsLibrary\PlottingFunctionsByHornet.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SelfPlayingInterferenceByFatumR.AssetsLibrary">
+      <HintPath>..\..\synergy\SelfPlayingInterferenceByFatumR\SelfPlayingInterferenceByFatumR\bin\staging.AssetsLibrary\SelfPlayingInterferenceByFatumR.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TwistyTorusByBloxard.AssetsLibrary">
+      <HintPath>..\..\synergy\TwistyTorusByBloxard\TwistyTorusByBloxard\bin\staging.AssetsLibrary\TwistyTorusByBloxard.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1846,6 +1864,10 @@
       <Project>{b3e0a5d0-2660-4fbd-b8dc-3db9a6380e62}</Project>
       <Name>BiplanesInTheBadlandsByDr2</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\BitPackedSprites2ByFlyguy\BitPackedSprites2ByFlyguy\BitPackedSprites2ByFlyguy.csproj">
+      <Project>{de22ea70-f54d-4dc0-85a6-1f738c74045e}</Project>
+      <Name>BitPackedSprites2ByFlyguy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\BlankspaceByNBickford\BlankspaceByNBickford\BlankspaceByNBickford.csproj">
       <Project>{463aa873-66ec-48c9-bcd4-2897a3ea40d0}</Project>
       <Name>BlankspaceByNBickford</Name>
@@ -2130,6 +2152,10 @@
       <Project>{6893d375-cfdb-4a26-af7a-593bc8f9662c}</Project>
       <Name>IcyMoonByDr2</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\IkaChanBy301\IkaChanBy301\IkaChanBy301.csproj">
+      <Project>{d27c8a98-70a7-49e5-92c7-ab8d005bb17c}</Project>
+      <Name>IkaChanBy301</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\IKSolverByIq\IKSolverByIq\IKSolverByIq.csproj">
       <Project>{95cebf37-5c29-4995-bf80-1808f26da3ce}</Project>
       <Name>IKSolverByIq</Name>
@@ -2250,6 +2276,10 @@
       <Project>{b228659f-a2ea-4a2a-ae54-a41c8dc23b9e}</Project>
       <Name>MarioMushroomByAlgorithm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\MechanicalByIq\MechanicalByIq\MechanicalByIq.csproj">
+      <Project>{8d1a9236-ef6d-41f5-924a-cc9453c8e463}</Project>
+      <Name>MechanicalByIq</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\MercuryCratersByGuil\MercuryCratersByGuil\MercuryCratersByGuil.csproj">
       <Project>{5638645a-bc35-4742-a450-1de8822bcd32}</Project>
       <Name>MercuryCratersByGuil</Name>
@@ -2345,6 +2375,10 @@
     <ProjectReference Include="..\..\synergy\PlayingWithRefleksByEiffie\PlayingWithRefleksByEiffie\PlayingWithRefleksByEiffie.csproj">
       <Project>{7afa2226-3160-4372-9b1a-ec355a7619fd}</Project>
       <Name>PlayingWithRefleksByEiffie</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\PlottingFunctionsByHornet\PlottingFunctionsByHornet\PlottingFunctionsByHornet.csproj">
+      <Project>{c8fc3b0b-98b2-457d-b557-47aeea525c3e}</Project>
+      <Name>PlottingFunctionsByHornet</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\PolygonRaytracingByBranch\PolygonRaytracingByBranch\PolygonRaytracingByBranch.csproj">
       <Project>{e9a64d4d-c37f-40c4-ad2c-edae20399067}</Project>
@@ -2461,6 +2495,10 @@
     <ProjectReference Include="..\..\synergy\SegmentByArthursw\SegmentByArthursw\SegmentByArthursw.csproj">
       <Project>{d09ec28a-a160-4c90-bb3b-8622ba1bf013}</Project>
       <Name>SegmentByArthursw</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SelfPlayingInterferenceByFatumR\SelfPlayingInterferenceByFatumR\SelfPlayingInterferenceByFatumR.csproj">
+      <Project>{fe185202-2017-4fed-afc2-b3e0f4506053}</Project>
+      <Name>SelfPlayingInterferenceByFatumR</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\ShaderingChameleonByIapafoto\ShaderingChameleonByIapafoto\ShaderingChameleonByIapafoto.csproj">
       <Project>{146d895b-2a6f-48d5-8091-b099bf3c459e}</Project>
@@ -2681,6 +2719,10 @@
     <ProjectReference Include="..\..\synergy\Tunnel1ByWaha\Tunnel1ByWaha\Tunnel1ByWaha.csproj">
       <Project>{1f4e6b0b-0bb5-4a36-9997-87b5e3a45f70}</Project>
       <Name>Tunnel1ByWaha</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\TwistyTorusByBloxard\TwistyTorusByBloxard\TwistyTorusByBloxard.csproj">
+      <Project>{65d27c74-8cff-4f51-9e90-dda48ce7ee26}</Project>
+      <Name>TwistyTorusByBloxard</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\UglyBrickByPsykotic\UglyBrickByPsykotic\UglyBrickByPsykotic.csproj">
       <Project>{693e0621-5324-4922-8aa2-320809e85aef}</Project>

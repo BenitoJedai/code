@@ -70,9 +70,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="AndroidNotificationActivity.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\AndroidNotificationActivity.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="com.oculusvr.vrlib.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\com.oculusvr.vrlib.AssetsLibrary.dll</HintPath>
     </Reference>
@@ -80,7 +77,7 @@
   <ItemGroup>
     <Compile Include="ApplicationActivity.cs">
     </Compile>
-    <Content Include="opensource\ovr_mobile_sdk_20141111\VRLib\src\com\oculusvr\vrlib\BuildConfig.java" />
+    <Content Include="opensource\ovr_mobile_sdk\VRLib\src\com\oculusvr\vrlib\BuildConfig.java" />
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationActivity.cs</DependentUpon>
     </Compile>
@@ -91,28 +88,14 @@
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
   </ItemGroup>
-
-
-
-
-
-
-
   <ItemGroup>
-    <Content Include="X:\opensource\ovr_mobile_sdk_20141111\VRLib\src\**\*.*">
-      <Link>opensource\ovr_mobile_sdk_20141111\VRLib\src\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    <Content Include="X:\opensource\ovr_mobile_sdk_0.5.0\VRLib\src\**\*.*">
+      <Link>opensource\ovr_mobile_sdk\VRLib\src\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
-  
-  
-  
-  
-  
-  
-  
   <ItemGroup>
-    <Content Include="X:\opensource\ovr_mobile_sdk_20141111\VRLib\jni\**\*.*">
-      <Link>opensource\ovr_mobile_sdk_20141111\VRLib\jni\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    <Content Include="X:\opensource\ovr_mobile_sdk_0.5.0\VRLib\jni\**\*.*">
+      <Link>opensource\ovr_mobile_sdk\VRLib\jni\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
