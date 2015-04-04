@@ -31,8 +31,16 @@ namespace HybridOculusVrActivity.OVRJVM
 
     // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20141206
     //public class ApplicationActivity : Activity, ScriptCoreLib.Android.IAssemblyReferenceToken
+
+
+
+
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:minSdkVersion", value = "19")]
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "22")]
+    [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
     public class ApplicationActivity : com.oculusvr.vrlib.VrActivity, ScriptCoreLib.Android.IAssemblyReferenceToken
     {
+        // 
         // Just as a side note, you can actually run the app on the Note 4 without having a VR Gear.
         // Just change the manifest android:value="vr_only" to android:value="vr_dual" and the message will be gone. You still need to have a valid signature file nevertheless.
 
@@ -256,3 +264,57 @@ namespace HybridOculusVrActivity.OVRNDK
         }
     }
 }
+
+// https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402/install
+
+//I/GlUtils ( 3912): GL_MAX_FRAGMENT_UNIFORM_VECTORS = 512
+//I/EyePostRender( 3912): EyePostRender::Init()
+//I/PackageFiles( 3912): File 'res/raw/loading_indicator.png' not found in apk!
+//V/VrLocale( 3912): font_name is not a valid resource id!!
+//I/VrLocale( 3912): key not found, localized to 'efigs.fnt'
+//I/PackageFiles( 3912): File 'res/raw/efigs.fnt' not found in apk!
+//F/art     ( 3912): art/runtime/check_jni.cc:65] JNI DETECTED ERROR IN APPLICATION: the return type of CallObjectMethodV does not match void com.oculusvr.vrlib.VrActivity.setDefaultLocale()
+
+
+
+//I/DEBUG   (  199): backtrace:
+//I/DEBUG   (  199):     #00 pc 0003b79c  /system/lib/libc.so (tgkill+12)
+//I/DEBUG   (  199):     #01 pc 000166e5  /system/lib/libc.so (pthread_kill+52)
+//I/DEBUG   (  199):     #02 pc 000172f7  /system/lib/libc.so (raise+10)
+//I/DEBUG   (  199):     #03 pc 00013b49  /system/lib/libc.so (__libc_android_abort+36)
+//I/DEBUG   (  199):     #04 pc 00011fec  /system/lib/libc.so (abort+4)
+//I/DEBUG   (  199):     #05 pc 002260d3  /system/lib/libart.so (art::Runtime::Abort()+170)
+//I/DEBUG   (  199):     #06 pc 000a7359  /system/lib/libart.so (art::LogMessage::~LogMessage()+1360)
+//I/DEBUG   (  199):     #07 pc 000b1471  /system/lib/libart.so (art::JniAbort(char const*, char const*)+1112)
+//I/DEBUG   (  199):     #08 pc 000b19b5  /system/lib/libart.so (art::JniAbortF(char const*, char const*, ...)+68)
+//I/DEBUG   (  199):     #09 pc 000b23d1  /system/lib/libart.so (_ZN3art11ScopedCheck8CheckSigEP10_jmethodIDPKcb.constprop.130+284)
+//I/DEBUG   (  199):     #10 pc 000b9a81  /system/lib/libart.so (art::CheckJNI::CallObjectMethodV(_JNIEnv*, _jobject*, _jmethodID*, std::__va_list)+72)
+//I/DEBUG   (  199):     #11 pc 00049460  /data/app/HybridOculusVrActivity.OVRJVM-1/lib/arm/libHybridOculusVrActivity.so (_JNIEnv::CallObjectMethod(_jobject*, _jmethodID*, ...)+36)
+//I/DEBUG   (  199):     #12 pc 000c5924  /data/app/HybridOculusVrActivity.OVRJVM-1/lib/arm/libHybridOculusVrActivity.so (OVR::AppLocal::InitFonts()+224)
+//I/DEBUG   (  199):     #13 pc 000c9b34  /data/app/HybridOculusVrActivity.OVRJVM-1/lib/arm/libHybridOculusVrActivity.so (OVR::AppLocal::VrThreadFunction()+524)
+//I/DEBUG   (  199):     #14 pc 000cb164  /data/app/HybridOculusVrActivity.OVRJVM-1/lib/arm/libHybridOculusVrActivity.so (OVR::AppLocal::ThreadStarter(void*)+4)
+//I/DEBUG   (  199):     #15 pc 00015ed3  /system/lib/libc.so (__pthread_start(void*)+30)
+//I/DEBUG   (  199):     #16 pc 00013ea7  /system/lib/libc.so (__start_thread+6)
+//I/DEBUG   (  199):
+//I/DEBUG   (  199): Tombstone written to: /data/tombstones/tombstone_08
+
+// http://developer.android.com/reference/android/content/Context.html#getExternalFilesDirs(java.lang.String)
+//I/dalvikvm(22337): java.lang.NoSuchMethodError: android.app.Activity.getExternalFilesDirs
+//I/dalvikvm(22337):      at com.oculusvr.vrlib.VrLib.getExternalStorageFilesDirAtIdx(VrLib.java:1138)
+//I/dalvikvm(22337):      at com.oculusvr.vrlib.VrLib.getPrimaryExternalStorageFilesDir(VrLib.java:1174)
+//I/dalvikvm(22337):      at HybridOculusVrActivity.OVRJVM.ApplicationActivity.nativeSetAppInterface(Native Method)
+//I/dalvikvm(22337):      at HybridOculusVrActivity.OVRJVM.ApplicationActivity.onCreate(ApplicationActivity.java:52)
+//I/dalvikvm(22337):      at android.app.Activity.performCreate(Activity.java:5133)
+//I/dalvikvm(22337):      at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1087)
+//I/dalvikvm(22337):      at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2175)
+//I/dalvikvm(22337):      at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2261)
+//I/dalvikvm(22337):      at android.app.ActivityThread.access$600(ActivityThread.java:141)
+//I/dalvikvm(22337):      at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1256)
+//I/dalvikvm(22337):      at android.os.Handler.dispatchMessage(Handler.java:99)
+//I/dalvikvm(22337):      at android.os.Looper.loop(Looper.java:137)
+//I/dalvikvm(22337):      at android.app.ActivityThread.main(ActivityThread.java:5103)
+//I/dalvikvm(22337):      at java.lang.reflect.Method.invokeNative(Native Method)
+//I/dalvikvm(22337):      at java.lang.reflect.Method.invoke(Method.java:525)
+//I/dalvikvm(22337):      at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:737)
+//I/dalvikvm(22337):      at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:553)
+//I/dalvikvm(22337):      at dalvik.system.NativeStart.main(Native Method)
