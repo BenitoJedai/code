@@ -71,7 +71,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         {
             get
             {
-                return (__Type)this.InternalTypeDescription.getSuperclass();
+				// https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402/scriptcorelibandroid-natives
+
+				// called by
+				// X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Java\IJavaArchiveReflector.cs
+
+				return (__Type)this.InternalTypeDescription.getSuperclass();
             }
         }
 
@@ -326,42 +331,53 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return (__MethodInfo)m;
         }
 
+        // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Java\IJavaArchiveReflector.cs
+
         public MethodInfo[] GetMethods()
         {
+            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/15-dualvr/20150402/scriptcorelibandroid-natives
             // http://www.onjava.com/pub/a/onjava/2007/03/15/reflections-on-java-reflection.html?page=3
 
-            //var a = this.InternalTypeDescription.getDeclaredMethods();
-            var a = this.InternalTypeDescription.getMethods();
-            var n = new MethodInfo[a.Length];
+            return Enumerable.ToArray(
+                from x in this.InternalTypeDescription.getMethods()
+                let m = new __MethodInfo { InternalMethod = x }
+                select (MethodInfo)m
+            );
 
-            for (int i = 0; i < a.Length; i++)
-            {
-                // suppressing default Java language access control checks
-                // - does it actually do that?
+            ////var a = this.InternalTypeDescription.getDeclaredMethods();
+            //var a = this.InternalTypeDescription.getMethods();
+            //var n = new MethodInfo[a.Length];
 
-                //  access denied (java.lang.reflect.ReflectPermission suppressAccessChecks), StackTrace = java.security.AccessControlException: access denied (java.lang.reflect.ReflectPermission suppressAccessChecks)
-                //a[i].setAccessible(true);
+            //for (int i = 0; i < a.Length; i++)
+            //{
+            //    // suppressing default Java language access control checks
+            //    // - does it actually do that?
 
-                n[i] = (MethodInfo)(object)new __MethodInfo { InternalMethod = a[i] };
+            //    //  access denied (java.lang.reflect.ReflectPermission suppressAccessChecks), StackTrace = java.security.AccessControlException: access denied (java.lang.reflect.ReflectPermission suppressAccessChecks)
+            //    //a[i].setAccessible(true);
 
-            }
+            //    n[i] = (MethodInfo)(object)new __MethodInfo { InternalMethod = a[i] };
 
-            return n;
+            //}
+
+            //return n;
         }
 
         public MethodInfo[] GetMethods(BindingFlags bindingAttr)
         {
+            var IsPublic = (bindingAttr & BindingFlags.Public) == BindingFlags.Public;
+            var IsNonPublic = (bindingAttr & BindingFlags.NonPublic) == BindingFlags.NonPublic;
+            var IsStatic = (bindingAttr & BindingFlags.Static) == BindingFlags.Static;
+            var IsInstance = (bindingAttr & BindingFlags.Instance) == BindingFlags.Instance;
+            var DeclaredOnly = (bindingAttr & BindingFlags.DeclaredOnly) == BindingFlags.DeclaredOnly;
+
             var a = GetMethods();
 
             var that = (global::System.Type)(object)this;
 
             for (int i = 0; i < a.Length; i++)
             {
-                var IsPublic = (bindingAttr & BindingFlags.Public) == BindingFlags.Public;
-                var IsNonPublic = (bindingAttr & BindingFlags.NonPublic) == BindingFlags.NonPublic;
-                var IsStatic = (bindingAttr & BindingFlags.Static) == BindingFlags.Static;
-                var IsInstance = (bindingAttr & BindingFlags.Instance) == BindingFlags.Instance;
-                var DeclaredOnly = (bindingAttr & BindingFlags.DeclaredOnly) == BindingFlags.DeclaredOnly;
+  
 
                 if (!IsInstance)
                     if (IsStatic)
