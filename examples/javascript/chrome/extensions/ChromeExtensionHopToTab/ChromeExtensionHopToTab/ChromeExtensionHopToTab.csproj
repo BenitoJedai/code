@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{76843B5B-EB0A-4E49-8B36-037969E0545F}</ProjectGuid>
+    <ProjectGuid>{549D5E74-AE4D-4173-96B4-52F03695A096}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ChromeExtensionHopToTab</RootNamespace>

@@ -12,7 +12,10 @@ using ScriptCoreLib.Android.Manifest;
 
 namespace HelloAndroidActivity.Activities
 {
-    public class ApplicationActivity : Activity
+	[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:minSdkVersion", value = "10")]
+	[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "22")]
+	[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
+	public class ApplicationActivity : Activity
     {
 
         protected override void onCreate(Bundle savedInstanceState)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -14,6 +15,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
 	[Script(Implements = typeof(global::System.Net.Security.SslStream))]
     internal class __SslStream : __AuthenticatedStream
     {
+		// https://github.com/dart-lang/chromedeveditor/blob/master/chrome-app-net.dart/lib/server.dart
+
 		// could we do it on chrome yet?
 		// use workers for encryption?
 
@@ -56,23 +59,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
 		// how would CLR or Android send out a custom stream and have it signed?
 
 		public virtual X509Certificate LocalCertificate { get; set; }
+
+		// nfc?
         public virtual X509Certificate RemoteCertificate { get; set; }
 
         // every web request shall expect a callback against its new key
         public override bool IsMutuallyAuthenticated { get; set; }
 
-        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\SubtleCrypto.cs
+		// X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\SubtleCrypto.cs
 
-        // X:\opensource\codeplex\webserver\HttpServer\SecureHttpContext.cs
-        // when can we use it?
-        // when can we do SSL web servers?
+		// X:\opensource\codeplex\webserver\HttpServer\SecureHttpContext.cs
+		// when can we use it?
+		// when can we do SSL web servers?
 
-        // what about MAC stream?
-        // X:\opensource\codeplex\webserver\HttpServer\SecureHttpContext.cs
+		// what about MAC stream?
+		// X:\opensource\codeplex\webserver\HttpServer\SecureHttpContext.cs
 
-        // https://support.globalsign.com/customer/portal/articles/1216536-securing-a-public-ip-address---ssl-certificates
-        // http://stackoverflow.com/questions/9726802/ssl-socket-between-net-and-java-with-client-authentication
-        // X:\opensource\googlecode\dotnetasyncsocket\AsyncSocket\AsyncSocket.cs
+		// https://support.globalsign.com/customer/portal/articles/1216536-securing-a-public-ip-address---ssl-certificates
+		// http://stackoverflow.com/questions/9726802/ssl-socket-between-net-and-java-with-client-authentication
+		// X:\opensource\googlecode\dotnetasyncsocket\AsyncSocket\AsyncSocket.cs
 
-    }
+		public virtual void AuthenticateAsServer(X509Certificate serverCertificate, bool clientCertificateRequired, SslProtocols enabledSslProtocols, bool checkCertificateRevocation)
+		{
+		}
+
+	}
 }

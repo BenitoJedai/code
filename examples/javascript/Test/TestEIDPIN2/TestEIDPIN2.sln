@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.30324.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEIDPIN2", "TestEIDPIN2\TestEIDPIN2.csproj", "{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{132EB43F-19B4-42AC-8025-3249B129867A} = {132EB43F-19B4-42AC-8025-3249B129867A}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library", "..\..\..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj", "{132EB43F-19B4-42AC-8025-3249B129867A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JVMCLRRSAAssetsLibrary", "..\..\..\java\hybrid\JVMCLRRSAAssetsLibrary\JVMCLRRSAAssetsLibrary\JVMCLRRSAAssetsLibrary.csproj", "{A0A72609-60E7-42AE-920B-E2A84A340633}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +66,26 @@ Global
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|x86.ActiveCfg = Release|Any CPU
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|Any CPU.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|Mixed Platforms.Build.0 = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|x86.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|x86.Build.0 = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Assets|Any CPU.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Assets|x86.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Assets|x86.Build.0 = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|x86.ActiveCfg = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|x86.Build.0 = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|Any CPU.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|x86.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

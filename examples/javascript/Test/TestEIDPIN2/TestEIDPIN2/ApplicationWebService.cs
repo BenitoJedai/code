@@ -19,6 +19,8 @@ namespace TestEIDPIN2
     /// </summary>
     public class ApplicationWebService
     {
+        // client certificate is not sent for untrusted servers?
+        // make it trusted by exporting the server cert certmgr.msc
 
         //---------------------------
         //Microsoft Visual Studio Express 2012 for Web
@@ -95,5 +97,8 @@ namespace TestEIDPIN2
             //var x = ScriptCoreLib.Extensions.TcpListenerExtensions.RemoteCertificateValidationCallbackReplay;
 
         }
+
+        // chrome no longer sends client cert?
+
     }
 }
