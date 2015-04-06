@@ -422,19 +422,19 @@ namespace ScriptCoreLib.Extensions
                                new RemoteCertificateValidationCallback(
                                    (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) =>
                                    {
-                                       // what if the app would also like to know
-                                       // how did the client authenticate?
+									   // what if the app would also like to know
+									   // how did the client authenticate?
 
-                                       //Console.WriteLine(
-                                       //    new { certificate, chain }
-                                       //    );
+									   Console.WriteLine(
+										   new { certificate, chain }
+										   );
 
-                                       //        SERIALNUMBER=47101010033, G=MARI-LIIS, SN=MÄNNIK, CN="MÄNNIK,MARI-LIIS,47101010033", OU=authentication, O=ESTEID, C=EE
+									   //        SERIALNUMBER=47101010033, G=MARI-LIIS, SN=MÄNNIK, CN="MÄNNIK,MARI-LIIS,47101010033", OU=authentication, O=ESTEID, C=EE
 
-                                       // can we get the data to the web handler in another appdomain this way?
+									   // can we get the data to the web handler in another appdomain this way?
 
 
-                                       if (certificate != null)
+									   if (certificate != null)
                                            //Console.Title = certificate.GetSerialNumberString();
                                            Console.Title = new { certificate }.ToString();
 

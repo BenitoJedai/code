@@ -337,6 +337,7 @@ namespace ChromeExtensionHopToTab
 				Console.WriteLine("xonmessage " + new { s.state, sender.id });
 				Native.body.style.borderLeft = "1px solid blue";
 
+				#region xAsyncStateMachineType
 				var xAsyncStateMachineType = typeof(Application).Assembly.GetTypes().FirstOrDefault(
 					item =>
 					{
@@ -355,6 +356,7 @@ namespace ChromeExtensionHopToTab
 						return false;
 					}
 				);
+				#endregion
 
 
 				var NewStateMachine = FormatterServices.GetUninitializedObject(xAsyncStateMachineType);

@@ -8,9 +8,11 @@ namespace ScriptCoreLib.Extensions
 {
 
 
-
+    // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\LinqExtensions.cs
     public static class LinqExtensions
     {
+        // tested by?
+
         // java does not support much of generics just yet
 
         [System.Diagnostics.DebuggerStepThrough]
