@@ -11,7 +11,18 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     public class NavigatorInfo
     {
-        //public void webkitGetUserMedia(object constraints, IFunction successCallback, IFunction errorCallback);
+		//public void webkitGetUserMedia(object constraints, IFunction successCallback, IFunction errorCallback);
+
+
+//	rewriting...primary types: 1688
+
+//.536: { SourceMethod = System.String ToString(), i = [0x000c]
+//	dup        +2 -1 }
+//........................................................
+//        Mismatch detected in base types for:
+//         SourceType: ScriptCoreLib.JavaScript.DOM.MessageEvent, ScriptCoreLib, Version=4.6.0.0, Culture=neutral, PublicKeyToken=null
+//         BaseType: { IsExtensionType = False } ScriptCoreLib.JavaScript.DOM.MessageEvent`1[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken
+//         BaseType: { IsExtensionType = False } ScriptCoreLib.JavaScript.DOM.IEvent, ScriptCoreLib, Version=4.6.0.0, Culture=neutral, PublicKeyToken=null
 
         [Script(DefineAsStatic = true)]
         public void getUserMedia(
