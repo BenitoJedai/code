@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CanvasFromBytes</RootNamespace>
     <AssemblyName>CanvasFromBytes</AssemblyName>
-    <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>CanvasFromBytes.Program</StartupObject>
     <TargetFrameworkProfile />

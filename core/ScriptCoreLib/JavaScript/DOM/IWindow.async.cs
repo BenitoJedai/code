@@ -63,12 +63,26 @@ namespace ScriptCoreLib.JavaScript.DOM
                     return x.Task;
                 }
             }
-            #endregion
+			#endregion
 
 
+			#region onerror
+			public Task<IEvent> onblur
+			{
+				[Script(DefineAsStatic = true)]
+				get
+				{
+					// X:\jsc.svn\examples\javascript\async\test\TestGetUserMedia\TestGetUserMedia\Application.cs
 
-            #region onerror
-            public Task<IErrorEvent> onerror
+					var x = new TaskCompletionSource<IEvent>();
+					that.onblur += x.SetResult;
+					return x.Task;
+				}
+			}
+			#endregion
+
+			#region onerror
+			public Task<IErrorEvent> onerror
             {
                 [Script(DefineAsStatic = true)]
                 get
