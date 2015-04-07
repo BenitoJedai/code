@@ -78,6 +78,17 @@ namespace TestGetUserMedia
 
 					// {{ videoWidth = 640, videoHeight = 480, ElapsedMilliseconds = 94 }}
 
+					var frame0 = new CanvasRenderingContext2D(
+						v.videoWidth, v.videoHeight
+					);
+
+					frame0.drawImage(
+						v,
+						0, 0, v.videoWidth, v.videoHeight);
+
+					frame0.canvas.AttachToDocument();
+
+
 
 				}
 			);
