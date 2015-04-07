@@ -69,11 +69,15 @@ namespace TestGetUserMedia
 
 					var sw = Stopwatch.StartNew();
 
+					//Error CS4004  Cannot await in an unsafe context TestGetUserMedia    X:\jsc.svn\examples\javascript\async\test\TestGetUserMedia\TestGetUserMedia\Application.cs  45
+					// https://social.msdn.microsoft.com/Forums/en-US/29a3ca5b-c783-4197-af08-7b3c83585e99/minor-compiler-message-unsafe-async?forum=async
+
+
 					while (v.videoWidth == 0)
 						await Native.window.async.onframe;
 
 					new IHTMLPre {
-						new { v.videoWidth, v.videoHeight, sw.ElapsedMilliseconds }
+						new { v.videoWidth, v.videoHeight, sw.ElapsedMilliseconds, Environment.ProcessorCount }
 					}.AttachToDocument();
 
 					// {{ videoWidth = 640, videoHeight = 480, ElapsedMilliseconds = 94 }}
@@ -88,11 +92,47 @@ namespace TestGetUserMedia
 
 					frame0.canvas.AttachToDocument();
 
+					// could we do thread hopping here to multicore process the data without shaders?
+					// RGB,
+					// would we have each core work on 8bits. a single color?
+
+					// X:\jsc.svn\examples\javascript\canvas\CanvasFromBytes\CanvasFromBytes\Application.cs 
+
+					var rgba_bytes = frame0.bytes;
 
 
+					//var rgba_pixels = (rgba[])rgba_bytes;
+					//Error CS0030  Cannot convert type 'byte[]' to 'TestGetUserMedia.rgba[]'   TestGetUserMedia X:\jsc.svn\examples\javascript\async\test\TestGetUserMedia\TestGetUserMedia\Application.cs  98
+
+					unsafe
+					{
+						//Error CS0030  Cannot convert type 'byte[]' to 'TestGetUserMedia.rgba*'    TestGetUserMedia X:\jsc.svn\examples\javascript\async\test\TestGetUserMedia\TestGetUserMedia\Application.cs  109
+						//var rgba_pixels = (rgba*)rgba_bytes;
+						//Error CS0030  Cannot convert type 'byte[]' to 'void*' TestGetUserMedia X:\jsc.svn\examples\javascript\async\test\TestGetUserMedia\TestGetUserMedia\Application.cs  110
+
+						fixed (byte* rgba_ptr = rgba_bytes)	
+						{
+							var rgba_pixels = (rgba*)rgba_ptr;
+
+							// looks legit
+
+							// how does it compile for js?
+						}
+
+					}
+
+					await Native.window.async.onblur;
+
+					// stream is not stopped yet?
+					v.Orphanize();
 				}
 			);
 		}
 
+	}
+
+	struct rgba
+	{
+		public byte r, g, b, a;
 	}
 }

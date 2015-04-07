@@ -165,10 +165,11 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 if (value != null)
                     if (value.Length == canvas.width * canvas.height * 4)
                     {
-                        // tested by 
-                        // X:\jsc.svn\examples\javascript\canvas\CanvasFromBytes\CanvasFromBytes\Application.cs
+						// tested by 
+						// X:\jsc.svn\examples\javascript\canvas\CanvasFromBytes\CanvasFromBytes\Application.cs
+						// X:\jsc.svn\examples\javascript\async\test\TestGetUserMedia\TestGetUserMedia\Application.cs
 
-                        var i = this.getImageData();
+						var i = this.getImageData();
                         i.data.set(value, 0);
                         this.putImageData(i, 0, 0, 0, 0, canvas.width, canvas.height);
                     }
