@@ -6,46 +6,52 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
-    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/HTMLVideoElement.webidl
-    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLVideoElement.idl
-    // https://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLVideoElement.cpp
+	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/HTMLVideoElement.webidl
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLVideoElement.idl
+	// https://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLVideoElement.cpp
 
-    [Script(InternalConstructor = true)]
-    public class IHTMLVideo : IHTMLMedia
-    {
-        // when can a jsc app store video in db?
+	[Script(InternalConstructor = true)]
+	public class IHTMLVideo : IHTMLMedia
+	{
+		// when can a jsc app store video in db?
 
-        #region Constructor
-
-        public IHTMLVideo()
-        {
-            // InternalConstructor
-        }
-
-        static IHTMLVideo InternalConstructor()
-        {
-            return (IHTMLVideo)IHTMLElement.InternalConstructor(HTMLElementEnum.video);
-        }
-
-        #endregion
+		// X:\jsc.svn\examples\javascript\async\test\TestGetUserMedia\TestGetUserMedia\Application.cs
+		public int videoHeight;
+		public int videoWidth;
 
 
-        public byte[] bytes
-        {
-            // tested by?
 
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                var c = new CanvasRenderingContext2D(this.clientWidth, this.clientHeight);
+		#region Constructor
 
-                c.drawImage(
-                    this, 0, 0, c.canvas.width, c.canvas.height
-                );
+		public IHTMLVideo()
+		{
+			// InternalConstructor
+		}
 
-                return c.bytes;
-            }
+		static IHTMLVideo InternalConstructor()
+		{
+			return (IHTMLVideo)IHTMLElement.InternalConstructor(HTMLElementEnum.video);
+		}
 
-        }
-    }
+		#endregion
+
+
+		public byte[] bytes
+		{
+			// tested by?
+
+			[Script(DefineAsStatic = true)]
+			get
+			{
+				var c = new CanvasRenderingContext2D(this.clientWidth, this.clientHeight);
+
+				c.drawImage(
+					this, 0, 0, c.canvas.width, c.canvas.height
+				);
+
+				return c.bytes;
+			}
+
+		}
+	}
 }

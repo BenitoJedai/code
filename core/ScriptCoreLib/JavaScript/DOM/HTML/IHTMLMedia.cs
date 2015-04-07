@@ -17,6 +17,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public abstract class IHTMLMedia : IHTMLElement
     {
+		// X:\jsc.svn\examples\javascript\async\test\TestGetUserMedia\TestGetUserMedia\Application.cs
+
 		// http://www.free-track.net/fichiers/manuel21en.pdf
 
 		// https://riaconnection.wordpress.com/2011/11/03/testing-live-video-streaming-to-webgl-and-html5-video-tag/
