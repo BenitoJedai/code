@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	[Script(HasNoPrototype = true, InternalConstructor = true)]
 	public class WebGLShader
 	{
+		// http://j2glsl.googlecode.com/svn/trunk/Java2GLSL/src/kr/co/iniline/j2glsl/
+		//http://www.java-gaming.org/index.php?topic=22493.0
 		// https://www.opengl.org/sdk/docs/man/html/glCreateShader.xhtml
 
 		#region Constructor

@@ -20,10 +20,21 @@ namespace ScriptCoreLib.Shared.BCLImplementation.GLSL
         // does jsc already support struct for all platforms?
         class __vec3
     {
-        // what about System.Windows.Vector
+		// http://www.palladiumconsulting.com/2014/05/net-simd-api-thoughts/
 
-        #region [0]
-        genType _x;
+		// System.Numerics.VectorMath.IsHardwareAccelerated 
+		// http://www.drdobbs.com/windows/64-bit-simd-code-from-c/240168851
+		// http://www.nuget.org/packages/Microsoft.Bcl.Simd
+		// http://blogs.msdn.com/b/dotnet/archive/2014/04/07/the-jit-finally-proposed-jit-and-simd-are-getting-married.aspx
+		// The hardware-dependent vector type is:
+		//System.Numerics.Vector<T>
+		// https://code.msdn.microsoft.com/windowsdesktop/SIMD-Sample-f2c8c35a
+
+		// what about System.Windows.Vector
+		// http://geekswithblogs.net/akraus1/archive/2014/04/04/155858.aspx
+
+		#region [0]
+		genType _x;
         public genType x { get { return _x; } set { _x = value; } }
         #endregion
 

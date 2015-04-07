@@ -389,6 +389,7 @@ namespace ChromeShaderToyPrograms
 			["ChromeShaderToySubmarinePillars"] = () => new ChromeShaderToySubmarinePillars.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToySuperMarioByHLorenzi"] = () => new ChromeShaderToySuperMarioByHLorenzi.Shaders.ProgramFragmentShader(),
 			["ChromeShaderToySnowByUggway"] = () => new ChromeShaderToySnowByUggway.Shaders.ProgramFragmentShader(),
+			["SakuraByFMSCat"] = () => new SakuraByFMSCat.Shaders.ProgramFragmentShader(),
 			["SansNormalByEiffie"] = () => new SansNormalByEiffie.Shaders.ProgramFragmentShader(),
 			["ScatterByGaz"] = () => new ScatterByGaz.Shaders.ProgramFragmentShader(),
 			["SchroedingersCatByDr2"] = () => new SchroedingersCatByDr2.Shaders.ProgramFragmentShader(),
