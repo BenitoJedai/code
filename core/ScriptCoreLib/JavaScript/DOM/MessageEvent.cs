@@ -5,16 +5,12 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+	using TData = Object;
+
 	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/MessageEvent.webidl
 
 	[Script(HasNoPrototype = true, ExternalTarget = "MessageEvent")]
-	public class MessageEvent : MessageEvent<object> // dynamic?
-	{
-
-	}
-
-	[Script(HasNoPrototype = true, ExternalTarget = "MessageEvent")]
-	public class MessageEvent<TData> : IEvent
+	public class MessageEvent : IEvent //: MessageEvent<object> // dynamic?
 	{
 		// X:\jsc.svn\examples\javascript\test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
 
@@ -29,6 +25,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 		public TData data;
 
 		public readonly MessagePort[] ports;
+	}
 
+	[Script(HasNoPrototype = true, ExternalTarget = "MessageEvent")]
+	public class MessageEvent<TData> : MessageEvent
+	{
+		public TData data;
 	}
 }
