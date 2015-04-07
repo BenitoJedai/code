@@ -19,6 +19,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 	[Script(Implements = typeof(XElement))]
 	internal class __XElement : __XContainer
 	{
+		// Intel introduced specialized SIMD string processing instructions in the SSE 4.2 instruction set extension 
+		// http://www.balisage.net/Proceedings/vol10/html/Cameron01/BalisageVol10-Cameron01.html
 		// what if we are in a worker thread?
 
 		// what about binary xml?

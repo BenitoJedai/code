@@ -16,6 +16,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "DeviceOrientationEvent")]
     public class DeviceOrientationEvent : IEvent
     {
+		// cardboard sphere?
+
         // X:\jsc.svn\examples\javascript\android\Test\TestDeviceOrientationEvent\TestDeviceOrientationEvent\Application.cs
         // X:\jsc.svn\examples\javascript\android\Test\TestCompassHeading\TestCompassHeading\Application.cs
 
