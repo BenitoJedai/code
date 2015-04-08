@@ -37,14 +37,24 @@ namespace TestSemaphoreSlim
 					Console.WriteLine("worker activated " + new { sInput, Thread.CurrentThread.ManagedThreadId });
 
 					next:
+
+					//830ms SemaphoreSlim.WaitAsync {{ InternalIsEntangled = true, ManagedThreadId = 10 }}
+					//2015-04-08 16:33:44.579 :26849/view-source:50999 830ms worker  xSemaphoreSlim.InternalVirtualWaitAsync {{ Name = sInput }}
+
 					await sInput.WaitAsync();
 
 					Console.WriteLine("work complete " + new { Thread.CurrentThread.ManagedThreadId });
 
+					//:29496/view-source:51197 2952ms work complete {{ ManagedThreadId = 10 }}
+					//2015-04-08 17:25:48.849 :29496/view-source:51197 2952ms SemaphoreSlim.Release {{ InternalIsEntangled = true, ManagedThreadId = 10 }}
+					//2015-04-08 17:25:48.849 :29496/view-source:51197 2952ms worker xSemaphoreSlim.InternalVirtualRelease, postMessage {{ Name = sOutput }}
+					//2015-04-08 17:25:48.851 :29496/view-source:51197 2967ms worker Task Run ContinueWith {{ t = {{ IsCompleted = true, Result = null }} }}
+					//2015-04-08 17:25:48.852 :29496/view-source:51197 2967ms Task ContinueWithResult {{ responseCounter = 20, ResultTypeIndex = null, Result = null }}
+					//2015-04-08 17:25:48.853 :29496/view-source:51197 2967ms enter TaskExtensions.Unwrap Task<Task> ContinueWith
 
 					sOutput.Release();
 					// both threads continue working... unlike in a hop where only one logical thread continues..
-					goto next;
+					//goto next;
 				}
 			);
 

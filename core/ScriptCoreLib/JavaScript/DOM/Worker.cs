@@ -13,6 +13,8 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
 using ScriptCoreLib.Shared.BCLImplementation.System;
 using System.Runtime.Serialization;
 using System.Reflection;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -503,6 +505,76 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 							MethodTargetObjectData[i] = scope2copy;
 
+							#region __SemaphoreSlim
+							// X:\jsc.svn\examples\javascript\async\Test\TestSemaphoreSlim\TestSemaphoreSlim\ApplicationControl.cs
+							var xSemaphoreSlim = scope2copy as __SemaphoreSlim;
+							if (xSemaphoreSlim != null)
+							{
+								// we now have to complete the entanglement. we have the caller on the UI.
+
+								xSemaphoreSlim.InternalIsEntangled = true;
+
+
+
+
+								#region InternalVirtualWaitAsync
+								var xInternalVirtualWaitAsync = default(TaskCompletionSource<object>);
+
+								xSemaphoreSlim.InternalVirtualWaitAsync = continuation =>
+								{
+									Console.WriteLine("worker xSemaphoreSlim.InternalVirtualWaitAsync " + new { xMember.Name });
+
+									xInternalVirtualWaitAsync = continuation;
+								};
+
+								// at this point lets call the UI to set up a new signal channel..
+
+								//new MessageChannel();
+
+								var c = new MessageChannel();
+
+								c.port1.onmessage +=
+									ce =>
+									{
+										// ui has released?
+
+										Console.WriteLine("worker xSemaphoreSlim onmessage " + new { xMember.Name, xInternalVirtualWaitAsync });
+
+										// release 1
+
+										// what if the thread is not yet awaiting?
+
+										xInternalVirtualWaitAsync.SetResult(null);
+									};
+
+								c.port1.start();
+								c.port2.start();
+
+								foreach (var p in e.ports)
+								{
+									p.postMessage(
+										new { xSemaphoreSlim = xMember.Name },
+										transfer: new[] { c.port2 }
+									);
+								}
+								#endregion
+
+
+								xSemaphoreSlim.InternalVirtualRelease = delegate
+								{
+									Console.WriteLine("worker xSemaphoreSlim.InternalVirtualRelease, postMessage " + new { xMember.Name });
+
+									// post 1
+
+
+
+
+									c.port1.postMessage(message: 1);
+									c.port2.postMessage(message: 1);
+								};
+
+							}
+							#endregion
 						}
 					}
 				}

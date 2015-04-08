@@ -183,6 +183,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
 							#region xSemaphoreSlim
+							// X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\Worker.cs
+
 							// X:\jsc.svn\examples\javascript\async\Test\TestSemaphoreSlim\TestSemaphoreSlim\ApplicationControl.cs
 							var xSemaphoreSlim = MemberValue as __SemaphoreSlim;
 							if (xSemaphoreSlim != null)
@@ -191,17 +193,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 								// if we were to get the signal, how?
 
 								// 1 or more
-								xSemaphoreSlim.InternalIsEntangled = true;
 
-								xSemaphoreSlim.InternalVirtualRelease = delegate
-								{
-									// um. we need to post a message to the other side.
-									// do we have a port channel for it?
-									// does the other side expect signals?
-
-									Console.WriteLine("xSemaphoreSlim.InternalVirtualRelease " + new { MemberName });
-
-								};
 
 								xSemaphoreSlim.InternalVirtualWaitAsync = continuation =>
 								{
@@ -209,6 +201,78 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 									// we need a signal from the worker, or the ui
 								};
+
+
+								var MemberName0 = MemberName;
+
+								#region yield_xSemaphoreSlim
+								Action<Worker, MessageEvent> yield_xSemaphoreSlim =
+
+
+								 // we want in. lets wait for messages from the thread..
+								 //yield += (Worker worker, MessageEvent e) =>
+								 (Worker worker, MessageEvent e) =>
+								{
+									dynamic data = e.data;
+									string __xSemaphoreSlim = data.xSemaphoreSlim;
+
+									if (__xSemaphoreSlim == null)
+										return;
+
+
+									if (__xSemaphoreSlim != MemberName0)
+										return;
+
+									//
+
+									// now we have a port to send the release signal?
+									Console.WriteLine("xSemaphoreSlim MessageEvent " + new { MemberName0 });
+
+									// next will be a release from the worker?
+
+									// we made contact!
+									if (xSemaphoreSlim.InternalIsEntangled)
+										return;
+
+									xSemaphoreSlim.InternalIsEntangled = true;
+
+									xSemaphoreSlim.InternalVirtualRelease = delegate
+									{
+										// um. we need to post a message to the other side.
+										// do we have a port channel for it?
+										// does the other side expect signals?
+
+										Console.WriteLine("xSemaphoreSlim.InternalVirtualRelease " + new { MemberName0 });
+
+										foreach (var p in e.ports)
+										{
+											// release 1
+											p.postMessage(1);
+										}
+
+									};
+
+									// now wait for release from worker?
+
+
+									e.ports[0].onmessage += ee =>
+									{
+										Console.WriteLine("xSemaphoreSlim port0 onmessage " + new { MemberName0 });
+									};
+
+
+
+									e.ports[1].onmessage += ee =>
+									{
+										Console.WriteLine("xSemaphoreSlim port1 onmessage " + new { MemberName0 });
+									};
+
+								};
+								#endregion
+
+
+
+								yield += yield_xSemaphoreSlim;
 							}
 							#endregion
 
