@@ -17,15 +17,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 		// tested by?
 		// X:\jsc.svn\examples\javascript\async\test\TestAsyncLocal\TestAsyncLocal\ApplicationControl.cs
 
+
+		// the context switch needs to reattach the handler on the worker side
+		public Action<__AsyncLocalValueChangedArgs<T>> InternalOnValueChanged;
+
 		public __AsyncLocal(Action<__AsyncLocalValueChangedArgs<T>> valueChangedHandler)
 		{
-
+			this.InternalOnValueChanged = valueChangedHandler;
 		}
 
 		// AsyncLocalValueChangedArgs
 		// https://msdn.microsoft.com/en-us/library/dn906269(v=vs.110).aspx
 		void __IAsyncLocal.OnValueChanged(object previousValue, object currentValue, bool contextChanged)
 		{
+			// it is time to notify the user application of a value change, or a context switch..
+
+			this.InternalOnValueChanged(
+				new __AsyncLocalValueChangedArgs<T>((T)previousValue, (T)currentValue, contextChanged)
+			);
+
+
 		}
 	}
 }

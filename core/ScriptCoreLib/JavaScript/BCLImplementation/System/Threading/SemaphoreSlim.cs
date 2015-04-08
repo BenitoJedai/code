@@ -25,8 +25,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 			this.CurrentCount = c;
 		}
 
+		// set by thread hopper, to indicate, this object is living 
+		// in multiple workers, and is connected.
+		// for network signals, webrtc/udp needs to be available
+		public bool InternalIsEntangled;
+
+		public Action InternalVirtualRelease;
+
 		public int Release()
 		{
+			// are we entangled?
+			// if so then we need to send a signal to us in that other thread?
+			// what if we were entangled into multiple threads? would need to do round robin
+			// for the versions that are awaiting?
+
+			Console.WriteLine("SemaphoreSlim.Release " + new { InternalIsEntangled, Thread.CurrentThread.ManagedThreadId });
+
+			//37418ms SemaphoreSlim.Release { { InternalIsEntangled = true, ManagedThreadId = 1 } }
+
+			if (InternalIsEntangled)
+			{
+				// this semaphore was sent to a new worker.
+				// now, we are about to signal that new thread.
+
+
+				InternalVirtualRelease();
+			}
+			// otherwise, stash the release? 
+
 			return 0;
 		}
 
@@ -36,12 +62,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 		public Task WaitAsync()
 		{
+			// X:\jsc.svn\examples\javascript\async\test\TestSemaphoreSlim\TestSemaphoreSlim\ApplicationControl.cs
 
-			return null;
+			var c = new TaskCompletionSource<object>();
+
+			Console.WriteLine("SemaphoreSlim.WaitAsync " + new { InternalIsEntangled, Thread.CurrentThread.ManagedThreadId });
+
+
+			return c.Task;
 		}
 
 		public Task<bool> WaitAsync(int millisecondsTimeout, CancellationToken cancellationToken)
 		{
+
 			return null;
 		}
 

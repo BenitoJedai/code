@@ -20,12 +20,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 		public bool ThreadContextChanged { get; private set; }
 
-		/// <summary>
-		///  
-		/// </summary>
-		/// <param name="previousValue"></param>
-		/// <param name="currentValue"></param>
-		/// <param name="contextChanged"></param>
 		public __AsyncLocalValueChangedArgs(T previousValue, T currentValue, bool contextChanged)
         {
 			PreviousValue = previousValue;
