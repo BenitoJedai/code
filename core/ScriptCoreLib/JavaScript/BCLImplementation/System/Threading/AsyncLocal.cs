@@ -15,6 +15,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 		// https://github.com/StephenCleary/Presentations/blob/57ff9987955ae098ddfd4b4c46201e0eeeeae49f/Intro%20to%20Async/Intro%20to%20Async%20-%2016.9.pptx
 
 		// tested by?
+		// X:\jsc.svn\examples\javascript\async\test\TestAsyncLocal\TestAsyncLocal\ApplicationControl.cs
 
 		public __AsyncLocal(Action<__AsyncLocalValueChangedArgs<T>> valueChangedHandler)
 		{
