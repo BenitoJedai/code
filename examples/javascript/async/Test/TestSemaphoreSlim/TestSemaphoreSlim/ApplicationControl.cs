@@ -55,6 +55,11 @@ namespace TestSemaphoreSlim
 				// signal the other thread
 				sInput.Release();
 
+				//view-source:50987 15989ms will send data to the thread...
+				//2015-04-08 15:53:37.541 view-source:50987 15989ms SemaphoreSlim.Release {{ InternalIsEntangled = true, ManagedThreadId = 1 }}
+				//2015-04-08 15:53:37.542 view-source:50987 15989ms xSemaphoreSlim.InternalVirtualRelease {{ MemberName = sInput }}
+				//2015-04-08 15:53:37.544 view-source:50987 15989ms SemaphoreSlim.WaitAsync {{ InternalIsEntangled = true, ManagedThreadId = 1 }}
+				//2015-04-08 15:53:37.545 view-source:50987 15989ms xSemaphoreSlim.InternalVirtualWaitAsync {{ MemberName = sOutput }}
 
 				await sOutput.WaitAsync();
 

@@ -14,6 +14,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 	[Script(Implements = typeof(global::System.Threading.SemaphoreSlim))]
 	public class __SemaphoreSlim
 	{
+		public int CurrentCount { get; set; }
+
+
 		// tested by?
 		// X:\jsc.svn\examples\javascript\async\AsyncHopToUIFromWorker\AsyncHopToUIFromWorker\Application.cs
 		// would this type allow to jump back from another thread?
@@ -30,6 +33,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 		// for network signals, webrtc/udp needs to be available
 		public bool InternalIsEntangled;
 
+		#region Release
 		public Action InternalVirtualRelease;
 
 		public int Release()
@@ -55,10 +59,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 			return 0;
 		}
+		#endregion
+
 
 		// X:\jsc.svn\examples\javascript\async\test\TestAsyncLocal\TestAsyncLocal\ApplicationControl.cs
 
-		public int CurrentCount { get; set; }
+
+
+		#region WaitAsync
+		public Action<TaskCompletionSource<object>> InternalVirtualWaitAsync;
 
 		public Task WaitAsync()
 		{
@@ -68,9 +77,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 			Console.WriteLine("SemaphoreSlim.WaitAsync " + new { InternalIsEntangled, Thread.CurrentThread.ManagedThreadId });
 
+			if (InternalIsEntangled)
+				InternalVirtualWaitAsync(c);
 
 			return c.Task;
 		}
+		#endregion
+
 
 		public Task<bool> WaitAsync(int millisecondsTimeout, CancellationToken cancellationToken)
 		{

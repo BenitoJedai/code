@@ -199,6 +199,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 									Console.WriteLine("xSemaphoreSlim.InternalVirtualRelease " + new { MemberName });
 								};
+
+								xSemaphoreSlim.InternalVirtualWaitAsync = continuation =>
+								{
+									Console.WriteLine("xSemaphoreSlim.InternalVirtualWaitAsync " + new { MemberName });
+
+									// we need a signal from the worker, or the ui
+								};
 							}
 
 							// X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
