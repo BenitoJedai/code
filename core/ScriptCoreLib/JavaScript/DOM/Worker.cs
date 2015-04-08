@@ -569,8 +569,15 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-									c.port1.postMessage(message: 1);
-									c.port2.postMessage(message: 1);
+									//c.port1.postMessage(message: 1);
+									//c.port2.postMessage(message: 1);
+
+									foreach (var p in e.ports)
+									{
+										p.postMessage(
+											new { xSemaphoreSlim = xMember.Name }
+										);
+									}
 								};
 
 							}
