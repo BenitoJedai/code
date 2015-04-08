@@ -180,6 +180,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 							if (IsDelegate)
 								MethodTargetObjectData[i] = null;
 
+
+							// X:\jsc.svn\examples\javascript\async\Test\TestSemaphoreSlim\TestSemaphoreSlim\ApplicationControl.cs
+							var xSemaphoreSlim = MemberValue as __SemaphoreSlim;
+							if (xSemaphoreSlim != null)
+							{
+								// we need to entangle the fields in current and the new thread..
+								// if we were to get the signal, how?
+
+								// 1 or more
+								xSemaphoreSlim.InternalIsEntangled = true;
+
+								xSemaphoreSlim.InternalVirtualRelease = delegate
+								{
+									// um. we need to post a message to the other side.
+									// do we have a port channel for it?
+									// does the other side expect signals?
+
+									Console.WriteLine("xSemaphoreSlim.InternalVirtualRelease " + new { MemberName });
+								};
+							}
+
 							// X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
 							var IsProgress = MemberValue is __IProgress<object>;
 							if (IsProgress)
@@ -196,10 +217,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
 							var scope2 = MethodTargetObjectData[i];
+
 							if (IsString)
 							{
 								// see path yet?
 								Console.WriteLine("string: " + new { MemberName, scope2 });
+							}
+							else if (xSemaphoreSlim != null)
+							{
+								// the first entangled method. should we look a the fields?
+								Console.WriteLine("xSemaphoreSlim: " + new { MemberName });
 							}
 							else
 							{
@@ -223,7 +250,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 										{
 											var scope2FieldName = scope2TypeSerializableMembers[ii].Name;
 
-											Console.WriteLine("scope: " + MemberName + "." + scope2FieldName);
+											Console.WriteLine("scope2: " + MemberName + "." + scope2FieldName);
 
 
 											var scope2value = scope2ObjectData[ii];
