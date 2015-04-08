@@ -22,19 +22,38 @@ namespace TestAsyncLocal
 		{
 			Console.WriteLine("enter ApplicationControl_Load " + new { Thread.CurrentThread.ManagedThreadId });
 
+			IProgress<string> progress = new Progress<string>(
+				handler: value =>
+				{
+					Console.WriteLine("Progress " + new { value, Thread.CurrentThread.ManagedThreadId });
+
+				}
+			);
+
+
+			progress.Report("hello from UI");
+
 			var loc1 = new AsyncLocal<string>(
+				// would we be able to send the delegate over to worker?
 				valueChangedHandler: value =>
 				{
-					Console.WriteLine(new { value.ThreadContextChanged, value.CurrentValue, value.PreviousValue, Thread.CurrentThread.ManagedThreadId });
+					Console.WriteLine("AsyncLocal " + new { value.ThreadContextChanged, value.CurrentValue, value.PreviousValue, Thread.CurrentThread.ManagedThreadId });
 				}
 			);
 
 			loc1.Value = "hello from UI";
 
+			var s = new SemaphoreSlim(1);
+
+
 			Task.Run(
 				delegate
 				{
-					Console.WriteLine("enter worker " + new { loc1, Thread.CurrentThread.ManagedThreadId });
+					Console.WriteLine("enter worker " + new { loc1, progress, Thread.CurrentThread.ManagedThreadId });
+
+					progress.Report("hello from worker");
+
+					s.Release();
 
 					loc1.Value = "hello from worker / " + new { loc1.Value };
 
@@ -51,7 +70,13 @@ namespace TestAsyncLocal
 
 
 
+			s.WaitAsync().ContinueWith(
+				t =>
+				{
+					Console.WriteLine("SemaphoreSlim WaitAsync " + new { s.CurrentCount, Thread.CurrentThread.ManagedThreadId });
 
+				}
+			);
 
 
 
