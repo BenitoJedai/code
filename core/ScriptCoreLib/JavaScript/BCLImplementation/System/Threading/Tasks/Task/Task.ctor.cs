@@ -181,6 +181,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 								MethodTargetObjectData[i] = null;
 
 
+
+							#region xSemaphoreSlim
 							// X:\jsc.svn\examples\javascript\async\Test\TestSemaphoreSlim\TestSemaphoreSlim\ApplicationControl.cs
 							var xSemaphoreSlim = MemberValue as __SemaphoreSlim;
 							if (xSemaphoreSlim != null)
@@ -198,6 +200,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 									// does the other side expect signals?
 
 									Console.WriteLine("xSemaphoreSlim.InternalVirtualRelease " + new { MemberName });
+
 								};
 
 								xSemaphoreSlim.InternalVirtualWaitAsync = continuation =>
@@ -207,6 +210,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 									// we need a signal from the worker, or the ui
 								};
 							}
+							#endregion
+
 
 							// X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
 							var IsProgress = MemberValue is __IProgress<object>;

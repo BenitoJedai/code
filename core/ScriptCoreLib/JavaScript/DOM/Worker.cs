@@ -457,6 +457,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 					// does our chrome tcp server get the damn path?
 					Console.WriteLine(new { xMember, xMethodTargetObjectDataTypeIndex, xObjectData, xIsProgress });
 
+					// need to resurrect the semaphores!
+					// X:\jsc.svn\examples\javascript\async\Test\TestSemaphoreSlim\TestSemaphoreSlim\ApplicationControl.cs
+
+
 					#region MethodTargetObjectDataIsProgress
 					// cant we use xMethodTargetObjectDataType instead?
 					if (xIsProgress)
