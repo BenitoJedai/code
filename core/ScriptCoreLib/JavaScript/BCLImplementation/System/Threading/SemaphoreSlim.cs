@@ -22,14 +22,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 		public __SemaphoreSlim(int c)
 		{
-
+			this.CurrentCount = c;
 		}
+
 		public int Release()
 		{
 			return 0;
 		}
 
+		// X:\jsc.svn\examples\javascript\async\test\TestAsyncLocal\TestAsyncLocal\ApplicationControl.cs
 
+		public int CurrentCount { get; set; }
 
 		public Task WaitAsync()
 		{
