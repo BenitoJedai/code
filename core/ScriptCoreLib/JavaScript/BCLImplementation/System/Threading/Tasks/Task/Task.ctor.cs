@@ -194,12 +194,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 								// 1 or more
 
+								var xInternalVirtualWaitAsync = default(TaskCompletionSource<object>);
 
 								xSemaphoreSlim.InternalVirtualWaitAsync = continuation =>
 								{
 									Console.WriteLine("xSemaphoreSlim.InternalVirtualWaitAsync " + new { MemberName });
 
 									// we need a signal from the worker, or the ui
+									xInternalVirtualWaitAsync = continuation;
 								};
 
 
@@ -231,41 +233,51 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 									// next will be a release from the worker?
 
 									// we made contact!
-									if (xSemaphoreSlim.InternalIsEntangled)
+									if (!xSemaphoreSlim.InternalIsEntangled)
+									{
+
+										xSemaphoreSlim.InternalIsEntangled = true;
+
+										xSemaphoreSlim.InternalVirtualRelease = delegate
+										{
+											// um. we need to post a message to the other side.
+											// do we have a port channel for it?
+											// does the other side expect signals?
+
+											Console.WriteLine("xSemaphoreSlim.InternalVirtualRelease " + new { MemberName0 });
+
+											foreach (var p in e.ports)
+											{
+												// release 1
+												p.postMessage(1);
+											}
+
+										};
+
 										return;
 
-									xSemaphoreSlim.InternalIsEntangled = true;
-
-									xSemaphoreSlim.InternalVirtualRelease = delegate
-									{
-										// um. we need to post a message to the other side.
-										// do we have a port channel for it?
-										// does the other side expect signals?
-
-										Console.WriteLine("xSemaphoreSlim.InternalVirtualRelease " + new { MemberName0 });
-
-										foreach (var p in e.ports)
-										{
-											// release 1
-											p.postMessage(1);
-										}
-
-									};
+									}
 
 									// now wait for release from worker?
 
+									// we never get the message?
+									//e.ports[0].onmessage += ee =>
+									//{
+									//	Console.WriteLine("xSemaphoreSlim port0 onmessage " + new { MemberName0 });
+									//};
 
-									e.ports[0].onmessage += ee =>
-									{
-										Console.WriteLine("xSemaphoreSlim port0 onmessage " + new { MemberName0 });
-									};
 
 
+									//e.ports[1].onmessage += ee =>
+									//{
+									//	Console.WriteLine("xSemaphoreSlim port1 onmessage " + new { MemberName0 });
+									//};
 
-									e.ports[1].onmessage += ee =>
-									{
-										Console.WriteLine("xSemaphoreSlim port1 onmessage " + new { MemberName0 });
-									};
+									// workaround?
+
+									Console.WriteLine("xSemaphoreSlim MessageEvent, trigger InternalVirtualWaitAsync? " + new { MemberName0 });
+
+									xInternalVirtualWaitAsync.SetResult(null);
 
 								};
 								#endregion

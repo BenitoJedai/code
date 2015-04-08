@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Diagnostics;
 
 namespace TestSemaphoreSlim
 {
@@ -54,12 +55,13 @@ namespace TestSemaphoreSlim
 
 					sOutput.Release();
 					// both threads continue working... unlike in a hop where only one logical thread continues..
-					//goto next;
+					goto next;
 				}
 			);
 
 			this.Click += async delegate
 			{
+				var sw = Stopwatch.StartNew();
 				Console.WriteLine("will send data to the thread...");
 
 				// signal the other thread
@@ -73,7 +75,9 @@ namespace TestSemaphoreSlim
 
 				await sOutput.WaitAsync();
 
-				Console.WriteLine("ui work complete...");
+				Console.WriteLine("ui work complete... " + new { sw.ElapsedMilliseconds });
+
+				// ui work complete... {{ ElapsedMilliseconds = 15 }}
 			};
 		}
 	}
