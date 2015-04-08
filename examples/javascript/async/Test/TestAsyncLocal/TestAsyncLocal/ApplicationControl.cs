@@ -61,12 +61,21 @@ namespace TestAsyncLocal
 			);
 
 			//enter ApplicationControl_Load { ManagedThreadId = 3 }
-			//{ ThreadContextChanged = False, CurrentValue = hello from UI, PreviousValue = , ManagedThreadId = 3 }
+			//AsyncLocal { ThreadContextChanged = False, CurrentValue = hello from UI, PreviousValue = , ManagedThreadId = 3 }
 			//ApplicationForm.Load
-			//{ ThreadContextChanged = True, CurrentValue = hello from UI, PreviousValue = , ManagedThreadId = 4 }
-			//enter worker { loc1 = System.Threading.AsyncLocal`1[System.String], ManagedThreadId = 4 }
-			//{ ThreadContextChanged = False, CurrentValue = hello from worker / { Value = hello from UI }, PreviousValue = hello from UI, ManagedThreadId = 4 }
-			//{ ThreadContextChanged = True, CurrentValue = , PreviousValue = hello from worker / { Value = hello from UI }, ManagedThreadId = 4 }
+			//AsyncLocal { ThreadContextChanged = True, CurrentValue = hello from UI, PreviousValue = , ManagedThreadId = 4 }
+			//AsyncLocal { ThreadContextChanged = True, CurrentValue = hello from UI, PreviousValue = , ManagedThreadId = 5 }
+			//SemaphoreSlim WaitAsync { CurrentCount = 0, ManagedThreadId = 5 }
+			//AsyncLocal { ThreadContextChanged = True, CurrentValue = , PreviousValue = hello from UI, ManagedThreadId = 5 }
+			//enter worker { loc1 = System.Threading.AsyncLocal`1[System.String], progress = System.Progress`1[System.String], ManagedThreadId = 4 }
+			//AsyncLocal { ThreadContextChanged = False, CurrentValue = hello from worker / { Value = hello from UI }, PreviousValue = hello from UI, ManagedThreadId = 4 }
+			//AsyncLocal { ThreadContextChanged = True, CurrentValue = , PreviousValue = hello from worker / { Value = hello from UI }, ManagedThreadId = 4 }
+			//AsyncLocal { ThreadContextChanged = True, CurrentValue = , PreviousValue = hello from UI, ManagedThreadId = 3 }
+			//Progress { value = hello from UI, ManagedThreadId = 3 }
+			//AsyncLocal { ThreadContextChanged = True, CurrentValue = hello from UI, PreviousValue = , ManagedThreadId = 3 }
+			//Progress { value = hello from worker, ManagedThreadId = 3 }
+
+
 
 
 
