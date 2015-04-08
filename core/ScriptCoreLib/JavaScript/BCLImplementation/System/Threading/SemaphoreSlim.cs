@@ -18,6 +18,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 		// X:\jsc.svn\examples\javascript\async\AsyncHopToUIFromWorker\AsyncHopToUIFromWorker\Application.cs
 		// would this type allow to jump back from another thread?
 
+		// X:\jsc.svn\examples\javascript\async\Test\TestGetUserMedia\TestGetUserMedia\Application.cs
+
+		public __SemaphoreSlim(int c)
+		{
+
+		}
 		public int Release()
 		{
 			return 0;
