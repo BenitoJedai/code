@@ -52,7 +52,7 @@ namespace Friendface
         // can we do enums already?
         enum dataside { l, r }
 
-        DCIMCameraAppWithThumbnails.ApplicationWebService dcim = new DCIMCameraAppWithThumbnails.ApplicationWebService();
+        //DCIMCameraAppWithThumbnails.ApplicationWebService dcim = new DCIMCameraAppWithThumbnails.ApplicationWebService();
 
 
         //public void AddTimelinePictureUnit(Action<string, dataside> y)
@@ -76,7 +76,8 @@ namespace Friendface
 
             var i = 0;
 
-            dcim.File_list("",
+#if FDCIM
+			dcim.File_list("",
                 stake: "30",
 
                 ydirectory: delegate { },
@@ -96,11 +97,12 @@ namespace Friendface
 
                 }
             );
-        }
+#endif
+		}
 
         public void Handler(WebServiceHandler h)
         {
-            dcim.Handler(h);
+            //dcim.Handler(h);
         }
     }
 }

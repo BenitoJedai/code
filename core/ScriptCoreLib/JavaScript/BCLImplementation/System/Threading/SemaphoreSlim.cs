@@ -78,6 +78,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 		public Task WaitAsync()
 		{
+			// X:\jsc.svn\examples\javascript\async\test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
 			// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
 			// X:\jsc.svn\examples\javascript\async\test\TestSemaphoreSlim\TestSemaphoreSlim\ApplicationControl.cs
 
@@ -88,6 +89,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 			// at this point, the worker thread may not yet have connected back, entangled
 			if (InternalVirtualWaitAsync != null)
 				InternalVirtualWaitAsync(c);
+
+			// what if we want to await before the semaphore is to be connected with a worker?
+			// SemaphoreSlim.WaitAsync {{ InternalIsEntangled = false, ManagedThreadId = 1 }}
+
+			//:7812/view-source:51433 2873ms [10] worker2 is awaiting{{ bytes1 = [object Uint8ClampedArray] }}
+			//2015-04-09 16:31:07.370 :7812/view-source:51433 2873ms [10] SemaphoreSlim.WaitAsync {{ InternalIsEntangled = true, ManagedThreadId = 10 }}
+			//2015-04-09 16:31:07.370 :7812/view-source:51433 2874ms [10] worker xSemaphoreSlim.InternalVirtualWaitAsync {{ Name = bytes1sema }}
+
 
 			return c.Task;
 		}
