@@ -217,7 +217,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 								// 1 or more
 
-								var xInternalVirtualWaitAsync = default(TaskCompletionSource<object>);
+								//var xInternalVirtualWaitAsync = default(TaskCompletionSource<object>);
+
+								// X:\jsc.svn\examples\javascript\async\test\TestSemaphoreSlimAwaitThenReleaseInWorker\TestSemaphoreSlimAwaitThenReleaseInWorker\Application.cs
+								// is somebody already awaiting?
+								var xInternalVirtualWaitAsync = xSemaphoreSlim.InternalVirtualWaitAsync0;
 
 								xSemaphoreSlim.InternalVirtualWaitAsync = continuation =>
 								{
@@ -335,6 +339,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 									// what happens if we wnt to signal but nobody is waiting?
 									// X:\jsc.svn\examples\javascript\async\test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
 									// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
+
+								
+
 
 									if (xInternalVirtualWaitAsync == null)
 									{
@@ -742,7 +749,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 								 object value = xyield.value;
 
-								 Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
+								 // X:\jsc.svn\examples\javascript\async\test\TestSemaphoreSlimAwaitThenReleaseInWorker\TestSemaphoreSlimAwaitThenReleaseInWorker\Application.cs
+
+								 //Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
 
 								 this.InternalDispose = delegate
 								 {
