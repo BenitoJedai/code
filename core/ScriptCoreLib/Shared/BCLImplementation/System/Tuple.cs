@@ -6,9 +6,10 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
 	// http://referencesource.microsoft.com/#mscorlib/system/tuple.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Tuple.cs
 	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Tuple.cs
 
-		
+
 	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Tuple.cs
 
 

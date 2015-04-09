@@ -59,23 +59,48 @@ namespace TestBytesToSemaphore
 
 					// each thread may build its internal state, yet
 					// when crossing the thread bondary, hopping a thread, not much data should be exchanged
-
-					Task.Run(
-						async delegate
-						{
-							// pass1
-
-						}
-					);
+					// all binary structures should be supported for resync
+					// jsc can we recast bytes to structures yet?
 
 					Task.Run(
 						async delegate
 						{
 							// pass2
 
+							Console.WriteLine("worker2 is awaiting");
+							await bytes1sema.WaitAsync();
+							Console.WriteLine("worker2 is working...");
+
+							// lets update the bytes1 again?
+
+							// can we entable stopwatches already?
+							//sw.Stop();
+						}
+					);
+
+					// in case worker1 is ready, and worker2 need to be signaled or more of them?
+					// would thread be able to signal the other thread without expicit ui thread code?
+					bytes2sema.WaitAsync().ContinueWith(delegate { bytes1sema.Release(); });
+
+					Task.Run(
+						async delegate
+						{
+							// pass1
+
+							bytes2 = Enumerable.ToArray(
+								from x in bytes1
+								let y = (byte)(x ^ 0xff)
+								select y
+							);
+
+							Console.WriteLine("worker1 has now computed pass1!");
+
+							bytes2sema.Release();
 
 						}
 					);
+
+
 				};
 
 
