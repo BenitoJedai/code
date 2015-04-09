@@ -20,71 +20,73 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 	// System.Environment
 	[Script(Implements = typeof(global::System.Environment))]
-    internal static class __Environment
-    {
+	internal static class __Environment
+	{
 
-        // by
-        // X:\jsc.svn\examples\javascript\forms\AsyncTaskYieldViaProgress\AsyncTaskYieldViaProgress\ApplicationControl.cs
-        // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRYieldStatement\TestJVMCLRYieldStatement\Program.cs
+		// by
+		// X:\jsc.svn\examples\javascript\forms\AsyncTaskYieldViaProgress\AsyncTaskYieldViaProgress\ApplicationControl.cs
+		// X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRYieldStatement\TestJVMCLRYieldStatement\Program.cs
 
-        public static int CurrentManagedThreadId
-        {
-            get
-            {
-                return Thread.CurrentThread.ManagedThreadId;
-            }
-        }
+		public static int CurrentManagedThreadId
+		{
+			get
+			{
+				// X:\jsc.svn\examples\javascript\async\Test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
 
-        public static int ProcessorCount
-        {
-            // PLinq?
-            get
-            {
-                // can workers access it?
+				return Thread.CurrentThread.ManagedThreadId;
+			}
+		}
+
+		public static int ProcessorCount
+		{
+			// PLinq?
+			get
+			{
+				// can workers access it?
 
 
-                // tested by
-                // X:\jsc.svn\examples\javascript\async\Test\TestNavigatorCores\TestNavigatorCores\Application.cs
-                // X:\jsc.svn\examples\javascript\WorkerMD5Experiment\WorkerMD5Experiment\Application.cs
+				// tested by
+				// X:\jsc.svn\examples\javascript\async\Test\TestNavigatorCores\TestNavigatorCores\Application.cs
+				// X:\jsc.svn\examples\javascript\WorkerMD5Experiment\WorkerMD5Experiment\Application.cs
 
-                // whats the average/distribution histogram?
-                return Native.window.navigator.hardwareConcurrency;
-            }
-        }
+				// whats the average/distribution histogram?
+				return Native.window.navigator.hardwareConcurrency;
+			}
+		}
 
-        public static string NewLine
-        {
-            get
-            {
-                return "\r\n";
-            }
-        }
+		public static string NewLine
+		{
+			get
+			{
+				return "\r\n";
+			}
+		}
 
-        public static string StackTrace
-        {
-            get
-            {
-                // X:\jsc.svn\examples\javascript\test\TestChromeStackFrames\TestChromeStackFrames\Application.cs
-                // X:\jsc.svn\examples\javascript\CodeTraceExperiment\CodeTraceExperiment\Application.cs
-                // X:\jsc.svn\examples\javascript\Test\TestDelegateInvokeDisplayName\TestDelegateInvokeDisplayName\Application.cs
+		public static string StackTrace
+		{
+			get
+			{
+				// X:\jsc.svn\examples\javascript\test\TestChromeStackFrames\TestChromeStackFrames\Application.cs
+				// X:\jsc.svn\examples\javascript\CodeTraceExperiment\CodeTraceExperiment\Application.cs
+				// X:\jsc.svn\examples\javascript\Test\TestDelegateInvokeDisplayName\TestDelegateInvokeDisplayName\Application.cs
 
-                // can we provide some good caller intel yet?
-                // for code patching?
-                var value = default(string);
+				// can we provide some good caller intel yet?
+				// for code patching?
+				var value = default(string);
 
-                try
-                {
-                    //--TypeError: Cannot read property 'stack' of null
-                    //throw null;
-                    throw new Exception();
-                }
-                catch (Exception err)
-                {
-                    value = err.StackTrace;
-                }
+				try
+				{
+					//--TypeError: Cannot read property 'stack' of null
+					//throw null;
+					throw new Exception();
+				}
+				catch (Exception err)
+				{
+					value = err.StackTrace;
+				}
 
-                return value;
-            }
-        }
-    }
+				return value;
+			}
+		}
+	}
 }

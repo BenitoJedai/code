@@ -59,7 +59,7 @@ namespace TestBytesFromSemaphore
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
-			new IHTMLButton { "click to test " }.AttachToDocument().onclick +=
+			new IHTMLButton { "click to test " + new { Environment.CurrentManagedThreadId } }.AttachToDocument().onclick +=
 				async delegate
 				{
 					var sw = Stopwatch.StartNew();
