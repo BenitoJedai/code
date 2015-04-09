@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{93EB1C97-21BA-46E0-8ED1-A5281685CC2E}</ProjectGuid>
+    <ProjectGuid>{B9FC915C-E2FE-4DCE-BA84-DC8779D565C9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SakuraByFMSCat</RootNamespace>
-    <AssemblyName>SakuraByFMSCat</AssemblyName>
+    <RootNamespace>GlassWithCausticByAndregc</RootNamespace>
+    <AssemblyName>GlassWithCausticByAndregc</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>SakuraByFMSCat.Program</StartupObject>
+    <StartupObject>GlassWithCausticByAndregc.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -132,6 +132,9 @@
     </Reference>
     <Reference Include="SakuraByFMSCat.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\SakuraByFMSCat.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GlassWithCausticByAndregc.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\GlassWithCausticByAndregc.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

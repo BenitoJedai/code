@@ -838,6 +838,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetShadertoyByReinder", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SakuraByFMSCat", "..\synergy\SakuraByFMSCat\SakuraByFMSCat\SakuraByFMSCat.csproj", "{93EB1C97-21BA-46E0-8ED1-A5281685CC2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlassWithCausticByAndregc", "..\synergy\GlassWithCausticByAndregc\GlassWithCausticByAndregc\GlassWithCausticByAndregc.csproj", "{B9FC915C-E2FE-4DCE-BA84-DC8779D565C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -2400,6 +2402,10 @@ Global
 		{93EB1C97-21BA-46E0-8ED1-A5281685CC2E}.Debug|x86.Build.0 = Debug|x86
 		{93EB1C97-21BA-46E0-8ED1-A5281685CC2E}.Release|x86.ActiveCfg = Release|x86
 		{93EB1C97-21BA-46E0-8ED1-A5281685CC2E}.Release|x86.Build.0 = Release|x86
+		{B9FC915C-E2FE-4DCE-BA84-DC8779D565C9}.Debug|x86.ActiveCfg = Debug|x86
+		{B9FC915C-E2FE-4DCE-BA84-DC8779D565C9}.Debug|x86.Build.0 = Debug|x86
+		{B9FC915C-E2FE-4DCE-BA84-DC8779D565C9}.Release|x86.ActiveCfg = Release|x86
+		{B9FC915C-E2FE-4DCE-BA84-DC8779D565C9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2818,5 +2824,6 @@ Global
 		{FE185202-2017-4FED-AFC2-B3E0F4506053} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
 		{BD7C48E1-240A-46E5-936B-724AC7F620B5} = {F938B933-5FAD-41D4-8813-7F51CEFF1B8E}
 		{93EB1C97-21BA-46E0-8ED1-A5281685CC2E} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
+		{B9FC915C-E2FE-4DCE-BA84-DC8779D565C9} = {9DA750F2-07C6-4F9F-BBDA-45CAA7720509}
 	EndGlobalSection
 EndGlobal

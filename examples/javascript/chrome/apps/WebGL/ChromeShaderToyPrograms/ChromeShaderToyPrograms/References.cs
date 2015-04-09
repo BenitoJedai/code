@@ -182,6 +182,7 @@ namespace ChromeShaderToyPrograms
 			["GameLogoByVladstorm"] = () => new GameLogoByVladstorm.Shaders.ProgramFragmentShader(),
 			["GammaCorrectnessByZavie"] = () => new GammaCorrectnessByZavie.Shaders.ProgramFragmentShader(),
 			["GeneratorsByKali"] = () => new GeneratorsByKali.Shaders.ProgramFragmentShader(),
+			["GlassWithCausticByAndregc"] = () => new GlassWithCausticByAndregc.Shaders.ProgramFragmentShader(),
 			["GlxgearsByBear"] = () => new GlxgearsByBear.Shaders.ProgramFragmentShader(),
 			["GoGoLegoManByIapafoto"] = () => new GoGoLegoManByIapafoto.Shaders.ProgramFragmentShader(),
 			["GrapheneByFabrice"] = () => new GrapheneByFabrice.Shaders.ProgramFragmentShader(),
