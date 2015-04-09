@@ -55,6 +55,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 		{
 			get
 			{
+				// x:\jsc.svn\core\scriptcorelib\javascript\dom\worker.cs
+				// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
 				// for device hopping we will need encrypted tokens.
 
 				// X:\jsc.svn\examples\javascript\Test\TestMemberInitExpression\TestMemberInitExpression\Application.cs
@@ -75,11 +77,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 				if (defaultValueMember.IsNumber)
 					return typeof(int);
 
+
+
 				// X:\jsc.svn\examples\javascript\test\TestFieldTypeInt32\TestFieldTypeInt32\Application.cs
 
 				// X:\jsc.svn\examples\javascript\test\TestSpecialFieldInfo\TestSpecialFieldInfo\Application.cs
 				// X:\jsc.svn\examples\javascript\test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
-				return typeof(string);
+
+				// if we do not know, report object?
+				//return typeof(string);
+				return typeof(object);
 			}
 		}
 

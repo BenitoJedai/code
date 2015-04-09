@@ -39,19 +39,28 @@ namespace TestBytesFromSemaphore
 
 					new IHTMLPre { "working... " }.AttachToDocument();
 
+
+					//Warning CS4014  Because this call is not awaited, execution of the current method continues before the call is completed.Consider applying the 'await' operator to the result of the call.	TestBytesFromSemaphore X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs  42
+
 					Task.Run(
 						async delegate
 						{
 							// simlate lag
 							await Task.Delay(1000);
 
+							// why not Uint8ClampedArray?
 							bytes1 = new byte[] { 0, 1, 2, 3 };
 
 
 
-							Console.WriteLine("worker is signaling ui...");
+							Console.WriteLine("worker is signaling ui... " + new { bytes1 });
 							// will our bytes make it back to the other side on release?
 							bytes1sema.Release();
+
+							//view-source:513506797ms worker is signaling ui...
+
+							//30007ms worker resync candidate { { Name = bytes1, item_value = 0,1,2,3, item_value_constructor = function Array() { [native code] }, item_value_IsArray = true, self_Uint8ClampedArray = function Uint8ClampedArray() { [native code]
+							//30007ms worker resync candidate {{ Name = bytes1sema, item_value = [object Object], item_value_constructor = function vCpL8AJAwTmO6BklLAu35w() { }, item_value_IsArray = false, self_Uint8ClampedArray = function Uint8ClampedArray() { [native code] } }}
 
 							await Task.Delay(1000);
 

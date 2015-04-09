@@ -560,17 +560,45 @@ namespace ScriptCoreLib.JavaScript.DOM
 								#endregion
 
 
+
 								xSemaphoreSlim.InternalVirtualRelease = delegate
 								{
 									Console.WriteLine("worker xSemaphoreSlim.InternalVirtualRelease, postMessage " + new { xMember.Name });
 
-									// post 1
+									// worker needs sync data about now.
+									// the ui would be happy to have the latest version of the data.
+									// this is tricky. we would really need to know which data fields have changed by now
+									// and what will happen if the data was also changed on the ui.
+									// technically we are doing a merge conflict resolver...
 
+									// this is somewhat the same situation, we alrady have
+									// when entering a worker
+									// when exiting a worker
+									// when hoping to or from a worker.
 
+									// what data fields do we have to upload yo ui?
+									// how much IL analysis is available for us to know what to sync
+									// we should not sync fields that wont be used on the ui
 
+									// the thread hop looks at strings only right now, as they are immputable yet primitive
+									// what about bytewarrays?
+									// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
 
-									//c.port1.postMessage(message: 1);
-									//c.port2.postMessage(message: 1);
+									foreach (FieldInfo item in MethodTargetTypeSerializableMembers)
+									{
+										// how would we know if the array is a byte array?
+
+										// FieldType is not exactly available yet
+										//Console.WriteLine("worker resync candidate " + new { item.Name, item.FieldType, item.FieldType.IsArray });
+
+										var item_value = item.GetValue(MethodTarget);
+
+										var item_value_constructor = Expando.Of(item_value).constructor;
+										var item_value_IsArray = Native.self_Array == item_value_constructor;
+
+										Console.WriteLine("worker resync candidate " + new { item.Name, item_value, item_value_constructor, item_value_IsArray, Native.self_Uint8ClampedArray });
+
+									}
 
 									foreach (var p in e.ports)
 									{

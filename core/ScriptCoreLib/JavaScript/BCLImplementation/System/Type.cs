@@ -486,6 +486,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
+
+
+
+		// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
+
 		public virtual bool IsAssignableFrom(Type TargetType)
 		{
 			// jsc rewriter could replace it with is operator for static cases?
@@ -568,7 +573,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
-
+		// how would we know its a byte array?
 		public bool IsArray { get; set; }
 
 		public virtual Type MakeArrayType()
