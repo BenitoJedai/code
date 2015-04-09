@@ -584,6 +584,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 									// what about bytewarrays?
 									// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
 
+									var xSemaphoreSlim_ByteArrayFields = new List<__Task.xByteArrayField>();
+
+
+									var MethodTargetTypeSerializableMembers_index = 0;
 									foreach (FieldInfo item in MethodTargetTypeSerializableMembers)
 									{
 										// how would we know if the array is a byte array?
@@ -592,18 +596,42 @@ namespace ScriptCoreLib.JavaScript.DOM
 										//Console.WriteLine("worker resync candidate " + new { item.Name, item.FieldType, item.FieldType.IsArray });
 
 										var item_value = item.GetValue(MethodTarget);
+										if (item_value != null)
+										{
+											var item_value_constructor = Expando.Of(item_value).constructor;
+											var item_value_IsByteArray = Native.self_Uint8ClampedArray == item_value_constructor;
 
-										var item_value_constructor = Expando.Of(item_value).constructor;
-										var item_value_IsArray = Native.self_Array == item_value_constructor;
+											if (item_value_IsByteArray)
+											{
+												xSemaphoreSlim_ByteArrayFields.Add(
+													new __Task.xByteArrayField
+													{
+														index = MethodTargetTypeSerializableMembers_index,
 
-										Console.WriteLine("worker resync candidate " + new { item.Name, item_value, item_value_constructor, item_value_IsArray, Native.self_Uint8ClampedArray });
+														// keep name for diagnostics
+														Name = item.Name,
 
+														value = (byte[])item_value
+													}
+												);
+
+												Console.WriteLine("worker resync candidate " + new { item.Name, item_value, item_value_constructor, item_value_IsByteArray });
+											}
+										}
+
+
+										MethodTargetTypeSerializableMembers_index++;
 									}
+
 
 									foreach (var p in e.ports)
 									{
 										p.postMessage(
-											new { xSemaphoreSlim = xMember.Name }
+											new
+											{
+												xSemaphoreSlim = xMember.Name,
+												xSemaphoreSlim_ByteArrayFields = xSemaphoreSlim_ByteArrayFields.ToArray()
+											}
 										);
 									}
 								};
