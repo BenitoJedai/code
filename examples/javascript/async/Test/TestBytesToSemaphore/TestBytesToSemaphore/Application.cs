@@ -70,7 +70,8 @@ namespace TestBytesToSemaphore
 
 					// in case worker1 is ready, and worker2 need to be signaled or more of them?
 					// would thread be able to signal the other thread without expicit ui thread code?
-					
+
+					// X:\jsc.svn\examples\javascript\async\test\TestSemaphoreSlimAwaitThenReleaseInWorker\TestSemaphoreSlimAwaitThenReleaseInWorker\Application.cs
 					// we need a teste where we can await ahead of time!
 					bytes2sema.WaitAsync().ContinueWith(delegate
 					{

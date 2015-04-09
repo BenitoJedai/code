@@ -43,7 +43,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 			// what if we were entangled into multiple threads? would need to do round robin
 			// for the versions that are awaiting?
 
-			Console.WriteLine("SemaphoreSlim.Release " + new { InternalIsEntangled, Thread.CurrentThread.ManagedThreadId });
+			Console.WriteLine("SemaphoreSlim.Release " + new { InternalIsEntangled });
 
 			//37418ms SemaphoreSlim.Release { { InternalIsEntangled = true, ManagedThreadId = 1 } }
 
@@ -75,6 +75,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 		#region WaitAsync
 		public Action<TaskCompletionSource<object>> InternalVirtualWaitAsync;
+		public TaskCompletionSource<object> InternalVirtualWaitAsync0;
 
 		public Task WaitAsync()
 		{
@@ -84,11 +85,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 			var c = new TaskCompletionSource<object>();
 
-			Console.WriteLine("SemaphoreSlim.WaitAsync " + new { InternalIsEntangled, Thread.CurrentThread.ManagedThreadId });
+			Console.WriteLine("SemaphoreSlim.WaitAsync " + new { InternalIsEntangled });
 
 			// at this point, the worker thread may not yet have connected back, entangled
 			if (InternalVirtualWaitAsync != null)
 				InternalVirtualWaitAsync(c);
+			else
+			{
+				// um we need to park, until this semaphore is discovered by
+				// a thread
+				InternalVirtualWaitAsync0 = c;
+			}
 
 			// what if we want to await before the semaphore is to be connected with a worker?
 			// SemaphoreSlim.WaitAsync {{ InternalIsEntangled = false, ManagedThreadId = 1 }}
