@@ -31,6 +31,13 @@ namespace ScriptCoreLib.JavaScript.WebVR
 		// http://www.reddit.com/r/janusVR/comments/2vbzya/lowlevel_hmds_and_gear_vr/
 
 		// X:\jsc.svn\examples\javascript\examples\JanusVRExperiment\JanusVRExperiment\Application.cs
+		// where is our android cardboard ndk, adk, web example?
+		// https://github.com/mrdoob/three.js/blob/dev/examples/js/effects/VREffect.js
+		// http://vihart.github.io/webVR-playing-with/underConstruction
+		// http://elevr.com/updates-webvr-phonevr-wearality-kickstarter-etc/
+
+		// http://mozvr.com/downloads/
+
 	}
 
 	//partial interface Navigator

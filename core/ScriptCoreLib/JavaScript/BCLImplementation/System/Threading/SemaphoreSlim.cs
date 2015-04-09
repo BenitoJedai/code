@@ -59,6 +59,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 			return 0;
 		}
+
+		public int Release(int releaseCount)
+		{
+			// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
+
+			return Release();
+		}
 		#endregion
 
 
@@ -71,13 +78,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 		public Task WaitAsync()
 		{
+			// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
 			// X:\jsc.svn\examples\javascript\async\test\TestSemaphoreSlim\TestSemaphoreSlim\ApplicationControl.cs
 
 			var c = new TaskCompletionSource<object>();
 
 			Console.WriteLine("SemaphoreSlim.WaitAsync " + new { InternalIsEntangled, Thread.CurrentThread.ManagedThreadId });
 
-			if (InternalIsEntangled)
+			// at this point, the worker thread may not yet have connected back, entangled
+			if (InternalVirtualWaitAsync != null)
 				InternalVirtualWaitAsync(c);
 
 			return c.Task;

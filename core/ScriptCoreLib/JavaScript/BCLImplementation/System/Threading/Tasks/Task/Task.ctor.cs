@@ -233,6 +233,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 									// next will be a release from the worker?
 
 									// we made contact!
+									#region InternalVirtualRelease
 									if (!xSemaphoreSlim.InternalIsEntangled)
 									{
 
@@ -257,6 +258,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 										return;
 
 									}
+									#endregion
+
 
 									// now wait for release from worker?
 
@@ -275,8 +278,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 									// workaround?
 
-									Console.WriteLine("xSemaphoreSlim MessageEvent, trigger InternalVirtualWaitAsync? " + new { MemberName0 });
-
+									Console.WriteLine("xSemaphoreSlim MessageEvent, trigger InternalVirtualWaitAsync? " + new { MemberName0, xInternalVirtualWaitAsync });
+									// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
 									xInternalVirtualWaitAsync.SetResult(null);
 
 								};
