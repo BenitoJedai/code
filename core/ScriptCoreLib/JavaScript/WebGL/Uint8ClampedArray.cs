@@ -1,4 +1,5 @@
 ﻿using ScriptCoreLib.JavaScript.BCLImplementation.System;
+using ScriptCoreLib.JavaScript.DOM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,15 @@ namespace ScriptCoreLib.JavaScript
 {
 	public static partial class Native
 	{
+		internal static IFunction self_Array;
+		internal static IFunction self_Uint8ClampedArray;
+
 		static partial void __Uint8ClampedArray()
 		{
+			// https://code.google.com/p/chromium/issues/detail?id=176479
+			// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
+			// workers dont have Uint8ClampedArray ?
+
 			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150103/uint8clampedarray
 
 			// Native cctor shall call us
@@ -27,6 +35,11 @@ namespace ScriptCoreLib.JavaScript
 
 
 			dynamic self = Native.self;
+
+			self_Array = self.Array;
+			self_Uint8ClampedArray = self.Uint8ClampedArray;
+
+
 
 			//__Type.InternalTypeOfByteArrayViaMakeArrayType = typeof(byte[]);
 

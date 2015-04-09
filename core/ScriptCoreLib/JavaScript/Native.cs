@@ -154,8 +154,9 @@ namespace ScriptCoreLib.JavaScript
         static public ServiceWorkerGlobalScope serviceworker;
 
 
-        // implemented at?
-        static partial void __Uint8ClampedArray();
+		// implemented at?
+		// X:\jsc.svn\core\ScriptCoreLib\JavaScript\WebGL\Uint8ClampedArray.cs
+		static partial void __Uint8ClampedArray();
 
 
         public static Crypto crypto
