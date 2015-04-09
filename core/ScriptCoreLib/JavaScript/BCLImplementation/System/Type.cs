@@ -152,22 +152,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 		#region GetFields
-		public __FieldInfo GetField(string name)
+		public FieldInfo GetField(string name)
 		{
-			__FieldInfo r = null;
+			Reflection.__FieldInfo r = null;
 
 			if (this.IsNative)
 			{
 				// we do not have the type information. behave as if dynamic
 				// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
-				return r = new __FieldInfo { _Name = name, InternalDeclaringType = this };
+				return r = new Reflection.__FieldInfo { _Name = name, InternalDeclaringType = this };
 			}
 
 			foreach (var m in global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(this.TypeHandle.Value).GetFields())
 			{
 				if (m.Name == name)
 				{
-					r = new __FieldInfo { _Name = m.Name, InternalDeclaringType = this };
+					r = new Reflection.__FieldInfo { _Name = m.Name, InternalDeclaringType = this };
 
 					break;
 				}
@@ -180,7 +180,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 		//public abstract FieldInfo[] GetFields(BindingFlags bindingAttr)
-		public virtual FieldInfo[] GetFields(BindingFlags bindingAttr)
+		public virtual global::System.Reflection.FieldInfo[] GetFields(BindingFlags bindingAttr)
 		{
 			// X:\jsc.svn\examples\javascript\async\Test\TestDelegateObjectScopeInspection\TestDelegateObjectScopeInspection\Application.cs
 			// do know how to treat binding attr?
@@ -188,13 +188,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 			return GetFields();
 		}
 
-		public FieldInfo[] GetFields()
+		public global::System.Reflection.FieldInfo[] GetFields()
 		{
-			var a = new List<FieldInfo>();
+			var a = new List<global::System.Reflection.FieldInfo>();
 
 			foreach (var m in AsExpando().GetFields())
 			{
-				a.Add(new __FieldInfo { _Name = m.Name, InternalDeclaringType = this });
+				a.Add(new Reflection.__FieldInfo { _Name = m.Name, InternalDeclaringType = this });
 
 			}
 

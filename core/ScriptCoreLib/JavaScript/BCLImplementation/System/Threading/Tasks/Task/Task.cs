@@ -191,6 +191,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 		{
 			return (__Task)(object)e;
 		}
+
+
+
+		[Script]
+		public sealed class xByteArrayField
+		{
+			// resync by index
+			public int index;
+
+			// name is informative
+			public string Name;
+
+			public byte[] value;
+		}
 	}
 
 

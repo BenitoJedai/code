@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
@@ -189,6 +190,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 							var xSemaphoreSlim = MemberValue as __SemaphoreSlim;
 							if (xSemaphoreSlim != null)
 							{
+								// will sending a null over create the object on the other side?
+								MethodTargetObjectData[i] = null;
+
 								// we need to entangle the fields in current and the new thread..
 								// if we were to get the signal, how?
 
@@ -278,7 +282,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 									// workaround?
 
-									Console.WriteLine("xSemaphoreSlim MessageEvent, trigger InternalVirtualWaitAsync? " + new { MemberName0, xInternalVirtualWaitAsync });
+									__Task.xByteArrayField[] xSemaphoreSlim_ByteArrayFields = data.xSemaphoreSlim_ByteArrayFields;
+									// 55779ms ui xSemaphoreSlim MessageEvent, resync, trigger InternalVirtualWaitAsync? {{ MemberName0 = bytes1sema, xInternalVirtualWaitAsync = [object Object], Length = 1 }}
+
+									Console.WriteLine("ui xSemaphoreSlim MessageEvent, resync, trigger InternalVirtualWaitAsync? " + new { MemberName0, xInternalVirtualWaitAsync, xSemaphoreSlim_ByteArrayFields.Length });
+
+									foreach (var item in xSemaphoreSlim_ByteArrayFields)
+									{
+										var xFieldInfo = (FieldInfo)MethodTargetSerializableMembers[item.index];
+
+										// can we set the value?
+										Console.WriteLine("ui resync " + new
+										{
+											item.index,
+											item.Name,
+											xFieldInfo = xFieldInfo.Name
+										});
+
+										xFieldInfo.SetValue(
+											xfunction.Target,
+											item.value
+										);
+
+									}
+
+
 									// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
 									xInternalVirtualWaitAsync.SetResult(null);
 
@@ -829,6 +857,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 				TaskScheduler.Default
 			 );
 		}
+
+
+
+
+
+
 
 	}
 }
