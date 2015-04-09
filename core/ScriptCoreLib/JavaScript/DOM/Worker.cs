@@ -268,6 +268,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 			xdata.__string = xdata___string;
 
+			// ?
 			InternalInlineWorker.InternalThreadCounter++;
 
 			var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
@@ -361,12 +362,18 @@ namespace ScriptCoreLib.JavaScript.DOM
 			Console.SetOut(w);
 
 			w.AtWrite =
-				 x =>
+				 AtWrite =>
 				 {
 					 // X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs
-					 dynamic zdata = new object();
+					 //dynamic zdata = new object();
+					 //zdata.AtWrite = x;
 
-					 zdata.AtWrite = x;
+					 // working with multiple threads, keep the id in the log!
+					 // () means we are setting the thread up... [] is the thread
+					 AtWrite = "[" + Thread.CurrentThread.ManagedThreadId + "] " + AtWrite;
+
+					 var zdata = new { AtWrite };
+
 
 
 					 foreach (MessagePort port in e.ports)
@@ -797,7 +804,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 				else if (MethodType == typeof(FuncOfObjectToObject).Name)
 				{
 
-					Console.WriteLine("worker Task Run function call");
+					//Console.WriteLine("worker Task Run function call");
 
 
 					#region FuncOfObjectToObject
@@ -824,7 +831,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 					// 0:25611ms Task Run function has returned { value_Task = [object Object], value_TaskOfT = [object Object] } 
-					Console.WriteLine("worker Task Run function has returned " + new { value_Task, value_TaskOfT, InternalOverrideTaskOfT });
+					//Console.WriteLine("worker Task Run function has returned " + new { value_Task, value_TaskOfT, InternalOverrideTaskOfT });
 					// 0:4284ms Task Run function has returned { value_Task = { IsCompleted = 1, Result =  }, value_TaskOfT = { IsCompleted = 1, Result =  } } 
 					// 0:5523ms Task Run function has returned { value_Task = { IsCompleted = false, Result =  }, value_TaskOfT = { IsCompleted = false, Result =  } } 
 
@@ -836,7 +843,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 						value_TaskOfT.ContinueWith(
 							t =>
 							{
-								Console.WriteLine("worker Task Run ContinueWith " + new { t });
+								//Console.WriteLine("worker Task Run ContinueWith " + new { t });
 
 
 								// X:\jsc.svn\examples\javascript\Test\Test435CoreDynamic\Test435CoreDynamic\Class1.cs

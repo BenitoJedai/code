@@ -46,7 +46,7 @@ namespace TestBytesToSemaphore
 			new IHTMLButton { "click to test " + new { Environment.CurrentManagedThreadId } }.AttachToDocument().onclick +=
 				async delegate
 				{
-					var sw = Stopwatch.StartNew();
+					//var sw = Stopwatch.StartNew();
 
 					// initial state we will be senging to thread one.
 					var bytes1 = new byte[] { 0, 1, 2, 3 };
@@ -55,19 +55,38 @@ namespace TestBytesToSemaphore
 					var bytes2 = default(byte[]);
 					var bytes2sema = new SemaphoreSlim(1);
 
-					new IHTMLPre { () => "working... " + new { sw.Elapsed } }.AttachToDocument();
+					//new IHTMLPre { () => "working... " + new { bytes1 = bytes1, sw.Elapsed } }.AttachToDocument();
+					new IHTMLPre { () => "working... " + new { bytes1 = bytes1 } }.AttachToDocument();
+					// working... {{ bytes1 = [object Uint8ClampedArray] }}
+
+
 
 					// each thread may build its internal state, yet
 					// when crossing the thread bondary, hopping a thread, not much data should be exchanged
 					// all binary structures should be supported for resync
 					// jsc can we recast bytes to structures yet?
 
+
+
+					// in case worker1 is ready, and worker2 need to be signaled or more of them?
+					// would thread be able to signal the other thread without expicit ui thread code?
+					
+					// we need a teste where we can await ahead of time!
+					bytes2sema.WaitAsync().ContinueWith(delegate
+					{
+						new IHTMLPre { "worker1 has signaled worker2..." }.AttachToDocument();
+
+						bytes1sema.Release();
+					});
+
+
+					// um, if we transfer scope to thread, will it dissapear from ui?
 					Task.Run(
 						async delegate
 						{
 							// pass2
-
-							Console.WriteLine("worker2 is awaiting");
+							// 10 worker2 is awaiting{{ bytes1 = null }}
+							Console.WriteLine("worker2 is awaiting" + new { bytes1 });
 							await bytes1sema.WaitAsync();
 							Console.WriteLine("worker2 is working...");
 
@@ -78,20 +97,19 @@ namespace TestBytesToSemaphore
 						}
 					);
 
-					// in case worker1 is ready, and worker2 need to be signaled or more of them?
-					// would thread be able to signal the other thread without expicit ui thread code?
-					bytes2sema.WaitAsync().ContinueWith(delegate { bytes1sema.Release(); });
 
 					Task.Run(
 						async delegate
 						{
 							// pass1
+							Console.WriteLine("enter worker1! " + new { bytes1 });
+							// 11 enter worker1! {{ bytes1 = null }}
 
-							bytes2 = Enumerable.ToArray(
-								from x in bytes1
-								let y = (byte)(x ^ 0xff)
-								select y
-							);
+							//bytes2 = Enumerable.ToArray(
+							//	from x in bytes1
+							//	let y = (byte)(x ^ 0xff)
+							//	select y
+							//);
 
 							Console.WriteLine("worker1 has now computed pass1!");
 

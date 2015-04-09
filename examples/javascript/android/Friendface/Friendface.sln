@@ -1,16 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio 14
+VisualStudioVersion = 14.0.22609.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Friendface", "Friendface\Friendface.csproj", "{156B1AD1-4CE0-4B3C-970B-8320068E36EF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidContacts", "..\AndroidContacts\AndroidContacts\AndroidContacts.csproj", "{0C5D14D2-3759-41DF-94F5-7B7422C1E8D0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D132DD99-8BA2-4C6B-8A8D-E97DDD52D7DA}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DCIMCameraAppWithThumbnails", "..\DCIMCameraAppWithThumbnails\DCIMCameraAppWithThumbnails\DCIMCameraAppWithThumbnails.csproj", "{48A0B7BA-BD8F-49EC-858B-09774A8413B2}"
 EndProject

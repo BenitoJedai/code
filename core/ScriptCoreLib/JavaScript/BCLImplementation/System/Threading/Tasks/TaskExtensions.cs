@@ -18,7 +18,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 		//   // ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks.__Task`1+<>c__DisplayClass1_0.<ContinueWith>b__0
 		public static Task<TResult> Unwrap<TResult>(Task<Task<TResult>> task)
 		{
-			Console.WriteLine("enter TaskExtensions.Unwrap");
+			// X:\jsc.svn\examples\javascript\async\test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
+
+			//Console.WriteLine("enter TaskExtensions.Unwrap");
 
 			// X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
 
@@ -31,7 +33,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 			task.ContinueWith(
 				r =>
 				{
-					Console.WriteLine("enter TaskExtensions.Unwrap Task<Task<TResult>> ContinueWith");
+					//Console.WriteLine("enter TaskExtensions.Unwrap Task<Task<TResult>> ContinueWith");
 
 					var xTask = r.Result;
 
@@ -61,8 +63,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 		public static Task Unwrap(Task<Task> task)
 		{
-			Console.WriteLine("enter TaskExtensions.Unwrap");
+			//Console.WriteLine("enter TaskExtensions.Unwrap");
 
+			// X:\jsc.svn\examples\javascript\async\test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
 			// X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
 			// X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
 
@@ -75,7 +78,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 			task.ContinueWith(
 				(Task<Task> r) =>
 				{
-					Console.WriteLine("enter TaskExtensions.Unwrap Task<Task> ContinueWith");
+					//Console.WriteLine("enter TaskExtensions.Unwrap Task<Task> ContinueWith");
 
 
 					var xTask = r.Result;

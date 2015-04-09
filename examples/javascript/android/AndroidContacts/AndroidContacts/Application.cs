@@ -47,7 +47,7 @@ namespace AndroidContacts
                 };
 
             page.GetContacts.WhenClicked(
-                async delegate
+                async button =>
                 {
                     await GetContacts();
                 }

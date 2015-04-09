@@ -43,12 +43,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 			Action<Worker, MessageEvent> yield = null
 			)
 		{
+			var InternalThreadCounter = InternalInlineWorker.InternalThreadCounter;
+
+			InternalInlineWorker.InternalThreadCounter++;
+
+
+
 			Delegate xfunction = function;
 
+			#region WriteLine
+			Action<string> WriteLine =
+				text =>
+				{
+
+					// () means we are setting the thread up... [] is the thread
+					Console.WriteLine("(" + InternalThreadCounter + ") " + text);
+
+				};
+			#endregion
+
+			//WriteLine("enter InternalInitializeInlineWorker");
 
 
 			// whatif the delegate is Action?
-			Console.WriteLine("enter InternalInitializeInlineWorker");
 
 			// X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
 			// what happened? also, as interface cannot handle ull yet
@@ -159,6 +176,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 							//var isString = MemberType == typeof(string);
 							//var isInt32 = MemberType == typeof(int);
 							var IsNumber = Expando.Of(MemberValue).IsNumber;
+							var IsByteArray = Expando.Of(MemberValue).IsByteArray;
 
 							// are we to send typeIndex to the other side for member reconstruction?
 							var TypeIndex = __Type.GetTypeIndex(MemberName, MemberType);
@@ -174,7 +192,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 							if (TypeIndex == null)
 								if (!IsString)
 									if (!IsNumber)
-										MethodTargetObjectData[i] = null;
+										if (!IsByteArray)
+											MethodTargetObjectData[i] = null;
 
 							// we do not know yet how to handle cloning events on level2
 							var IsDelegate = MemberValue is Delegate;
@@ -202,7 +221,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 								xSemaphoreSlim.InternalVirtualWaitAsync = continuation =>
 								{
-									Console.WriteLine("xSemaphoreSlim.InternalVirtualWaitAsync " + new { MemberName });
+									WriteLine("xSemaphoreSlim.InternalVirtualWaitAsync " + new { MemberName });
 
 									// we need a signal from the worker, or the ui
 									xInternalVirtualWaitAsync = continuation;
@@ -232,7 +251,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 									//
 
 									// now we have a port to send the release signal?
-									Console.WriteLine("xSemaphoreSlim MessageEvent " + new { MemberName0 });
+									WriteLine("xSemaphoreSlim MessageEvent " + new { MemberName0 });
 
 									// next will be a release from the worker?
 
@@ -249,7 +268,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 											// do we have a port channel for it?
 											// does the other side expect signals?
 
-											Console.WriteLine("xSemaphoreSlim.InternalVirtualRelease " + new { MemberName0 });
+											WriteLine("xSemaphoreSlim.InternalVirtualRelease " + new { MemberName0 });
 
 											foreach (var p in e.ports)
 											{
@@ -282,33 +301,49 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 									// workaround?
 
+									#region xSemaphoreSlim_ByteArrayFields
 									__Task.xByteArrayField[] xSemaphoreSlim_ByteArrayFields = data.xSemaphoreSlim_ByteArrayFields;
 									// 55779ms ui xSemaphoreSlim MessageEvent, resync, trigger InternalVirtualWaitAsync? {{ MemberName0 = bytes1sema, xInternalVirtualWaitAsync = [object Object], Length = 1 }}
 
-									Console.WriteLine("ui xSemaphoreSlim MessageEvent, resync, trigger InternalVirtualWaitAsync? " + new { MemberName0, xInternalVirtualWaitAsync, xSemaphoreSlim_ByteArrayFields.Length });
+									//Console.WriteLine("ui xSemaphoreSlim MessageEvent, resync, trigger InternalVirtualWaitAsync? " + new { MemberName0, xInternalVirtualWaitAsync, xSemaphoreSlim_ByteArrayFields.Length });
 
-									foreach (var item in xSemaphoreSlim_ByteArrayFields)
-									{
-										var xFieldInfo = (FieldInfo)MethodTargetSerializableMembers[item.index];
-
-										// can we set the value?
-										Console.WriteLine("ui resync " + new
+									// X:\jsc.svn\examples\javascript\async\test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
+									if (xSemaphoreSlim_ByteArrayFields != null)
+										foreach (var item in xSemaphoreSlim_ByteArrayFields)
 										{
-											item.index,
-											item.Name,
-											xFieldInfo = xFieldInfo.Name
-										});
+											var xFieldInfo = (FieldInfo)MethodTargetSerializableMembers[item.index];
 
-										xFieldInfo.SetValue(
-											xfunction.Target,
-											item.value
-										);
+											// can we set the value?
+											WriteLine("ui resync " + new
+											{
+												item.index,
+												item.Name,
+												xFieldInfo = xFieldInfo.Name
+											});
 
-									}
+											xFieldInfo.SetValue(
+												xfunction.Target,
+
+												// null?
+												item.value
+											);
+
+										}
+									#endregion
 
 
+									// what happens if we wnt to signal but nobody is waiting?
+									// X:\jsc.svn\examples\javascript\async\test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
 									// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
-									xInternalVirtualWaitAsync.SetResult(null);
+
+									if (xInternalVirtualWaitAsync == null)
+									{
+										WriteLine("cannot signal, xInternalVirtualWaitAsync is null, why?");
+									}
+									else
+									{
+										xInternalVirtualWaitAsync.SetResult(null);
+									}
 
 								};
 								#endregion
@@ -345,7 +380,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 							else if (xSemaphoreSlim != null)
 							{
 								// the first entangled method. should we look a the fields?
-								Console.WriteLine("xSemaphoreSlim: " + new { MemberName });
+								//Console.WriteLine("xSemaphoreSlim: " + new { MemberName });
 							}
 							else
 							{
@@ -361,7 +396,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 									if (scope2TypeSerializableMembers.Length > 0)
 									{
 										// are there any members?
-										Console.WriteLine("will inspect scope2 as " + new { MemberName, scope2TypeSerializableMembers.Length });
+										WriteLine("will inspect scope2 as " + new { MemberName, scope2TypeSerializableMembers.Length });
 										var scope2ObjectData = FormatterServices.GetObjectData(scope2, scope2TypeSerializableMembers);
 
 										// the hacky way. later we need to refactor this a lot.
@@ -369,7 +404,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 										{
 											var scope2FieldName = scope2TypeSerializableMembers[ii].Name;
 
-											Console.WriteLine("scope2: " + MemberName + "." + scope2FieldName);
+											WriteLine("scope2: " + MemberName + "." + scope2FieldName);
 
 
 											var scope2value = scope2ObjectData[ii];
@@ -380,7 +415,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 												{
 													scope2ObjectData[ii] = null;
 
-													Console.WriteLine("scope2 delegate discarded " + new { MemberName, scope2FieldName });
+													WriteLine("scope2 delegate discarded " + new { MemberName, scope2FieldName });
 
 												}
 											}
@@ -397,7 +432,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
 
-							Console.WriteLine(
+							WriteLine(
 								"Task scope " +
 								new
 								{
@@ -512,7 +547,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 				worker.postMessage(
 					new
 					{
-						InternalInlineWorker.InternalThreadCounter,
+						InternalThreadCounter,
 
 
 						MethodTargetObjectDataIsProgress,
@@ -653,7 +688,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 								 }
 
 								 // are we getting multiple responses?
-								 Console.WriteLine("Task ContinueWithResult " + new { responseCounter, ResultTypeIndex, Result });
+								 //Console.WriteLine("Task ContinueWithResult " + new { responseCounter, ResultTypeIndex, Result });
 
 								 if (ResultTypeIndex != null)
 								 {
@@ -763,7 +798,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 				);
 				#endregion
 
-				InternalInlineWorker.InternalThreadCounter++;
 			};
 			#endregion
 
