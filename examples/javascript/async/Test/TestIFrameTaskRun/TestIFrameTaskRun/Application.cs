@@ -13,11 +13,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TestAsyncWithFavicon;
-using TestAsyncWithFavicon.Design;
-using TestAsyncWithFavicon.HTML.Pages;
+using TestIFrameTaskRun;
+using TestIFrameTaskRun.Design;
+using TestIFrameTaskRun.HTML.Pages;
 
-namespace TestAsyncWithFavicon
+namespace TestIFrameTaskRun
 {
 	/// <summary>
 	/// Your client side code running inside a web browser as JavaScript.
@@ -30,18 +30,26 @@ namespace TestAsyncWithFavicon
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
+			// X:\jsc.svn\examples\javascript\async\test\TestIFrameTaskRun\TestIFrameTaskRun\Application.cs
+			// X:\jsc.svn\examples\javascript\Test\TestHopFromIFrame\TestHopFromIFrame\Application.cs
+			// X:\jsc.svn\examples\javascript\Test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
 
-			new IHTMLButton { "just do it" }.AttachToDocument().onclick +=
+			new IHTMLButton { "test " }.AttachToDocument().onclick +=
 				async delegate
-			{
-				// could aswell render shader frames and send them to favicon?
+				{
 
-				// no animation?
-				Native.document.icon = new HTML.Images.FromAssets.ajax_loader();
+					new IHTMLIFrame
+					{
+						async delegate
+						{
+							Console.WriteLine("running as inside iframe");
 
-				await Task.Delay(1000);
-				Native.document.icon = null;
-			};
+							// like task run.
+						}
+
+					}.AttachToDocument();
+
+				};
 		}
 
 	}
