@@ -14,6 +14,8 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 	// x:\jsc.svn\core\scriptcorelibjava\bclimplementation\system\net\sockets\tcpclient.cs
 	// X:\jsc.svn\market\synergy\javascript\chrome\chrome\BCLImplementation\System\Net\Sockets\TcpClient.cs
 
+	// "R:\opensource\unmonitored\seclib-1.0\seclib-1.0.0\seclib\Security\Ssl\SecureTcpClient.cs"
+
 	[Script(Implements = typeof(global::System.Net.Sockets.TcpClient))]
 	internal class __TcpClient : IDisposable
 	{
