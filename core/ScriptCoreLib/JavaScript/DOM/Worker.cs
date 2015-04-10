@@ -519,7 +519,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 							{
 								// we now have to complete the entanglement. we have the caller on the UI.
 
-								xSemaphoreSlim.InternalIsEntangled = true;
+								Action<string> WriteLine0 = text =>
+								{
+									Console.WriteLine("(" + xMember.Name + ") " + text);
+								};
+
+
+								//xSemaphoreSlim.InternalIsEntangled = true;
 
 
 
@@ -527,9 +533,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 								#region InternalVirtualWaitAsync
 								var xInternalVirtualWaitAsync = default(TaskCompletionSource<object>);
 
-								xSemaphoreSlim.InternalVirtualWaitAsync = continuation =>
+								xSemaphoreSlim.InternalVirtualWaitAsync += continuation =>
 								{
-									Console.WriteLine("worker xSemaphoreSlim.InternalVirtualWaitAsync " + new { xMember.Name });
+									WriteLine0("enter xSemaphoreSlim.InternalVirtualWaitAsync, worker is now awaiting for signal");
 
 									xInternalVirtualWaitAsync = continuation;
 								};
@@ -545,7 +551,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 									{
 										// ui has released?
 
-										Console.WriteLine("worker xSemaphoreSlim onmessage " + new { xMember.Name, xInternalVirtualWaitAsync });
+										WriteLine0("ui has sent a release signal");
 
 										// release 1
 
@@ -557,6 +563,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 								c.port1.start();
 								c.port2.start();
 
+								WriteLine0("will set up the signal channel");
+
 								foreach (var p in e.ports)
 								{
 									p.postMessage(
@@ -567,10 +575,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 								#endregion
 
 
-
-								xSemaphoreSlim.InternalVirtualRelease = delegate
+								#region InternalVirtualRelease
+								xSemaphoreSlim.InternalVirtualRelease += delegate
 								{
-									Console.WriteLine("worker xSemaphoreSlim.InternalVirtualRelease, postMessage " + new { xMember.Name });
+									WriteLine0("enter xSemaphoreSlim.InternalVirtualRelease, will send a signal to ui...");
 
 									// worker needs sync data about now.
 									// the ui would be happy to have the latest version of the data.
@@ -591,6 +599,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 									// what about bytewarrays?
 									// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
 
+									#region xSemaphoreSlim_ByteArrayFields
 									var xSemaphoreSlim_ByteArrayFields = new List<__Task.xByteArrayField>();
 
 
@@ -610,6 +619,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 											if (item_value_IsByteArray)
 											{
+												var value = (byte[])item_value;
+
 												xSemaphoreSlim_ByteArrayFields.Add(
 													new __Task.xByteArrayField
 													{
@@ -618,17 +629,18 @@ namespace ScriptCoreLib.JavaScript.DOM
 														// keep name for diagnostics
 														Name = item.Name,
 
-														value = (byte[])item_value
+														value = value
 													}
 												);
 
-												Console.WriteLine("worker resync candidate " + new { item.Name, item_value, item_value_constructor, item_value_IsByteArray });
+												WriteLine0("worker resync xByteArrayField candidate " + new { item.Name, value.Length });
 											}
 										}
 
 
 										MethodTargetTypeSerializableMembers_index++;
 									}
+									#endregion
 
 
 									foreach (var p in e.ports)
@@ -642,6 +654,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 										);
 									}
 								};
+								#endregion
+
 
 							}
 							#endregion

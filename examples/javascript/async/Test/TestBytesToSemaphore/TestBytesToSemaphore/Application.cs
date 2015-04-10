@@ -28,6 +28,36 @@ namespace TestBytesToSemaphore
 	/// </summary>
 	public sealed class Application : ApplicationWebService
 	{
+		#region hex
+		static Func<byte[], string> hex =
+			bytes =>
+			{
+				if (bytes == null)
+					return "null";
+
+				var v = "";
+
+
+				for (int i = 0; i < bytes.Length; i++)
+				{
+					v += bytes[i].ToString("x2");
+
+					if (i % 16 == 15)
+						v += "\n";
+					else
+						if (i % 16 == 7)
+						v += "  ";
+
+					// tab wont show in debug monitor
+					//v += "\t";
+					else
+						v += " ";
+				}
+
+				return v;
+			};
+		#endregion
+
 		/// <summary>
 		/// This is a javascript application.
 		/// </summary>
@@ -75,9 +105,15 @@ namespace TestBytesToSemaphore
 					// we need a teste where we can await ahead of time!
 					bytes2sema.WaitAsync().ContinueWith(delegate
 					{
-						new IHTMLPre { "worker1 has signaled worker2..." }.AttachToDocument();
+						// worker1 has signaled worker2... 00 01 02 03  :: null
 
-						bytes1sema.Release();
+						Console.WriteLine("did ui resync happen already?");
+
+						new IHTMLPre { "worker1 has signaled worker2... "
+						+ hex(bytes1) + " :: " + hex(bytes2)
+						}.AttachToDocument();
+
+						//bytes1sema.Release();
 					});
 
 
@@ -89,7 +125,7 @@ namespace TestBytesToSemaphore
 							// 10 worker2 is awaiting{{ bytes1 = null }}
 							Console.WriteLine("worker2 is awaiting" + new { bytes1 });
 							await bytes1sema.WaitAsync();
-							Console.WriteLine("worker2 is working...");
+							Console.WriteLine("worker2 is working... " + new { bytes2 });
 
 							// lets update the bytes1 again?
 
@@ -104,16 +140,30 @@ namespace TestBytesToSemaphore
 						{
 							// pass1
 							Console.WriteLine("enter worker1! " + new { bytes1 });
-							// 11 enter worker1! {{ bytes1 = null }}
 
+							// worker1 has now computed pass1! {{ bytes2 = 255,254,253,252 }}
+							// well, in java we do the special unboxing. should do it for js also.
 							//bytes2 = Enumerable.ToArray(
 							//	from x in bytes1
 							//	let y = (byte)(x ^ 0xff)
 							//	select y
 							//);
 
-							Console.WriteLine("worker1 has now computed pass1!");
+							bytes2 = new byte[bytes1.Length];
 
+							for (int i = 0; i < bytes1.Length; i++)
+							{
+								bytes2[i] = (byte)(bytes1[i] ^ 0xff);
+
+							}
+
+
+							// LINQ would not know we want a bytearray?
+
+
+							Console.WriteLine("worker1 has now computed pass1! " + new { bytes2 });
+
+							// will it copy bytes2 to ui?
 							bytes2sema.Release();
 
 						}
@@ -127,3 +177,4 @@ namespace TestBytesToSemaphore
 
 	}
 }
+

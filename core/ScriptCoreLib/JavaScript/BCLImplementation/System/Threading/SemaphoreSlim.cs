@@ -28,13 +28,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 			this.CurrentCount = c;
 		}
 
+		// X:\jsc.svn\examples\javascript\async\Test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
 		// set by thread hopper, to indicate, this object is living 
 		// in multiple workers, and is connected.
 		// for network signals, webrtc/udp needs to be available
+		[Obsolete("need to support multiple entanglements, each callsite needs their own copy of this field", true)]
 		public bool InternalIsEntangled;
 
 		#region Release
-		public Action InternalVirtualRelease;
+		public event Action InternalVirtualRelease;
 
 		public int Release()
 		{
@@ -43,11 +45,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 			// what if we were entangled into multiple threads? would need to do round robin
 			// for the versions that are awaiting?
 
-			Console.WriteLine("SemaphoreSlim.Release " + new { InternalIsEntangled });
+			Console.WriteLine("SemaphoreSlim.Release");
 
 			//37418ms SemaphoreSlim.Release { { InternalIsEntangled = true, ManagedThreadId = 1 } }
 
-			if (InternalIsEntangled)
+			if (InternalVirtualRelease != null)
 			{
 				// this semaphore was sent to a new worker.
 				// now, we are about to signal that new thread.
@@ -55,7 +57,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 				InternalVirtualRelease();
 			}
-			// otherwise, stash the release? 
+			else
+			{
+				Console.WriteLine("otherwise, stash the release? ");
+
+			}
 
 			return 0;
 		}
@@ -64,6 +70,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 		{
 			// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
 
+			// call multiple times?
 			return Release();
 		}
 		#endregion
@@ -74,7 +81,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 
 		#region WaitAsync
-		public Action<TaskCompletionSource<object>> InternalVirtualWaitAsync;
+		public event Action<TaskCompletionSource<object>> InternalVirtualWaitAsync;
 		public TaskCompletionSource<object> InternalVirtualWaitAsync0;
 
 		public Task WaitAsync()
@@ -85,7 +92,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 			var c = new TaskCompletionSource<object>();
 
-			Console.WriteLine("SemaphoreSlim.WaitAsync " + new { InternalIsEntangled });
+			Console.WriteLine("SemaphoreSlim.WaitAsync ");
 
 			// at this point, the worker thread may not yet have connected back, entangled
 			if (InternalVirtualWaitAsync != null)

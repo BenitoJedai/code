@@ -212,6 +212,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 								// will sending a null over create the object on the other side?
 								MethodTargetObjectData[i] = null;
 
+
+								var MemberName0 = MemberName;
+								Action<string> WriteLine0 = text =>
+								{
+									WriteLine("(" + MemberName0 + ") " + text);
+								};
+
+
 								// we need to entangle the fields in current and the new thread..
 								// if we were to get the signal, how?
 
@@ -223,17 +231,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 								// is somebody already awaiting?
 								var xInternalVirtualWaitAsync = xSemaphoreSlim.InternalVirtualWaitAsync0;
 
-								xSemaphoreSlim.InternalVirtualWaitAsync = continuation =>
+								xSemaphoreSlim.InternalVirtualWaitAsync += continuation =>
 								{
-									WriteLine("xSemaphoreSlim.InternalVirtualWaitAsync " + new { MemberName });
+									WriteLine0("enter xSemaphoreSlim.InternalVirtualWaitAsync, ui is now awaiting for signal");
 
 									// we need a signal from the worker, or the ui
 									xInternalVirtualWaitAsync = continuation;
 								};
 
 
-								var MemberName0 = MemberName;
 
+								var xSemaphoreSlim_InternalIsEntangled = false;
+
+								// called by?
 								#region yield_xSemaphoreSlim
 								Action<Worker, MessageEvent> yield_xSemaphoreSlim =
 
@@ -255,24 +265,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 									//
 
 									// now we have a port to send the release signal?
-									WriteLine("xSemaphoreSlim MessageEvent " + new { MemberName0 });
+									//WriteLine("xSemaphoreSlim MessageEvent " + new { MemberName0 });
 
 									// next will be a release from the worker?
 
 									// we made contact!
 									#region InternalVirtualRelease
-									if (!xSemaphoreSlim.InternalIsEntangled)
+									if (!xSemaphoreSlim_InternalIsEntangled)
 									{
+										WriteLine0("yield_xSemaphoreSlim, worker is now listening for release signal");
 
-										xSemaphoreSlim.InternalIsEntangled = true;
+										xSemaphoreSlim_InternalIsEntangled = true;
 
-										xSemaphoreSlim.InternalVirtualRelease = delegate
+										xSemaphoreSlim.InternalVirtualRelease += delegate
 										{
 											// um. we need to post a message to the other side.
 											// do we have a port channel for it?
 											// does the other side expect signals?
 
-											WriteLine("xSemaphoreSlim.InternalVirtualRelease " + new { MemberName0 });
+											//WriteLine("xSemaphoreSlim.InternalVirtualRelease " + new { MemberName0 });
+											WriteLine0("xSemaphoreSlim.InternalVirtualRelease, ui is sending signal to worker");
 
 											foreach (var p in e.ports)
 											{
@@ -305,6 +317,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 									// workaround?
 
+									WriteLine0("yield_xSemaphoreSlim, worker sent a release signal to ui, resync");
+
+
 									#region xSemaphoreSlim_ByteArrayFields
 									__Task.xByteArrayField[] xSemaphoreSlim_ByteArrayFields = data.xSemaphoreSlim_ByteArrayFields;
 									// 55779ms ui xSemaphoreSlim MessageEvent, resync, trigger InternalVirtualWaitAsync? {{ MemberName0 = bytes1sema, xInternalVirtualWaitAsync = [object Object], Length = 1 }}
@@ -321,8 +336,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 											WriteLine("ui resync " + new
 											{
 												item.index,
-												item.Name,
-												xFieldInfo = xFieldInfo.Name
+												//item.Name,
+												xFieldInfo = xFieldInfo.Name,
+												item.value
 											});
 
 											xFieldInfo.SetValue(
@@ -340,12 +356,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 									// X:\jsc.svn\examples\javascript\async\test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
 									// X:\jsc.svn\examples\javascript\async\test\TestBytesFromSemaphore\TestBytesFromSemaphore\Application.cs
 
-								
+
 
 
 									if (xInternalVirtualWaitAsync == null)
 									{
-										WriteLine("cannot signal, xInternalVirtualWaitAsync is null, why?");
+										WriteLine0("cannot signal, xInternalVirtualWaitAsync is null, why?");
 									}
 									else
 									{
