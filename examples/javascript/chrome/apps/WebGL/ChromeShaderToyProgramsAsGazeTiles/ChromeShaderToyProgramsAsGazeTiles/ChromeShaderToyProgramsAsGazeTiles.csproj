@@ -1236,6 +1236,72 @@
     <Reference Include="Xor3DAlienLandByXor.AssetsLibrary">
       <HintPath>..\..\synergy\Xor3DAlienLandByXor\Xor3DAlienLandByXor\bin\staging.AssetsLibrary\Xor3DAlienLandByXor.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="CubeOcubeByFred.AssetsLibrary">
+      <HintPath>..\..\synergy\CubeOcubeByFred\CubeOcubeByFred\bin\staging.AssetsLibrary\CubeOcubeByFred.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="FuturisticDoorKnobByDiLemming.AssetsLibrary">
+      <HintPath>..\..\synergy\FuturisticDoorKnobByDiLemming\FuturisticDoorKnobByDiLemming\bin\staging.AssetsLibrary\FuturisticDoorKnobByDiLemming.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="KalizylByBergi.AssetsLibrary">
+      <HintPath>..\..\synergy\KalizylByBergi\KalizylByBergi\bin\staging.AssetsLibrary\KalizylByBergi.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MercuryCratersByGuil.AssetsLibrary">
+      <HintPath>..\..\synergy\MercuryCratersByGuil\MercuryCratersByGuil\bin\staging.AssetsLibrary\MercuryCratersByGuil.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MidnightSnowByRavenWorks.AssetsLibrary">
+      <HintPath>..\..\synergy\MidnightSnowByRavenWorks\MidnightSnowByRavenWorks\bin\staging.AssetsLibrary\MidnightSnowByRavenWorks.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SpaceRingsByMu6k.AssetsLibrary">
+      <HintPath>..\..\synergy\SpaceRingsByMu6k\SpaceRingsByMu6k\bin\staging.AssetsLibrary\SpaceRingsByMu6k.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SunsetCloudByKuvkar.AssetsLibrary">
+      <HintPath>..\..\synergy\SunsetCloudByKuvkar\SunsetCloudByKuvkar\bin\staging.AssetsLibrary\SunsetCloudByKuvkar.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SwirlingRingsByyJimmikaelkael.AssetsLibrary">
+      <HintPath>..\..\synergy\SwirlingRingsByyJimmikaelkael\SwirlingRingsByyJimmikaelkael\bin\staging.AssetsLibrary\SwirlingRingsByyJimmikaelkael.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TetrahedronByCandycat.AssetsLibrary">
+      <HintPath>..\..\synergy\TetrahedronByCandycat\TetrahedronByCandycat\bin\staging.AssetsLibrary\TetrahedronByCandycat.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TruePinballPhysicsByArchee.AssetsLibrary">
+      <HintPath>..\..\synergy\TruePinballPhysicsByArchee\TruePinballPhysicsByArchee\bin\staging.AssetsLibrary\TruePinballPhysicsByArchee.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WireEggsByEiffie.AssetsLibrary">
+      <HintPath>..\..\synergy\WireEggsByEiffie\WireEggsByEiffie\bin\staging.AssetsLibrary\WireEggsByEiffie.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="x3DLightingByXor.AssetsLibrary">
+      <HintPath>..\..\synergy\x3DLightingByXor\x3DLightingByXor\bin\staging.AssetsLibrary\x3DLightingByXor.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SphericalVoronoiByMattz.AssetsLibrary">
+      <HintPath>..\..\synergy\SphericalVoronoiByMattz\SphericalVoronoiByMattz\bin\staging.AssetsLibrary\SphericalVoronoiByMattz.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BitPackedSprites2ByFlyguy.AssetsLibrary">
+      <HintPath>..\..\synergy\BitPackedSprites2ByFlyguy\BitPackedSprites2ByFlyguy\bin\staging.AssetsLibrary\BitPackedSprites2ByFlyguy.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="IkaChanBy301.AssetsLibrary">
+      <HintPath>..\..\synergy\IkaChanBy301\IkaChanBy301\bin\staging.AssetsLibrary\IkaChanBy301.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="MechanicalByIq.AssetsLibrary">
+      <HintPath>..\..\synergy\MechanicalByIq\MechanicalByIq\bin\staging.AssetsLibrary\MechanicalByIq.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PlottingFunctionsByHornet.AssetsLibrary">
+      <HintPath>..\..\synergy\PlottingFunctionsByHornet\PlottingFunctionsByHornet\bin\staging.AssetsLibrary\PlottingFunctionsByHornet.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SelfPlayingInterferenceByFatumR.AssetsLibrary">
+      <HintPath>..\..\synergy\SelfPlayingInterferenceByFatumR\SelfPlayingInterferenceByFatumR\bin\staging.AssetsLibrary\SelfPlayingInterferenceByFatumR.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TwistyTorusByBloxard.AssetsLibrary">
+      <HintPath>..\..\synergy\TwistyTorusByBloxard\TwistyTorusByBloxard\bin\staging.AssetsLibrary\TwistyTorusByBloxard.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GlassWithCausticByAndregc.AssetsLibrary">
+      <HintPath>..\..\synergy\GlassWithCausticByAndregc\GlassWithCausticByAndregc\bin\staging.AssetsLibrary\GlassWithCausticByAndregc.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PlanetShadertoyByReinder.AssetsLibrary">
+      <HintPath>..\..\synergy\PlanetShadertoyByReinder\PlanetShadertoyByReinder\bin\staging.AssetsLibrary\PlanetShadertoyByReinder.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SakuraByFMSCat.AssetsLibrary">
+      <HintPath>..\..\synergy\SakuraByFMSCat\SakuraByFMSCat\bin\staging.AssetsLibrary\SakuraByFMSCat.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete.csproj">

@@ -1284,6 +1284,15 @@
     <Reference Include="TwistyTorusByBloxard.AssetsLibrary">
       <HintPath>..\..\synergy\TwistyTorusByBloxard\TwistyTorusByBloxard\bin\staging.AssetsLibrary\TwistyTorusByBloxard.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="GlassWithCausticByAndregc.AssetsLibrary">
+      <HintPath>..\..\synergy\GlassWithCausticByAndregc\GlassWithCausticByAndregc\bin\staging.AssetsLibrary\GlassWithCausticByAndregc.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PlanetShadertoyByReinder.AssetsLibrary">
+      <HintPath>..\..\synergy\PlanetShadertoyByReinder\PlanetShadertoyByReinder\bin\staging.AssetsLibrary\PlanetShadertoyByReinder.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SakuraByFMSCat.AssetsLibrary">
+      <HintPath>..\..\synergy\SakuraByFMSCat\SakuraByFMSCat\bin\staging.AssetsLibrary\SakuraByFMSCat.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2104,6 +2113,10 @@
       <Project>{b414c9a8-6964-4ede-8eb2-80edd0798041}</Project>
       <Name>GeneratorsByKali</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\GlassWithCausticByAndregc\GlassWithCausticByAndregc\GlassWithCausticByAndregc.csproj">
+      <Project>{b9fc915c-e2fe-4dce-ba84-dc8779d565c9}</Project>
+      <Name>GlassWithCausticByAndregc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\GlxgearsByBear\GlxgearsByBear\GlxgearsByBear.csproj">
       <Project>{5ac2196e-e49b-49b1-b599-40070a0e3edd}</Project>
       <Name>GlxgearsByBear</Name>
@@ -2368,6 +2381,10 @@
       <Project>{e4f34bdf-585b-46c7-87de-9606589218e4}</Project>
       <Name>ParallaxMappingByNimitz</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\synergy\PlanetShadertoyByReinder\PlanetShadertoyByReinder\PlanetShadertoyByReinder.csproj">
+      <Project>{bd7c48e1-240a-46e5-936b-724ac7f620b5}</Project>
+      <Name>PlanetShadertoyByReinder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\synergy\PlasticReflectingCubesByDen\PlasticReflectingCubesByDen\PlasticReflectingCubesByDen.csproj">
       <Project>{d51143f3-7766-42db-8cb7-713845f017a4}</Project>
       <Name>PlasticReflectingCubesByDen</Name>
@@ -2471,6 +2488,10 @@
     <ProjectReference Include="..\..\synergy\RutherfordAtomByMattz\RutherfordAtomByMattz\RutherfordAtomByMattz.csproj">
       <Project>{41f39010-c6c0-4273-94d3-4f1c0d4d3ec4}</Project>
       <Name>RutherfordAtomByMattz</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\SakuraByFMSCat\SakuraByFMSCat\SakuraByFMSCat.csproj">
+      <Project>{93eb1c97-21ba-46e0-8ed1-a5281685cc2e}</Project>
+      <Name>SakuraByFMSCat</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\SansNormalByEiffie\SansNormalByEiffie\SansNormalByEiffie.csproj">
       <Project>{8b78e539-36fa-4743-a23d-383388f91016}</Project>
