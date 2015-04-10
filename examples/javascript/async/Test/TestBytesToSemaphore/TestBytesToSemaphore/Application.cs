@@ -76,7 +76,7 @@ namespace TestBytesToSemaphore
 			new IHTMLButton { "click to test " + new { Environment.CurrentManagedThreadId } }.AttachToDocument().onclick +=
 				async delegate
 				{
-					//var sw = Stopwatch.StartNew();
+					var sw = Stopwatch.StartNew();
 
 					// initial state we will be senging to thread one.
 					var bytes1 = new byte[] { 0, 1, 2, 3 };
@@ -101,36 +101,69 @@ namespace TestBytesToSemaphore
 					// in case worker1 is ready, and worker2 need to be signaled or more of them?
 					// would thread be able to signal the other thread without expicit ui thread code?
 
+					var resultsw = new Stopwatch();
+
 					// X:\jsc.svn\examples\javascript\async\test\TestSemaphoreSlimAwaitThenReleaseInWorker\TestSemaphoreSlimAwaitThenReleaseInWorker\Application.cs
 					// we need a teste where we can await ahead of time!
 					bytes2sema.WaitAsync().ContinueWith(delegate
 					{
 						// worker1 has signaled worker2... 00 01 02 03  :: null
+						// worker1 has signaled worker2... 00 01 02 03  :: ff fe fd fc 
 
 						Console.WriteLine("did ui resync happen already?");
 
+						// worker1 has signaled worker2... 00 01 02 03  :: ff fe fd fc  {{ ElapsedMilliseconds = 647 }}
+						// worker1 has signaled worker2... 00 01 02 03  :: ff fe fd fc  {{ ElapsedMilliseconds = 905 }}
 						new IHTMLPre { "worker1 has signaled worker2... "
-						+ hex(bytes1) + " :: " + hex(bytes2)
+							+ hex(bytes1) + " :: " + hex(bytes2) + " " + new { sw.ElapsedMilliseconds }
 						}.AttachToDocument();
 
-						//bytes1sema.Release();
+						resultsw.Start();
+						bytes1sema.Release();
 					});
 
 
+
+					//3537ms (10) (bytes1sema) xSemaphoreSlim.InternalVirtualRelease, ui is sending signal to worker
+					//2015-04-10 10:20:22.422 :19566/view-source:51020 3538ms (11) (bytes1sema) xSemaphoreSlim.InternalVirtualRelease, ui is sending signal to worker
+					//2015-04-10 10:20:22.426 :19566/view-source:51020 3541ms [11] (bytes1sema) ui has sent a release signal, yet nobody awaiting
+					//2015-04-10 10:20:22.427 :19566/view-source:51020 3542ms [10] (bytes1sema) ui has sent a release signal
+					//2015-04-10 10:20:22.428 :19566/view-source:51020 3543ms [10] worker2 is working... {{ bytes2 = null }}
+
 					// um, if we transfer scope to thread, will it dissapear from ui?
-					Task.Run(
+					var result = Task.Run(
 						async delegate
 						{
 							// pass2
 							// 10 worker2 is awaiting{{ bytes1 = null }}
 							Console.WriteLine("worker2 is awaiting" + new { bytes1 });
 							await bytes1sema.WaitAsync();
-							Console.WriteLine("worker2 is working... " + new { bytes2 });
+							// timed by resultsw
 
+
+							//4227ms [10] worker2 is working... {{ bytes2 = null }}
+							//2015-04-10 10:14:04.929 view-source:69308 Uncaught TypeError: Cannot read property '_2xQABp_b1ITCbIktNs3el5Q' of null
+
+							// did we get the bytes?
+							// do we have hex?
+							Console.WriteLine("worker2 is working... " + new { bytes2 = hex(bytes2) });
+
+							// worker2 is working... {{ bytes2 = [object Uint8ClampedArray] }}
 							// lets update the bytes1 again?
 
 							// can we entable stopwatches already?
 							//sw.Stop();
+
+							//var bytes3 = new byte[bytes2.Length];
+
+							// https://msdn.microsoft.com/en-us/library/vstudio/dd267698(v=vs.100).aspx
+							var z = bytes1.Zip(
+								bytes2,
+								(x, y) => hex(new[] { x, y })
+							);
+
+
+							return string.Join(":: ", z.ToArray());
 						}
 					);
 
@@ -140,6 +173,8 @@ namespace TestBytesToSemaphore
 						{
 							// pass1
 							Console.WriteLine("enter worker1! " + new { bytes1 });
+
+							var ws = Stopwatch.StartNew();
 
 							// worker1 has now computed pass1! {{ bytes2 = 255,254,253,252 }}
 							// well, in java we do the special unboxing. should do it for js also.
@@ -157,11 +192,13 @@ namespace TestBytesToSemaphore
 
 							}
 
+							//Array.ConstrainedCopy(
+
 
 							// LINQ would not know we want a bytearray?
 
-
-							Console.WriteLine("worker1 has now computed pass1! " + new { bytes2 });
+							// worker1 has now computed pass1! {{ bytes2 = [object Uint8ClampedArray], ElapsedMilliseconds = 0 }}
+							Console.WriteLine("worker1 has now computed pass1! " + new { bytes2, ws.ElapsedMilliseconds });
 
 							// will it copy bytes2 to ui?
 							bytes2sema.Release();
@@ -170,6 +207,37 @@ namespace TestBytesToSemaphore
 					);
 
 
+					//var text = await result;
+					new IHTMLPre { await result, new { total = sw.ElapsedMilliseconds, resultsw = resultsw.ElapsedMilliseconds, resultfps = 1000 / resultsw.ElapsedMilliseconds } }.AttachToDocument();
+
+					// battery saver:
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ total = 2298, resultsw = 55, resultfps = 18 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ total = 2363, resultsw = 58, resultfps = 17 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ total = 2188, resultsw = 50, resultfps = 20 }}
+
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ total = 743, resultsw = 16, resultfps = 62 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ total = 945, resultsw = 22, resultfps = 45 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ total = 908, resultsw = 42, resultfps = 23 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ total = 715, resultsw = 15, resultfps = 66 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ total = 757, resultsw = 16, resultfps = 62 }}
+
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ total = 678, resultsw = 15 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ total = 687, resultsw = 16 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ total = 841, resultsw = 32 }}
+
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ ElapsedMilliseconds = 3702 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ ElapsedMilliseconds = 724 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ ElapsedMilliseconds = 602 }}
+
+					// next we should enable stings like for thread hopping,
+					// and bytes for thread hoping
+
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ ElapsedMilliseconds = 2809 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ ElapsedMilliseconds = 613 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ ElapsedMilliseconds = 573 }}
+
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ ElapsedMilliseconds = 920 }}
+					// 00 ff :: 01 fe :: 02 fd :: 03 fc {{ ElapsedMilliseconds = 662 }}
 				};
 
 
@@ -178,3 +246,6 @@ namespace TestBytesToSemaphore
 	}
 }
 
+//3999ms(11) will download worker source into cache...
+//2015-04-10 11:32:06.380 :26375/view-source:51134 4051ms (11) will download worker source into cache...done {{ Length = 3129566 } }
+//2015-04-10 11:32:06.413 :26375/view-source:51134 4084ms(10) will download worker source into cache...done {{ Length = 3129566 } }

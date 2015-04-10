@@ -1,3 +1,4 @@
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Net;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices;
 using ScriptCoreLib.JavaScript.DOM;
@@ -284,12 +285,65 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 											// does the other side expect signals?
 
 											//WriteLine("xSemaphoreSlim.InternalVirtualRelease " + new { MemberName0 });
-											WriteLine0("xSemaphoreSlim.InternalVirtualRelease, ui is sending signal to worker");
+											WriteLine0("xSemaphoreSlim.InternalVirtualRelease, ui is sending signal to worker, resync");
+
+											// xSemaphoreSlim_ByteArrayFields
+											#region xSemaphoreSlim_ByteArrayFields
+											var xSemaphoreSlim_ByteArrayFields = new List<__Task.xByteArrayField>();
+
+
+											var MethodTargetTypeSerializableMembers_index = 0;
+
+											// MethodTargetSerializableMembers
+											// MethodTargetTypeSerializableMembers
+
+											foreach (FieldInfo item in MethodTargetSerializableMembers)
+											{
+												// how would we know if the array is a byte array?
+
+												// FieldType is not exactly available yet
+												//Console.WriteLine("worker resync candidate " + new { item.Name, item.FieldType, item.FieldType.IsArray });
+
+												var item_value = item.GetValue(xfunction.Target);
+												if (item_value != null)
+												{
+													var item_value_IsByteArray = Expando.Of(item_value).IsByteArray;
+
+													if (item_value_IsByteArray)
+													{
+														var value = (byte[])item_value;
+
+														xSemaphoreSlim_ByteArrayFields.Add(
+															new __Task.xByteArrayField
+															{
+																index = MethodTargetTypeSerializableMembers_index,
+
+																// keep name for diagnostics
+																Name = item.Name,
+
+																value = value
+															}
+														);
+
+														WriteLine0("ui to worker resync xByteArrayField candidate " + new { item.Name, value.Length });
+													}
+												}
+
+
+												MethodTargetTypeSerializableMembers_index++;
+											}
+											#endregion
 
 											foreach (var p in e.ports)
 											{
 												// release 1
-												p.postMessage(1);
+												p.postMessage(
+													new
+													{
+														// X:\jsc.svn\examples\javascript\async\Test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
+														xSemaphoreSlim_ByteArrayFields = xSemaphoreSlim_ByteArrayFields.ToArray()
+													}
+												);
 											}
 
 										};
@@ -320,35 +374,37 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 									WriteLine0("yield_xSemaphoreSlim, worker sent a release signal to ui, resync");
 
 
-									#region xSemaphoreSlim_ByteArrayFields
-									__Task.xByteArrayField[] xSemaphoreSlim_ByteArrayFields = data.xSemaphoreSlim_ByteArrayFields;
-									// 55779ms ui xSemaphoreSlim MessageEvent, resync, trigger InternalVirtualWaitAsync? {{ MemberName0 = bytes1sema, xInternalVirtualWaitAsync = [object Object], Length = 1 }}
+									#region read xSemaphoreSlim_ByteArrayFields
+									{
+										__Task.xByteArrayField[] xSemaphoreSlim_ByteArrayFields = data.xSemaphoreSlim_ByteArrayFields;
+										// 55779ms ui xSemaphoreSlim MessageEvent, resync, trigger InternalVirtualWaitAsync? {{ MemberName0 = bytes1sema, xInternalVirtualWaitAsync = [object Object], Length = 1 }}
 
-									//Console.WriteLine("ui xSemaphoreSlim MessageEvent, resync, trigger InternalVirtualWaitAsync? " + new { MemberName0, xInternalVirtualWaitAsync, xSemaphoreSlim_ByteArrayFields.Length });
+										//Console.WriteLine("ui xSemaphoreSlim MessageEvent, resync, trigger InternalVirtualWaitAsync? " + new { MemberName0, xInternalVirtualWaitAsync, xSemaphoreSlim_ByteArrayFields.Length });
 
-									// X:\jsc.svn\examples\javascript\async\test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
-									if (xSemaphoreSlim_ByteArrayFields != null)
-										foreach (var item in xSemaphoreSlim_ByteArrayFields)
-										{
-											var xFieldInfo = (FieldInfo)MethodTargetSerializableMembers[item.index];
-
-											// can we set the value?
-											WriteLine("ui resync " + new
+										// X:\jsc.svn\examples\javascript\async\test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
+										if (xSemaphoreSlim_ByteArrayFields != null)
+											foreach (var item in xSemaphoreSlim_ByteArrayFields)
 											{
-												item.index,
-												//item.Name,
-												xFieldInfo = xFieldInfo.Name,
-												item.value
-											});
+												var xFieldInfo = (FieldInfo)MethodTargetSerializableMembers[item.index];
 
-											xFieldInfo.SetValue(
-												xfunction.Target,
+												// can we set the value?
+												WriteLine("ui resync " + new
+												{
+													item.index,
+													//item.Name,
+													xFieldInfo = xFieldInfo.Name,
+													item.value
+												});
 
-												// null?
-												item.value
-											);
+												xFieldInfo.SetValue(
+													xfunction.Target,
 
-										}
+													// null?
+													item.value
+												);
+
+											}
+									}
 									#endregion
 
 
@@ -842,18 +898,73 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 				if (u == Worker.ScriptApplicationSource + "#worker")
 				{
+					#region base not redirected
 					if (Native.document.baseURI == Native.document.location.href)
 					{
 						// X:\jsc.svn\examples\javascript\async\Test\TestDownloadStringTaskAsync\TestDownloadStringTaskAsync\Application.cs
 
 						// X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
 						//Console.WriteLine("Document base not redirected...");
-					}
-					else
-					{
-						// see also
-						// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
 
+						// its about time to cache the inline worker source. if we have not done it before that is..
+
+						var sw = Stopwatch.StartNew();
+
+						if (InternalWorkerSourceToBlobCache.ContainsKey(u))
+						{
+							// in this case, lets continue in the blob..
+
+							WriteLine("worker source is in cache... pending");
+
+							InternalWorkerSourceToBlobCache[u].ContinueWith(
+								task =>
+								{
+									WriteLine("worker source is in cache... " + new { sw.ElapsedMilliseconds });
+
+
+									CreateWorker(task.Result);
+								}
+							);
+
+
+							return;
+						}
+
+						// otherwise lets download, once...
+						// X:\jsc.svn\examples\javascript\async\Test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
+
+
+						WriteLine("will download worker source into cache...");
+
+						var pending = new TaskCompletionSource<string>();
+
+						InternalWorkerSourceToBlobCache[u] = pending.Task;
+
+
+						// 4.0 compatible, using 4.5 feats
+						new __WebClient().DownloadStringTaskAsync(u).ContinueWith(
+							task =>
+							{
+								WriteLine("will download worker source into cache... done " + new { task.Result.Length, sw.ElapsedMilliseconds });
+
+								var aFileParts = new[] { task.Result };
+								var oMyBlob = new Blob(aFileParts, new { type = "text/javascript" }); // the blob
+								var url = URL.createObjectURL(oMyBlob);
+
+								pending.SetResult(url);
+
+								CreateWorker(url);
+							}
+						);
+
+						return;
+					}
+					#endregion
+
+					// see also
+					// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
+
+					{
 
 						// tested by?
 						Console.WriteLine("Document base redirected...");
@@ -868,7 +979,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 								var aFileParts = new[] { args.Result };
 								var oMyBlob = new Blob(aFileParts, new { type = "text/javascript" }); // the blob
-								var url = oMyBlob.ToObjectURL();
+								var url = URL.createObjectURL(oMyBlob);
 
 								InternalInlineWorker.ScriptApplicationSourceForInlineWorker = url;
 
@@ -893,6 +1004,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 			#endregion
 
 		}
+
+		static Dictionary<string, Task<string>> InternalWorkerSourceToBlobCache = new Dictionary<string, Task<string>>();
+
 
 
 

@@ -551,11 +551,49 @@ namespace ScriptCoreLib.JavaScript.DOM
 									{
 										// ui has released?
 
-										WriteLine0("ui has sent a release signal");
+										if (xInternalVirtualWaitAsync == null)
+										{
+											// what if the thread is not yet awaiting?
+											WriteLine0("ui has sent a release signal, yet nobody awaiting");
+											return;
+										}
 
-										// release 1
+										WriteLine0("ui has sent a release signal, resync");
 
-										// what if the thread is not yet awaiting?
+										// we should have byte fields now.
+										// next strings as in thread hopping...
+
+										dynamic data = ce.data;
+
+										#region read xSemaphoreSlim_ByteArrayFields
+										{
+											__Task.xByteArrayField[] xSemaphoreSlim_ByteArrayFields = data.xSemaphoreSlim_ByteArrayFields;
+
+											// X:\jsc.svn\examples\javascript\async\test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
+											if (xSemaphoreSlim_ByteArrayFields != null)
+												foreach (var item in xSemaphoreSlim_ByteArrayFields)
+												{
+													var xFieldInfo = (FieldInfo)MethodTargetTypeSerializableMembers[item.index];
+
+													// can we set the value?
+													WriteLine0("worker resync " + new
+													{
+														item.index,
+														//item.Name,
+														xFieldInfo = xFieldInfo.Name,
+														item.value
+													});
+
+													xFieldInfo.SetValue(
+														MethodTarget,
+
+														// null?
+														item.value
+													);
+
+												}
+										}
+										#endregion
 
 										xInternalVirtualWaitAsync.SetResult(null);
 									};
@@ -1067,7 +1105,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 			#region worker
 			if (Native.worker != null)
-				if (Native.worker.location.href.EndsWith("#worker"))
+			{
+				var IsMarkedAsInlineWorker = Native.worker.location.href.EndsWith("#worker");
+
+				// X:\jsc.svn\examples\javascript\async\Test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
+				var IsMarkedAsBlobSource = Native.worker.location.href.StartsWith("blob:");
+
+				if (IsMarkedAsInlineWorker || IsMarkedAsBlobSource)
 				{
 					// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150401
 
@@ -1167,6 +1211,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 					return;
 				}
+			}
 			#endregion
 
 
