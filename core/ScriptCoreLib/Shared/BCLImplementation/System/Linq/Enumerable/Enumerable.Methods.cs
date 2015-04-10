@@ -388,10 +388,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
         {
-            // X:\jsc.svn\examples\javascript\test\TestEnumerableZip\TestEnumerableZip\Application.cs
+			// X:\jsc.svn\examples\javascript\async\Test\TestBytesToSemaphore\TestBytesToSemaphore\Application.cs
+			// X:\jsc.svn\examples\javascript\test\TestEnumerableZip\TestEnumerableZip\Application.cs
 
-            //var x = second.GetEnumerator();
-            var x = second.AsEnumerable().GetEnumerator();
+			//var x = second.GetEnumerator();
+			var x = second.AsEnumerable().GetEnumerator();
 
             return first.TakeWhile(z => x.MoveNext()).Select(
                 z =>
