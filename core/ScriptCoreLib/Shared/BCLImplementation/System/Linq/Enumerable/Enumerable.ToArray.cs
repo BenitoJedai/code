@@ -11,7 +11,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
     {
         public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source)
         {
-            return source.AsEnumerable().ToList().ToArray();
+			// X:\jsc.svn\examples\java\hybrid\JVMCLRLINQSelectByteArray\JVMCLRLINQSelectByteArray\Program.cs
+
+			return source.AsEnumerable().ToList().ToArray();
         }
 
         public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source)

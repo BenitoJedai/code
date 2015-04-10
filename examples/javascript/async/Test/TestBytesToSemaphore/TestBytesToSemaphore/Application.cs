@@ -184,6 +184,8 @@ namespace TestBytesToSemaphore
 							//	select y
 							//);
 
+							// X:\jsc.svn\examples\java\hybrid\JVMCLRLINQSelectByteArray\JVMCLRLINQSelectByteArray\Program.cs
+
 							bytes2 = new byte[bytes1.Length];
 
 							for (int i = 0; i < bytes1.Length; i++)
