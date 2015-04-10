@@ -13,6 +13,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/MemoryStream.cs
 	// https://github.com/dotnet/corefx/blob/master/src/System.Reflection.Metadata/src/System/Reflection/Internal/Utilities/ImmutableMemoryStream.cs
 	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System.IO/MemoryStream.cs
+
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/IO/MemoryStream.cs
 
 	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
@@ -25,6 +26,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
     {
 		// 20150401 
 		// could byte[] or MemoryStream be context switched yet?
+		// 20150410, byte[] can now be signaled to the worker and back
 		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150401
 
 		//20150119
