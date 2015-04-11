@@ -129,34 +129,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
 
 
-        // http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.getawaiter.aspx
-        // !supported in: 4.5
-        public __TaskAwaiter GetAwaiter()
-        {
-            //Console.WriteLine("__Task.GetAwaiter");
-
-
-            var awaiter = new __TaskAwaiter
-            {
-                InternalIsCompleted = () => this.IsCompleted,
-            };
-
-            InvokeWhenComplete(
-                delegate
-                {
-                    //Console.WriteLine("__Task.GetAwaiter InternalYield");
-
-                    if (awaiter.InternalOnCompleted != null)
-                        awaiter.InternalOnCompleted();
-                }
-             );
-
-            return awaiter;
-        }
+ 
     }
 
     [Script(Implements = typeof(global::System.Threading.Tasks.Task<>))]
-    internal class __Task<TResult> : __Task
+    internal partial class __Task<TResult> : __Task
     {
         public TResult InternalResult;
         public TResult Result
@@ -183,36 +160,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
             return (Task<TResult>)(object)e;
         }
 
-
-        //Implementation not found for type import :
-        //type: System.Threading.Tasks.Task`1[[System.Data.DataTable, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
-        //method: System.Runtime.CompilerServices.TaskAwaiter`1[System.Data.DataTable] GetAwaiter()
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
-
-
-        public __TaskAwaiter<TResult> GetAwaiter()
-        {
-            // see also: X:\jsc.svn\examples\javascript\forms\FormsAsyncButtonExperiment\FormsAsyncButtonExperiment\ApplicationControl.cs
-
-            var awaiter = new __TaskAwaiter<TResult>
-            {
-                InternalIsCompleted = () => this.IsCompleted,
-                InternalGetResult = () => this.Result
-            };
-
-
-            InvokeWhenComplete(
-                delegate
-                {
-                    if (awaiter.InternalOnCompleted != null)
-                        awaiter.InternalOnCompleted();
-                }
-            );
-
-
-            return awaiter;
-        }
 
 
 

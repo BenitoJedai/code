@@ -114,6 +114,7 @@
     <Compile Include="BCLImplementation\System\Data\MySQL\MySQLConnectionStringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Data\MySQL\MySQLDataAdapter.cs" />
     <Compile Include="BCLImplementation\System\Data\MySQL\MySQLDataReader.cs" />
+    <Compile Include="BCLImplementation\System\Diagnostics\Process.cs" />
     <Compile Include="BCLImplementation\System\Net\Sockets\UdpClient.cs" />
     <Compile Include="BCLImplementation\System\Reflection\PropertyInfo.cs" />
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="BCLImplementation\System\Threading\RegisteredWaitHandle.cs" />
     <Compile Include="BCLImplementation\System\Threading\Tasks\SemaphoreSlim.cs" />
     <Compile Include="BCLImplementation\System\Threading\Tasks\TaskFactory.cs" />
+    <Compile Include="BCLImplementation\System\Threading\Tasks\Task\Task.GetAwaiter.cs" />
     <Compile Include="BCLImplementation\System\Threading\Tasks\Task\Task.Delay.cs" />
     <Compile Include="BCLImplementation\System\Threading\Tasks\Task\Task.WhenAll.cs" />
     <Compile Include="BCLImplementation\System\Threading\ThreadPool.cs" />

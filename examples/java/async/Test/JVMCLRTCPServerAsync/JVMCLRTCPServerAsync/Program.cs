@@ -20,191 +20,204 @@ using System.Xml.Linq;
 namespace JVMCLRTCPServerAsync
 {
 
-	static class Program
-	{
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
-		public static void Main(string[] args)
-		{
-			System.Console.WriteLine(
-			   typeof(object).AssemblyQualifiedName
-			);
+    static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        public static void Main(string[] args)
+        {
+            System.Console.WriteLine(
+               typeof(object).AssemblyQualifiedName
+            );
 
 
-			// first are we able to run async?
+            // first are we able to run async?
 
-			var s = new SemaphoreSlim(0);
+            var s = new SemaphoreSlim(0);
 
-			new { }.With(
-				async delegate
-				{
-					//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-					//enter async { ManagedThreadId = 1 }
-					//awaiting for SemaphoreSlim{ ManagedThreadId = 1 }
-					//after delay{ ManagedThreadId = 4 }
-					//http://127.0.0.1:8080
-					//awaiting for SemaphoreSlim. done.{ ManagedThreadId = 1 }
-					//--
-					//accept { c = System.Net.Sockets.TcpClient, ManagedThreadId = 6 }
-					//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-					//accept { c = System.Net.Sockets.TcpClient, ManagedThreadId = 8 }
-					//{ ManagedThreadId = 6, input = GET / HTTP/1.1
-
-
-					Console.WriteLine("enter async " + new { Thread.CurrentThread.ManagedThreadId });
-
-					// X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAsync\ChromeTCPServerAsync\Application.cs
-					await Task.Delay(100);
-
-					Console.WriteLine("after delay" + new { Thread.CurrentThread.ManagedThreadId });
-
-					// Additional information: Only one usage of each socket address (protocol/network address/port) is normally permitted
-					// close the other server!
-					var l = new TcpListener(IPAddress.Any, 8080);
-
-					l.Start();
+            new { }.With(
+                async delegate
+                {
+                    //System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+                    //enter async { ManagedThreadId = 1 }
+                    //awaiting for SemaphoreSlim{ ManagedThreadId = 1 }
+                    //after delay{ ManagedThreadId = 4 }
+                    //http://127.0.0.1:8080
+                    //awaiting for SemaphoreSlim. done.{ ManagedThreadId = 1 }
+                    //--
+                    //accept { c = System.Net.Sockets.TcpClient, ManagedThreadId = 6 }
+                    //System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+                    //accept { c = System.Net.Sockets.TcpClient, ManagedThreadId = 8 }
+                    //{ ManagedThreadId = 6, input = GET / HTTP/1.1
 
 
-					var href =
-						"http://127.0.0.1:8080";
+                    Console.WriteLine("enter async " + new { Thread.CurrentThread.ManagedThreadId });
 
-					Console.WriteLine(
-						href
-					);
+                    // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAsync\ChromeTCPServerAsync\Application.cs
+                    await Task.Delay(100);
 
-					Process.Start(
-						href
-					);
+                    Console.WriteLine("after delay" + new { Thread.CurrentThread.ManagedThreadId });
 
+                    // Additional information: Only one usage of each socket address (protocol/network address/port) is normally permitted
+                    // close the other server!
+                    var l = new TcpListener(IPAddress.Any, 8080);
 
-					new { }.With(
-						async delegate
-						{
-							while (true)
-							{
-								var c = await l.AcceptTcpClientAsync();
-
-								Console.WriteLine("accept " + new { c, Thread.CurrentThread.ManagedThreadId });
-
-								yield(c);
-							}
-						}
-					);
-
-					// jump back to main thread..
-					s.Release();
-				}
-			);
-
-			Console.WriteLine("awaiting for SemaphoreSlim" + new { Thread.CurrentThread.ManagedThreadId });
-			s.Wait();
-			Console.WriteLine("awaiting for SemaphoreSlim. done." + new { Thread.CurrentThread.ManagedThreadId });
-
-			//System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces().WithEach(
-			// n =>
-			// {
-			//	 // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\NetworkInformation\NetworkInterface.cs
-
-			//	 var IPProperties = n.GetIPProperties();
-			//	 var PhysicalAddress = n.GetPhysicalAddress();
-
-			//	 var InetAddressesString = "";
+                    l.Start();
 
 
-			//	 foreach (var ip in IPProperties.UnicastAddresses)
-			//	 {
-			//		 //if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-			//		 //{
-			//		 //Console.WriteLine(ip.Address.ToString());
-			//		 InetAddressesString += ", " + ip.Address;
-			//		 //}
-			//	 }
+                    var href =
+                        "http://127.0.0.1:8080";
 
-			//	 // Address = {192.168.43.1}
-			//	 //IPProperties.GatewayAddresses.WithEach(
-			//	 //    g =>
-			//	 //    {
-			//	 //        InetAddressesString += ", " + g.Address;
-			//	 //    }
-			//	 //);
+                    Console.WriteLine(
+                        href
+                    );
+
+                    Process.Start(
+                        href
+                    );
 
 
-			//	 Console.WriteLine(new
-			//	 {
-			//		 n.OperationalStatus,
+                    new { }.With(
+                        async delegate
+                        {
+                            while (true)
+                            {
+                                var c = await l.AcceptTcpClientAsync();
 
-			//		 n.Name,
-			//		 n.Description,
-			//		 n.SupportsMulticast,
-			//		 //n.NetworkInterfaceType,
+                                Console.WriteLine("accept " + new { c, Thread.CurrentThread.ManagedThreadId });
 
-			//		 InetAddressesString
-			//	 });
-			// }
-			//);
+                                yield(c);
+                            }
+                        }
+                    );
 
-			Console.WriteLine("--");
+                    // jump back to main thread..
+                    s.Release();
+                }
+            );
 
-			CLRProgram.CLRMain();
-		}
+            Console.WriteLine("awaiting for SemaphoreSlim" + new { Thread.CurrentThread.ManagedThreadId });
+            s.Wait();
+            Console.WriteLine("awaiting for SemaphoreSlim. done." + new { Thread.CurrentThread.ManagedThreadId });
 
-		static async void yield(TcpClient c)
-		{
-			var s = c.GetStream();
+            //System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces().WithEach(
+            // n =>
+            // {
+            //	 // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\NetworkInformation\NetworkInterface.cs
 
-			// could we switch into a worker thread?
-			// jsc would need to split the stream object tho
+            //	 var IPProperties = n.GetIPProperties();
+            //	 var PhysicalAddress = n.GetPhysicalAddress();
 
-			var buffer = new byte[1024];
-			// why no implict buffer?
-			var count = await s.ReadAsync(buffer, 0, buffer.Length);
-
-			var input = Encoding.UTF8.GetString(buffer, 0, count);
-
-			//new IHTMLPre { new { input } }.AttachToDocument();
-			Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId, input });
-
-			var outputString = "HTTP/1.0 200 OK \r\nConnection: close\r\n\r\nhello world. jvm clr android async tcp? udp?\r\n";
-			var obuffer = Encoding.UTF8.GetBytes(outputString);
-
-			await s.WriteAsync(obuffer, 0, obuffer.Length);
-
-			c.Close();
-		}
-	}
+            //	 var InetAddressesString = "";
 
 
-	public delegate XElement XElementFunc();
+            //	 foreach (var ip in IPProperties.UnicastAddresses)
+            //	 {
+            //		 //if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            //		 //{
+            //		 //Console.WriteLine(ip.Address.ToString());
+            //		 InetAddressesString += ", " + ip.Address;
+            //		 //}
+            //	 }
 
-	[SwitchToCLRContext]
-	static class CLRProgram
-	{
-		public static XElement XML { get; set; }
+            //	 // Address = {192.168.43.1}
+            //	 //IPProperties.GatewayAddresses.WithEach(
+            //	 //    g =>
+            //	 //    {
+            //	 //        InetAddressesString += ", " + g.Address;
+            //	 //    }
+            //	 //);
 
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
-		public static void CLRMain()
-		{
-			System.Console.WriteLine(
-				typeof(object).AssemblyQualifiedName
-			);
 
-			MessageBox.Show("click to close");
+            //	 Console.WriteLine(new
+            //	 {
+            //		 n.OperationalStatus,
 
-		}
-	}
+            //		 n.Name,
+            //		 n.Description,
+            //		 n.SupportsMulticast,
+            //		 //n.NetworkInterfaceType,
+
+            //		 InetAddressesString
+            //	 });
+            // }
+            //);
+
+            Console.WriteLine("--");
+
+            CLRProgram.CLRMain();
+        }
+
+        static async void yield(TcpClient c)
+        {
+            var s = c.GetStream();
+
+            // could we switch into a worker thread?
+            // jsc would need to split the stream object tho
+
+            var buffer = new byte[1024];
+            // why no implict buffer?
+            var count = await s.ReadAsync(buffer, 0, buffer.Length);
+
+            var input = Encoding.UTF8.GetString(buffer, 0, count);
+
+            //new IHTMLPre { new { input } }.AttachToDocument();
+            Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId, input });
+
+            var outputString = "HTTP/1.0 200 OK \r\nConnection: close\r\n\r\nhello world. jvm clr android async tcp? udp?\r\n";
+            var obuffer = Encoding.UTF8.GetBytes(outputString);
+
+            await s.WriteAsync(obuffer, 0, obuffer.Length);
+
+            c.Close();
+        }
+    }
+
+
+    public delegate XElement XElementFunc();
+
+    [SwitchToCLRContext]
+    static class CLRProgram
+    {
+        public static XElement XML { get; set; }
+
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        public static void CLRMain()
+        {
+            System.Console.WriteLine(
+                typeof(object).AssemblyQualifiedName
+            );
+
+            MessageBox.Show("click to close");
+
+        }
+    }
 
 
 }
 
 
 
-//Implementation not found for type import :
-//type: System.Threading.Tasks.Task
-//method: System.Threading.Tasks.Task Delay(Int32)
-//Did you forget to add the[Script] attribute?
-//Please double check the signature!
+//- javac
+//"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRTCPServerAsync\Program.java
+//Y:\staging\web\java\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\__Task_1.java:147: error: _1_GetAwaiter_public_ldftn_0017() in __Task_1 cannot override _1_GetAwaiter_public_ldftn_0017() in __Task
+//    public final  boolean _1_GetAwaiter_public_ldftn_0017()
+//                          ^
+//  overridden method is final
+//Y:\staging\web\java\JVMCLRTCPServerAsync__i__d\Internal\Library\StringConversions.java:207: error: incompatible types
+//        for (num5 = 0; num5; num5++)
+//                       ^
+//  required: boolean
+//  found:    int
+
+//- javac
+//"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRTCPServerAsync\Program.java
+//Y:\staging\web\java\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\__Task_1.java:147: error: _1_GetAwaiter_public_ldftn_0017() in __Task_1 cannot override _1_GetAwaiter_public_ldftn_0017() in __Task
+//    public final  boolean _1_GetAwaiter_public_ldftn_0017()
+//                          ^
+//  overridden method is final
