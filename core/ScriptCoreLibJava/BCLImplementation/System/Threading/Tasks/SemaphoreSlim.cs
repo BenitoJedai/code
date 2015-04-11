@@ -29,15 +29,37 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
         public int Release()
         {
+            if (InternalWaitAsync != null)
+                InternalWaitAsync.SetResult(null);
+            else
+            {
+                // X:\jsc.svn\examples\java\async\Test\JVMCLRTCPServerAsync\JVMCLRTCPServerAsync\Program.cs
+
+                InternalWaitAsync = new TaskCompletionSource<object>();
+                InternalWaitAsync.SetResult(null);
+
+            }
+
             return 0;
         }
 
 
+
+        TaskCompletionSource<object> InternalWaitAsync;
+
+
         public Task WaitAsync()
         {
-            var c = new TaskCompletionSource<object>();
+            if (InternalWaitAsync == null)
+            {
+                // are we the first one?
+                InternalWaitAsync = new TaskCompletionSource<object>();
+                return InternalWaitAsync.Task;
+            }
 
-            return c.Task;
+
+
+            return InternalWaitAsync.Task;
         }
 
         public void Wait()

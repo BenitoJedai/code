@@ -35,6 +35,7 @@ namespace JVMCLRTCPServerAsync
 
             // first are we able to run async?
 
+            
             var s = new SemaphoreSlim(0);
 
             //java.lang.Object, rt
