@@ -187,13 +187,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
         {
             var i = -1;
 
+            //E/AndroidRuntime( 6564): Caused by: java.net.SocketException: Socket closed
+            //E/AndroidRuntime( 6564):        at org.apache.harmony.luni.platform.OSNetworkSystem.read(Native Method)
+            //E/AndroidRuntime( 6564):        at dalvik.system.BlockGuard$WrappedNetworkSystem.read(BlockGuard.java:273)
+            //E/AndroidRuntime( 6564):        at org.apache.harmony.luni.net.PlainSocketImpl.read(PlainSocketImpl.java:458)
+            //E/AndroidRuntime( 6564):        at org.apache.harmony.luni.net.SocketInputStream.read(SocketInputStream.java:85)
+            //E/AndroidRuntime( 6564):        at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__NetworkStream.Read(__NetworkStream.java:207)
+            //E/AndroidRuntime( 6564):        ... 20 more
+
             try
             {
                 i = this.InternalInputStream.read((sbyte[])(object)buffer, offset, count);
             }
             catch
             {
-                throw;
+                // bail
             }
 
             return i;

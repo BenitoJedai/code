@@ -18,6 +18,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 
         public __Control.__ControlCollection Controls { get; internal set; }
 
+        public bool Enabled { get { return true; } set { InternalGetElement().setEnabled(value); } }
 
         public __Control()
         {

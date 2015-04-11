@@ -20,6 +20,8 @@ namespace android.view
         public const int SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN = 0x00000400;
         public const int SYSTEM_UI_FLAG_IMMERSIVE_STICKY = 0x00001000;
 
+
+        public void setEnabled(bool enabled) { }
         public void setSystemUiVisibility(int visibility)
         {
         }
