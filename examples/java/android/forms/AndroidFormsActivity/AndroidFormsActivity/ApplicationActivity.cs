@@ -76,8 +76,8 @@ namespace AndroidFormsActivity.Activities
                 popup.setContentView(popupView);
                 popup.setFocusable(true);
                 popup.setOutsideTouchable(true);
-                
 
+                // E/AndroidRuntime( 4979): Caused by: java.lang.NoSuchMethodError: android.widget.PopupWindow.showAsDropDown
                 popup.showAsDropDown(((__Button)(object)u.button1).InternalGetElement(), android.view.Gravity.CENTER, 40, 0);
                 u.button1.Text = "Now popup must show!!";
 

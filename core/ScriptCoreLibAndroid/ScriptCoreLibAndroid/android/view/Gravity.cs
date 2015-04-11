@@ -15,6 +15,7 @@ namespace android.view
         public static int TOP;
         public static int LEFT;
         public static int RIGHT;
+        public static int CENTER;
 
     }
 }
