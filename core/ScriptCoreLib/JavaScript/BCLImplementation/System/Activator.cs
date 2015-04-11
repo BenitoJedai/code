@@ -6,21 +6,22 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Activator.cs
+	// http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Activator.cs
 
-    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Activator.cs
-    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Activator.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Activator.cs
+	// X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Activator.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Activator.cs
 
-    // http://referencesource.microsoft.com/#mscorlib/system/activator.cs
-    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/activator.cs
-    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Activator.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Activator.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/activator.cs
+	// https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/activator.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Activator.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Activator.cs
 
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Activator.cs
-    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Activator.cs
-    // https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Activator.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Activator.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Activator.cs
+	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Activator.cs
 
-    [Script(Implements = typeof(global::System.Activator))]
+	[Script(Implements = typeof(global::System.Activator))]
     internal class __Activator
     {
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Runtime\Serialization\FormatterServices.cs
