@@ -8,6 +8,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security
 {
 	// https://msdn.microsoft.com/en-us/library/system.security.securestring%28v=vs.110%29.aspx
 	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Security/securestring.cs
+	// https://github.com/dotnet/corefx/tree/master/src/System.Security.SecureString/src/System/Security
 	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Security/SecureString.cs
 	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Security\SecureString.cs
 	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Security\SecureString.cs
