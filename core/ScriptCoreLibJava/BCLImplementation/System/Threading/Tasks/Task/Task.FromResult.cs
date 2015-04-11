@@ -12,6 +12,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 {
     internal partial class __Task
     {
+        public static Task CompletedTask
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\async\Test\TestCompletedTask\TestCompletedTask\Application.cs
+
+                var c = new TaskCompletionSource<object>();
+                c.SetResult(null);
+
+                return c.Task;
+            }
+        }
+
         public static Task<TResult> FromResult<TResult>(TResult result)
         {
             var x = new TaskCompletionSource<TResult>();
