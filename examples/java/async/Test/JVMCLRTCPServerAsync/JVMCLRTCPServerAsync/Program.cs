@@ -37,6 +37,16 @@ namespace JVMCLRTCPServerAsync
 
             var s = new SemaphoreSlim(0);
 
+            //java.lang.Object, rt
+            //enter async { ManagedThreadId = 1 }
+            //awaiting for SemaphoreSlim{ ManagedThreadId = 1 }
+            //after delay{ ManagedThreadId = 8 }
+            //http://127.0.0.1:8080
+            //{ fileName = http://127.0.0.1:8080 }
+            //enter catch { mname = <0032> nop.try } ClauseCatchLocal:
+            //{ Message = , StackTrace = java.lang.RuntimeException
+            //        at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__TcpListener.AcceptTcpClientAsync(__TcpListener.java:131)
+
             new { }.With(
                 async delegate
                 {
