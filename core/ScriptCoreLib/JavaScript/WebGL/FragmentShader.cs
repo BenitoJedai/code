@@ -8,6 +8,10 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	[Script(Implements = typeof(ScriptCoreLib.GLSL.FragmentShader))]
 	internal class __FragmentShader : __Shader
 	{
+		// http://stackoverflow.com/questions/26440996/is-it-possible-to-raytrace-with-glsl-while-using-opengl-in-a-normal-way
+		// Raytracing is a golbal illumination model. This means that access to the whole scene with all objects and light sources is required, for obvious reasons. The rendering pipleine OpenGL implements never sees more than a single primitive at a time. While one can do raytricing on the GPU, this is completely different from just writing some shader that can work as a drop-in replacement while keeping the rest of the rendering algorithm the same. You need to completely reogranize the data, and the GL drawing functions are of no good use at all anymore.
+		// http://www.openglsuperbible.com/example-code/
+
 		// tested by?
 
 		// https://github.com/jteeuwen/spirv

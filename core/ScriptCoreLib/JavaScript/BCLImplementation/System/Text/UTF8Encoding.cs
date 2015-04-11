@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/UTF8Encoding.cs
 	// https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/text/utf8encoding.cs
 
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Text\UTF8Encoding.cs
 
 	[Script(Implements = typeof(global::System.Text.UTF8Encoding))]
 	internal class __UTF8Encoding : __Encoding
@@ -19,6 +21,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 		public override string GetString(byte[] bytes, int index, int count)
 		{
 			// X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAsync\ChromeTCPServerAsync\Application.cs
+			// X:\jsc.svn\examples\java\async\test\JVMCLRTCPServerAsync\JVMCLRTCPServerAsync\Program.cs
 
 			var copy = new byte[count];
 

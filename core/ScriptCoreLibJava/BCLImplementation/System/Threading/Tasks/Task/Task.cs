@@ -72,7 +72,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
         }
 
 
-      
+
 
 
         public Task ContinueWith(Action<Task> continuationAction)
@@ -117,10 +117,41 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
         public void Wait()
         {
+            // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\SemaphoreSlim.cs
+
             if (this.IsCompleted)
                 return;
 
             WaitEvent.WaitOne();
+        }
+
+
+
+
+
+        // http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.getawaiter.aspx
+        // !supported in: 4.5
+        public __TaskAwaiter GetAwaiter()
+        {
+            //Console.WriteLine("__Task.GetAwaiter");
+
+
+            var awaiter = new __TaskAwaiter
+            {
+                InternalIsCompleted = () => this.IsCompleted,
+            };
+
+            InvokeWhenComplete(
+                delegate
+                {
+                    //Console.WriteLine("__Task.GetAwaiter InternalYield");
+
+                    if (awaiter.InternalOnCompleted != null)
+                        awaiter.InternalOnCompleted();
+                }
+             );
+
+            return awaiter;
         }
     }
 
@@ -251,6 +282,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
         }
 
 
-     
+
     }
 }

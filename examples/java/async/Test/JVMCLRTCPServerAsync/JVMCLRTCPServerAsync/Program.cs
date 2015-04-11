@@ -40,9 +40,17 @@ namespace JVMCLRTCPServerAsync
 			new { }.With(
 				async delegate
 				{
+					//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
 					//enter async { ManagedThreadId = 1 }
-					//awaiting for SemaphoreSlim
+					//awaiting for SemaphoreSlim{ ManagedThreadId = 1 }
 					//after delay{ ManagedThreadId = 4 }
+					//http://127.0.0.1:8080
+					//awaiting for SemaphoreSlim. done.{ ManagedThreadId = 1 }
+					//--
+					//accept { c = System.Net.Sockets.TcpClient, ManagedThreadId = 6 }
+					//System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+					//accept { c = System.Net.Sockets.TcpClient, ManagedThreadId = 8 }
+					//{ ManagedThreadId = 6, input = GET / HTTP/1.1
 
 
 					Console.WriteLine("enter async " + new { Thread.CurrentThread.ManagedThreadId });
@@ -192,3 +200,11 @@ namespace JVMCLRTCPServerAsync
 
 
 }
+
+
+
+//Implementation not found for type import :
+//type: System.Threading.Tasks.Task
+//method: System.Threading.Tasks.Task Delay(Int32)
+//Did you forget to add the[Script] attribute?
+//Please double check the signature!

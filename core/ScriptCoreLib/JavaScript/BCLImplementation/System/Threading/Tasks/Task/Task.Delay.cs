@@ -16,7 +16,10 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
-    public partial class __Task
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.Delay.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task\Task.Delay.cs
+
+	public partial class __Task
     {
         // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.Delay.cs
 
@@ -39,6 +42,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             var t = new __Task { };
 
+
+			//Native.setTimeout
             new ScriptCoreLib.JavaScript.Runtime.Timer(
                 delegate
                 {
