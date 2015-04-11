@@ -9,6 +9,7 @@ using System.Diagnostics;
 namespace ScriptCoreLibJava.BCLImplementation.System.Diagnostics
 {
     // http://referencesource.microsoft.com/#System/services/monitoring/system/diagnosticts/Process.cs
+    // https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.Process/src/System/Diagnostics/Process.cs
 
 
     [Script(Implements = typeof(global::System.Diagnostics.Process))]

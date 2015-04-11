@@ -8,22 +8,24 @@ using System.Net.Sockets;
 using ScriptCoreLibJava.BCLImplementation.System.IO;
 using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 {
-	// http://referencesource.microsoft.com/#System/net/System/Net/Sockets/NetworkStream.cs
-	// https://github.com/mono/mono/blob/master/mcs/class/System/System.Net.Sockets/NetworkStream.cs
-	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\Sockets\NetworkStream.cs
-	// x:\jsc.svn\core\scriptcorelibjava\bclimplementation\system\net\sockets\networkstream.cs
+    // http://referencesource.microsoft.com/#System/net/System/Net/Sockets/NetworkStream.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net.Sockets/NetworkStream.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\Sockets\NetworkStream.cs
+    // x:\jsc.svn\core\scriptcorelibjava\bclimplementation\system\net\sockets\networkstream.cs
 
-	[Script(Implements = typeof(global::System.Net.Sockets.NetworkStream))]
+    [Script(Implements = typeof(global::System.Net.Sockets.NetworkStream))]
     internal class __NetworkStream : __Stream
     {
-		// tested by?
+        // tested by?
 
-		// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/Stream.cs
+        // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/IO/Stream.cs
 
-		public global::java.io.OutputStream InternalOutputStream;
+        public global::java.io.OutputStream InternalOutputStream;
         public global::java.io.InputStream InternalInputStream;
 
         //public override int ReadTimeout { get; set; }
@@ -159,6 +161,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             throw new NotImplementedException();
         }
 
+
+
+
+        #region Read
+        public override global::System.Threading.Tasks.Task<int> ReadAsync(byte[] buffer, int offset, int count)
+        {
+            var c = new TaskCompletionSource<int>();
+
+            __Task.Run(
+                delegate
+                {
+                    var x = this.Read(buffer, offset, count);
+
+                    c.SetResult(x);
+                }
+            );
+
+
+            return c.Task;
+        }
+
+
         public override int Read(byte[] buffer, int offset, int count)
         {
             var i = -1;
@@ -174,6 +198,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
             return i;
         }
+        #endregion
+
+
+        #region Write
+        public override Task WriteAsync(byte[] buffer, int offset, int count)
+        {
+            var c = new TaskCompletionSource<object>();
+
+            __Task.Run(
+                delegate
+                {
+                    this.Write(buffer, offset, count);
+
+                    c.SetResult(null);
+                }
+            );
+
+
+            return c.Task;
+        }
 
         public override void Write(byte[] buffer, int offset, int count)
         {
@@ -187,6 +231,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             }
 
         }
+        #endregion
+
 
         public static implicit operator __NetworkStream(java.io.InputStream s)
         {
