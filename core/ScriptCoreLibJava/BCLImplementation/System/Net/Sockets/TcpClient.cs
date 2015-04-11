@@ -5,15 +5,17 @@ using System.Text;
 using ScriptCoreLib;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
+using ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 {
-	// http://referencesource.microsoft.com/#System/net/System/Net/Sockets/TcpClient.cs
-	// https://github.com/mono/mono/blob/master/mcs/class/System/System.Net.Sockets/TcpClient.cs
-	// x:\jsc.svn\core\scriptcorelibjava\bclimplementation\system\net\sockets\tcpclient.cs
-	// X:\jsc.svn\market\synergy\javascript\chrome\chrome\BCLImplementation\System\Net\Sockets\TcpClient.cs
+    // http://referencesource.microsoft.com/#System/net/System/Net/Sockets/TcpClient.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net.Sockets/TcpClient.cs
+    // x:\jsc.svn\core\scriptcorelibjava\bclimplementation\system\net\sockets\tcpclient.cs
+    // X:\jsc.svn\market\synergy\javascript\chrome\chrome\BCLImplementation\System\Net\Sockets\TcpClient.cs
 
-	[Script(Implements = typeof(global::System.Net.Sockets.TcpClient))]
+    [Script(Implements = typeof(global::System.Net.Sockets.TcpClient))]
     internal class __TcpClient : IDisposable
     {
         // what comes after tcp?
@@ -39,6 +41,25 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             Client = s;
         }
 
+
+        #region Connect
+        public Task ConnectAsync(string host, int port)
+        {
+            // X:\jsc.svn\examples\java\android\forms\InteractivePortForwarding\InteractivePortForwarding\UserControl1.cs
+            var c = new TaskCompletionSource<object>();
+
+            __Task.Run(
+                delegate
+                {
+                     this.Connect(host, port);
+
+                    c.SetResult(null);
+                }
+            );
+
+            return c.Task;
+        }
+
         public void Connect(IPAddress hostname, int port)
         {
             try
@@ -62,6 +83,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
                 throw;
             }
         }
+        #endregion
+
+
 
         NetworkStream CachedGetStream;
         public NetworkStream GetStream()
