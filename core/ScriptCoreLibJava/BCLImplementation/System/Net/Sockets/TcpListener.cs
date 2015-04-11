@@ -18,6 +18,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 	[Script(Implements = typeof(global::System.Net.Sockets.TcpListener))]
     internal class __TcpListener
     {
+        // X:\jsc.svn\examples\java\async\test\JVMCLRTCPServerAsync\JVMCLRTCPServerAsync\Program.cs
+
+        // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAsync\ChromeTCPServerAsync\Application.cs
+        // X:\jsc.svn\examples\java\HybridCLRJVMAPKWebServer\ClassLibrary1\Class1.cs
+        // X:\jsc.svn\examples\java\SimpleWebServerExample\SimpleWebServerExample\Program.cs
+        // X:\jsc.svn\examples\java\System_Net_Sockets_TcpClient\System_Net_Sockets_TcpClient\Program.cs
+        // X:\jsc.svn\examples\java\PortCloner\PortCloner\Program.cs
+
 		// what about AIR for iOS ?
 		// X:\jsc.svn\examples\actionscript\air\AIRServerSocketExperiment\AIRServerSocketExperiment\ApplicationSprite.cs
 
