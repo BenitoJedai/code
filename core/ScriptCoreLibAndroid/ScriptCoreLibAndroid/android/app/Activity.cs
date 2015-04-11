@@ -148,5 +148,12 @@ namespace android.app
         public void runOnUiThread(Runnable r)
         {
         }
+
+
+        // X:\jsc.svn\examples\java\android\forms\AndroidFormsActivity\AndroidFormsActivity\ApplicationActivity.cs
+        public WindowManager getWindowManager()
+        {
+            return null;
+        }
     }
 }

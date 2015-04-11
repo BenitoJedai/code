@@ -36,5 +36,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 
             InternalSetText(InternalText);
         }
+
+        public virtual global::System.Drawing.ContentAlignment TextAlign { get; set; }
     }
 }
