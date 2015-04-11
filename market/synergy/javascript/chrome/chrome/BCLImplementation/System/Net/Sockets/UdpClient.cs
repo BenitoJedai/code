@@ -73,7 +73,7 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 
 			#endregion
 
-
+			#region Client
 			this.Client = new __Socket
 			{
 				#region vBind
@@ -100,6 +100,8 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 				#endregion
 
 			};
+			#endregion
+
 
 			#region vClose
 			this.vClose = async delegate
@@ -147,6 +149,7 @@ namespace xchrome.BCLImplementation.System.Net.Sockets
 		public Action vClose;
 		public void Close() => vClose();
 
+		// X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Net\Sockets\UdpReceiveResult.cs
 		public Func<Task<UdpReceiveResult>> vReceiveAsync;
 		public Task<UdpReceiveResult> ReceiveAsync() => vReceiveAsync();
 
