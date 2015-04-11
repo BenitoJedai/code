@@ -153,7 +153,16 @@ namespace AndroidTCPServerAsync.Activities
             //new IHTMLPre { new { input } }.AttachToDocument();
             Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId, input });
 
-            var outputString = "HTTP/1.0 200 OK \r\nConnection: close\r\n\r\nhello world. jvm clr android async tcp? udp?<iframe src='http://www.whatsmyip.org/'><iframe>\r\n";
+
+            // http://stackoverflow.com/questions/369498/how-to-prevent-iframe-from-redirecting-top-level-window
+            var outputString = @"HTTP/1.0 200 OK 
+Content-Type:	text/html; charset=utf-8
+Connection: close
+
+<body><h1 style='color: red;'>Hello world</h2><h3>jsc</h3>
+hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='http://www.whatsmyip.us/'><iframe>
+</body>
+";
             var obuffer = Encoding.UTF8.GetBytes(outputString);
 
             await s.WriteAsync(obuffer, 0, obuffer.Length);
