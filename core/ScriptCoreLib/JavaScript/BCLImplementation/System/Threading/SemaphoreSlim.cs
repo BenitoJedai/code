@@ -11,6 +11,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading
 
 	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Threading/SemaphoreSlim.cs
 
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\SemaphoreSlim.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\SemaphoreSlim.cs
+
 	[Script(Implements = typeof(global::System.Threading.SemaphoreSlim))]
 	public class __SemaphoreSlim
 	{

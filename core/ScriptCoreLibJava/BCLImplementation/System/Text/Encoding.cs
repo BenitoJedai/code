@@ -6,9 +6,25 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Text
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/text/encoding.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/Encoding.cs
+
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Text/Encoding.cs
+
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Text\Encoding.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Text\Encoding.cs
+
     [Script(Implements = typeof(global::System.Text.Encoding))]
     internal abstract class __Encoding
     {
+        public virtual string GetString(byte[] bytes, int index, int count)
+        {
+            // X:\jsc.svn\examples\java\async\test\JVMCLRTCPServerAsync\JVMCLRTCPServerAsync\Program.cs
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAsync\ChromeTCPServerAsync\Application.cs
+
+            return default(string);
+        }
+
         public virtual string GetString(byte[] bytes)
         {
             return default(string);
