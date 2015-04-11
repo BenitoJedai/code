@@ -9,6 +9,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Diagnostics
 	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Diagnostics/Debugger.cs
 
 	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Diagnostics/Debug.cs
+	//X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Diagnostics\Debugger.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Diagnostics\Debugger.cs
 
 	[Script(Implements = typeof(global::System.Diagnostics.Debugger))]
 	internal class __Debugger
