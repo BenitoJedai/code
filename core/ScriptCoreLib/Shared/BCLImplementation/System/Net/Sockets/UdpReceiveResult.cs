@@ -7,11 +7,14 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace xchrome.BCLImplementation.System.Net.Sockets
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Net.Sockets
 {
-	[Script(Implements = typeof(global::System.Net.Sockets.UdpReceiveResult))]
+	//[Script(Implements = typeof(global::System.Net.Sockets.UdpReceiveResult))]
+	[Script(ImplementsViaAssemblyQualifiedName = "System.Net.Sockets.UdpReceiveResult")]
 	public class __UdpReceiveResult
 	{
+		// X:\jsc.svn\market\synergy\javascript\chrome\chrome\BCLImplementation\System\Net\Sockets\UdpClient.cs
+
 		public __UdpReceiveResult(byte[] buffer, IPEndPoint remoteEndPoint)
 		{
 			this.Buffer = buffer;

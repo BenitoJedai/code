@@ -23,13 +23,16 @@ namespace InteractivePortForwarding
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            button2.Enabled = false;
+    
 
             var externalPort = int.Parse(textBox1.Text);
             var internalPort = int.Parse(textBox2.Text.SkipUntilOrEmpty(":"));
             var internalHost = textBox2.Text.TakeUntilOrEmpty(":");
 
-            MessageBox.Show("about to start. " + new
+			textBox1.Enabled = false;
+			textBox2.Enabled = false;
+			button2.Enabled = false;
+			MessageBox.Show("about to start. " + new
             {
 
                 externalPort,
