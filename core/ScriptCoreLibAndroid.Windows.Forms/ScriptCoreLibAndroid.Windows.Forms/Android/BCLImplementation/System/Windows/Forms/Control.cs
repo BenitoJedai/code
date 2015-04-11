@@ -7,6 +7,7 @@ using android.content;
 using android.view;
 using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 //using System.Windows.Forms;
+using ScriptCoreLib.Android.Extensions;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 {
@@ -191,5 +192,27 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
             return (__Control)(object)e;
         }
         #endregion
+
+
+
+        public object Invoke(Delegate method)
+        {
+            // X:\jsc.svn\examples\java\android\forms\InteractivePortForwarding\InteractivePortForwarding\UserControl1.cs
+
+            var xAction = (method as Action);
+            if (xAction != null)
+            {
+                (ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext as android.app.Activity).runOnUiThread(
+                    a =>
+                    {
+                        xAction();
+                    }
+                );
+
+
+            }
+
+            return null;
+        }
     }
 }
