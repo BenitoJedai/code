@@ -125,7 +125,7 @@
     <Compile Include="BCLImplementation\System\Threading\ExecutionContext.cs" />
     <Compile Include="BCLImplementation\System\Threading\Monitor.cs" />
     <Compile Include="BCLImplementation\System\Threading\RegisteredWaitHandle.cs" />
-    <Compile Include="BCLImplementation\System\Threading\Tasks\SemaphoreSlim.cs" />
+    <Compile Include="BCLImplementation\System\Threading\SemaphoreSlim.cs" />
     <Compile Include="BCLImplementation\System\Threading\Tasks\TaskFactory.cs" />
     <Compile Include="BCLImplementation\System\Threading\Tasks\Task\Task.GetAwaiter.cs" />
     <Compile Include="BCLImplementation\System\Threading\Tasks\Task\Task.Delay.cs" />

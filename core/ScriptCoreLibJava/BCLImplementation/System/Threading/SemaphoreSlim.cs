@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
+namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 {
     // http://msdn.microsoft.com/en-us/library/system.threading.SemaphoreSlim(v=vs.110).aspx
 
