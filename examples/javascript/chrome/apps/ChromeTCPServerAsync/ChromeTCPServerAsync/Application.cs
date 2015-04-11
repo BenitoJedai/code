@@ -29,12 +29,16 @@ namespace ChromeTCPServerAsync
 	/// </summary>
 	public sealed class Application : ApplicationWebService
 	{
+		// This extension requires Maelstrom version 38 or greater. 
+
 		/// <summary>
 		/// This is a javascript application.
 		/// </summary>
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
+			// Permission 'app.window.alpha' is unknown or URL pattern is malformed.
+
 			#region += Launched chrome.app.window
 			dynamic self = Native.self;
 			dynamic self_chrome = self.chrome;
@@ -145,7 +149,6 @@ namespace ChromeTCPServerAsync
 			new IHTMLPre { "create... " + typeof(TcpClient) }.AttachToDocument();
 			new IHTMLPre { "create... " + typeof(NetworkStream) }.AttachToDocument();
 
-
 			var l = new TcpListener(IPAddress.Any, 8080);
 
 			l.Start();
@@ -160,6 +163,9 @@ namespace ChromeTCPServerAsync
 
 			while (true)
 			{
+				// a test in jvm/android?
+				// X:\jsc.svn\examples\java\async\test\JVMCLRTCPServerAsync\JVMCLRTCPServerAsync\Program.cs
+
 				var c = await l.AcceptTcpClientAsync();
 
 				new IHTMLPre { "accept " + new { c } }.AttachToDocument();
