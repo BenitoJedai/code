@@ -33,6 +33,7 @@ namespace TestPackageForTorrent
 			// http://spexx58.blogspot.com/2013/02/following-most-recent-update-to.html
 
 			// magnet:?xt=urn:btih:F77C51BEC9C983E576442B7450F646A811BCF95D&dn=web&tr=udp%3a%2f%2ftracker.openbittorrent.com%3a80%2fannounce&tr=udp%3a%2f%2ftracker.publicbt.com%3a80%2fannounce&tr=udp%3a%2f%2ftracker.coppersurfer.tk%3a6969&tr=udp%3a%2f%2ftracker.leechers-paradise.org%3a6969&tr=udp%3a%2f%2fopen.demonii.com%3a1337
+			// magnet:?xt=urn:btih:B6434DFFA0BDE40E2FC310CBB296A49390F24350&dn=web%20-%20Copy&tr=udp%3a%2f%2ftracker.coppersurfer.tk%3a6969&tr=udp%3a%2f%2ftracker.leechers-paradise.org%3a6969
 
 			// X:\jsc.svn\examples\java\android\forms\InteractivePortForwarding\InteractivePortForwarding\UserControl1.cs
 
