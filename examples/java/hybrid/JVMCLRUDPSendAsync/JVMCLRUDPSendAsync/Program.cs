@@ -114,7 +114,7 @@ namespace JVMCLRUDPSendAsync
                 );
 
                 //socket.ReceiveAsync
-                socket.Close();
+                //socket.Close();
             };
             goo();
 

@@ -30,7 +30,46 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
         public __UdpClient()
         {
+            this.vSendAsync = (byte[] datagram, int bytes, string hostname, int port) =>
+            {
 
+                var c = new TaskCompletionSource<int>();
+
+                __Task.Run(
+                    delegate
+                    {
+
+                        try
+                        {
+                            var datagramSocket = new java.net.DatagramSocket();
+
+                            var a = global::java.net.InetAddress.getByName(hostname);
+
+                            var packet = new java.net.DatagramPacket(
+                                (sbyte[])(object)datagram,
+                                datagram.Length, a, port
+                            );
+
+                            datagramSocket.send(packet);
+
+                            // retval tested?
+                            c.SetResult(
+                                packet.getLength()
+                            );
+
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+
+
+                    }
+                );
+
+
+                return c.Task;
+            };
         }
 
         public __UdpClient(int port)
