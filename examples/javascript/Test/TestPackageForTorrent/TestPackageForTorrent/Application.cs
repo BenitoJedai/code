@@ -30,7 +30,17 @@ namespace TestPackageForTorrent
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IApp page)
 		{
+			// http://spexx58.blogspot.com/2013/02/following-most-recent-update-to.html
+
+			// magnet:?xt=urn:btih:F77C51BEC9C983E576442B7450F646A811BCF95D&dn=web&tr=udp%3a%2f%2ftracker.openbittorrent.com%3a80%2fannounce&tr=udp%3a%2f%2ftracker.publicbt.com%3a80%2fannounce&tr=udp%3a%2f%2ftracker.coppersurfer.tk%3a6969&tr=udp%3a%2f%2ftracker.leechers-paradise.org%3a6969&tr=udp%3a%2f%2fopen.demonii.com%3a1337
+
 			// X:\jsc.svn\examples\java\android\forms\InteractivePortForwarding\InteractivePortForwarding\UserControl1.cs
+
+			//udp://tracker.coppersurfer.tk:6969
+
+			//udp://tracker.leechers-paradise.org:6969
+
+			// initial seeding isnt a good idea?
 
 			Native.css.style.backgroundColor = "yellow";
 
@@ -108,3 +118,34 @@ namespace TestPackageForTorrent
 // 8    28 ms    27 ms    27 ms  google-ic-306509-s-b5.c.telia.net[62.115.45.14]
 // 9    28 ms    27 ms    27 ms  64.233.175.10
 //10    27 ms    26 ms    27 ms  google-public-dns-a.google.com[8.8.8.8]
+
+
+
+//Connect fault
+//{
+//	host = 192.168.43.10, port = 8080, ElapsedMilliseconds = 23, Message = /192.168.43.10:8080 - Connection refused,
+//       at org.apache.harmony.luni.net.PlainSocketImpl.connect(PlainSocketImpl.java:207)
+//       at org.apache.harmony.luni.net.PlainSocketImpl.connect(PlainSocketImpl.java:437)
+//       at java.net.Socket.connect(Socket.java:1002)
+//       at java.net.Socket.connect(Socket.java:945)
+//       at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__TcpClient___c__DisplayClass2._ConnectAsync_b__1(__TcpClient__
+//   at java.lang.reflect.Method.invokeNative(Native Method)
+//       at java.lang.reflect.Method.invoke(Method.java:507)
+//       at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:93)
+//       at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:71)
+//       at ScriptCoreLib.Shared.BCLImplementation.System.__Action.Invoke(__Action.java:28)
+//       at ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks.__Task___c__DisplayClassc._Run_b__b(__Task___c__DisplayClas
+//   at java.lang.reflect.Method.invokeNative(Native Method)
+//       at java.lang.reflect.Method.invoke(Method.java:507)
+//       at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:93)
+//       at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:71)
+//       at ScriptCoreLib.Shared.BCLImplementation.System.Threading.__ThreadStart.Invoke(__ThreadStart.java:28)
+//       at ScriptCoreLibJava.BCLImplementation.System.Threading.__Thread___c__DisplayClass3.__ctor_b__1(__Thread___c__DisplayClas
+//   at java.lang.reflect.Method.invokeNative(Native Method)
+//       at java.lang.reflect.Method.invoke(Method.java:507)
+//       at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:93)
+//       at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:71)
+//       at ScriptCoreLib.Shared.BCLImplementation.System.__Action.Invoke(__Action.java:28)
+//       at ScriptCoreLibJava.BCLImplementation.System.Threading.__Thread_RunnableHandler.run(__Thread_RunnableHandler.java:20)
+//       at java.lang.Thread.run(Thread.java:1019)
+// }
