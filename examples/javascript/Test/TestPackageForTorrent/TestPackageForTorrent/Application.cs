@@ -51,6 +51,8 @@ namespace TestPackageForTorrent
 			// http://forum.bittorrent.com/topic/16628-wich-ports-should-be-oppened/
 			//  6881-6889 TCP
 
+			// "R:\torrent\web"
+			// magnet:?xt=urn:btih:144B62870B3983702B82036E479A9D04860A5C96&dn=web&tr=udp%3a%2f%2ftracker.openbittorrent.com%3a80%2fannounce&tr=udp%3a%2f%2ftracker.publicbt.com%3a80%2fannounce
 
 		}
 

@@ -241,6 +241,36 @@ namespace TestYouTubeExtractor
 
 		static void Main(string[] args)
 		{
+			try
+			{
+				var ee = Directory.GetFileSystemEntries("r:\\");
+			}
+			catch
+			{
+				// \\192.168.43.12\x$
+
+				//                [Window Title]
+				//        Location is not available
+
+				//        [Content]
+				//R:\ is unavailable.If the location is on this PC, make sure the device or drive is connected or the disc is inserted, and then try again.If the location is on a network, make sure you’re connected to the network or Internet, and then try again.If the location still can’t be found, it might have been moved or deleted.
+
+				//[OK]
+
+				// ---------------------------
+				//Error
+				//-------------------------- -
+				//This network connection does not exist.
+
+
+				//-------------------------- -
+				//OK
+				//-------------------------- -
+
+				IntPtr hWnd = new IntPtr(0);
+				int res = WNetRestoreSingleConnection(hWnd, "r:", true);
+			}
+
 			// or what if debugger starts asking for developer license and clicking ok kills to downloads in progress?
 			// what if device looses power.
 			// how are we to know or resume?
