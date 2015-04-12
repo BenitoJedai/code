@@ -15,6 +15,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Net.Sockets
 	{
 		// X:\jsc.svn\market\synergy\javascript\chrome\chrome\BCLImplementation\System\Net\Sockets\UdpClient.cs
 
+        public __UdpReceiveResult()
+        {
+
+        }
+
 		public __UdpReceiveResult(byte[] buffer, IPEndPoint remoteEndPoint)
 		{
 			this.Buffer = buffer;
