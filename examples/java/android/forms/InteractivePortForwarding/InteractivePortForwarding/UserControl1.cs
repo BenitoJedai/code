@@ -109,8 +109,11 @@ namespace InteractivePortForwarding
             }
         }
 
+        public static int counter;
         private static async void forward(int internalPort, string internalHost, TcpClient c)
         {
+            counter++;
+
             var cexternal = c;
             var cinternal = new TcpClient();
 
@@ -131,8 +134,12 @@ namespace InteractivePortForwarding
                 cinternal.Close();
             };
 
-            forward("TCP > ", cexternal.GetStream(), cinternal.GetStream(), close);
-            forward("TCP < ", cinternal.GetStream(), cexternal.GetStream(), close);
+            forward(counter + " TCP > ", cexternal.GetStream(), cinternal.GetStream(), close);
+            forward(counter + " TCP < ", cinternal.GetStream(), cexternal.GetStream(), close);
+
+            await Task.Delay(20000);
+
+            c.Close();
         }
 
         static async void forward(string prefix, NetworkStream from, NetworkStream to, Action close)
@@ -197,6 +204,7 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
             c.Close();
         }
 
+        static int udpCounter = 0;
         private async void button1_Click(object sender, EventArgs e)
         {
             var externalPort = int.Parse(textBox1.Text);
@@ -234,21 +242,33 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
                 async (x, listener) =>
                 {
 
+
                     var data = x.Buffer;
+
+                    var _udpCounter = udpCounter;
+                    udpCounter++;
+                    var socket = new UdpClient();
 
                     // http://stackoverflow.com/questions/9140450/udp-hole-punching-implementation
                     // http://xbtt.sourceforge.net/udp_tracker_protocol.html
 
                     // http://www.brynosaurus.com/pub/net/p2pnat/
-                    log("UDP > "
+                    //log(_udpCounter + " UDP > "
 
-                        + new { data.Length, x.RemoteEndPoint, internalHost, internalPort }
-                        //+ "\n" + hex(data)
-                        );
+                    //    + new { data.Length, x.RemoteEndPoint, internalHost, internalPort }
+                    //    //+ "\n" + hex(data)
+                    //    );
 
 
-                    // 
-                    var socket = new UdpClient();
+
+
+                    new { }.With(
+                        async delegate
+                        {
+                            await Task.Delay(20000);
+                            socket.Close();
+                        }
+                    );
 
                     var s = await socket.SendAsync(
                         data,
@@ -257,9 +277,7 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
                         port: internalPort
                     );
 
-                    // gc! need the memory
-                    x.Buffer = null;
-                    data = null;
+
 
                     //Console.WriteLine("do we have to wait for a reply from? " + new { internalHost, internalPort });
 
@@ -270,7 +288,10 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
                     xUdpReceiveResult xx = await socket.ReceiveAsync();
                     var xdata = xx.Buffer;
 
-                    log("UDP < " + new { replyCounter, xdata.Length, xx.RemoteEndPoint }
+                    log(_udpCounter
+
+                        + " UDP > " + new { data.Length, x.RemoteEndPoint }
+                        + " UDP < " + new { replyCounter, xdata.Length, xx.RemoteEndPoint }
                         //+ "\n" + hex(xdata)
                         );
 
@@ -278,6 +299,10 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
                     //{ RemoteEndPoint = 192.168.43.10:8080 }
 
                     //Console.WriteLine("do we have to wait for a reply from? " + new { xx.RemoteEndPoint });
+
+                    // gc! need the memory
+                    x.Buffer = null;
+                    data = null;
 
                     // 
                     await listener.SendAsync(
@@ -459,3 +484,11 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
 //W/ActivityManager(  375): Activity idle timeout for ActivityRecord{43018028 u0 InteractivePortForwarding.Activities/.ApplicationActivity}
 //W/ActivityManager(  375): Activity stop timeout for ActivityRecord{43018028 u0 InteractivePortForwarding.Activities/.ApplicationActivity}
 //I/ActivityManager(  375): Activity reported stop, but no longer stopping: ActivityRecord{43018028 u0 InteractivePortForwarding.Activities/.ApplicationActivity}
+
+//E/AndroidRuntime(24312): Caused by: java.net.SocketException: Too many open files
+//E/AndroidRuntime(24312):        at org.apache.harmony.luni.platform.OSNetworkSystem.accept(Native Method)
+//E/AndroidRuntime(24312):        at dalvik.system.BlockGuard$WrappedNetworkSystem.accept(BlockGuard.java:262)
+//E/AndroidRuntime(24312):        at org.apache.harmony.luni.net.PlainSocketImpl.accept(PlainSocketImpl.java:92)
+//E/AndroidRuntime(24312):        at java.net.ServerSocket.implAccept(ServerSocket.java:264)
+//E/AndroidRuntime(24312):        at java.net.ServerSocket.accept(ServerSocket.java:150)
+//E/AndroidRuntime(24312):        at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__TcpListener.AcceptSocket(__TcpListener.java:108)
