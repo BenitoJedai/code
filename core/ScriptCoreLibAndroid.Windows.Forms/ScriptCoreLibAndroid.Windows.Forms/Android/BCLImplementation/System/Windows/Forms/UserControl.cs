@@ -25,6 +25,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
             return InternalLinearLayout;
         }
 
+        public event EventHandler Load;
+
         // called by?
         public override void InternalBeforeSetContext(android.content.Context c)
         {
@@ -51,6 +53,11 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
             InternalLinearLayout.setOrientation(1);
 
             InternalScrollView.addView(InternalLinearLayout);
+
+
+            // X:\jsc.svn\examples\java\android\forms\InteractivePortForwarding\InteractivePortForwarding\UserControl1.cs
+            if (Load != null)
+                Load(this, new EventArgs());
         }
     }
 }

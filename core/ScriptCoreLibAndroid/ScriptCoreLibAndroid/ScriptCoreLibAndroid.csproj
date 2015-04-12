@@ -205,6 +205,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Sockets\TcpListener.cs">
       <Link>BCLImplementation\System\Net\Sockets\TcpListener.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Sockets\UdpClient.cs">
+      <Link>BCLImplementation\System\Net\Sockets\UdpClient.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\WebClient.cs">
       <Link>BCLImplementation\System\Net\WebClient.cs</Link>
     </Compile>

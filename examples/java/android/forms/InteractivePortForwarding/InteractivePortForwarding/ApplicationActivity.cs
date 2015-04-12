@@ -20,6 +20,7 @@ namespace InteractivePortForwarding.Activities
 	[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
 	public class ApplicationActivity : Activity
 	{
+        // http://www.samsung.com/us/support/owners/product/GT-I9250TSGGEN
 
 		protected override void onCreate(Bundle savedInstanceState)
 		{

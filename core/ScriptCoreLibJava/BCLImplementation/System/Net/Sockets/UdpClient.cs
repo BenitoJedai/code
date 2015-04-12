@@ -28,6 +28,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
         // X:\jsc.svn\examples\java\android\AndroidServiceUDPNotification\AndroidServiceUDPNotification\ApplicationActivity.cs
         // X:\jsc.svn\examples\java\android\LANBroadcastListener\LANBroadcastListener\ApplicationActivity.cs
 
+        // X:\jsc.svn\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\SystemHeaders\sys\socket.cs
+
         public __UdpClient()
         {
             this.vSendAsync = (byte[] datagram, int bytes, string hostname, int port) =>

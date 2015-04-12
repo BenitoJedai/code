@@ -37,6 +37,8 @@ namespace JVMCLRPrivateAddress
         {
             // jsc needs to see args to make Main into main for javac..
 
+            // { Address = 192.168.43.252, Description = Atheros AR9485WB-EG Wireless Network Adapter }
+            // { Address = 192.168.43.252, Description = Atheros AR9485WB-EG Wireless Network Adapter }
 
             // see also>
             // X:\jsc.svn\examples\javascript\android\AndroidBroadcastLogger\AndroidBroadcastLogger\ApplicationWebService.cs
@@ -115,6 +117,7 @@ namespace JVMCLRPrivateAddress
 
 
                        let IsPrivate = get_IsPrivate()
+                       let IsCandidate =  IsPrivate && ! IsLoopback &&  SupportsMulticast && IPv4
 
                        select new
                        {
@@ -122,6 +125,8 @@ namespace JVMCLRPrivateAddress
                            IsLoopback,
                            SupportsMulticast,
                            IPv4,
+                           IsCandidate,
+
                            u,
                            n
                        };

@@ -18,5 +18,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
         {
             return (global::System.Net.NetworkInformation.UnicastIPAddressInformation)(object)i;
         }
+
+
     }
 }
