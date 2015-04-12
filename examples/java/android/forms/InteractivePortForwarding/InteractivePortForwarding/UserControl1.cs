@@ -21,6 +21,7 @@ namespace InteractivePortForwarding
         {
             InitializeComponent();
         }
+        // D/PackageBroadcastService(  525): Received broadcast action=android.intent.action.PACKAGE_REMOVED and uri=InteractivePortForwarding.Activities
 
         private async void button2_Click(object sender, EventArgs e)
         {
@@ -95,8 +96,8 @@ namespace InteractivePortForwarding
                 cinternal.Close();
             };
 
-            forward("> ", cexternal.GetStream(), cinternal.GetStream(), close);
-            forward("< ", cinternal.GetStream(), cexternal.GetStream(), close);
+            forward("TCP > ", cexternal.GetStream(), cinternal.GetStream(), close);
+            forward("TCP < ", cinternal.GetStream(), cexternal.GetStream(), close);
         }
 
         static async void forward(string prefix, NetworkStream from, NetworkStream to, Action close)
@@ -206,7 +207,7 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
                         var x = await u.ReceiveAsync();
                         var data = x.Buffer;
 
-                        log("> " + data.Length);
+                        log("UDP > " + data.Length);
 
 
                         var socket = new UdpClient();
