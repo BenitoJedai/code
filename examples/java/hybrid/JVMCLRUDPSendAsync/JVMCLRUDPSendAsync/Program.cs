@@ -109,8 +109,10 @@ namespace JVMCLRUDPSendAsync
                     data.Length,
                     //,
                     //hostname: "239.1.2.3",
-                    hostname: "127.0.0.1",
-                    port: 40804
+                    //hostname: "127.0.0.1",
+                    //hostname: "217.71.46.50",
+                    hostname: "192.168.43.252",
+                    port: 8080
                 );
 
                 //socket.ReceiveAsync

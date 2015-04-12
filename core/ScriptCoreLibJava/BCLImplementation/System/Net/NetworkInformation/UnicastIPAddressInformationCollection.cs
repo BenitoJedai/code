@@ -37,5 +37,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
         {
             return InternalValue.GetEnumerator();
         }
+
+        public override string ToString()
+        {
+            return new { InternalValue.Count }.ToString();
+        }
     }
 }

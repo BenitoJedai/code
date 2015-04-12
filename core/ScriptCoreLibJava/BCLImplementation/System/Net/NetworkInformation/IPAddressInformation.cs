@@ -23,5 +23,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
         {
             return (global::System.Net.NetworkInformation.IPAddressInformation)(object)i;
         }
+
+        public override string ToString()
+        {
+            return new { Address }.ToString();
+
+        }
     }
 }
