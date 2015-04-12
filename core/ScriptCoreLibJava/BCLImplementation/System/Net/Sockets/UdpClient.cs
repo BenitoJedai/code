@@ -30,63 +30,53 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
         // X:\jsc.svn\core\ScriptCoreLibAndroidNDK\ScriptCoreLibAndroidNDK\SystemHeaders\sys\socket.cs
 
-        public __UdpClient()
+        static java.net.DatagramSocket try_new_DatagramSocket()
         {
-            this.vSendAsync = (byte[] datagram, int bytes, string hostname, int port) =>
-            {
-
-                var c = new TaskCompletionSource<int>();
-
-                __Task.Run(
-                    delegate
-                    {
-
-                        try
-                        {
-                            var datagramSocket = new java.net.DatagramSocket();
-
-                            var a = global::java.net.InetAddress.getByName(hostname);
-
-                            var packet = new java.net.DatagramPacket(
-                                (sbyte[])(object)datagram,
-                                datagram.Length, a, port
-                            );
-
-                            datagramSocket.send(packet);
-
-                            // retval tested?
-                            c.SetResult(
-                                packet.getLength()
-                            );
-
-                        }
-                        catch
-                        {
-                            throw;
-                        }
-
-
-                    }
-                );
-
-
-                return c.Task;
-            };
-        }
-
-        public __UdpClient(int port)
-        {
+            #region datagramSocket
             var datagramSocket = default(java.net.DatagramSocket);
 
             try
             {
+                // http://developer.android.com/reference/java/net/DatagramSocket.html
+                // Constructs a UDP datagram socket which is bound to any available port on the localhost.
+                datagramSocket = new java.net.DatagramSocket();
+            }
+            catch
+            {
+                throw;
+            }
+            #endregion
+
+            return datagramSocket;
+        }
+
+        static java.net.DatagramSocket try_new_DatagramSocket(int port)
+        {
+            #region datagramSocket
+            var datagramSocket = default(java.net.DatagramSocket);
+
+            try
+            {
+                // http://developer.android.com/reference/java/net/DatagramSocket.html
+                // Constructs a UDP datagram socket which is bound to the specific port aPort on the localhost. Valid values for aPort are between 0 and 65535 inclusive.
                 datagramSocket = new java.net.DatagramSocket(port);
             }
             catch
             {
                 throw;
             }
+            #endregion
 
+            return datagramSocket;
+        }
+
+
+
+        public __UdpClient(java.net.DatagramSocket datagramSocket)
+        {
+
+
+            #region vReceiveAsync
             this.vReceiveAsync = delegate
             {
                 var c = new TaskCompletionSource<__UdpReceiveResult>();
@@ -137,6 +127,90 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
                 return c.Task;
             };
+            #endregion
+
+            #region vSendAsync
+            this.vSendAsync = (byte[] datagram, int bytes, string hostname, int port) =>
+            {
+                var c = new TaskCompletionSource<int>();
+                __Task.Run(
+                    delegate
+                    {
+                        try
+                        {
+                            var a = global::java.net.InetAddress.getByName(hostname);
+                            var packet = new java.net.DatagramPacket(
+                                (sbyte[])(object)datagram,
+                                datagram.Length, a, port
+                            );
+                            datagramSocket.send(packet);
+                            // retval tested?
+                            c.SetResult(
+                                packet.getLength()
+                            );
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                );
+                return c.Task;
+            };
+            #endregion
+
+            #region vSendAsync2
+            this.vSendAsync2 = (byte[] datagram, int bytes, IPEndPoint endPoint) =>
+            {
+                var c = new TaskCompletionSource<int>();
+                __Task.Run(
+                    delegate
+                    {
+                        try
+                        {
+                            var packet = new java.net.DatagramPacket(
+                                (sbyte[])(object)datagram,
+                                datagram.Length, (__IPAddress)endPoint.Address, endPoint.Port
+                            );
+                            datagramSocket.send(packet);
+                            // retval tested?
+                            c.SetResult(
+                                packet.getLength()
+                            );
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                );
+                return c.Task;
+            };
+            #endregion
+
+            this.vClose = delegate
+            {
+                try
+                {
+                    datagramSocket.close();
+                }
+                catch
+                {
+                }
+            };
+        }
+
+        public __UdpClient()
+            : this(try_new_DatagramSocket())
+        {
+
+        }
+
+        public __UdpClient(int port)
+            : this(try_new_DatagramSocket(port))
+        {
+
+
         }
 
         public Socket Client { get; set; }
@@ -159,5 +233,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
         public delegate Task<int> SendAsyncDelegate(byte[] datagram, int bytes, string hostname, int port);
         public Task<int> SendAsync(byte[] datagram, int bytes, string hostname, int port) { return vSendAsync(datagram, bytes, hostname, port); }
 
+
+        public SendAsyncDelegate2 vSendAsync2;
+        [Script]
+        public delegate Task<int> SendAsyncDelegate2(byte[] datagram, int bytes, IPEndPoint endPoint);
+        public Task<int> SendAsync(byte[] datagram, int bytes, IPEndPoint endPoint) { return vSendAsync2(datagram, bytes, endPoint); }
     }
 }
