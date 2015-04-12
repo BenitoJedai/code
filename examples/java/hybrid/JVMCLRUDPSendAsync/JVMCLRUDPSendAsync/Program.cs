@@ -66,16 +66,17 @@ namespace JVMCLRUDPSendAsync
                     ).ToString();
 
                 #endregion
+                var data = Encoding.UTF8.GetBytes(message);	   //creates a variable b of type byte
 
                 Console.WriteLine("hi from goo");
 
 
                 var socket = new UdpClient();
-                socket.EnableBroadcast = true;
+#if FEnableBroadcast
+				socket.EnableBroadcast = true;
 
                 // bind?
 
-                var data = Encoding.UTF8.GetBytes(message);	   //creates a variable b of type byte
 
                 // http://stackoverflow.com/questions/13691119/chrome-packaged-app-udp-sockets-not-working
 
@@ -96,13 +97,19 @@ namespace JVMCLRUDPSendAsync
 
                 //Additional information: A request to send or receive data was disallowed because the socket is not connected and (when sending on a datagram socket using a sendto call) no address was supplied
 
+#endif
 
+                //socket.Connect(
+                //     "127.0.0.1", 40804
+                //    );
 
                 // X:\jsc.svn\examples\javascript\chrome\apps\ChromeUDPNotification\ChromeUDPNotification\Application.cs
                 var s = await socket.SendAsync(
                     data,
                     data.Length,
-                    hostname: "239.1.2.3",
+                    //,
+                    //hostname: "239.1.2.3",
+                    hostname: "127.0.0.1",
                     port: 40804
                 );
 

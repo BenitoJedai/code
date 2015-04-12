@@ -12,6 +12,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\IPEndPoint.cs
 	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\IPEndPoint.cs
 
+
+    // shared?
 	[Script(Implements = typeof(global::System.Net.IPEndPoint))]
 	internal class __IPEndPoint : __EndPoint
 	{
@@ -28,5 +30,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 		{
 			return this.Address + ":" + this.Port;
 		}
+
+        public static implicit operator global::System.Net.IPEndPoint(__IPEndPoint i)
+        {
+            return (global::System.Net.IPEndPoint)(object)i;
+        }
+
+        public static implicit operator __IPEndPoint(global::System.Net.IPEndPoint i)
+        {
+            return (__IPEndPoint)(object)i;
+        }
 	}
 }
