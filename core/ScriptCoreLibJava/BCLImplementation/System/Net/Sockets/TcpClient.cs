@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 {
@@ -51,9 +52,32 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             __Task.Run(
                 delegate
                 {
-                     this.Connect(host, port);
 
-                    c.SetResult(null);
+                    var sw = Stopwatch.StartNew();
+
+                    try
+                    {
+                        //Caused by: java.net.SocketTimeoutException: Connection timed out
+                        //       at org.apache.harmony.luni.platform.OSNetworkSystem.connect(Native Method)
+                        //       at dalvik.system.BlockGuard$WrappedNetworkSystem.connect(BlockGuard.java:357)
+                        //       at org.apache.harmony.luni.net.PlainSocketImpl.connect(PlainSocketImpl.java:204)
+                        //       at org.apache.harmony.luni.net.PlainSocketImpl.connect(PlainSocketImpl.java:437)
+                        //       at java.net.Socket.connect(Socket.java:1002)
+                        //       at java.net.Socket.connect(Socket.java:945)
+                        //       at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__TcpClient.Connect(__TcpClient.java:96)
+
+                        InternalSocket.setSoTimeout(150000);
+
+                        InternalSocket.connect(new java.net.InetSocketAddress(host, port));
+
+                        c.SetResult(null);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Connect fault " + new { host, port, sw.ElapsedMilliseconds, ex.Message, ex.StackTrace });
+
+                        //throw;
+                    }
                 }
             );
 
@@ -62,12 +86,27 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
         public void Connect(IPAddress hostname, int port)
         {
+            var sw = Stopwatch.StartNew();
+
             try
             {
+                //Caused by: java.net.SocketTimeoutException: Connection timed out
+                //       at org.apache.harmony.luni.platform.OSNetworkSystem.connect(Native Method)
+                //       at dalvik.system.BlockGuard$WrappedNetworkSystem.connect(BlockGuard.java:357)
+                //       at org.apache.harmony.luni.net.PlainSocketImpl.connect(PlainSocketImpl.java:204)
+                //       at org.apache.harmony.luni.net.PlainSocketImpl.connect(PlainSocketImpl.java:437)
+                //       at java.net.Socket.connect(Socket.java:1002)
+                //       at java.net.Socket.connect(Socket.java:945)
+                //       at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__TcpClient.Connect(__TcpClient.java:96)
+
+                InternalSocket.setSoTimeout(150000);
+
                 InternalSocket.connect(new java.net.InetSocketAddress(((__IPAddress)(object)hostname).InternalAddress, port));
             }
             catch
             {
+                Console.WriteLine("Connect fault " + new { hostname, port, sw.ElapsedMilliseconds });
+
                 throw;
             }
         }

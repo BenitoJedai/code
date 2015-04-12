@@ -17,6 +17,32 @@ namespace InteractivePortForwarding
 {
     public partial class UserControl1 : UserControl
     {
+        #region hex
+        static Func<byte[], string> hex =
+            bytes =>
+            {
+                var v = "";
+
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    v += bytes[i].ToString("x2");
+
+                    if (i % 16 == 15)
+                        v += "\n";
+                    else
+                        if (i % 16 == 7)
+                            v += "  ";
+
+                    // tab wont show in debug monitor
+                        //v += "\t";
+                        else
+                            v += " ";
+                }
+
+                return v;
+            };
+        #endregion
+
         public UserControl1()
         {
             InitializeComponent();
@@ -89,6 +115,15 @@ namespace InteractivePortForwarding
             var cinternal = new TcpClient();
 
             await cinternal.ConnectAsync(internalHost, internalPort);
+
+            //E/AndroidRuntime( 5035): Caused by: java.net.SocketException: No route to host
+            //E/AndroidRuntime( 5035):        at org.apache.harmony.luni.platform.OSNetworkSystem.connect(Native Method)
+            //E/AndroidRuntime( 5035):        at dalvik.system.BlockGuard$WrappedNetworkSystem.connect(BlockGuard.java:357)
+            //E/AndroidRuntime( 5035):        at org.apache.harmony.luni.net.PlainSocketImpl.connect(PlainSocketImpl.java:204)
+            //E/AndroidRuntime( 5035):        at org.apache.harmony.luni.net.PlainSocketImpl.connect(PlainSocketImpl.java:437)
+            //E/AndroidRuntime( 5035):        at java.net.Socket.connect(Socket.java:1002)
+            //E/AndroidRuntime( 5035):        at java.net.Socket.connect(Socket.java:945)
+            //E/AndroidRuntime( 5035):        at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__TcpClient.Connect(__TcpClient.java:104)
 
             Action close = delegate
             {
@@ -195,7 +230,62 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
                 };
             #endregion
 
+            Action<xUdpReceiveResult, UdpClient> yield =
+                async (x, listener) =>
+                {
 
+                    var data = x.Buffer;
+
+                    // http://stackoverflow.com/questions/9140450/udp-hole-punching-implementation
+                    // http://xbtt.sourceforge.net/udp_tracker_protocol.html
+
+                    // http://www.brynosaurus.com/pub/net/p2pnat/
+                    log("UDP > "
+
+                        + new { data.Length, x.RemoteEndPoint, internalHost, internalPort }
+                        //+ "\n" + hex(data)
+                        );
+
+
+                    // 
+                    var socket = new UdpClient();
+
+                    var s = await socket.SendAsync(
+                        data,
+                        data.Length,
+                        hostname: internalHost,
+                        port: internalPort
+                    );
+
+                    //Console.WriteLine("do we have to wait for a reply from? " + new { internalHost, internalPort });
+
+                    var replyCounter = 0;
+                next:
+                    replyCounter++;
+
+                    xUdpReceiveResult xx = await socket.ReceiveAsync();
+                    var xdata = xx.Buffer;
+
+                    log("UDP < " + new { replyCounter, xdata.Length, xx.RemoteEndPoint }
+                        //+ "\n" + hex(xdata)
+                        );
+
+                    //{ text = UDP < 298
+                    //{ RemoteEndPoint = 192.168.43.10:8080 }
+
+                    //Console.WriteLine("do we have to wait for a reply from? " + new { xx.RemoteEndPoint });
+
+                    // 
+                    await listener.SendAsync(
+                        xdata, xdata.Length,
+                        endPoint: x.RemoteEndPoint
+                    );
+
+
+
+                    // cycle complete. rinse and repeat.
+                    goto next;
+                };
 
             new { }.With(
                 async delegate
@@ -205,26 +295,46 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
                     while (true)
                     {
                         var x = await u.ReceiveAsync();
-                        var data = x.Buffer;
-
-                        log("UDP > " + data.Length);
+                        yield(x, u);
 
 
-                        var socket = new UdpClient();
+                        //creating stack rewriter..
+                        //will override Ldarg_0
+                        //stack rewriter needs to store struct. can we create new byref struct parameters?
 
-                        var s = await socket.SendAsync(
-                            data,
-                            data.Length,
-                            hostname: internalHost,
-                            port: internalPort
-                        );
+                        //[javac] Compiling 725 source files to W:\bin\classes
+                        //[javac] W:\src\InteractivePortForwarding\UserControl1___c__DisplayClass29___button1_Click_b__27_d__39__MoveNext_0600005b.java:514: error: incompatible types
+                        //[javac]         class2d0 = /* unbox <>c__DisplayClass2d */ref_arg2[0].__t__stack;
+                        //[javac]                                                              ^
+
+
+
+
+
+
+
                     }
                 }
             );
 
         }
 
+        public class xUdpReceiveResult
+        {
+            public IPEndPoint RemoteEndPoint;
+            public byte[] Buffer;
 
+            public static implicit operator xUdpReceiveResult(UdpReceiveResult x)
+            {
+                return new xUdpReceiveResult
+                {
+                    RemoteEndPoint = x.RemoteEndPoint,
+                    Buffer = x.Buffer
+
+                };
+
+            }
+        }
 
 
         private void UserControl1_Load(object sender, EventArgs e)
@@ -337,6 +447,8 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
     }
 }
 
+// host
+// 2015-04-12 19:56:03	UDP Tracker no response.
 
 //W/ActivityManager(  375): Activity idle timeout for ActivityRecord{43018028 u0 InteractivePortForwarding.Activities/.ApplicationActivity}
 //W/ActivityManager(  375): Activity stop timeout for ActivityRecord{43018028 u0 InteractivePortForwarding.Activities/.ApplicationActivity}
