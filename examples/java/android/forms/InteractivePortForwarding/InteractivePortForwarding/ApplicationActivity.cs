@@ -10,6 +10,8 @@ using ScriptCoreLib;
 using ScriptCoreLib.Android.Extensions;
 using ScriptCoreLib.Android.Manifest;
 using ScriptCoreLib.Extensions.Android;
+using android.content;
+using android.net.wifi;
 
 namespace InteractivePortForwarding.Activities
 {
@@ -28,6 +30,11 @@ namespace InteractivePortForwarding.Activities
 
 
 			base.onCreate(savedInstanceState);
+
+            ((WifiManager)this.getSystemService(Context.WIFI_SERVICE)).createWifiLock(
+                WifiManager.WIFI_MODE_FULL_HIGH_PERF,
+                "InteractivePortForwarding"
+                ).acquire();
 
 			var r = default(global::ScriptCoreLib.Android.Windows.Forms.IAssemblyReferenceToken_Forms);
 
