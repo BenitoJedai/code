@@ -16,6 +16,20 @@ namespace android.net.wifi
     {
         // tested by?
         // X:\jsc.svn\examples\java\android\AndroidServiceUDPNotification\AndroidServiceUDPNotification\ApplicationActivity.cs
+        // X:\jsc.svn\examples\java\android\forms\InteractivePortForwarding\InteractivePortForwarding\ApplicationActivity.cs
+
+        public static int WIFI_MODE_FULL_HIGH_PERF = 0x00000003;
+
+        public WifiManager.WifiLock createWifiLock(int lockType, string tag)
+        {
+            throw null;
+        }
+
+        public class WifiLock
+        {
+            public void acquire() { }
+        }
+
 
         public MulticastLock createMulticastLock(string tag)
         {

@@ -257,6 +257,10 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
                         port: internalPort
                     );
 
+                    // gc! need the memory
+                    x.Buffer = null;
+                    data = null;
+
                     //Console.WriteLine("do we have to wait for a reply from? " + new { internalHost, internalPort });
 
                     var replyCounter = 0;
@@ -281,7 +285,9 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
                         endPoint: x.RemoteEndPoint
                     );
 
-
+                    // gc! need the memory
+                    xdata = null;
+                    xx.Buffer = null;
 
                     // cycle complete. rinse and repeat.
                     goto next;

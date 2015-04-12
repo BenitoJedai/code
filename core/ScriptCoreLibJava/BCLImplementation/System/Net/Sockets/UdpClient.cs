@@ -74,6 +74,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
         public __UdpClient(java.net.DatagramSocket datagramSocket)
         {
+            //var buffer = new sbyte[0x10000];
+            var buffer = new sbyte[0x1000];
+
+            //E/dalvikvm-heap(14366): Out of memory on a 1048592-byte allocation.
+            //I/dalvikvm(14366): "Thread-4310" prio=5 tid=827 RUNNABLE
 
 
             #region vReceiveAsync
@@ -87,8 +92,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
                         // http://stackoverflow.com/questions/10808512/datagrampacket-equivalent
                         // http://tutorials.jenkov.com/java-networking/udp-datagram-sockets.html
 
-                        var buffer = new sbyte[0x10000];
 
+ 
                         var packet = new java.net.DatagramPacket(buffer, buffer.Length);
 
                         try
@@ -188,6 +193,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             };
             #endregion
 
+            #region vClose
             this.vClose = delegate
             {
                 try
@@ -198,6 +204,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
                 {
                 }
             };
+            #endregion
+
         }
 
         public __UdpClient()
