@@ -12,416 +12,437 @@ using System.Net.Security;
 
 namespace ScriptCoreLib.Extensions
 {
-    public static class TcpListenerExtensions
-    {
-        //static void BridgeStreamTo(this NetworkStream x, NetworkStream y, int ClientCounter, string prefix = "#")
-        static void BridgeStreamTo(this Stream x, Stream y, int ClientCounter, string prefix = "#")
-        {
-            //Console.WriteLine("BridgeStreamTo x: " + x.GetType().AssemblyQualifiedName);
-
-            new Thread(
-               delegate ()
-               {
-                   var buffer = new byte[0x100000];
-
-                   while (true)
-                   {
-                       //
-                       try
-                       {
-
-                           var c = x.Read(buffer, 0, buffer.Length);
+	public static class TcpListenerExtensions
+	{
+		//static void BridgeStreamTo(this NetworkStream x, NetworkStream y, int ClientCounter, string prefix = "#")
+		static void BridgeStreamTo(this Stream x, Stream y, int ClientCounter, string prefix = "#")
+		{
+			//Console.WriteLine("BridgeStreamTo x: " + x.GetType().AssemblyQualifiedName);
+
+			new Thread(
+			   delegate ()
+			   {
+				   var buffer = new byte[0x100000];
+
+				   while (true)
+				   {
+					   //
+					   try
+					   {
+
+						   var c = x.Read(buffer, 0, buffer.Length);
 
-                           if (c <= 0)
-                               return;
-
-
-                           Console.WriteLine(prefix + ClientCounter.ToString("x4") + " 0x" + c.ToString("x4") + " bytes");
-
-                           if (prefix.StartsWith("?"))
-                               Console.WriteLine(Encoding.ASCII.GetString(buffer, 0, c));
+						   if (c <= 0)
+							   return;
+
+
+						   Console.WriteLine(prefix + ClientCounter.ToString("x4") + " 0x" + c.ToString("x4") + " bytes");
+
+						   if (prefix.StartsWith("?"))
+							   Console.WriteLine(Encoding.ASCII.GetString(buffer, 0, c));
 
-                           y.Write(buffer, 0, c);
-
-                           // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209/bridgeconnectiontoport
-                           // why is sleep a good idea here?
-                           Thread.Sleep(1);
-                       }
-                       catch
-                       {
-                           //Console.WriteLine("#" + ClientCounter + " error");
-
-                           return;
-                       }
-                   }
-               }
-           )
-            {
-                Name = "BridgeStreamTo",
-                IsBackground = true,
-                Priority = ThreadPriority.Lowest
-            }.Start();
-        }
+						   y.Write(buffer, 0, c);
+
+						   // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209/bridgeconnectiontoport
+						   // why is sleep a good idea here?
+						   Thread.Sleep(1);
+					   }
+					   catch
+					   {
+						   //Console.WriteLine("#" + ClientCounter + " error");
+
+						   return;
+					   }
+				   }
+			   }
+		   )
+			{
+				Name = "BridgeStreamTo",
+				IsBackground = true,
+				Priority = ThreadPriority.Lowest
+			}.Start();
+		}
+
+		static void BridgeConnectionTo(this TcpClient x, TcpClient y, int ClientCounter, string rx, string tx)
+		{
+			x.GetStream().BridgeStreamTo(y.GetStream(), ClientCounter, rx);
+			y.GetStream().BridgeStreamTo(x.GetStream(), ClientCounter, tx);
+		}
 
-        static void BridgeConnectionTo(this TcpClient x, TcpClient y, int ClientCounter, string rx, string tx)
-        {
-            x.GetStream().BridgeStreamTo(y.GetStream(), ClientCounter, rx);
-            y.GetStream().BridgeStreamTo(x.GetStream(), ClientCounter, tx);
-        }
-
-        public static void BridgeConnectionToPort(this TcpListener x, int port)
-        {
-            BridgeConnectionToPort(x, port, "> ", "< ");
-        }
-
-        // X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\ApplicationWebService.cs
-        //  (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) =>
-        [Obsolete("wont be visible for the child appdomain?")]
-        public static Dictionary<object, Action<RemoteCertificateValidationCallback>> RemoteCertificateValidationCallbackReplay
-            = new Dictionary<object, Action<RemoteCertificateValidationCallback>>();
-
-
-
-
-        static string win32_processor_processorID()
-        {
-            var sw = Stopwatch.StartNew();
-
-            string cpuInfo = string.Empty;
-            var mc = new System.Management.ManagementClass("win32_processor");
-            var moc = mc.GetInstances();
+		public static void BridgeConnectionToPort(this TcpListener x, int port)
+		{
+			BridgeConnectionToPort(x, port, "> ", "< ");
+		}
+
+		// X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\ApplicationWebService.cs
+		//  (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) =>
+		[Obsolete("wont be visible for the child appdomain?")]
+		public static Dictionary<object, Action<RemoteCertificateValidationCallback>> RemoteCertificateValidationCallbackReplay
+			= new Dictionary<object, Action<RemoteCertificateValidationCallback>>();
+
+
+
+
+		static string win32_processor_processorID()
+		{
+			var sw = Stopwatch.StartNew();
+
+			string cpuInfo = string.Empty;
+			var mc = new System.Management.ManagementClass("win32_processor");
+			var moc = mc.GetInstances();
 
-            foreach (System.Management.ManagementObject mo in moc)
-            {
-                //if (cpuInfo == "")
-                {
-                    // mo = {\\ASUS7\root\cimv2:Win32_Processor.DeviceID="CPU0"}
+			foreach (System.Management.ManagementObject mo in moc)
+			{
+				//if (cpuInfo == "")
+				{
+					// mo = {\\ASUS7\root\cimv2:Win32_Processor.DeviceID="CPU0"}
 
-                    //Get only the first CPU's ID
-                    cpuInfo = mo.Properties["processorID"].Value.ToString();
+					//Get only the first CPU's ID
+					cpuInfo = mo.Properties["processorID"].Value.ToString();
 
 
-                    // cpuInfo = "BFEBFBFF000206A7"
-
-                    break;
-                }
-            }
-
-
-            // { ElapsedMilliseconds = 1132, cpuInfo = BFEBFBFF000206A7 }
-            // { ElapsedMilliseconds = 1090, cpuInfo = BFEBFBFF000206A7 }
-            Console.WriteLine(
-                new
-                {
-                    sw.ElapsedMilliseconds,
-                    cpuInfo
-                }
-                );
-
-            return cpuInfo;
-        }
+					// cpuInfo = "BFEBFBFF000206A7"
+
+					break;
+				}
+			}
 
-        // called by?
-        public static void BridgeConnectionToPort(this TcpListener x, int port, string rx, string tx)
-        {
-            // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
 
-            // http://stackoverflow.com/questions/5510063/makecert-exe-missing-in-windows-7-how-to-get-it-and-use-it
+			// { ElapsedMilliseconds = 1132, cpuInfo = BFEBFBFF000206A7 }
+			// { ElapsedMilliseconds = 1090, cpuInfo = BFEBFBFF000206A7 }
+			Console.WriteLine(
+				new
+				{
+					sw.ElapsedMilliseconds,
+					cpuInfo
+				}
+				);
+
+			return cpuInfo;
+		}
 
-            var makecert70A = "c:/program files/microsoft sdks/windows/v7.0A/bin/makecert.exe";
-            var makecert80 = @"C:\Program Files (x86)\Windows Kits\8.0\bin\x64\makecert.exe";
+		// called by?
+		public static void BridgeConnectionToPort(this TcpListener x, int port, string rx, string tx)
+		{
+			// X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
 
-            // http://stackoverflow.com/questions/589834/what-rsa-key-length-should-i-use-for-my-ssl-certificates
-            // ENISA recommends 15360 Bit. Have a look to the PDF (page 35)
-            // Industry standards set by the Certification Authority/Browser (CA/B) Forum require that certificates issued after January 1, 2014 MUST be at least 2048-bit key length.
-            // http://stackoverflow.com/questions/589834/what-rsa-key-length-should-i-use-for-my-ssl-certificates
+			// http://stackoverflow.com/questions/5510063/makecert-exe-missing-in-windows-7-how-to-get-it-and-use-it
 
-            // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141018-ssl
-            // X:\jsc.svn\examples\java\hybrid\JVMCLRTCPMultiplex\JVMCLRTCPMultiplex\Program.cs
+			var makecert70A = "c:/program files/microsoft sdks/windows/v7.0A/bin/makecert.exe";
+			var makecert80 = @"C:\Program Files (x86)\Windows Kits\8.0\bin\x64\makecert.exe";
+
+			// http://stackoverflow.com/questions/589834/what-rsa-key-length-should-i-use-for-my-ssl-certificates
+			// ENISA recommends 15360 Bit. Have a look to the PDF (page 35)
+			// Industry standards set by the Certification Authority/Browser (CA/B) Forum require that certificates issued after January 1, 2014 MUST be at least 2048-bit key length.
+			// http://stackoverflow.com/questions/589834/what-rsa-key-length-should-i-use-for-my-ssl-certificates
 
-            // Error: There is no matching certificate in the issuer's Root cert store
-            //Error: There are more than one matching certificate in the issuer's Root cert store
-            var makecert = new[] { makecert70A, makecert80 }.FirstOrDefault(File.Exists);
+			// X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141018-ssl
+			// X:\jsc.svn\examples\java\hybrid\JVMCLRTCPMultiplex\JVMCLRTCPMultiplex\Program.cs
+
+			// Error: There is no matching certificate in the issuer's Root cert store
+			//Error: There are more than one matching certificate in the issuer's Root cert store
+			var makecert = new[] { makecert70A, makecert80 }.FirstOrDefault(File.Exists);
 
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150119
-
-            // certmgr.msc
-            //var CN = "device SSL authority for developers";
-            var CN = "peer integrity authority for cpu " + win32_processor_processorID();
-            // should we scan the network and let other peers know
-            // and tell them 'trust us'?
-
-
-            #region CertificateFromCurrentUserByLocalEndPoint
-            Func<IPEndPoint, X509Certificate> CertificateFromCurrentUserByLocalEndPoint =
-                LocalEndPoint =>
-                {
-                    var host = LocalEndPoint.Address.ToString();
-                    var link = "http://" + host + ":" + LocalEndPoint.Port;
-
-
-                    #region CertificateFromCurrentUser
-                    Func<X509Certificate> CertificateFromCurrentUser =
-                        delegate
-                        {
-                            X509Store store = new X509Store(
-                                    //StoreName.Root,
-                                    StoreName.My,
-                                StoreLocation.CurrentUser);
-                            // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
-                            // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201501/20150119
 
-                            // Policy Information:
-                            //URL = http://127.0.0.5:10500
+			// certmgr.msc
+			//var CN = "device SSL authority for developers";
+			var rootCN = "peer integrity authority for cpu " + win32_processor_processorID();
+			// should we scan the network and let other peers know
+			// and tell them 'trust us'?
 
-                            try
-                            {
+			// x:\jsc.svn\examples\javascript\xml\serversidecontent\serversidecontent\application.cs
 
-                                store.Open(OpenFlags.ReadOnly);
-                                // Additional information: The OID value was invalid.
-                                X509Certificate2Collection cers = store.Certificates;
+			#region CertificateFromCurrentUserByLocalEndPoint
+			Func<IPEndPoint, X509Certificate> CertificateFromCurrentUserByLocalEndPoint =
+				LocalEndPoint =>
+				{
+					// do we hav a wan ip?
+					//var upstream = "83.191.217.119";
+					//var upstreamlink = "https://" + upstream + ":" + LocalEndPoint.Port;
+
+
+					var host = LocalEndPoint.Address.ToString();
+					var link = "http://" + host + ":" + LocalEndPoint.Port;
+
+					//link += " " + upstreamlink;
+
+					#region CertificateFromCurrentUser
+					Func<X509Certificate> CertificateFromCurrentUser =
+						delegate
+						{
+							X509Store store = new X509Store(
+									//StoreName.Root,
+									StoreName.My,
+								StoreLocation.CurrentUser);
+							// https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
+							// http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
+
+							// Policy Information:
+							//URL = http://127.0.0.5:10500
+
+							try
+							{
 
+								store.Open(OpenFlags.ReadOnly);
+								// Additional information: The OID value was invalid.
+								X509Certificate2Collection cers = store.Certificates;
 
-                                foreach (var item in cers)
-                                {
-                                    // http://comments.gmane.org/gmane.comp.emulators.wine.devel/86862
-                                    var SPC_SP_AGENCY_INFO_OBJID = "1.3.6.1.4.1.311.2.1.10";
 
-                                    // // spcSpAgencyInfo private extension
-
-                                    var elink = item.Extensions[SPC_SP_AGENCY_INFO_OBJID];
-                                    if (elink != null)
-                                    {
-                                        var prefix = 6;
-                                        var linkvalue = Encoding.UTF8.GetString(elink.RawData, prefix, elink.RawData.Length - prefix);
-
-                                        //Console.WriteLine(new { item.Subject, linkvalue });
-
-                                        if (linkvalue == link)
-                                            return item;
-                                    }
-                                }
-                            }
-                            finally
-                            {
-
-                                store.Close();
-                            }
-
-                            return null;
-
-                        };
-                    #endregion
-
-                    // are we slowing down checking certs at each connection?
-                    // are we spamming the cert store?
-                    var n = CertificateFromCurrentUser();
-
-                    if (n == null)
-                    {
-                        // http://stackoverflow.com/questions/13332569/how-to-create-certificate-authority-certificate-with-makecert
-                        // http://www.jayway.com/2014/09/03/creating-self-signed-certificates-with-makecert-exe-for-development/
-                        // http://stackoverflow.com/questions/4095297/self-signed-certificates-performance-in-wcf-scenarios
+								foreach (var item in cers)
+								{
+									// http://comments.gmane.org/gmane.comp.emulators.wine.devel/86862
+									var SPC_SP_AGENCY_INFO_OBJID = "1.3.6.1.4.1.311.2.1.10";
 
+									// // spcSpAgencyInfo private extension
 
-                        // https://social.msdn.microsoft.com/Forums/windowsdesktop/en-US/7bdd659c-0f1a-47bb-b986-b3cd1e864c9d/creating-a-certificate-with-makecert-fails-without-the-pe-flag-why?forum=windowssecurity
-                        // Can't create the key of the subject ('JoeSoft') 
-                        // http://blog.aschommer.de/?tag=/makecert
+									var elink = item.Extensions[SPC_SP_AGENCY_INFO_OBJID];
+									if (elink != null)
+									{
+										var prefix = 6;
+										var linkvalue = Encoding.UTF8.GetString(elink.RawData, prefix, elink.RawData.Length - prefix);
 
-                        var args =
-                " -eku 1.3.6.1.5.5.7.3.1 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -sk deviceSSLcontainer  -is Root -in \"" + CN + "\" -l " + link;
+										//Console.WriteLine(new { item.Subject, linkvalue });
 
-                        Console.WriteLine(
-                            new { makecert, args }
-                            );
+										if (linkvalue == link)
+											return item;
+									}
+								}
+							}
+							finally
+							{
 
-                        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\Native.cs
+								store.Close();
+							}
 
-                        // logical store name
-                        var p = Process.Start(
-                            new ProcessStartInfo(
-                            makecert, args
-                            //"-r  -n \"CN=localhost\" -m 12 -sky exchange -sv serverCert.pvk -pe -ss my serverCert.cer"
-                            //"-r  -n \"CN=localhost\" -m 12 -sky exchange -pe -ss my serverCert.cer -sr localMachine"
-                            //"-r  -n \"CN=localhost\" -m 12 -sky exchange -pe -ss my serverCert.cer -sr currentuser"
-                            //"-r  -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange -pe -ss my -sr currentuser -l " + link
-                            //"-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA512 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss Root -sr currentuser -l " + link
+							return null;
 
-                            // chrome wont like SHA512
-                            // https://code.google.com/p/chromium/issues/detail?id=342230
-                            // http://serverfault.com/questions/407006/godaddy-ssl-certificate-shows-domain-name-instead-of-full-company-name
-                            // The certificate's O attribute in the subject (organization), along with the C attribute (country) determine what is displayed. If they are absent, it will simply display the primary subject domain name from the certificate.
+						};
+					#endregion
 
-                            //"-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + ",O=JVMCLRTCPMultiplex\"  -len 2048 -m 1 -sky exchange  -ss Root -sr currentuser -l " + link
-                            //" -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
-                            //" -eku 1.3.6.1.5.5.7.3.1 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
+					// are we slowing down checking certs at each connection?
+					// are we spamming the cert store?
+					var n = CertificateFromCurrentUser();
+
+					if (n == null)
+					{
+						// http://stackoverflow.com/questions/13332569/how-to-create-certificate-authority-certificate-with-makecert
+						// http://www.jayway.com/2014/09/03/creating-self-signed-certificates-with-makecert-exe-for-development/
+						// http://stackoverflow.com/questions/4095297/self-signed-certificates-performance-in-wcf-scenarios
+						// https://social.technet.microsoft.com/Forums/lync/en-US/a91485aa-6c04-4ed3-89d4-f821f7289665/how-to-append-subject-alternative-namesan-information-from-makecert?forum=ocssecurity
 
-                            // http://serverfault.com/questions/193775/ssl-certificate-for-a-public-ip-address
-                            // https://social.msdn.microsoft.com/Forums/windowsdesktop/en-US/525879b2-43c0-47fc-aa26-2e0e881b034e/makecert-and-increasing-to-2048-with-len-is-not-working-if-certificate-of-same-name-already-exists?forum=windowssecurity
-                            // Error: The requested and current keysize are not the same.
-                            // http://stackoverflow.com/questions/11708717/ip-address-as-hostname-cn-when-creating-a-certificate-https-hostname-wrong
-                            )
 
-                            {
-                                UseShellExecute = false
+						// https://social.msdn.microsoft.com/Forums/windowsdesktop/en-US/7bdd659c-0f1a-47bb-b986-b3cd1e864c9d/creating-a-certificate-with-makecert-fails-without-the-pe-flag-why?forum=windowssecurity
+						// Can't create the key of the subject ('JoeSoft') 
+						// http://blog.aschommer.de/?tag=/makecert
+						// http://stackoverflow.com/questions/6383054/add-or-create-subject-alternative-name-field-to-self-signed-certificate-using
+						// At least with the version of makecert that comes with Visual Studio 2012, you can specify multiple subjects, simply by specifying a comma separated list -n "CN=domain1, CN=domain2"
+						// http://wiki.cacert.org/VhostTaskForce#head-661e90855b6b4285bbab272390bf7bbd639ed5d9
 
-                            }
 
-                            );
 
-                        p.WaitForExit();
-                        Console.WriteLine(new { p.ExitCode });
+						// chrome will fault on multiple CN
+						var args =
+				//" -eku 1.3.6.1.5.5.7.3.1 -a SHA1 -n \"CN=" + upstream + ",CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -sk deviceSSLcontainer  -is Root -in \"" + rootCN + "\" -l \"" + link + "\"";
+				" -eku 1.3.6.1.5.5.7.3.1 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -sk deviceSSLcontainer  -is Root -in \"" + rootCN + "\" -l \"" + link + "\"";
 
-                        n = CertificateFromCurrentUser();
-                    }
+						Console.WriteLine(
+							new { makecert, args }
+							);
 
-                    return n;
-                };
-            #endregion
+						// X:\jsc.svn\core\ScriptCoreLib\JavaScript\Native.cs
 
+						// logical store name
+						var p = Process.Start(
+							new ProcessStartInfo(
+							makecert, args
+							//"-r  -n \"CN=localhost\" -m 12 -sky exchange -sv serverCert.pvk -pe -ss my serverCert.cer"
+							//"-r  -n \"CN=localhost\" -m 12 -sky exchange -pe -ss my serverCert.cer -sr localMachine"
+							//"-r  -n \"CN=localhost\" -m 12 -sky exchange -pe -ss my serverCert.cer -sr currentuser"
+							//"-r  -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange -pe -ss my -sr currentuser -l " + link
+							//"-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA512 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss Root -sr currentuser -l " + link
 
-            //---------------------------
-            //Security Warning
-            //---------------------------
-            //You are about to install a certificate from a certification authority (CA) claiming to represent:
-            //peer integrity authority for cpu BFEBFBFF000206A7
-            //Windows cannot validate that the certificate is actually from "peer integrity authority for cpu BFEBFBFF000206A7". You should confirm its origin by contacting "peer integrity authority for cpu BFEBFBFF000206A7". The following number will assist you in this process:
-            //Thumbprint (sha1): 4FE31CF8 CDF53883 BD677A2B A3E79ED9 C0225627
-            //Warning:
-            //If you install this root certificate, Windows will automatically trust any certificate issued by this CA. Installing a certificate with an unconfirmed thumbprint is a security risk. If you click "Yes" you acknowledge this risk.
-            //Do you want to install this certificate?
-            //---------------------------
-            //Yes   No   
-            //---------------------------
+							// chrome wont like SHA512
+							// https://code.google.com/p/chromium/issues/detail?id=342230
+							// http://serverfault.com/questions/407006/godaddy-ssl-certificate-shows-domain-name-instead-of-full-company-name
+							// The certificate's O attribute in the subject (organization), along with the C attribute (country) determine what is displayed. If they are absent, it will simply display the primary subject domain name from the certificate.
 
+							//"-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + ",O=JVMCLRTCPMultiplex\"  -len 2048 -m 1 -sky exchange  -ss Root -sr currentuser -l " + link
+							//" -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
+							//" -eku 1.3.6.1.5.5.7.3.1 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
 
-            #region CertificateRootFromCurrentUser
-            Func<X509Certificate> CertificateRootFromCurrentUser =
-                delegate
-                {
-                    X509Store store = new X509Store(
-                                StoreName.Root,
-                        StoreLocation.CurrentUser);
-                    // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
-                    // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
+							// http://serverfault.com/questions/193775/ssl-certificate-for-a-public-ip-address
+							// https://social.msdn.microsoft.com/Forums/windowsdesktop/en-US/525879b2-43c0-47fc-aa26-2e0e881b034e/makecert-and-increasing-to-2048-with-len-is-not-working-if-certificate-of-same-name-already-exists?forum=windowssecurity
+							// Error: The requested and current keysize are not the same.
+							// http://stackoverflow.com/questions/11708717/ip-address-as-hostname-cn-when-creating-a-certificate-https-hostname-wrong
+							)
 
-                    // Policy Information:
-                    //URL = http://127.0.0.5:10500
+							{
+								UseShellExecute = false
 
-                    try
-                    {
+							}
 
-                        store.Open(OpenFlags.ReadOnly);
+							);
 
-                        var item = store.Certificates.Find(X509FindType.FindBySubjectName, CN, true);
+						p.WaitForExit();
+						Console.WriteLine(new { p.ExitCode });
 
-                        if (item.Count > 0)
-                            return item[0];
+						n = CertificateFromCurrentUser();
 
-                    }
-                    finally
-                    {
+						if (n == null)
+							throw new InvalidOperationException();
 
-                        store.Close();
-                    }
+					}
 
-                    return null;
+					return n;
+				};
+			#endregion
 
-                };
-            #endregion
 
+			//---------------------------
+			//Security Warning
+			//---------------------------
+			//You are about to install a certificate from a certification authority (CA) claiming to represent:
+			//peer integrity authority for cpu BFEBFBFF000206A7
+			//Windows cannot validate that the certificate is actually from "peer integrity authority for cpu BFEBFBFF000206A7". You should confirm its origin by contacting "peer integrity authority for cpu BFEBFBFF000206A7". The following number will assist you in this process:
+			//Thumbprint (sha1): 4FE31CF8 CDF53883 BD677A2B A3E79ED9 C0225627
+			//Warning:
+			//If you install this root certificate, Windows will automatically trust any certificate issued by this CA. Installing a certificate with an unconfirmed thumbprint is a security risk. If you click "Yes" you acknowledge this risk.
+			//Do you want to install this certificate?
+			//---------------------------
+			//Yes   No   
+			//---------------------------
 
-            #region authority
-            var r = CertificateRootFromCurrentUser();
 
-            if (r == null)
-            {
+			#region CertificateRootFromCurrentUser
+			Func<X509Certificate> CertificateRootFromCurrentUser =
+				delegate
+				{
+					X509Store store = new X509Store(
+								StoreName.Root,
+						StoreLocation.CurrentUser);
+					// https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
+					// http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
 
-                var args = "-r -cy authority -a SHA1 -n \"CN=" + CN + "\"  -len 2048 -m 72 -ss Root -sr currentuser";
+					// Policy Information:
+					//URL = http://127.0.0.5:10500
 
-                Console.WriteLine(new { makecert, args });
+					try
+					{
 
-                var p = Process.Start(
-                    new ProcessStartInfo(
-                        makecert,
-                       // this cert is constant
-                       args
-                    )
-                    {
-                        UseShellExecute = false
-                    }
+						store.Open(OpenFlags.ReadOnly);
 
-                );
+						var item = store.Certificates.Find(X509FindType.FindBySubjectName, rootCN, true);
 
-                p.WaitForExit();
+						if (item.Count > 0)
+							return item[0];
 
-                Console.WriteLine(new { p.ExitCode });
+					}
+					finally
+					{
 
-            }
-            #endregion
+						store.Close();
+					}
 
+					return null;
 
+				};
+			#endregion
+			// Makecert is deprecated and above will only work for testing in IE as this is not true SAN certificate
+			// http://blogs.technet.com/b/uday/archive/2012/06/21/makecert-exe-san-and-wildcard-certificate.aspx
 
-            x.Start();
 
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141019
-            // X:\jsc.svn\examples\javascript\async\AsyncWorkerSourceSHA1\AsyncWorkerSourceSHA1\Application.cs
-            // { makecert = C:\Program Files (x86)\Windows Kits\8.0\bin\x64\makecert.exe, link = http://0.0.0.0:7847 }
-            //Console.WriteLine("prefetching SSL certificate...");
-            //CertificateFromCurrentUserByLocalEndPoint((IPEndPoint)x.LocalEndpoint);
-            //Console.WriteLine("prefetching SSL certificate... done");
+			#region authority
+			var r = CertificateRootFromCurrentUser();
 
-            var ClientCounter = 0;
+			if (r == null)
+			{
 
-            Action<TcpClient> yield =
-                clientSocket =>
-                {
-                    // how do we get a break point here?
-                    // is the peek broken?
-                    var xPeekableStream = new Library.Eugene.PeekableStream(clientSocket.GetStream(), 1);
+				var args = "-r -cy authority -a SHA1 -n \"CN=" + rootCN + "\"  -len 2048 -m 72 -ss Root -sr currentuser";
 
+				Console.WriteLine(new { makecert, args });
 
-                    var zbuffer = new byte[1];
-                    var z = xPeekableStream.Peek(zbuffer, 0, 1);
-                    var peek_char = zbuffer[0];
-                    //Console.WriteLine(new { peek_char });
+				var p = Process.Start(
+					new ProcessStartInfo(
+						makecert,
+					   // this cert is constant
+					   args
+					)
+					{
+						UseShellExecute = false
+					}
 
-                    if (peek_char == 0x16)
-                    {
-                        #region 0x16
+				);
 
-                        //ScriptCoreLib.Ultra.Library.dll	X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\bin\Debug\ScriptCoreLib.Ultra.Library.dll	No	N/A	Symbols loaded.	X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\bin\Debug\ScriptCoreLib.Ultra.Library.pdb	8	4.5.0.0	2014-12-09 07:57 PM	01000000-01096000	[0x2888] TestEIDPIN2.exe: Managed (v4.0.30319)		
-                        //ScriptCoreLib.Ultra.Library.dll	C:\Users\Arvo\AppData\Local\Temp\Temporary ASP.NET Files\root\859044d8\ccb7784\assembly\dl3\a7ce0579\776f278d_d913d001\ScriptCoreLib.Ultra.Library.dll	No	N/A	Symbols loaded.	x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\obj\Debug\ScriptCoreLib.Ultra.Library.pdb	103	4.5.0.0	2014-12-09 07:57 PM	12AD0000-12B66000	[0x2888] TestEIDPIN2.exe: Managed (v4.0.30319)		
+				p.WaitForExit();
 
+				Console.WriteLine(new { p.ExitCode });
 
-                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209
-                        // how do we get a break point here?
-                        Console.WriteLine("enter https "
-                        //    + new
-                        //{
-                        //    Debugger.IsAttached,
-                        //    System.Reflection.Assembly.GetExecutingAssembly().Location
-                        //}
-                        );
+			}
+			#endregion
 
 
-                        //using (
-                        SslStream sslStream = new SslStream(
-                           innerStream: xPeekableStream,
-                           leaveInnerStreamOpen: false,
 
-                           userCertificateSelectionCallback:
-                               new LocalCertificateSelectionCallback(
-                                   (object sender, string targetHost, X509CertificateCollection localCertificates, X509Certificate remoteCertificate, string[] acceptableIssuers) =>
-                                   {
-                                       return localCertificates[0];
-                                   }
-                               ),
-                           userCertificateValidationCallback:
-                               new RemoteCertificateValidationCallback(
-                                   (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) =>
-                                   {
+			x.Start();
+
+			// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141019
+			// X:\jsc.svn\examples\javascript\async\AsyncWorkerSourceSHA1\AsyncWorkerSourceSHA1\Application.cs
+			// { makecert = C:\Program Files (x86)\Windows Kits\8.0\bin\x64\makecert.exe, link = http://0.0.0.0:7847 }
+			//Console.WriteLine("prefetching SSL certificate...");
+			//CertificateFromCurrentUserByLocalEndPoint((IPEndPoint)x.LocalEndpoint);
+			//Console.WriteLine("prefetching SSL certificate... done");
+
+			var ClientCounter = 0;
+
+			Action<TcpClient> yield =
+				clientSocket =>
+				{
+					// how do we get a break point here?
+					// is the peek broken?
+					var xPeekableStream = new Library.Eugene.PeekableStream(clientSocket.GetStream(), 1);
+
+
+					var zbuffer = new byte[1];
+					var z = xPeekableStream.Peek(zbuffer, 0, 1);
+					var peek_char = zbuffer[0];
+					//Console.WriteLine(new { peek_char });
+
+					if (peek_char == 0x16)
+					{
+						#region 0x16
+
+						//ScriptCoreLib.Ultra.Library.dll	X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\bin\Debug\ScriptCoreLib.Ultra.Library.dll	No	N/A	Symbols loaded.	X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\bin\Debug\ScriptCoreLib.Ultra.Library.pdb	8	4.5.0.0	2014-12-09 07:57 PM	01000000-01096000	[0x2888] TestEIDPIN2.exe: Managed (v4.0.30319)		
+						//ScriptCoreLib.Ultra.Library.dll	C:\Users\Arvo\AppData\Local\Temp\Temporary ASP.NET Files\root\859044d8\ccb7784\assembly\dl3\a7ce0579\776f278d_d913d001\ScriptCoreLib.Ultra.Library.dll	No	N/A	Symbols loaded.	x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\obj\Debug\ScriptCoreLib.Ultra.Library.pdb	103	4.5.0.0	2014-12-09 07:57 PM	12AD0000-12B66000	[0x2888] TestEIDPIN2.exe: Managed (v4.0.30319)		
+
+
+						// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209
+						// how do we get a break point here?
+						Console.WriteLine("enter https "
+						//    + new
+						//{
+						//    Debugger.IsAttached,
+						//    System.Reflection.Assembly.GetExecutingAssembly().Location
+						//}
+						);
+
+
+						//using (
+						SslStream sslStream = new SslStream(
+						   innerStream: xPeekableStream,
+						   leaveInnerStreamOpen: false,
+
+						   userCertificateSelectionCallback:
+							   new LocalCertificateSelectionCallback(
+								   (object sender, string targetHost, X509CertificateCollection localCertificates, X509Certificate remoteCertificate, string[] acceptableIssuers) =>
+								   {
+									   return localCertificates[0];
+								   }
+							   ),
+						   userCertificateValidationCallback:
+							   new RemoteCertificateValidationCallback(
+								   (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) =>
+								   {
 									   // what if the app would also like to know
 									   // how did the client authenticate?
 
@@ -435,114 +456,147 @@ namespace ScriptCoreLib.Extensions
 
 
 									   if (certificate != null)
-                                           //Console.Title = certificate.GetSerialNumberString();
-                                           Console.Title = new { certificate }.ToString();
+										   //Console.Title = certificate.GetSerialNumberString();
+										   Console.Title = new { certificate }.ToString();
 
-                                       //RemoteCertificateValidationCallbackReplay[sender] =
-                                       // y => y(sender, certificate, chain, sslPolicyErrors);
+									   //RemoteCertificateValidationCallbackReplay[sender] =
+									   // y => y(sender, certificate, chain, sslPolicyErrors);
 
-                                       return true;
-                                   }
-                               ),
-                           encryptionPolicy: EncryptionPolicy.RequireEncryption
-                           );
-                        //)
-                        {
+									   return true;
+								   }
+							   ),
+						   encryptionPolicy: EncryptionPolicy.RequireEncryption
+						   );
+						//)
+						{
 
-                            try
-                            {
-                                // AuthenticateAsServer
-                                // can this hang? if we use the wrong stream!
+							try
+							{
+								// AuthenticateAsServer
+								// can this hang? if we use the wrong stream!
 
-                                var enabledSslProtocols = System.Security.Authentication.SslProtocols.Default;
+								var enabledSslProtocols = System.Security.Authentication.SslProtocols.Default;
 
-                                if (typeof(System.Security.Authentication.SslProtocols).GetField("Tls12") != null)
-                                {
-                                    // even if we link as 4.0 running in 4.5 we have tls1.2
-                                    enabledSslProtocols = (System.Security.Authentication.SslProtocols)3072;
-                                }
+								if (typeof(System.Security.Authentication.SslProtocols).GetField("Tls12") != null)
+								{
+									// even if we link as 4.0 running in 4.5 we have tls1.2
+									enabledSslProtocols = (System.Security.Authentication.SslProtocols)3072;
+								}
 
-                                //Console.WriteLine(
-                                //    new { enabledSslProtocols }
-                                //);
-
-                                sslStream.AuthenticateAsServer(
-                                    serverCertificate: CertificateFromCurrentUserByLocalEndPoint((IPEndPoint)clientSocket.Client.LocalEndPoint),
-                                    //clientCertificateRequired: false,
-                                    clientCertificateRequired: true,
-                                // Tls12 = 3072
-                                //enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
-                                enabledSslProtocols: enabledSslProtocols,
-                                    checkCertificateRevocation: false
-                                );
-
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(new { ex.Message });
-
-                                if (ex.InnerException != null)
-                                    Console.WriteLine(new { ex.InnerException.Message });
-
-                                return;
-                            }
-
-                            //Console.WriteLine("read " + sslStream.GetHashCode());
+								//Console.WriteLine(
+								//    new { enabledSslProtocols }
+								//);
 
 
-                            var y = new TcpClient();
-                            y.Connect(new System.Net.IPEndPoint(IPAddress.Loopback, port));
+								// This server could not prove that it is 83.191.217.119; its security certificate is from 192.168.43.252. This may be caused by a misconfiguration or an attacker intercepting your connection.
 
-                            sslStream.BridgeStreamTo(y.GetStream(), ClientCounter, rx);
-                            y.GetStream().BridgeStreamTo(sslStream, ClientCounter, tx);
-
-                            //sslStream.Close();
-                        }
-                        //Console.WriteLine("exit https");
-                        return;
-                        #endregion
-
-                    }
+								//							RemoteEndPoint = 192.168.43.1:33497, isPeerProxy = False }
+								//		certificate = , chain =  }
+								//	nter https
+								// RemoteEndPoint = 192.168.43.252:30522, isPeerProxy = False
+								//}
 
 
-                    // { peek_char = 71 }
-                    //=>0006 0x0120 bytes
-                    {
-                        var y = new TcpClient();
-                        y.Connect(new System.Net.IPEndPoint(IPAddress.Loopback, port));
+								// is the tcp being forwarded? translate local gateway to wan
+								// { RemoteEndPoint = 192.168.43.1:51835, isPeerProxy = False }
+								var isPeerProxy = ((IPEndPoint)clientSocket.Client.RemoteEndPoint).Address.ToString() == "192.168.43.1";
 
-                        // how was this able to work? did svn loose state?
-                        //clientSocket.BridgeConnectionTo(y, ClientCounter, "?" + rx, tx);
-                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209/bridgeconnectiontoport
+								Console.WriteLine(new { clientSocket.Client.RemoteEndPoint, isPeerProxy });
+								var serverCertificate =
 
-                        xPeekableStream.BridgeStreamTo(y.GetStream(), ClientCounter, rx);
-                        y.GetStream().BridgeStreamTo(clientSocket.GetStream(), ClientCounter, tx);
-                    }
+								isPeerProxy ?
 
-                };
+									CertificateFromCurrentUserByLocalEndPoint(
+										new IPEndPoint(
+											address: IPAddress.Parse("83.191.217.119"),
+											port: port
+										)
+									)
+									:
+									CertificateFromCurrentUserByLocalEndPoint((IPEndPoint)clientSocket.Client.LocalEndPoint);
 
-
-            new Thread(
-               delegate ()
-               {
-                   while (true)
-                   {
-                       var clientSocket = x.AcceptTcpClient();
-                       ClientCounter++;
-
-                       //Console.WriteLine("#" + ClientCounter + " BridgeConnectionToPort");
+								//var upstream = "83.191.217.119";
 
 
-                       yield(clientSocket);
-                   }
 
 
-               }
-           )
-            {
-                IsBackground = true,
-                Name = "BridgeConnectionToPort"
-            }.Start();
-        }
-    }
+								sslStream.AuthenticateAsServer(
+									serverCertificate: serverCertificate,
+									//clientCertificateRequired: false,
+									clientCertificateRequired: true,
+									// Tls12 = 3072
+									//enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
+									enabledSslProtocols: enabledSslProtocols,
+									checkCertificateRevocation: false
+								);
+
+							}
+							catch (Exception ex)
+							{
+								Console.WriteLine(new { ex.Message });
+
+								if (ex.InnerException != null)
+									Console.WriteLine(new { ex.InnerException.Message });
+
+								return;
+							}
+
+							//Console.WriteLine("read " + sslStream.GetHashCode());
+
+
+							var y = new TcpClient();
+							y.Connect(new System.Net.IPEndPoint(IPAddress.Loopback, port));
+
+							sslStream.BridgeStreamTo(y.GetStream(), ClientCounter, rx);
+							y.GetStream().BridgeStreamTo(sslStream, ClientCounter, tx);
+
+							//sslStream.Close();
+						}
+						//Console.WriteLine("exit https");
+						return;
+						#endregion
+
+					}
+
+
+					// { peek_char = 71 }
+					//=>0006 0x0120 bytes
+					{
+						var y = new TcpClient();
+						y.Connect(new System.Net.IPEndPoint(IPAddress.Loopback, port));
+
+						// how was this able to work? did svn loose state?
+						//clientSocket.BridgeConnectionTo(y, ClientCounter, "?" + rx, tx);
+						// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141209/bridgeconnectiontoport
+
+						xPeekableStream.BridgeStreamTo(y.GetStream(), ClientCounter, rx);
+						y.GetStream().BridgeStreamTo(clientSocket.GetStream(), ClientCounter, tx);
+					}
+
+				};
+
+
+			new Thread(
+			   delegate ()
+			   {
+				   while (true)
+				   {
+					   var clientSocket = x.AcceptTcpClient();
+					   ClientCounter++;
+
+					   //Console.WriteLine("#" + ClientCounter + " BridgeConnectionToPort");
+
+
+					   yield(clientSocket);
+				   }
+
+
+			   }
+		   )
+			{
+				IsBackground = true,
+				Name = "BridgeConnectionToPort"
+			}.Start();
+		}
+	}
 }

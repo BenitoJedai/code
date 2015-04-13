@@ -137,6 +137,13 @@ namespace ServerSideContent
 
 		// can we get jsc light speeding fast via ENC?
 
+		// if we could, we would package the static website as a torrent, and seed it via udp forwarding over 4G.
+		// yet for now, bit torrent does not work correctly in this scenario, and diagnostics do not tell whats wrong.
+		// if we were to publish a tcp server, then the ssl certifcate does not have the alternative wan ip attached.
+		// X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
+		// X:\jsc.svn\examples\javascript\Test\TestPackageForTorrent\TestPackageForTorrent\Application.cs
+		// X:\jsc.svn\examples\java\android\forms\InteractivePortForwarding\InteractivePortForwarding\UserControl1.cs
+
 		public void Handler(ScriptCoreLib.Ultra.WebService.WebServiceHandler h)
 		{
 			// http://crockford.com/javascript/jsmin
