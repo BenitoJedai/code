@@ -200,6 +200,8 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
             public void onSurfaceCreated(GL10 glUnused, javax.microedition.khronos.egl.EGLConfig config)
             {
+                // and now we still need redux?
+
                 // Set the background clear color to gray.
                 gl.clearColor(0.5f, 0.5f, 0.5f, 0.5f);
 

@@ -28,9 +28,14 @@ namespace AndroidOpenGLESLesson6Activity.Activities
     using gl = WebGLRenderingContext;
     using opengl = GLES20;
 
+	[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:minSdkVersion", value = "10")]
+	[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "22")]
 
-    public class AndroidOpenGLESLesson6Activity : Activity
+	// unavailable for android 2.4
+	//[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:theme", value = "@android:style/Theme.Holo.Dialog")]
+	public class AndroidOpenGLESLesson6Activity : Activity
     {
+		// 3 years later!
         // port from http://www.learnopengles.com/android-lesson-six-an-introduction-to-texture-filtering/
         // Y:\opensource\github\Learn-OpenGLES-Tutorials\android\AndroidOpenGLESLessons\src\com\learnopengles\android\lesson6
 
@@ -56,7 +61,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
 
             #region density
-            DisplayMetrics displayMetrics = new DisplayMetrics();
+            var displayMetrics = new DisplayMetrics();
             this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
             v.mDensity = displayMetrics.density;

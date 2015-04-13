@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio 14
+VisualStudioVersion = 14.0.22609.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidOpenGLESLesson5Activity", "AndroidOpenGLESLesson5Activity\AndroidOpenGLESLesson5Activity.csproj", "{6314B853-870A-4B1E-A9FA-B9326192270B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibAndroid", "..\..\..\..\..\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\ScriptCoreLibAndroid.csproj", "{1CE7D22F-52C8-4164-8955-CD89609E48A9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra", "..\..\..\..\..\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra.csproj", "{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}"
 EndProject
@@ -40,16 +40,6 @@ Global
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.Build.0 = PHP|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Android|Any CPU.ActiveCfg = Release|Any CPU
-		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Android|Any CPU.Build.0 = Release|Any CPU
-		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Assets|Any CPU.ActiveCfg = Release|Any CPU
-		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Assets|Any CPU.Build.0 = Release|Any CPU
-		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.PHP|Any CPU.ActiveCfg = Release|Any CPU
-		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.PHP|Any CPU.Build.0 = Release|Any CPU
-		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Android|Any CPU.ActiveCfg = Assets|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Android|Any CPU.Build.0 = Assets|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
