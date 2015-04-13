@@ -41,6 +41,8 @@ namespace ScriptCoreLib.JavaScript.WebVR
 
 		// http://mozvr.com/downloads/
 
+
+		// X:\jsc.svn\examples\java\android\synergy\AndroidCardboardExperiment\AndroidCardboardExperiment\ApplicationActivity.cs
 	}
 
 	//partial interface Navigator

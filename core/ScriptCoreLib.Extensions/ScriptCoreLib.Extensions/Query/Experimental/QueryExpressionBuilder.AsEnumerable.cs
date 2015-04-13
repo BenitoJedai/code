@@ -286,6 +286,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
                             if (FieldType == typeof(XElement))
+								// ?
                                 __value = ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
                                     ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault(
                                         (string)__value
