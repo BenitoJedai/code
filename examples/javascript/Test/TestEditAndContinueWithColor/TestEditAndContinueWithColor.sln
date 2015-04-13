@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEditAndContinueWithColor", "TestEditAndContinueWithColor\TestEditAndContinueWithColor.csproj", "{76843B5B-EB0A-4E49-8B36-037969E0545F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSwitchToServiceContextAsync", "..\..\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync.csproj", "{C76D511F-BAE1-4D30-A8E6-96274F2A8BD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSwitchToServiceContextAsync", "..\..\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync.csproj", "{5A6A3B8C-35E2-49E4-9856-73956C94D149}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEditAndContinue", "..\..\async\Test\TestEditAndContinue\TestEditAndContinue\TestEditAndContinue.csproj", "{FD87D8FF-C43C-428E-A23C-633E326013D5}"
 EndProject
@@ -21,10 +21,10 @@ Global
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|x86.Build.0 = Debug|x86
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.ActiveCfg = Release|x86
 		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.Build.0 = Release|x86
-		{C76D511F-BAE1-4D30-A8E6-96274F2A8BD2}.Debug|x86.ActiveCfg = Debug|x86
-		{C76D511F-BAE1-4D30-A8E6-96274F2A8BD2}.Debug|x86.Build.0 = Debug|x86
-		{C76D511F-BAE1-4D30-A8E6-96274F2A8BD2}.Release|x86.ActiveCfg = Release|x86
-		{C76D511F-BAE1-4D30-A8E6-96274F2A8BD2}.Release|x86.Build.0 = Release|x86
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Debug|x86.ActiveCfg = Debug|x86
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Debug|x86.Build.0 = Debug|x86
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Release|x86.ActiveCfg = Release|x86
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149}.Release|x86.Build.0 = Release|x86
 		{FD87D8FF-C43C-428E-A23C-633E326013D5}.Debug|x86.ActiveCfg = Debug|x86
 		{FD87D8FF-C43C-428E-A23C-633E326013D5}.Debug|x86.Build.0 = Debug|x86
 		{FD87D8FF-C43C-428E-A23C-633E326013D5}.Release|x86.ActiveCfg = Release|x86
@@ -34,7 +34,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C76D511F-BAE1-4D30-A8E6-96274F2A8BD2} = {5F14004E-5A7B-4482-84CA-F6CD4C5EB2C9}
+		{5A6A3B8C-35E2-49E4-9856-73956C94D149} = {5F14004E-5A7B-4482-84CA-F6CD4C5EB2C9}
 		{FD87D8FF-C43C-428E-A23C-633E326013D5} = {5F14004E-5A7B-4482-84CA-F6CD4C5EB2C9}
 	EndGlobalSection
 EndGlobal

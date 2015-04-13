@@ -217,9 +217,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             __Task.Run(
                 delegate
                 {
-                    this.Write(buffer, offset, count);
+                    //E/AndroidRuntime( 4264): Caused by: java.net.SocketException: Socket closed
+                    //E/AndroidRuntime( 4264):        at org.apache.harmony.luni.platform.OSNetworkSystem.write(Native Method)
+                    //E/AndroidRuntime( 4264):        at dalvik.system.BlockGuard$WrappedNetworkSystem.write(BlockGuard.java:284)
+                    //E/AndroidRuntime( 4264):        at org.apache.harmony.luni.net.PlainSocketImpl.write(PlainSocketImpl.java:472)
+                    //E/AndroidRuntime( 4264):        at org.apache.harmony.luni.net.SocketOutputStream.write(SocketOutputStream.java:57)
+                    //E/AndroidRuntime( 4264):        at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__NetworkStream.Write(__NetworkStream.java:251)
+                    //E/AndroidRuntime( 4264):        ... 20 more
 
-                    c.SetResult(null);
+                    try
+                    {
+                        this.InternalOutputStream.write((sbyte[])(object)buffer, offset, count);
+                        c.SetResult(null);
+                    }
+                    catch (Exception ex)
+                    {
+                        //throw;
+                        Console.WriteLine("WriteAsync " + new { ex.Message, ex.StackTrace });
+
+                    }
+
                 }
             );
 

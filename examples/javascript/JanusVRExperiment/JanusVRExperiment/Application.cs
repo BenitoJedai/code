@@ -57,6 +57,8 @@ public class FireBoxRoom
 	[Script(HasNoPrototype = true, InternalConstructor = true)]
 	public sealed class Cube : Object
 	{
+		// X:\jsc.svn\examples\javascript\xml\ServerSideContent\ServerSideContent\Application.cs
+
 		public static List<Cube> Elements = new List<Cube>();
 
 

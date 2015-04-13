@@ -49,64 +49,73 @@ namespace InteractivePortForwarding
         }
         // D/PackageBroadcastService(  525): Received broadcast action=android.intent.action.PACKAGE_REMOVED and uri=InteractivePortForwarding.Activities
 
-        private async void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-
-
-            var externalPort = int.Parse(textBox1.Text);
-            var internalPort = int.Parse(textBox2.Text.SkipUntilOrEmpty(":"));
-            var internalHost = textBox2.Text.TakeUntilOrEmpty(":");
-
-            //textBox1.Enabled = false;
-            //textBox2.Enabled = false;
             button2.Enabled = false;
-            MessageBox.Show("about to start. " + new
-            {
 
-                externalPort,
-                internalHost,
-                internalPort
-            });
-
-            await Task.Delay(100);
-
-            #region log
-            Action<string> log =
-                text =>
+            textBox1.Text.Split(',').WithEach(
+                async sexternalPort =>
                 {
-                    this.Invoke(
-                        new Action(
-                            delegate
-                            {
-                                this.button2.Text = text;
-                            }
-                        )
-                    );
-                };
-            #endregion
 
-            log("> " + new { externalPort, Environment.CurrentManagedThreadId });
+                    var externalPort = int.Parse(sexternalPort);
+                    //var internalPort = int.Parse(textBox2.Text.SkipUntilOrEmpty(":"));
+                    var internalPort = externalPort;
+                    var internalHost = textBox2.Text.TakeUntilOrEmpty(":");
 
-            var l = new TcpListener(IPAddress.Any, 8080);
+                    //textBox1.Enabled = false;
+                    //textBox2.Enabled = false;
+                    //MessageBox.Show("about to start. " + new
+                    //{
 
-            l.Start();
+                    //    externalPort,
+                    //    internalHost,
+                    //    internalPort
+                    //});
 
-            while (true)
-            {
-                var c = await l.AcceptTcpClientAsync();
+                    //await Task.Delay(100);
 
-                log("accept " + new { c, Thread.CurrentThread.ManagedThreadId });
+                    #region log
+                    Action<string> log =
+                        text =>
+                        {
+                            this.Invoke(
+                                new Action(
+                                    delegate
+                                    {
+                                        this.button2.Text = text;
+                                    }
+                                )
+                            );
+                        };
+                    #endregion
 
-                //[javac] Compiling 694 source files to W:\bin\classes
-                //[javac] W:\src\InteractivePortForwarding\UserControl1__button2_Click_d__e__MoveNext_0600002a.java:983: error: incompatible types
-                //[javac]         class70 = /* unbox <>c__DisplayClass7 */ref_arg2[0].__t__stack;
-                //[javac]                                                            ^
-                //[javac]   required: UserControl1___c__DisplayClass7
-                //[javac]   found:    Object
+                    log("> " + new { externalPort, Environment.CurrentManagedThreadId });
 
-                forward(internalPort, internalHost, c);
+                    Console.WriteLine("TCP " + new { externalPort });
 
-            }
+                    var l = new TcpListener(IPAddress.Any, externalPort);
+
+                    l.Start();
+
+                    while (true)
+                    {
+                        var c = await l.AcceptTcpClientAsync();
+
+                        log("accept " + new { c, Thread.CurrentThread.ManagedThreadId });
+
+                        //[javac] Compiling 694 source files to W:\bin\classes
+                        //[javac] W:\src\InteractivePortForwarding\UserControl1__button2_Click_d__e__MoveNext_0600002a.java:983: error: incompatible types
+                        //[javac]         class70 = /* unbox <>c__DisplayClass7 */ref_arg2[0].__t__stack;
+                        //[javac]                                                            ^
+                        //[javac]   required: UserControl1___c__DisplayClass7
+                        //[javac]   found:    Object
+
+                        forward(internalPort, internalHost, c);
+
+                    }
+                }
+            );
+
         }
 
         public static int counter;
@@ -205,148 +214,197 @@ hello world. jvm clr android async tcp? udp?<iframe  sandbox='allow-forms' src='
         }
 
         static int udpCounter = 0;
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            var externalPort = int.Parse(textBox1.Text);
-            var internalPort = int.Parse(textBox2.Text.SkipUntilOrEmpty(":"));
-            var internalHost = textBox2.Text.TakeUntilOrEmpty(":");
-
             button1.Enabled = false;
 
-            MessageBox.Show("about to start UDP forwarding. " + new
-            {
 
-                externalPort,
-                internalHost,
-                internalPort
-            });
-
-            #region log
-            Action<string> log =
-                text =>
+            textBox1.Text.Split(',').WithEach(
+                sexternalPort =>
                 {
-                    Console.WriteLine(new { text });
+                    var externalPort = int.Parse(sexternalPort);
+                    var internalPort = externalPort;
+                    //var internalPort = int.Parse(textBox2.Text.SkipUntilOrEmpty(":"));
+                    var internalHost = textBox2.Text.TakeUntilOrEmpty(":");
 
-                    this.Invoke(
-                        new Action(
-                            delegate
+                    //MessageBox.Show("about to start UDP forwarding. " + new
+                    //{
+
+                    //    externalPort,
+                    //    internalHost,
+                    //    internalPort
+                    //});
+
+                    #region log
+                    Action<string> log =
+                        text =>
+                        {
+                            Console.WriteLine(new { text });
+
+                            this.Invoke(
+                                new Action(
+                                    delegate
+                                    {
+                                        this.button1.Text = text;
+                                    }
+                                )
+                            );
+                        };
+                    #endregion
+
+
+                    //I/System.Console(25237): { text = 306 UDP > { Length = 103, RemoteEndPoint = 24.77.172.104:35202 } UDP < { replyCounter = 1, Length = 268, RemoteEndPoint = 192.168.43.10:8080 } }
+                    //I/StatusBarPolicy(  207): onDataActivity-D:3
+                    //I/System.Console(25237): { text = 307 UDP > { Length = 103, RemoteEndPoint = 24.77.172.104:35202 } UDP < { replyCounter = 1, Length = 268, RemoteEndPoint = 192.168.43.10:8080 } }
+                    //I/StatusBarPolicy(  207): onSignalStrengthsChanged
+                    //I/System.Console(25237): { text = 308 UDP > { Length = 103, RemoteEndPoint = 24.77.172.104:35202 } UDP < { replyCounter = 1, Length = 268, RemoteEndPoint = 192.168.43.10:8080 } }
+
+                    var internalLookup = new Dictionary<string, UdpClient>();
+
+                    Action<xUdpReceiveResult, UdpClient> yield =
+                        async (x, listener) =>
+                        {
+                            var data = x.Buffer;
+
+                            if (internalLookup.ContainsKey(x.RemoteEndPoint.ToString()))
                             {
-                                this.button1.Text = text;
+                                // route already active..
+
+                                log(" UDP >> "
+
+                                 + new { data.Length, x.RemoteEndPoint, internalHost, internalPort }
+                                    //+ "\n" + hex(data)
+                                );
+
+
+
+
+                                await internalLookup[x.RemoteEndPoint.ToString()].SendAsync(
+                                      data,
+                                      data.Length,
+                                      hostname: internalHost,
+                                      port: internalPort
+                                  );
+
+
+                                return;
                             }
-                        )
-                    );
-                };
-            #endregion
 
-            Action<xUdpReceiveResult, UdpClient> yield =
-                async (x, listener) =>
-                {
+                            var _udpCounter = udpCounter;
+                            udpCounter++;
+                            var socket = new UdpClient();
 
+                            // http://stackoverflow.com/questions/9140450/udp-hole-punching-implementation
+                            // http://xbtt.sourceforge.net/udp_tracker_protocol.html
 
-                    var data = x.Buffer;
+                            // http://www.brynosaurus.com/pub/net/p2pnat/
+                            log(_udpCounter + " UDP > "
 
-                    var _udpCounter = udpCounter;
-                    udpCounter++;
-                    var socket = new UdpClient();
-
-                    // http://stackoverflow.com/questions/9140450/udp-hole-punching-implementation
-                    // http://xbtt.sourceforge.net/udp_tracker_protocol.html
-
-                    // http://www.brynosaurus.com/pub/net/p2pnat/
-                    //log(_udpCounter + " UDP > "
-
-                    //    + new { data.Length, x.RemoteEndPoint, internalHost, internalPort }
-                    //    //+ "\n" + hex(data)
-                    //    );
+                                + new { data.Length, x.RemoteEndPoint, internalHost, internalPort }
+                                //+ "\n" + hex(data)
+                                );
 
 
 
+
+                            new { }.With(
+                                async delegate
+                                {
+                                    //E/AndroidRuntime(28959): Caused by: java.net.SocketException: Socket is closed
+                                    //E/AndroidRuntime(28959):        at java.net.DatagramSocket.checkClosedAndBind(DatagramSocket.java:588)
+                                    //E/AndroidRuntime(28959):        at java.net.DatagramSocket.send(DatagramSocket.java:420)
+                                    //E/AndroidRuntime(28959):        at ScriptCoreLibJava.BCLImplementation.System.Net.Sockets.__UdpClient___c__DisplayClassb___c__DisplayClass11.__ctor_b__4(__UdpClient___c__DisplayClassb___c__DisplayClass11.java:37)
+                                    //E/AndroidRuntime(28959):        ... 19 more
+
+                                    //await Task.Delay(20000);
+                                    //socket.Close();
+                                }
+                            );
+
+                            var s = await socket.SendAsync(
+                                data,
+                                data.Length,
+                                hostname: internalHost,
+                                port: internalPort
+                            );
+
+                            internalLookup[x.RemoteEndPoint.ToString()] = socket;
+
+
+                            //Console.WriteLine("do we have to wait for a reply from? " + new { internalHost, internalPort });
+                            // http://www.ingate.com/files/422/fwmanual-en/xx3701.html
+
+                            var replyCounter = 0;
+                        next:
+                            replyCounter++;
+
+                            xUdpReceiveResult xx = await socket.ReceiveAsync();
+                            var xdata = xx.Buffer;
+
+                            log(_udpCounter
+
+                                //+ " UDP > " + new { data.Length, x.RemoteEndPoint }
+                                + " UDP < " + new { replyCounter, xdata.Length, external = x.RemoteEndPoint, @internal = xx.RemoteEndPoint }
+                                //+ "\n" + hex(xdata)
+                                );
+
+                            //{ text = UDP < 298
+                            //{ RemoteEndPoint = 192.168.43.10:8080 }
+
+                            //Console.WriteLine("do we have to wait for a reply from? " + new { xx.RemoteEndPoint });
+
+                            // gc! need the memory
+                            x.Buffer = null;
+                            data = null;
+
+                            // 
+                            await listener.SendAsync(
+                                xdata, xdata.Length,
+                                endPoint: x.RemoteEndPoint
+                            );
+
+                            // gc! need the memory
+                            xdata = null;
+                            xx.Buffer = null;
+
+                            // cycle complete. rinse and repeat.
+                            goto next;
+
+                        };
 
                     new { }.With(
                         async delegate
                         {
-                            await Task.Delay(20000);
-                            socket.Close();
+                            Console.WriteLine("UDP " + new { externalPort });
+                            var u = new UdpClient(externalPort);
+
+                            while (true)
+                            {
+                                var x = await u.ReceiveAsync();
+                                yield(x, u);
+
+
+                                //creating stack rewriter..
+                                //will override Ldarg_0
+                                //stack rewriter needs to store struct. can we create new byref struct parameters?
+
+                                //[javac] Compiling 725 source files to W:\bin\classes
+                                //[javac] W:\src\InteractivePortForwarding\UserControl1___c__DisplayClass29___button1_Click_b__27_d__39__MoveNext_0600005b.java:514: error: incompatible types
+                                //[javac]         class2d0 = /* unbox <>c__DisplayClass2d */ref_arg2[0].__t__stack;
+                                //[javac]                                                              ^
+
+
+
+
+
+
+
+                            }
                         }
                     );
-
-                    var s = await socket.SendAsync(
-                        data,
-                        data.Length,
-                        hostname: internalHost,
-                        port: internalPort
-                    );
-
-
-
-                    //Console.WriteLine("do we have to wait for a reply from? " + new { internalHost, internalPort });
-
-                    var replyCounter = 0;
-                next:
-                    replyCounter++;
-
-                    xUdpReceiveResult xx = await socket.ReceiveAsync();
-                    var xdata = xx.Buffer;
-
-                    log(_udpCounter
-
-                        + " UDP > " + new { data.Length, x.RemoteEndPoint }
-                        + " UDP < " + new { replyCounter, xdata.Length, xx.RemoteEndPoint }
-                        //+ "\n" + hex(xdata)
-                        );
-
-                    //{ text = UDP < 298
-                    //{ RemoteEndPoint = 192.168.43.10:8080 }
-
-                    //Console.WriteLine("do we have to wait for a reply from? " + new { xx.RemoteEndPoint });
-
-                    // gc! need the memory
-                    x.Buffer = null;
-                    data = null;
-
-                    // 
-                    await listener.SendAsync(
-                        xdata, xdata.Length,
-                        endPoint: x.RemoteEndPoint
-                    );
-
-                    // gc! need the memory
-                    xdata = null;
-                    xx.Buffer = null;
-
-                    // cycle complete. rinse and repeat.
-                    goto next;
-                };
-
-            new { }.With(
-                async delegate
-                {
-                    var u = new UdpClient(externalPort);
-
-                    while (true)
-                    {
-                        var x = await u.ReceiveAsync();
-                        yield(x, u);
-
-
-                        //creating stack rewriter..
-                        //will override Ldarg_0
-                        //stack rewriter needs to store struct. can we create new byref struct parameters?
-
-                        //[javac] Compiling 725 source files to W:\bin\classes
-                        //[javac] W:\src\InteractivePortForwarding\UserControl1___c__DisplayClass29___button1_Click_b__27_d__39__MoveNext_0600005b.java:514: error: incompatible types
-                        //[javac]         class2d0 = /* unbox <>c__DisplayClass2d */ref_arg2[0].__t__stack;
-                        //[javac]                                                              ^
-
-
-
-
-
-
-
-                    }
                 }
             );
+
 
         }
 

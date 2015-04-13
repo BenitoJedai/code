@@ -49,3 +49,9 @@ namespace InteractivePortForwarding.Activities
 
 }
 
+
+//I/System.Console(25237): { text = 306 UDP > { Length = 103, RemoteEndPoint = 24.77.172.104:35202 } UDP < { replyCounter = 1, Length = 268, RemoteEndPoint = 192.168.43.10:8080 } }
+//I/StatusBarPolicy(  207): onDataActivity-D:3
+//I/System.Console(25237): { text = 307 UDP > { Length = 103, RemoteEndPoint = 24.77.172.104:35202 } UDP < { replyCounter = 1, Length = 268, RemoteEndPoint = 192.168.43.10:8080 } }
+//I/StatusBarPolicy(  207): onSignalStrengthsChanged
+//I/System.Console(25237): { text = 308 UDP > { Length = 103, RemoteEndPoint = 24.77.172.104:35202 } UDP < { replyCounter = 1, Length = 268, RemoteEndPoint = 192.168.43.10:8080 } }
