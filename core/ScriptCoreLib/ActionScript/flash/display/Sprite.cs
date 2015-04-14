@@ -12,67 +12,70 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Sprite : DisplayObjectContainer
     {
-        // http://blogs.adobe.com/flashplayer/
+		// http://blogs.adobe.com/flashplayer/
 
-        // http://news.slashdot.org/story/15/01/27/2217258/youtube-ditches-flash-for-html5-video-by-default
-        // would jsc be able to dynamically update/patch running apps on the LAN?
-
-
-        // if HZ no longer depends on svg files
-        // and we can use .dae instead, can we move from flex to the new compiler?
-
-        // AIR 16 SDK for Flex Developers
-        // https://forums.adobe.com/thread/1638700
-        //1/6/2015 - Beta - AIR 16.0.0.259 Runtime and SDK
-        // https://forums.adobe.com/thread/1673793
-
-        // http://help.adobe.com/en_US/air/extensions/WSb464b1207c184b14-62b8e11f12937b86be4-8000.html
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207
-
-        // http://labsdownload.adobe.com/pub/labs/flashruntimes/shared/air16_flashplayer16_releasenotes.pdf
-        // http://blogs.adobe.com/flashplayer/2014/09/stage3d-standard-profile.html#more-6487
-        // http://blogs.adobe.com/flashplayer/2014/11/adobe-air-and-android-5-0.html
-
-        // ! this class has economic metrics to it.
-
-        //We believe that the Runtime remains a great choice for developers who want a multi platform solution.  
-        // From games, education, enterprise and a myriad of other categories, developers have had great success 
-        // using Flash Player and AIR.   Flash Player remains ubiquitous, installed on easily over a billion computers.  
-        // It comes bundled with all new Windows 8.x systems and every Chrome/Chrome OS installation.  It's found on 
-        // nearly every computer with a connection to the internet.  AIR is also a huge success, with over 2.1 billion 
-        // user installations and over a hundred thousand distinct applications created.
-        // https://forums.adobe.com/thread/1365685?start=280&tstart=0
+		// http://news.slashdot.org/story/15/01/27/2217258/youtube-ditches-flash-for-html5-video-by-default
+		// would jsc be able to dynamically update/patch running apps on the LAN?
 
 
-        // October 22, 2014 — This is a beta release of AIR 15, code named Market.
-        // Last Updated: October 23, 2014 
+		// if HZ no longer depends on svg files
+		// and we can use .dae instead, can we move from flex to the new compiler?
 
-        // http://labsdownload.adobe.com/pub/labs/flashruntimes/shared/air15_flashplayer15_releasenotes.pdf
-        // http://labs.adobe.com/technologies/flashruntimes/air/
-        // https://forums.adobe.com/community/labs/flashruntimes/air/
+		// March 24, 2015
+		// https://forums.adobe.com/thread/1794100
 
-        // https://forums.adobe.com/thread/1541258
-        // https://forums.adobe.com/thread/1493673
+		// AIR 16 SDK for Flex Developers
+		// https://forums.adobe.com/thread/1638700
+		//1/6/2015 - Beta - AIR 16.0.0.259 Runtime and SDK
+		// https://forums.adobe.com/thread/1673793
 
-        // jsc likes starling
-        // http://gamua.com/blog/2014/05/starling-15/?scid=social24460774
+		// http://help.adobe.com/en_US/air/extensions/WSb464b1207c184b14-62b8e11f12937b86be4-8000.html
+		// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201412/20141207
 
-        // http://blogs.adobe.com/flashplayer/
+		// http://labsdownload.adobe.com/pub/labs/flashruntimes/shared/air16_flashplayer16_releasenotes.pdf
+		// http://blogs.adobe.com/flashplayer/2014/09/stage3d-standard-profile.html#more-6487
+		// http://blogs.adobe.com/flashplayer/2014/11/adobe-air-and-android-5-0.html
 
-        // "X:\jsc.internal.git\core\ScriptCoreLib\References\AdobeAIRSDK\frameworks\libs\player\14.0\playerglobal.swc"
-        // when will we do LINQ to SQL for flash, async/await threading?
+		// ! this class has economic metrics to it.
 
-        // http://blogs.adobe.com/flashplayer/2014/03/latest-updates-on-the-flash-runtime.html
-        // http://www.adobe.com/devnet/flashplatform/whitepapers/roadmap.html
-        // Flash Player plug-in for Android is not supported or available for the Google Chrome browser on Android.
+		//We believe that the Runtime remains a great choice for developers who want a multi platform solution.  
+		// From games, education, enterprise and a myriad of other categories, developers have had great success 
+		// using Flash Player and AIR.   Flash Player remains ubiquitous, installed on easily over a billion computers.  
+		// It comes bundled with all new Windows 8.x systems and every Chrome/Chrome OS installation.  It's found on 
+		// nearly every computer with a connection to the internet.  AIR is also a huge success, with over 2.1 billion 
+		// user installations and over a hundred thousand distinct applications created.
+		// https://forums.adobe.com/thread/1365685?start=280&tstart=0
 
-        // the Web Browser on my Galaxy S does support flash plugin.
 
-        #region Properties
-        /// <summary>
-        /// Specifies the button mode of this sprite.
-        /// </summary>
-        public bool buttonMode { get; set; }
+		// October 22, 2014 — This is a beta release of AIR 15, code named Market.
+		// Last Updated: October 23, 2014 
+
+		// http://labsdownload.adobe.com/pub/labs/flashruntimes/shared/air15_flashplayer15_releasenotes.pdf
+		// http://labs.adobe.com/technologies/flashruntimes/air/
+		// https://forums.adobe.com/community/labs/flashruntimes/air/
+
+		// https://forums.adobe.com/thread/1541258
+		// https://forums.adobe.com/thread/1493673
+
+		// jsc likes starling
+		// http://gamua.com/blog/2014/05/starling-15/?scid=social24460774
+
+		// http://blogs.adobe.com/flashplayer/
+
+		// "X:\jsc.internal.git\core\ScriptCoreLib\References\AdobeAIRSDK\frameworks\libs\player\14.0\playerglobal.swc"
+		// when will we do LINQ to SQL for flash, async/await threading?
+
+		// http://blogs.adobe.com/flashplayer/2014/03/latest-updates-on-the-flash-runtime.html
+		// http://www.adobe.com/devnet/flashplatform/whitepapers/roadmap.html
+		// Flash Player plug-in for Android is not supported or available for the Google Chrome browser on Android.
+
+		// the Web Browser on my Galaxy S does support flash plugin.
+
+		#region Properties
+		/// <summary>
+		/// Specifies the button mode of this sprite.
+		/// </summary>
+		public bool buttonMode { get; set; }
 
         /// <summary>
         /// [read-only] Specifies the display object over which the sprite is being dragged, or on which the sprite was dropped.

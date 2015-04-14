@@ -60,6 +60,8 @@ namespace TestPackageForTorrent
 			// magnet:?xt=urn%3Abtih%2BE1445EABF26683C1F187AF376EFDF60E0E105C
 			// magnet:?xt=urn:btih:2BE1445EABF26683C1F187AF376EFDF60E0E105C&dn=web&tr=udp%3a%2f%2ftracker.openbittorrent.com%3a80%2fannounce&tr=udp%3a%2f%2ftracker.publicbt.com%3a80%2fannounce&tr=udp%3a%2f%2ftracker.ccc.de%3a80%2fannounce
 
+			// magnet:?pt=urn:btih:&as=https://s3-us-west-1.amazonaws.com/project-maelstrom/Crash+Reel.torrent
+
 			// LAN uPnP not available. no seed
 			// hotspot not forwarding ports.
 
