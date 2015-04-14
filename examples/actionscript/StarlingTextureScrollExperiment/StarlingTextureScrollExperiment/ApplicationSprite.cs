@@ -165,11 +165,6 @@ namespace StarlingTextureScrollExperiment
             content_rot.addChild(img0);
 
 
-            //            StarlingTextureScrollExperiment.ApplicationSprite+__in_Delegate__in_Method
-            //System.NullReferenceException: Object reference not set to an instance of an object.
-            //   at jsc.Languages.ActionScript.ActionScriptCompiler.WriteMethodCallVerified(Prestatement p, ILInstruction i, MethodBase m) in x:\jsc.internal.svn\compiler\jsc\Languages\ActionScript\ActionScriptCompiler.WriteMethodCallVerified.cs:line 99
-            //   at jsc.Script.CompilerBase.WriteMethodCall(Prestatement p, ILInstruction i, MethodBase m) in x:\jsc.internal.svn\compiler\jsc\Languages\CompilerBase.cs:line 1307
-            //script: error JSC1000: ActionScript : failure at starling.display.DisplayObject.add_enterFrame : Object reference not set to an instance of an object.
 
             var scrollx = 0.0;
 
@@ -182,7 +177,8 @@ namespace StarlingTextureScrollExperiment
                     scrollx += 0.1 * xsw.ElapsedMilliseconds;
                     setOffset(img0, scrollx, 32);
 
-                    xsw.Restart();
+					//xsw.Restart();
+					xsw = Stopwatch.StartNew();
                 };
 
 
