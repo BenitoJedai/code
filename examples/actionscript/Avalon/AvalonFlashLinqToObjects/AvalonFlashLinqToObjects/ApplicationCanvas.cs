@@ -120,3 +120,29 @@ namespace AvalonFlashLinqToObjects
 
     }
 }
+
+//BCL needs another method, please define it.
+//Cannot call type without script attribute :
+// System.String for System.String Format(System.IFormatProvider, System.String, System.Object[]) used at
+// <>f__AnonymousType$56$0`2.ToString at offset 002e.
+// If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements = typeof(...)] set.You may have mistyped it.
+//System.InvalidOperationException: ActionScript :
+// BCL needs another method, please define it.
+// Cannot call type without script attribute :
+// System.String for System.String Format(System.IFormatProvider, System.String, System.Object[]) used at
+// <>f__AnonymousType$56$0`2.ToString at offset 002e.
+// If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements = typeof(...)] set.You may have mistyped it.
+//   at jsc.Script.CompilerBase.BreakToDebugger(String e) in X:\jsc.internal.git\compiler\jsc\Languages\CompilerBase.cs:line 267
+//   at jsc.Script.CompilerBase.Break(String e) in X:\jsc.internal.git\compiler\jsc\Languages\CompilerBase.cs:line 227
+//   at jsc.Script.CompilerBase.WriteMethodCall(Prestatement p, ILInstruction i, MethodBase m) in X:\jsc.internal.git\compiler\jsc\Languages\CompilerBase.cs:line 1333
+
+
+//	0008 02000328 ScriptCoreLib::ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel.__IBindingList
+//{ exc = System.AggregateException: One or more errors occurred. ---> System.InvalidOperationException: internal compiler error at method
+// assembly: C:\util\jsc\bin\ScriptCoreLib.dll at
+// type: ScriptCoreLib.ActionScript.BCLImplementation.System.__BitConverter, ScriptCoreLib, Version=4.6.0.0, Culture=neutral, PublicKeyToken=null
+// method: GetBytes
+// Object reference not set to an instance of an object.
+//    at System.Collections.Generic.Dictionary`2.Insert(TKey key, TValue value, Boolean add)
+//   at System.Collections.Generic.Dictionary`2.set_Item(TKey key, TValue value)
+//   at jsc.Script.CompilerBase.DIACache.GetVariableName(Type t, MethodBase m, LocalVariableInfo var, CompilerBase z) in X:\jsc.internal.git\compiler\jsc\Languages\CompilerBase.DIA.cs:line 273

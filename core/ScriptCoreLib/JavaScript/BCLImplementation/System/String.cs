@@ -19,6 +19,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// X:\opensource\github\WootzJs\WootzJs.Runtime\String.cs
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/String.cs
 	// https://github.com/sq/JSIL/blob/master/Proxies/String.cs
+    // https://github.com/bridgedotnet/Bridge/blob/master/Bridge/System/String.cs
 
 	// haha. Purpose: Your favorite String class.
 

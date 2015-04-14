@@ -6,11 +6,20 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/string.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/String.cs
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/String.cs
+
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\String.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\String.cs
     // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\String.cs
     // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\String.cs
+
+    // X:\opensource\github\WootzJs\WootzJs.Runtime\String.cs
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/String.cs
+    // https://github.com/sq/JSIL/blob/master/Proxies/String.cs
+    // https://github.com/bridgedotnet/Bridge/blob/master/Bridge/System/String.cs
+
+    // haha. Purpose: Your favorite String class.
 
     [Script(
         Implements = typeof(global::System.String),
@@ -38,8 +47,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
         public static string Format(string format, params object[] b)
         {
+            // X:\jsc.svn\examples\javascript\test\Test46AnonymousTypeToString\Test46AnonymousTypeToString\Class1.cs
+
+            // X:\jsc.svn\examples\javascript\Test\TestStringInterpolation\TestStringInterpolation\Application.cs
+
             // X:\jsc.svn\examples\actionscript\async\Test\TestTaskDelay\TestTaskDelay\ApplicationSprite.cs
-            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\String.cs
             // X:\jsc.svn\examples\javascript\test\TestRoslynAnonymousType\TestRoslynAnonymousType\Class1.cs
             // fast solution 
 
@@ -50,10 +62,29 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             {
                 var value = b[i];
 
+                // what about {0:x2}
                 x = x.Replace("{" + i + "}", Convert.ToString(value));
             }
 
             return x;
+        }
+
+
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201503/20150323
+        // x:\jsc.svn\examples\javascript\test\test46anonymoustypetostring\test46anonymoustypetostring\class1.cs
+        // 4.6	
+        public static string Format(IFormatProvider provider, string format, object[] args)
+        {
+            // called by anonymous type tostring
+            return Format(format, args);
+        }
+
+        //script: error JSC1000: No implementation found for this native method, please implement[static System.String.Format(System.String, System.Object, System.Object, System.Object)]
+        public static string Format(string format, object args0, object args1, object args2)
+        {
+            // X:\jsc.svn\examples\javascript\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\Library\ZeProperties.cs
+            // called by anonymous type tostring
+            return Format(format, new[] { args0, args1, args2 });
         }
         #endregion
 

@@ -4,11 +4,18 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/bitconverter.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/BitConverter.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/BitConverter.cs
+
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\BitConverter.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\BitConverter.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\BitConverter.cs
+
+
     [Script(Implements = typeof(global::System.BitConverter))]
     internal class __BitConverter
     {
-        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\BitConverter.cs
-        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\BitConverter.cs
         public static byte[] GetBytes(int value)
         {
             var _buffer = new byte[4];
