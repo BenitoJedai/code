@@ -12,6 +12,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 	// https://github.com/mono/mono/blob/master/mcs/class/Mono.WebBrowser/Mono.Mozilla/DOM/History.cs
 	// http://www.scala-js.org/api/scalajs-dom/0.6/index.html#org.scalajs.dom.History
 	// http://sharpkit.net/help/SharpKit.Html4/SharpKit.Html4/History/
+	// https://github.com/bridgedotnet/Bridge/blob/master/Html5/History.cs
 
 	[Script(HasNoPrototype = true)]
     public class History

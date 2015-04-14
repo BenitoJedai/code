@@ -5,7 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.WebGL
 {
-    [Script(HasNoPrototype = true, ExternalTarget = "ArrayBuffer")]
+	// https://github.com/bridgedotnet/Bridge/blob/master/Html5/TypedArray/ArrayBuffer.cs
+
+	[Script(HasNoPrototype = true, ExternalTarget = "ArrayBuffer")]
     public class ArrayBuffer
     {
         // X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs

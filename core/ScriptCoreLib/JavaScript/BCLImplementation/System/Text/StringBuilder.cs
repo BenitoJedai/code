@@ -4,22 +4,24 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 {
-    // http://referencesource.microsoft.com/#mscorlib/system/text/stringbuilder.cs
-    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/StringBuilder.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Text/StringBuilder.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Text/StringBuilder.cs
-    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Text/StringBuilder.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/text/stringbuilder.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Text/StringBuilder.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Text/StringBuilder.cs
 
-    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Text\StringBuilder.cs
-    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Text\StringBuilder.cs
-    // X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Text\StringBuilder.cs
-    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Text\StringBuilder.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Text/StringBuilder.cs
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Text/StringBuilder.cs
+	// https://github.com/bridgedotnet/Bridge/blob/master/Bridge/System/Text/StringBuilder.cs
 
-    // X:\opensource\github\WootzJs\WootzJs.Runtime\Text\StringBuilder.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/System.Web.Extensions/System.Web.Script.Serialization/StringBuilderExtensions.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Text\StringBuilder.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Text\StringBuilder.cs
+	// X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Text\StringBuilder.cs
+	// X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Text\StringBuilder.cs
+
+	// X:\opensource\github\WootzJs\WootzJs.Runtime\Text\StringBuilder.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/System.Web.Extensions/System.Web.Script.Serialization/StringBuilderExtensions.cs
 
 
-    [Script(Implements = typeof(global::System.Text.StringBuilder))]
+	[Script(Implements = typeof(global::System.Text.StringBuilder))]
     internal class __StringBuilder
     {
 		// https://github.com/dotnet/coreclr/blob/master/src/classlibnative/bcltype/stringbuffer.cpp

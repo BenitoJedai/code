@@ -20,6 +20,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Activator.cs
 	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Activator.cs
 	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Activator.cs
+	// https://github.com/bridgedotnet/Bridge/blob/master/Bridge/System/Activator.cs
 
 	[Script(Implements = typeof(global::System.Activator))]
     internal class __Activator

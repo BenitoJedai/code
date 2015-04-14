@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Array.cs
 	// https://github.com/sq/JSIL/blob/master/Proxies/Array.cs
+	// https://github.com/bridgedotnet/Bridge/blob/master/Bridge/System/Array.cs
+
 
 	[Script(Implements = typeof(global::System.Array))]
 	internal class __Array

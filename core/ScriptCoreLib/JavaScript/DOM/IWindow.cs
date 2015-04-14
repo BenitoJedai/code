@@ -10,17 +10,19 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Window.webidl
-    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/base/nsIBrowserDOMWindow.idl
-    // X:\opensource\github\WootzJs\WootzJs.Web\Window.cs
-    // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/Window/
-    // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/Window.idl
-    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/Mono.WebBrowser/Mono.Mozilla/DOM/Window.cs
-    // https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/Window.cs
+	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Window.webidl
+	// http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/base/nsIBrowserDOMWindow.idl
+	// https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/Window.idl
+
+	// https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/Mono.WebBrowser/Mono.Mozilla/DOM/Window.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/Window.cs
+	// https://github.com/bridgedotnet/Bridge/blob/master/Html5/Window.cs
+	// X:\opensource\github\WootzJs\WootzJs.Web\Window.cs
+	// http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/Window/
 
 
 
-    [Script(InternalConstructor = true)]
+	[Script(InternalConstructor = true)]
     public partial class IWindow : IEventTarget
     {
         // https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#cache-objects

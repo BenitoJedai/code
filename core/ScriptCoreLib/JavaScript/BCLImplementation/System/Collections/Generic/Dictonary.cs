@@ -9,15 +9,21 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
-    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs
-    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Collections\Generic\Dictonary.cs
-    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\Dictionary.cs
-    // http://referencesource.microsoft.com/#mscorlib/system/collections/generic/dictionary.cs
-    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/Dictionary.cs
-    // https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/collections/generic/dictionary.cs
-    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Collections.Generic/Dictionary.cs
+	// X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Collections\Generic\Dictionary.cs
+	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Collections\Generic\Dictonary.cs
+	// X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\Dictionary.cs
+	// http://referencesource.microsoft.com/#mscorlib/system/collections/generic/dictionary.cs
+	// https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Collections/Generic/Dictionary.cs
+	// https://github.com/Microsoft/referencesource/blob/master/mscorlib/system/collections/generic/dictionary.cs
+	// https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Collections.Generic/Dictionary.cs
 
-    [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>))]
+
+	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Collections/Generic/Dictionary.cs
+	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Collections/Generic/Dictionary%602.cs
+	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Collections/Generic/Dictionary.cs
+	// https://github.com/bridgedotnet/Bridge/blob/master/Bridge/System/Collections/Generic/Dictionary.cs
+
+	[Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>))]
     internal class __Dictionary<TKey, TValue> :
         __IDictionary<TKey, TValue>
     //, IEnumerable
