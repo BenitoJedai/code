@@ -118,14 +118,16 @@ namespace FlashHeatZeeker.StarlingSetup.Library
                 "Welcome to Starling!"
                 ) { hAlign = HAlign.LEFT, vAlign = VAlign.TOP };
 
-            //info.AttachTo(this);
-            //.MoveTo(72, 8);
+
+			// i can see text, cannot see images?
+			info.AttachTo(this);
+            //info.MoveTo(72, 8);
 
 
 
 
 
-            this.stagescale = internalscale;
+			this.stagescale = internalscale;
 
             onresize(
                 (w, h) =>

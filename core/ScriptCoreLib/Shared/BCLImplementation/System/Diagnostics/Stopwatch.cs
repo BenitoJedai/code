@@ -56,6 +56,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
 		public void Restart()
 		{
 			Stop();
+
+			InternalOffsetMilliseconds = 0;
+
 			Start();
 		}
 
