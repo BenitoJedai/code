@@ -13,6 +13,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 	// https://github.com/konsoletyper/teavm/blob/master/teavm-classlib/src/main/java/org/teavm/classlib/java/lang/TObject.java
 	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Object.cs
 	// https://github.com/sq/JSIL/blob/master/Proxies/Object.cs
+	// https://github.com/bridgedotnet/Bridge/blob/master/Bridge/System/Object.cs
 
 	// X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Object.cs
 	// X:\jsc.svn\core\ScriptCoreLibNative\ScriptCoreLibNative\BCLImplementation\System\Object.cs

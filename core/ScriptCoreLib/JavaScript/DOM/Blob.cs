@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Blob.webidl
 	// http://src.chromium.org/viewvc/blink/trunk/Source/core/fileapi/Blob.idl
 
+	// https://github.com/bridgedotnet/Bridge/blob/master/Html5/File/Blob.cs
+
 	[Script(HasNoPrototype = true, ExternalTarget = "Blob")]
 	public class Blob
 	{

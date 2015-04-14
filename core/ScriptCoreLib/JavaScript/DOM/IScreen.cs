@@ -7,6 +7,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 	// https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/Screen.idl
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/Screen.cs
 	// https://github.com/konsoletyper/teavm/blob/master/teavm-dom/src/main/java/org/teavm/dom/browser/Screen.java
+	// https://github.com/bridgedotnet/Bridge/blob/master/Html5/Screen.cs
 
 	[Script(HasNoPrototype = true)]
     public class IScreen

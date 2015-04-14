@@ -21,6 +21,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 	// https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Collections/Generic/List.cs
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/Collections/Generic/List%601.cs
 	// https://github.com/kswoll/WootzJs/blob/master/WootzJs.Runtime/Collections/Generic/List.cs
+	// https://github.com/bridgedotnet/Bridge/blob/master/Bridge/System/Collections/Generic/List.cs
 
 	[Script(Implements = typeof(global::System.Collections.Generic.List<>))]
 	internal class __List<T> : IList<T>

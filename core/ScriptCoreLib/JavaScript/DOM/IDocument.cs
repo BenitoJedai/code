@@ -6,12 +6,14 @@ using System;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Document.webidl
-    // https://code.google.com/p/dart/source/browse/third_party/WebCore/core/dom/Document.idl?r=26952
-    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/Document.idl
+	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Document.webidl
+	// https://code.google.com/p/dart/source/browse/third_party/WebCore/core/dom/Document.idl?r=26952
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/Document.idl
 
-    // http://www.w3schools.com/dom/dom_document.asp
-    [Script(HasNoPrototype = true)]
+	// http://www.w3schools.com/dom/dom_document.asp
+	// https://github.com/bridgedotnet/Bridge/blob/master/Html5/Document.cs
+
+	[Script(HasNoPrototype = true)]
     public partial class IDocument : INode
     {
 		// https://developer.mozilla.org/en-US/docs/Web/API/Document/registerElement
