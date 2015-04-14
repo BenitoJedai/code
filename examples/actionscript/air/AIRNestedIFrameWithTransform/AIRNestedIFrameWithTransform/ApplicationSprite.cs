@@ -13,9 +13,11 @@ namespace AIRNestedIFrameWithTransform
 {
     public sealed class ApplicationSprite : Sprite
     {
-        // X:\jsc.svn\examples\actionscript\air\AIRServerSocketExperiment\AIRServerSocketExperiment\ApplicationSprite.cs
+		// X:\util\air17_sdk_sa_win
 
-        public ApplicationSprite()
+		// X:\jsc.svn\examples\actionscript\air\AIRServerSocketExperiment\AIRServerSocketExperiment\ApplicationSprite.cs
+
+		public ApplicationSprite()
         {
             // http://priyeshsheth.wordpress.com/2011/05/27/stagewebview-in-actionscirpt-3-flash-media-stagewebview/
 
