@@ -49,5 +49,5 @@ echo - %2
 :: http://www.adobe.com/products/flex/sdk/
 :: -compiler.verbose-stacktraces 
 
-call C:\util\flex_sdk_4.6\bin\mxmlc.exe +configname=airmobile  -use-network=false -static-link-runtime-shared-libraries=true -debug -swf-version=13 -target-player=11.1.0 -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+call x:\util\flex4\bin\mxmlc +configname=airmobile  -use-network=false -static-link-runtime-shared-libraries=true -debug -swf-version=13 -target-player=11.1.0 -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 goto :eof
