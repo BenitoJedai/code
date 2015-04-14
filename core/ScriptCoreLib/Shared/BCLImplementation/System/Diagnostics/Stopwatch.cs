@@ -13,6 +13,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
 	[Script(Implements = typeof(global::System.Diagnostics.Stopwatch))]
 	public class __Stopwatch
 	{
+		// X:\jsc.svn\examples\actionscript\Test\TestStopwatch\TestStopwatch\ApplicationSprite.cs
 		// X:\jsc.svn\examples\javascript\chrome\apps\test\TestStopwatch\TestStopwatch\Application.cs
 
 		public bool IsRunning
