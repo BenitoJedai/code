@@ -138,6 +138,25 @@ namespace AIRServerSocketExperiment
 // build with 2012?
 // not available on this device?
 
+
+
+//0007 02000189 ScriptCoreLib::ScriptCoreLib.Shared.BCLImplementation.System.Reflection.__ICustomAttributeProvider
+//{ exc = System.AggregateException: One or more errors occurred. ---> System.NotSupportedException: Unable to transform overloaded constructors to a single constructor via optional parameters for ScriptCoreLib.Shared.BCLImplementation.System.Net.Sockets.__UdpReceiveResult
+//   at jsc.Languages.ActionScript.ActionScriptCompiler.ConstructorInlineInfo..ctor(Type z, Boolean DisableThrow) in x:\jsc.internal.git\compiler\jsc\Languages\ActionScript\ActionScriptCompiler.WriteTypeInstanceConstructors.cs:line 123
+
+//000a 02000346 ScriptCoreLib::ScriptCoreLib.ActionScript.Extensions.DynamicContainer
+//{ exc = System.AggregateException: One or more errors occurred. ---> System.InvalidOperationException: internal compiler error at method
+// assembly: C:\util\jsc\bin\ScriptCoreLib.dll at
+// type: ScriptCoreLib.Shared.BCLImplementation.System.IO.__FileSystemInfo, ScriptCoreLib, Version=4.6.0.0, Culture=neutral, PublicKeyToken=null
+// method: get_LastWriteTime
+// ActionScript : unable to emit ret at 'ScriptCoreLib.Shared.BCLImplementation.System.IO.__FileSystemInfo.get_LastWriteTime'#0013: ActionScript : unable to emit call at
+// BCL needs another method, please define it.
+// Cannot call type without script attribute :
+// System.DateTime for System.DateTime ToLocalTime() used at
+// ScriptCoreLib.Shared.BCLImplementation.System.IO.__FileSystemInfo.get_LastWriteTime at offset 000a.
+// If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements=typeof(...)] set. You may have mistyped it.
+//   at jsc.Script.CompilerBase.BreakToDebugger(String e) in x:\jsc.internal.git\compiler\jsc\Languages\CompilerBase.cs:line 267
+
 //0001 020004c7 ScriptCoreLib::ScriptCoreLib.ActionScript.BCLImplementation.System.__Object
 //script: error JSC1000: ActionScript : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
 //internal compiler error at method
@@ -145,3 +164,12 @@ namespace AIRServerSocketExperiment
 // type: ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood, ScriptCoreLib, Version=4.6.0.0, Culture=neutral, PublicKeyToken=null
 // method: CreatePaddedBuffer
 // ActionScript : Opcode not implemented: stind.i1 at ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography.__MD5CryptoServiceProviderByMahmood.CreatePaddedBuffer
+
+
+//0001 02000009 AIRServerSocketExperiment.ApplicationSprite::<>f__AnonymousType$74$2`3
+//x:\util\flex_sdk_4.6\bin\mxmlc.exe
+// -static-link-runtime-shared-libraries=true +configname=airmobile  -sp=. -swf-version=22 --target-player=11.9.0  -locale en_US -strict -output="W:\web\AIRServerSocketExperiment.ApplicationSprite.swf" AIRServerSocketExperiment\ApplicationSprite.as
+//2608:02:01 after worker yield...
+
+// http://flex.apache.org/installer.html
+//Unhandled Exception: System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.ComponentModel.Win32Exception: The system cannot find the file specified

@@ -102,6 +102,7 @@ namespace FlashSVGCursorExperiment
                 };
 
             // X:\jsc.svn\examples\actionscript\FlashMouseCursorDataExperiment\FlashMouseCursorDataExperiment\ApplicationSprite.cs
+			// partial build?
             var cursor = new MouseCursorData
             {
                 data = data

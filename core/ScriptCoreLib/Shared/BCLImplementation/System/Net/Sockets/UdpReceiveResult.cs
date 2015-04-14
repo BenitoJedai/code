@@ -15,12 +15,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Net.Sockets
 	{
 		// X:\jsc.svn\market\synergy\javascript\chrome\chrome\BCLImplementation\System\Net\Sockets\UdpClient.cs
 
-        public __UdpReceiveResult()
+        // actionscript likes one constructor
+        public __UdpReceiveResult() : this(default(byte[]), default(IPEndPoint))
         {
 
         }
 
-		public __UdpReceiveResult(byte[] buffer, IPEndPoint remoteEndPoint)
+		public __UdpReceiveResult(byte[] buffer, IPEndPoint remoteEndPoint) 
 		{
 			this.Buffer = buffer;
 			this.RemoteEndPoint = remoteEndPoint;
