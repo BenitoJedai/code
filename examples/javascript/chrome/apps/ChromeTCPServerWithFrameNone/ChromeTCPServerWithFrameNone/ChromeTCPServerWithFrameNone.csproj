@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ChromeTCPServerWithFrameNone</RootNamespace>
     <AssemblyName>ChromeTCPServerWithFrameNone</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>ChromeTCPServerWithFrameNone.Program</StartupObject>
     <TargetFrameworkProfile />

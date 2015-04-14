@@ -25,6 +25,11 @@ namespace StarlingRotationExperiment
             //stage.align = ScriptCoreLib.ActionScript.flash.display.StageAlign.TOP_LEFT;
             //stage.scaleMode = ScriptCoreLib.ActionScript.flash.display.StageScaleMode.NO_SCALE;
 
+            //var xsw = new Stopwatch();
+            //xsw.Start();
+            //var v = 0.0001 * xsw.ElapsedMilliseconds;
+
+
             var s = new Starling(
                 typeof(Game).ToClassToken(),
                 this.stage
@@ -110,7 +115,8 @@ namespace StarlingRotationExperiment
                         return;
                     }
 
-                    info.text = new { fps = ii, maxframe_elapsed }.ToString();
+                    // Nan?
+                    info.text = new { fps = ii, maxframe_elapsed, sw.ElapsedMilliseconds }.ToString();
 
                     //if (fps != null)
                     //    fps("" + ii);
@@ -128,6 +134,10 @@ namespace StarlingRotationExperiment
             var content_rot = new Sprite();
 
             var texture0 = Texture.fromBitmap(new ActionScript.Images.jsc());
+
+
+            content_rot.rotation = 0.2;
+
 
             //var cc = 128; // 10 FPS
             var cc = 64; // 33 FPS
@@ -160,7 +170,14 @@ namespace StarlingRotationExperiment
             ApplicationSprite.__stage.enterFrame +=
                 delegate
                 {
-                    content_rot.rotation += 0.0001 * xsw.ElapsedMilliseconds;
+                    // https://www.adobe.com/support/flashplayer/downloads.html#fp15
+
+                    //content_rot.rotation += 0.0001 * xsw.ElapsedMilliseconds;
+
+
+                    //var v = 0.0001 * xsw.ElapsedMilliseconds;
+                    content_rot.rotation += 0.02;
+
 
                     xsw.Restart();
                 };
@@ -178,3 +195,12 @@ namespace StarlingRotationExperiment
         }
     }
 }
+
+
+//0001 02000026 StarlingRotationExperiment.ApplicationSprite::StarlingRotationExperiment.Game+<>c__DisplayClass0_0
+//script: error JSC1000: ActionScript :
+// BCL needs another method, please define it.
+// Cannot call type without script attribute :
+// System.String for System.String Format(System.IFormatProvider, System.String, System.Object[]) used at
+// <>f__AnonymousType$134$0`2.ToString at offset 002e.
+// If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements = typeof(...)] set.You may have mistyped it.

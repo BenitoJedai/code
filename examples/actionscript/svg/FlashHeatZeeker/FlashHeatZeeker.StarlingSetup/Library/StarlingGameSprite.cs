@@ -159,6 +159,7 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             // fighting mipmapping
             var Source0Padding = 4;
 
+			// ?
             var Source0 = new XLazy<TextureAtlas>(
                  delegate
                  {

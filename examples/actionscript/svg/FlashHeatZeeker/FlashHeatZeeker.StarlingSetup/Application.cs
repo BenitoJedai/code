@@ -21,6 +21,8 @@ namespace FlashHeatZeeker.StarlingSetup
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+		// um. only see bg?
+
         // Error	1	'FlashHeatZeeker.StarlingSetup.Application': cannot derive from sealed type 'FlashHeatZeeker.StarlingSetup.ApplicationWebService'	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.StarlingSetup\Application.cs	22	25	FlashHeatZeeker.StarlingSetup
 
 

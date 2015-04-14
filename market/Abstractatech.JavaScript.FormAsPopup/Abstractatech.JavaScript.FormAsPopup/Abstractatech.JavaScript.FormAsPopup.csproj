@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Abstractatech.JavaScript.FormAsPopup</RootNamespace>
     <AssemblyName>Abstractatech.JavaScript.FormAsPopup</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>Abstractatech.JavaScript.FormAsPopup.Program</StartupObject>
     <TargetFrameworkProfile />
