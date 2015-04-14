@@ -1,4 +1,10 @@
-﻿Y:\
+﻿<Content Include="X:\opensource\sourceforge\box2dflash\Source\**\*.*">
+      <Link>opensource\sourceforge\box2dflash\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Content>
+
+manually remove lines?
+
+Y:\
 C:\util\flex_sdk_4.6\bin\compc.exe
   -include-sources "." -output "X:\jsc.svn\market\synergy\box2dflash\box2dflash\bin\staging.AssetsLibrary\output.swc\box2dflash.AssetsLibrary.swc"
 Loading configuration file C:\util\flex_sdk_4.6\frameworks\flex-config.xml
