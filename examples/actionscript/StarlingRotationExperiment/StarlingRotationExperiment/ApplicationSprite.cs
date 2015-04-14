@@ -29,7 +29,9 @@ namespace StarlingRotationExperiment
             //xsw.Start();
             //var v = 0.0001 * xsw.ElapsedMilliseconds;
 
-
+            // Error	1	'.ctor' is not supported by the language	X:\jsc.svn\examples\actionscript\StarlingRotationExperiment\StarlingRotationExperiment\ApplicationSprite.cs	33	21	StarlingRotationExperiment
+            //public Starling(Class rootClass, Stage stage, Rectangle viewPort = null, ScriptCoreLib.ActionScript.flash.display.Stage3D stage3D = null, string renderMode = "auto", object profile = "baselineConstrained");
+            // partial redux?
             var s = new Starling(
                 typeof(Game).ToClassToken(),
                 this.stage
@@ -172,11 +174,11 @@ namespace StarlingRotationExperiment
                 {
                     // https://www.adobe.com/support/flashplayer/downloads.html#fp15
 
-                    //content_rot.rotation += 0.0001 * xsw.ElapsedMilliseconds;
+                    content_rot.rotation += 0.0001 * xsw.ElapsedMilliseconds;
 
 
                     //var v = 0.0001 * xsw.ElapsedMilliseconds;
-                    content_rot.rotation += 0.02;
+                    //content_rot.rotation += 0.02;
 
 
                     xsw.Restart();
