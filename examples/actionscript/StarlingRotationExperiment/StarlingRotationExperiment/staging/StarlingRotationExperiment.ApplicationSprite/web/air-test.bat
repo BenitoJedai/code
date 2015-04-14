@@ -5,4 +5,6 @@ rem call build.bat
 
 
 rem C:\util\flex_sdk_4.6\bin\adl  foo-app.xml  -profile mobileDevice
-X:\util\flex4\bin\adl  air.com.abstractatech.gamification.starling.xml  -profile mobileDevice -screensize 680x762:680x800
+
+:: orientation vs size issue?
+X:\util\flex4\bin\adl.exe  air-descriptor.xml  -profile mobileDevice -screensize 680x762:680x800
