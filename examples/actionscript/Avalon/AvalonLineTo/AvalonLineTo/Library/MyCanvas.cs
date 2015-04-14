@@ -15,6 +15,15 @@ namespace FlashAvalonExample.ActionScript
 	[Script]
 	public class MyCanvas : Canvas
 	{
+		//		Implementation not found for type import :
+		// type: System.Windows.UIElement
+		// method: Void set_BitmapEffect(System.Windows.Media.Effects.BitmapEffect)
+		// Did you forget to add the[Script] attribute?
+		//Please double check the signature!
+
+		// 1>X:\jsc.svn\examples\actionscript\Avalon\AvalonLineTo\AvalonLineTo\Library\MyCanvas.cs(94,4,94,22): warning CS0618: 'UIElement.BitmapEffect' is obsolete: 'BitmapEffects are deprecated and no longer function.  Consider using Effects where appropriate instead.'
+
+
 		public MyCanvas()
 		{
 			// http://msdn.microsoft.com/en-us/magazine/cc337899.aspx
@@ -91,7 +100,7 @@ namespace FlashAvalonExample.ActionScript
 			text2.Background = Brushes.GreenYellow;
 			
 			text.AppendText("dynamic");
-			text2.BitmapEffect = new DropShadowBitmapEffect();
+			//text2.BitmapEffect = new DropShadowBitmapEffect();
 
 			text2.Opacity = 0.8;
 			text2.RenderTransform = new ScaleTransform { ScaleX = 2, ScaleY = 2 };
