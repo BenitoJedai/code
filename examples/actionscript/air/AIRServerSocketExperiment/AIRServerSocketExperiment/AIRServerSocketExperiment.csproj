@@ -135,6 +135,7 @@
     </Compile>
     <Content Include="staging\AIRServerSocketExperiment.ApplicationSprite\web\air-descriptor.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
