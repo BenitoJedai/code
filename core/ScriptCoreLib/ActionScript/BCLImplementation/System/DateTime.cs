@@ -5,6 +5,17 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/datetime.cs
+    // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/DateTime.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/DateTime.cs
+
+    // https://github.com/Reactive-Extensions/IL2JS/blob/master/mscorlib/System/DateTime.cs
+    // https://github.com/sq/JSIL/blob/master/Proxies/DateTime.cs
+
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\DateTime.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\DateTime.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\DateTime.cs
+
     [Script(Implements = typeof(global::System.DateTime))]
     internal class __DateTime
     {
@@ -91,6 +102,32 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\TimeSpan.cs
 
             return TimeSpan.FromMilliseconds(d1.InternalValue.getTime() - d2.InternalValue.getTime());
+        }
+
+
+
+
+
+
+        public static implicit operator DateTime(__DateTime e)
+        {
+            return (DateTime)(object)e;
+        }
+        public static implicit operator __DateTime(DateTime e)
+        {
+            return (__DateTime)(object)e;
+        }
+
+        public DateTime ToLocalTime()
+        {
+            //return TimeZone.CurrentTimeZone.ToLocalTime(this);
+            return this;
+        }
+
+        public DateTime ToUniversalTime()
+        {
+            //return TimeZone.CurrentTimeZone.ToUniversalTime(this);
+            return this;
         }
     }
 }

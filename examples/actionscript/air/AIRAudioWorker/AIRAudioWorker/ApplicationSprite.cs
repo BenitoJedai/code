@@ -75,3 +75,7 @@ namespace AIRAudioWorker
 
     }
 }
+
+//x:\util\air16_sdk_win\bin\compc.bat
+//  -include-sources "." -load-config x:\util\air16_sdk_win/frameworks/airmobile-config.xml -output "X:
+//System.ComponentModel.Win32Exception (0x80004005): The system cannot find the file specified
