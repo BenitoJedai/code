@@ -83,7 +83,6 @@ namespace IsometricTycoonViewWithToolbar
 
 
 
-#if false
 
             #region TheServer
             dynamic self = Native.self;
@@ -114,8 +113,7 @@ namespace IsometricTycoonViewWithToolbar
             #endregion
 
 
-            global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
-#endif
+            //global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
             new gong().AttachToDocument().play();

@@ -82,6 +82,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
 		{
 			get
 			{
+				// tested by ?
+				// X:\jsc.svn\examples\actionscript\StarlingRotationExperiment\StarlingRotationExperiment\ApplicationSprite.cs
 
 				return Convert.ToInt64(Elapsed.TotalMilliseconds);
 			}

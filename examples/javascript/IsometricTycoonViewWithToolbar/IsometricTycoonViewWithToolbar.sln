@@ -45,6 +45,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "chrome", "chrome", "{5CDCDD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib", "..\..\..\core\ScriptCoreLib\ScriptCoreLib.csproj", "{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerAsync", "..\chrome\apps\ChromeTCPServerAsync\ChromeTCPServerAsync\ChromeTCPServerAsync.csproj", "{426A9419-9287-4880-979F-29F29D3F2A22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +149,16 @@ Global
 		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|x86.ActiveCfg = Release|Any CPU
 		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|x86.Build.0 = Release|Any CPU
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Debug|x86.ActiveCfg = Debug|x86
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Debug|x86.Build.0 = Debug|x86
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Release|Any CPU.ActiveCfg = Release|x86
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Release|Mixed Platforms.Build.0 = Release|x86
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Release|x86.ActiveCfg = Release|x86
+		{426A9419-9287-4880-979F-29F29D3F2A22}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,5 +174,6 @@ Global
 		{053C4547-E32B-458E-B295-1E3640BE96E9} = {81937A24-8340-4A98-AA2E-DC983B126496}
 		{5CDCDDC8-D093-4FD0-8E56-41A5B1E864FD} = {D1B17B01-AAAC-49B8-9AE4-D5D5B73FF8CC}
 		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6} = {81937A24-8340-4A98-AA2E-DC983B126496}
+		{426A9419-9287-4880-979F-29F29D3F2A22} = {5CDCDDC8-D093-4FD0-8E56-41A5B1E864FD}
 	EndGlobalSection
 EndGlobal
