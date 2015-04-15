@@ -38,13 +38,13 @@ namespace Box2DTopDownCar
 
             con.Show();
 
-            con.Left = Native.Window.Width - con.Width;
+            con.Left = Native.window.Width - con.Width;
             con.Top = 0;
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                   delegate
                   {
-                      con.Left = Native.Window.Width - con.Width;
+                      con.Left = Native.window.Width - con.Width;
                       con.Top = 0;
                   };
 

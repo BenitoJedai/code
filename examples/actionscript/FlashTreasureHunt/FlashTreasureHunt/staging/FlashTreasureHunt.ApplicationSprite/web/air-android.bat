@@ -10,7 +10,7 @@ set apk=air.apk
 set xml=air-descriptor.xml
 
 echo build
-call "X:\jsc.internal.svn\keystore\asus\air13.com.abstractatech-package.and.sign.bat" %e% %swf% %apk% %xml%
+call "X:\jsc.internal.git\keystore\asus\air17.com.abstractatech-package.and.sign.bat" %e% %swf% %apk% %xml%
 
 
 
@@ -24,4 +24,4 @@ rem http://forum.starling-framework.org/topic/wrong-wmode-with-adobeair-32-deskt
 rem call createapk.bat
 
 echo install
-"C:\util\android-sdk-windows\platform-tools\adb.exe"  install -r air.apk
+"x:\util\android-sdk-windows\platform-tools\adb.exe"  install -r air.apk

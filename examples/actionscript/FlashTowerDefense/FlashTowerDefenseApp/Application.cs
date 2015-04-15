@@ -21,19 +21,20 @@ using System.Windows.Forms;
 
 namespace FlashTowerDefenseApp
 {
-    /// <summary>
-    /// This type will run as JavaScript.
-    /// </summary>
-    internal sealed class Application : ApplicationWebService
-    {
+	/// <summary>
+	/// This type will run as JavaScript.
+	/// </summary>
+	internal sealed class Application : ApplicationWebService
+	{
 
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
-        {
-            FormStyler.AtFormCreated =
+		/// <summary>
+		/// This is a javascript application.
+		/// </summary>
+		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+		public Application(IApp page)
+		{
+#if FCHROME
+			FormStyler.AtFormCreated =
                 s =>
                 {
                     s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -43,7 +44,7 @@ namespace FlashTowerDefenseApp
                 };
 
 
-            #region ChromeTCPServer
+			#region ChromeTCPServer
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
             object self_chrome_socket = self_chrome.socket;
@@ -66,13 +67,15 @@ namespace FlashTowerDefenseApp
 
                 return;
             }
-            #endregion
+			#endregion
+#endif
 
 
-            // Initialize MySprite1
-            new ApplicationSprite().AttachSpriteToDocument();
 
-        }
+			// Initialize MySprite1
+			new ApplicationSprite().AttachSpriteToDocument();
 
-    }
+		}
+
+	}
 }
