@@ -31,12 +31,12 @@ namespace TestAsyncYield
         public static async void Method1()
         {
             //Console.WriteLine("enter \{nameof(Method1)}");
-            Console.WriteLine("enter {nameof(Method1)}");
+            Console.WriteLine($"enter {nameof(Method1)}");
 
             await Task.Yield();
 
             //Console.WriteLine("exit \{nameof(Method1)}");
-            Console.WriteLine("exit {nameof(Method1)}");
+            Console.WriteLine($"exit {nameof(Method1)}");
         }
 
 
@@ -101,3 +101,6 @@ namespace TestAsyncYield
 
 
 }
+
+//Please install javac! { javac = C:\Program Files(x86)\Java\jdk1.7.0_45\bin\javac.exe }
+//2a64:02:01 after worker yield...

@@ -767,7 +767,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 								 }
 
 								 // are we getting multiple responses?
-								 //Console.WriteLine("Task ContinueWithResult " + new { responseCounter, ResultTypeIndex, Result });
+								 Console.WriteLine("Task ContinueWithResult " + new { responseCounter, ResultTypeIndex, Result });
 
 								 if (ResultTypeIndex != null)
 								 {
@@ -823,7 +823,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 								 // X:\jsc.svn\examples\javascript\async\test\TestSemaphoreSlimAwaitThenReleaseInWorker\TestSemaphoreSlimAwaitThenReleaseInWorker\Application.cs
 
-								 //Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
+								 Console.WriteLine("__Task.InternalStart inner complete (pre bugcheck) " + new { yield = new { value } });
+
+								 // needs more tests.
+								 // is causing trouble for older tests?
 
 								 this.InternalDispose = delegate
 								 {

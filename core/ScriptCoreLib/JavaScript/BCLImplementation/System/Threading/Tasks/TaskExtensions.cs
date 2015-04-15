@@ -35,18 +35,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 				{
 					//Console.WriteLine("enter TaskExtensions.Unwrap Task<Task<TResult>> ContinueWith");
 
-					var xTask = r.Result;
+					var xResultTask = r.Result;
 
 					//var isTaskOfT = xTask is Task<object>;
 					//Console.WriteLine("async worker running ? " + new { xTask, isTaskOfT });
 
 					// are we in a wrong function?
-					if (!(((object)xTask) is Task))
+					if (!(((object)xResultTask) is Task))
 					{
-						throw new Exception("bugcheck TaskExtensions.Unwrap Task<Task>");
+						throw new Exception("bugcheck TaskExtensions.Unwrap Task<Task> " + new { xResultTask });
 					}
 
-					xTask.ContinueWith(
+					xResultTask.ContinueWith(
 						rr =>
 						{
 							x.SetResult(
@@ -81,15 +81,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 					//Console.WriteLine("enter TaskExtensions.Unwrap Task<Task> ContinueWith");
 
 
-					var xTask = r.Result;
+					var xResultTask = r.Result;
 
 					// are we in a wrong function?
-					if (!(((object)xTask) is Task))
+					if (!(((object)xResultTask) is Task))
 					{
-						throw new Exception("bugcheck TaskExtensions.Unwrap Task<Task>");
+						throw new Exception("bugcheck TaskExtensions.Unwrap Task<Task> " + new { xResultTask });
 					}
 
-					xTask.ContinueWith(
+					xResultTask.ContinueWith(
 						rr =>
 						{
 							x.SetResult(
