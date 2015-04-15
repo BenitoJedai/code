@@ -32,31 +32,31 @@ namespace Box2DTopDownCarScaled
         public Application(IApp page)
         {
 
-            var con = new ConsoleForm();
+            //var con = new ConsoleForm();
 
-            con.InitializeConsoleFormWriter();
+            //con.InitializeConsoleFormWriter();
 
-            con.Show();
+            //con.Show();
 
-            con.Left = Native.Window.Width - con.Width;
-            con.Top = 0;
+            //con.Left = Native.window.Width - con.Width;
+            //con.Top = 0;
 
-            Native.Window.onresize +=
-                  delegate
-                  {
-                      con.Left = Native.Window.Width - con.Width;
-                      con.Top = 0;
-                  };
-
-
-            con.Opacity = 0.6;
+            //Native.window.onresize +=
+            //      delegate
+            //      {
+            //          con.Left = Native.window.Width - con.Width;
+            //          con.Top = 0;
+            //      };
 
 
+            //con.Opacity = 0.6;
 
-            sprite.InitializeConsoleFormWriter(
-                       Console.Write,
-                       Console.WriteLine
-                   );
+
+
+            //sprite.InitializeConsoleFormWriter(
+            //           Console.Write,
+            //           Console.WriteLine
+            //       );
 
 
             // Initialize ApplicationSprite
