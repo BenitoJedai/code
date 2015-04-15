@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidFlashTreasureHunt", "AndroidFlashTreasureHunt\AndroidFlashTreasureHunt.csproj", "{85E2DFC6-C768-4115-AF3D-114C7C7A4854}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -34,7 +34,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net.hires.debug", "..\..\..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.NatureBoy", "..\..\..\..\market\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy.csproj", "{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServer", "..\..\chrome\apps\ChromeTCPServer\ChromeTCPServer\ChromeTCPServer.csproj", "{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServer", "..\..\chrome\apps\ChromeTCPServer\ChromeTCPServer\ChromeTCPServer.csproj", "{9672D112-D806-49D3-B5C8-3B3A2278AD18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Async", "..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\ScriptCoreLib.Async.csproj", "{88C3C260-D1DA-4FB3-A53D-79462913E80C}"
 EndProject
@@ -156,21 +156,21 @@ Global
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|Mixed Platforms.Build.0 = Release|x86
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.ActiveCfg = Release|x86
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.Build.0 = Release|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|Any CPU.ActiveCfg = Release|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|Mixed Platforms.ActiveCfg = Release|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|Mixed Platforms.Build.0 = Release|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|x86.ActiveCfg = Release|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|x86.Build.0 = Release|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|x86.ActiveCfg = Debug|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|x86.Build.0 = Debug|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|Any CPU.ActiveCfg = Release|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|Mixed Platforms.Build.0 = Release|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|x86.ActiveCfg = Release|x86
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|x86.Build.0 = Release|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Android|Any CPU.ActiveCfg = Release|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Android|Mixed Platforms.Build.0 = Release|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Android|x86.ActiveCfg = Release|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Android|x86.Build.0 = Release|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Debug|x86.ActiveCfg = Debug|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Debug|x86.Build.0 = Debug|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Release|Any CPU.ActiveCfg = Release|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Release|Mixed Platforms.Build.0 = Release|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Release|x86.ActiveCfg = Release|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Release|x86.Build.0 = Release|x86
 		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Android|Any CPU.ActiveCfg = Release|x86
 		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Android|Mixed Platforms.ActiveCfg = Release|x86
 		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Android|Mixed Platforms.Build.0 = Release|x86
@@ -191,13 +191,13 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{53FAB63F-CFB0-4B48-A7BA-26E3CFAEB916} = {5D68C1BC-D07C-4DFF-BE10-EC5805944548}
 		{A28A2898-D11B-4027-B5FE-2A911CC5D66F} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
+		{53FAB63F-CFB0-4B48-A7BA-26E3CFAEB916} = {5D68C1BC-D07C-4DFF-BE10-EC5805944548}
 		{9122FB76-35CE-41C7-8894-4E58D1BA94BD} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
 		{D6904364-3DE3-45CA-A117-EE45F2C1D812} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
 		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
-		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
 		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
 	EndGlobalSection
 EndGlobal
