@@ -26,6 +26,8 @@ namespace ChromeUDPSendAsync
 	/// </summary>
 	public sealed class Application : ApplicationWebService
 	{
+		// http://blog.boehme.me/2011/06/nat-holepunch-solution-in-java.html
+
 		/// <summary>
 		/// This is a javascript application.
 		/// </summary>

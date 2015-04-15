@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib", "..\..\..\c
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerAsync", "..\chrome\apps\ChromeTCPServerAsync\ChromeTCPServerAsync\ChromeTCPServerAsync.csproj", "{426A9419-9287-4880-979F-29F29D3F2A22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Query", "..\..\..\core\ScriptCoreLib.Query\ScriptCoreLib.Query.csproj", "{25C11821-6AAF-4AED-95D1-8B60431A0585}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -159,6 +161,18 @@ Global
 		{426A9419-9287-4880-979F-29F29D3F2A22}.Release|Mixed Platforms.Build.0 = Release|x86
 		{426A9419-9287-4880-979F-29F29D3F2A22}.Release|x86.ActiveCfg = Release|x86
 		{426A9419-9287-4880-979F-29F29D3F2A22}.Release|x86.Build.0 = Release|x86
+		{25C11821-6AAF-4AED-95D1-8B60431A0585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25C11821-6AAF-4AED-95D1-8B60431A0585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25C11821-6AAF-4AED-95D1-8B60431A0585}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{25C11821-6AAF-4AED-95D1-8B60431A0585}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{25C11821-6AAF-4AED-95D1-8B60431A0585}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{25C11821-6AAF-4AED-95D1-8B60431A0585}.Debug|x86.Build.0 = Debug|Any CPU
+		{25C11821-6AAF-4AED-95D1-8B60431A0585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25C11821-6AAF-4AED-95D1-8B60431A0585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25C11821-6AAF-4AED-95D1-8B60431A0585}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{25C11821-6AAF-4AED-95D1-8B60431A0585}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{25C11821-6AAF-4AED-95D1-8B60431A0585}.Release|x86.ActiveCfg = Release|Any CPU
+		{25C11821-6AAF-4AED-95D1-8B60431A0585}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -175,5 +189,6 @@ Global
 		{5CDCDDC8-D093-4FD0-8E56-41A5B1E864FD} = {D1B17B01-AAAC-49B8-9AE4-D5D5B73FF8CC}
 		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6} = {81937A24-8340-4A98-AA2E-DC983B126496}
 		{426A9419-9287-4880-979F-29F29D3F2A22} = {5CDCDDC8-D093-4FD0-8E56-41A5B1E864FD}
+		{25C11821-6AAF-4AED-95D1-8B60431A0585} = {81937A24-8340-4A98-AA2E-DC983B126496}
 	EndGlobalSection
 EndGlobal
