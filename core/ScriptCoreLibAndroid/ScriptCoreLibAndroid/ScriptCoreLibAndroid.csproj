@@ -919,6 +919,7 @@
     <Compile Include="android\appwidget\AppWidgetManager.cs" />
     <Compile Include="android\appwidget\AppWidgetHost.cs" />
     <Compile Include="android\app\admin\DeviceAdminReceiver.cs" />
+    <Compile Include="android\app\ActivityThread.cs" />
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
     <Compile Include="android\app\AlertDialog.cs" />
