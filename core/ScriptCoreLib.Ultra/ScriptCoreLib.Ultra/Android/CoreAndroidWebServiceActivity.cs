@@ -2,6 +2,7 @@
 using globalandroid::android.content;
 using globalandroid::android.app;
 using globalandroid::android.widget;
+using globalandroid::android.view;
 using ScriptCoreLib.Android.Manifest;
 using System;
 using System.Collections.Generic;
@@ -76,6 +77,30 @@ namespace ScriptCoreLib.Android
         }
         #endregion
 
+        // ?
+        #region AtUserLeaveHint
+        public event Action AtUserLeaveHint;
+        protected override void onUserLeaveHint()
+        {
+            base.onUserLeaveHint();
+
+            if (AtUserLeaveHint != null)
+                AtUserLeaveHint();
+        }
+        #endregion
+
+        // ?
+        #region AtUserInteraction
+        public event Action AtUserInteraction;
+        public override void onUserInteraction()
+        {
+            base.onUserInteraction();
+
+            if (AtUserInteraction != null)
+                AtUserInteraction();
+        }
+        #endregion
+
 
         #region AtNewIntent
         public event Action<Intent> AtNewIntent;
@@ -104,5 +129,20 @@ namespace ScriptCoreLib.Android
         }
         #endregion
 
+           #region AtTouchOutside
+        public event Action AtTouchOutside;
+        public override bool onTouchEvent(MotionEvent e)
+        {
+            // cannot override onTouchEvent(MotionEvent) in Activity
+
+            var x = base.onTouchEvent(e);
+
+            if (e.getAction() == MotionEvent.ACTION_OUTSIDE)
+                if (AtTouchOutside != null)
+                    AtTouchOutside();
+
+            return x;
+        }
+        #endregion
     }
 }

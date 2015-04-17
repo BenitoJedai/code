@@ -96,6 +96,7 @@ namespace android.app
         public void finish()
         {
         }
+        public void finishAndRemoveTask() { }
 
 
         public Intent getIntent()
@@ -166,6 +167,21 @@ namespace android.app
         public WindowManager getWindowManager()
         {
             return null;
+        }
+
+
+        protected virtual void onUserLeaveHint()
+        {
+        }
+
+        public virtual void onUserInteraction()
+        {
+        }
+
+        public virtual bool onTouchEvent(MotionEvent e)
+        {
+            return false;
+
         }
     }
 }
