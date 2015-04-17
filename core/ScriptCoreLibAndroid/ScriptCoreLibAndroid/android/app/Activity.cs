@@ -67,6 +67,18 @@ namespace android.app
         {
         }
 
+
+        // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\CoreAndroidWebServiceActivity.cs
+        // http://developer.android.com/guide/components/activities.html#ImplementingLifecycleCallbacks
+        protected virtual void onStop()
+        {
+        }
+
+        protected virtual void onDestory()
+        {
+        }
+
+
         public virtual void onLowMemory()
         {
 

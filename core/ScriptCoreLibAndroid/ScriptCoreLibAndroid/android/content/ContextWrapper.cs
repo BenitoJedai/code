@@ -7,6 +7,7 @@ using android.widget;
 using ScriptCoreLib;
 using android.content.res;
 using android.view;
+using android.content.pm;
 
 namespace android.content
 {
@@ -69,6 +70,13 @@ namespace android.content
         }
 
         public override Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override PackageManager getPackageManager() { return null; }
+
+        public override string getPackageName()
         {
             throw new NotImplementedException();
         }

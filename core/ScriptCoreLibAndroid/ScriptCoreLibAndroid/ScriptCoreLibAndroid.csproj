@@ -936,6 +936,7 @@
     <Compile Include="android\content\ContentResolver.cs" />
     <Compile Include="android\content\DialogInterface.cs" />
     <Compile Include="android\content\IntentFilter.cs" />
+    <Compile Include="android\content\pm\PackageInfo.cs" />
     <Compile Include="android\content\pm\LauncherApps.cs" />
     <Compile Include="android\content\pm\ResolveInfo.cs" />
     <Compile Include="android\content\pm\PackageManager.cs" />
