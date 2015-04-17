@@ -12,6 +12,11 @@ namespace android.view
     {
         public static int TYPE_PHONE;
 
+        // Window flag: treat the content of the window as secure, preventing it from appearing in screenshots or from being viewed on non-secure displays.
+        public static int FLAG_SECURE;
+        public static int FLAG_KEEP_SCREEN_ON;
+        
+
         public const int FLAG_HARDWARE_ACCELERATED = 16777216;
         public static int FLAG_NOT_TOUCH_MODAL;
         public static int FLAG_WATCH_OUTSIDE_TOUCH;

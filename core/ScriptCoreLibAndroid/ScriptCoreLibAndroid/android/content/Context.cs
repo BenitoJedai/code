@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using android.content.res;
+using android.content.pm;
 
 namespace android.content
 {
@@ -46,5 +47,12 @@ namespace android.content
         public abstract SharedPreferences getSharedPreferences(string arg0, int arg1);
 
         public abstract void startActivity(Intent intent);
+
+
+        public abstract PackageManager getPackageManager();
+
+
+
+        public abstract string getPackageName();
     }
 }

@@ -62,6 +62,21 @@ namespace ScriptCoreLib.Android
         }
         #endregion
 
+        // http://developer.android.com/guide/components/activities.html#ImplementingLifecycleCallbacks
+
+
+        #region AtStop
+        public event Action AtStop;
+        protected override void onStop()
+        {
+            base.onStop();
+
+            if (AtStop != null)
+                AtStop();
+        }
+        #endregion
+
+
         #region AtNewIntent
         public event Action<Intent> AtNewIntent;
         protected override void onNewIntent(Intent value)
