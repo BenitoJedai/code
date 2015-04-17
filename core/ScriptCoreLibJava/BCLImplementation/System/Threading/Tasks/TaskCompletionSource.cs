@@ -30,5 +30,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
             t.SetResult(result);
         }
+
+
+        public override string ToString()
+        {
+            return new { this.Task.IsCompleted }.ToString();
+        }
     }
 }

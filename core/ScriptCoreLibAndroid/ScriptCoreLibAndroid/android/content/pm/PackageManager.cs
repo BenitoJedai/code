@@ -11,6 +11,7 @@ namespace android.content.pm
     [Script(IsNative = true)]
     public abstract class PackageManager
     {
-        public abstract PackageInfo getPackageInfo(String packageName, int flags);
+        public abstract Intent getLaunchIntentForPackage(string packageName);
+        public abstract PackageInfo getPackageInfo(string packageName, int flags);
     }
 }
