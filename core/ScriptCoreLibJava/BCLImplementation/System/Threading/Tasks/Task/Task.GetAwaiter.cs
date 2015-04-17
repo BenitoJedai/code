@@ -46,6 +46,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
         public __TaskAwaiter<TResult> GetAwaiter()
         {
+            //Console.WriteLine("enter __Task GetAwaiter " + new { __Environment.CurrentManagedThreadId });
+
             return InternalTaskOfTResultGetAwaiter(this);
         }
 

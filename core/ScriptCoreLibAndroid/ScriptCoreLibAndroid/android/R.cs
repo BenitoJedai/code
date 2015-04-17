@@ -15,6 +15,12 @@ namespace android
     public sealed class R
     {
         [Script(IsNative = true)]
+        public sealed class layout
+        {
+            public static int simple_spinner_item;
+        }
+
+        [Script(IsNative = true)]
         public sealed class drawable
         {
             public const int ic_menu_view = 17301591;

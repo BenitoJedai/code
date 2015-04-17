@@ -9,6 +9,8 @@ using ScriptCoreLib;
 
 namespace android.widget
 {
+ 
+
     // http://developer.android.com/reference/android/widget/TextView.html
     [Script(IsNative = true)]
     public class TextView : View
