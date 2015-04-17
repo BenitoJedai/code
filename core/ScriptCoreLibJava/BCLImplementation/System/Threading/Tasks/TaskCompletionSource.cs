@@ -25,6 +25,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
         public void SetResult(TResult result)
         {
+            //Console.WriteLine("enter TaskCompletionSource SetResult " + new { __Environment.CurrentManagedThreadId });
             var t = ((__Task<TResult>)this.Task);
 
 

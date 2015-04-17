@@ -1036,6 +1036,13 @@
     <Compile Include="android\view\ViewGroup.cs" />
     <Compile Include="android\view\WindowManager_LayoutParams.cs" />
     <Compile Include="android\webkit\SslErrorHandler.cs" />
+    <Compile Include="android\widget\ArrayAdapter.cs" />
+    <Compile Include="android\widget\AdapterView.cs" />
+    <Compile Include="android\widget\AbsSpinner.cs" />
+    <Compile Include="android\widget\BaseAdapter.cs" />
+    <Compile Include="android\widget\Adpter.cs" />
+    <Compile Include="android\widget\SpinnerAdapter.cs" />
+    <Compile Include="android\widget\Spinner.cs" />
     <Compile Include="android\widget\PopupWindow.cs" />
     <Compile Include="android\webkit\WebSettings.cs" />
     <Compile Include="android\webkit\ValueCallback.cs" />

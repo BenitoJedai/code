@@ -162,7 +162,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
 
 
-
+        #region ContinueWith
         public Task ContinueWith(Action<Task<TResult>> continuationAction)
         {
             return ContinueWith(continuationAction, default(TaskContinuationOptions));
@@ -202,10 +202,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
             return u.Task;
         }
+        #endregion
 
 
         public void SetResult(TResult result)
         {
+            //Console.WriteLine("enter __Task SetResult, WaitEvent.Set " + new { __Environment.CurrentManagedThreadId });
+
+
             // do we have to pay attention to threads?
 
             this.Result = result;
