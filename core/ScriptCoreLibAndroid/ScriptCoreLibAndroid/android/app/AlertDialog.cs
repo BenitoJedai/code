@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using android.content;
 using android.view;
+using android.widget;
 
 namespace android.app
 {
@@ -21,6 +22,8 @@ namespace android.app
         public void setButton(string text, DialogInterface_OnClickListener listener)
         {
         }
+
+        public Button getButton(int whichButton) { return null; }
 
         public void setMessage(string message)
         {

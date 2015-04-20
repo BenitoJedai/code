@@ -6,11 +6,12 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
-    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLObjectElement.idl
-    // https://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLObjectElement.cpp
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLObjectElement.idl
+	// https://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLObjectElement.cpp
 
+	// "U:\chromium\src\third_party\WebKit\Source\core\html\HTMLObjectElement.idl"
 
-    [Script(InternalConstructor = true)]
+	[Script(InternalConstructor = true)]
     public class IHTMLObject : IHTMLElement
     {
 

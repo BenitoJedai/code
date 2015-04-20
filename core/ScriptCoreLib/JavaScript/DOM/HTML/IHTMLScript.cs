@@ -16,6 +16,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		// http://blog.chromium.org/2015/03/new-javascript-techniques-for-rapid.html
 		// https://developers.google.com/speed/docs/insights/BlockingJS
 
+		// https://w3c.github.io/webappsec/specs/subresourceintegrity/
 
 		#region Constructor
 

@@ -9,7 +9,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/base/nsIDOMNavigator.idl
     // https://github.com/adobe/webkit/blob/master/Source/WebCore/page/Navigator.idl
     // X:\opensource\github\WootzJs\WootzJs.Web\Navigator.cs
-
+	
+	// "U:\chromium\src\third_party\WebKit\Source\core\frame\Navigator.idl"
     // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/Navigator.idl
     // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/NavigatorCPU.idl
     // hardwareConcurrency
@@ -72,9 +73,12 @@ namespace ScriptCoreLib.JavaScript.DOM
             public string description;
         }
 
-        // http://www.comptechdoc.org/independent/web/cgi/javamanual/javamimetype.html
-        // http://www.irt.org/xref/MimeType.htm
-        [Script]
+
+		// "U:\chromium\src\third_party\WebKit\Source\modules\plugins\NavigatorPlugins.idl"
+		// "U:\chromium\src\third_party\WebKit\Source\modules\plugins\MimeTypeArray.idl"
+		// http://www.comptechdoc.org/independent/web/cgi/javamanual/javamimetype.html
+		// http://www.irt.org/xref/MimeType.htm
+		[Script]
         public class MimeTypeInfo
         {
             public string description;
