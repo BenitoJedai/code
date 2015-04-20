@@ -7,6 +7,7 @@ using System.Text;
 
 namespace android.content
 {
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/content/DialogInterface.java
     // http://developer.android.com/reference/android/content/DialogInterface.html
 
     [Script(IsNative = true)]

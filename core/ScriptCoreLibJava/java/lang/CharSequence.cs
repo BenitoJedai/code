@@ -7,5 +7,6 @@ namespace java.lang
     [Script(IsNative = true)]
     public interface CharSequence
     {
+        int length();
     }
 }

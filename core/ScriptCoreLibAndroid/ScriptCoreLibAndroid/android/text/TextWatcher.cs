@@ -12,6 +12,8 @@ namespace android.text
     [Script(IsNative = true)]
     public interface TextWatcher
     {
+        // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\android\widget\TextView.cs
+
         void afterTextChanged(Editable s);
         void beforeTextChanged(CharSequence s, int start, int count, int after);
         void onTextChanged(CharSequence s, int start, int before, int count);

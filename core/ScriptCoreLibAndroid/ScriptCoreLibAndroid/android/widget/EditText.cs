@@ -11,6 +11,7 @@ using android.text;
 
 namespace android.widget
 {
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/widget/EditText.java
     // http://developer.android.com/reference/android/widget/EditText.html
     [Script(IsNative = true)]
     public class EditText : TextView
@@ -46,6 +47,8 @@ namespace android.widget
         {
 
         }
+
+
         // members and types are to be extended by jsc at release build
     }
 }

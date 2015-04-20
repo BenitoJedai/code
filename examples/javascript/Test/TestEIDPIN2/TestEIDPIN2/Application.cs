@@ -52,6 +52,7 @@ namespace TestEIDPIN2
             // https://code.google.com/p/chromium/issues/detail?id=412681
             // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
 
+            // view-source:https://id.lhv.ee/gfxv79/js/ibank/hwcrypto-lhv.js
 
             //if (navigator.mimeTypes && navigator.mimeTypes.length)
             //{
@@ -68,25 +69,27 @@ namespace TestEIDPIN2
 
             // !! actually IE wont report anything here.
 
-            //new IHTMLButton { "list mimeTypes" }.AttachToDocument().onclick +=
-            // e =>
-            //    {
+            Native.body.style.backgroundColor = "yellow";
 
-            //        Native.window.navigator.mimeTypes.ToArray().AsEnumerable().WithEach(
-            //            x =>
-            //            {
-            //                new IHTMLPre {
-            //                    new { x.type, x.description}
-            //                }.AttachToDocument();
+            new IHTMLButton { "list mimeTypes!" }.AttachToDocument().onclick +=
+             e =>
+             {
 
-
-            //            }
-            //        );
-            //    };
+                 Native.window.navigator.mimeTypes.ToArray().AsEnumerable().WithEach(
+                     x =>
+                     {
+                         new IHTMLPre {
+                                new { x.type, x.description}
+                            }.AttachToDocument();
 
 
+                     }
+                 );
+             };
 
-            new IHTMLButton { "use the API" }.AttachToDocument().onclick +=
+
+
+            new IHTMLButton { "use the API!" }.AttachToDocument().onclick +=
                 e =>
                 {
                     new IHTMLObject
@@ -116,11 +119,17 @@ namespace TestEIDPIN2
 
 
 
+                            // U:\chromium\src\third_party\WebKit\Source\core\html\HTMLObjectElement.cpp
 
                             new IHTMLButton { ".getCertificate()" }.AttachToDocument().onclick +=
                                 ee =>
                                 {
                                     dynamic cert = plugin.getCertificate();
+
+
+                                    new IHTMLPre {
+                                        new { cert }
+                                    }.AttachToDocument();
 
                                     new IHTMLPre {
                                         new { cert.id, cert.CN, cert.issuerCN }
