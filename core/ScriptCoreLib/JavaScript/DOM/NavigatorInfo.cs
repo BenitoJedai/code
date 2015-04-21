@@ -64,7 +64,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Obsolete("ServiceWorker")]
         public bool onLine;
 
-        public string userAgent;
+
+		// "U:\chromium\src\third_party\WebKit\Source\core\frame\NavigatorID.idl"s
+		public string userAgent;
         public string appVersion;
 
         [Script]

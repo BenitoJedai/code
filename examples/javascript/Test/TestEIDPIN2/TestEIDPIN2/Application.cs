@@ -67,10 +67,12 @@ namespace TestEIDPIN2
             //{{ type = application/pdf, description = Portable Document Format }}
             //{{ type = application/x-google-chrome-print-preview-pdf, description = Portable Document Format }}
 
-            // !! actually IE wont report anything here.
 
+            // Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2369.0 Safari/537.36
+            new IHTMLPre { Native.window.navigator.userAgent }.AttachToDocument();
             Native.body.style.backgroundColor = "yellow";
 
+            // !! actually IE wont report anything here.
             new IHTMLButton { "list mimeTypes!" }.AttachToDocument().onclick +=
              e =>
              {
