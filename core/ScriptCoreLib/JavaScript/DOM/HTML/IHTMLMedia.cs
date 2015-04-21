@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
-    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLMediaElement.idl
-    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLMediaElement.idl
-    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/encryptedmedia/HTMLMediaElementEncryptedMedia.idl
+	// http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLMediaElement.idl
+	// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLMediaElement.idl
+	// http://src.chromium.org/viewvc/blink/trunk/Source/modules/encryptedmedia/HTMLMediaElementEncryptedMedia.idl
 
-    // https://chromium.googlesource.com/experimental/chromium/blink/+/refs/wip/bajones/webvr%5E%21/#F8
+	// https://chromium.googlesource.com/experimental/chromium/blink/+/refs/wip/bajones/webvr%5E%21/#F8
+	// https://chromium.googlesource.com/experimental/chromium/blink/+/refs/wip/bajones/webvr/Source/core/html/HTMLMediaElement.cpp
 
-    [Script(InternalConstructor = true)]
+	[Script(InternalConstructor = true)]
     public abstract class IHTMLMedia : IHTMLElement
     {
 		// X:\jsc.svn\examples\javascript\async\test\TestGetUserMedia\TestGetUserMedia\Application.cs
