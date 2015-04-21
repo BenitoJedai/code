@@ -18,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	// http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/WebGLRenderingContext/
 	// https://github.com/konsoletyper/teavm/blob/master/teavm-dom/src/main/java/org/teavm/dom/webgl/WebGLRenderingContext.java
 	// https://chromium.googlesource.com/external/Webkit/+/master/Source/WebCore/html/canvas/WebGLRenderingContext.h
+	// https://chromium.googlesource.com/experimental/chromium/blink/+/refs/wip/bajones/webvr/Source/core/html/canvas/WebGLRenderingContextBase.h
 
 	[Script(HasNoPrototype = true, InternalConstructor = true,
 
