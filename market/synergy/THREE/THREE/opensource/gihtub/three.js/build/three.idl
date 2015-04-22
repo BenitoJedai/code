@@ -428,6 +428,7 @@ interface THREE.Light : THREE.Object3D
 // File:src/lights/DirectionalLight.js
 [Constructor(
 	long hex,
+	// 1.0 or 110? need test it
 	attribute double intensity = 1.0)]
 interface THREE.DirectionalLight : THREE.Light
 {
