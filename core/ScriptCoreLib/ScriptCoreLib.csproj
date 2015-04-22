@@ -164,6 +164,7 @@
     <Compile Include="Shared\BCLImplementation\System\IObservable.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\EndPoint.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\Sockets\UdpReceiveResult.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Numerics\Vector2.cs" />
     <Compile Include="Shared\BCLImplementation\System\Numerics\Vector4.cs" />
     <Compile Include="Shared\BCLImplementation\System\Reflection\IReflect.cs" />
     <Compile Include="Shared\BCLImplementation\System\Reflection\IReflectableType.cs" />

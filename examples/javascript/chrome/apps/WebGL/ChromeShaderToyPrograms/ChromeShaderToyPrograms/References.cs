@@ -483,6 +483,7 @@ namespace ChromeShaderToyPrograms
 			["VoxelSaturnByGaz"] = () => new VoxelSaturnByGaz.Shaders.ProgramFragmentShader(),
 			["VoxelTyreByHoskins"] = () => new VoxelTyreByHoskins.Shaders.ProgramFragmentShader(),
 			["VRTestSceneByRaven"] = () => new VRTestSceneByRaven.Shaders.ProgramFragmentShader(),
+			["VRMazeByNrx"] = () => new VRMazeByNrx.Shaders.ProgramFragmentShader(),
 			#endregion
 
 

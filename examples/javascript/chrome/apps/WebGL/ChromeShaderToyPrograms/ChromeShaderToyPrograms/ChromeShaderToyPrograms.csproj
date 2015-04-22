@@ -1293,6 +1293,9 @@
     <Reference Include="SakuraByFMSCat.AssetsLibrary">
       <HintPath>..\..\synergy\SakuraByFMSCat\SakuraByFMSCat\bin\staging.AssetsLibrary\SakuraByFMSCat.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="VRMazeByNrx.AssetsLibrary">
+      <HintPath>..\..\synergy\VRMazeByNrx\VRMazeByNrx\bin\staging.AssetsLibrary\VRMazeByNrx.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2784,6 +2787,10 @@
     <ProjectReference Include="..\..\synergy\VoxelTyreByHoskins\VoxelTyreByHoskins\VoxelTyreByHoskins.csproj">
       <Project>{eaf7a7c7-7697-454d-aed5-2c5b316f71b8}</Project>
       <Name>VoxelTyreByHoskins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\synergy\VRMazeByNrx\VRMazeByNrx\VRMazeByNrx.csproj">
+      <Project>{d1009903-0589-48c0-8d69-455d19670f93}</Project>
+      <Name>VRMazeByNrx</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\synergy\VRTestSceneByRaven\VRTestSceneByRaven\VRTestSceneByRaven.csproj">
       <Project>{ee715ce5-6ed9-433d-a0ee-0c45c5125d3d}</Project>

@@ -1302,6 +1302,9 @@
     <Reference Include="SakuraByFMSCat.AssetsLibrary">
       <HintPath>..\..\synergy\SakuraByFMSCat\SakuraByFMSCat\bin\staging.AssetsLibrary\SakuraByFMSCat.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="VRMazeByNrx.AssetsLibrary">
+      <HintPath>..\..\synergy\VRMazeByNrx\VRMazeByNrx\bin\staging.AssetsLibrary\VRMazeByNrx.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete\ChromeShaderToyPlasmaTriangleByElusivePete.csproj">

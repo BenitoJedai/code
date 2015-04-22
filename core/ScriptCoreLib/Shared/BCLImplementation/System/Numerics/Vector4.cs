@@ -13,5 +13,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Numerics
 	//[Script(Implements = typeof(global::System.Numerics.Vector4))]
     internal class __Vector4
     {
-    }
+		// http://blogs.msdn.com/b/dotnet/archive/2014/11/05/using-system-numerics-vector-for-graphics-programming.aspx
+
+	}
 }
