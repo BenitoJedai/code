@@ -203,6 +203,7 @@ namespace TestHopFromIFrame
 
 			if (Native.window.parent != Native.window)
 			{
+				// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTabThenIFrame\ChromeExtensionHopToTabThenIFrame\Application.cs
 				// inside iframe
 
 

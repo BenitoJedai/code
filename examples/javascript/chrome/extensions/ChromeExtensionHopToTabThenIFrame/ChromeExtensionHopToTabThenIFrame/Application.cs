@@ -23,6 +23,27 @@ using System.Runtime.Serialization;
 
 namespace ChromeExtensionHopToTabThenIFrame
 {
+	#region HopToIFrame
+	public struct HopToIFrame : System.Runtime.CompilerServices.INotifyCompletion
+	{
+		// basically we have to hibernate the current state to resume
+		public HopToIFrame GetAwaiter() { return this; }
+		public bool IsCompleted { get { return false; } }
+
+		public static Action<HopToIFrame, Action> VirtualOnCompleted;
+		public void OnCompleted(Action continuation) { VirtualOnCompleted(this, continuation); }
+
+		public void GetResult() { }
+
+
+		public IHTMLIFrame frame;
+		public static explicit operator HopToIFrame(IHTMLIFrame frame)
+		{
+			return new HopToIFrame { frame = frame };
+		}
+	}
+	#endregion
+
 	#region HopToChromeTab
 	public struct HopToChromeTab : System.Runtime.CompilerServices.INotifyCompletion
 	{
@@ -82,101 +103,221 @@ namespace ChromeExtensionHopToTabThenIFrame
 				Native.document.location.href
 			});
 
-			// X:\jsc.svn\examples\javascript\ScriptDynamicSourceBuilder\ScriptDynamicSourceBuilder\Application.cs
-			// X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
-			// or. were we injected? then our source is different?
-			// makeURL ? did chrome extension prep the special url yet?
-			var codetask = new WebClient().DownloadStringTaskAsync(
+
+
+			//dynamic self = Native.self;
+			//dynamic self_chrome = self.chrome;
+			//object self_chrome_tabs = self_chrome.tabs;
+
+			Console.WriteLine("nop");
+
+			#region self_chrome_tabs
+			//if (self_chrome_tabs != null)
+			{
+
+				// X:\jsc.svn\examples\javascript\ScriptDynamicSourceBuilder\ScriptDynamicSourceBuilder\Application.cs
+				// X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
+				// or. were we injected? then our source is different?
+				// makeURL ? did chrome extension prep the special url yet?
+				var codetask = new WebClient().DownloadStringTaskAsync(
 						 new Uri(Worker.ScriptApplicationSource, UriKind.Relative)
 					);
 
-			#region HopToChromeTab.VirtualOnCompleted
-			HopToChromeTab.VirtualOnCompleted = async (that, continuation) =>
+				#region HopToChromeTab.VirtualOnCompleted
+				HopToChromeTab.VirtualOnCompleted = async (that, continuation) =>
+				{
+					//Console.WriteLine("HopToChromeTab.VirtualOnCompleted ");
+					Console.WriteLine("HopToChromeTab.VirtualOnCompleted " + new { that.id });
+
+					// um. whats the tab we are to jump into?
+					// signal we are about to inject
+					//await that.id.insertCSS(
+					//		new
+					//		{
+					//			code = @"
+
+					//html { 
+					//border-left: 1em solid yellow;
+					//}
+
+
+					//"
+					//		}
+					//	);
+
+
+					// where is it defined?
+					// X:\jsc.svn\examples\javascript\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\ShadowIAsyncStateMachine.cs
+					// TestSwitchToServiceContextAsync
+
+
+					// async dont like ref?
+					var r = TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine.ResumeableFromContinuation(continuation);
+
+					// um. now what?
+					// send shadowstate over?
+					// first we have to open a channel
+
+					// do we have our view-source yet?
+					var code = await codetask;
+
+					// 5240ms HopToChromeTab.VirtualOnCompleted {{ id = 449, state = 1, Length = 3232941 }}
+
+					// 226632ms HopToChromeTab.VirtualOnCompleted {{ id = 95, state = 0, Length = 3254419 }}
+					Console.WriteLine("HopToChromeTab.VirtualOnCompleted " + new { that.id, r.shadowstate.state, code.Length });
+
+					if (r.shadowstate.state == 0)
+						Console.WriteLine("HopToChromeTab.VirtualOnCompleted bugcheck. state 0?");
+
+					//// how can we inject ourselves and send a signal back to set this thing up?
+
+					//// https://developer.chrome.com/extensions/tabs#method-executeScript
+					//// https://developer.chrome.com/extensions/tabs#type-InjectDetails
+					//// https://developer.chrome.com/extensions/content_scripts#pi
+
+					//// Content scripts execute in a special environment called an isolated world. 
+					//// They have access to the DOM of the page they are injected into, but not to any JavaScript variables or 
+					//// functions created by the page. It looks to each content script as if there is no other JavaScript executing
+					//// on the page it is running on. The same is true in reverse: JavaScript running on the page cannot call any 
+					//// functions or access any variables defined by content scripts.
+
+					r.shadowstate.code = code;
+
+					var result = await that.id.executeScript(
+						//new { file = url }
+						new { code }
+					);
+
+					// now what?
+
+					Console.WriteLine("HopToChromeTab.VirtualOnCompleted after executeScript");
+
+					// send a SETI message?
+
+					/// whats duplicate
+					var response = await that.id.sendMessage(
+							//"hello"
+
+							r.shadowstate
+						);
+
+					Console.WriteLine("HopToChromeTab.VirtualOnCompleted after sendMessage " + new { response });
+
+					// HopToChromeTab.VirtualOnCompleted after sendMessage {{ response = response }}
+
+					// https://developer.chrome.com/extensions/messaging#connect
+
+				};
+				#endregion
+
+
+				//return;
+			}
+			#endregion
+
+			// ok. now we are running inside the tab. lets set up the hop to iframe.
+			Console.WriteLine("nop");
+#if false
+
+
+
+			#region HopToIFrame
+			HopToIFrame.VirtualOnCompleted = async (that, continuation) =>
 			{
-				//Console.WriteLine("HopToChromeTab.VirtualOnCompleted ");
-				Console.WriteLine("HopToChromeTab.VirtualOnCompleted " + new { that.id });
+				new IHTMLPre {
+					"enter HopToIFrame.VirtualOnCompleted.."
+				}.AttachToDocument();
 
-				// um. whats the tab we are to jump into?
-				// signal we are about to inject
-				//await that.id.insertCSS(
-				//		new
-				//		{
-				//			code = @"
-
-				//html { 
-				//border-left: 1em solid yellow;
-				//}
-
-
-				//"
-				//		}
-				//	);
-
-
-				// where is it defined?
-				// X:\jsc.svn\examples\javascript\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\ShadowIAsyncStateMachine.cs
-				// TestSwitchToServiceContextAsync
-
-
-				// async dont like ref?
 				var r = TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine.ResumeableFromContinuation(continuation);
 
-				// um. now what?
-				// send shadowstate over?
-				// first we have to open a channel
+				// X:\jsc.svn\examples\javascript\Test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
+				//var m = await that.frame.contentWindow.async.onmessage;
+				var m = await that.frame.async.onmessage;
 
-				// do we have our view-source yet?
-				var code = await codetask;
+				//new IHTMLPre {
+				//	" VirtualOnCompleted postMessageAsync " + new { r.shadowstate.state }
+				//}.AttachToDocument();
 
-				// 5240ms HopToChromeTab.VirtualOnCompleted {{ id = 449, state = 1, Length = 3232941 }}
 
-				// 226632ms HopToChromeTab.VirtualOnCompleted {{ id = 95, state = 0, Length = 3254419 }}
-				Console.WriteLine("HopToChromeTab.VirtualOnCompleted " + new { that.id, r.shadowstate.state, code.Length });
+				// um. we need to tell that iframe, where to jump to..
+				//var firstmessageback = that.frame.contentWindow.postMessageAsync(r.shadowstate);
 
-				if (r.shadowstate.state == 0)
-					Console.WriteLine("HopToChromeTab.VirtualOnCompleted bugcheck. state 0?");
+				m.postMessage(r.shadowstate);
 
-				//// how can we inject ourselves and send a signal back to set this thing up?
+				that.frame.ownerDocument.defaultView.onmessage +=
+					e =>
+					{
+						if (e.source != that.frame.contentWindow)
+							return;
 
-				//// https://developer.chrome.com/extensions/tabs#method-executeScript
-				//// https://developer.chrome.com/extensions/tabs#type-InjectDetails
-				//// https://developer.chrome.com/extensions/content_scripts#pi
+						var shadowstate = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)e.data;
 
-				//// Content scripts execute in a special environment called an isolated world. 
-				//// They have access to the DOM of the page they are injected into, but not to any JavaScript variables or 
-				//// functions created by the page. It looks to each content script as if there is no other JavaScript executing
-				//// on the page it is running on. The same is true in reverse: JavaScript running on the page cannot call any 
-				//// functions or access any variables defined by content scripts.
+						// are we jumping into a new statemachine?
 
-				r.shadowstate.code = code;
+						new IHTMLPre {
+							"iframe is about to jump to parent " + new { shadowstate.state }
+						}.AttachToDocument();
 
-				var result = await that.id.executeScript(
-					//new { file = url }
-					new { code }
-				);
+						// about to invoke
 
-				// now what?
+			#region xAsyncStateMachineType
+						var xAsyncStateMachineType = typeof(Application).Assembly.GetTypes().FirstOrDefault(
+						item =>
+						{
+							// safety check 1
 
-				Console.WriteLine("HopToChromeTab.VirtualOnCompleted after executeScript");
+							//Console.WriteLine(new { sw.ElapsedMilliseconds, item.FullName });
 
-				// send a SETI message?
+							var xisIAsyncStateMachine = typeof(IAsyncStateMachine).IsAssignableFrom(item);
+							if (xisIAsyncStateMachine)
+							{
+								//Console.WriteLine(new { item.FullName, isIAsyncStateMachine });
 
-				/// whats duplicate
-				var response = await that.id.sendMessage(
-					//"hello"
+								return item.FullName == shadowstate.TypeName;
+							}
 
-					r.shadowstate
-				);
+							return false;
+						}
+					);
+			#endregion
 
-				Console.WriteLine("HopToChromeTab.VirtualOnCompleted after sendMessage " + new { response });
 
-				// HopToChromeTab.VirtualOnCompleted after sendMessage {{ response = response }}
+						var NewStateMachine = FormatterServices.GetUninitializedObject(xAsyncStateMachineType);
+						var isIAsyncStateMachine = NewStateMachine is IAsyncStateMachine;
 
-				// https://developer.chrome.com/extensions/messaging#connect
+						var NewStateMachineI = (IAsyncStateMachine)NewStateMachine;
+
+			#region 1__state
+						xAsyncStateMachineType.GetFields(
+							  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
+						  ).WithEach(
+						   AsyncStateMachineSourceField =>
+						   {
+
+							   Console.WriteLine(new { AsyncStateMachineSourceField });
+
+							   if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
+							   {
+								   AsyncStateMachineSourceField.SetValue(
+									   NewStateMachineI,
+									   shadowstate.state
+									);
+							   }
+
+
+						   }
+					  );
+			#endregion
+
+						NewStateMachineI.MoveNext();
+
+					};
 
 			};
 			#endregion
 
+#endif
+			Console.WriteLine("nop");
 		}
 
 
@@ -199,15 +340,6 @@ namespace ChromeExtensionHopToTabThenIFrame
 			dynamic self = Native.self;
 			dynamic self_chrome = self.chrome;
 			object self_chrome_tabs = self_chrome.tabs;
-
-			//if (self_chrome_tabs == null)
-			//	return;
-
-
-			//	....488: { SourceMethod = Void.ctor(ChromeExtensionHopToTabThenIFrame.HTML.Pages.IApp), i = [0x00ba] brtrue.s + 0 - 1 }
-			//1984:02:01 RewriteToAssembly error: System.ArgumentException: Value does not fall within the expected range.
-			//at jsc.ILInstruction.ByOffset(Int32 i) in X:\jsc.internal.git\compiler\jsc\CodeModel\ILInstruction.cs:line 1184
-			//at jsc.ILInstruction.get_BranchTargets() in X:\jsc.internal.git\compiler\jsc\CodeModel\ILInstruction.cs:line 1225
 
 			#region self_chrome_tabs
 			if (self_chrome_tabs != null)
@@ -324,13 +456,14 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 					var scope = new { iframe };
 
-					Console.WriteLine("iframe visible? " + new { scope });
+					//Console.WriteLine("iframe visible? " + new { scope });
 
 					new IStyle(iframe)
 					{
 						borderWidth = "0",
 
-						
+						transition = "background-color 300ms linear",
+
 						backgroundColor = "rgba(0, 0, 255, 0.2)",
 
 						position = IStyle.PositionEnum.@fixed,
@@ -349,9 +482,18 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 					fixHeight(iframe);
 
+					await iframe.async.onload;
 
+					new IStyle(iframe)
+					{
+						backgroundColor = "rgba(0, 0, 255, 0.7)",
+					};
 
-					//await (HopToIFrame)frame;
+					Console.WriteLine("lets hop from tab context to iframe context... ");
+					//await (HopToIFrame)iframe;
+
+					//Console.WriteLine("lets hop from tab context to iframe context... done!");
+
 
 					//var f = new IHTMLButton { "in the frame! click to notify parent" }.AttachToDocument();
 
@@ -428,7 +570,106 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 			// 420ms TypeError: Cannot read property 'url' of null
 
-			Console.WriteLine("bugcheck. code running in a tab now?");
+			Console.WriteLine("nop");
+
+#if true
+
+
+			#region inside iframe
+			if (Native.window.parent != Native.window)
+			{
+				// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTabThenIFrame\ChromeExtensionHopToTabThenIFrame\Application.cs
+				// inside iframe
+
+
+
+				new { }.With(
+				async delegate
+				{
+					// start the handshake
+					// we gain intellisense, but the type is partal, likely not respawned, acivated, initialized 
+					//var m = await Native.window.parent.postMessageAsync<TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine>();
+
+					//	new IHTMLPre {
+					//			"inside iframe awaiting onmessage"
+					//}.AttachToDocument();
+
+					var m = await Native.window.parent.postMessageAsync<TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine>();
+					var shadowstate = m.data;
+
+					//var m = await Native.window.parent.async.onmessage;
+					//var shadowstate = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)m.data;
+
+					new IHTMLPre {
+								new { shadowstate.state }
+					}.AttachToDocument();
+
+					// about to invoke
+
+					#region xAsyncStateMachineType
+					var xAsyncStateMachineType = typeof(Application).Assembly.GetTypes().FirstOrDefault(
+					item =>
+					{
+						// safety check 1
+
+						//Console.WriteLine(new { sw.ElapsedMilliseconds, item.FullName });
+
+						var xisIAsyncStateMachine = typeof(IAsyncStateMachine).IsAssignableFrom(item);
+						if (xisIAsyncStateMachine)
+						{
+							//Console.WriteLine(new { item.FullName, isIAsyncStateMachine });
+
+							return item.FullName == shadowstate.TypeName;
+						}
+
+						return false;
+					}
+				);
+					#endregion
+
+
+					var NewStateMachine = FormatterServices.GetUninitializedObject(xAsyncStateMachineType);
+					var isIAsyncStateMachine = NewStateMachine is IAsyncStateMachine;
+
+					var NewStateMachineI = (IAsyncStateMachine)NewStateMachine;
+
+					#region 1__state
+					xAsyncStateMachineType.GetFields(
+						  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
+					  ).WithEach(
+					   AsyncStateMachineSourceField =>
+					   {
+
+						   Console.WriteLine(new { AsyncStateMachineSourceField });
+
+						   if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
+						   {
+							   AsyncStateMachineSourceField.SetValue(
+								   NewStateMachineI,
+								   shadowstate.state
+								);
+						   }
+
+
+					   }
+				  );
+					#endregion
+
+					NewStateMachineI.MoveNext();
+
+					// we can now send one hop back?
+				}
+			);
+
+
+				return;
+			}
+			#endregion
+
+#endif
+
+			Console.WriteLine("nop");
+
 			// we made the jump?
 			//Native.body.style.borderLeft = "0em solid red";
 
