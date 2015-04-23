@@ -49,48 +49,58 @@ namespace ScriptCoreLib.JavaScript
 			// are we running as chrome extension?
 			// x:\jsc.svn\examples\javascript\chrome\extensions\chromeextensionhoptotab\chromeextensionhoptotab\application.cs
 
-			if (Native.crypto != null)
-				if (Native.crypto.subtle != null)
+			if (Native.document != null)
+				if (Native.document.location.protocol == "http:")
 				{
-					// do we even have crypto capability?
-
-
-					// I/chromium( 6625): [INFO:CONSOLE(1751)] "Uncaught TypeError: Cannot call method 'generateKey' of undefined", source: http://127.0.0.1:14272/view-source (1751)
-
-					try
-					{
-						var publicExponent = new Uint8Array(new byte[] { 0x01, 0x00, 0x01 });
-
-						// http://social.msdn.microsoft.com/Forums/en-US/d12a2c2e-22b0-44ab-bab5-8202a0c8edcc/rsa-signature-with-rsassapkcs1v15?forum=csharpgeneral
-						// Asymmetric private keys should never be stored verbatim or in plain text on the local computer. If you need to store a private key, you should use a key container. 
-						// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140831
-
-
-
-						Native.identity = Native.crypto.subtle.generateKeyAsync(
-								new
-								{
-									name = "RSASSA-PKCS1-v1_5",
-
-									// for SSL we seem to need to use SHA1 tho?
-									hash = new { name = "SHA-256" },
-
-
-									modulusLength = 2048,
-									publicExponent,
-
-									//  RsaHashedKeyGenParams: hash: Algorithm: Not an object
-								},
-								false,
-								//new[] { "encrypt", "decrypt" }
-								new[] { "sign", "verify" }
-							);
-					}
-					catch
-					{
-						// no crypto?
-					}
+					// bail, as chrome faults
+					return;
 				}
+
+			if (Native.crypto == null)
+				return;
+
+
+			if (Native.crypto.subtle == null)
+				return;
+
+			// do we even have crypto capability?
+
+
+			// I/chromium( 6625): [INFO:CONSOLE(1751)] "Uncaught TypeError: Cannot call method 'generateKey' of undefined", source: http://127.0.0.1:14272/view-source (1751)
+
+			try
+			{
+				var publicExponent = new Uint8Array(new byte[] { 0x01, 0x00, 0x01 });
+
+				// http://social.msdn.microsoft.com/Forums/en-US/d12a2c2e-22b0-44ab-bab5-8202a0c8edcc/rsa-signature-with-rsassapkcs1v15?forum=csharpgeneral
+				// Asymmetric private keys should never be stored verbatim or in plain text on the local computer. If you need to store a private key, you should use a key container. 
+				// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140831
+
+
+				// or read from nfc?
+				Native.identity = Native.crypto.subtle.generateKeyAsync(
+						new
+						{
+							name = "RSASSA-PKCS1-v1_5",
+
+							// for SSL we seem to need to use SHA1 tho?
+							hash = new { name = "SHA-256" },
+
+
+							modulusLength = 2048,
+							publicExponent,
+
+							//  RsaHashedKeyGenParams: hash: Algorithm: Not an object
+						},
+						false,
+						//new[] { "encrypt", "decrypt" }
+						new[] { "sign", "verify" }
+					);
+			}
+			catch
+			{
+				// no crypto?
+			}
 
 
 

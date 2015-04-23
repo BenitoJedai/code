@@ -54,6 +54,10 @@ namespace TestSwitchToServiceContextAsync
 
 	public partial class ShadowIAsyncStateMachine
 	{
+		// allow chrome extension to send the source, for to hop into iframe
+		// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTabThenIFrame\ChromeExtensionHopToTabThenIFrame\Application.cs
+		public string code;
+
 		public string TypeName;
 		public int state;
 
@@ -234,7 +238,7 @@ namespace TestSwitchToServiceContextAsync
 			// js seems to have the same issue where, struct fields are not inited?
 			// for js, the ctor needs to do it? or can we do it on prototype level? 
 
-			Console.WriteLine(new { AsyncStateMachineType, AsyncStateMachineStateField });
+			Console.WriteLine("FromContinuation " + new { AsyncStateMachineType, AsyncStateMachineStateField });
 
 			if (AsyncStateMachineType == null)
 				return null;
@@ -245,7 +249,7 @@ namespace TestSwitchToServiceContextAsync
 			s.TypeName = AsyncStateMachineType.FullName;
 			s.state = (int)AsyncStateMachineStateField.GetValue(AsyncStateMachineSource);
 
-			Console.WriteLine(new { s.state, s.TypeName });
+			Console.WriteLine("FromContinuation " + new { s.state, s.TypeName });
 
 
 			Func<string, string> DecoratedString =

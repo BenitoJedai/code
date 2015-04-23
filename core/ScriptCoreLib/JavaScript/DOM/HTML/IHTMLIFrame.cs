@@ -10,6 +10,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
 	// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/HTMLIFrameElement.webidl
 	// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLIFrameElement.idl
+	// https://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLIFrameElement.cpp
 	// http://www.chromestatus.com/features/5715536319086592
 	// https://github.com/Reactive-Extensions/IL2JS/blob/master/Html/Microsoft/LiveLabs/Html/IFrame.cs
 	// http://www.w3.org/TR/html4/present/frames.html#h-16.5
@@ -18,6 +19,11 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 	public class IHTMLIFrame : IHTMLElement
 	{
 		// X:\jsc.svn\examples\javascript\test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
+		// X:\jsc.svn\examples\javascript\Test\TestHopFromIFrame\TestHopFromIFrame\Application.cs
+		// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTabThenIFrame\ChromeExtensionHopToTabThenIFrame\Application.cs
+
+
+		// hop back?
 
 		// http://www.chromium.org/developers/design-documents/oop-iframes
 		// https://code.google.com/p/chromium/issues/detail?id=245884

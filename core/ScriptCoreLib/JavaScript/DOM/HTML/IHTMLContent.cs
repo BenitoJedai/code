@@ -13,16 +13,18 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public class IHTMLContent : IHTMLElement<IHTMLContent>
     {
+		// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTabThenShadow\ChromeExtensionHopToTabThenShadow\Application.cs
 
-        // X:\jsc.svn\examples\javascript\Test\TestInsertionPoints\TestInsertionPoints\Application.cs
-        // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\SplitContainer\SplitContainer.cs
 
-        // X:\jsc.svn\examples\javascript\Test\TestShadowSelectByClass\TestShadowSelectByClass\Application.cs
-        // http://www.webcomponentsshift.com/#40
+		// X:\jsc.svn\examples\javascript\Test\TestInsertionPoints\TestInsertionPoints\Application.cs
+		// X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\SplitContainer\SplitContainer.cs
 
-        // select works with immediate children
-        // X:\jsc.svn\examples\javascript\chrome\apps\ChromeAppWindowMouseCapture\ChromeAppWindowMouseCapture\Application.cs
-        public string select;
+		// X:\jsc.svn\examples\javascript\Test\TestShadowSelectByClass\TestShadowSelectByClass\Application.cs
+		// http://www.webcomponentsshift.com/#40
+
+		// select works with immediate children
+		// X:\jsc.svn\examples\javascript\chrome\apps\ChromeAppWindowMouseCapture\ChromeAppWindowMouseCapture\Application.cs
+		public string select;
 
         // once template becomes popular AssetsLibrary needs to learn it too
         // 
