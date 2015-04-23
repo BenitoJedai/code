@@ -91,5 +91,31 @@ namespace ScriptCoreLib.JavaScript.DOM
 			return x.Task;
 		}
 
+		// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTabThenIFrame\ChromeExtensionHopToTabThenIFrame\Application.cs
+		[Script(DefineAsStatic = true)]
+		public Task<MessageEvent<TData>> postMessageAsync<TData>(TData message)
+		{
+			var x = new TaskCompletionSource<MessageEvent<TData>>();
+
+			var c = new MessageChannel();
+
+			c.port1.onmessage +=
+				e =>
+				{
+					// bypass type safety
+					x.SetResult((MessageEvent<TData>)(object)e);
+				};
+
+			c.port1.start();
+			c.port2.start();
+
+			this.postMessage(message,
+				targetOrigin: "*",
+				transfer: c.port2
+			);
+
+
+			return x.Task;
+		}
 	}
 }
