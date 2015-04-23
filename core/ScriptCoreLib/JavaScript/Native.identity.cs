@@ -50,11 +50,19 @@ namespace ScriptCoreLib.JavaScript
 			// x:\jsc.svn\examples\javascript\chrome\extensions\chromeextensionhoptotab\chromeextensionhoptotab\application.cs
 
 			if (Native.document != null)
+			{
 				if (Native.document.location.protocol == "http:")
 				{
 					// bail, as chrome faults
 					return;
 				}
+
+				if (Native.document.location.protocol == "blob:")
+				{
+					// bail, as chrome faults
+					return;
+				}
+			}
 
 			if (Native.crypto == null)
 				return;

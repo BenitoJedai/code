@@ -105,14 +105,14 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 
 
-			//dynamic self = Native.self;
-			//dynamic self_chrome = self.chrome;
-			//object self_chrome_tabs = self_chrome.tabs;
+			dynamic self = Native.self;
+			dynamic self_chrome = self.chrome;
+			object self_chrome_tabs = self_chrome.tabs;
 
 			Console.WriteLine("nop");
 
 			#region self_chrome_tabs
-			//if (self_chrome_tabs != null)
+			if (self_chrome_tabs != null)
 			{
 
 				// X:\jsc.svn\examples\javascript\ScriptDynamicSourceBuilder\ScriptDynamicSourceBuilder\Application.cs
@@ -211,22 +211,23 @@ namespace ChromeExtensionHopToTabThenIFrame
 				#endregion
 
 
-				//return;
+				return;
 			}
 			#endregion
 
 			// ok. now we are running inside the tab. lets set up the hop to iframe.
 			Console.WriteLine("nop");
-#if false
+#if true
+
 
 
 
 			#region HopToIFrame
 			HopToIFrame.VirtualOnCompleted = async (that, continuation) =>
 			{
-				new IHTMLPre {
-					"enter HopToIFrame.VirtualOnCompleted.."
-				}.AttachToDocument();
+				//new IHTMLPre {
+				//	"enter HopToIFrame.VirtualOnCompleted.."
+				//}.AttachToDocument();
 
 				var r = TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine.ResumeableFromContinuation(continuation);
 
@@ -254,13 +255,13 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 						// are we jumping into a new statemachine?
 
-						new IHTMLPre {
-							"iframe is about to jump to parent " + new { shadowstate.state }
-						}.AttachToDocument();
+						//new IHTMLPre {
+						//	"iframe is about to jump to parent " + new { shadowstate.state }
+						//}.AttachToDocument();
 
 						// about to invoke
 
-			#region xAsyncStateMachineType
+						#region xAsyncStateMachineType
 						var xAsyncStateMachineType = typeof(Application).Assembly.GetTypes().FirstOrDefault(
 						item =>
 						{
@@ -279,7 +280,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 							return false;
 						}
 					);
-			#endregion
+						#endregion
 
 
 						var NewStateMachine = FormatterServices.GetUninitializedObject(xAsyncStateMachineType);
@@ -287,7 +288,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 						var NewStateMachineI = (IAsyncStateMachine)NewStateMachine;
 
-			#region 1__state
+						#region 1__state
 						xAsyncStateMachineType.GetFields(
 							  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
 						  ).WithEach(
@@ -307,7 +308,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 						   }
 					  );
-			#endregion
+						#endregion
 
 						NewStateMachineI.MoveNext();
 
@@ -348,18 +349,23 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 				chrome.tabs.Updated += async (i, x, tab) =>
 				{
-					Console.WriteLine("enter async chrome.tabs.Updated");
 
 					// chrome://newtab/
 
+					#region tab
 					if (tab == null)
 					{
 						Console.WriteLine("bugcheck :198 iframe? called with the wrong state?");
 						return;
 					}
 
+					Console.WriteLine("enter async chrome.tabs.Updated " + new { tab.url, tab.status });
+
+
 					if (tab.url.StartsWith("chrome-devtools://"))
+					{
 						return;
+					}
 
 					if (tab.url.StartsWith("chrome://"))
 						return;
@@ -371,45 +377,12 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 
 					if (tab.status != "complete")
+					{
+						Console.WriteLine("exit async chrome.tabs.Updated, not complete?");
 						return;
+					}
 
-					//new chrome.Notification
-					//{
-					//	Message = "chrome.tabs.Updated " + new
-					//	{
-					//		tab.id,
-					//		tab.url,
-					//		tab.status,
-					//		tab.title
-					//	}
-					//};
-
-
-					// while running tabs.insertCSS: The tab was closed.
-
-					// 		public static Task<object> insertCSS(this TabIdInteger tabId, object details);
-					// public static void insertCSS(this TabIdInteger tabId, object details, IFunction callback);
-
-
-					// for some sites the bar wont show as they html element height is 0?
-					//				await tab.id.insertCSS(
-					//							new
-					//							{
-					//								code = @"
-
-					//html { 
-					//border-left: 1em solid cyan;
-					//padding-left: 1em; 
-					//}
-
-
-					//"
-					//							}
-					//						);
-
-					//				Console.WriteLine(
-					//					"insertCSS done " + new { tab.id, tab.url }
-					//					);
+					#endregion
 
 
 					// where is the hop to iframe?
@@ -436,7 +409,6 @@ namespace ChromeExtensionHopToTabThenIFrame
 					// what about jumping with files/uploads?
 					Console.WriteLine("// are we now on the tab yet?");
 
-					Native.document.documentElement.style.borderLeft = "1px solid blue";
 
 
 					var iframe = new IHTMLIFrame {
@@ -452,8 +424,12 @@ namespace ChromeExtensionHopToTabThenIFrame
 						);
 
 
+
+
 					//iframe.allowTransparency = true;
 
+					// __8__1 is null. why? a struct?
+					//     b.__this.__8__1.scope = new ctor$vQEABrCB_bTmuL0jGQp_bnVw(b.__this._iframe_5__2);
 					var scope = new { iframe };
 
 					//Console.WriteLine("iframe visible? " + new { scope });
@@ -462,9 +438,12 @@ namespace ChromeExtensionHopToTabThenIFrame
 					{
 						borderWidth = "0",
 
-						transition = "background-color 300ms linear",
+						// wont animate?
 
-						backgroundColor = "rgba(0, 0, 255, 0.2)",
+						transition = "left 300ms linear",
+
+						// dont want the white box while it loads..
+						backgroundColor = "rgba(0, 0, 255, 0)",
 
 						position = IStyle.PositionEnum.@fixed,
 
@@ -477,22 +456,146 @@ namespace ChromeExtensionHopToTabThenIFrame
 						//bottom = "3em"
 
 						// can we be topmost?
-						zIndex = 30000
+						//zIndex = 30000
+						zIndex = 1999999999
+
 					};
 
 					fixHeight(iframe);
 
-					await iframe.async.onload;
+					var __iframe = iframe;
+					await __iframe.async.onload;
 
-					new IStyle(iframe)
+					// wont work?
+					new IStyle(Native.document.documentElement)
 					{
-						backgroundColor = "rgba(0, 0, 255, 0.7)",
+						borderLeft = "rgba(0, 0, 255, 1) 1px solid",
 					};
 
-					Console.WriteLine("lets hop from tab context to iframe context... ");
-					//await (HopToIFrame)iframe;
 
-					//Console.WriteLine("lets hop from tab context to iframe context... done!");
+					scope.iframe.onmouseover +=
+						delegate
+						{
+							new IStyle(Native.document.documentElement)
+							{
+								borderLeft = "rgba(255, 0, 0, 1) 1px solid",
+							};
+
+							new IStyle(scope.iframe)
+							{
+								left = "1px",
+							};
+						};
+
+					scope.iframe.onmouseout +=
+						delegate
+						{
+							new IStyle(Native.document.documentElement)
+							{
+								borderLeft = "rgba(0, 0, 255, 1) 1px solid",
+							};
+
+							// hide toolbar!
+							new IStyle(scope.iframe)
+							{
+								left = "-5em",
+							};
+						};
+
+
+					//new IStyle(iframe)
+					//{
+					//	backgroundColor = "rgba(0, 0, 255, 0.7)",
+					//};
+
+					Console.WriteLine("lets hop from tab context to iframe context... ");
+					await (HopToIFrame)iframe;
+
+					Console.WriteLine("lets hop from tab context to iframe context... done!");
+
+
+					new IStyle(Native.document.body)
+					{
+						transition = "background-color 300ms linear",
+						backgroundColor = "rgba(0, 0, 255, 0.1)",
+					};
+
+					//Native.body.backgroundColor = "rgba(0, 0, 255, 0.7)";
+
+					var button1 = new IHTMLButton { "done!" }.AttachToDocument();
+
+
+					//new { }.With(
+					//	async delegate
+					//	{
+					//		// stack variables not visible, why?
+					//		while (await button1.async.onmouseover)
+					//		{
+					//			new IStyle(Native.document.body)
+					//			{
+					//				backgroundColor = "rgba(0, 0, 255, 0.8)",
+					//			};
+
+					//			await button1.async.onmouseout;
+
+					//			new IStyle(Native.document.body)
+					//			{
+					//				backgroundColor = "rgba(0, 0, 255, 0.2)",
+					//			};
+					//		}
+					//	}
+					//);
+
+					//oldschool as a workaround
+
+
+					button1.onclick += delegate
+					{
+						Native.window.alert("hi! iframe in a tab in an extension!");
+					};
+
+
+					button1.onmouseover +=
+						e =>
+						{
+							new IStyle(Native.document.body)
+							{
+								backgroundColor = "rgba(255, 0, 0, 0.9)",
+							};
+
+							e.stopPropagation();
+						};
+
+					button1.onmouseout +=
+						delegate
+						{
+							new IStyle(Native.document.body)
+							{
+								backgroundColor = "rgba(0, 0, 255, 0.1)",
+							};
+						};
+
+
+					// we are in iframe!
+					Native.document.onmouseover +=
+						delegate
+						{
+							new IStyle(Native.document.body)
+							{
+								backgroundColor = "rgba(0, 0, 255, 0.3)",
+							};
+						};
+
+					Native.document.onmouseout +=
+						delegate
+						{
+							new IStyle(Native.document.body)
+							{
+								backgroundColor = "rgba(0, 0, 255, 0.1)",
+							};
+						};
+
+
 
 
 					//var f = new IHTMLButton { "in the frame! click to notify parent" }.AttachToDocument();
@@ -600,9 +703,9 @@ namespace ChromeExtensionHopToTabThenIFrame
 					//var m = await Native.window.parent.async.onmessage;
 					//var shadowstate = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)m.data;
 
-					new IHTMLPre {
-								new { shadowstate.state }
-					}.AttachToDocument();
+					//new IHTMLPre {
+					//			new { shadowstate.state }
+					//}.AttachToDocument();
 
 					// about to invoke
 

@@ -68,9 +68,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         static IStyle InternalConstructor()
         {
-            // X:\jsc.svn\examples\javascript\CSS\Test\CSSNewIStyle\CSSNewIStyle\Application.cs
+			// X:\jsc.svn\examples\javascript\CSS\Test\CSSNewIStyle\CSSNewIStyle\Application.cs
+			// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTabThenIFrame\ChromeExtensionHopToTabThenIFrame\Application.cs
 
-            return IStyleSheet.all["*"].style;
+			// or :root instead?
+			return IStyleSheet.all["*"].style;
         }
 
 
