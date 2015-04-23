@@ -623,6 +623,67 @@ namespace ChromeExtensionHopToTabThenIFrame
 					// are we now on the tab?
 					// can we jump back?
 
+					// 531ms yt found {{ Length = 108 }}
+					// X:\jsc.svn\examples\javascript\test\TestShadowForIFrame\TestShadowForIFrame\Application.cs
+					//var yt1 = Native.document.querySelectorAll(" [class='youtube-player']");
+					var yt1 = Native.document.querySelectorAll("iframe");
+
+					// <iframe width="420" height="315" src="https://www.youtube.com/embed/sJIh70IZua8" frameborder="0" allowfullscreen=""></iframe>
+
+					Console.WriteLine("yt found " + new { yt1.Length });
+					yt1.WithEach(
+						  e =>
+						  {
+							  //if (e == null)
+								 // return;
+
+							  var xiframe = (IHTMLIFrame)e;
+
+							  //13ms yt found { { Length = 9 } }
+							  //VM1190: 51533 515ms enter catch
+							  //{
+							  // mname = < 01ed > ldloca.s.try } ClauseCatchLocal:
+							  // VM1190: 51533 515ms TypeError: Cannot read property 'src' of null
+
+
+							  if (!xiframe.src.StartsWith("https://www.youtube.com/"))
+							  {
+								  return;
+							  }
+
+							  // can we interact, swap the videos?
+
+							  var size = new { xiframe.clientWidth, xiframe.clientHeight };
+
+							  var swap = new IHTMLDiv {
+								 new IHTMLPre { xiframe.src },
+
+								  //new IHTMLContent {  }
+							  };
+
+							  new IStyle(swap)
+							  {
+								  backgroundColor = "yellow",
+
+								  width = size.clientWidth + "px",
+								  height = size.clientHeight + "px",
+								  overflow = IStyle.OverflowEnum.hidden
+
+							  };
+
+							  // https://code.google.com/p/dart/issues/detail?id=19561
+							  // 27ms HierarchyRequestError: Failed to execute 'createShadowRoot' on 'Element': Author-created shadow roots are disabled for this element.
+							  //swap.AttachTo(xiframe.shadow);
+
+							  xiframe.ReplaceWith(swap);
+
+							  xiframe.AttachTo(swap);
+
+
+
+						  }
+					 );
+
 					// what about jumping with files/uploads?
 					Console.WriteLine("create iframe...");
 
@@ -714,6 +775,8 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 						transition = "background-color 300ms linear",
 						backgroundColor = "rgba(0, 0, 255, 0.1)",
+
+						border = "1px solid red"
 					};
 
 
