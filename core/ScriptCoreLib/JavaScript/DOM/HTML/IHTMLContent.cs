@@ -24,7 +24,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 		// select works with immediate children
 		// X:\jsc.svn\examples\javascript\chrome\apps\ChromeAppWindowMouseCapture\ChromeAppWindowMouseCapture\Application.cs
-		public string select;
+        // X:\jsc.svn\examples\javascript\Test\TestShadowContentSelectByAttribute\TestShadowContentSelectByAttribute\Application.cs
+        public string select;
 
         // once template becomes popular AssetsLibrary needs to learn it too
         // 
