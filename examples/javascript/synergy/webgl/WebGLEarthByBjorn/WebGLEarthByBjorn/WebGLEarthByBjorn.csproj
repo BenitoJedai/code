@@ -125,12 +125,6 @@
     <Reference Include="ScriptCoreLib.Async.AssetsLibrary">
       <HintPath>..\..\..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\bin\staging.AssetsLibrary\ScriptCoreLib.Async.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLRah66Comanche.AssetsLibrary">
-      <HintPath>..\..\..\..\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\bin\staging.AssetsLibrary\WebGLRah66Comanche.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="WebGLColladaExperiment.AssetsLibrary">
-      <HintPath>..\..\..\..\WebGL\WebGLColladaExperiment\WebGLColladaExperiment\bin\staging.AssetsLibrary\WebGLColladaExperiment.AssetsLibrary.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -154,20 +148,6 @@
     <Content Include="Textures\2_no_clouds_DEAGEL_4k_low.png" />
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\ScriptCoreLib.Async.csproj">
-      <Project>{88c3c260-d1da-4fb3-a53d-79462913e80c}</Project>
-      <Name>ScriptCoreLib.Async</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\WebGL\collada\WebGLRah66Comanche\WebGLRah66Comanche\WebGLRah66Comanche.csproj">
-      <Project>{5a75fa08-3af1-4d27-a726-20b58b6cd608}</Project>
-      <Name>WebGLRah66Comanche</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\WebGL\WebGLColladaExperiment\WebGLColladaExperiment\WebGLColladaExperiment.csproj">
-      <Project>{5d093f42-02cc-4ed6-bd9f-3ac636479fb9}</Project>
-      <Name>WebGLColladaExperiment</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

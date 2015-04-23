@@ -284,7 +284,29 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             }
 
-        }
+			// implicit GetAwaiter?
+            [System.Obsolete("what about other scenarios?")]
+			public Task<IHTMLImage> oncomplete
+			{
+				[Script(DefineAsStatic = true)]
+				get
+				{
+					// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\Application.cs
+
+					var y = new TaskCompletionSource<IHTMLImage>();
+
+					that.InvokeOnComplete(
+						delegate
+						{
+							y.SetResult(that);
+						}
+					);
+					return y.Task;
+				}
+
+			}
+
+		}
 
         [System.Obsolete("is this the best way to expose events as async?")]
         public new Tasks async
