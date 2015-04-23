@@ -20,9 +20,25 @@ using chrome;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using TestSwitchToServiceContextAsync;
 
 namespace ChromeExtensionHopToTabThenIFrame
 {
+	#region HopToExtension
+	public struct HopToExtension : System.Runtime.CompilerServices.INotifyCompletion
+	{
+		// basically we have to hibernate the current state to resume
+		public HopToExtension GetAwaiter() { return this; }
+		public bool IsCompleted { get { return false; } }
+
+		public static Action<HopToExtension, Action> VirtualOnCompleted;
+		public void OnCompleted(Action continuation) { VirtualOnCompleted(this, continuation); }
+
+		public void GetResult() { }
+	}
+	#endregion
+
+
 	#region HopToParent
 	public struct HopToParent : System.Runtime.CompilerServices.INotifyCompletion
 	{
@@ -96,6 +112,13 @@ namespace ChromeExtensionHopToTabThenIFrame
 	/// </summary>
 	public sealed class Application : ApplicationWebService
 	{
+		static Func<string, string> DecoratedString =
+	x => x.Replace("-", "_").Replace("+", "_").Replace("<", "_").Replace(">", "_");
+
+		// not available in extension, iframe. only in tab.
+		static IHTMLIFrame iframe;
+
+
 		// source code sent by extension to tab, tab makes it an url to be used creating the iframe 
 		static string url;
 
@@ -209,13 +232,14 @@ namespace ChromeExtensionHopToTabThenIFrame
 					// send a SETI message?
 
 					/// whats duplicate
-					var response = await that.id.sendMessage(
+					var response = (ShadowIAsyncStateMachine)await that.id.sendMessage(
 							//"hello"
 
 							r.shadowstate
 						);
 
-					Console.WriteLine("HopToChromeTab.VirtualOnCompleted after sendMessage " + new { response });
+					// jumping back already?
+					Console.WriteLine("HopToChromeTab.VirtualOnCompleted after sendMessage " + new { response.state });
 
 					// HopToChromeTab.VirtualOnCompleted after sendMessage {{ response = response }}
 
@@ -233,6 +257,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 			Console.WriteLine("nop");
 
 
+			var pendingPortalBack = new Dictionary<IHTMLIFrame, MessageEvent>();
 
 
 			#region HopToIFrame
@@ -244,8 +269,24 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 				var r = TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine.ResumeableFromContinuation(continuation);
 
+				if (pendingPortalBack.ContainsKey(that.frame))
+				{
+					var mm = pendingPortalBack[that.frame];
+
+					Console.WriteLine("we are hoping back to the iframe via a pending portal...");
+					// then forget the entry...
+					pendingPortalBack.Remove(that.frame);
+
+					mm.postMessage(r.shadowstate);
+
+					return;
+				}
+
+
 				// X:\jsc.svn\examples\javascript\Test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
 				//var m = await that.frame.contentWindow.async.onmessage;
+
+				// um for each iframe we should only await the first handshake once?
 				var m = await that.frame.async.onmessage;
 
 				//new IHTMLPre {
@@ -256,21 +297,22 @@ namespace ChromeExtensionHopToTabThenIFrame
 				// um. we need to tell that iframe, where to jump to..
 				//var firstmessageback = that.frame.contentWindow.postMessageAsync(r.shadowstate);
 
+
 				m.postMessage(r.shadowstate);
 
 				// will it work?
 				that.frame.ownerDocument.defaultView.onmessage +=
-					e =>
+					mm =>
 					{
 						Console.WriteLine("about to hop to parent... complete?");
 
-						if (e.source != that.frame.contentWindow)
+						if (mm.source != that.frame.contentWindow)
 							return;
 
 						Console.WriteLine("enter that.frame.ownerDocument.defaultView.onmessage ");
 
 
-						var shadowstate = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)e.data;
+						var shadowstate = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)mm.data;
 
 						// are we jumping into a new statemachine?
 
@@ -329,6 +371,9 @@ namespace ChromeExtensionHopToTabThenIFrame
 					  );
 						#endregion
 
+						// remember that we can hop back.
+						pendingPortalBack[that.frame] = mm;
+
 						NewStateMachineI.MoveNext();
 
 					};
@@ -353,9 +398,20 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 				Console.WriteLine("about to hop to parent... ");
 
-				Native.window.parent.postMessage(r.shadowstate);
+				var m = await Native.window.parent.postMessageAsync(r.shadowstate);
+
+				// 1205ms we are hoping back to the iframe via a pending portal... done, got data? {{ StringFields = 1 }}
+				Console.WriteLine("we are hoping back to the iframe via a pending portal... done, got data? " +
+
+					new { StringFields = m.data.StringFields.items.Length }
+					);
+
+				InternalIFrameInvoke(m.data);
+
+				//Console.WriteLine("parent is hopping back here?");
 
 				// we actually wont use the response yet..
+				// will we get a jump back?
 			};
 			#endregion
 
@@ -417,6 +473,92 @@ namespace ChromeExtensionHopToTabThenIFrame
 					};
 			};
 
+
+		static void InternalIFrameInvoke(TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine that)
+		{
+
+			//var m = await Native.window.parent.async.onmessage;
+			//var shadowstate = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)m.data;
+
+			//new IHTMLPre {
+			//			new { shadowstate.state }
+			//}.AttachToDocument();
+
+			// about to invoke
+
+			#region xAsyncStateMachineType
+			var xAsyncStateMachineType = typeof(Application).Assembly.GetTypes().FirstOrDefault(
+			item =>
+			{
+				// safety check 1
+
+				//Console.WriteLine(new { sw.ElapsedMilliseconds, item.FullName });
+
+				var xisIAsyncStateMachine = typeof(IAsyncStateMachine).IsAssignableFrom(item);
+				if (xisIAsyncStateMachine)
+				{
+					//Console.WriteLine(new { item.FullName, isIAsyncStateMachine });
+
+					return item.FullName == that.TypeName;
+				}
+
+				return false;
+			}
+		);
+			#endregion
+
+
+			var NewStateMachine = FormatterServices.GetUninitializedObject(xAsyncStateMachineType);
+			var isIAsyncStateMachine = NewStateMachine is IAsyncStateMachine;
+
+			var NewStateMachineI = (IAsyncStateMachine)NewStateMachine;
+
+			#region 1__state
+			xAsyncStateMachineType.GetFields(
+				  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
+			  ).WithEach(
+			   AsyncStateMachineSourceField =>
+			   {
+
+				   Console.WriteLine(new { AsyncStateMachineSourceField });
+
+				   if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
+				   {
+					   AsyncStateMachineSourceField.SetValue(
+						   NewStateMachineI,
+						   that.state
+						);
+				   }
+
+				   // X:\jsc.svn\examples\javascript\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\CLRWebServiceInvoke.cs
+				   // field names/ tokens need to be encrypted like typeinfo.
+
+				   // some do manual restore
+				   // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTabThenIFrame\ChromeExtensionHopToTabThenIFrame\Application.cs
+
+				   // or, are we supposed to initialize a string value here?
+				   var xStringField = that.StringFields.AsEnumerable().FirstOrDefault(
+					   f => DecoratedString(f.FieldName) == DecoratedString(AsyncStateMachineSourceField.Name)
+				   );
+
+				   if (xStringField != null)
+				   {
+					   // once we are to go back to client. we need to reverse it?
+
+					   AsyncStateMachineSourceField.SetValue(
+						   NewStateMachineI,
+						   xStringField.value
+						);
+					   // next xml?
+					   // before lets send our strings back with the new state!
+					   // what about exceptions?
+				   }
+			   }
+		  );
+			#endregion
+
+			NewStateMachineI.MoveNext();
+		}
 
 		public Application(IApp page)
 		{
@@ -497,7 +639,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 
 
-					var iframe = new IHTMLIFrame {
+					iframe = new IHTMLIFrame {
 						//src = "about:blank"
 
 
@@ -506,8 +648,8 @@ namespace ChromeExtensionHopToTabThenIFrame
 						new XElement("script", new XAttribute("src", url), " ")
 
 					}.AttachTo(
-						Native.document.documentElement
-						);
+					   Native.document.documentElement
+					   );
 
 
 					Console.WriteLine("create iframe... done");
@@ -585,6 +727,35 @@ namespace ChromeExtensionHopToTabThenIFrame
 					//Native.body.backgroundColor = "rgba(0, 0, 255, 0.7)";
 
 
+					var button3 = new IHTMLButton { "hop to parent, extension" }.AttachToDocument();
+
+					new IStyle(button3)
+					{
+						display = IStyle.DisplayEnum.block
+					};
+
+					button3.onclick += async delegate
+					{
+						// can we hop back?
+
+						Console.WriteLine("enter button3");
+
+						// why do we need this fake await?
+						// cannot resume state otherwise?
+						await Task.Delay(1);
+
+						await default(HopToParent);
+
+
+						var tab_title = Native.document.title;
+
+						Console.WriteLine("are strings being synchronized to iframe? " + new { tab_title });
+
+						/// 2926ms will hop back to extension!? can we resume later?
+						await default(HopToExtension);
+
+						Native.window.alert("hi! i am back home! do we even know which tab we were in? did i get some data yet?");
+					};
 
 
 					var button2 = new IHTMLButton { "hop to parent" }.AttachToDocument();
@@ -606,9 +777,29 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 						await default(HopToParent);
 
-						Native.window.alert("hi! in a tab, in an extension! " + new { Native.document.title });
 
-						// can we jump back?
+						var tab_title = Native.document.title;
+
+						Console.WriteLine("are strings being synchronized to iframe? " + new { tab_title });
+
+
+						// we are jumping back, yet into a new state machine.
+						//Native.window.alert("hi! in a tab, in an extension! " + new
+						//{
+						//	Native.document.title
+						//	,
+						//	iframe
+						//});
+
+						// can we jump back? is the iframe awaiting for multiple jumps?
+						await (HopToIFrame)iframe;
+
+						Native.window.alert("hi! iframe, in a tab, in an extension! " + new { Native.document.title, tab_title });
+
+						// ok. we now know how to
+						// jump from extension to tab to iframe to tab to iframe
+
+						// what about workers, and jumping back to extension?
 					};
 
 					var button1 = new IHTMLButton { "click me" }.AttachToDocument();
@@ -789,70 +980,15 @@ namespace ChromeExtensionHopToTabThenIFrame
 						//			"inside iframe awaiting onmessage"
 						//}.AttachToDocument();
 
-						var m = await Native.window.parent.postMessageAsync<TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine>();
-						var shadowstate = m.data;
+						// first null jump
 
-						//var m = await Native.window.parent.async.onmessage;
-						//var shadowstate = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)m.data;
+						//Native.window.parent.postMessage(r.shadowstate);
 
-						//new IHTMLPre {
-						//			new { shadowstate.state }
-						//}.AttachToDocument();
+						var m = await Native.window.parent.postMessageAsync(default(TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine));
 
-						// about to invoke
-
-						#region xAsyncStateMachineType
-						var xAsyncStateMachineType = typeof(Application).Assembly.GetTypes().FirstOrDefault(
-						item =>
-						{
-							// safety check 1
-
-							//Console.WriteLine(new { sw.ElapsedMilliseconds, item.FullName });
-
-							var xisIAsyncStateMachine = typeof(IAsyncStateMachine).IsAssignableFrom(item);
-							if (xisIAsyncStateMachine)
-							{
-								//Console.WriteLine(new { item.FullName, isIAsyncStateMachine });
-
-								return item.FullName == shadowstate.TypeName;
-							}
-
-							return false;
-						}
-					);
-						#endregion
-
-
-						var NewStateMachine = FormatterServices.GetUninitializedObject(xAsyncStateMachineType);
-						var isIAsyncStateMachine = NewStateMachine is IAsyncStateMachine;
-
-						var NewStateMachineI = (IAsyncStateMachine)NewStateMachine;
-
-						#region 1__state
-						xAsyncStateMachineType.GetFields(
-							  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
-						  ).WithEach(
-						   AsyncStateMachineSourceField =>
-						   {
-
-							   Console.WriteLine(new { AsyncStateMachineSourceField });
-
-							   if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
-							   {
-								   AsyncStateMachineSourceField.SetValue(
-									   NewStateMachineI,
-									   shadowstate.state
-									);
-							   }
-
-
-						   }
-					  );
-						#endregion
-
-						NewStateMachineI.MoveNext();
-
+						Console.WriteLine("iframe got the first state...");
 						// we can now send one hop back?
+						InternalIFrameInvoke(m.data);
 					}
 				);
 
@@ -955,6 +1091,19 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 				Console.WriteLine("will enter the state machine...");
 				NewStateMachineI.MoveNext();
+
+
+				Console.WriteLine("will we want to jump back to extension?");
+
+				HopToExtension.VirtualOnCompleted +=
+					(that, completion) =>
+					{
+						Console.WriteLine("will hop back to extension!? can we resume later?");
+
+						var r = TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine.ResumeableFromContinuation(continuation);
+
+
+					};
 
 				//Task.Delay(1000).ContinueWith(
 				//	delegate

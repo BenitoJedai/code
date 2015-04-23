@@ -68,7 +68,11 @@ namespace TestSwitchToServiceContextAsync
 							);
 					   }
 
+					   // X:\jsc.svn\examples\javascript\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\CLRWebServiceInvoke.cs
 					   // field names/ tokens need to be encrypted like typeinfo.
+
+					   // some do manual restore
+					   // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTabThenIFrame\ChromeExtensionHopToTabThenIFrame\Application.cs
 
 					   // or, are we supposed to initialize a string value here?
 					   var xStringField = that.StringFields.AsEnumerable().FirstOrDefault(
