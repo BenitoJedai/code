@@ -709,6 +709,9 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 					new IStyle(Native.document.body)
 					{
+						margin = "0px",
+						padding = "0px",
+
 						transition = "background-color 300ms linear",
 						backgroundColor = "rgba(0, 0, 255, 0.1)",
 					};
@@ -734,6 +737,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 					// need to use static, as scope variables are being encapsulated, and due to context jumps we dont support it yet
 					text3 = new IHTMLTextArea { value = "hey" }.AttachToDocument();
+					text3.style.width = "100%";
 
 					var button3 = new IHTMLButton { "hop to parent, extension" }.AttachToDocument();
 
@@ -772,11 +776,18 @@ namespace ChromeExtensionHopToTabThenIFrame
 						// lets guess which tab we clicked on?
 						var tt = await chrome.tabs.getCurrent();
 
+						// https://developer.chrome.com/extensions/tabs
+						// https://developer.chrome.com/extensions/windows
+						// https://developer.chrome.com/extensions/processes
+
+						//chrome.runtime.
 						new chrome.Notification(
-							title: new { data3, tt.url }.ToString()
+							title: new { data3, tt }.ToString()
 
 						);
 
+
+						//chrome.tabs.rel
 
 						// can we do appwindow here or we need to jump out of extension?
 					};
