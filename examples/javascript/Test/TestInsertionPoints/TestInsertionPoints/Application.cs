@@ -42,7 +42,7 @@ namespace TestInsertionPoints
 
                 // will this live longer than silverlight and mathml and gears, css filters, css regions?
             Native.document.registerElement("my-tabs",
-                e =>
+                (IHTMLElement e) =>
                 {
                     // when would we ever manually define a template? 
                     // would the assetslibary need to call createShadowRoot to dynamically rebuild it?
