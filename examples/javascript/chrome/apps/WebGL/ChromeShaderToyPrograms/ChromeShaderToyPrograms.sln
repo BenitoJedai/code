@@ -842,6 +842,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlassWithCausticByAndregc",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRMazeByNrx", "..\synergy\VRMazeByNrx\VRMazeByNrx\VRMazeByNrx.csproj", "{D1009903-0589-48C0-8D69-455D19670F93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MirrorBoxByPurton", "..\synergy\MirrorBoxByPurton\MirrorBoxByPurton\MirrorBoxByPurton.csproj", "{4CDA760A-2206-4927-8733-3683EDB877AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -2412,6 +2414,10 @@ Global
 		{D1009903-0589-48C0-8D69-455D19670F93}.Debug|x86.Build.0 = Debug|x86
 		{D1009903-0589-48C0-8D69-455D19670F93}.Release|x86.ActiveCfg = Release|x86
 		{D1009903-0589-48C0-8D69-455D19670F93}.Release|x86.Build.0 = Release|x86
+		{4CDA760A-2206-4927-8733-3683EDB877AB}.Debug|x86.ActiveCfg = Debug|x86
+		{4CDA760A-2206-4927-8733-3683EDB877AB}.Debug|x86.Build.0 = Debug|x86
+		{4CDA760A-2206-4927-8733-3683EDB877AB}.Release|x86.ActiveCfg = Release|x86
+		{4CDA760A-2206-4927-8733-3683EDB877AB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2832,5 +2838,6 @@ Global
 		{93EB1C97-21BA-46E0-8ED1-A5281685CC2E} = {6FFB21C5-17AB-4499-948A-AA2F6B43C352}
 		{B9FC915C-E2FE-4DCE-BA84-DC8779D565C9} = {9DA750F2-07C6-4F9F-BBDA-45CAA7720509}
 		{D1009903-0589-48C0-8D69-455D19670F93} = {B91E1304-B675-4951-B645-6052898BD729}
+		{4CDA760A-2206-4927-8733-3683EDB877AB} = {A51F8D8D-236B-4EC4-9BB3-745BB19F6404}
 	EndGlobalSection
 EndGlobal
