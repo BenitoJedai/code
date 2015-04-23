@@ -23,6 +23,20 @@ using System.Runtime.Serialization;
 
 namespace ChromeExtensionHopToTabThenIFrame
 {
+	#region HopToParent
+	public struct HopToParent : System.Runtime.CompilerServices.INotifyCompletion
+	{
+		// basically we have to hibernate the current state to resume
+		public HopToParent GetAwaiter() { return this; }
+		public bool IsCompleted { get { return false; } }
+
+		public static Action<HopToParent, Action> VirtualOnCompleted;
+		public void OnCompleted(Action continuation) { VirtualOnCompleted(this, continuation); }
+
+		public void GetResult() { }
+	}
+	#endregion
+
 	#region HopToIFrame
 	public struct HopToIFrame : System.Runtime.CompilerServices.INotifyCompletion
 	{
@@ -217,7 +231,6 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 			// ok. now we are running inside the tab. lets set up the hop to iframe.
 			Console.WriteLine("nop");
-#if true
 
 
 
@@ -245,11 +258,17 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 				m.postMessage(r.shadowstate);
 
+				// will it work?
 				that.frame.ownerDocument.defaultView.onmessage +=
 					e =>
 					{
+						Console.WriteLine("about to hop to parent... complete?");
+
 						if (e.source != that.frame.contentWindow)
 							return;
+
+						Console.WriteLine("enter that.frame.ownerDocument.defaultView.onmessage ");
+
 
 						var shadowstate = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)e.data;
 
@@ -317,7 +336,31 @@ namespace ChromeExtensionHopToTabThenIFrame
 			};
 			#endregion
 
-#endif
+			#region HopToParent
+			HopToParent.VirtualOnCompleted = async (that, continuation) =>
+			{
+				// the state is in a member variable?
+
+				var r = TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine.ResumeableFromContinuation(continuation);
+
+				// should not be a zero state
+				// or do we have statemachine name clash?
+
+				//new IHTMLPre {
+				//	"enter HopToParent.VirtualOnCompleted.. " + new { r.shadowstate.state }
+				//}.AttachToDocument();
+
+
+				Console.WriteLine("about to hop to parent... ");
+
+				Native.window.parent.postMessage(r.shadowstate);
+
+				// we actually wont use the response yet..
+			};
+			#endregion
+
+
+
 			Console.WriteLine("nop");
 		}
 
@@ -331,6 +374,47 @@ namespace ChromeExtensionHopToTabThenIFrame
 					stackfix_iframe.style.height = (Native.window.Height - 64) + "px";
 				}
 				while (await Native.window.async.onresize);
+			};
+
+
+		static Action<IHTMLIFrame> animateIFrame =
+			 iframe =>
+			{
+				// wont work?
+				new IStyle(Native.document.documentElement)
+				{
+					borderLeft = "rgba(0, 0, 255, 1) 1px solid",
+				};
+
+
+				iframe.onmouseover +=
+					delegate
+					{
+						new IStyle(Native.document.documentElement)
+						{
+							borderLeft = "rgba(255, 0, 0, 1) 1px solid",
+						};
+
+						new IStyle(iframe)
+						{
+							left = "1px",
+						};
+					};
+
+				iframe.onmouseout +=
+					delegate
+					{
+						new IStyle(Native.document.documentElement)
+						{
+							borderLeft = "rgba(0, 0, 255, 1) 1px solid",
+						};
+
+						// hide toolbar!
+						new IStyle(iframe)
+						{
+							left = "-5em",
+						};
+					};
 			};
 
 
@@ -351,6 +435,8 @@ namespace ChromeExtensionHopToTabThenIFrame
 				{
 
 					// chrome://newtab/
+
+					// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150423
 
 					#region tab
 					if (tab == null)
@@ -407,7 +493,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 					// can we jump back?
 
 					// what about jumping with files/uploads?
-					Console.WriteLine("// are we now on the tab yet?");
+					Console.WriteLine("create iframe...");
 
 
 
@@ -424,12 +510,15 @@ namespace ChromeExtensionHopToTabThenIFrame
 						);
 
 
+					Console.WriteLine("create iframe... done");
 
 
 					//iframe.allowTransparency = true;
-
+					// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2015/201504/20150423
 					// __8__1 is null. why? a struct?
 					//     b.__this.__8__1.scope = new ctor$vQEABrCB_bTmuL0jGQp_bnVw(b.__this._iframe_5__2);
+
+					// oh crap. the container is initialized before await (HopToChromeTab)tab; thus lost due to context switch.
 					var scope = new { iframe };
 
 					//Console.WriteLine("iframe visible? " + new { scope });
@@ -447,9 +536,15 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 						position = IStyle.PositionEnum.@fixed,
 
-						left = "1px",
+
+						//left = "1px",
 						top = "32px",
 						width = "6em",
+
+						// animateIFrame
+						// pre hide it
+						left = "-5em",
+
 						//height = "100px",
 
 						// wont work on slashdot?
@@ -462,45 +557,12 @@ namespace ChromeExtensionHopToTabThenIFrame
 					};
 
 					fixHeight(iframe);
+					animateIFrame(iframe);
 
-					var __iframe = iframe;
-					await __iframe.async.onload;
-
-					// wont work?
-					new IStyle(Native.document.documentElement)
-					{
-						borderLeft = "rgba(0, 0, 255, 1) 1px solid",
-					};
+					//var __iframe = iframe;
+					await iframe.async.onload;
 
 
-					scope.iframe.onmouseover +=
-						delegate
-						{
-							new IStyle(Native.document.documentElement)
-							{
-								borderLeft = "rgba(255, 0, 0, 1) 1px solid",
-							};
-
-							new IStyle(scope.iframe)
-							{
-								left = "1px",
-							};
-						};
-
-					scope.iframe.onmouseout +=
-						delegate
-						{
-							new IStyle(Native.document.documentElement)
-							{
-								borderLeft = "rgba(0, 0, 255, 1) 1px solid",
-							};
-
-							// hide toolbar!
-							new IStyle(scope.iframe)
-							{
-								left = "-5em",
-							};
-						};
 
 
 					//new IStyle(iframe)
@@ -522,8 +584,39 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 					//Native.body.backgroundColor = "rgba(0, 0, 255, 0.7)";
 
-					var button1 = new IHTMLButton { "done!" }.AttachToDocument();
 
+
+
+					var button2 = new IHTMLButton { "hop to parent" }.AttachToDocument();
+
+					new IStyle(button2)
+					{
+						display = IStyle.DisplayEnum.block
+					};
+
+					button2.onclick += async delegate
+					{
+						// can we hop back?
+
+						Console.WriteLine("enter button2");
+
+						// why do we need this fake await?
+						// cannot resume state otherwise?
+						await Task.Delay(1);
+
+						await default(HopToParent);
+
+						Native.window.alert("hi! in a tab, in an extension! " + new { Native.document.title });
+
+						// can we jump back?
+					};
+
+					var button1 = new IHTMLButton { "click me" }.AttachToDocument();
+
+					new IStyle(button1)
+					{
+						display = IStyle.DisplayEnum.block
+					};
 
 					//new { }.With(
 					//	async delegate
@@ -551,7 +644,8 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 					button1.onclick += delegate
 					{
-						Native.window.alert("hi! iframe in a tab in an extension!");
+						Native.window.alert("hi! iframe, in a tab, in an extension! " + new { Native.document.title });
+
 					};
 
 
@@ -684,86 +778,83 @@ namespace ChromeExtensionHopToTabThenIFrame
 				// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTabThenIFrame\ChromeExtensionHopToTabThenIFrame\Application.cs
 				// inside iframe
 
-
-
 				new { }.With(
-				async delegate
-				{
-					// start the handshake
-					// we gain intellisense, but the type is partal, likely not respawned, acivated, initialized 
-					//var m = await Native.window.parent.postMessageAsync<TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine>();
-
-					//	new IHTMLPre {
-					//			"inside iframe awaiting onmessage"
-					//}.AttachToDocument();
-
-					var m = await Native.window.parent.postMessageAsync<TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine>();
-					var shadowstate = m.data;
-
-					//var m = await Native.window.parent.async.onmessage;
-					//var shadowstate = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)m.data;
-
-					//new IHTMLPre {
-					//			new { shadowstate.state }
-					//}.AttachToDocument();
-
-					// about to invoke
-
-					#region xAsyncStateMachineType
-					var xAsyncStateMachineType = typeof(Application).Assembly.GetTypes().FirstOrDefault(
-					item =>
+					async delegate
 					{
-						// safety check 1
+						// start the handshake
+						// we gain intellisense, but the type is partal, likely not respawned, acivated, initialized 
+						//var m = await Native.window.parent.postMessageAsync<TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine>();
 
-						//Console.WriteLine(new { sw.ElapsedMilliseconds, item.FullName });
+						//	new IHTMLPre {
+						//			"inside iframe awaiting onmessage"
+						//}.AttachToDocument();
 
-						var xisIAsyncStateMachine = typeof(IAsyncStateMachine).IsAssignableFrom(item);
-						if (xisIAsyncStateMachine)
+						var m = await Native.window.parent.postMessageAsync<TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine>();
+						var shadowstate = m.data;
+
+						//var m = await Native.window.parent.async.onmessage;
+						//var shadowstate = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)m.data;
+
+						//new IHTMLPre {
+						//			new { shadowstate.state }
+						//}.AttachToDocument();
+
+						// about to invoke
+
+						#region xAsyncStateMachineType
+						var xAsyncStateMachineType = typeof(Application).Assembly.GetTypes().FirstOrDefault(
+						item =>
 						{
-							//Console.WriteLine(new { item.FullName, isIAsyncStateMachine });
+							// safety check 1
 
-							return item.FullName == shadowstate.TypeName;
+							//Console.WriteLine(new { sw.ElapsedMilliseconds, item.FullName });
+
+							var xisIAsyncStateMachine = typeof(IAsyncStateMachine).IsAssignableFrom(item);
+							if (xisIAsyncStateMachine)
+							{
+								//Console.WriteLine(new { item.FullName, isIAsyncStateMachine });
+
+								return item.FullName == shadowstate.TypeName;
+							}
+
+							return false;
 						}
+					);
+						#endregion
 
-						return false;
+
+						var NewStateMachine = FormatterServices.GetUninitializedObject(xAsyncStateMachineType);
+						var isIAsyncStateMachine = NewStateMachine is IAsyncStateMachine;
+
+						var NewStateMachineI = (IAsyncStateMachine)NewStateMachine;
+
+						#region 1__state
+						xAsyncStateMachineType.GetFields(
+							  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
+						  ).WithEach(
+						   AsyncStateMachineSourceField =>
+						   {
+
+							   Console.WriteLine(new { AsyncStateMachineSourceField });
+
+							   if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
+							   {
+								   AsyncStateMachineSourceField.SetValue(
+									   NewStateMachineI,
+									   shadowstate.state
+									);
+							   }
+
+
+						   }
+					  );
+						#endregion
+
+						NewStateMachineI.MoveNext();
+
+						// we can now send one hop back?
 					}
 				);
-					#endregion
-
-
-					var NewStateMachine = FormatterServices.GetUninitializedObject(xAsyncStateMachineType);
-					var isIAsyncStateMachine = NewStateMachine is IAsyncStateMachine;
-
-					var NewStateMachineI = (IAsyncStateMachine)NewStateMachine;
-
-					#region 1__state
-					xAsyncStateMachineType.GetFields(
-						  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
-					  ).WithEach(
-					   AsyncStateMachineSourceField =>
-					   {
-
-						   Console.WriteLine(new { AsyncStateMachineSourceField });
-
-						   if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
-						   {
-							   AsyncStateMachineSourceField.SetValue(
-								   NewStateMachineI,
-								   shadowstate.state
-								);
-						   }
-
-
-					   }
-				  );
-					#endregion
-
-					NewStateMachineI.MoveNext();
-
-					// we can now send one hop back?
-				}
-			);
-
 
 				return;
 			}

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ZIPDecoderExperiment</RootNamespace>
     <AssemblyName>ZIPDecoderExperiment</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>ZIPDecoderExperiment.Program</StartupObject>
     <TargetFrameworkProfile />
