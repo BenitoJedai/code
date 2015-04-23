@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeExtensionHopToTab", "ChromeExtensionHopToTab\ChromeExtensionHopToTab.csproj", "{76843B5B-EB0A-4E49-8B36-037969E0545F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeExtensionHopToTab", "ChromeExtensionHopToTab\ChromeExtensionHopToTab.csproj", "{549D5E74-AE4D-4173-96B4-52F03695A096}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
 EndProject
@@ -29,10 +29,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|x86.ActiveCfg = Debug|x86
-		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Debug|x86.Build.0 = Debug|x86
-		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.ActiveCfg = Release|x86
-		{76843B5B-EB0A-4E49-8B36-037969E0545F}.Release|x86.Build.0 = Release|x86
+		{549D5E74-AE4D-4173-96B4-52F03695A096}.Debug|x86.ActiveCfg = Debug|x86
+		{549D5E74-AE4D-4173-96B4-52F03695A096}.Debug|x86.Build.0 = Debug|x86
+		{549D5E74-AE4D-4173-96B4-52F03695A096}.Release|x86.ActiveCfg = Release|x86
+		{549D5E74-AE4D-4173-96B4-52F03695A096}.Release|x86.Build.0 = Release|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.ActiveCfg = Debug|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.Build.0 = Debug|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.ActiveCfg = Release|x86

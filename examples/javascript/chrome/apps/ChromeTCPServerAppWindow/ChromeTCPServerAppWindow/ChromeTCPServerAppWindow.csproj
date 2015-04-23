@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}</ProjectGuid>
+    <ProjectGuid>{0DC6D7DF-0B3B-4EA4-BF8E-66B98B89F51F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ChromeTCPServerAppWindow</RootNamespace>

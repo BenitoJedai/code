@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLAudi", "..\..\..\..\We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THREE", "..\..\..\..\..\..\market\synergy\THREE\THREE\THREE.csproj", "{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerAppWindow", "..\..\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow.csproj", "{0DC6D7DF-0B3B-4EA4-BF8E-66B98B89F51F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServer", "..\..\ChromeTCPServer\ChromeTCPServer\ChromeTCPServer.csproj", "{9672D112-D806-49D3-B5C8-3B3A2278AD18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -27,6 +31,14 @@ Global
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Debug|x86.Build.0 = Debug|x86
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|x86.ActiveCfg = Release|x86
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Release|x86.Build.0 = Release|x86
+		{0DC6D7DF-0B3B-4EA4-BF8E-66B98B89F51F}.Debug|x86.ActiveCfg = Debug|x86
+		{0DC6D7DF-0B3B-4EA4-BF8E-66B98B89F51F}.Debug|x86.Build.0 = Debug|x86
+		{0DC6D7DF-0B3B-4EA4-BF8E-66B98B89F51F}.Release|x86.ActiveCfg = Release|x86
+		{0DC6D7DF-0B3B-4EA4-BF8E-66B98B89F51F}.Release|x86.Build.0 = Release|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Debug|x86.ActiveCfg = Debug|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Debug|x86.Build.0 = Debug|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Release|x86.ActiveCfg = Release|x86
+		{9672D112-D806-49D3-B5C8-3B3A2278AD18}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
