@@ -973,6 +973,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 
 							  await copyToToolbar.async.onclick;
+							  copyToToolbar.Orphanize();
 
 							  //width = "128px",
 							  //xiframe.style.transform = "scale(0.2)";
@@ -983,6 +984,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 								  height = (96) + "px",
 							  };
 
+							  // This video contains content from WMG. It is restricted from playback on certain sites.
 							  xiframe.AttachTo(
 								//iframe.contentWindow.document.documentElement
 								iframe.contentWindow.document.body
