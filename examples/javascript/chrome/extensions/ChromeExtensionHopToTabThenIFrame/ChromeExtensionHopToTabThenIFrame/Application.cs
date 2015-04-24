@@ -118,6 +118,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 		// not available in extension, iframe. only in tab.
 		static IHTMLIFrame iframe;
+		static string ztabIdString;
 
 
 		// source code sent by extension to tab, tab makes it an url to be used creating the iframe 
@@ -230,8 +231,8 @@ namespace ChromeExtensionHopToTabThenIFrame
 					);
 
 					// now what?
-
-					Console.WriteLine("HopToChromeTab.VirtualOnCompleted after executeScript, sendMessage " + new { that.id });
+					// will the tab get our strings?
+					Console.WriteLine("HopToChromeTab.VirtualOnCompleted after executeScript, sendMessage " + new { that.id, StringFields = r.shadowstate.StringFields.items.Length });
 
 					// send a SETI message?
 
@@ -569,8 +570,93 @@ namespace ChromeExtensionHopToTabThenIFrame
 			#region self_chrome_tabs
 			if (self_chrome_tabs != null)
 			{
-				Console.WriteLine("self_chrome_tabs");
+				Console.WriteLine("extension is now running...");
 
+				#region isYTMissing
+				new { }.With(
+					async delegate
+					{
+						var vid = "TXExg6Xj3aA";
+
+						var thumbnail = $"https://img.youtube.com/vi/{vid}/0.jpg";
+
+						var thumbnailImage = new IHTMLImage
+						{
+							src = thumbnail
+						};
+
+						// wont get those events for 404?
+
+						//Native.window.onerror += err =>
+						//{
+						//	Console.WriteLine(
+						//		"window onerror " +
+
+						//		new
+						//		{
+						//			thumbnail,
+						//			err,
+
+						//			thumbnailImage.complete,
+						//			thumbnailImage.width,
+						//			thumbnailImage.naturalWidth,
+						//			thumbnailImage.naturalHeight
+						//		}
+						//	);
+
+						//};
+
+						//thumbnailImage.onerror += err =>
+						//{
+						//	Console.WriteLine(
+						//		"thumbnailImage onerror " +
+
+						//		new
+						//		{
+						//			thumbnail,
+						//			err,
+
+						//			thumbnailImage.complete,
+						//			thumbnailImage.width,
+						//			thumbnailImage.naturalWidth,
+						//			thumbnailImage.naturalHeight
+						//		}
+						//	);
+
+						//};
+
+
+						await thumbnailImage.async.oncomplete;
+
+
+						Console.WriteLine(
+							new { thumbnail, thumbnailImage.complete, thumbnailImage.width, thumbnailImage.naturalWidth, thumbnailImage.naturalHeight }
+						);
+
+
+						var thumbnailBytes = await thumbnailImage.async.bytes;
+
+						Console.WriteLine(
+							new { thumbnailBytes.Length }
+						);
+
+
+						// crc?
+						var sw = Stopwatch.StartNew();
+
+						var crc = CRCExample.ActionScript.Crc32Helper.GetCrc32(thumbnailBytes);
+
+						// 247ms {{ crc = 9e47636d, ElapsedMilliseconds = 7 }}
+
+						var isYTMissing = 0x9e47636d == crc;
+
+						Console.WriteLine(
+								new { crc = crc.ToString("x8"), sw.ElapsedMilliseconds, isYTMissing }
+							  );
+
+					}
+				);
+				#endregion
 
 				var oncePerTab = new Dictionary<TabIdInteger, object>();
 
@@ -631,9 +717,18 @@ namespace ChromeExtensionHopToTabThenIFrame
 					// cannot resume state otherwise?
 					await Task.Delay(1);
 
-					Console.WriteLine("chrome.tabs.Updated will HopToChromeTab");
+					// 
+					// X:\jsc.svn\market\synergy\javascript\chrome\chrome\chrome.idl
+					var tabIdString = Convert.ToString((object)tab.id);
+
+					// 13032ms chrome.tabs.Updated will HopToChromeTab {{ tabIdString = 608 }}
+					Console.WriteLine("chrome.tabs.Updated will HopToChromeTab " + new { tabIdString });
 					// state1:
 					await (HopToChromeTab)tab;
+
+					// TypeError: Cannot set property 'ztabIdString' of null
+					ztabIdString = tabIdString;
+
 					//await tab.id;
 
 					// are we now on the tab?
@@ -645,8 +740,9 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 					// <iframe width="420" height="315" src="https://www.youtube.com/embed/sJIh70IZua8" frameborder="0" allowfullscreen=""></iframe>
 
+					// 503ms create iframe... {{ ztabIdString = null }}
 					// what about jumping with files/uploads?
-					Console.WriteLine("create iframe...");
+					Console.WriteLine("create iframe... " + new { ztabIdString });
 
 
 
@@ -728,19 +824,11 @@ namespace ChromeExtensionHopToTabThenIFrame
 							  //Status Code: 404 OK
 
 
-							  var thumbnail = $"https://img.youtube.com/vi/{vid}/0.jpg";
+							  var thumbnail404 = $"https://img.youtube.com/vi/{vid}/0.jpg";
 							  // lets look at the image. is the video removed?
 							  // https://img.youtube.com/vi/TXExg6Xj3aA/0.jpg
 
 							  // http://stackoverflow.com/questions/22097747/getimagedata-error-the-canvas-has-been-tainted-by-cross-origin-data
-
-							  var thumbnailImage = new IHTMLImage
-							  {
-								  crossOrigin = "Anonymous",
-								  src = thumbnail
-
-
-							  };
 
 							  //.AttachToHead();
 
@@ -751,7 +839,8 @@ namespace ChromeExtensionHopToTabThenIFrame
 								  height = size.clientHeight + "px",
 								  overflow = IStyle.OverflowEnum.hidden,
 								  position = IStyle.PositionEnum.relative,
-								  backgroundImage = $"url('{thumbnail}')",
+
+								  backgroundImage = $"url('{thumbnail404}')",
 
 							  };
 
@@ -774,30 +863,60 @@ namespace ChromeExtensionHopToTabThenIFrame
 								  position = IStyle.PositionEnum.absolute
 							  };
 
+							  // at this point we need to consult the extension as it can download the bytes
 
-							  // now lets have a look at the image.
-							  await thumbnailImage.async.oncomplete;
+							  new { }.With(
+								  async delegate
+								  {
+									  var xtabIdString = ztabIdString;
+									  var xthumbnail404 = thumbnail404;
 
-							  // 1241ms {{ thumbnail = https://img.youtube.com/vi/BZIeqnQ1rY0/0.jpg, width = 0, height = 0 }}
-							  // wtf?
-							  Console.WriteLine(new { thumbnail, thumbnailImage.width, thumbnailImage.height });
-							  // X:\jsc.svn\examples\javascript\test\TestCRCYTImage\TestCRCYTImage\Application.cs
+									  // 517ms about to jump to extension to inspect the damn image... {{ xthumbnail404 = https://img.youtube.com/vi/TXExg6Xj3aA/0.jpg, xtabIdString = 608 }}
+									  Console.WriteLine("about to jump to extension to inspect the damn image... " + new { xthumbnail404, xtabIdString });
+									  // fixup?
+									  await Task.Delay(1);
+
+									  await default(HopToExtension);
 
 
-							  // Uncaught SecurityError: Failed to execute 'getImageData' on 'CanvasRenderingContext2D': The canvas has been tainted by cross-origin data.
-							  // Uncaught IndexSizeError: Failed to execute 'getImageData' on 'CanvasRenderingContext2D': The source width is 0.
+									  Console.WriteLine("about to jump to extension to inspect the damn image... done " + new { xthumbnail404, xtabIdString });
+									  // 43228ms about to jump to extension to inspect the damn image... done {{ xthumbnail404 = https://img.youtube.com/vi/TXExg6Xj3aA/0.jpg, xtabIdString = 608 }}
 
-							  // the other option is to jump to extension?
-							  var thumbnailBytes = await thumbnailImage.async.bytes;
 
-							  // crc?
-							  var sw = Stopwatch.StartNew();
 
-							  var crc = CRCExample.ActionScript.Crc32Helper.GetCrc32(thumbnailBytes);
+									  // can we jump back once we know what it was?
+									  var thumbnailImage = new IHTMLImage
+									  {
+										  src = xthumbnail404
+									  };
 
-							  new IHTMLSpan {
-								new { crc = crc.ToString("x8"), sw.ElapsedMilliseconds }
-							  }.AttachTo(info);
+									  await thumbnailImage.async.oncomplete;
+									  var thumbnailBytes = await thumbnailImage.async.bytes;
+									  var sw = Stopwatch.StartNew();
+									  var crc = CRCExample.ActionScript.Crc32Helper.GetCrc32(thumbnailBytes);
+
+									  // we only do strings at this point, not integers, we could do booleans tho...
+									  var isYTMissing = Convert.ToString(0x9e47636d == crc);
+
+									  var xtab = await chrome.tabs.get(tabId: Convert.ToInt32(xtabIdString));
+
+									  //xthumbnail404 = https://img.youtube.com/vi/BZIeqnQ1rY0/0.jpg, isYTMissing = false, xtabIdString = 608, url = https://zproxy.wordpress.com/2015/04/05/thought-form-magicians/ }}
+									  //  xthumbnail404 = https://img.youtube.com/vi/TXExg6Xj3aA/0.jpg, isYTMissing = true, xtabIdString = 608, url = https://zproxy.wordpress.com/2015/04/05/thought-form-magicians/ }}
+
+									  Console.WriteLine(">> " + new { xthumbnail404, isYTMissing, xtabIdString, xtab.url });
+
+									  // can we jump back to the tab to color it red if missing?
+									  // 43340ms >> {{ xthumbnail404 = https://img.youtube.com/vi/TXExg6Xj3aA/0.jpg, isYTMissing = true, xtabIdString = 608 }}
+
+									  //(HopToChromeTab)
+
+									  // ok now we now what tab we are in but even if we jump back. we wont have a ref to the infobar?
+
+
+								  }
+							  );
+
+
 
 							  // https://www.youtube.com/embed/jQLNMljadyo?vers
 							  // https://www.youtube.com/embed/M4RBW85J4Cg
@@ -1256,6 +1375,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 			Action<object> PostToExtension = null;
 
+			#region Connect
 			chrome.runtime.Connect +=
 				 port =>
 				 {
@@ -1273,6 +1393,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 						 port.postMessage(xdata);
 					 };
 				 };
+			#endregion
 
 			#region chrome.runtime.Message
 			chrome.runtime.Message += (object message, chrome.MessageSender sender, IFunction sendResponse) =>
@@ -1291,61 +1412,6 @@ namespace ChromeExtensionHopToTabThenIFrame
 				url = URL.createObjectURL(oMyBlob);
 				#endregion
 
-
-
-				#region xAsyncStateMachineType
-				var xAsyncStateMachineType = typeof(Application).Assembly.GetTypes().FirstOrDefault(
-				item =>
-				{
-					// safety check 1
-
-					//Console.WriteLine(new { sw.ElapsedMilliseconds, item.FullName });
-
-					var xisIAsyncStateMachine = typeof(IAsyncStateMachine).IsAssignableFrom(item);
-					if (xisIAsyncStateMachine)
-					{
-						//Console.WriteLine(new { item.FullName, isIAsyncStateMachine });
-
-						return item.FullName == s.TypeName;
-					}
-
-					return false;
-				}
-			);
-				#endregion
-
-
-				var NewStateMachine = FormatterServices.GetUninitializedObject(xAsyncStateMachineType);
-				var isIAsyncStateMachine = NewStateMachine is IAsyncStateMachine;
-
-				var NewStateMachineI = (IAsyncStateMachine)NewStateMachine;
-
-				#region 1__state
-				xAsyncStateMachineType.GetFields(
-					  System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
-				  ).WithEach(
-				   AsyncStateMachineSourceField =>
-				   {
-
-					   Console.WriteLine(new { AsyncStateMachineSourceField });
-
-					   if (AsyncStateMachineSourceField.Name.EndsWith("1__state"))
-					   {
-						   Console.WriteLine(new { AsyncStateMachineSourceField, s.state });
-
-						   AsyncStateMachineSourceField.SetValue(
-						   NewStateMachineI,
-						   s.state
-						);
-					   }
-
-
-				   }
-			  );
-				#endregion
-
-				Console.WriteLine("will enter the state machine...");
-				NewStateMachineI.MoveNext();
 
 
 				Console.WriteLine("will we want to jump back to extension?");
@@ -1372,6 +1438,11 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 						PostToExtension(r.shadowstate);
 					};
+
+
+				InternalInvoke(s);
+
+
 
 				//Task.Delay(1000).ContinueWith(
 				//	delegate

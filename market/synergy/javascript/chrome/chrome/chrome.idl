@@ -44,9 +44,10 @@ interface chrome.webNavigation
 
 
 
-
+// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionHopToTabThenIFrame\ChromeExtensionHopToTabThenIFrame\Application.cs
 // http://developer.chrome.com/extensions/tabs.html#type-Tab
 // rename to TabKey as we use such naming for DLinq?
+// enum?
 interface chrome.TabIdInteger
 {
 };
