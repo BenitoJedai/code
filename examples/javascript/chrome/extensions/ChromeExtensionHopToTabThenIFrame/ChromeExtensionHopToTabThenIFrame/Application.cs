@@ -21,6 +21,7 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using TestSwitchToServiceContextAsync;
+using System.Diagnostics;
 
 namespace ChromeExtensionHopToTabThenIFrame
 {
@@ -431,6 +432,11 @@ namespace ChromeExtensionHopToTabThenIFrame
 					borderLeft = "rgba(0, 0, 255, 1) 1px solid",
 				};
 
+				new IStyle(iframe)
+				{
+					border = "1px solid blue"
+				};
+
 
 				iframe.onmouseover +=
 					delegate
@@ -442,7 +448,9 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 						new IStyle(iframe)
 						{
-							left = "1px",
+							left = "-1px",
+							border = "1px solid red"
+
 						};
 					};
 
@@ -458,6 +466,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 						new IStyle(iframe)
 						{
 							left = "-5em",
+							border = "1px solid blue"
 						};
 					};
 			};
@@ -562,6 +571,9 @@ namespace ChromeExtensionHopToTabThenIFrame
 			{
 				Console.WriteLine("self_chrome_tabs");
 
+
+				var oncePerTab = new Dictionary<TabIdInteger, object>();
+
 				chrome.tabs.Updated += async (i, x, tab) =>
 				{
 
@@ -601,6 +613,10 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 					#endregion
 
+					if (oncePerTab.ContainsKey(tab.id))
+						return;
+
+					oncePerTab[tab.id] = new object();
 
 					// where is the hop to iframe?
 					// X:\jsc.svn\examples\javascript\Test\TestSwitchToIFrame\TestSwitchToIFrame\Application.cs
@@ -626,16 +642,35 @@ namespace ChromeExtensionHopToTabThenIFrame
 					// 531ms yt found {{ Length = 108 }}
 					// X:\jsc.svn\examples\javascript\test\TestShadowForIFrame\TestShadowForIFrame\Application.cs
 					//var yt1 = Native.document.querySelectorAll(" [class='youtube-player']");
-					var yt1 = Native.document.querySelectorAll("iframe");
 
 					// <iframe width="420" height="315" src="https://www.youtube.com/embed/sJIh70IZua8" frameborder="0" allowfullscreen=""></iframe>
 
+					// what about jumping with files/uploads?
+					Console.WriteLine("create iframe...");
+
+
+
+					iframe = new IHTMLIFrame {
+						//src = "about:blank"
+
+
+						//new XElement("button", "did extension send us our code? " )
+
+						new XElement("script", new XAttribute("src", url), " ")
+
+					}.AttachTo(
+					   Native.document.documentElement
+					   );
+
+
+					var yt1 = Native.document.querySelectorAll("iframe");
+
 					Console.WriteLine("yt found " + new { yt1.Length });
 					yt1.WithEach(
-						  e =>
+						  async e =>
 						  {
 							  //if (e == null)
-								 // return;
+							  // return;
 
 							  var xiframe = (IHTMLIFrame)e;
 
@@ -655,8 +690,9 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 							  var size = new { xiframe.clientWidth, xiframe.clientHeight };
 
-							  var swap = new IHTMLDiv {
-								 new IHTMLPre { xiframe.src },
+							  var swap = new IHTMLDiv
+							  {
+								  //new IHTMLPre { xiframe.src },
 
 								  //new IHTMLContent {  }
 							  };
@@ -677,29 +713,127 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 							  xiframe.ReplaceWith(swap);
 
-							  xiframe.AttachTo(swap);
 
+
+							  var sh = new IHTMLDiv { }.AttachTo(swap.shadow);
+
+							  var vid = xiframe.src.TakeUntilIfAny("?").SkipUntilOrEmpty("/embed/");
+
+
+
+
+							  //						  Remote Address:[2a00: 1450:400f:802::100e]:443
+							  //Request URL: https://img.youtube.com/vi/TXExg6Xj3aA/0.jpg
+							  //Request Method: GET
+							  //Status Code: 404 OK
+
+
+							  var thumbnail = $"https://img.youtube.com/vi/{vid}/0.jpg";
+							  // lets look at the image. is the video removed?
+							  // https://img.youtube.com/vi/TXExg6Xj3aA/0.jpg
+
+							  // http://stackoverflow.com/questions/22097747/getimagedata-error-the-canvas-has-been-tainted-by-cross-origin-data
+
+							  var thumbnailImage = new IHTMLImage
+							  {
+								  crossOrigin = "Anonymous",
+								  src = thumbnail
+
+
+							  };
+
+							  //.AttachToHead();
+
+
+							  new IStyle(sh)
+							  {
+								  width = size.clientWidth + "px",
+								  height = size.clientHeight + "px",
+								  overflow = IStyle.OverflowEnum.hidden,
+								  position = IStyle.PositionEnum.relative,
+								  backgroundImage = $"url('{thumbnail}')",
+
+							  };
+
+							  //var info = new IHTMLPre { xiframe.src };
+							  var info = new IHTMLPre { new { vid } };
+
+							  info.AttachTo(sh);
+
+
+							  new IStyle(info)
+							  {
+								  backgroundColor = "rgba(0,0,255, 0.5)",
+								  color = "rgba(255,255,0, 0.9)",
+
+								  left = "0px",
+								  bottom = "0px",
+								  right = "0px",
+								  //height = size.clientHeight + "px",
+
+								  position = IStyle.PositionEnum.absolute
+							  };
+
+
+							  // now lets have a look at the image.
+							  await thumbnailImage.async.oncomplete;
+
+							  // 1241ms {{ thumbnail = https://img.youtube.com/vi/BZIeqnQ1rY0/0.jpg, width = 0, height = 0 }}
+							  // wtf?
+							  Console.WriteLine(new { thumbnail, thumbnailImage.width, thumbnailImage.height });
+							  // X:\jsc.svn\examples\javascript\test\TestCRCYTImage\TestCRCYTImage\Application.cs
+
+
+							  // Uncaught SecurityError: Failed to execute 'getImageData' on 'CanvasRenderingContext2D': The canvas has been tainted by cross-origin data.
+							  // Uncaught IndexSizeError: Failed to execute 'getImageData' on 'CanvasRenderingContext2D': The source width is 0.
+
+							  // the other option is to jump to extension?
+							  var thumbnailBytes = await thumbnailImage.async.bytes;
+
+							  // crc?
+							  var sw = Stopwatch.StartNew();
+
+							  var crc = CRCExample.ActionScript.Crc32Helper.GetCrc32(thumbnailBytes);
+
+							  new IHTMLSpan {
+								new { crc = crc.ToString("x8"), sw.ElapsedMilliseconds }
+							  }.AttachTo(info);
+
+							  // https://www.youtube.com/embed/jQLNMljadyo?vers
+							  // https://www.youtube.com/embed/M4RBW85J4Cg
+							  // http://img.youtube.com/vi/<insert-youtube-video-id-here>/0.jpg
+
+
+
+							  await sh.async.onmouseover;
+
+							  xiframe.AttachTo(sh);
+							  info.AttachTo(sh);
+
+							  var copyToToolbar = new IHTMLButton { "+" }.AttachTo(info);
+
+
+							  await copyToToolbar.async.onclick;
+
+							  //width = "128px",
+							  //xiframe.style.transform = "scale(0.2)";
+
+							  new IStyle(xiframe)
+							  {
+								  width = (128) + "px",
+								  height = (96) + "px",
+							  };
+
+							  xiframe.AttachTo(
+								//iframe.contentWindow.document.documentElement
+								iframe.contentWindow.document.body
+							  );
 
 
 						  }
 					 );
 
-					// what about jumping with files/uploads?
-					Console.WriteLine("create iframe...");
 
-
-
-					iframe = new IHTMLIFrame {
-						//src = "about:blank"
-
-
-						//new XElement("button", "did extension send us our code? " )
-
-						new XElement("script", new XAttribute("src", url), " ")
-
-					}.AttachTo(
-					   Native.document.documentElement
-					   );
 
 
 					Console.WriteLine("create iframe... done");
@@ -731,7 +865,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 						//left = "1px",
 						top = "32px",
-						width = "6em",
+						width = "128px",
 
 						// animateIFrame
 						// pre hide it
@@ -771,12 +905,15 @@ namespace ChromeExtensionHopToTabThenIFrame
 					new IStyle(Native.document.body)
 					{
 						margin = "0px",
+						//marginRight = "1em",
+
 						padding = "0px",
+						paddingRight = "1em",
 
 						transition = "background-color 300ms linear",
 						backgroundColor = "rgba(0, 0, 255, 0.1)",
 
-						border = "1px solid red"
+						//border = "1px solid red"
 					};
 
 

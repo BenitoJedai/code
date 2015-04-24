@@ -19,9 +19,12 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true /*, ExternalTarget = "Image"*/)]
     public class IHTMLImage : IHTMLElement
     {
-        // http://www.w3schools.com/tags/tag_IMG.asp
+		// http://stackoverflow.com/questions/18474727/canvas-has-been-tainted-by-cross-origin-data-work-around
+		public string crossOrigin;
 
-        public string alt;
+		// http://www.w3schools.com/tags/tag_IMG.asp
+
+		public string alt;
 
         public string src;
 
