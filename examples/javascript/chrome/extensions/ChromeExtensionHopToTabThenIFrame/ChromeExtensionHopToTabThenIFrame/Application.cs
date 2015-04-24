@@ -119,6 +119,8 @@ namespace ChromeExtensionHopToTabThenIFrame
 		// not available in extension, iframe. only in tab.
 		static IHTMLIFrame iframe;
 		static string ztabIdString;
+		static Dictionary<string, IHTMLPre> lookup_info = new Dictionary<string, IHTMLPre>();
+		static Dictionary<string, bool> lookup_info_YTmissing = new Dictionary<string, bool>();
 
 
 		// source code sent by extension to tab, tab makes it an url to be used creating the iframe 
@@ -165,36 +167,32 @@ namespace ChromeExtensionHopToTabThenIFrame
 						 new Uri(Worker.ScriptApplicationSource, UriKind.Relative)
 					);
 
+				var FromExtensionToTab = new Dictionary<int, object>();
+
 				#region HopToChromeTab.VirtualOnCompleted
 				HopToChromeTab.VirtualOnCompleted = async (that, continuation) =>
 				{
 					//Console.WriteLine("HopToChromeTab.VirtualOnCompleted ");
 					Console.WriteLine("HopToChromeTab.VirtualOnCompleted " + new { that.id });
 
-					// um. whats the tab we are to jump into?
-					// signal we are about to inject
-					//await that.id.insertCSS(
-					//		new
-					//		{
-					//			code = @"
-
-					//html { 
-					//border-left: 1em solid yellow;
-					//}
-
-
-					//"
-					//		}
-					//	);
-
-
-					// where is it defined?
-					// X:\jsc.svn\examples\javascript\async\Test\TestSwitchToServiceContextAsync\TestSwitchToServiceContextAsync\ShadowIAsyncStateMachine.cs
-					// TestSwitchToServiceContextAsync
-
-
 					// async dont like ref?
 					var r = TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine.ResumeableFromContinuation(continuation);
+
+
+					if (FromExtensionToTab.ContainsKey((int)(object)that.id))
+					{
+						Console.WriteLine("jumping back to tab for more?");
+
+						that.id.sendMessage(
+							//"hello"
+
+							r.shadowstate
+						);
+
+						return;
+					}
+
+					FromExtensionToTab[(int)(object)that.id] = new object();
 
 					// um. now what?
 					// send shadowstate over?
@@ -204,12 +202,11 @@ namespace ChromeExtensionHopToTabThenIFrame
 					var code = await codetask;
 
 					// 5240ms HopToChromeTab.VirtualOnCompleted {{ id = 449, state = 1, Length = 3232941 }}
-
 					// 226632ms HopToChromeTab.VirtualOnCompleted {{ id = 95, state = 0, Length = 3254419 }}
-					Console.WriteLine("HopToChromeTab.VirtualOnCompleted " + new { that.id, r.shadowstate.state, code.Length });
+					//Console.WriteLine("HopToChromeTab.VirtualOnCompleted " + new { that.id, r.shadowstate.state, code.Length });
 
-					if (r.shadowstate.state == 0)
-						Console.WriteLine("HopToChromeTab.VirtualOnCompleted bugcheck. state 0?");
+					//if (r.shadowstate.state == 0)
+					//	Console.WriteLine("HopToChromeTab.VirtualOnCompleted bugcheck. state 0?");
 
 					//// how can we inject ourselves and send a signal back to set this thing up?
 
@@ -223,6 +220,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 					//// on the page it is running on. The same is true in reverse: JavaScript running on the page cannot call any 
 					//// functions or access any variables defined by content scripts.
 
+					// only for the very first jump~
 					r.shadowstate.code = code;
 
 					var result = await that.id.executeScript(
@@ -846,6 +844,11 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 							  //var info = new IHTMLPre { xiframe.src };
 							  var info = new IHTMLPre { new { vid } };
+							  // so we can later find it again...
+							  lookup_info[thumbnail404] = info;
+
+							  // assume its not missing until we know more
+							  lookup_info_YTmissing[thumbnail404] = false;
 
 							  info.AttachTo(sh);
 
@@ -912,11 +915,44 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 									  // ok now we now what tab we are in but even if we jump back. we wont have a ref to the infobar?
 
+									  await (HopToChromeTab)xtab;
+
+									  Console.WriteLine(">> " + new { xthumbnail404, isYTMissing, xtabIdString } + " back in the tab?");
+
+									  // would the old variables be reconnected for us?
+									  // jumps should be able to resume an old startemachine.
+
+									  lookup_info_YTmissing[xthumbnail404] = Convert.ToBoolean(isYTMissing);
+
+									  var xinfo = lookup_info[xthumbnail404];
+
+									  //xthumbnail404 = https://img.youtube.com/vi/BZIeqnQ1rY0/0.jpg, isYTMissing = false, xtabIdString = 744 }} back in the tab?
+
+									  if (Convert.ToBoolean(isYTMissing))
+									  {
+										  // yikes. video pulled!
+										  new IStyle(xinfo)
+										  {
+											  backgroundColor = "rgba(255,0,0, 0.7)",
+										  };
+
+										  new IHTMLSpan { " do we have a local copy?" }.AttachTo(xinfo);
+
+										  // we should send udp to the archive server?
+										  // if it has how can we load it up?
+
+										  return;
+									  }
+
+									  new IStyle(xinfo)
+									  {
+										  backgroundColor = "rgba(255,255,0, 0.5)",
+									  };
+
+
 
 								  }
 							  );
-
-
 
 							  // https://www.youtube.com/embed/jQLNMljadyo?vers
 							  // https://www.youtube.com/embed/M4RBW85J4Cg
@@ -925,6 +961,10 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 
 							  await sh.async.onmouseover;
+
+							  // no reason to load it. its missing!
+							  if (lookup_info_YTmissing[thumbnail404])
+								  return;
 
 							  xiframe.AttachTo(sh);
 							  info.AttachTo(sh);
@@ -947,6 +987,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 								//iframe.contentWindow.document.documentElement
 								iframe.contentWindow.document.body
 							  );
+
 
 
 						  }
@@ -1399,6 +1440,15 @@ namespace ChromeExtensionHopToTabThenIFrame
 			chrome.runtime.Message += (object message, chrome.MessageSender sender, IFunction sendResponse) =>
 			{
 				var s = (TestSwitchToServiceContextAsync.ShadowIAsyncStateMachine)message;
+
+				if (url != null)
+				{
+					Console.WriteLine("jumping back to tab for more? done");
+
+					InternalInvoke(s);
+
+					return;
+				}
 
 				Console.WriteLine("chrome.runtime.Message " + new { s.state, sender.id, code = s.code.Length });
 				// at this point we can initialize hop to iframe since we have the code we can actually use?
