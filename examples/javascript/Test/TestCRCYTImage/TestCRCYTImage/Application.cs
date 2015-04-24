@@ -41,7 +41,7 @@ namespace TestCRCYTImage
 
 					var thumbnailImage = new IHTMLImage
 					{
-						// 0 pixels?
+						// 0 pixels? useless. will extension be able to bypass?
 						crossOrigin = "anonymous",
 
 						src = thumbnail
