@@ -464,7 +464,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 						// hide toolbar!
 						new IStyle(iframe)
 						{
-							left = "-5em",
+							left = "-120px",
 							border = "1px solid blue"
 						};
 					};
@@ -1031,7 +1031,7 @@ namespace ChromeExtensionHopToTabThenIFrame
 
 						// animateIFrame
 						// pre hide it
-						left = "-5em",
+						left = "-120px",
 
 						//height = "100px",
 
