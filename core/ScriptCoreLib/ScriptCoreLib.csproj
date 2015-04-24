@@ -1298,6 +1298,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Documents\merge.bpm" />
+    <None Include="JavaScript\WebGamepad\Gamepad.url" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
