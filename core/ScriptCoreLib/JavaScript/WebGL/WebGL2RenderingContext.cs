@@ -20,6 +20,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public class WebGL2RenderingContext
 	{
+		// http://toji.github.io/webgl2-particles/
+
 		// http://www.pcworld.com/article/2900814/tested-directx-12s-potential-performance-leap-is-insane.html
 		// The only current support for OpenGL is WebGL in Html apps.
 		// https://social.msdn.microsoft.com/Forums/windowsapps/en-US/a861db02-dce8-4f61-9969-b8a7a7cd55c7/opengl-used-in-the-metro-style-app?forum=winappswithcsharp

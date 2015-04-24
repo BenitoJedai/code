@@ -10,9 +10,15 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	[Script(HasNoPrototype = true, ExternalTarget = "ArrayBuffer")]
     public class ArrayBuffer
     {
-        // X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
-        // shall jsc reference/maloc any byte array as byref ArrayBuffer ?
-        public long byteLength;
+		// https://code.google.com/p/v8/issues/detail?id=3996
+		// Adds new JavaScript types SharedArrayBuffer, Shared{Int,Uint}{8,16,32}Array, SharedFloat{32,64}Array and SharedUint8ClampedArray.
+		// SharedArrayBuffers 
+
+		// https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/d-0ibJwCS24
+
+		// X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
+		// shall jsc reference/maloc any byte array as byref ArrayBuffer ?
+		public long byteLength;
 
 
 

@@ -10,6 +10,11 @@ namespace ScriptCoreLib.JavaScript.WebGL
 	[Script(HasNoPrototype = true, InternalConstructor = true)]
 	public class WebGLProgram
 	{
+		// --enable-unsafe-es3-apis 
+		// https://twitter.com/Tojiro/status/583686243046723586
+
+		// http://toji.github.io/shader-perf/
+
 		// http://src.chromium.org/viewvc/chrome/trunk/src/content/common/gpu/gpu_channel.h
 
 		// https://code.google.com/p/chromium/issues/detail?id=88572
